@@ -229,7 +229,7 @@ function setChatReady(ready){
   $('chatSubtitle').textContent=ready?'Ready to generate character sequences':'Character-generation experiment';
   $('chatHint').textContent=ready?'Sherlock generates one character at a time on your iPad. Replies are experimental, not meaningful conversation.':'The chat unlocks when training has finished and you stop the run.';
 }
-const PYTHON_CODE = String.raw\`
+const PYTHON_CODE = String.raw`
 from collections import defaultdict, Counter
 import random, json
 
@@ -305,7 +305,7 @@ def generate_text(seed="hi", length=60):
         current = random.choices(letters, weights=weights, k=1)[0]
         output += current
     return output
-\`;
+`;
 function readStatus(){ return JSON.parse(pyodide.runPython('json.dumps(get_status())')); }
 function renderStatus(data){
   training=Boolean(data.training); modelReady=Boolean(data.model_ready);
