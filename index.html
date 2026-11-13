@@ -424,6 +424,9 @@ const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_API = 'https://datasets-server.huggingface.co';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
+// Yield briefly between batches instead of waiting 50 ms after every batch.
+// This lets the engine stay busier while still returning control to the browser.
+const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
 
 let engine = null;
@@ -552,6 +555,8 @@ function renderLiveView(force = false) {
   if (!force && now - lastVisualRenderAt < 220) return;
   lastVisualRenderAt = now;
   const seen = Number(engine.characters_seen()) || 0;
+  $('chars').textContent = seen.toLocaleString();
+  $('state').textContent = training ? 'Training' : seen > 0 ? 'Ready' : 'Empty';
   const steps = Number(engine.steps_completed()) || 0;
   const passes = Number(engine.training_passes_completed()) || 0;
   const cursor = Number(engine.training_position()) || 0;
@@ -711,7 +716,7 @@ function renderEngineStatus() {
 }
 
 function showError(error) {
-  if (trainingTimer) clearInterval(trainingTimer);
+  if (trainingTimer) clearTimeout(trainingTimer);
   trainingTimer = null;
   training = false;
   updateStatus('Load error');
@@ -931,6 +936,19 @@ function installDataset(data) {
   hideDataProgress();
 }
 
+function runTrainingBatch() {
+  trainingTimer = null;
+  if (!training || !engine) return;
+  try {
+    engine.train_step(TRAIN_STEP_SIZE);
+    updateTrainingMetrics();
+    // A short timer yield gives the browser a chance to paint and handle taps.
+    if (training) trainingTimer = setTimeout(runTrainingBatch, TRAIN_YIELD_MS);
+  } catch (error) {
+    showError(error);
+  }
+}
+
 async function startTraining() {
   if (requestBusy || training || !engine) return;
   requestBusy = true;
@@ -944,18 +962,9 @@ async function startTraining() {
     training = true;
     modelReady = false;
     setChatReady(false);
-    engine.train_step(TRAIN_STEP_SIZE);
     updateTrainingMetrics();
     renderEngineStatus();
-    trainingTimer = setInterval(() => {
-      try {
-        engine.train_step(TRAIN_STEP_SIZE);
-        updateTrainingMetrics();
-        renderEngineStatus();
-      } catch (error) {
-        showError(error);
-      }
-    }, 50);
+    runTrainingBatch();
     addMessage('Training started locally using DailyDialog conversations.', 'bot');
   } catch (error) {
     showError(error);
@@ -969,7 +978,7 @@ function stopTraining() {
   requestBusy = true;
   $('stopBtn').disabled = true;
   try {
-    if (trainingTimer) clearInterval(trainingTimer);
+    if (trainingTimer) clearTimeout(trainingTimer);
     trainingTimer = null;
 
     // Measure the current point too, so stopping between full passes can
