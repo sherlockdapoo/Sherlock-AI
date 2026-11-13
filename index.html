@@ -12,10 +12,10 @@ button,input{font:inherit}button{cursor:pointer}.app{max-width:980px;margin:auto
 </style>
 </head>
 <body><main class="app">
-<header class="top"><div class="brand"><div class="logo">⌕</div><div><h1>Sherlock AI</h1><p>Character-based learning lab · 0.2</p></div></div><div class="status" id="status">● Not trained</div></header>
+<header class="top"><div class="brand"><div class="logo">⌕</div><div><h1>Sherlock AI</h1><p>Character-based learning lab · 0.4</p></div></div><div class="status" id="status">● Not trained</div></header>
 <section class="hero"><div class="eyebrow">Experiment 01 · First brain</div><h2>Start with an empty model.</h2><p>Sherlock begins with no learned character patterns. Press Train model to teach it from a small built-in text dataset. Then give it a prompt and watch it generate new character sequences.</p>
-<div class="stats"><div class="stat"><b id="state">Empty</b><span>Model state</span></div><div class="stat"><b id="accuracy">0%</b><span>Training score</span></div><div class="stat"><b id="chars">0</b><span>Learned characters</span></div></div></section>
-<div class="layout"><section class="card"><h3>Model training</h3><p class="sub">One button starts training. No training happens when the page opens.</p><div class="train-actions"><button class="primary" id="trainBtn">⚡ Start training</button><button class="secondary" id="stopBtn" disabled>■ Stop</button></div><div class="metric"><span>Training score</span><b id="scoreText">0%</b></div><div class="scorebar"><div class="scorefill" id="scoreFill"></div></div><div class="metric"><span>Training epoch</span><b id="epochText">0</b></div><div class="progress"><div class="bar" id="bar"></div></div><p class="hint" id="trainMessage">Waiting for you to start training.</p><div class="metric"><span>Learning method</span><b>Character Markov model</b></div><div class="metric"><span>Training data</span><b>Built-in sample text</b></div><div class="metric"><span>Training mode</span><b>Next-character prediction</b></div><p class="hint">Accuracy is tested on text held back from training. It measures next-character predictions, not general intelligence.</p></section>
+<div class="stats"><div class="stat"><b id="state">Empty</b><span>Model state</span></div><div class="stat"><b id="accuracy">0%</b><span>Accuracy</span></div><div class="stat"><b id="chars">0</b><span>Learned characters</span></div></div></section>
+<div class="layout"><section class="card"><h3>Model training</h3><p class="sub">Watch the model’s next-character prediction accuracy while training runs.</p><div class="train-actions"><button class="primary" id="trainBtn">⚡ Start training</button><button class="secondary" id="stopBtn" disabled>■ Stop</button></div><div class="metric"><span>Accuracy</span><b id="accuracyText">0%</b></div><div class="scorebar" role="progressbar" aria-label="Model accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="scorefill" id="accuracyFill"></div></div><div class="metric"><span>Training epoch</span><b id="epochText">0</b></div><p class="hint" id="trainMessage">Waiting for you to start training.</p><div class="metric"><span>Learning method</span><b>Character Markov model</b></div><div class="metric"><span>Training data</span><b>Built-in sample text</b></div><div class="metric"><span>Training mode</span><b>Next-character prediction</b></div><p class="hint">Accuracy is the percentage of held-out next-character predictions this small model gets right. It is not a measure of general intelligence.</p></section>
 <section class="card"><h3>Talk to Sherlock</h3><p class="sub">Train the model first, then send a short prompt.</p><div id="chatlog" class="chatlog" aria-live="polite"><div class="bubble bot">I'm currently an empty model. Press “Train model” to give me my first character patterns.</div></div><form id="chatForm" class="sendrow"><input id="message" class="field" placeholder="Train me first..." autocomplete="off" disabled required><button class="secondary" id="sendBtn" disabled>Send</button></form></section></div>
 <footer class="footer">Sherlock AI · A small character-generation experiment</footer>
 </main>
@@ -37,10 +37,10 @@ function runEpoch(){
  epoch++;
  const score=testAccuracy(model,test);
  const pct=Math.round(score*100);
- $('accuracy').textContent=pct+'%';$('scoreText').textContent=pct+'%';$('scoreFill').style.width=pct+'%';
+ $('accuracy').textContent=pct+'%';$('accuracyText').textContent=pct+'%';$('accuracyFill').style.width=pct+'%';document.querySelector('.scorebar').setAttribute('aria-valuenow',String(pct));
  $('epochText').textContent=epoch.toLocaleString();$('chars').textContent=Object.keys(model).length;
  $('state').textContent='Training';$('status').textContent='● Training';$('trainMessage').textContent='Training is running. Press Stop whenever you want to pause it.';
- $('bar').style.width=(epoch%10+1)*10+'%';
+ 
  trainingTimer=setTimeout(runEpoch,180);
 }
 $('trainBtn').addEventListener('click',()=>{
@@ -56,7 +56,7 @@ $('stopBtn').addEventListener('click',()=>{
  $('trainBtn').textContent='↻ Train again';$('state').textContent='Trained';$('status').textContent='● Stopped';
  $('trainMessage').textContent='Training stopped at epoch '+epoch+'. You can train again or chat with Sherlock.';
  $('message').disabled=false;$('message').placeholder='Type something, e.g. hi';$('sendBtn').disabled=false;
- $('bar').style.width='100%';bubble('Training stopped. Your current character model is ready to test.','bot');
+ bubble('Training stopped. Your current character model is ready to test.','bot');
 });
 $('chatForm').addEventListener('submit',e=>{e.preventDefault();if(!model)return;const prompt=$('message').value.trim();if(!prompt)return;bubble(prompt,'user');bubble(generate(prompt),'bot');$('message').value=''});
 </script></body></html>
