@@ -214,7 +214,7 @@ const ENGINE_URL = new URL('engine.wasm.b64?v=0.8.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_API = 'https://datasets-server.huggingface.co';
 const PAGE_SIZE = 100;
-const TRAIN_STEP_SIZE = 65536;
+const TRAIN_STEP_SIZE = 131072;
 
 let engine = null;
 let training = false;
