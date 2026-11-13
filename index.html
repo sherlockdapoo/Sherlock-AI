@@ -120,7 +120,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <section class="intro">
     <div class="eyebrow">Experiment 01 · First brain</div>
     <h2>A tiny model. One character at a time.</h2>
-    <p>The Python model builds patterns between letters, checks its prediction score, and generates character sequences. Start it, stop it, and test what it can produce.</p>
+    <p>Python runs directly in your browser. Sherlock builds character patterns on your iPad, checks its prediction score, and generates character sequences. No Render server is needed.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
       <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0.0%</strong></div>
@@ -192,19 +192,16 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 </main>
 
 <script>
-const API = 'https://sherlock-ai-t9h7.onrender.com';
+const PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js';
+let pyodide = null;
 let training = false;
 let modelReady = false;
 let pollTimer = null;
 let requestBusy = false;
-
 const $ = id => document.getElementById(id);
 function addMessage(text,kind){
-  const el=document.createElement('div');
-  el.className='message '+kind;
-  el.textContent=text;
-  $('chatlog').append(el);
-  $('chatlog').scrollTop=$('chatlog').scrollHeight;
+  const el=document.createElement('div'); el.className='message '+kind; el.textContent=text;
+  $('chatlog').append(el); $('chatlog').scrollTop=$('chatlog').scrollHeight;
 }
 function setTab(name){
   const chat=name==='chat';
@@ -212,121 +209,187 @@ function setTab(name){
   $('trainingTab').setAttribute('aria-selected',String(!chat));
   $('chatPanel').classList.toggle('active',chat);
   $('trainingPanel').classList.toggle('active',!chat);
-  $('chatPanel').hidden=!chat;
-  $('trainingPanel').hidden=chat;
+  $('chatPanel').hidden=!chat; $('trainingPanel').hidden=chat;
 }
 $('chatTab').addEventListener('click',()=>setTab('chat'));
 $('trainingTab').addEventListener('click',()=>setTab('training'));
-
 function updateAccuracy(value){
-  const pct=Math.max(0,Math.min(100,Number(value)||0));
-  const display=pct.toFixed(1);
-  $('accuracy').textContent=display+'%';
-  $('accuracyText').textContent=display+'%';
-  $('accuracyFill').style.width=display+'%';
-  $('accuracyTrack').setAttribute('aria-valuenow',display);
+  const pct=Math.max(0,Math.min(100,Number(value)||0)), display=pct.toFixed(1);
+  $('accuracy').textContent=display+'%'; $('accuracyText').textContent=display+'%';
+  $('accuracyFill').style.width=display+'%'; $('accuracyTrack').setAttribute('aria-valuenow',display);
 }
 function updateStatus(text,mode=''){
-  $('statusText').textContent=text;
-  $('status').className='status'+(mode?' '+mode:'');
+  $('statusText').textContent=text; $('status').className='status'+(mode?' '+mode:'');
 }
 function setChatReady(ready){
-  modelReady=ready;
-  const enabled=ready&&!training;
-  $('message').disabled=!enabled;
-  $('sendBtn').disabled=!enabled;
+  modelReady=ready; const enabled=ready&&!training;
+  $('message').disabled=!enabled; $('sendBtn').disabled=!enabled;
   $('message').placeholder=enabled?'Type a short prompt, e.g. hi':'Train Sherlock and stop to unlock chat…';
   $('chatLock').textContent=training?'Training in progress':ready?'Model ready':'Training required';
   $('chatSubtitle').textContent=ready?'Ready to generate character sequences':'Character-generation experiment';
-  $('chatHint').textContent=ready?'Sherlock generates one character at a time. Replies are experimental, not meaningful conversation.':'The chat unlocks when training has finished and you stop the run.';
+  $('chatHint').textContent=ready?'Sherlock generates one character at a time on your iPad. Replies are experimental, not meaningful conversation.':'The chat unlocks when training has finished and you stop the run.';
 }
-async function getStatus(){
-  const response=await fetch(API+'/status',{cache:'no-store'});
-  if(!response.ok) throw new Error('Status request failed ('+response.status+').');
-  const data=await response.json();
-  training=Boolean(data.training);
-  modelReady=Boolean(data.model_ready);
+const PYTHON_CODE = String.raw\`
+from collections import defaultdict, Counter
+import random, json
+
+TRAIN_TEXT = (
+    "sherlock is learning one character at a time. "
+    "a small model learns patterns from examples. "
+    "training means counting which characters tend to follow other characters. "
+    "this first engine is an experiment, not a thinking assistant. "
+) * 12
+TEST_TEXT = (
+    "a model can learn patterns from text. "
+    "sherlock is a small character learning experiment. "
+)
+model = defaultdict(Counter)
+training = False
+epochs = 0
+score = 0.0
+
+def build_counts(text):
+    counts = defaultdict(Counter)
+    for left, right in zip(text, text[1:]):
+        counts[left][right] += 1
+    return counts
+
+def calculate_accuracy(counts, text):
+    correct = 0
+    total = 0
+    for left, right in zip(text, text[1:]):
+        choices = counts.get(left)
+        if choices:
+            prediction = choices.most_common(1)[0][0]
+            correct += (prediction == right)
+            total += 1
+    return round((correct / total) * 100, 1) if total else 0.0
+
+def start_training():
+    global model, training, epochs, score
+    model = build_counts(TRAIN_TEXT)
+    epochs = 0
+    score = calculate_accuracy(model, TEST_TEXT)
+    training = True
+    return get_status()
+
+def evaluate_cycle():
+    global epochs, score
+    if training and model:
+        epochs += 1
+        score = calculate_accuracy(model, TEST_TEXT)
+    return get_status()
+
+def stop_training():
+    global training
+    training = False
+    return get_status()
+
+def get_status():
+    return {"training": training, "epochs": epochs, "score": score,
+            "model_ready": bool(model), "model_states": len(model)}
+
+def generate_text(seed="hi", length=60):
+    if not model:
+        return "Train Sherlock first."
+    length = max(1, min(int(length), 200))
+    output = seed[:20]
+    current = output[-1:] or " "
+    for _ in range(length):
+        choices = model.get(current)
+        if not choices:
+            current = random.choice(list(model.keys()))
+            output += current
+            continue
+        letters, weights = zip(*choices.items())
+        current = random.choices(letters, weights=weights, k=1)[0]
+        output += current
+    return output
+\`;
+function readStatus(){ return JSON.parse(pyodide.runPython('json.dumps(get_status())')); }
+function renderStatus(data){
+  training=Boolean(data.training); modelReady=Boolean(data.model_ready);
   updateAccuracy(data.score);
   $('epochText').textContent=Number(data.epochs||0).toLocaleString();
   $('chars').textContent=Number(data.model_states||0).toLocaleString();
   $('state').textContent=training?'Training':modelReady?'Ready':'Empty';
   if(training){
-    updateStatus('Training','running');
-    $('trainBtn').disabled=true;
-    $('trainBtn').innerHTML='⚡ <span>Training…</span>';
-    $('stopBtn').disabled=false;
-    $('trainMessage').textContent='The model is built. Its held-out prediction score is being checked continuously.';
+    updateStatus('Training','running'); $('trainBtn').disabled=true;
+    $('trainBtn').innerHTML='⚡ <span>Training…</span>'; $('stopBtn').disabled=false;
+    $('trainMessage').textContent='Sherlock is running locally. Evaluation cycles measure prediction accuracy; they do not teach the model new patterns.';
   }else{
     updateStatus(modelReady?'Ready':'Not trained',modelReady?'ready':'');
-    $('trainBtn').disabled=false;
+    $('trainBtn').disabled=!pyodide;
     $('trainBtn').innerHTML=modelReady?'↻ <span>Train again</span>':'⚡ <span>Start training</span>';
     $('stopBtn').disabled=true;
-    $('trainMessage').textContent=modelReady?'Training stopped. Sherlock is ready to chat.':'Waiting for you to start the first training run.';
+    $('trainMessage').textContent=modelReady?'Training stopped. Sherlock is ready to chat.':'Python is ready. Press Start training when you want to begin.';
   }
   setChatReady(modelReady);
-  return data;
 }
-function showApiError(error){
-  updateStatus('Connection issue');
-  $('trainMessage').textContent='Could not reach the Python server. It may be waking up. Try again in a moment.';
+function showError(error){
+  updateStatus('Python error');
+  $('trainMessage').textContent='The in-browser Python engine could not complete that action. Refresh the page and try again.';
   console.error(error);
 }
-async function startTraining(){
-  if(requestBusy||training)return;
-  requestBusy=true;
-  $('trainBtn').disabled=true;
-  $('trainMessage').textContent='Connecting to the Python training engine…';
+async function loadPython(){
   try{
-    const response=await fetch(API+'/train/start',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({reset:true})
+    updateStatus('Loading Python','running'); $('trainBtn').disabled=true;
+    $('trainMessage').textContent='Loading Python into Safari. The first load may take a little while.';
+    await new Promise((resolve,reject)=>{
+      if(window.loadPyodide){resolve();return;}
+      const script=document.createElement('script'); script.src=PYODIDE_URL;
+      script.onload=resolve; script.onerror=()=>reject(new Error('Could not load Pyodide.'));
+      document.head.appendChild(script);
     });
-    if(!response.ok) throw new Error('Training start failed ('+response.status+').');
-    const result=await response.json();
-    if(result.status==='already_training') addMessage('The Python model is already training.','bot');
-    else addMessage('Training started on the Python server.','bot');
-    await getStatus();
-    if(!pollTimer) pollTimer=setInterval(()=>getStatus().catch(showApiError),700);
-  }catch(error){showApiError(error);$('trainBtn').disabled=false;}
+    pyodide=await window.loadPyodide();
+    await pyodide.runPythonAsync(PYTHON_CODE);
+    $('trainBtn').disabled=false; updateStatus('Python ready','ready');
+    $('trainMessage').textContent='Python is running in this browser on your iPad. Press Start training to begin.';
+    $('state').textContent='Empty'; $('epochText').textContent='0'; $('chars').textContent='0'; updateAccuracy(0);
+  }catch(error){
+    showError(error);
+    $('trainMessage').textContent='Could not load Python. Check your internet connection and refresh the page.';
+  }
+}
+async function startTraining(){
+  if(requestBusy||training||!pyodide)return;
+  requestBusy=true; $('trainBtn').disabled=true;
+  $('trainMessage').textContent='Building Sherlock’s character model on your iPad…';
+  try{
+    pyodide.runPython('start_training()'); renderStatus(readStatus());
+    if(pollTimer)clearInterval(pollTimer);
+    pollTimer=setInterval(()=>{
+      try{pyodide.runPython('evaluate_cycle()');renderStatus(readStatus());}
+      catch(error){clearInterval(pollTimer);pollTimer=null;showError(error);}
+    },700);
+    addMessage('Training started locally on this iPad.','bot');
+  }catch(error){showError(error);}
   finally{requestBusy=false;}
 }
 async function stopTraining(){
-  if(requestBusy||!training)return;
-  requestBusy=true;
-  $('stopBtn').disabled=true;
-  $('trainMessage').textContent='Sending stop request to the Python server…';
+  if(requestBusy||!training||!pyodide)return;
+  requestBusy=true; $('stopBtn').disabled=true;
   try{
-    const response=await fetch(API+'/train/stop',{method:'POST'});
-    if(!response.ok) throw new Error('Training stop failed ('+response.status+').');
-    await getStatus();
-    addMessage('Training stopped. I’m ready for a prompt.','bot');
-  }catch(error){showApiError(error);}
+    pyodide.runPython('stop_training()');
+    if(pollTimer){clearInterval(pollTimer);pollTimer=null;}
+    renderStatus(readStatus()); addMessage('Training stopped. I’m ready for a prompt.','bot');
+  }catch(error){showError(error);}
   finally{requestBusy=false;}
 }
 $('trainBtn').addEventListener('click',startTraining);
 $('stopBtn').addEventListener('click',stopTraining);
-$('chatForm').addEventListener('submit',async event=>{
+$('chatForm').addEventListener('submit',event=>{
   event.preventDefault();
-  if(!modelReady||training)return;
-  const prompt=$('message').value.trim();
-  if(!prompt)return;
-  addMessage(prompt,'user');
-  $('message').value='';
-  $('sendBtn').disabled=true;
+  if(!modelReady||training||!pyodide)return;
+  const prompt=$('message').value.trim(); if(!prompt)return;
+  addMessage(prompt,'user'); $('message').value=''; $('sendBtn').disabled=true;
   try{
-    const url=API+'/generate?seed='+encodeURIComponent(prompt)+'&length=60';
-    const response=await fetch(url);
-    if(!response.ok) throw new Error('Generation failed ('+response.status+').');
-    const result=await response.json();
-    if(result.error) addMessage(result.error,'bot');
-    else addMessage(result.text,'bot');
-  }catch(error){
-    addMessage('I could not reach the Python model. The server may be waking up. Please try again.','bot');
-    console.error(error);
-  }finally{$('sendBtn').disabled=!modelReady||training;}
+    pyodide.globals.set('browser_seed',prompt);
+    addMessage(pyodide.runPython('generate_text(browser_seed, 60)'),'bot');
+  }catch(error){addMessage('Sherlock could not generate a reply. Please try again.','bot');console.error(error);}
+  finally{$('sendBtn').disabled=!modelReady||training;}
 });
-getStatus().catch(showApiError);
+loadPython();
 </script>
 </body>
 </html>
