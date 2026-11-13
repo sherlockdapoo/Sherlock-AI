@@ -112,7 +112,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI</h1><p class="brand-sub">Character learning laboratory · v0.5</p></div>
+      <div><h1 class="brand-title">Sherlock AI</h1><p class="brand-sub">C++ WebAssembly · local iPad engine</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -120,11 +120,11 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <section class="intro">
     <div class="eyebrow">Experiment 01 · First brain</div>
     <h2>A tiny model. One character at a time.</h2>
-    <p>Python runs directly in your browser. Sherlock builds character patterns on your iPad, checks its prediction score, and generates character sequences. No Render server is needed.</p>
+    <p>A C++ character model runs as WebAssembly directly in Safari. Sherlock learns from sample text, checks its prediction score, and generates character sequences on your iPad. No Python download or Render server is needed.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
       <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0.0%</strong></div>
-      <div class="stat"><span class="stat-label">Learned characters</span><strong class="stat-value" id="chars">0</strong></div>
+      <div class="stat"><span class="stat-label">Characters processed</span><strong class="stat-value" id="chars">0</strong></div>
     </div>
   </section>
 
@@ -159,9 +159,9 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         </div>
         <p class="train-message" id="trainMessage" aria-live="polite">Waiting for you to start the first training run.</p>
         <div class="metrics">
-          <div class="metric"><span>Evaluation cycles</span><strong id="epochText">0</strong></div>
-          <div class="metric"><span>Learning method</span><strong>Character Markov model</strong></div>
-          <div class="metric"><span>Training data</span><strong>Built-in sample text</strong></div>
+          <div class="metric"><span>Training steps</span><strong id="epochText">0</strong></div>
+          <div class="metric"><span>Learning method</span><strong>Character trigram · C++ WASM</strong></div>
+          <div class="metric"><span>Training data</span><strong>Built-in sample corpus</strong></div>
           <div class="metric"><span>Prediction task</span><strong>Next character</strong></div>
         </div>
       </section>
@@ -188,208 +188,208 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
     </section>
   </section>
 
-  <footer class="footer">Sherlock AI · A small character-generation experiment</footer>
+  <footer class="footer">Sherlock AI · C++ WebAssembly running locally on your iPad</footer>
 </main>
 
 <script>
-const PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js';
-let pyodide = null;
+const ENGINE_URL = new URL('engine.wasm.b64?v=0.6.0', window.location.href);
+let engine = null;
 let training = false;
 let modelReady = false;
-let pollTimer = null;
+let trainingTimer = null;
 let requestBusy = false;
 const $ = id => document.getElementById(id);
-function addMessage(text,kind){
-  const el=document.createElement('div'); el.className='message '+kind; el.textContent=text;
-  $('chatlog').append(el); $('chatlog').scrollTop=$('chatlog').scrollHeight;
+
+function addMessage(text, kind) {
+  const el = document.createElement('div');
+  el.className = 'message ' + kind;
+  el.textContent = text;
+  $('chatlog').append(el);
+  $('chatlog').scrollTop = $('chatlog').scrollHeight;
 }
-function setTab(name){
-  const chat=name==='chat';
-  $('chatTab').setAttribute('aria-selected',String(chat));
-  $('trainingTab').setAttribute('aria-selected',String(!chat));
-  $('chatPanel').classList.toggle('active',chat);
-  $('trainingPanel').classList.toggle('active',!chat);
-  $('chatPanel').hidden=!chat; $('trainingPanel').hidden=chat;
+
+function setTab(name) {
+  const chat = name === 'chat';
+  $('chatTab').setAttribute('aria-selected', String(chat));
+  $('trainingTab').setAttribute('aria-selected', String(!chat));
+  $('chatPanel').classList.toggle('active', chat);
+  $('trainingPanel').classList.toggle('active', !chat);
+  $('chatPanel').hidden = !chat;
+  $('trainingPanel').hidden = chat;
 }
-$('chatTab').addEventListener('click',()=>setTab('chat'));
-$('trainingTab').addEventListener('click',()=>setTab('training'));
-function updateAccuracy(value){
-  const pct=Math.max(0,Math.min(100,Number(value)||0)), display=pct.toFixed(1);
-  $('accuracy').textContent=display+'%'; $('accuracyText').textContent=display+'%';
-  $('accuracyFill').style.width=display+'%'; $('accuracyTrack').setAttribute('aria-valuenow',display);
+$('chatTab').addEventListener('click', () => setTab('chat'));
+$('trainingTab').addEventListener('click', () => setTab('training'));
+
+function updateAccuracy(value) {
+  const pct = Math.max(0, Math.min(100, Number(value) || 0));
+  const display = pct.toFixed(1);
+  $('accuracy').textContent = display + '%';
+  $('accuracyText').textContent = display + '%';
+  $('accuracyFill').style.width = display + '%';
+  $('accuracyTrack').setAttribute('aria-valuenow', display);
 }
-function updateStatus(text,mode=''){
-  $('statusText').textContent=text; $('status').className='status'+(mode?' '+mode:'');
+
+function updateStatus(text, mode = '') {
+  $('statusText').textContent = text;
+  $('status').className = 'status' + (mode ? ' ' + mode : '');
 }
-function setChatReady(ready){
-  modelReady=ready; const enabled=ready&&!training;
-  $('message').disabled=!enabled; $('sendBtn').disabled=!enabled;
-  $('message').placeholder=enabled?'Type a short prompt, e.g. hi':'Train Sherlock and stop to unlock chat…';
-  $('chatLock').textContent=training?'Training in progress':ready?'Model ready':'Training required';
-  $('chatSubtitle').textContent=ready?'Ready to generate character sequences':'Character-generation experiment';
-  $('chatHint').textContent=ready?'Sherlock generates one character at a time on your iPad. Replies are experimental, not meaningful conversation.':'The chat unlocks when training has finished and you stop the run.';
+
+function setChatReady(ready) {
+  modelReady = ready;
+  const enabled = ready && !training;
+  $('message').disabled = !enabled;
+  $('sendBtn').disabled = !enabled;
+  $('message').placeholder = enabled ? 'Type a short prompt, e.g. hi' : 'Train Sherlock and stop to unlock chat…';
+  $('chatLock').textContent = training ? 'Training in progress' : ready ? 'Model ready' : 'Training required';
+  $('chatSubtitle').textContent = ready ? 'Ready to generate character sequences' : 'Character-generation experiment';
+  $('chatHint').textContent = ready
+    ? 'Sherlock generates character sequences locally. It is a small text experiment, not a general conversation model.'
+    : 'The chat unlocks when training has finished and you stop the run.';
 }
-const PYTHON_CODE = String.raw`
-from collections import defaultdict, Counter
-import random, json
 
-TRAIN_TEXT = (
-    "sherlock is learning one character at a time. "
-    "a small model learns patterns from examples. "
-    "training means counting which characters tend to follow other characters. "
-    "this first engine is an experiment, not a thinking assistant. "
-) * 12
-TEST_TEXT = (
-    "a model can learn patterns from text. "
-    "sherlock is a small character learning experiment. "
-)
-model = defaultdict(Counter)
-training = False
-epochs = 0
-score = 0.0
+function renderEngineStatus() {
+  if (!engine) return;
+  const seen = engine.characters_seen();
+  const score = engine.accuracy_tenths() / 10;
+  $('epochText').textContent = Number(engine.steps_completed()).toLocaleString();
+  $('chars').textContent = Number(seen).toLocaleString();
+  updateAccuracy(score);
+  $('state').textContent = training ? 'Training' : seen > 0 ? 'Ready' : 'Empty';
 
-def build_counts(text):
-    counts = defaultdict(Counter)
-    for left, right in zip(text, text[1:]):
-        counts[left][right] += 1
-    return counts
-
-def calculate_accuracy(counts, text):
-    correct = 0
-    total = 0
-    for left, right in zip(text, text[1:]):
-        choices = counts.get(left)
-        if choices:
-            prediction = choices.most_common(1)[0][0]
-            correct += (prediction == right)
-            total += 1
-    return round((correct / total) * 100, 1) if total else 0.0
-
-def start_training():
-    global model, training, epochs, score
-    model = build_counts(TRAIN_TEXT)
-    epochs = 0
-    score = calculate_accuracy(model, TEST_TEXT)
-    training = True
-    return get_status()
-
-def evaluate_cycles(batch=20):
-    global epochs, score
-    if training and model:
-        epochs += max(1, int(batch))
-        score = calculate_accuracy(model, TEST_TEXT)
-    return get_status()
-
-def stop_training():
-    global training
-    training = False
-    return get_status()
-
-def get_status():
-    return {"training": training, "epochs": epochs, "score": score,
-            "model_ready": bool(model), "model_states": len(model)}
-
-def generate_text(seed="hi", length=60):
-    if not model:
-        return "Train Sherlock first."
-    length = max(1, min(int(length), 200))
-    output = seed[:20]
-    current = output[-1:] or " "
-    for _ in range(length):
-        choices = model.get(current)
-        if not choices:
-            current = random.choice(list(model.keys()))
-            output += current
-            continue
-        letters, weights = zip(*choices.items())
-        current = random.choices(letters, weights=weights, k=1)[0]
-        output += current
-    return output
-`;
-function readStatus(){ return JSON.parse(pyodide.runPython('json.dumps(get_status())')); }
-function renderStatus(data){
-  training=Boolean(data.training); modelReady=Boolean(data.model_ready);
-  updateAccuracy(data.score);
-  $('epochText').textContent=Number(data.epochs||0).toLocaleString();
-  $('chars').textContent=Number(data.model_states||0).toLocaleString();
-  $('state').textContent=training?'Training':modelReady?'Ready':'Empty';
-  if(training){
-    updateStatus('Training','running'); $('trainBtn').disabled=true;
-    $('trainBtn').innerHTML='⚡ <span>Training…</span>'; $('stopBtn').disabled=false;
-    $('trainMessage').textContent='Sherlock is running locally. Evaluation cycles measure prediction accuracy; they do not teach the model new patterns.';
-  }else{
-    updateStatus(modelReady?'Ready':'Not trained',modelReady?'ready':'');
-    $('trainBtn').disabled=!pyodide;
-    $('trainBtn').innerHTML=modelReady?'↻ <span>Train again</span>':'⚡ <span>Start training</span>';
-    $('stopBtn').disabled=true;
-    $('trainMessage').textContent=modelReady?'Training stopped. Sherlock is ready to chat.':'Python is ready. Press Start training when you want to begin.';
+  if (training) {
+    updateStatus('Training', 'running');
+    $('trainBtn').disabled = true;
+    $('trainBtn').innerHTML = '⚡ <span>Training…</span>';
+    $('stopBtn').disabled = false;
+    $('trainMessage').textContent = 'C++ is updating Sherlock’s character patterns on this iPad. The score checks next-character predictions on separate test text.';
+  } else {
+    updateStatus(seen > 0 ? 'Ready' : 'Engine ready', 'ready');
+    $('trainBtn').disabled = false;
+    $('trainBtn').innerHTML = seen > 0 ? '↻ <span>Train again</span>' : '⚡ <span>Start training</span>';
+    $('stopBtn').disabled = true;
+    $('trainMessage').textContent = seen > 0
+      ? 'Training stopped. Sherlock is ready to generate character sequences.'
+      : 'C++ WebAssembly is ready. Press Start training when you want to begin.';
   }
-  setChatReady(modelReady);
+  setChatReady(seen > 0);
 }
-function showError(error){
-  updateStatus('Python error');
-  $('trainMessage').textContent='The in-browser Python engine could not complete that action. Refresh the page and try again.';
+
+function showError(error) {
+  updateStatus('Engine error');
+  $('trainBtn').disabled = true;
+  $('trainMessage').textContent = 'The C++ engine could not start. Refresh the page and try again.';
   console.error(error);
 }
-async function loadPython(){
-  try{
-    updateStatus('Loading Python','running'); $('trainBtn').disabled=true;
-    $('trainMessage').textContent='Loading Python into Safari. The first load may take a little while.';
-    await new Promise((resolve,reject)=>{
-      if(window.loadPyodide){resolve();return;}
-      const script=document.createElement('script'); script.src=PYODIDE_URL;
-      script.onload=resolve; script.onerror=()=>reject(new Error('Could not load Pyodide.'));
-      document.head.appendChild(script);
-    });
-    pyodide=await window.loadPyodide();
-    await pyodide.runPythonAsync(PYTHON_CODE);
-    $('trainBtn').disabled=false; updateStatus('Python ready','ready');
-    $('trainMessage').textContent='Python is running in this browser on your iPad. Press Start training to begin.';
-    $('state').textContent='Empty'; $('epochText').textContent='0'; $('chars').textContent='0'; updateAccuracy(0);
-  }catch(error){
+
+async function loadEngine() {
+  try {
+    updateStatus('Loading C++', 'running');
+    $('trainBtn').disabled = true;
+    $('trainMessage').textContent = 'Loading the small C++ WebAssembly engine into Safari…';
+
+    if (!('WebAssembly' in window)) throw new Error('WebAssembly is not supported in this browser.');
+    const response = await fetch(ENGINE_URL, { cache: 'no-store' });
+    if (!response.ok) throw new Error('Could not download engine.wasm.b64 (' + response.status + ').');
+    const encoded = (await response.text()).trim();
+    const binary = atob(encoded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+
+    const result = await WebAssembly.instantiate(bytes, {});
+    engine = result.instance.exports;
+    if (engine.__wasm_call_ctors) engine.__wasm_call_ctors();
+    engine.reset_model();
+
+    updateStatus('Engine ready', 'ready');
+    $('trainBtn').disabled = false;
+    $('trainMessage').textContent = 'C++ WebAssembly is running locally in Safari. No Python download or Render server is needed.';
+    $('state').textContent = 'Empty';
+    $('epochText').textContent = '0';
+    $('chars').textContent = '0';
+    updateAccuracy(0);
+  } catch (error) {
     showError(error);
-    $('trainMessage').textContent='Could not load Python. Check your internet connection and refresh the page.';
   }
 }
-async function startTraining(){
-  if(requestBusy||training||!pyodide)return;
-  requestBusy=true; $('trainBtn').disabled=true;
-  $('trainMessage').textContent='Building Sherlock’s character model on your iPad…';
-  try{
-    pyodide.runPython('start_training()'); renderStatus(readStatus());
-    if(pollTimer)clearInterval(pollTimer);
-    pollTimer=setInterval(()=>{
-      try{pyodide.runPython('evaluate_cycles(20)');renderStatus(readStatus());}
-      catch(error){clearInterval(pollTimer);pollTimer=null;showError(error);}
-    },250);
-    addMessage('Training started locally on this iPad.','bot');
-  }catch(error){showError(error);}
-  finally{requestBusy=false;}
+
+function startTraining() {
+  if (requestBusy || training || !engine) return;
+  requestBusy = true;
+  try {
+    if (trainingTimer) clearInterval(trainingTimer);
+    engine.reset_model();
+    training = true;
+    modelReady = false;
+    setChatReady(false);
+    engine.train_step(1024);
+    renderEngineStatus();
+    trainingTimer = setInterval(() => {
+      try {
+        engine.train_step(2048);
+        renderEngineStatus();
+      } catch (error) {
+        clearInterval(trainingTimer);
+        trainingTimer = null;
+        training = false;
+        showError(error);
+      }
+    }, 100);
+    addMessage('Training started on this iPad using C++ WebAssembly.', 'bot');
+  } catch (error) {
+    training = false;
+    showError(error);
+  } finally {
+    requestBusy = false;
+  }
 }
-async function stopTraining(){
-  if(requestBusy||!training||!pyodide)return;
-  requestBusy=true; $('stopBtn').disabled=true;
-  try{
-    pyodide.runPython('stop_training()');
-    if(pollTimer){clearInterval(pollTimer);pollTimer=null;}
-    renderStatus(readStatus()); addMessage('Training stopped. I’m ready for a prompt.','bot');
-  }catch(error){showError(error);}
-  finally{requestBusy=false;}
+
+function stopTraining() {
+  if (requestBusy || !training || !engine) return;
+  requestBusy = true;
+  $('stopBtn').disabled = true;
+  try {
+    if (trainingTimer) clearInterval(trainingTimer);
+    trainingTimer = null;
+    training = false;
+    renderEngineStatus();
+    addMessage('Training stopped. Sherlock is ready for a prompt.', 'bot');
+  } catch (error) {
+    showError(error);
+  } finally {
+    requestBusy = false;
+  }
 }
-$('trainBtn').addEventListener('click',startTraining);
-$('stopBtn').addEventListener('click',stopTraining);
-$('chatForm').addEventListener('submit',event=>{
+
+$('trainBtn').addEventListener('click', startTraining);
+$('stopBtn').addEventListener('click', stopTraining);
+
+$('chatForm').addEventListener('submit', event => {
   event.preventDefault();
-  if(!modelReady||training||!pyodide)return;
-  const prompt=$('message').value.trim(); if(!prompt)return;
-  addMessage(prompt,'user'); $('message').value=''; $('sendBtn').disabled=true;
-  try{
-    pyodide.globals.set('browser_seed',prompt);
-    addMessage(pyodide.runPython('generate_text(browser_seed, 60)'),'bot');
-  }catch(error){addMessage('Sherlock could not generate a reply. Please try again.','bot');console.error(error);}
-  finally{$('sendBtn').disabled=!modelReady||training;}
+  if (!modelReady || training || !engine) return;
+  const prompt = $('message').value.trim();
+  if (!prompt) return;
+  addMessage(prompt, 'user');
+  $('message').value = '';
+  $('sendBtn').disabled = true;
+  try {
+    const encoded = new TextEncoder().encode(prompt).subarray(0, 240);
+    const memory = new Uint8Array(engine.memory.buffer);
+    const input = engine.input_ptr();
+    memory.fill(0, input, input + 256);
+    memory.set(encoded, input);
+    const length = engine.generate_text(encoded.length, 90);
+    const output = engine.output_ptr();
+    const reply = new TextDecoder().decode(memory.subarray(output, output + length));
+    addMessage(reply || 'I could not find a matching character pattern.', 'bot');
+  } catch (error) {
+    addMessage('Sherlock could not generate a reply. Please try again.', 'bot');
+    console.error(error);
+  } finally {
+    $('sendBtn').disabled = !modelReady || training;
+  }
 });
-loadPython();
+
+loadEngine();
 </script>
 </body>
 </html>
