@@ -115,6 +115,121 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   .brand-sub{font-size:11px}.status{padding:6px 8px;font-size:10px}.logo{width:41px;height:41px}.intro h2{font-size:25px}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat-value{font-size:16px}.actions{flex-wrap:wrap}.btn-primary{min-width:100%}.btn-secondary{flex:1}.message{max-width:90%}.chat-compose{padding:10px}.send-btn{min-width:68px;padding:9px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Live learning observatory */
+.visual-page{display:flex;flex-direction:column;gap:17px}
+.visual-hero{padding:22px;background:radial-gradient(ellipse at 92% 0,rgba(73,117,190,.22),transparent 42%),linear-gradient(145deg,#142744,#0e192b 72%);border-color:#304b70}
+.visual-hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.visual-hero h2{margin:5px 0 7px;font-size:clamp(22px,4vw,29px);letter-spacing:-.8px}
+.visual-hero p{margin:0;max-width:650px;color:#a8bad4;font-size:12px}
+.visual-state{display:inline-flex;align-items:center;gap:8px;flex-shrink:0;padding:8px 11px;border:1px solid #344860;border-radius:999px;background:#0b1728;color:#b9c9df;font-size:10px;font-weight:800;letter-spacing:.5px}
+.visual-dot{width:7px;height:7px;border-radius:50%;background:#8596ad}
+.visual-state.is-running{border-color:#6a5930;color:#f5d99c}
+.visual-state.is-running .visual-dot{background:#f2c978;box-shadow:0 0 0 4px rgba(242,201,120,.13);animation:visualPulse 1.5s infinite}
+.visual-state.is-ready{border-color:#2b6653;color:#a9efce}
+.visual-state.is-ready .visual-dot{background:#70dfb0}
+@keyframes visualPulse{50%{box-shadow:0 0 0 7px rgba(242,201,120,0)}}
+.visual-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:20px}
+.visual-kpi{min-width:0;padding:12px;border:1px solid rgba(120,155,205,.22);border-radius:13px;background:rgba(5,14,27,.48)}
+.visual-kpi span,.visual-kpi small{display:block;color:#91a7c5;font-size:10px}
+.visual-kpi strong{display:block;margin:4px 0 1px;color:#f0f6ff;font-size:clamp(18px,3vw,23px);font-variant-numeric:tabular-nums;letter-spacing:-.5px;overflow-wrap:anywhere}
+.visual-section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:2px 2px 0}
+.visual-section-title h3{margin:0;font-size:16px}
+.visual-section-title p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.visual-section-tag{padding:5px 8px;border:1px solid #30445f;border-radius:8px;background:#0e1b2d;color:#9fb7d8;font-size:10px;white-space:nowrap}
+.visual-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.flow-node{position:relative;min-width:0;min-height:128px;padding:13px 11px;border:1px solid #293c57;border-radius:15px;background:linear-gradient(155deg,#142239,#0d1829);transition:border-color .2s,background .2s,transform .2s}
+.flow-node:not(:last-child):after{content:"›";position:absolute;z-index:2;right:-10px;top:44%;width:19px;height:19px;display:grid;place-items:center;border:1px solid #385477;border-radius:50%;background:#14243a;color:#a9c8ff;font-size:17px;line-height:1}
+.flow-node.is-active{border-color:#8a7540;background:linear-gradient(155deg,#302a1c,#172236);box-shadow:0 0 0 1px rgba(242,201,120,.1),0 10px 26px rgba(0,0,0,.13);transform:translateY(-2px)}
+.flow-node.is-done{border-color:#326b58}
+.flow-node.is-ready{border-color:#385477}
+.flow-node-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:12px}
+.flow-icon{display:grid;place-items:center;width:27px;height:27px;border:1px solid #344e72;border-radius:9px;background:#192e4c;color:#b5d0ff;font-size:13px}
+.flow-number{color:#7187a5;font-size:9px;font-weight:800;letter-spacing:1px}
+.flow-node h4{margin:0 0 5px;font-size:12px}
+.flow-node p{margin:0;color:#8fa3c0;font-size:10px;line-height:1.45}
+.flow-state{display:inline-block;margin-top:10px;color:#8b9eb9;font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+.flow-node.is-active .flow-state{color:#f1d18e}
+.flow-node.is-done .flow-state{color:#83dfb7}
+.visual-two-col{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:14px}
+.visual-card{min-width:0;padding:18px}
+.visual-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:15px}
+.visual-card-head h3{font-size:15px}
+.visual-card-head p{margin:3px 0 0;color:var(--muted);font-size:10px}
+.visual-mini-tag{flex-shrink:0;padding:5px 7px;border:1px solid #344b6d;border-radius:7px;background:#14243b;color:#a9c9ff;font-size:9px;font-weight:800;letter-spacing:.5px}
+.visual-sample-meta{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px;color:#8ea4c1;font-size:10px}
+.visual-sample-meta strong{color:#d9e6f8;font-variant-numeric:tabular-nums;text-align:right}
+.visual-token-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 22px minmax(0,1fr);align-items:center;gap:7px}
+.visual-token{min-width:0;padding:12px 7px;border:1px solid #345071;border-radius:12px;background:linear-gradient(160deg,#172b47,#101d30);text-align:center}
+.visual-token.target{border-color:#34745e;background:linear-gradient(160deg,#173a36,#10251f)}
+.visual-token label{display:block;margin-bottom:7px;color:#90a7c7;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.visual-token strong{display:block;min-height:27px;color:#edf5ff;font-size:20px;line-height:1.25;overflow-wrap:anywhere}
+.visual-token.target strong{color:#9bf0c5}
+.visual-token small{display:block;margin-top:5px;color:#7990ae;font-size:9px}
+.visual-token-arrow{text-align:center;color:#9bb8e8;font-size:18px}
+.visual-formula{margin-top:13px;padding:11px 12px;border:1px solid #283d58;border-radius:11px;background:#0b1728;color:#a8bbd5;font-size:10px;line-height:1.55}
+.visual-formula strong{color:#dceaff}
+.visual-progress-head{display:flex;justify-content:space-between;gap:10px;margin:15px 0 8px;color:#9fb2cc;font-size:10px}
+.visual-progress-head strong{color:#dceaff;font-variant-numeric:tabular-nums}
+.visual-corpus-track{height:8px;overflow:hidden;border-radius:99px;background:#07111f}
+.visual-corpus-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5488ed,#77dcb2);transition:width .2s ease}
+.visual-footnote{margin:8px 0 0;color:#7187a4;font-size:9px}
+.lookup-list{display:flex;flex-direction:column;gap:10px}
+.lookup-row{padding:12px;border:1px solid #2a405c;border-radius:12px;background:#0c1829}
+.lookup-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lookup-name{display:flex;align-items:center;gap:8px;color:#dce8f9;font-size:11px;font-weight:750}
+.lookup-badge{padding:4px 6px;border-radius:6px;background:#1d304b;color:#a9c8f6;font-size:8px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.lookup-code{margin:9px 0 6px;color:#9cd9ff;font:700 19px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:2px;overflow-wrap:anywhere}
+.lookup-row p{margin:0;color:#8ea2bd;font-size:10px;line-height:1.5}
+.lookup-facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.lookup-facts span{padding:4px 6px;border:1px solid #263b56;border-radius:6px;color:#9eb2ce;font-size:9px}
+.visual-telemetry{padding:18px}
+.visual-telemetry-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.telemetry-cell{padding:12px;border:1px solid #2a3e59;border-radius:12px;background:#0c1829}
+.telemetry-cell span{display:block;color:#8ea3c0;font-size:10px}
+.telemetry-cell strong{display:block;margin-top:5px;color:#eff5ff;font-size:17px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.telemetry-cell small{display:block;margin-top:2px;color:#7186a2;font-size:9px}
+.visual-accuracy{padding:18px}
+.visual-accuracy-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.visual-accuracy-top h3{font-size:15px}
+.visual-accuracy-top p{margin:3px 0 0;color:var(--muted);font-size:10px}
+.visual-score-pair{display:flex;gap:14px}
+.visual-score-pair div{text-align:right}
+.visual-score-pair span{display:block;color:#879bb7;font-size:9px}
+.visual-score-pair strong{display:block;color:#eaf3ff;font-size:15px;font-variant-numeric:tabular-nums}
+.visual-chart-wrap{padding:8px 8px 3px;border:1px solid #283c57;border-radius:12px;background:linear-gradient(180deg,#0d1a2c,#091321)}
+.visual-chart{display:block;width:100%;height:auto;overflow:visible}
+.visual-chart .chart-grid{stroke:#253750;stroke-width:1;stroke-dasharray:4 6}
+.visual-chart .chart-line{fill:none;stroke:#83adff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.visual-chart .chart-area{fill:rgba(105,157,237,.12)}
+.visual-chart .chart-dot{fill:#a9c8ff;stroke:#12233a;stroke-width:3}
+.visual-chart-legend{display:flex;justify-content:space-between;gap:10px;margin-top:8px;color:#7f93af;font-size:9px}
+.visual-caution{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border:1px solid #3b4b62;border-radius:13px;background:#111e30;color:#91a6c2;font-size:10px;line-height:1.55}
+.visual-caution strong{color:#d6e5fa}
+.visual-caution-icon{flex-shrink:0;color:#a9c8ff;font-size:15px}
+@media(max-width:760px){
+ .visual-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .visual-flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .flow-node{min-height:112px}
+ .flow-node:after{display:none!important}
+ .visual-two-col{grid-template-columns:1fr}
+ .visual-telemetry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:440px){
+ .visual-hero{padding:17px}
+ .visual-hero-top{flex-direction:column}
+ .visual-state{align-self:flex-start}
+ .visual-card{padding:14px}
+ .visual-token-row{gap:4px;grid-template-columns:repeat(3,minmax(0,1fr)) 14px minmax(0,1fr)}
+ .visual-token{padding:10px 4px}
+ .visual-token strong{font-size:17px}
+ .visual-token-arrow{font-size:14px}
+ .visual-section-title{align-items:flex-start;flex-direction:column}
+ .visual-accuracy-top{flex-direction:column}
+ .visual-score-pair{width:100%;justify-content:space-between}
+ .visual-score-pair div{text-align:left}
+}
+
 </style>
 </head>
 <body>
@@ -142,6 +257,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
     <nav class="tabs" role="tablist" aria-label="Sherlock GPT workspace">
       <button class="tab" id="chatTab" type="button" role="tab" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">▤</span> Chat</button>
       <button class="tab" id="trainingTab" type="button" role="tab" aria-selected="true" aria-controls="trainingPanel"><span class="tab-icon">⌁</span> Training</button>
+      <button class="tab" id="visualTab" type="button" role="tab" aria-selected="false" aria-controls="visualPanel"><span class="tab-icon">◈</span> Live View</button>
     </nav>
     <span class="tab-note">Your workspace · Choose a tab to switch views</span>
   </div>
@@ -179,6 +295,103 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           <div class="metric"><span>Prediction task</span><strong>Next character</strong></div>
         </div>
       </section>
+    </div>
+  </section>
+
+  <section class="panel" id="visualPanel" role="tabpanel" aria-labelledby="visualTab" hidden>
+    <div class="visual-page">
+      <section class="card visual-hero">
+        <div class="visual-hero-top">
+          <div><div class="eyebrow">Live training system · local WebAssembly</div>
+            <h2>Inside Sherlock’s learning loop</h2>
+            <p>Follow the real training stream as C++ reads conversation text, checks character patterns, updates its counters and tests predictions against held-out examples.</p></div>
+          <div class="visual-state" id="visualLiveBadge"><span class="visual-dot"></span><span id="visualLiveText">Waiting for training</span></div>
+        </div>
+        <div class="visual-kpis">
+          <div class="visual-kpi"><span>Processing speed</span><strong id="visualSpeed">0</strong><small>characters per second</small></div>
+          <div class="visual-kpi"><span>Characters learned</span><strong id="visualChars">0</strong><small>since this run started</small></div>
+          <div class="visual-kpi"><span>Training passes</span><strong id="visualPasses">0</strong><small>full corpus cycles</small></div>
+          <div class="visual-kpi"><span>Engine steps</span><strong id="visualSteps">0</strong><small>65,536-character batches</small></div>
+        </div>
+      </section>
+
+      <div class="visual-section-title">
+        <div><h3>01 · The learning pipeline</h3><p>Five connected stages, updated from the browser’s actual training state.</p></div>
+        <span class="visual-section-tag" id="visualPipelineStatus">ENGINE STARTING</span>
+      </div>
+      <div class="visual-flow">
+        <article class="flow-node" id="flowDataset"><div class="flow-node-top"><span class="flow-icon">▤</span><span class="flow-number">01 / INPUT</span></div><h4>Conversation data</h4><p>DailyDialog examples are downloaded and cleaned into a text stream.</p><span class="flow-state" id="flowDatasetState">Waiting</span></article>
+        <article class="flow-node" id="flowStream"><div class="flow-node-top"><span class="flow-icon">⇢</span><span class="flow-number">02 / READ</span></div><h4>Character stream</h4><p>The engine reads the training text in batches of 65,536 characters.</p><span class="flow-state" id="flowStreamState">Waiting</span></article>
+        <article class="flow-node" id="flowContext"><div class="flow-node-top"><span class="flow-icon">▦</span><span class="flow-number">03 / CONTEXT</span></div><h4>Pattern lookup</h4><p>The previous three characters form the main context key.</p><span class="flow-state" id="flowContextState">Waiting</span></article>
+        <article class="flow-node" id="flowCounters"><div class="flow-node-top"><span class="flow-icon">＋</span><span class="flow-number">04 / UPDATE</span></div><h4>Count patterns</h4><p>Next-character counts are increased in the model’s tables.</p><span class="flow-state" id="flowCountersState">Waiting</span></article>
+        <article class="flow-node" id="flowValidation"><div class="flow-node-top"><span class="flow-icon">◎</span><span class="flow-number">05 / TEST</span></div><h4>Validation check</h4><p>Predictions are tested on separate conversations not used for training.</p><span class="flow-state" id="flowValidationState">Waiting</span></article>
+      </div>
+
+      <div class="visual-two-col">
+        <section class="card visual-card">
+          <div class="visual-card-head"><div><h3>02 · Character microscope</h3><p>A real window around the engine’s current position in the training text.</p></div><span class="visual-mini-tag">LIVE CURSOR</span></div>
+          <div class="visual-sample-meta"><span>TRAINING TEXT POSITION</span><strong id="visualPosition">Dataset not loaded</strong></div>
+          <div class="visual-token-row">
+            <div class="visual-token"><label>Context 1</label><strong id="contextCharA">·</strong><small>3 characters back</small></div>
+            <div class="visual-token"><label>Context 2</label><strong id="contextCharB">·</strong><small>2 characters back</small></div>
+            <div class="visual-token"><label>Context 3</label><strong id="contextCharC">·</strong><small>1 character back</small></div>
+            <div class="visual-token-arrow">→</div>
+            <div class="visual-token target"><label>Next target</label><strong id="targetChar">?</strong><small>character to learn</small></div>
+          </div>
+          <div class="visual-formula"><strong>What happens here:</strong> Sherlock records which character follows this exact three-character context. It also updates a two-character fallback table. The preview shows the next position in the stream, not a made-up example.</div>
+          <div class="visual-progress-head"><span>Position through training corpus</span><strong id="visualCorpusPercent">0.000%</strong></div>
+          <div class="visual-corpus-track"><div class="visual-corpus-fill" id="visualCorpusFill"></div></div>
+          <p class="visual-footnote" id="visualCorpusNote">Load the dataset to see the live character window and corpus position.</p>
+        </section>
+
+        <section class="card visual-card">
+          <div class="visual-card-head"><div><h3>03 · Inside the pattern tables</h3><p>The model’s two levels of character memory.</p></div><span class="visual-mini-tag">MODEL MAP</span></div>
+          <div class="lookup-list">
+            <div class="lookup-row">
+              <div class="lookup-top"><div class="lookup-name">▦ Three-character context</div><span class="lookup-badge">Primary lookup</span></div>
+              <div class="lookup-code" id="lookupTrigram">_ _ _</div>
+              <p>Stores next-character counts for a specific sequence of three characters. Used when that context has been seen at least three times.</p>
+              <div class="lookup-facts"><span>65,536 hash slots</span><span>Up to 49,152 stored contexts</span><span>128 possible next characters</span></div>
+            </div>
+            <div class="lookup-row">
+              <div class="lookup-top"><div class="lookup-name">▤ Two-character context</div><span class="lookup-badge">Fallback lookup</span></div>
+              <div class="lookup-code" id="lookupBigram">_ _</div>
+              <p>If the three-character context is not well-established, Sherlock falls back to the previous two characters.</p>
+              <div class="lookup-facts"><span>16,384 possible contexts</span><span>128 counters per context</span><span>32-bit counters</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="card visual-telemetry">
+        <div class="visual-card-head"><div><h3>04 · Engine telemetry</h3><p>Live counters read directly from the WebAssembly engine.</p></div><span class="visual-mini-tag">LOCAL ENGINE</span></div>
+        <div class="visual-telemetry-grid">
+          <div class="telemetry-cell"><span>Training batches</span><strong id="telemetrySteps">0</strong><small>engine calls completed</small></div>
+          <div class="telemetry-cell"><span>Characters processed</span><strong id="telemetryChars">0</strong><small>total model updates</small></div>
+          <div class="telemetry-cell"><span>Current pass position</span><strong id="telemetryPosition">Waiting</strong><small>where the cursor is</small></div>
+          <div class="telemetry-cell"><span>Training corpus size</span><strong id="telemetrySize">Not loaded</strong><small>characters available</small></div>
+        </div>
+      </section>
+
+      <section class="card visual-accuracy">
+        <div class="visual-accuracy-top">
+          <div><h3>05 · Validation accuracy history</h3><p>Each point is a real held-out next-character evaluation.</p></div>
+          <div class="visual-score-pair">
+            <div><span>Latest check</span><strong id="visualLatestAccuracy">Not measured</strong></div>
+            <div><span>Best this run</span><strong id="visualBestAccuracy">Not measured</strong></div>
+            <div><span>Evaluations</span><strong id="visualEvalCount">0</strong></div>
+          </div>
+        </div>
+        <div class="visual-chart-wrap">
+          <svg class="visual-chart" viewBox="0 0 520 160" role="img" aria-label="Validation accuracy history chart">
+            <line class="chart-grid" x1="8" y1="20" x2="512" y2="20"></line><line class="chart-grid" x1="8" y1="60" x2="512" y2="60"></line><line class="chart-grid" x1="8" y1="100" x2="512" y2="100"></line><line class="chart-grid" x1="8" y1="140" x2="512" y2="140"></line>
+            <polygon class="chart-area" id="accuracyArea" points=""></polygon><polyline class="chart-line" id="accuracyLine" points=""></polyline><circle class="chart-dot" id="accuracyDot" cx="8" cy="140" r="5" visibility="hidden"></circle>
+          </svg>
+          <div class="visual-chart-legend"><span id="accuracyChartRange">Waiting for first evaluation</span><span>Older ← evaluations → Newer</span></div>
+        </div>
+      </section>
+
+      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>How to read this screen:</strong> Sherlock GPT currently learns by counting character patterns, not by training a neural network. Its accuracy measures how often it predicts the next character in a held-out text sample. A higher score does not automatically mean better conversation or understanding.</div></div>
     </div>
   </section>
 
@@ -220,8 +433,14 @@ let trainingTimer = null;
 let requestBusy = false;
 let datasetCache = null;
 let bestAccuracy = null;
+let latestAccuracy = null;
+let accuracyHistory = [];
 let lastCompletedPasses = 0;
 let lastAccuracyCheckAt = 0;
+let lastVisualRenderAt = 0;
+let speedSampleAt = 0;
+let speedSampleChars = 0;
+let smoothedCharsPerSecond = 0;
 
 const $ = id => document.getElementById(id);
 
@@ -235,15 +454,22 @@ function addMessage(text, kind) {
 
 function setTab(name) {
   const chat = name === 'chat';
+  const visual = name === 'visual';
+  const trainingView = !chat && !visual;
   $('chatTab').setAttribute('aria-selected', String(chat));
-  $('trainingTab').setAttribute('aria-selected', String(!chat));
+  $('trainingTab').setAttribute('aria-selected', String(trainingView));
+  $('visualTab').setAttribute('aria-selected', String(visual));
   $('chatPanel').classList.toggle('active', chat);
-  $('trainingPanel').classList.toggle('active', !chat);
+  $('trainingPanel').classList.toggle('active', trainingView);
+  $('visualPanel').classList.toggle('active', visual);
   $('chatPanel').hidden = !chat;
-  $('trainingPanel').hidden = chat;
+  $('trainingPanel').hidden = !trainingView;
+  $('visualPanel').hidden = !visual;
+  if (visual) renderLiveView(true);
 }
 $('chatTab').addEventListener('click', () => setTab('chat'));
 $('trainingTab').addEventListener('click', () => setTab('training'));
+$('visualTab').addEventListener('click', () => setTab('visual'));
 
 function updateAccuracy(value) {
   const measured = value !== null && Number.isFinite(Number(value));
@@ -262,11 +488,138 @@ function updateTrainingProgress() {
 
 function resetAccuracyTracking() {
   bestAccuracy = null;
+  latestAccuracy = null;
+  accuracyHistory = [];
   lastCompletedPasses = 0;
   lastAccuracyCheckAt = 0;
   updateAccuracy(null);
   $('bestAccuracy').textContent = 'Not measured';
   updateTrainingProgress();
+  renderAccuracyHistory();
+  renderLiveView(true);
+}
+
+function renderAccuracyHistory() {
+  const line = $('accuracyLine');
+  const area = $('accuracyArea');
+  const dot = $('accuracyDot');
+  if (!line || !area || !dot) return;
+  $('visualLatestAccuracy').textContent = latestAccuracy === null ? 'Not measured' : latestAccuracy.toFixed(3) + '%';
+  $('visualBestAccuracy').textContent = bestAccuracy === null ? 'Not measured' : bestAccuracy.toFixed(3) + '%';
+  $('visualEvalCount').textContent = accuracyHistory.length.toLocaleString();
+  if (!accuracyHistory.length) {
+    line.setAttribute('points', '');
+    area.setAttribute('points', '');
+    dot.setAttribute('visibility', 'hidden');
+    $('accuracyChartRange').textContent = 'Waiting for first evaluation';
+    return;
+  }
+  const width = 504, left = 8, top = 12, bottom = 140;
+  const values = accuracyHistory;
+  let min = Math.min(...values), max = Math.max(...values);
+  const spread = Math.max(0.5, max - min);
+  min = Math.max(0, min - spread * 0.35);
+  max = Math.min(100, max + spread * 0.35);
+  if (max - min < 0.01) max = Math.min(100, min + 1);
+  const points = values.map((value, index) => {
+    const x = left + (values.length === 1 ? width : width * index / (values.length - 1));
+    const y = bottom - ((value - min) / (max - min)) * (bottom - top);
+    return [x, y];
+  });
+  const pointString = points.map(point => point[0].toFixed(1) + ',' + point[1].toFixed(1)).join(' ');
+  line.setAttribute('points', pointString);
+  area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + (left + width) + ',' + bottom);
+  const last = points[points.length - 1];
+  dot.setAttribute('cx', last[0].toFixed(1));
+  dot.setAttribute('cy', last[1].toFixed(1));
+  dot.setAttribute('visibility', 'visible');
+  $('accuracyChartRange').textContent = 'Recent range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' checks';
+}
+
+function readableCharacter(value) {
+  if (value === undefined || value === null) return '·';
+  if (value === 32) return 'SPACE';
+  if (value === 10) return '↵';
+  if (value === 9) return 'TAB';
+  if (value === 13) return 'CR';
+  const character = String.fromCharCode(value);
+  return /[ -~]/.test(character) ? character : '?';
+}
+
+function renderLiveView(force = false) {
+  if (!engine) return;
+  const now = performance.now();
+  if (!force && now - lastVisualRenderAt < 220) return;
+  lastVisualRenderAt = now;
+  const seen = Number(engine.characters_seen()) || 0;
+  const steps = Number(engine.steps_completed()) || 0;
+  const passes = Number(engine.training_passes_completed()) || 0;
+  const cursor = Number(engine.training_position()) || 0;
+  const trainingSize = datasetCache ? datasetCache.trainBytes.length : Number(engine.training_size()) || 0;
+
+  if (speedSampleAt > 0) {
+    const seconds = (now - speedSampleAt) / 1000;
+    if (seconds > 0.05) {
+      const instantSpeed = Math.max(0, (seen - speedSampleChars) / seconds);
+      smoothedCharsPerSecond = smoothedCharsPerSecond ? smoothedCharsPerSecond * 0.55 + instantSpeed * 0.45 : instantSpeed;
+    }
+  }
+  speedSampleAt = now;
+  speedSampleChars = seen;
+
+  $('visualSpeed').textContent = training ? Math.round(smoothedCharsPerSecond).toLocaleString() : '0';
+  $('visualChars').textContent = seen.toLocaleString();
+  $('visualPasses').textContent = passes.toLocaleString();
+  $('visualSteps').textContent = steps.toLocaleString();
+  $('telemetrySteps').textContent = steps.toLocaleString();
+  $('telemetryChars').textContent = seen.toLocaleString();
+  $('telemetryPosition').textContent = trainingSize ? cursor.toLocaleString() + ' / ' + trainingSize.toLocaleString() : 'Waiting';
+  $('telemetrySize').textContent = trainingSize ? trainingSize.toLocaleString() : 'Not loaded';
+
+  const badge = $('visualLiveBadge');
+  badge.classList.toggle('is-running', training);
+  badge.classList.toggle('is-ready', !training);
+  $('visualLiveText').textContent = training ? 'TRAINING RUN ACTIVE' : seen > 0 ? 'MODEL PAUSED · READY' : datasetCache ? 'DATA LOADED · READY' : 'ENGINE READY · WAITING';
+
+  const dataReady = Boolean(datasetCache);
+  $('visualPipelineStatus').textContent = training ? 'PIPELINE ACTIVE' : dataReady ? 'DATASET READY' : 'AWAITING DATA';
+  const stageStates = [
+    ['flowDataset', 'flowDatasetState', dataReady ? 'is-done' : '', dataReady ? 'LOADED' : 'WAITING'],
+    ['flowStream', 'flowStreamState', training ? 'is-active' : dataReady ? 'is-ready' : '', training ? 'READING BATCH' : dataReady ? 'READY' : 'WAITING'],
+    ['flowContext', 'flowContextState', training ? 'is-active' : seen > 0 ? 'is-ready' : '', training ? 'SCANNING CONTEXT' : seen > 0 ? 'READY' : 'WAITING'],
+    ['flowCounters', 'flowCountersState', training ? 'is-active' : seen > 0 ? 'is-ready' : '', training ? 'UPDATING COUNTS' : seen > 0 ? 'UPDATED' : 'WAITING'],
+    ['flowValidation', 'flowValidationState', latestAccuracy !== null ? 'is-done' : '', latestAccuracy !== null ? 'EVALUATED' : 'WAITING']
+  ];
+  for (const [nodeId, stateId, stateClass, label] of stageStates) {
+    const node = $(nodeId);
+    node.classList.remove('is-active', 'is-done', 'is-ready');
+    if (stateClass) node.classList.add(stateClass);
+    $(stateId).textContent = label;
+  }
+
+  const corpusBytes = datasetCache && datasetCache.trainBytes;
+  if (corpusBytes && corpusBytes.length > 3) {
+    const safeCursor = Math.max(3, Math.min(cursor, corpusBytes.length - 1));
+    const a = corpusBytes[safeCursor - 3], b = corpusBytes[safeCursor - 2], c = corpusBytes[safeCursor - 1];
+    const target = corpusBytes[safeCursor];
+    $('contextCharA').textContent = readableCharacter(a);
+    $('contextCharB').textContent = readableCharacter(b);
+    $('contextCharC').textContent = readableCharacter(c);
+    $('targetChar').textContent = readableCharacter(target);
+    $('lookupTrigram').textContent = [a, b, c].map(readableCharacter).join(' · ');
+    $('lookupBigram').textContent = [b, c].map(readableCharacter).join(' · ');
+    const percent = Math.max(0, Math.min(100, cursor / corpusBytes.length * 100));
+    $('visualCorpusPercent').textContent = percent.toFixed(3) + '%';
+    $('visualCorpusFill').style.width = percent.toFixed(3) + '%';
+    $('visualPosition').textContent = cursor.toLocaleString() + ' / ' + corpusBytes.length.toLocaleString();
+    $('visualCorpusNote').textContent = 'The pointer marks the next training position. The three context characters are read immediately before it.';
+  } else {
+    $('contextCharA').textContent = '·'; $('contextCharB').textContent = '·'; $('contextCharC').textContent = '·';
+    $('targetChar').textContent = '?'; $('lookupTrigram').textContent = '_ _ _'; $('lookupBigram').textContent = '_ _';
+    $('visualCorpusPercent').textContent = '0.000%'; $('visualCorpusFill').style.width = '0%';
+    $('visualPosition').textContent = 'Dataset not loaded';
+    $('visualCorpusNote').textContent = 'Load the dataset to see the live character window and corpus position.';
+  }
 }
 
 function updateTrainingMetrics() {
@@ -280,13 +633,20 @@ function updateTrainingMetrics() {
   if (passFinished || now - lastAccuracyCheckAt >= ACCURACY_REFRESH_MS) {
     lastAccuracyCheckAt = now;
     const score = Number(engine.accuracy_thousandths_percent()) / 1000;
-    if (bestAccuracy === null || score > bestAccuracy) {
-      bestAccuracy = score;
-      updateAccuracy(bestAccuracy);
-      $('bestAccuracy').textContent = bestAccuracy.toFixed(3) + '%';
+    if (Number.isFinite(score)) {
+      latestAccuracy = score;
+      accuracyHistory.push(score);
+      if (accuracyHistory.length > 48) accuracyHistory.shift();
+      if (bestAccuracy === null || score > bestAccuracy) {
+        bestAccuracy = score;
+        updateAccuracy(bestAccuracy);
+        $('bestAccuracy').textContent = bestAccuracy.toFixed(3) + '%';
+      }
+      renderAccuracyHistory();
     }
   }
   updateTrainingProgress();
+  renderLiveView();
 }
 
 function updateStatus(text, mode = '') {
@@ -301,6 +661,9 @@ function showDataProgress(done, total, label) {
   $('dataLoadPercent').textContent = percent + '%';
   $('dataFill').style.width = percent + '%';
   $('trainMessage').textContent = label + ' · ' + done.toLocaleString() + ' of ' + total.toLocaleString() + ' pages';
+  $('visualPipelineStatus').textContent = 'LOADING DATASET';
+  $('flowDatasetState').textContent = 'DOWNLOADING';
+  renderLiveView(true);
 }
 
 function hideDataProgress() {
@@ -344,6 +707,7 @@ function renderEngineStatus() {
       : 'DailyDialog is ready. Press Start training when you want to begin.';
   }
   setChatReady(seen > 0);
+  renderLiveView(true);
 }
 
 function showError(error) {
@@ -574,6 +938,9 @@ async function startTraining() {
     const data = datasetCache || await loadDailyDialog();
     installDataset(data);
     resetAccuracyTracking();
+    speedSampleAt = 0;
+    speedSampleChars = Number(engine.characters_seen()) || 0;
+    smoothedCharsPerSecond = 0;
     training = true;
     modelReady = false;
     setChatReady(false);
@@ -626,6 +993,7 @@ function stopTraining() {
     } else {
       addMessage('Training stopped. Sherlock is ready for a prompt.', 'bot');
     }
+    renderLiveView(true);
   } catch (error) {
     showError(error);
   } finally {
