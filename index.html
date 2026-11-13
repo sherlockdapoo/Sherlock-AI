@@ -47,7 +47,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-o
 .panel.active{display:block}
 @keyframes fadeIn{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
 .card{border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,rgba(18,29,48,.97),rgba(13,22,37,.98));box-shadow:var(--shadow)}
-.training-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.8fr);gap:14px}
+.training-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:760px;margin:0 auto}
 .training-main,.details-card{padding:21px}
 .card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 h3{margin:0;font-size:17px;letter-spacing:-.3px}
@@ -98,7 +98,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .footer{padding:22px 0 0;color:#647895;text-align:center;font-size:10px}
 @media(max-width:720px){
   .app{padding:16px 13px 30px}.topbar{margin-bottom:18px}.intro{padding:22px 19px;border-radius:19px}.intro:after{right:3px;top:-20px;font-size:140px}.stats{gap:7px}.stat{padding:9px}.stat-value{font-size:17px}.stat-label{font-size:10px}
-  .training-grid{grid-template-columns:1fr}.training-main,.details-card{padding:17px}.details-card{display:grid;grid-template-columns:38px 1fr;column-gap:11px}.details-card .detail-icon{grid-row:1 / span 2;margin:0}.details-card h3{align-self:end}.details-card .detail-intro{grid-column:2;margin:0}.details-card .metrics,.details-card .note{grid-column:1 / -1}
+  .training-grid{grid-template-columns:1fr}.training-main{padding:17px}
   .tabs-wrap{align-items:flex-start;flex-direction:column}.tabs{width:100%}.tab{flex:1;min-width:0}.tab-note{display:none}
 }
 @media(max-width:420px){
@@ -165,18 +165,6 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           <div class="metric"><span>Prediction task</span><strong>Next character</strong></div>
         </div>
       </section>
-
-      <aside class="card details-card">
-        <div class="detail-icon" aria-hidden="true">✳</div>
-        <h3>How Sherlock learns</h3>
-        <p class="detail-intro">A first look inside a very small AI model.</p>
-        <div class="metrics">
-          <div class="metric"><span>Step 1</span><strong>Read example text</strong></div>
-          <div class="metric"><span>Step 2</span><strong>Count letter patterns</strong></div>
-          <div class="metric"><span>Step 3</span><strong>Predict what comes next</strong></div>
-        </div>
-        <div class="note">Accuracy measures how often the model predicts the next character correctly on held-out sample text. It is not a measure of general intelligence.</div>
-      </aside>
     </div>
   </section>
 
