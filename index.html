@@ -120,7 +120,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <section class="intro">
     <div class="eyebrow">Experiment 01 · First brain</div>
     <h2>A tiny model. One character at a time.</h2>
-    <p>Sherlock learns patterns between letters, then uses those patterns to generate character sequences. Train it, stop it, and see what it has picked up.</p>
+    <p>The Python model builds patterns between letters, checks its prediction score, and generates character sequences. Start it, stop it, and test what it can produce.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
       <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0.0%</strong></div>
@@ -159,7 +159,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         </div>
         <p class="train-message" id="trainMessage" aria-live="polite">Waiting for you to start the first training run.</p>
         <div class="metrics">
-          <div class="metric"><span>Training epochs</span><strong id="epochText">0</strong></div>
+          <div class="metric"><span>Evaluation cycles</span><strong id="epochText">0</strong></div>
           <div class="metric"><span>Learning method</span><strong>Character Markov model</strong></div>
           <div class="metric"><span>Training data</span><strong>Built-in sample text</strong></div>
           <div class="metric"><span>Prediction task</span><strong>Next character</strong></div>
@@ -192,28 +192,13 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 </main>
 
 <script>
-const corpus = `hello there. this is sherlock ai. we are learning how letters follow other letters. a small model can discover patterns in text. when you give it a short prompt it can continue with characters that it has seen during training. computers learn from examples and make predictions. the quick brown fox jumps over the lazy dog. letters make words and words make sentences. today we are testing a tiny character model. sherlock is a small experiment built to explore artificial intelligence. learning takes examples, testing measures predictions, and practice can improve a model. hello friend. how are you today? welcome to the learning lab. this model works one character at a time.`;
-let model = null;
+const API = 'https://sherlock-ai-t9h7.onrender.com';
 let training = false;
-let epoch = 0;
-let trainingTimer = null;
+let modelReady = false;
+let pollTimer = null;
+let requestBusy = false;
 
 const $ = id => document.getElementById(id);
-function splitCorpus(text){const cut=Math.floor(text.length*.8);return [text.slice(0,cut),text.slice(cut)];}
-function buildModel(text,counts={}){for(let i=0;i<text.length-1;i++){const a=text[i],b=text[i+1];(counts[a]??={});counts[a][b]=(counts[a][b]||0)+1;}return counts;}
-function predict(counts,ch){const row=counts[ch];if(!row)return null;return Object.entries(row).sort((a,b)=>b[1]-a[1])[0][0];}
-function testAccuracy(counts,test){let hit=0,total=0;for(let i=0;i<test.length-1;i++){const guess=predict(counts,test[i]);if(guess!==null){total++;if(guess===test[i+1])hit++;}}return total?hit/total:0;}
-function weightedNext(row){const entries=Object.entries(row);let total=entries.reduce((sum,item)=>sum+item[1],0),r=Math.random()*total;for(const [ch,count] of entries){r-=count;if(r<=0)return ch;}return entries[entries.length-1][0];}
-function generate(seed,max=90){
-  let output=seed.toLowerCase();
-  let current=output[output.length-1]||' ';
-  for(let i=0;i<max;i++){
-    const row=model[current];
-    if(!row){const keys=Object.keys(model);current=keys[Math.floor(Math.random()*keys.length)];output+=current;continue;}
-    current=weightedNext(row);output+=current;
-  }
-  return output;
-}
 function addMessage(text,kind){
   const el=document.createElement('div');
   el.className='message '+kind;
@@ -234,7 +219,7 @@ $('chatTab').addEventListener('click',()=>setTab('chat'));
 $('trainingTab').addEventListener('click',()=>setTab('training'));
 
 function updateAccuracy(value){
-  const pct=Math.max(0,Math.min(100,value*100));
+  const pct=Math.max(0,Math.min(100,Number(value)||0));
   const display=pct.toFixed(1);
   $('accuracy').textContent=display+'%';
   $('accuracyText').textContent=display+'%';
@@ -245,66 +230,103 @@ function updateStatus(text,mode=''){
   $('statusText').textContent=text;
   $('status').className='status'+(mode?' '+mode:'');
 }
-function runEpoch(){
-  if(!training)return;
-  const [train,test]=splitCorpus(corpus);
-  model=buildModel(train,model||{});
-  epoch++;
-  updateAccuracy(testAccuracy(model,test));
-  $('epochText').textContent=epoch.toLocaleString();
-  $('chars').textContent=Object.keys(model).length;
-  $('state').textContent='Training';
-  updateStatus('Training','running');
-  $('trainMessage').textContent='Training is running. Stop whenever you want to test the model.';
-  trainingTimer=setTimeout(runEpoch,180);
+function setChatReady(ready){
+  modelReady=ready;
+  const enabled=ready&&!training;
+  $('message').disabled=!enabled;
+  $('sendBtn').disabled=!enabled;
+  $('message').placeholder=enabled?'Type a short prompt, e.g. hi':'Train Sherlock and stop to unlock chat…';
+  $('chatLock').textContent=training?'Training in progress':ready?'Model ready':'Training required';
+  $('chatSubtitle').textContent=ready?'Ready to generate character sequences':'Character-generation experiment';
+  $('chatHint').textContent=ready?'Sherlock generates one character at a time. Replies are experimental, not meaningful conversation.':'The chat unlocks when training has finished and you stop the run.';
 }
-$('trainBtn').addEventListener('click',()=>{
-  if(training)return;
-  model=null;
-  epoch=0;
-  $('epochText').textContent='0';
-  $('chars').textContent='0';
-  updateAccuracy(0);
-  training=true;
+async function getStatus(){
+  const response=await fetch(API+'/status',{cache:'no-store'});
+  if(!response.ok) throw new Error('Status request failed ('+response.status+').');
+  const data=await response.json();
+  training=Boolean(data.training);
+  modelReady=Boolean(data.model_ready);
+  updateAccuracy(data.score);
+  $('epochText').textContent=Number(data.epochs||0).toLocaleString();
+  $('chars').textContent=Number(data.model_states||0).toLocaleString();
+  $('state').textContent=training?'Training':modelReady?'Ready':'Empty';
+  if(training){
+    updateStatus('Training','running');
+    $('trainBtn').disabled=true;
+    $('trainBtn').innerHTML='⚡ <span>Training…</span>';
+    $('stopBtn').disabled=false;
+    $('trainMessage').textContent='The model is built. Its held-out prediction score is being checked continuously.';
+  }else{
+    updateStatus(modelReady?'Ready':'Not trained',modelReady?'ready':'');
+    $('trainBtn').disabled=false;
+    $('trainBtn').innerHTML=modelReady?'↻ <span>Train again</span>':'⚡ <span>Start training</span>';
+    $('stopBtn').disabled=true;
+    $('trainMessage').textContent=modelReady?'Training stopped. Sherlock is ready to chat.':'Waiting for you to start the first training run.';
+  }
+  setChatReady(modelReady);
+  return data;
+}
+function showApiError(error){
+  updateStatus('Connection issue');
+  $('trainMessage').textContent='Could not reach the Python server. It may be waking up. Try again in a moment.';
+  console.error(error);
+}
+async function startTraining(){
+  if(requestBusy||training)return;
+  requestBusy=true;
   $('trainBtn').disabled=true;
-  $('trainBtn').innerHTML='⚡ <span>Training…</span>';
-  $('stopBtn').disabled=false;
-  $('message').disabled=true;
-  $('sendBtn').disabled=true;
-  $('chatLock').textContent='Training in progress';
-  $('chatSubtitle').textContent='The model is learning character patterns';
-  $('chatHint').textContent='Stop training to unlock the chat.';
-  $('chatlog').innerHTML='';
-  addMessage('Training started. I’m learning character patterns now.','bot');
-  runEpoch();
-});
-$('stopBtn').addEventListener('click',()=>{
-  if(!training)return;
-  training=false;
-  clearTimeout(trainingTimer);
-  $('trainBtn').disabled=false;
-  $('trainBtn').innerHTML='↻ <span>Train again</span>';
+  $('trainMessage').textContent='Connecting to the Python training engine…';
+  try{
+    const response=await fetch(API+'/train/start',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({reset:true})
+    });
+    if(!response.ok) throw new Error('Training start failed ('+response.status+').');
+    const result=await response.json();
+    if(result.status==='already_training') addMessage('The Python model is already training.','bot');
+    else addMessage('Training started on the Python server.','bot');
+    await getStatus();
+    if(!pollTimer) pollTimer=setInterval(()=>getStatus().catch(showApiError),700);
+  }catch(error){showApiError(error);$('trainBtn').disabled=false;}
+  finally{requestBusy=false;}
+}
+async function stopTraining(){
+  if(requestBusy||!training)return;
+  requestBusy=true;
   $('stopBtn').disabled=true;
-  $('state').textContent='Ready';
-  updateStatus('Ready','ready');
-  $('trainMessage').textContent='Training stopped at epoch '+epoch.toLocaleString()+'. Sherlock is ready to chat.';
-  $('message').disabled=false;
-  $('message').placeholder='Type a short prompt, e.g. hi';
-  $('sendBtn').disabled=false;
-  $('chatLock').textContent='Model ready';
-  $('chatSubtitle').textContent='Ready to generate character sequences';
-  $('chatHint').textContent='Sherlock generates one character at a time. Its replies are experimental, not meaningful conversation.';
-  addMessage('Training stopped. I’m ready for a prompt.','bot');
-});
-$('chatForm').addEventListener('submit',event=>{
+  $('trainMessage').textContent='Sending stop request to the Python server…';
+  try{
+    const response=await fetch(API+'/train/stop',{method:'POST'});
+    if(!response.ok) throw new Error('Training stop failed ('+response.status+').');
+    await getStatus();
+    addMessage('Training stopped. I’m ready for a prompt.','bot');
+  }catch(error){showApiError(error);}
+  finally{requestBusy=false;}
+}
+$('trainBtn').addEventListener('click',startTraining);
+$('stopBtn').addEventListener('click',stopTraining);
+$('chatForm').addEventListener('submit',async event=>{
   event.preventDefault();
-  if(!model||training)return;
+  if(!modelReady||training)return;
   const prompt=$('message').value.trim();
   if(!prompt)return;
   addMessage(prompt,'user');
-  addMessage(generate(prompt),'bot');
   $('message').value='';
+  $('sendBtn').disabled=true;
+  try{
+    const url=API+'/generate?seed='+encodeURIComponent(prompt)+'&length=60';
+    const response=await fetch(url);
+    if(!response.ok) throw new Error('Generation failed ('+response.status+').');
+    const result=await response.json();
+    if(result.error) addMessage(result.error,'bot');
+    else addMessage(result.text,'bot');
+  }catch(error){
+    addMessage('I could not reach the Python model. The server may be waking up. Please try again.','bot');
+    console.error(error);
+  }finally{$('sendBtn').disabled=!modelReady||training;}
 });
+getStatus().catch(showApiError);
 </script>
 </body>
 </html>
