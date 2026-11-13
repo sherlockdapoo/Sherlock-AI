@@ -210,7 +210,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 </main>
 
 <script>
-const ENGINE_URL = new URL('engine.wasm.b64?v=0.9.0', window.location.href);
+const ENGINE_URL = new URL('engine.wasm.gz.b64?v=0.9.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_API = 'https://datasets-server.huggingface.co';
 const PAGE_SIZE = 100;
@@ -673,8 +673,17 @@ async function loadEngine() {
     if (!response.ok) throw new Error('Could not download the C++ engine (' + response.status + ').');
     const encoded = (await response.text()).trim();
     const binary = atob(encoded);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const compressed = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) compressed[i] = binary.charCodeAt(i);
+
+    // The optimized engine is gzip-compressed to keep the download small.
+    if (!('DecompressionStream' in window)) {
+      throw new Error('This browser needs an update to load the compressed local engine.');
+    }
+    const compressedStream = new Blob([compressed])
+      .stream()
+      .pipeThrough(new DecompressionStream('gzip'));
+    const bytes = new Uint8Array(await new Response(compressedStream).arrayBuffer());
 
     const result = await WebAssembly.instantiate(bytes, {});
     engine = result.instance.exports;
