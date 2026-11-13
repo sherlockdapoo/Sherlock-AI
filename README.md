@@ -10,7 +10,7 @@ https://sherlockdapoo.github.io/Sherlock-AI/
 
 On the Training tab, press **Start training**. The page downloads DailyDialog training and validation examples in small pages, prepares the text, and copies it into the WebAssembly engine. The model training itself runs locally in the browser. Stop training when you want to unlock Chat.
 
-The first data load needs an internet connection. The downloaded dataset is cached only for the current page session; refreshing the page may require downloading it again.
+The first data load needs an internet connection. The prepared model data stays in page memory and is not saved as a permanent trained model. Refreshing the page resets the training progress and may require downloading the examples again.
 
 ## Training data
 
