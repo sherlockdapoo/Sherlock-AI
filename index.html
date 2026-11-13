@@ -69,6 +69,11 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .btn-secondary{min-width:110px;border-color:#3a4e6c;background:#1b2b43;color:#e5efff}
 .btn-secondary:not(:disabled):hover{background:#243955}
 .train-message{min-height:34px;margin:12px 0 0;color:#93a7c4;font-size:11px}
+.data-load{margin-top:14px;padding:12px 13px;border:1px solid #2b405f;border-radius:13px;background:#0b1728}
+.data-load-top{display:flex;justify-content:space-between;gap:12px;color:#a9bdd9;font-size:11px;margin-bottom:9px}
+.data-load-top strong{color:#e7f0ff;font-variant-numeric:tabular-nums}
+.data-track{height:8px;border-radius:99px;overflow:hidden;background:#07111f}
+.data-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5488ed,#77dcb2);transition:width .2s ease}
 .metrics{margin-top:13px}
 .metric{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(45,64,91,.65);font-size:12px}
 .metric:last-child{border-bottom:0}
@@ -120,7 +125,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <section class="intro">
     <div class="eyebrow">Experiment 01 · First brain</div>
     <h2>A tiny model. One character at a time.</h2>
-    <p>A C++ character model runs as WebAssembly directly in Safari. Sherlock learns from sample text, checks its prediction score, and generates character sequences on your iPad. No Python download or Render server is needed.</p>
+    <p>Sherlock learns from real everyday conversations in the DailyDialog dataset. Safari downloads the examples to your iPad, then the C++ WebAssembly engine trains locally. No Render training server is involved.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
       <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0.0%</strong></div>
@@ -157,11 +162,14 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           <button class="btn btn-primary" id="trainBtn" type="button">⚡ <span>Start training</span></button>
           <button class="btn btn-secondary" id="stopBtn" type="button" disabled>■ Stop</button>
         </div>
-        <p class="train-message" id="trainMessage" aria-live="polite">Waiting for you to start the first training run.</p>
+        <div class="data-load" id="dataLoad" hidden><div class="data-load-top"><span id="dataLoadLabel">Preparing DailyDialog…</span><strong id="dataLoadPercent">0%</strong></div><div class="data-track"><div class="data-fill" id="dataFill"></div></div></div>
+        <p class="train-message" id="trainMessage" aria-live="polite">Press Start training to load DailyDialog and begin learning.</p>
         <div class="metrics">
           <div class="metric"><span>Training steps</span><strong id="epochText">0</strong></div>
           <div class="metric"><span>Learning method</span><strong>Character trigram · C++ WASM</strong></div>
-          <div class="metric"><span>Training data</span><strong>Built-in sample corpus</strong></div>
+          <div class="metric"><span>Training data</span><strong id="datasetName">DailyDialog · not loaded</strong></div>
+          <div class="metric"><span>Conversations loaded</span><strong id="conversationCount">0</strong></div>
+          <div class="metric"><span>Validation data</span><strong>Separate held-out split</strong></div>
           <div class="metric"><span>Prediction task</span><strong>Next character</strong></div>
         </div>
       </section>
@@ -192,12 +200,19 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 </main>
 
 <script>
-const ENGINE_URL = new URL('engine.wasm.b64?v=0.6.0', window.location.href);
+const ENGINE_URL = new URL('engine.wasm.b64?v=0.7.0', window.location.href);
+const HF_DATASET = 'agentlans/li2017dailydialog';
+const HF_API = 'https://datasets-server.huggingface.co';
+const PAGE_SIZE = 100;
+const TRAIN_STEP_SIZE = 65536;
+
 let engine = null;
 let training = false;
 let modelReady = false;
 let trainingTimer = null;
 let requestBusy = false;
+let datasetCache = null;
+
 const $ = id => document.getElementById(id);
 
 function addMessage(text, kind) {
@@ -234,6 +249,20 @@ function updateStatus(text, mode = '') {
   $('status').className = 'status' + (mode ? ' ' + mode : '');
 }
 
+function showDataProgress(done, total, label) {
+  const percent = total ? Math.min(100, Math.round(done * 100 / total)) : 0;
+  $('dataLoad').hidden = false;
+  $('dataLoadLabel').textContent = label;
+  $('dataLoadPercent').textContent = percent + '%';
+  $('dataFill').style.width = percent + '%';
+  $('trainMessage').textContent = label + ' · ' + done.toLocaleString() + ' of ' + total.toLocaleString() + ' pages';
+}
+
+function hideDataProgress() {
+  $('dataLoad').hidden = true;
+  $('dataFill').style.width = '0%';
+}
+
 function setChatReady(ready) {
   modelReady = ready;
   const enabled = ready && !training;
@@ -261,7 +290,7 @@ function renderEngineStatus() {
     $('trainBtn').disabled = true;
     $('trainBtn').innerHTML = '⚡ <span>Training…</span>';
     $('stopBtn').disabled = false;
-    $('trainMessage').textContent = 'C++ is updating Sherlock’s character patterns on this iPad. The score checks next-character predictions on separate test text.';
+    $('trainMessage').textContent = 'C++ is learning from DailyDialog examples on this iPad. The score checks separate validation conversations.';
   } else {
     updateStatus(seen > 0 ? 'Ready' : 'Engine ready', 'ready');
     $('trainBtn').disabled = false;
@@ -269,74 +298,241 @@ function renderEngineStatus() {
     $('stopBtn').disabled = true;
     $('trainMessage').textContent = seen > 0
       ? 'Training stopped. Sherlock is ready to generate character sequences.'
-      : 'C++ WebAssembly is ready. Press Start training when you want to begin.';
+      : 'DailyDialog is ready. Press Start training when you want to begin.';
   }
   setChatReady(seen > 0);
 }
 
 function showError(error) {
-  updateStatus('Engine error');
-  $('trainBtn').disabled = true;
-  $('trainMessage').textContent = 'The C++ engine could not start. Refresh the page and try again.';
+  if (trainingTimer) clearInterval(trainingTimer);
+  trainingTimer = null;
+  training = false;
+  updateStatus('Load error');
+  $('trainBtn').disabled = !engine;
+  $('trainBtn').innerHTML = '↻ <span>Try again</span>';
+  $('stopBtn').disabled = true;
+  hideDataProgress();
+  $('trainMessage').textContent = 'Could not load the training data: ' + (error && error.message ? error.message : String(error)) + '. Check the connection and try again.';
+  setChatReady(false);
   console.error(error);
 }
 
-async function loadEngine() {
-  try {
-    updateStatus('Loading C++', 'running');
-    $('trainBtn').disabled = true;
-    $('trainMessage').textContent = 'Loading the small C++ WebAssembly engine into Safari…';
-
-    if (!('WebAssembly' in window)) throw new Error('WebAssembly is not supported in this browser.');
-    const response = await fetch(ENGINE_URL, { cache: 'no-store' });
-    if (!response.ok) throw new Error('Could not download engine.wasm.b64 (' + response.status + ').');
-    const encoded = (await response.text()).trim();
-    const binary = atob(encoded);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-
-    const result = await WebAssembly.instantiate(bytes, {});
-    engine = result.instance.exports;
-    if (engine.__wasm_call_ctors) engine.__wasm_call_ctors();
-    engine.reset_model();
-
-    updateStatus('Engine ready', 'ready');
-    $('trainBtn').disabled = false;
-    $('trainMessage').textContent = 'C++ WebAssembly is running locally in Safari. No Python download or Render server is needed.';
-    $('state').textContent = 'Empty';
-    $('epochText').textContent = '0';
-    $('chars').textContent = '0';
-    updateAccuracy(0);
-  } catch (error) {
-    showError(error);
+async function getJSON(url) {
+  let lastError = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const response = await fetch(url, { cache: 'force-cache', headers: { 'Accept': 'application/json' } });
+      if (!response.ok) throw new Error('Dataset server returned ' + response.status);
+      return await response.json();
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
+    }
   }
+  throw lastError || new Error('Dataset request failed.');
 }
 
-function startTraining() {
+function cleanTurn(value) {
+  return String(value || '')
+    .replace(/\u2018|\u2019|\u201B/g, "'")
+    .replace(/\u201C|\u201D/g, '"')
+    .replace(/\u2013|\u2014/g, '-')
+    .replace(/\u2026/g, '...')
+    .replace(/\*[^*]{1,100}\*/g, ' ')
+    .replace(/<[^>]{1,80}>/g, ' ')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\x20-\x7E]/g, ' ')
+    .replace(/[ \t]+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function getConversationText(row) {
+  let turns = row.conversations || row.conversation || row.dialog || row.turns || row.text;
+  if (typeof turns === 'string') {
+    try { turns = JSON.parse(turns); } catch (_) { return ''; }
+  }
+  if (!Array.isArray(turns)) return '';
+
+  const lines = [];
+  let fallbackSpeaker = 0;
+  for (const turn of turns) {
+    let role = '';
+    let value = '';
+    if (typeof turn === 'string') {
+      role = fallbackSpeaker % 2 === 0 ? 'human' : 'gpt';
+      value = turn;
+      fallbackSpeaker++;
+    } else if (turn && typeof turn === 'object') {
+      role = String(turn.from || turn.speaker || turn.role || '').toLowerCase();
+      value = turn.value || turn.utterance || turn.content || turn.text || '';
+    }
+
+    const content = cleanTurn(value);
+    if (!content) continue;
+    if (role === 'human' || role === 'user') lines.push('user: ' + content);
+    else if (role === 'gpt' || role === 'assistant' || role === 'bot') lines.push('sherlock: ' + content);
+  }
+  return lines.length >= 2 ? lines.join('\n') + '\n\n' : '';
+}
+
+async function fetchSplit(splitInfo, progressCallback) {
+  const totalRows = Number(splitInfo.num_examples);
+  if (!Number.isFinite(totalRows) || totalRows < 1) throw new Error('The ' + splitInfo.split + ' split has no readable rows.');
+  const pageCount = Math.ceil(totalRows / PAGE_SIZE);
+  const pages = new Array(pageCount);
+  let nextPage = 0;
+  let finished = 0;
+
+  async function worker() {
+    while (true) {
+      const page = nextPage++;
+      if (page >= pageCount) return;
+      const offset = page * PAGE_SIZE;
+      const query = new URLSearchParams({
+        dataset: HF_DATASET,
+        config: splitInfo.config,
+        split: splitInfo.split,
+        offset: String(offset),
+        length: String(Math.min(PAGE_SIZE, totalRows - offset))
+      });
+      const json = await getJSON(HF_API + '/rows?' + query.toString());
+      if (!Array.isArray(json.rows)) throw new Error('The ' + splitInfo.split + ' dataset page had an unexpected format.');
+      pages[page] = json.rows.map(item => item.row || {});
+      finished++;
+      progressCallback(finished, pageCount);
+    }
+  }
+
+  const workerCount = Math.min(6, pageCount);
+  await Promise.all(Array.from({length: workerCount}, () => worker()));
+  return pages.flat();
+}
+
+function buildCorpus(rows) {
+  const chunks = [];
+  let validConversations = 0;
+  for (const row of rows) {
+    const dialogue = getConversationText(row);
+    if (dialogue) {
+      chunks.push(dialogue);
+      validConversations++;
+    }
+  }
+  return { text: chunks.join(''), conversations: validConversations };
+}
+
+function makeValidationSample(text, maxLength) {
+  if (text.length <= maxLength) return text;
+  const segmentCount = 16;
+  const segmentLength = Math.floor(maxLength / segmentCount) - 2;
+  const segments = [];
+  for (let i = 0; i < segmentCount; i++) {
+    const start = Math.floor((text.length - segmentLength) * i / (segmentCount - 1));
+    segments.push(text.slice(start, start + segmentLength));
+  }
+  return segments.join('\n\n').slice(0, maxLength);
+}
+
+async function loadDailyDialog() {
+  updateStatus('Loading data', 'running');
+  $('trainBtn').disabled = true;
+  $('trainBtn').innerHTML = '◌ <span>Loading data…</span>';
+  $('stopBtn').disabled = true;
+  $('datasetName').textContent = 'DailyDialog · loading';
+  showDataProgress(0, 1, 'Finding the DailyDialog splits');
+
+  const splitQuery = new URLSearchParams({dataset: HF_DATASET});
+  const splitData = await getJSON(HF_API + '/splits?' + splitQuery.toString());
+  if (!Array.isArray(splitData.splits)) throw new Error('DailyDialog split information was not available.');
+
+  const trainInfo = splitData.splits.find(item => item.split === 'train');
+  const validationInfo = splitData.splits.find(item => item.split === 'validation');
+  if (!trainInfo || !validationInfo) throw new Error('DailyDialog needs separate train and validation splits.');
+
+  const totalPages = Math.ceil(Number(trainInfo.num_examples) / PAGE_SIZE) +
+                     Math.ceil(Number(validationInfo.num_examples) / PAGE_SIZE);
+  let pagesDone = 0;
+  const trainRows = await fetchSplit(trainInfo, (done, total) => {
+    pagesDone = done;
+    showDataProgress(pagesDone, totalPages, 'Downloading training conversations');
+  });
+  const validationRows = await fetchSplit(validationInfo, (done, total) => {
+    pagesDone = Math.ceil(Number(trainInfo.num_examples) / PAGE_SIZE) + done;
+    showDataProgress(pagesDone, totalPages, 'Downloading validation conversations');
+  });
+
+  const train = buildCorpus(trainRows);
+  const validation = buildCorpus(validationRows);
+  if (train.conversations < 100 || validation.conversations < 20) {
+    throw new Error('The downloaded dataset did not contain enough readable conversations.');
+  }
+
+  const encoder = new TextEncoder();
+  const trainBytes = encoder.encode(train.text);
+  const validationText = makeValidationSample(validation.text, 120000);
+  const validationBytes = encoder.encode(validationText);
+  const trainCapacity = engine.training_capacity();
+  const validationCapacity = engine.validation_capacity();
+
+  let finalTrainBytes = trainBytes;
+  if (finalTrainBytes.length > trainCapacity) {
+    finalTrainBytes = finalTrainBytes.slice(0, trainCapacity);
+    while (finalTrainBytes.length && finalTrainBytes[finalTrainBytes.length - 1] !== 10) finalTrainBytes = finalTrainBytes.slice(0, -1);
+  }
+  if (validationBytes.length > validationCapacity) throw new Error('The validation sample exceeded the local engine memory limit.');
+
+  datasetCache = {
+    trainBytes: finalTrainBytes,
+    validationBytes,
+    trainConversations: train.conversations,
+    validationConversations: validation.conversations,
+    trainRows: trainRows.length
+  };
+
+  $('datasetName').textContent = 'DailyDialog · loaded';
+  $('conversationCount').textContent = train.conversations.toLocaleString();
+  showDataProgress(totalPages, totalPages, 'DailyDialog downloaded');
+  $('trainMessage').textContent = 'Loaded ' + train.conversations.toLocaleString() + ' training conversations and ' + validation.conversations.toLocaleString() + ' separate validation conversations.';
+  return datasetCache;
+}
+
+function installDataset(data) {
+  const memory = new Uint8Array(engine.memory.buffer);
+  const trainPtr = engine.training_ptr();
+  const validationPtr = engine.validation_ptr();
+  memory.fill(0, trainPtr, trainPtr + engine.training_capacity());
+  memory.set(data.trainBytes, trainPtr);
+  memory.fill(0, validationPtr, validationPtr + engine.validation_capacity());
+  memory.set(data.validationBytes, validationPtr);
+  engine.set_training_length(data.trainBytes.length);
+  engine.set_validation_length(data.validationBytes.length);
+  engine.reset_model();
+  hideDataProgress();
+}
+
+async function startTraining() {
   if (requestBusy || training || !engine) return;
   requestBusy = true;
   try {
-    if (trainingTimer) clearInterval(trainingTimer);
-    engine.reset_model();
+    const data = datasetCache || await loadDailyDialog();
+    installDataset(data);
     training = true;
     modelReady = false;
     setChatReady(false);
-    engine.train_step(1024);
+    engine.train_step(TRAIN_STEP_SIZE);
     renderEngineStatus();
     trainingTimer = setInterval(() => {
       try {
-        engine.train_step(2048);
+        engine.train_step(TRAIN_STEP_SIZE);
         renderEngineStatus();
       } catch (error) {
-        clearInterval(trainingTimer);
-        trainingTimer = null;
-        training = false;
         showError(error);
       }
     }, 100);
-    addMessage('Training started on this iPad using C++ WebAssembly.', 'bot');
+    addMessage('Training started on this iPad using DailyDialog conversations.', 'bot');
   } catch (error) {
-    training = false;
     showError(error);
   } finally {
     requestBusy = false;
@@ -388,6 +584,37 @@ $('chatForm').addEventListener('submit', event => {
     $('sendBtn').disabled = !modelReady || training;
   }
 });
+
+async function loadEngine() {
+  try {
+    updateStatus('Loading C++', 'running');
+    $('trainBtn').disabled = true;
+    $('trainMessage').textContent = 'Loading the C++ WebAssembly engine into Safari…';
+    if (!('WebAssembly' in window)) throw new Error('WebAssembly is not supported in this browser.');
+
+    const response = await fetch(ENGINE_URL, {cache: 'no-store'});
+    if (!response.ok) throw new Error('Could not download the C++ engine (' + response.status + ').');
+    const encoded = (await response.text()).trim();
+    const binary = atob(encoded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+
+    const result = await WebAssembly.instantiate(bytes, {});
+    engine = result.instance.exports;
+    if (engine.__wasm_call_ctors) engine.__wasm_call_ctors();
+    engine.reset_model();
+
+    updateStatus('Engine ready', 'ready');
+    $('trainBtn').disabled = false;
+    $('trainMessage').textContent = 'C++ WebAssembly is ready. Press Start training to load DailyDialog onto this iPad.';
+    $('state').textContent = 'Empty';
+    $('epochText').textContent = '0';
+    $('chars').textContent = '0';
+    updateAccuracy(0);
+  } catch (error) {
+    showError(error);
+  }
+}
 
 loadEngine();
 </script>
