@@ -60,6 +60,11 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .accuracy-track{height:11px;margin:14px 0 9px;overflow:hidden;border-radius:99px;background:#07111f;box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}
 .accuracy-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5488ed,#77dcb2);box-shadow:0 0 15px rgba(100,163,239,.22);transition:width .3s ease}
 .accuracy-caption{display:flex;justify-content:space-between;gap:10px;color:#8296b3;font-size:10px}
+.pass-progress{margin-top:14px;padding:12px 13px;border:1px solid #2b405f;border-radius:13px;background:#0b1728}
+.pass-progress-top{display:flex;justify-content:space-between;gap:12px;margin-bottom:9px;color:#a9bdd9;font-size:11px}
+.pass-progress-top strong{color:#e7f0ff;font-variant-numeric:tabular-nums}
+.pass-track{height:8px;overflow:hidden;border-radius:99px;background:#07111f}
+.pass-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5488ed,#77dcb2);transition:width .2s ease}
 .actions{display:flex;gap:9px;margin-top:16px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:43px;padding:10px 15px;border:1px solid transparent;border-radius:12px;font-size:13px;font-weight:750;transition:filter .16s,transform .16s,background .16s}
 .btn:not(:disabled):active{transform:translateY(1px)}
@@ -128,7 +133,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
     <p>Sherlock learns from real everyday conversations in the DailyDialog dataset. Safari downloads the examples to your iPad, then the C++ WebAssembly engine trains locally. No Render training server is involved.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
-      <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0.0%</strong></div>
+      <div class="stat"><span class="stat-label">Current accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
       <div class="stat"><span class="stat-label">Characters processed</span><strong class="stat-value" id="chars">0</strong></div>
     </div>
   </section>
@@ -151,11 +156,15 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 
         <div class="accuracy-box">
           <div class="accuracy-top">
-            <span class="accuracy-title">Model accuracy</span>
-            <strong class="accuracy-number" id="accuracyText">0.0%</strong>
+            <span class="accuracy-title">Current accuracy</span>
+            <strong class="accuracy-number" id="accuracyText">Not measured</strong>
           </div>
           <div class="accuracy-track" role="progressbar" aria-label="Model accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="accuracyTrack"><div class="accuracy-fill" id="accuracyFill"></div></div>
-          <div class="accuracy-caption"><span>Held-out character predictions</span><span>0–100%</span></div>
+          <div class="accuracy-caption"><span>Held-out predictions · checked after each full pass</span><span>0–100%</span></div>
+          <div class="pass-progress">
+            <div class="pass-progress-top"><span>Current training pass</span><strong id="passProgressLabel">0.0%</strong></div>
+            <div class="pass-track" id="passProgressTrack" role="progressbar" aria-label="Current training pass progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="pass-fill" id="passProgressFill"></div></div>
+          </div>
         </div>
 
         <div class="actions">
@@ -165,7 +174,8 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         <div class="data-load" id="dataLoad" hidden><div class="data-load-top"><span id="dataLoadLabel">Preparing DailyDialog…</span><strong id="dataLoadPercent">0%</strong></div><div class="data-track"><div class="data-fill" id="dataFill"></div></div></div>
         <p class="train-message" id="trainMessage" aria-live="polite">Press Start training to load DailyDialog and begin learning.</p>
         <div class="metrics">
-          <div class="metric"><span>Training steps</span><strong id="epochText">0</strong></div>
+          <div class="metric"><span>Completed passes</span><strong id="epochText">0</strong></div>
+          <div class="metric"><span>Best accuracy this run</span><strong id="bestAccuracy">Not measured</strong></div>
           <div class="metric"><span>Learning method</span><strong>Character trigram · C++ WASM</strong></div>
           <div class="metric"><span>Training data</span><strong id="datasetName">DailyDialog · not loaded</strong></div>
           <div class="metric"><span>Conversations loaded</span><strong id="conversationCount">0</strong></div>
@@ -200,7 +210,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 </main>
 
 <script>
-const ENGINE_URL = new URL('engine.wasm.b64?v=0.7.0', window.location.href);
+const ENGINE_URL = new URL('engine.wasm.b64?v=0.8.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_API = 'https://datasets-server.huggingface.co';
 const PAGE_SIZE = 100;
@@ -212,6 +222,8 @@ let modelReady = false;
 let trainingTimer = null;
 let requestBusy = false;
 let datasetCache = null;
+let bestAccuracy = null;
+let lastCompletedPasses = 0;
 
 const $ = id => document.getElementById(id);
 
@@ -236,12 +248,45 @@ $('chatTab').addEventListener('click', () => setTab('chat'));
 $('trainingTab').addEventListener('click', () => setTab('training'));
 
 function updateAccuracy(value) {
-  const pct = Math.max(0, Math.min(100, Number(value) || 0));
-  const display = pct.toFixed(1);
-  $('accuracy').textContent = display + '%';
-  $('accuracyText').textContent = display + '%';
-  $('accuracyFill').style.width = display + '%';
-  $('accuracyTrack').setAttribute('aria-valuenow', display);
+  const measured = value !== null && Number.isFinite(Number(value));
+  const pct = measured ? Math.max(0, Math.min(100, Number(value))) : 0;
+  const display = measured ? pct.toFixed(3) + '%' : 'Not measured';
+  $('accuracy').textContent = display;
+  $('accuracyText').textContent = display;
+  $('accuracyFill').style.width = pct.toFixed(3) + '%';
+  $('accuracyTrack').setAttribute('aria-valuenow', pct.toFixed(3));
+}
+
+function updateTrainingProgress() {
+  if (!engine) return;
+  const size = Number(engine.training_size());
+  const position = Number(engine.training_position());
+  const progress = size > 2 ? Math.max(0, Math.min(100, (position - 2) * 100 / (size - 2))) : 0;
+  const display = progress.toFixed(1);
+  $('passProgressLabel').textContent = display + '%';
+  $('passProgressFill').style.width = display + '%';
+  $('passProgressTrack').setAttribute('aria-valuenow', display);
+  $('epochText').textContent = Number(engine.training_passes_completed()).toLocaleString();
+}
+
+function resetAccuracyTracking() {
+  bestAccuracy = null;
+  lastCompletedPasses = 0;
+  updateAccuracy(null);
+  $('bestAccuracy').textContent = 'Not measured';
+  updateTrainingProgress();
+}
+
+function updateTrainingMetrics() {
+  const completed = Number(engine.training_passes_completed());
+  if (completed > lastCompletedPasses) {
+    lastCompletedPasses = completed;
+    const score = Number(engine.accuracy_thousandths_percent()) / 1000;
+    updateAccuracy(score);
+    bestAccuracy = bestAccuracy === null ? score : Math.max(bestAccuracy, score);
+    $('bestAccuracy').textContent = bestAccuracy.toFixed(3) + '%';
+  }
+  updateTrainingProgress();
 }
 
 function updateStatus(text, mode = '') {
@@ -279,10 +324,8 @@ function setChatReady(ready) {
 function renderEngineStatus() {
   if (!engine) return;
   const seen = engine.characters_seen();
-  const score = engine.accuracy_tenths() / 10;
-  $('epochText').textContent = Number(engine.steps_completed()).toLocaleString();
   $('chars').textContent = Number(seen).toLocaleString();
-  updateAccuracy(score);
+  updateTrainingProgress();
   $('state').textContent = training ? 'Training' : seen > 0 ? 'Ready' : 'Empty';
 
   if (training) {
@@ -530,14 +573,17 @@ async function startTraining() {
   try {
     const data = datasetCache || await loadDailyDialog();
     installDataset(data);
+    resetAccuracyTracking();
     training = true;
     modelReady = false;
     setChatReady(false);
     engine.train_step(TRAIN_STEP_SIZE);
+    updateTrainingMetrics();
     renderEngineStatus();
     trainingTimer = setInterval(() => {
       try {
         engine.train_step(TRAIN_STEP_SIZE);
+        updateTrainingMetrics();
         renderEngineStatus();
       } catch (error) {
         showError(error);
@@ -622,7 +668,7 @@ async function loadEngine() {
     $('state').textContent = 'Empty';
     $('epochText').textContent = '0';
     $('chars').textContent = '0';
-    updateAccuracy(0);
+    resetAccuracyTracking();
   } catch (error) {
     showError(error);
   }
