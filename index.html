@@ -123,7 +123,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
     <p>Sherlock learns patterns between letters, then uses those patterns to generate character sequences. Train it, stop it, and see what it has picked up.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
-      <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0%</strong></div>
+      <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0.0%</strong></div>
       <div class="stat"><span class="stat-label">Learned characters</span><strong class="stat-value" id="chars">0</strong></div>
     </div>
   </section>
@@ -147,7 +147,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         <div class="accuracy-box">
           <div class="accuracy-top">
             <span class="accuracy-title">Model accuracy</span>
-            <strong class="accuracy-number" id="accuracyText">0%</strong>
+            <strong class="accuracy-number" id="accuracyText">0.0%</strong>
           </div>
           <div class="accuracy-track" role="progressbar" aria-label="Model accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="accuracyTrack"><div class="accuracy-fill" id="accuracyFill"></div></div>
           <div class="accuracy-caption"><span>Held-out character predictions</span><span>0–100%</span></div>
@@ -246,11 +246,12 @@ $('chatTab').addEventListener('click',()=>setTab('chat'));
 $('trainingTab').addEventListener('click',()=>setTab('training'));
 
 function updateAccuracy(value){
-  const pct=Math.max(0,Math.min(100,Math.round(value*100)));
-  $('accuracy').textContent=pct+'%';
-  $('accuracyText').textContent=pct+'%';
-  $('accuracyFill').style.width=pct+'%';
-  $('accuracyTrack').setAttribute('aria-valuenow',String(pct));
+  const pct=Math.max(0,Math.min(100,value*100));
+  const display=pct.toFixed(1);
+  $('accuracy').textContent=display+'%';
+  $('accuracyText').textContent=display+'%';
+  $('accuracyFill').style.width=display+'%';
+  $('accuracyTrack').setAttribute('aria-valuenow',display);
 }
 function updateStatus(text,mode=''){
   $('statusText').textContent=text;
