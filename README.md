@@ -1,6 +1,6 @@
-# Sherlock AI
+# Sherlock GPT
 
-Sherlock AI is a small, browser-based character-language experiment. The C++ model is compiled to WebAssembly and runs locally in the browser.
+Sherlock GPT is a small, browser-based character-language experiment. The C++ model is compiled to WebAssembly and runs locally in the browser.
 
 ## Try it
 
