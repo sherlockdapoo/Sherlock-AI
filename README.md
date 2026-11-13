@@ -27,6 +27,13 @@ The first data load needs an internet connection. The prepared model data stays 
 
 The Accuracy bar measures held-out next-character prediction accuracy on a separate validation split. It is not a measure of intelligence, factual knowledge, or conversational quality.
 
+- **Current accuracy** is the latest validation score, checked after each complete pass through the training text.
+- **Best accuracy this run** is the highest completed-pass score reached since the current run started.
+- **Current training pass** shows how far the model has progressed through the training text.
+- Accuracy is displayed to three decimal places. The validation calculation samples up to 10,000 positions to keep checking responsive on iPad.
+
+The current score can still rise or fall between completed passes. This small count-based model changes its most-common next-character predictions as it sees more examples, so more training does not guarantee a higher validation score. The best score is shown separately so a temporary dip does not erase the run's previous high.
+
 The current model is a small character trigram counter. It learns which character tends to follow the previous two characters. It does not understand meaning like a modern language model.
 
 ## Technology
