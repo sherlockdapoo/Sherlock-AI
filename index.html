@@ -58,7 +58,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .accuracy-title{color:#b6c7df;font-size:12px;font-weight:650}
 .accuracy-number{font-size:30px;line-height:1;font-weight:800;letter-spacing:-1px}
 .accuracy-track{height:11px;margin:14px 0 9px;overflow:hidden;border-radius:99px;background:#07111f;box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}
-.accuracy-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5488ed,#77dcb2);box-shadow:0 0 15px rgba(100,163,239,.22);transition:width .3s ease}
+.accuracy-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5488ed,#77dcb2);box-shadow:0 0 15px rgba(100,163,239,.22);transition:width .14s ease-out}
 .accuracy-caption{display:flex;justify-content:space-between;gap:10px;color:#8296b3;font-size:10px}
 .pass-progress{margin-top:14px;padding:12px 13px;border:1px solid #2b405f;border-radius:13px;background:#0b1728}
 .pass-progress-top{display:flex;justify-content:space-between;gap:12px;margin-bottom:9px;color:#a9bdd9;font-size:11px}
@@ -160,7 +160,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
             <strong class="accuracy-number" id="accuracyText">Not measured</strong>
           </div>
           <div class="accuracy-track" role="progressbar" aria-label="Model accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="accuracyTrack"><div class="accuracy-fill" id="accuracyFill"></div></div>
-          <div class="accuracy-caption"><span>Held-out predictions · checked after each full pass</span><span>0–100%</span></div>
+          <div class="accuracy-caption"><span>Held-out predictions · best score refreshes about every second</span><span>0–100%</span></div>
           <div class="pass-progress">
             <div class="pass-progress-top"><span>Current training pass</span><strong id="passProgressLabel">0.0%</strong></div>
             <div class="pass-track" id="passProgressTrack" role="progressbar" aria-label="Current training pass progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="pass-fill" id="passProgressFill"></div></div>
@@ -215,6 +215,7 @@ const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_API = 'https://datasets-server.huggingface.co';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
+const ACCURACY_REFRESH_MS = 1000;
 
 let engine = null;
 let training = false;
@@ -224,6 +225,7 @@ let requestBusy = false;
 let datasetCache = null;
 let bestAccuracy = null;
 let lastCompletedPasses = 0;
+let lastAccuracyCheckAt = 0;
 
 const $ = id => document.getElementById(id);
 
@@ -272,19 +274,28 @@ function updateTrainingProgress() {
 function resetAccuracyTracking() {
   bestAccuracy = null;
   lastCompletedPasses = 0;
+  lastAccuracyCheckAt = 0;
   updateAccuracy(null);
   $('bestAccuracy').textContent = 'Not measured';
   updateTrainingProgress();
 }
 
 function updateTrainingMetrics() {
+  const now = Date.now();
   const completed = Number(engine.training_passes_completed());
-  if (completed > lastCompletedPasses) {
-    lastCompletedPasses = completed;
+  const passFinished = completed > lastCompletedPasses;
+  if (passFinished) lastCompletedPasses = completed;
+
+  // Check the held-out sample about once per second, and also at pass
+  // boundaries. Keep the displayed score as a running high-water mark.
+  if (passFinished || now - lastAccuracyCheckAt >= ACCURACY_REFRESH_MS) {
+    lastAccuracyCheckAt = now;
     const score = Number(engine.accuracy_thousandths_percent()) / 1000;
-    updateAccuracy(score);
-    bestAccuracy = bestAccuracy === null ? score : Math.max(bestAccuracy, score);
-    $('bestAccuracy').textContent = bestAccuracy.toFixed(3) + '%';
+    if (bestAccuracy === null || score > bestAccuracy) {
+      bestAccuracy = score;
+      updateAccuracy(bestAccuracy);
+      $('bestAccuracy').textContent = bestAccuracy.toFixed(3) + '%';
+    }
   }
   updateTrainingProgress();
 }
