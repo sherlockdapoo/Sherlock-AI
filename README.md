@@ -1,16 +1,39 @@
 # Sherlock AI
 
-Sherlock AI is a small character-by-character learning experiment.
+Sherlock AI is a small, browser-based character-language experiment. The C++ model is compiled to WebAssembly and runs locally in the browser.
 
-## Where the code lives
+## Try it
 
-- `index.html` — the browser interface published with GitHub Pages.
-- `backend/main.py` — the Python FastAPI training engine.
-- `backend/requirements.txt` — Python server dependencies.
-- `backend/README.md` — notes for running the Python API.
+Open the GitHub Pages site:
 
-The Python engine is in the repository, but the GitHub Pages website does not run Python by itself. The next deployment step is to host `backend/main.py` as a web service (for example, on Render) and then connect the page to its API.
+https://sherlockdapoo.github.io/Sherlock-AI/
 
-## Accuracy
+On the Training tab, press **Start training**. The page downloads DailyDialog training and validation examples in small pages, prepares the text, and copies it into the WebAssembly engine. The model training itself runs locally in the browser. Stop training when you want to unlock Chat.
 
-The Accuracy bar reports the model's held-out next-character prediction accuracy. It is a small experiment metric, not a measure of how intelligent the model is.
+The first data load needs an internet connection. The downloaded dataset is cached only for the current page session; refreshing the page may require downloading it again.
+
+## Training data
+
+- Dataset: [DailyDialog](https://huggingface.co/datasets/li2017dailydialog/daily_dialog)
+- Browser-readable mirror: [agentlans/li2017dailydialog](https://huggingface.co/datasets/agentlans/li2017dailydialog)
+- Train and validation splits are used separately.
+- The test split is not downloaded or used.
+- Only human and assistant turns are included. Dataset system prompts are ignored.
+- Attribution and licensing details are in [DATASET_NOTICE.md](DATASET_NOTICE.md).
+
+**Licence restriction:** DailyDialog is licensed under CC BY-NC-SA 4.0. It is for non-commercial use. If you redistribute adapted dataset material, the applicable share-alike terms also matter. Do not use the dataset or this trained-data setup for a commercial product without separate permission.
+
+## What the score means
+
+The Accuracy bar measures held-out next-character prediction accuracy on a separate validation split. It is not a measure of intelligence, factual knowledge, or conversational quality.
+
+The current model is a small character trigram counter. It learns which character tends to follow the previous two characters. It does not understand meaning like a modern language model.
+
+## Technology
+
+- Front end: HTML, CSS, and JavaScript.
+- Learning engine: C++ compiled to WebAssembly.
+- Training location: user's browser and device.
+- Dataset delivery: Hugging Face Dataset Viewer API.
+
+The old Python/Render backend files may remain in the repository for historical experiments, but the GitHub Pages training path uses the local WebAssembly engine.
