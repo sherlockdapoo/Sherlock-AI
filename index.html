@@ -161,10 +161,6 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           </div>
           <div class="accuracy-track" role="progressbar" aria-label="Model accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="accuracyTrack"><div class="accuracy-fill" id="accuracyFill"></div></div>
           <div class="accuracy-caption"><span>Held-out predictions · best score refreshes about every second</span><span>0–100%</span></div>
-          <div class="pass-progress">
-            <div class="pass-progress-top"><span>Current training pass</span><strong id="passProgressLabel">0.0%</strong></div>
-            <div class="pass-track" id="passProgressTrack" role="progressbar" aria-label="Current training pass progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="pass-fill" id="passProgressFill"></div></div>
-          </div>
         </div>
 
         <div class="actions">
@@ -261,13 +257,6 @@ function updateAccuracy(value) {
 
 function updateTrainingProgress() {
   if (!engine) return;
-  const size = Number(engine.training_size());
-  const position = Number(engine.training_position());
-  const progress = size > 2 ? Math.max(0, Math.min(100, (position - 2) * 100 / (size - 2))) : 0;
-  const display = progress.toFixed(1);
-  $('passProgressLabel').textContent = display + '%';
-  $('passProgressFill').style.width = display + '%';
-  $('passProgressTrack').setAttribute('aria-valuenow', display);
   $('epochText').textContent = Number(engine.training_passes_completed()).toLocaleString();
 }
 
