@@ -30,6 +30,7 @@ static uint32_t validation_length = 0;
 static uint32_t training_cursor = 2;
 static uint32_t seen_characters = 0;
 static uint32_t training_steps = 0;
+static uint32_t training_passes = 0;
 static int best_context = 0;
 static uint32_t best_context_total = 0;
 static uint32_t random_state = 0x51A7C0DEu;
@@ -64,7 +65,7 @@ __attribute__((visibility("default"))) void set_validation_length(int length) {
 __attribute__((visibility("default"))) void reset_model() {
     for (uint32_t i=0;i<(uint32_t)(CONTEXTS*ALPHABET);++i) counts[i]=0;
     for (int i=0;i<CONTEXTS;++i) context_totals[i]=0;
-    training_cursor=2; seen_characters=0; training_steps=0;
+    training_cursor=2; seen_characters=0; training_steps=0; training_passes=0;
     best_context=0; best_context_total=0; random_state=0x51A7C0DEu;
 }
 
@@ -73,7 +74,6 @@ __attribute__((visibility("default"))) int train_step(int character_budget) {
     if (character_budget<1) character_budget=1;
     if (character_budget>200000) character_budget=200000;
     for (int i=0;i<character_budget;++i) {
-        if (training_cursor>=training_length) training_cursor=2;
         int a=safe_char(training_data[training_cursor-2]);
         int b=safe_char(training_data[training_cursor-1]);
         int next=safe_char(training_data[training_cursor]);
@@ -87,17 +87,21 @@ __attribute__((visibility("default"))) int train_step(int character_budget) {
             best_context_total=context_totals[context]; best_context=context;
         }
         ++training_cursor; ++seen_characters;
+        if (training_cursor>=training_length) {
+            training_cursor=2;
+            ++training_passes;
+        }
     }
     ++training_steps;
     return (int)seen_characters;
 }
 
-// Held-out next-character accuracy in tenths of one percent.
-// Samples up to roughly 3,000 positions so checking the score stays responsive on iPad.
-__attribute__((visibility("default"))) int accuracy_tenths() {
+// Held-out next-character accuracy in thousandths of one percent.
+// Samples up to 10,000 positions to keep validation responsive on iPad.
+__attribute__((visibility("default"))) int accuracy_thousandths_percent() {
     if (validation_length < 3) return 0;
-    uint32_t sample_count = validation_length > 60000u ? 3000u : validation_length;
-    uint32_t stride = validation_length > 60000u ? validation_length / sample_count : 1u;
+    uint32_t sample_count = validation_length > 10000u ? 10000u : validation_length;
+    uint32_t stride = validation_length > 10000u ? validation_length / sample_count : 1u;
     if (stride < 1u) stride = 1u;
     int correct=0, total=0;
     for (uint32_t i=2;i<validation_length;i+=stride) {
@@ -114,11 +118,17 @@ __attribute__((visibility("default"))) int accuracy_tenths() {
         if (highest && prediction==actual) ++correct;
         ++total;
     }
-    return total ? (correct*1000+total/2)/total : 0;
+    return total ? (correct*100000+total/2)/total : 0;
+}
+
+// Retained for compatibility with older front ends.
+__attribute__((visibility("default"))) int accuracy_tenths() {
+    return (accuracy_thousandths_percent()+50)/100;
 }
 
 __attribute__((visibility("default"))) int characters_seen() { return (int)seen_characters; }
 __attribute__((visibility("default"))) int steps_completed() { return (int)training_steps; }
+__attribute__((visibility("default"))) int training_passes_completed() { return (int)training_passes; }
 __attribute__((visibility("default"))) int training_position() { return (int)training_cursor; }
 __attribute__((visibility("default"))) int training_size() { return (int)training_length; }
 
