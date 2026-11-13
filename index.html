@@ -3,60 +3,319 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#101522">
+<meta name="theme-color" content="#0b1020">
 <title>Sherlock AI</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#121a2b;--line:#26344d;--text:#edf3ff;--muted:#9aa9c2;--blue:#79a9ff;--green:#79dfb1}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% -10%,#1c3154 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
-button,input{font:inherit}button{cursor:pointer}.app{max-width:980px;margin:auto;padding:22px 16px 40px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,#345c9e,#172b4b);display:grid;place-items:center;font-size:23px}.brand h1{font-size:19px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.status{border:1px solid #66532a;background:#302719;color:#ffd98a;padding:6px 10px;border-radius:99px;font-size:12px}.hero,.card{border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:20px}.hero{background:linear-gradient(120deg,#172844,#111a2b 70%);margin-bottom:16px}.eyebrow{color:var(--blue);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero h2{font-size:clamp(24px,5vw,34px);margin:8px 0}.hero p,.muted{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:#0d1729;border:1px solid #31425e;border-radius:13px;padding:12px}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:1.3fr .8fr;gap:15px}.card h3{margin:0 0 4px}.sub{margin:0 0 14px;color:var(--muted);font-size:12px}.primary,.secondary{border:0;border-radius:12px;padding:12px 16px;font-weight:700;background:var(--blue);color:#081322}.secondary{background:#263750;color:var(--text);border:1px solid #3a4c68}.wide{width:100%}.progress{height:9px;border-radius:99px;background:#0a1220;overflow:hidden;margin:13px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#6399ff,#79dfb1);transition:width .18s}.scorebar{height:10px;border-radius:99px;background:#0a1220;overflow:hidden;margin:8px 0 14px}.scorefill{height:100%;width:0;background:linear-gradient(90deg,#6399ff,#79dfb1);transition:width .25s}.train-actions{display:flex;gap:8px}.train-actions button{flex:1}.metric{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.metric span{color:var(--muted)}.chatlog{height:290px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:3px 0 12px}.bubble{max-width:90%;padding:11px 13px;border-radius:14px;overflow-wrap:anywhere;white-space:pre-wrap}.bot{align-self:flex-start;background:#1b2a42;border:1px solid #2a3d5d}.user{align-self:flex-end;background:#284b7d}.sendrow{display:flex;gap:8px}.field{min-width:0;width:100%;background:#0c1423;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text)}.field:focus{outline:1px solid var(--blue)}.hint{font-size:11px;color:var(--muted)}.footer{text-align:center;color:#71819c;font-size:11px;margin-top:22px}@media(max-width:700px){.layout{grid-template-columns:1fr}.app{padding:15px 12px 30px}.hero{padding:17px}.stats{gap:6px}.stat{padding:9px}.stat b{font-size:17px}}
+:root{
+  color-scheme:dark;
+  --bg:#080d19;--panel:#101a2b;--panel2:#0c1525;--line:#253650;
+  --text:#eff5ff;--muted:#93a4bd;--blue:#83adff;--blue2:#4f83e8;
+  --green:#70dfb0;--amber:#f2c978;--shadow:0 20px 60px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% -12%,rgba(56,99,166,.28),transparent 42%),radial-gradient(ellipse at 100% 20%,rgba(37,65,111,.16),transparent 34%),var(--bg);color:var(--text);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.app{width:min(1040px,100%);margin:0 auto;padding:25px 20px 38px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:46px;height:46px;display:grid;place-items:center;border:1px solid #49689b;border-radius:15px;background:linear-gradient(145deg,#31558b,#172a49);box-shadow:0 8px 25px rgba(40,83,147,.22);color:#eaf2ff;font-size:25px}
+.brand-title{margin:0;font-size:19px;letter-spacing:-.4px;font-weight:750}
+.brand-sub{margin:2px 0 0;color:var(--muted);font-size:12px}
+.status{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #354761;border-radius:999px;background:rgba(14,24,41,.78);color:#c7d5e9;font-size:12px;white-space:nowrap}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#8796aa;box-shadow:0 0 0 3px rgba(135,150,170,.12)}
+.status.running{border-color:#62532e;color:#ffe0a0}.status.running .status-dot{background:var(--amber);box-shadow:0 0 0 3px rgba(242,201,120,.14)}
+.status.ready{border-color:#285c4d;color:#a2f0cb}.status.ready .status-dot{background:var(--green);box-shadow:0 0 0 3px rgba(112,223,176,.14)}
+.intro{position:relative;overflow:hidden;padding:27px 28px;margin-bottom:18px;border:1px solid #2d4466;border-radius:23px;background:linear-gradient(115deg,rgba(29,54,91,.94),rgba(16,27,46,.97) 72%);box-shadow:var(--shadow)}
+.intro:after{content:"⌕";position:absolute;right:30px;top:-42px;font-size:190px;line-height:1;color:rgba(160,194,255,.055);pointer-events:none}
+.eyebrow{position:relative;z-index:1;color:#a9c7ff;font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
+.intro h2{position:relative;z-index:1;margin:8px 0 7px;max-width:650px;font-size:clamp(25px,5vw,35px);line-height:1.15;letter-spacing:-1px}
+.intro p{position:relative;z-index:1;max-width:650px;margin:0;color:#b6c5dc;font-size:14px}
+.stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px;max-width:690px}
+.stat{padding:11px 13px;border:1px solid rgba(112,145,194,.23);border-radius:14px;background:rgba(7,17,32,.43)}
+.stat-label{display:block;color:#9fb1ca;font-size:11px}
+.stat-value{display:block;margin-top:2px;font-size:20px;font-weight:750;letter-spacing:-.4px}
+.tabs-wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}
+.tabs{display:inline-flex;gap:5px;padding:5px;border:1px solid var(--line);border-radius:15px;background:#0c1524}
+.tab{display:flex;align-items:center;justify-content:center;gap:8px;min-width:118px;padding:10px 15px;border:0;border-radius:11px;background:transparent;color:var(--muted);font-weight:700;font-size:13px;transition:background .18s,color .18s,box-shadow .18s}
+.tab:hover{color:var(--text);background:#16243a}
+.tab[aria-selected="true"]{background:linear-gradient(135deg,#315b99,#244477);color:#fff;box-shadow:0 4px 14px rgba(33,76,139,.28)}
+.tab-icon{font-size:15px}
+.tab-note{color:#7689a5;font-size:11px}
+.panel{display:none;animation:fadeIn .2s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.card{border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,rgba(18,29,48,.97),rgba(13,22,37,.98));box-shadow:var(--shadow)}
+.training-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.8fr);gap:14px}
+.training-main,.details-card{padding:21px}
+.card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+h3{margin:0;font-size:17px;letter-spacing:-.3px}
+.sub{margin:4px 0 18px;color:var(--muted);font-size:12px}
+.live-label{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;background:#14263c;color:#a8c7ff;font-size:10px;font-weight:750;letter-spacing:.5px;text-transform:uppercase}
+.accuracy-box{padding:17px;border:1px solid #2b405f;border-radius:16px;background:linear-gradient(135deg,rgba(26,46,75,.7),rgba(10,20,35,.82))}
+.accuracy-top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.accuracy-title{color:#b6c7df;font-size:12px;font-weight:650}
+.accuracy-number{font-size:30px;line-height:1;font-weight:800;letter-spacing:-1px}
+.accuracy-track{height:11px;margin:14px 0 9px;overflow:hidden;border-radius:99px;background:#07111f;box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}
+.accuracy-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#5488ed,#77dcb2);box-shadow:0 0 15px rgba(100,163,239,.22);transition:width .3s ease}
+.accuracy-caption{display:flex;justify-content:space-between;gap:10px;color:#8296b3;font-size:10px}
+.actions{display:flex;gap:9px;margin-top:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:43px;padding:10px 15px;border:1px solid transparent;border-radius:12px;font-size:13px;font-weight:750;transition:filter .16s,transform .16s,background .16s}
+.btn:not(:disabled):active{transform:translateY(1px)}
+.btn:disabled{cursor:not-allowed;opacity:.42}
+.btn-primary{flex:1;background:linear-gradient(135deg,#8bb5ff,#6093ed);color:#081426;box-shadow:0 7px 18px rgba(61,117,205,.2)}
+.btn-primary:not(:disabled):hover{filter:brightness(1.08)}
+.btn-secondary{min-width:110px;border-color:#3a4e6c;background:#1b2b43;color:#e5efff}
+.btn-secondary:not(:disabled):hover{background:#243955}
+.train-message{min-height:34px;margin:12px 0 0;color:#93a7c4;font-size:11px}
+.metrics{margin-top:13px}
+.metric{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(45,64,91,.65);font-size:12px}
+.metric:last-child{border-bottom:0}
+.metric span{color:var(--muted)}
+.metric strong{text-align:right;font-weight:650;color:#dce8fa}
+.details-card h3{margin-bottom:4px}
+.detail-intro{margin:0 0 15px;color:var(--muted);font-size:12px}
+.detail-icon{display:grid;place-items:center;width:38px;height:38px;margin-bottom:12px;border:1px solid #344d70;border-radius:12px;background:#172a46;color:#a9c8ff;font-size:18px}
+.note{margin-top:14px;padding:11px 12px;border:1px solid #34465f;border-radius:12px;background:#0c1728;color:#90a5c3;font-size:11px}
+.chat-card{overflow:hidden}
+.chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 20px;border-bottom:1px solid var(--line)}
+.chat-head-left{display:flex;align-items:center;gap:11px}
+.avatar{display:grid;place-items:center;width:37px;height:37px;border:1px solid #405d87;border-radius:12px;background:linear-gradient(145deg,#31558b,#172a49);font-size:19px}
+.chat-head h3{font-size:15px}
+.chat-head p{margin:1px 0 0;color:var(--muted);font-size:11px}
+.chat-lock{padding:5px 8px;border:1px solid #5e512f;border-radius:8px;background:#292416;color:#f0d28f;font-size:10px}
+.chat-log{display:flex;flex-direction:column;gap:12px;height:min(48vh,430px);min-height:260px;overflow-y:auto;padding:20px;background:radial-gradient(ellipse at 50% 0,rgba(37,63,103,.14),transparent 65%),#0a1322;scroll-behavior:smooth}
+.message{max-width:min(82%,600px);padding:11px 14px;border:1px solid #2b405f;border-radius:15px;background:#15243a;color:#e2ecfb;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}
+.message.bot{align-self:flex-start;border-top-left-radius:5px}
+.message.user{align-self:flex-end;border-color:#3863a0;border-top-right-radius:5px;background:linear-gradient(135deg,#2b5489,#244776);color:#f5f8ff}
+.chat-compose{display:flex;gap:9px;padding:14px;border-top:1px solid var(--line);background:#101b2c}
+.field{width:100%;min-width:0;padding:12px 14px;border:1px solid #30435f;border-radius:12px;background:#091321;color:var(--text);font-size:13px}
+.field::placeholder{color:#71839e}
+.field:disabled{opacity:.55}
+.send-btn{min-width:84px;border:0;background:#80aaff;color:#091426}
+.chat-hint{margin:0;padding:0 16px 13px;background:#101b2c;color:#7f93af;font-size:10px}
+.footer{padding:22px 0 0;color:#647895;text-align:center;font-size:10px}
+@media(max-width:720px){
+  .app{padding:16px 13px 30px}.topbar{margin-bottom:18px}.intro{padding:22px 19px;border-radius:19px}.intro:after{right:3px;top:-20px;font-size:140px}.stats{gap:7px}.stat{padding:9px}.stat-value{font-size:17px}.stat-label{font-size:10px}
+  .training-grid{grid-template-columns:1fr}.training-main,.details-card{padding:17px}.details-card{display:grid;grid-template-columns:38px 1fr;column-gap:11px}.details-card .detail-icon{grid-row:1 / span 2;margin:0}.details-card h3{align-self:end}.details-card .detail-intro{grid-column:2;margin:0}.details-card .metrics,.details-card .note{grid-column:1 / -1}
+  .tabs-wrap{align-items:flex-start;flex-direction:column}.tabs{width:100%}.tab{flex:1;min-width:0}.tab-note{display:none}
+}
+@media(max-width:420px){
+  .brand-sub{font-size:11px}.status{padding:6px 8px;font-size:10px}.logo{width:41px;height:41px}.intro h2{font-size:25px}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat-value{font-size:16px}.actions{flex-wrap:wrap}.btn-primary{min-width:100%}.btn-secondary{flex:1}.message{max-width:90%}.chat-compose{padding:10px}.send-btn{min-width:68px;padding:9px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
-<body><main class="app">
-<header class="top"><div class="brand"><div class="logo">⌕</div><div><h1>Sherlock AI</h1><p>Character-based learning lab · 0.4</p></div></div><div class="status" id="status">● Not trained</div></header>
-<section class="hero"><div class="eyebrow">Experiment 01 · First brain</div><h2>Start with an empty model.</h2><p>Sherlock begins with no learned character patterns. Press Train model to teach it from a small built-in text dataset. Then give it a prompt and watch it generate new character sequences.</p>
-<div class="stats"><div class="stat"><b id="state">Empty</b><span>Model state</span></div><div class="stat"><b id="accuracy">0%</b><span>Accuracy</span></div><div class="stat"><b id="chars">0</b><span>Learned characters</span></div></div></section>
-<div class="layout"><section class="card"><h3>Model training</h3><p class="sub">Watch the model’s next-character prediction accuracy while training runs.</p><div class="train-actions"><button class="primary" id="trainBtn">⚡ Start training</button><button class="secondary" id="stopBtn" disabled>■ Stop</button></div><div class="metric"><span>Accuracy</span><b id="accuracyText">0%</b></div><div class="scorebar" role="progressbar" aria-label="Model accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="scorefill" id="accuracyFill"></div></div><div class="metric"><span>Training epoch</span><b id="epochText">0</b></div><p class="hint" id="trainMessage">Waiting for you to start training.</p><div class="metric"><span>Learning method</span><b>Character Markov model</b></div><div class="metric"><span>Training data</span><b>Built-in sample text</b></div><div class="metric"><span>Training mode</span><b>Next-character prediction</b></div><p class="hint">Accuracy is the percentage of held-out next-character predictions this small model gets right. It is not a measure of general intelligence.</p></section>
-<section class="card"><h3>Talk to Sherlock</h3><p class="sub">Train the model first, then send a short prompt.</p><div id="chatlog" class="chatlog" aria-live="polite"><div class="bubble bot">I'm currently an empty model. Press “Train model” to give me my first character patterns.</div></div><form id="chatForm" class="sendrow"><input id="message" class="field" placeholder="Train me first..." autocomplete="off" disabled required><button class="secondary" id="sendBtn" disabled>Send</button></form></section></div>
-<footer class="footer">Sherlock AI · A small character-generation experiment</footer>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">⌕</div>
+      <div><h1 class="brand-title">Sherlock AI</h1><p class="brand-sub">Character learning laboratory · v0.5</p></div>
+    </div>
+    <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
+  </header>
+
+  <section class="intro">
+    <div class="eyebrow">Experiment 01 · First brain</div>
+    <h2>A tiny model. One character at a time.</h2>
+    <p>Sherlock learns patterns between letters, then uses those patterns to generate character sequences. Train it, stop it, and see what it has picked up.</p>
+    <div class="stats">
+      <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
+      <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">0%</strong></div>
+      <div class="stat"><span class="stat-label">Learned characters</span><strong class="stat-value" id="chars">0</strong></div>
+    </div>
+  </section>
+
+  <div class="tabs-wrap">
+    <nav class="tabs" role="tablist" aria-label="Sherlock AI workspace">
+      <button class="tab" id="chatTab" type="button" role="tab" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">▤</span> Chat</button>
+      <button class="tab" id="trainingTab" type="button" role="tab" aria-selected="true" aria-controls="trainingPanel"><span class="tab-icon">⌁</span> Training</button>
+    </nav>
+    <span class="tab-note">Your workspace · Choose a tab to switch views</span>
+  </div>
+
+  <section class="panel active" id="trainingPanel" role="tabpanel" aria-labelledby="trainingTab">
+    <div class="training-grid">
+      <section class="card training-main">
+        <div class="card-heading">
+          <div><h3>Training control</h3><p class="sub">Start a training run and stop it whenever you’re ready.</p></div>
+          <span class="live-label">● Learning lab</span>
+        </div>
+
+        <div class="accuracy-box">
+          <div class="accuracy-top">
+            <span class="accuracy-title">Model accuracy</span>
+            <strong class="accuracy-number" id="accuracyText">0%</strong>
+          </div>
+          <div class="accuracy-track" role="progressbar" aria-label="Model accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="accuracyTrack"><div class="accuracy-fill" id="accuracyFill"></div></div>
+          <div class="accuracy-caption"><span>Held-out character predictions</span><span>0–100%</span></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="trainBtn" type="button">⚡ <span>Start training</span></button>
+          <button class="btn btn-secondary" id="stopBtn" type="button" disabled>■ Stop</button>
+        </div>
+        <p class="train-message" id="trainMessage" aria-live="polite">Waiting for you to start the first training run.</p>
+        <div class="metrics">
+          <div class="metric"><span>Training epochs</span><strong id="epochText">0</strong></div>
+          <div class="metric"><span>Learning method</span><strong>Character Markov model</strong></div>
+          <div class="metric"><span>Training data</span><strong>Built-in sample text</strong></div>
+          <div class="metric"><span>Prediction task</span><strong>Next character</strong></div>
+        </div>
+      </section>
+
+      <aside class="card details-card">
+        <div class="detail-icon" aria-hidden="true">✳</div>
+        <h3>How Sherlock learns</h3>
+        <p class="detail-intro">A first look inside a very small AI model.</p>
+        <div class="metrics">
+          <div class="metric"><span>Step 1</span><strong>Read example text</strong></div>
+          <div class="metric"><span>Step 2</span><strong>Count letter patterns</strong></div>
+          <div class="metric"><span>Step 3</span><strong>Predict what comes next</strong></div>
+        </div>
+        <div class="note">Accuracy measures how often the model predicts the next character correctly on held-out sample text. It is not a measure of general intelligence.</div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="panel" id="chatPanel" role="tabpanel" aria-labelledby="chatTab" hidden>
+    <section class="card chat-card">
+      <div class="chat-head">
+        <div class="chat-head-left">
+          <div class="avatar" aria-hidden="true">⌕</div>
+          <div><h3>Sherlock</h3><p id="chatSubtitle">Character-generation experiment</p></div>
+        </div>
+        <span class="chat-lock" id="chatLock">Training required</span>
+      </div>
+      <div class="chat-log" id="chatlog" aria-live="polite">
+        <div class="message bot">Hello! I’m Sherlock, a tiny character model. Train me first, then send a short prompt to see what I generate.</div>
+      </div>
+      <form id="chatForm" class="chat-compose">
+        <input id="message" class="field" placeholder="Train Sherlock before chatting…" autocomplete="off" disabled required aria-label="Message to Sherlock">
+        <button class="btn send-btn" id="sendBtn" type="submit" disabled>Send ↗</button>
+      </form>
+      <p class="chat-hint" id="chatHint">The chat unlocks when you stop the training run.</p>
+    </section>
+  </section>
+
+  <footer class="footer">Sherlock AI · A small character-generation experiment</footer>
 </main>
+
 <script>
 const corpus = `hello there. this is sherlock ai. we are learning how letters follow other letters. a small model can discover patterns in text. when you give it a short prompt it can continue with characters that it has seen during training. computers learn from examples and make predictions. the quick brown fox jumps over the lazy dog. letters make words and words make sentences. today we are testing a tiny character model. sherlock is a small experiment built to explore artificial intelligence. learning takes examples, testing measures predictions, and practice can improve a model. hello friend. how are you today? welcome to the learning lab. this model works one character at a time.`;
-let model=null, training=false, epoch=0, trainingTimer=null;
-const $=id=>document.getElementById(id);
-function splitCorpus(s){const cut=Math.floor(s.length*.8);return [s.slice(0,cut),s.slice(cut)]}
-function buildModel(text,counts={}){for(let i=0;i<text.length-1;i++){const a=text[i],b=text[i+1];(counts[a]??={});counts[a][b]=(counts[a][b]||0)+1}return counts}
-function predict(counts,ch){const row=counts[ch];if(!row)return null;return Object.entries(row).sort((a,b)=>b[1]-a[1])[0][0]}
-function testAccuracy(counts,test){let hit=0,total=0;for(let i=0;i<test.length-1;i++){const guess=predict(counts,test[i]);if(guess!==null){total++;if(guess===test[i+1])hit++}}return total?hit/total:0}
-function weightedNext(row){const entries=Object.entries(row);let total=entries.reduce((s,x)=>s+x[1],0),r=Math.random()*total;for(const [ch,n] of entries){r-=n;if(r<=0)return ch}return entries[entries.length-1][0]}
-function generate(seed,max=90){let out=seed.toLowerCase();let current=out[out.length-1]||' ';for(let i=0;i<max;i++){const row=model[current];if(!row){current=Object.keys(model)[Math.floor(Math.random()*Object.keys(model).length)];out+=current;continue}current=weightedNext(row);out+=current}return out}
-function bubble(text,kind){const el=document.createElement('div');el.className='bubble '+kind;el.textContent=text;$('chatlog').append(el);$('chatlog').scrollTop=$('chatlog').scrollHeight}
+let model = null;
+let training = false;
+let epoch = 0;
+let trainingTimer = null;
+
+const $ = id => document.getElementById(id);
+function splitCorpus(text){const cut=Math.floor(text.length*.8);return [text.slice(0,cut),text.slice(cut)];}
+function buildModel(text,counts={}){for(let i=0;i<text.length-1;i++){const a=text[i],b=text[i+1];(counts[a]??={});counts[a][b]=(counts[a][b]||0)+1;}return counts;}
+function predict(counts,ch){const row=counts[ch];if(!row)return null;return Object.entries(row).sort((a,b)=>b[1]-a[1])[0][0];}
+function testAccuracy(counts,test){let hit=0,total=0;for(let i=0;i<test.length-1;i++){const guess=predict(counts,test[i]);if(guess!==null){total++;if(guess===test[i+1])hit++;}}return total?hit/total:0;}
+function weightedNext(row){const entries=Object.entries(row);let total=entries.reduce((sum,item)=>sum+item[1],0),r=Math.random()*total;for(const [ch,count] of entries){r-=count;if(r<=0)return ch;}return entries[entries.length-1][0];}
+function generate(seed,max=90){
+  let output=seed.toLowerCase();
+  let current=output[output.length-1]||' ';
+  for(let i=0;i<max;i++){
+    const row=model[current];
+    if(!row){const keys=Object.keys(model);current=keys[Math.floor(Math.random()*keys.length)];output+=current;continue;}
+    current=weightedNext(row);output+=current;
+  }
+  return output;
+}
+function addMessage(text,kind){
+  const el=document.createElement('div');
+  el.className='message '+kind;
+  el.textContent=text;
+  $('chatlog').append(el);
+  $('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function setTab(name){
+  const chat=name==='chat';
+  $('chatTab').setAttribute('aria-selected',String(chat));
+  $('trainingTab').setAttribute('aria-selected',String(!chat));
+  $('chatPanel').classList.toggle('active',chat);
+  $('trainingPanel').classList.toggle('active',!chat);
+  $('chatPanel').hidden=!chat;
+  $('trainingPanel').hidden=chat;
+}
+$('chatTab').addEventListener('click',()=>setTab('chat'));
+$('trainingTab').addEventListener('click',()=>setTab('training'));
+
+function updateAccuracy(value){
+  const pct=Math.max(0,Math.min(100,Math.round(value*100)));
+  $('accuracy').textContent=pct+'%';
+  $('accuracyText').textContent=pct+'%';
+  $('accuracyFill').style.width=pct+'%';
+  $('accuracyTrack').setAttribute('aria-valuenow',String(pct));
+}
+function updateStatus(text,mode=''){
+  $('statusText').textContent=text;
+  $('status').className='status'+(mode?' '+mode:'');
+}
 function runEpoch(){
- if(!training)return;
- const [train,test]=splitCorpus(corpus);
- model=buildModel(train,model||{});
- epoch++;
- const score=testAccuracy(model,test);
- const pct=Math.round(score*100);
- $('accuracy').textContent=pct+'%';$('accuracyText').textContent=pct+'%';$('accuracyFill').style.width=pct+'%';document.querySelector('.scorebar').setAttribute('aria-valuenow',String(pct));
- $('epochText').textContent=epoch.toLocaleString();$('chars').textContent=Object.keys(model).length;
- $('state').textContent='Training';$('status').textContent='● Training';$('trainMessage').textContent='Training is running. Press Stop whenever you want to pause it.';
- 
- trainingTimer=setTimeout(runEpoch,180);
+  if(!training)return;
+  const [train,test]=splitCorpus(corpus);
+  model=buildModel(train,model||{});
+  epoch++;
+  updateAccuracy(testAccuracy(model,test));
+  $('epochText').textContent=epoch.toLocaleString();
+  $('chars').textContent=Object.keys(model).length;
+  $('state').textContent='Training';
+  updateStatus('Training','running');
+  $('trainMessage').textContent='Training is running. Stop whenever you want to test the model.';
+  trainingTimer=setTimeout(runEpoch,180);
 }
 $('trainBtn').addEventListener('click',()=>{
- if(training)return;
- training=true;$('trainBtn').disabled=true;$('stopBtn').disabled=false;
- $('message').disabled=true;$('sendBtn').disabled=true;
- $('chatlog').innerHTML='';bubble('Training started. I will keep learning until you press Stop.','bot');
- runEpoch();
+  if(training)return;
+  model=null;
+  epoch=0;
+  $('epochText').textContent='0';
+  $('chars').textContent='0';
+  updateAccuracy(0);
+  training=true;
+  $('trainBtn').disabled=true;
+  $('trainBtn').innerHTML='⚡ <span>Training…</span>';
+  $('stopBtn').disabled=false;
+  $('message').disabled=true;
+  $('sendBtn').disabled=true;
+  $('chatLock').textContent='Training in progress';
+  $('chatSubtitle').textContent='The model is learning character patterns';
+  $('chatHint').textContent='Stop training to unlock the chat.';
+  $('chatlog').innerHTML='';
+  addMessage('Training started. I’m learning character patterns now.','bot');
+  runEpoch();
 });
 $('stopBtn').addEventListener('click',()=>{
- if(!training)return;
- training=false;clearTimeout(trainingTimer);$('trainBtn').disabled=false;$('stopBtn').disabled=true;
- $('trainBtn').textContent='↻ Train again';$('state').textContent='Trained';$('status').textContent='● Stopped';
- $('trainMessage').textContent='Training stopped at epoch '+epoch+'. You can train again or chat with Sherlock.';
- $('message').disabled=false;$('message').placeholder='Type something, e.g. hi';$('sendBtn').disabled=false;
- bubble('Training stopped. Your current character model is ready to test.','bot');
+  if(!training)return;
+  training=false;
+  clearTimeout(trainingTimer);
+  $('trainBtn').disabled=false;
+  $('trainBtn').innerHTML='↻ <span>Train again</span>';
+  $('stopBtn').disabled=true;
+  $('state').textContent='Ready';
+  updateStatus('Ready','ready');
+  $('trainMessage').textContent='Training stopped at epoch '+epoch.toLocaleString()+'. Sherlock is ready to chat.';
+  $('message').disabled=false;
+  $('message').placeholder='Type a short prompt, e.g. hi';
+  $('sendBtn').disabled=false;
+  $('chatLock').textContent='Model ready';
+  $('chatSubtitle').textContent='Ready to generate character sequences';
+  $('chatHint').textContent='Sherlock generates one character at a time. Its replies are experimental, not meaningful conversation.';
+  addMessage('Training stopped. I’m ready for a prompt.','bot');
 });
-$('chatForm').addEventListener('submit',e=>{e.preventDefault();if(!model)return;const prompt=$('message').value.trim();if(!prompt)return;bubble(prompt,'user');bubble(generate(prompt),'bot');$('message').value=''});
-</script></body></html>
+$('chatForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  if(!model||training)return;
+  const prompt=$('message').value.trim();
+  if(!prompt)return;
+  addMessage(prompt,'user');
+  addMessage(generate(prompt),'bot');
+  $('message').value='';
+});
+</script>
+</body>
+</html>
