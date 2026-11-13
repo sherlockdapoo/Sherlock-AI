@@ -447,19 +447,31 @@ async function loadDailyDialog() {
   const splitData = await getJSON(HF_API + '/splits?' + splitQuery.toString());
   if (!Array.isArray(splitData.splits)) throw new Error('DailyDialog split information was not available.');
 
-  const trainInfo = splitData.splits.find(item => item.split === 'train');
-  const validationInfo = splitData.splits.find(item => item.split === 'validation');
+  const configs = [...new Set(splitData.splits.map(item => item.config))];
+  const config = configs.includes('default') ? 'default' : configs[0];
+  const trainInfo = splitData.splits.find(item => item.config === config && item.split === 'train');
+  const validationInfo = splitData.splits.find(item => item.config === config && item.split === 'validation');
   if (!trainInfo || !validationInfo) throw new Error('DailyDialog needs separate train and validation splits.');
 
-  const totalPages = Math.ceil(Number(trainInfo.num_examples) / PAGE_SIZE) +
-                     Math.ceil(Number(validationInfo.num_examples) / PAGE_SIZE);
+  const sizeQuery = new URLSearchParams({dataset: HF_DATASET});
+  const sizeData = await getJSON(HF_API + '/size?' + sizeQuery.toString());
+  const sizedSplits = sizeData.size && sizeData.size.splits;
+  if (!Array.isArray(sizedSplits)) throw new Error('DailyDialog row counts are not available yet.');
+  const trainSize = sizedSplits.find(item => item.config === config && item.split === 'train');
+  const validationSize = sizedSplits.find(item => item.config === config && item.split === 'validation');
+  if (!trainSize || !validationSize) throw new Error('DailyDialog train/validation sizes could not be found.');
+
+  const trainSplit = {...trainInfo, num_examples: Number(trainSize.num_rows)};
+  const validationSplit = {...validationInfo, num_examples: Number(validationSize.num_rows)};
+  const totalPages = Math.ceil(trainSplit.num_examples / PAGE_SIZE) +
+                     Math.ceil(validationSplit.num_examples / PAGE_SIZE);
   let pagesDone = 0;
-  const trainRows = await fetchSplit(trainInfo, (done, total) => {
+  const trainRows = await fetchSplit(trainSplit, (done, total) => {
     pagesDone = done;
     showDataProgress(pagesDone, totalPages, 'Downloading training conversations');
   });
-  const validationRows = await fetchSplit(validationInfo, (done, total) => {
-    pagesDone = Math.ceil(Number(trainInfo.num_examples) / PAGE_SIZE) + done;
+  const validationRows = await fetchSplit(validationSplit, (done, total) => {
+    pagesDone = Math.ceil(trainSplit.num_examples / PAGE_SIZE) + done;
     showDataProgress(pagesDone, totalPages, 'Downloading validation conversations');
   });
 
