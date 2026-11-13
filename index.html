@@ -130,7 +130,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <section class="intro">
     <div class="eyebrow">Experiment 01 · First brain</div>
     <h2>A tiny model. One character at a time.</h2>
-    <p>Sherlock learns from real everyday conversations in the DailyDialog dataset. Safari downloads the examples to your iPad, then the C++ WebAssembly engine trains locally. No Render training server is involved.</p>
+    <p>Sherlock learns from real everyday conversations in the DailyDialog dataset. your browser downloads the examples to your iPad, then the C++ WebAssembly engine trains locally. No Render training server is involved.</p>
     <div class="stats">
       <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
       <div class="stat"><span class="stat-label">Current accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
@@ -210,11 +210,11 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 </main>
 
 <script>
-const ENGINE_URL = new URL('engine.wasm.b64?v=0.8.0', window.location.href);
+const ENGINE_URL = new URL('engine.wasm.b64?v=0.9.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_API = 'https://datasets-server.huggingface.co';
 const PAGE_SIZE = 100;
-const TRAIN_STEP_SIZE = 131072;
+const TRAIN_STEP_SIZE = 65536;
 
 let engine = null;
 let training = false;
@@ -588,8 +588,8 @@ async function startTraining() {
       } catch (error) {
         showError(error);
       }
-    }, 100);
-    addMessage('Training started on this iPad using DailyDialog conversations.', 'bot');
+    }, 50);
+    addMessage('Training started locally using DailyDialog conversations.', 'bot');
   } catch (error) {
     showError(error);
   } finally {
@@ -604,9 +604,28 @@ function stopTraining() {
   try {
     if (trainingTimer) clearInterval(trainingTimer);
     trainingTimer = null;
+
+    // Measure the current point too, so stopping between full passes can
+    // still create a checkpoint if it beats the previous best.
+    engine.accuracy_thousandths_percent();
+    const restored = typeof engine.restore_best_model === 'function'
+      ? engine.restore_best_model()
+      : 0;
     training = false;
+
+    if (restored && typeof engine.best_model_accuracy_thousandths_percent === 'function') {
+      bestAccuracy = Number(engine.best_model_accuracy_thousandths_percent()) / 1000;
+      updateAccuracy(bestAccuracy);
+      $('bestAccuracy').textContent = bestAccuracy.toFixed(3) + '%';
+    }
     renderEngineStatus();
-    addMessage('Training stopped. Sherlock is ready for a prompt.', 'bot');
+
+    if (restored) {
+      $('trainMessage').textContent = 'Training stopped. Restored the best validation model from this run.';
+      addMessage('Training stopped. I restored my best validation model (' + bestAccuracy.toFixed(3) + '%).', 'bot');
+    } else {
+      addMessage('Training stopped. Sherlock is ready for a prompt.', 'bot');
+    }
   } catch (error) {
     showError(error);
   } finally {
@@ -647,7 +666,7 @@ async function loadEngine() {
   try {
     updateStatus('Loading C++', 'running');
     $('trainBtn').disabled = true;
-    $('trainMessage').textContent = 'Loading the C++ WebAssembly engine into Safari…';
+    $('trainMessage').textContent = 'Loading the C++ WebAssembly engine into this browser…';
     if (!('WebAssembly' in window)) throw new Error('WebAssembly is not supported in this browser.');
 
     const response = await fetch(ENGINE_URL, {cache: 'no-store'});
