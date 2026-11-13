@@ -273,10 +273,10 @@ def start_training():
     training = True
     return get_status()
 
-def evaluate_cycle():
+def evaluate_cycles(batch=20):
     global epochs, score
     if training and model:
-        epochs += 1
+        epochs += max(1, int(batch))
         score = calculate_accuracy(model, TEST_TEXT)
     return get_status()
 
@@ -359,9 +359,9 @@ async function startTraining(){
     pyodide.runPython('start_training()'); renderStatus(readStatus());
     if(pollTimer)clearInterval(pollTimer);
     pollTimer=setInterval(()=>{
-      try{pyodide.runPython('evaluate_cycle()');renderStatus(readStatus());}
+      try{pyodide.runPython('evaluate_cycles(20)');renderStatus(readStatus());}
       catch(error){clearInterval(pollTimer);pollTimer=null;showError(error);}
-    },700);
+    },250);
     addMessage('Training started locally on this iPad.','bot');
   }catch(error){showError(error);}
   finally{requestBusy=false;}
