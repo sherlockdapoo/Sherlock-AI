@@ -105,6 +105,7 @@ def status():
             "epochs": epochs,
             "score": score,
             "model_ready": bool(model),
+            "model_states": len(model),
         }
 
 @app.get("/generate")
