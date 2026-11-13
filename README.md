@@ -32,14 +32,16 @@ The Accuracy bar measures held-out next-character prediction accuracy on a separ
 - **Current training pass** shows how far the model has progressed through the training text.
 - Accuracy is displayed to three decimal places. The validation calculation samples up to 10,000 positions to keep checking responsive on iPad.
 
-The current score can still rise or fall between completed passes. This small count-based model changes its most-common next-character predictions as it sees more examples, so more training does not guarantee a higher validation score. The best score is shown separately so a temporary dip does not erase the run's previous high.
+The current score can still rise or fall between completed passes. This small count-based model changes its most-common next-character predictions as it sees more examples, so more training does not guarantee a higher validation score. The best score is shown separately, and when training is stopped the engine restores the model checkpoint that achieved the best held-out score in that run.
 
-The current model is a small character trigram counter. It learns which character tends to follow the previous two characters. It does not understand meaning like a modern language model.
+The current model is a small character-level 4-gram counter with backoff. It first uses the previous three characters when it has enough examples, then falls back to the previous two characters. Its counters are 32-bit, so an individual next-character count no longer stops at 65,535. It still learns character patterns rather than meaning, and it is not a modern language model.
 
 ## Technology
 
 - Front end: HTML, CSS, and JavaScript.
 - Learning engine: C++ compiled to WebAssembly.
+- Model: sparse three-character context table with two-character backoff and 32-bit counters.
+- Best checkpoint: saves and restores the best validation-scoring model within the current page session.
 - Training location: user's browser and device.
 - Dataset delivery: Hugging Face Dataset Viewer API.
 
