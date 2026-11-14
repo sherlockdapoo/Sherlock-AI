@@ -1132,19 +1132,7 @@ body,.app{color:#27354d}
             <small id="neuralCheckpointSavedAt" class="neural-checkpoint-time">No saved checkpoint yet</small>
           </section>
         </div>
-        <section class="neural-map-card">
-          <div class="visual-card-head"><div><h3>Inside the network</h3><p>A visual map of the model’s real architecture.</p></div><span class="visual-mini-tag">10,160 WEIGHTS</span></div>
-          <div class="neural-network-map" role="img" aria-label="Four character inputs pass through learned embeddings, a 48-neuron hidden layer and a 128-character softmax output">
-            <div class="neural-map-layer"><span class="neural-map-label">INPUT</span><strong>4 characters</strong><div class="neural-map-nodes"><i></i><i></i><i></i><i></i></div><small>Context window</small></div>
-            <span class="neural-map-arrow">›</span>
-            <div class="neural-map-layer"><span class="neural-map-label">EMBEDDING</span><strong>48 values</strong><div class="neural-map-nodes"><i></i><i></i><i></i><i></i><i></i></div><small>4 × 12 learned values</small></div>
-            <span class="neural-map-arrow">›</span>
-            <div class="neural-map-layer"><span class="neural-map-label">HIDDEN</span><strong>48 neurons</strong><div class="neural-map-nodes"><i></i><i></i><i></i><i></i><i></i><i></i></div><small>ReLU layer</small></div>
-            <span class="neural-map-arrow">›</span>
-            <div class="neural-map-layer"><span class="neural-map-label">OUTPUT</span><strong>128 scores</strong><div class="neural-map-nodes"><i></i><i></i><i></i><i></i><i></i></div><small>Softmax probabilities</small></div>
-          </div>
-          <p class="neural-map-note">The diagram shows the network structure, not individual neuron activation values. Live numerical signals are shown in the metrics and charts above.</p>
-        </section>
+section>
       </section>
 
       <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The highest-accuracy validation checkpoint is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
