@@ -1030,7 +1030,7 @@ body,.app{color:#27354d}
               <strong class="accuracy-number" id="neuralAccuracyText">Not measured</strong>
             </div>
             <div class="accuracy-track" role="progressbar" aria-label="Neural network validation accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="neuralAccuracyTrack"><div class="accuracy-fill" id="neuralAccuracyFill"></div></div>
-            <div class="accuracy-caption"><span>Next-character predictions · 256 held-out positions</span><span>0–100%</span></div>
+            <div class="accuracy-caption"><span>Exact next-character matches · up to 1,024 held-out positions</span><span>0–100%</span></div>
           </div>
           <div class="optimizer-picker optimizer-fixed">
             <strong>Optimizer: AdamW</strong>
@@ -1055,7 +1055,7 @@ body,.app{color:#27354d}
             <div class="metric"><span>Training loss · moving average</span><strong id="neuralLoss">Not measured</strong></div>
             <div class="metric"><span>Validation cross-entropy</span><strong id="neuralValidationLoss">Not measured</strong></div>
             <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
-            <div class="metric"><span>Validation examples per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
+            <div class="metric"><span>Validation character positions per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
             <div class="metric"><span>Optimizer</span><strong id="neuralOptimizerSummary">Adam · learning rate 0.003</strong></div>
             <div class="metric"><span>Batch size</span><strong>24 examples per update</strong></div>
           </div>
@@ -1771,7 +1771,7 @@ updateNeuralOptimizerSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.16', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.17', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
