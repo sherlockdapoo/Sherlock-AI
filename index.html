@@ -318,7 +318,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.1">v0.4.1</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.1">v0.4.2</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -519,7 +519,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
       <div class="visual-two-col">
         <section class="card visual-card">
           <div class="visual-card-head">
-            <div><h3>Learning performance</h3><p>Current accuracy and the accuracy of the lowest-loss checkpoint.</p></div>
+            <div><h3>Learning performance</h3><p>Current accuracy and the highest-accuracy checkpoint. Validation loss breaks ties.</p></div>
             <span class="visual-mini-tag">NEURAL MODEL</span>
           </div>
           <div class="accuracy-box neural-accuracy-box">
@@ -528,7 +528,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
               <strong class="accuracy-number" id="neuralAccuracyText">Not measured</strong>
             </div>
             <div class="accuracy-track" role="progressbar" aria-label="Neural network validation accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="neuralAccuracyTrack"><div class="accuracy-fill" id="neuralAccuracyFill"></div></div>
-            <div class="accuracy-caption"><span>Next-character predictions · 512 held-out positions</span><span>0–100%</span></div>
+            <div class="accuracy-caption"><span>Next-character predictions · 256 held-out positions</span><span>0–100%</span></div>
           </div>
           <div class="neural-control-row">
             <button class="btn btn-primary" id="neuralStartBtn" type="button">✳ <span>Start neural training</span></button>
@@ -613,7 +613,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           <section class="neural-checkpoint-card">
             <div class="neural-checkpoint-top"><div><span class="neural-checkpoint-kicker">Model protection</span><h3>Best checkpoint</h3></div><span class="neural-checkpoint-badge" id="neuralCheckpointBadge">WAITING</span></div>
             <strong class="neural-checkpoint-score" id="neuralCheckpointAccuracy">Not measured</strong>
-            <span class="neural-checkpoint-caption">Accuracy at the lowest validation loss</span>
+            <span class="neural-checkpoint-caption">Highest validation accuracy; validation loss breaks ties</span>
             <div class="neural-checkpoint-meta"><span>Checkpoint validation loss</span><strong id="neuralCheckpointLoss">Not measured</strong></div>
             <div class="neural-checkpoint-divider"></div>
             <div class="neural-checkpoint-meta"><span>Steps saved</span><strong id="neuralCheckpointSteps">0</strong></div>
@@ -637,7 +637,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         </section>
       </section>
 
-      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The lowest-validation-loss checkpoint is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
+      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The highest-accuracy validation checkpoint is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
     </div>
   </section>
 
@@ -1097,7 +1097,7 @@ function ensureNeuralWorker() {
       neuralModelReady = Number(data.examples) > 0;
       setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
       $('neuralMessage').textContent = data.restoredBest
-        ? 'Training stopped. The lowest-validation-loss checkpoint has been restored and saved. Chat can now use this network.'
+        ? 'Training stopped. The highest-accuracy checkpoint has been restored and saved. Chat can now use this network.'
         : 'Training stopped. Complete more updates to make the neural model useful.';
       updateNeuralControls();
       setChatReady(modelReady);
@@ -1194,7 +1194,7 @@ async function startNeuralTraining() {
 function stopNeuralTraining() {
   if (!neuralTraining || !neuralWorkerStarted || !neuralWorker) return;
   $('neuralStopBtn').disabled = true;
-  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and restoring the lowest-validation-loss checkpoint…';
+  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and restoring the highest-accuracy checkpoint…';
   neuralWorker.postMessage({type: 'stop'});
 }
 
