@@ -14,7 +14,8 @@ const B2_OFFSET = W2_OFFSET + VOCAB * HIDDEN;
 const PARAMS = B2_OFFSET + VOCAB;
 
 const BATCH_SIZE = 24;
-const LEARNING_RATE = 0.003;
+const DEFAULT_LEARNING_RATE = 0.003;
+let activeLearningRate = DEFAULT_LEARNING_RATE;
 const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = 'adamw';
 const EVAL_EVERY = 25;
@@ -197,12 +198,12 @@ function applyOptimizer(batchCount) {
     secondMoment[i] = v;
     const mHat = m / correction1;
     const vHat = v / correction2;
-    const adaptiveUpdate = LEARNING_RATE * mHat / (Math.sqrt(vHat) + 1e-8);
+    const adaptiveUpdate = activeLearningRate * mHat / (Math.sqrt(vHat) + 1e-8);
     const decayParameter = (i >= EMBED_OFFSET && i < W1_OFFSET) ||
       (i >= W1_OFFSET && i < B1_OFFSET) ||
       (i >= W2_OFFSET && i < B2_OFFSET);
     const weightDecay = activeOptimizer === 'adamw' && decayParameter
-      ? LEARNING_RATE * ADAMW_WEIGHT_DECAY * parameters[i] : 0;
+      ? activeLearningRate * ADAMW_WEIGHT_DECAY * parameters[i] : 0;
     parameters[i] -= adaptiveUpdate + weightDecay;
     gradients[i] = 0;
   }
@@ -257,6 +258,7 @@ function evaluate() {
   self.postMessage({
     type: "checkpoint",
     optimizer: activeOptimizer,
+    learningRate: activeLearningRate,
     accuracy: score,
     bestAccuracy,
     validationLoss,
@@ -313,7 +315,8 @@ function progressPayload() {
     examplesPerSecond: speed,
     parameters: PARAMS,
     batchSize: BATCH_SIZE,
-    optimizer: activeOptimizer
+    optimizer: activeOptimizer,
+    learningRate: activeLearningRate
   };
 }
 function runBatch() {
@@ -484,6 +487,9 @@ self.addEventListener("message", event => {
     } else if (message.type === "start") {
       if (!initialized) throw new Error("Load or restore the neural model first.");
       const requestedOptimizer = message.optimizer === 'adamw' || (message.optimizer == null && activeOptimizer === 'adamw') ? 'adamw' : 'adam';
+      const requestedLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
+        ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
+      activeLearningRate = requestedLearningRate;
       const optimizerChanged = requestedOptimizer !== activeOptimizer;
       if (optimizerChanged) {
         activeOptimizer = requestedOptimizer;
@@ -496,7 +502,7 @@ self.addEventListener("message", event => {
         reportAt = performance.now();
         reportExamples = examplesSeen;
         lastReportedSpeed = 0;
-        self.postMessage({type: "started", optimizer: activeOptimizer, reset: optimizerChanged});
+        self.postMessage({type: "started", optimizer: activeOptimizer, learningRate: activeLearningRate, reset: optimizerChanged});
         setTimeout(runBatch, 0);
       }
     } else if (message.type === "stop") {
