@@ -824,30 +824,20 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.4">v0.5.4</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.6">v0.5.6</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
-
-  <section class="workspace-intro" aria-label="Sherlock GPT introduction">
-    <div class="workspace-intro-copy">
-      <div class="studio-kicker"><span class="studio-kicker-dot"></span> EXPERIMENTAL AI STUDIO <span class="studio-kicker-divider">/</span> RUNNING LOCALLY</div>
-      <h2>A closer look<br><em>inside learning.</em></h2>
-      <p>Train a small neural language model, explore its hidden layers, and watch its predictions change as it learns.</p>
-      <div class="studio-tags"><span>10,160 parameters</span><span>Browser-based training</span><span>Live model view</span></div>
-    </div>
-    <div class="studio-art" aria-hidden="true">
-      <div class="studio-art-orbit orbit-one"></div><div class="studio-art-orbit orbit-two"></div><div class="studio-art-core"></div>
-      <span class="studio-art-node node-a"></span><span class="studio-art-node node-b"></span><span class="studio-art-node node-c"></span><span class="studio-art-node node-d"></span><span class="studio-art-node node-e"></span><span class="studio-art-node node-f"></span>
-      <div class="studio-art-label"><span>SHERLOCK</span><strong>NEURAL CORE</strong><small>INPUT → WEIGHTS → OUTPUT</small></div>
-    </div>
-  </section>
 
   <section class="stats" aria-label="Live model metrics">
     <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
     <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
     <div class="stat"><span class="stat-label">Examples processed</span><strong class="stat-value" id="chars">0</strong></div>
     <div class="stat"><span class="stat-label">Training speed</span><strong class="stat-value" id="topSpeed">0</strong><span class="stat-unit">examples per second</span></div>
+    <div class="stat"><span class="stat-label">Trainable parameters</span><strong class="stat-value" id="neuralParameters">10,160</strong><span class="stat-unit">adjustable model weights</span></div>
+    <div class="stat"><span class="stat-label">Training examples</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-character examples seen</span></div>
+    <div class="stat"><span class="stat-label">Validation accuracy</span><strong class="stat-value" id="neuralAccuracy">Not measured</strong><span class="stat-unit">separate held-out sample</span></div>
+    <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">examples per second</span></div>
   </section>
 
   <div class="tabs-wrap">
@@ -1014,23 +1004,6 @@ body,.app{color:#27354d}
 
   <section class="panel active" id="neuralPanel" role="tabpanel" aria-labelledby="neuralTab">
     <div class="visual-page">
-      <section class="card visual-hero">
-        <div class="visual-hero-top">
-          <div>
-            <div class="eyebrow">Phase 2 · First neural model · local device training</div>
-            <h2>Sherlock’s neural core</h2>
-            <p>This is a real trainable neural network. It learns character embeddings and weights through backpropagation, then tests its next-character predictions on separate validation conversations. Training runs in a background browser worker so the page can keep responding.</p>
-          </div>
-          <div class="visual-state" id="neuralBadge"><span class="visual-dot"></span><span id="neuralStateText">Waiting for dataset</span></div>
-        </div>
-        <div class="visual-kpis">
-          <div class="visual-kpi"><span>Trainable parameters</span><strong id="neuralParameters">10,160</strong><small>adjustable model weights</small></div>
-          <div class="visual-kpi"><span>Training examples</span><strong id="neuralExamples">0</strong><small>next-character examples seen</small></div>
-          <div class="visual-kpi"><span>Validation accuracy</span><strong id="neuralAccuracy">Not measured</strong><small>separate held-out sample</small></div>
-          <div class="visual-kpi"><span>Training speed</span><strong id="neuralSpeed">0</strong><small>examples per second</small></div>
-        </div>
-      </section>
-
       <div class="visual-section-title">
         <div><h3>01 · Neural training control</h3><p>Start the network, watch the loss and validation score, and stop whenever you are ready.</p></div>
         <span class="visual-section-tag">BACKPROPAGATION + ADAMW</span>
