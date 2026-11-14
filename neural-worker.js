@@ -466,7 +466,7 @@ self.addEventListener("message", event => {
       self.postMessage({type: "data-ready", trainBytes: trainData.length, validationBytes: validationData.length});
     } else if (message.type === "start") {
       if (!initialized) throw new Error("Load or restore the neural model first.");
-      const requestedOptimizer = message.optimizer === 'adamw' ? 'adamw' : 'adam';
+      const requestedOptimizer = message.optimizer === 'adamw' || (message.optimizer == null && activeOptimizer === 'adamw') ? 'adamw' : 'adam';
       const optimizerChanged = requestedOptimizer !== activeOptimizer;
       if (optimizerChanged) {
         activeOptimizer = requestedOptimizer;
