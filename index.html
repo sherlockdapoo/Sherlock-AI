@@ -1370,7 +1370,9 @@ function updateGlobalNeuralStats() {
   $('state').textContent = neuralTraining ? 'Training' : neuralModelReady ? 'Best model ready' : datasetCache ? 'Data ready' : 'Empty';
   $('accuracy').textContent = neuralLatestAccuracyValue === null ? 'Not measured' : neuralLatestAccuracyValue.toFixed(3) + '%';
   $('chars').textContent = neuralExamplesValue.toLocaleString();
-  $('topSpeed').textContent = Math.round(neuralSpeedValue).toLocaleString();
+  // The legacy top-level speed is reserved for the C++ baseline engine.
+  // Neural training speed is shown in its own dedicated metric.
+  if (!neuralTraining) $('neuralSpeed').textContent = Math.round(neuralSpeedValue).toLocaleString();
   if (neuralTraining) updateStatus('Neural training', 'running');
   else if (neuralModelReady) updateStatus('Best model ready', 'ready');
   else if (datasetCache) updateStatus('Dataset ready', 'ready');
@@ -2151,6 +2153,7 @@ function renderLiveView(force = false) {
 
   samplePerformanceSpeed(now, seen);
   $('visualSpeed').textContent = training ? Math.round(performanceCurrentSpeed).toLocaleString() : '0';
+  // Keep the baseline engine speed separate from the neural worker speed.
   $('topSpeed').textContent = training ? Math.round(performanceCurrentSpeed).toLocaleString() : '0';
   $('visualChars').textContent = seen.toLocaleString();
   $('visualPasses').textContent = passes.toLocaleString();
