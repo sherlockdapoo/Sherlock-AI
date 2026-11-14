@@ -248,30 +248,26 @@ function evaluate() {
   evaluationCount++;
   validationSamples = total;
 
-  // Preserve the previous accuracy-first checkpoint behaviour. Validation loss breaks ties.
-  const improved = score > bestAccuracy + 1e-7 ||
-    (Math.abs(score - bestAccuracy) <= 1e-7 && validationLoss < bestValidationLoss - 1e-7);
-  if (improved) {
-    bestValidationLoss = validationLoss;
-    bestAccuracy = score;
-    bestParameters = new Float32Array(parameters);
-    const checkpointBuffer = bestParameters.slice().buffer;
-    self.postMessage({
-      type: "checkpoint",
-      optimizer: activeOptimizer,
-      accuracy: score,
-      bestAccuracy,
-      validationLoss,
-      bestValidationLoss,
-      perplexity,
-      evaluations: evaluationCount,
-      validationSamples: total,
-      steps,
-      examples: examplesSeen,
-      loss: movingLoss,
-      modelBuffer: checkpointBuffer
-    }, [checkpointBuffer]);
-  }
+  // The latest evaluated weights are always the active saved model.
+  bestValidationLoss = validationLoss;
+  bestAccuracy = score;
+  bestParameters = new Float32Array(parameters);
+  const checkpointBuffer = parameters.slice().buffer;
+  self.postMessage({
+    type: "checkpoint",
+    optimizer: activeOptimizer,
+    accuracy: score,
+    bestAccuracy,
+    validationLoss,
+    bestValidationLoss,
+    perplexity,
+    evaluations: evaluationCount,
+    validationSamples: total,
+    steps,
+    examples: examplesSeen,
+    loss: movingLoss,
+    modelBuffer: checkpointBuffer
+  }, [checkpointBuffer]);
   return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
 }
 function networkSnapshot() {
@@ -342,13 +338,9 @@ function runBatch() {
 function stopTraining() {
   if (!running) return;
   running = false;
+  // Evaluate and save the exact latest weights. Do not roll back to an older checkpoint.
   evaluate();
-  if (bestParameters) {
-    parameters.set(bestParameters);
-    // Report metrics for the exact weights that will remain active after Stop.
-    evaluate();
-  }
-  self.postMessage({type: "stopped", ...progressPayload(), restoredBest: Boolean(bestParameters)});
+  self.postMessage({type: "stopped", ...progressPayload(), restoredBest: false});
 }
 function generate(prompt, requestedLength) {
   if (!initialized || examplesSeen === 0) return "Train the neural network first.";
