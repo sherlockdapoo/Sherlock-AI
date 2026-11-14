@@ -1026,13 +1026,9 @@ body,.app{color:#27354d}
             <div class="accuracy-track" role="progressbar" aria-label="Neural network validation accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="neuralAccuracyTrack"><div class="accuracy-fill" id="neuralAccuracyFill"></div></div>
             <div class="accuracy-caption"><span>Next-character predictions · 256 held-out positions</span><span>0–100%</span></div>
           </div>
-          <div class="optimizer-picker">
-            <label for="neuralOptimizer">Optimizer experiment</label>
-            <select class="field" id="neuralOptimizer">
-              <option value="adam">Adam · comparison baseline</option>
-              <option value="adamw" selected>AdamW · default optimizer</option>
-            </select>
-            <p>Switching optimizers restarts from the same initial weights, so the comparison is fair.</p>
+          <div class="optimizer-picker optimizer-fixed">
+            <strong>Optimizer: AdamW</strong>
+            <p>Fixed optimizer · learning rate 0.003 · weight decay 0.0001</p>
           </div>
           <div class="neural-control-row">
             <button class="btn btn-primary" id="neuralStartBtn" type="button">✳ <span>Start neural training</span></button>
@@ -1476,10 +1472,8 @@ function restoreSavedNeuralCheckpoint() {
     const record = JSON.parse(stored);
     if (!record || record.version !== 5 || record.datasetRevision !== NEURAL_DATASET_REVISION || typeof record.datasetFingerprint !== 'string' || typeof record.weights !== 'string') throw new Error('Saved checkpoint belongs to an older dataset or model version.');
     neuralRestoredDatasetFingerprint = record.datasetFingerprint;
-    const restoredOptimizer = record.optimizer === 'adamw' ? 'adamw' : 'adam';
+    const restoredOptimizer = 'adamw';
     neuralActiveOptimizer = restoredOptimizer;
-    $('neuralOptimizer').value = restoredOptimizer;
-    updateNeuralOptimizerSummary();
     const binary = atob(record.weights);
     if (binary.length !== 10160 * 4) throw new Error('Saved checkpoint size does not match this neural model.');
     const buffer = new ArrayBuffer(binary.length);
@@ -1740,17 +1734,14 @@ function resetNeuralExperimentMetrics(optimizer) {
 function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
   $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
-  $('neuralOptimizer').disabled = neuralTraining || neuralRequestBusy;
 }
 function selectedNeuralOptimizer() {
-  return $('neuralOptimizer').value === 'adamw' ? 'adamw' : 'adam';
+  return 'adamw';
 }
 function updateNeuralOptimizerSummary() {
-  $('neuralOptimizerSummary').textContent = selectedNeuralOptimizer() === 'adamw'
-    ? 'AdamW · default · learning rate 0.003 · weight decay 0.0001'
-    : 'Adam · comparison baseline · learning rate 0.003';
+  const summary = $('neuralOptimizerSummary');
+  if (summary) summary.textContent = 'AdamW · fixed · learning rate 0.003 · weight decay 0.0001';
 }
-$('neuralOptimizer').addEventListener('change', updateNeuralOptimizerSummary);
 updateNeuralOptimizerSummary();
 
 function ensureNeuralWorker() {
@@ -1785,8 +1776,6 @@ function ensureNeuralWorker() {
       renderNeuralLiveView();
     } else if (data.type === 'model-loaded') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
-      $('neuralOptimizer').value = neuralActiveOptimizer;
-      updateNeuralOptimizerSummary();
       neuralWorkerInitialized = true;
       neuralModelReady = Number(data.examples) > 0;
       neuralLatestAccuracyValue = Number.isFinite(Number(data.accuracy)) ? Number(data.accuracy) : null;
@@ -1822,7 +1811,6 @@ function ensureNeuralWorker() {
       if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
       neuralStartupTimer = null;
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
-      $('neuralOptimizer').value = neuralActiveOptimizer;
       updateNeuralOptimizerSummary();
       if (data.reset) resetNeuralExperimentMetrics(neuralActiveOptimizer);
       neuralWorkerStarted = true;
@@ -1970,8 +1958,6 @@ async function startNeuralTraining() {
         neuralRestoredDatasetFingerprint = null;
         neuralModelReady = false;
         neuralActiveOptimizer = 'adamw';
-        $('neuralOptimizer').value = 'adamw';
-        updateNeuralOptimizerSummary();
         resetNeuralExperimentMetrics('adamw');
         $('neuralMessage').textContent = 'The saved model was trained on different data. Resetting to fresh AdamW weights for the dataset now loaded…';
         worker.postMessage(
