@@ -274,6 +274,9 @@ function evaluate() {
     steps,
     examples: examplesSeen,
     loss: movingLoss,
+    batchSize: activeBatchSize,
+    maxSteps: activeMaxSteps,
+    runSteps: Math.max(0, steps - runStartSteps),
     modelBuffer: checkpointBuffer
   }, [checkpointBuffer]);
   return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
