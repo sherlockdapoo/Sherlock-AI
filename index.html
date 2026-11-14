@@ -1023,11 +1023,18 @@ function ensureNeuralWorker() {
       setChatReady(false);
       updateNeuralControls();
     } else if (data.type === 'checkpoint') {
+      neuralLatestAccuracyValue = Number(data.accuracy);
+      neuralBestAccuracyValue = Number(data.accuracy);
+      $('neuralAccuracy').textContent = neuralLatestAccuracyValue.toFixed(3) + '%';
+      $('neuralAccuracyText').textContent = neuralLatestAccuracyValue.toFixed(3) + '%';
+      $('neuralAccuracyFill').style.width = Math.max(0, Math.min(100, neuralLatestAccuracyValue)).toFixed(3) + '%';
+      $('neuralAccuracyTrack').setAttribute('aria-valuenow', neuralLatestAccuracyValue.toFixed(3));
+      $('neuralBestAccuracy').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
+      $('neuralChartBest').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
       try {
         saveNeuralCheckpoint(data);
-        neuralBestAccuracyValue = Number(data.accuracy);
-        $('neuralBestAccuracy').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
-        $('neuralChartBest').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
+        updateGlobalNeuralStats();
+        renderNeuralLiveView();
       } catch (error) {
         neuralCheckpointWasSaved = false;
         $('neuralCheckpointStatus').textContent = 'Could not save this checkpoint in browser storage. It remains active until this page is closed.';
@@ -1147,6 +1154,9 @@ async function startNeuralTraining() {
   } finally {
     neuralRequestBusy = false;
     updateNeuralControls();
+    setChatReady();
+    updateGlobalNeuralStats();
+    renderNeuralLiveView();
   }
 }
 
