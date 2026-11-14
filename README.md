@@ -10,14 +10,14 @@ Open **Neural Lab** and press **Start neural training**. The first run downloads
 
 The C++ character-counter training screen and its separate Live View have been removed from the visible workspace. The earlier counter remains only as an archived baseline in the project code; the active Chat path uses the neural model.
 
-## Neural network experiment (v0.2.1)
+## Neural network experiment (v0.3.0)
 
 - **Architecture:** character-level multilayer perceptron (MLP), four-character context, 12-dimensional learned embeddings, one 48-neuron ReLU hidden layer, and a 128-way softmax output.
 - **Size:** 10,160 trainable parameters.
 - **Learning task:** predict the next character from the previous four characters.
-- **Training:** cross-entropy loss, backpropagation, and the Adam optimiser (learning rate 0.003), using mini-batches of 12 examples.
+- **Training:** cross-entropy loss, backpropagation, and the Adam optimiser (learning rate 0.003), using mini-batches of 24 examples. Four mini-batches are processed per worker slice before yielding to the browser event loop.
 - **Data:** DailyDialog training and validation splits are used separately. The network does not train on its validation examples.
-- **Validation:** top-1 next-character accuracy is measured on up to 512 evenly spaced positions from the held-out validation text. It is a small-sample learning signal, not a measure of intelligence, factual knowledge, or conversation quality.
+- **Validation:** top-1 next-character accuracy is measured on up to 256 evenly spaced positions from the held-out validation text every 100 optimizer steps. Less frequent validation reduces training interruptions. It is a small-sample learning signal, not a measure of intelligence, factual knowledge, or conversation quality.
 - **Live view:** the Neural Lab shows the training pipeline, current loss curve, validation-accuracy curve, model architecture, and the latest training metrics from the worker.
 - **Best checkpoint:** whenever held-out accuracy improves, the worker sends a copy of the best weights to the page. The browser saves those weights and their score in local storage. When the site is opened again in the same browser, the worker restores that checkpoint so Chat can use it without training again. Continuing training starts from the saved best weights.
 - **Stop behaviour:** stopping performs a final validation check, restores the best weights seen in the run, and leaves Chat using that model.
@@ -36,7 +36,7 @@ The persistent checkpoint stores the model weights and score, not the full train
 
 ## Performance and device use
 
-The neural worker keeps training off the main page thread so the interface can remain interactive. It currently uses one worker and one CPU thread; it does not use all four CPU cores. True multi-core execution is a separate upgrade and depends on browser support and hosting requirements for WebAssembly threads and shared memory.
+The neural worker keeps training off the main page thread so the interface can remain interactive. It currently uses one worker and one CPU thread; it does not use all four CPU cores. The worker processes four larger mini-batches per scheduled slice and reports progress less often to reduce scheduling and interface overhead. Actual speed depends on the browser and device, and should be compared using the live examples-per-second metric. True multi-core execution is a separate upgrade and depends on browser support and hosting requirements for WebAssembly threads and shared memory.
 
 The model is intentionally small and is not a transformer or a full ChatGPT-scale model. The next development stages can increase model capacity, improve tokenisation, and eventually explore attention once the current learning pipeline has been benchmarked.
 
