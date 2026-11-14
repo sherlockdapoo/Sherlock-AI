@@ -1778,7 +1778,7 @@ function ensureNeuralWorker() {
         neuralModelReady = false;
         neuralRestoredDatasetFingerprint = null;
         neuralCheckpointWasSaved = false;
-        $('neuralCheckpointStatus').textContent = 'Fresh model created for the newly loaded dataset. A new best checkpoint will be saved after validation improves.';
+        $('neuralCheckpointStatus').textContent = 'Previous dataset checkpoint cleared. A new best model will be saved when validation improves.';
         setNeuralState('Fresh model ready', 'ready');
       }
       if (neuralStartPending) {
@@ -1925,7 +1925,7 @@ async function startNeuralTraining() {
       neuralStartPending = true;
       const restoredDataMatches = neuralRestoredDatasetFingerprint !== null &&
         neuralRestoredDatasetFingerprint === currentNeuralDatasetFingerprint;
-      if (neuralModelReady && !restoredDataMatches) {
+      if (neuralRestoredDatasetFingerprint !== null && !restoredDataMatches) {
         try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
         neuralCheckpointWasSaved = false;
         neuralCheckpointSavedAt = null;
