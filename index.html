@@ -473,7 +473,11 @@ body{
 .neural-control-row .btn-primary,.actions .btn-primary{background:linear-gradient(135deg,#c9f18e,#9bd76b);color:#1c2d1e;box-shadow:0 6px 15px rgba(112,165,66,.18)}
 .btn-secondary{border-color:#cad8ca;background:#edf2eb;color:#344b39}
 .btn-secondary:not(:disabled):hover{background:#e0eadf}
-.train-message{color:#76877a}
+.train-message{color:#53665a}
+.data-load-top,.data-load-top span{color:#e4edff}
+.data-load-top strong{color:#ffffff}
+.neural-data-load .data-load-top,.neural-data-load .data-load-top span{color:#e4edff}
+.neural-data-load .data-load-top strong{color:#ffffff}
 .metric{border-bottom-color:#e5ebe4}
 .metric span{color:#77857b}
 .metric strong{color:#324637}
@@ -1132,7 +1136,7 @@ body,.app{color:#27354d}
             <small id="neuralCheckpointSavedAt" class="neural-checkpoint-time">No saved checkpoint yet</small>
           </section>
         </div>
-section>
+        </section>
       </section>
 
       <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The highest-accuracy validation checkpoint is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
