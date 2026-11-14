@@ -2256,6 +2256,7 @@ async function fetchSplit(splitInfo, progressCallback, rowLimit) {
     ? Math.min(availableRows, Math.max(1, Math.floor(Number(rowLimit))))
     : availableRows;
   const pageCount = Math.ceil(totalRows / PAGE_SIZE);
+  const useSpacedSample = totalRows < availableRows;
   const pages = new Array(pageCount);
   let nextPage = 0;
   let finished = 0;
@@ -2264,13 +2265,17 @@ async function fetchSplit(splitInfo, progressCallback, rowLimit) {
     while (true) {
       const page = nextPage++;
       if (page >= pageCount) return;
-      const offset = page * PAGE_SIZE;
+      const rowsInPage = Math.min(PAGE_SIZE, totalRows - page * PAGE_SIZE);
+      // Spread a capped sample across the full split instead of taking only its first rows.
+      const pageOffset = useSpacedSample
+        ? Math.floor((page * Math.max(0, availableRows - rowsInPage) / Math.max(1, pageCount - 1)) / PAGE_SIZE) * PAGE_SIZE
+        : page * PAGE_SIZE;
       const query = new URLSearchParams({
         dataset: splitInfo.dataset || HF_DATASET,
         config: splitInfo.config,
         split: splitInfo.split,
-        offset: String(offset),
-        length: String(Math.min(PAGE_SIZE, totalRows - offset))
+        offset: String(pageOffset),
+        length: String(Math.min(rowsInPage, availableRows - pageOffset))
       });
       const json = await getJSON(HF_API + '/rows?' + query.toString());
       if (!Array.isArray(json.rows)) throw new Error('The ' + splitInfo.split + ' dataset page had an unexpected format.');
