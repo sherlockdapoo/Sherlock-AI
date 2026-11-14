@@ -1169,6 +1169,8 @@ const ENGINE_URL = new URL('engine.wasm.gz.b64?v=0.9.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_ULTRACHAT_DATASET = 'HuggingFaceH4/ultrachat_200k';
 const HF_API = 'https://datasets-server.huggingface.co';
+const DAILY_TRAIN_ROWS = 2500;
+const DAILY_VALIDATION_ROWS = 500;
 const ULTRACHAT_TRAIN_ROWS = 1200;
 const ULTRACHAT_VALIDATION_ROWS = 250;
 const DAILY_TRAIN_BUDGET = 1200000;
@@ -1736,7 +1738,7 @@ updateNeuralOptimizerSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.8', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.11', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2566,11 +2568,11 @@ async function loadTrainingDatasets() {
 
   const dailyInfo = await getDatasetSplitInfo(HF_DATASET, 'train', 'validation');
   const dailyTrainRows = await fetchSplit(dailyInfo.training, (done, total) => {
-    showDataProgress(done, total, 'Downloading DailyDialog training conversations');
-  });
+    showDataProgress(done, total, 'Downloading a 2,500-row DailyDialog training sample');
+  }, DAILY_TRAIN_ROWS);
   const dailyValidationRows = await fetchSplit(dailyInfo.validation, (done, total) => {
-    showDataProgress(done, total, 'Downloading DailyDialog validation conversations');
-  });
+    showDataProgress(done, total, 'Downloading a 500-row DailyDialog validation sample');
+  }, DAILY_VALIDATION_ROWS);
   const dailyTrain = buildCorpus(dailyTrainRows);
   const dailyValidation = buildCorpus(dailyValidationRows);
   if (dailyTrain.conversations < 100 || dailyValidation.conversations < 20) {
