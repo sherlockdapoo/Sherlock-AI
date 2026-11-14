@@ -18,7 +18,7 @@ const LEARNING_RATE = 0.003;
 const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = 'adamw';
 const EVAL_EVERY = 50;
-const EVAL_SAMPLES = 256;
+const EVAL_SAMPLES = 1024;
 const BATCHES_PER_SLICE = 6;
 
 let trainData = null;
@@ -228,7 +228,7 @@ function evaluate() {
   let total = 0;
   const stride = Math.max(1, Math.floor(available / count));
   for (let i = 0; i < count; i++) {
-    // Keep the same 256-position validation layout used by v0.3.0 for fair comparison.
+    // Spread validation positions across the held-out text for a steadier measurement.
     const position = CONTEXT + i * stride;
     if (position >= validationData.length) break;
     const result = predict(validationData, position);
