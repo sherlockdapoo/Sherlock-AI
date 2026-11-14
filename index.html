@@ -1765,7 +1765,7 @@ updateNeuralOptimizerSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.14', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.15', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
