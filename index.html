@@ -1248,7 +1248,7 @@ const TARGET_BATCH_MS = 30;
 const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
 const NEURAL_LOSS_SAMPLE_EVERY = 5;
-const MAX_NEURAL_GRAPH_POINTS = 240; // Limit SVG vertices for reliable mobile rendering; full history remains stored.
+const MAX_NEURAL_GRAPH_POINTS = 100; // Keep SVG drawing lightweight on mobile; retain every history sample.
 const PERFORMANCE_HISTORY_LIMIT = 60;
 const BATCH_TIMING_WINDOW = 30;
 
@@ -1369,7 +1369,7 @@ function renderNeuralHistory() {
   const line = $('neuralAccuracyLine');
   const area = $('neuralAccuracyArea');
   const dot = $('neuralAccuracyDot');
-  if (!line || !area || !dot) return;
+  if (!line) return;
   const values = neuralAccuracyHistory;
   const evals = neuralAccuracyEvalHistory;
   $('neuralLatestAccuracy').textContent = neuralLatestAccuracyValue === null ? 'Not measured' : neuralLatestAccuracyValue.toFixed(3) + '%';
@@ -1388,8 +1388,8 @@ function renderNeuralHistory() {
   };
   if (!values.length) {
     line.setAttribute('points', '');
-    area.setAttribute('points', '');
-    dot.setAttribute('visibility', 'hidden');
+    if (area) area.setAttribute('points', '');
+    if (dot) dot.setAttribute('visibility', 'hidden');
     Object.entries(labels).forEach(([id, value]) => { if ($(id)) $(id).textContent = value; });
     $('neuralAccuracyRange').textContent = 'Waiting for the first neural evaluation';
     return;
@@ -1410,11 +1410,9 @@ function renderNeuralHistory() {
   });
   const pointString = points.map(point => point[0].toFixed(1) + ',' + point[1].toFixed(1)).join(' ');
   line.setAttribute('points', pointString);
-  area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + right + ',' + bottom);
+  if (area) area.setAttribute('points', '');
   const last = points[points.length - 1];
-  dot.setAttribute('cx', last[0].toFixed(1));
-  dot.setAttribute('cy', last[1].toFixed(1));
-  dot.setAttribute('visibility', 'visible');
+  if (dot) dot.setAttribute('visibility', 'hidden');
   const accuracyDecimals = max - min < 1 ? 2 : 1;
   const fmt = value => value.toFixed(accuracyDecimals) + '%';
   ['neuralAccuracyYTop','neuralAccuracyYMidTop','neuralAccuracyYMidBottom','neuralAccuracyYBottom'].forEach((id, index) => {
@@ -1434,7 +1432,7 @@ function renderNeuralLossHistory() {
   const line = $('neuralLossLine');
   const area = $('neuralLossArea');
   const dot = $('neuralLossDot');
-  if (!line || !area || !dot) return;
+  if (!line) return;
   const values = neuralLossHistory.map((value, index) => ({
     value,
     step: Number(neuralLossStepHistory[index]) || index + 1
@@ -1443,8 +1441,8 @@ function renderNeuralLossHistory() {
   $('neuralLiveLoss').textContent = neuralLatestLossValue === null ? 'Not measured' : neuralLatestLossValue.toFixed(4);
   if (!values.length) {
     line.setAttribute('points', '');
-    area.setAttribute('points', '');
-    dot.setAttribute('visibility', 'hidden');
+    if (area) area.setAttribute('points', '');
+    if (dot) dot.setAttribute('visibility', 'hidden');
     $('neuralLossRange').textContent = 'Waiting for the first training update';
     const initialAxisLabels = {
       neuralLossYTop: '—', neuralLossYMidTop: '—', neuralLossYMidBottom: '—', neuralLossYBottom: '—',
@@ -1470,11 +1468,9 @@ function renderNeuralLossHistory() {
   });
   const pointString = points.map(point => point[0].toFixed(1) + ',' + point[1].toFixed(1)).join(' ');
   line.setAttribute('points', pointString);
-  area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + right + ',' + bottom);
+  if (area) area.setAttribute('points', '');
   const last = points[points.length - 1];
-  dot.setAttribute('cx', last[0].toFixed(1));
-  dot.setAttribute('cy', last[1].toFixed(1));
-  dot.setAttribute('visibility', 'visible');
+  if (dot) dot.setAttribute('visibility', 'hidden');
   const lossDecimals = max - min < 0.1 ? 4 : 3;
   const fmt = value => value.toFixed(lossDecimals);
   ['neuralLossYTop','neuralLossYMidTop','neuralLossYMidBottom','neuralLossYBottom'].forEach((id, index) => {
@@ -2195,8 +2191,8 @@ function renderAccuracyHistory() {
   $('visualEvalCount').textContent = accuracyHistory.length.toLocaleString();
   if (!accuracyHistory.length) {
     line.setAttribute('points', '');
-    area.setAttribute('points', '');
-    dot.setAttribute('visibility', 'hidden');
+    if (area) area.setAttribute('points', '');
+    if (dot) dot.setAttribute('visibility', 'hidden');
     $('accuracyChartRange').textContent = 'Waiting for first evaluation';
     return;
   }
@@ -2216,9 +2212,7 @@ function renderAccuracyHistory() {
   line.setAttribute('points', pointString);
   area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + (left + width) + ',' + bottom);
   const last = points[points.length - 1];
-  dot.setAttribute('cx', last[0].toFixed(1));
-  dot.setAttribute('cy', last[1].toFixed(1));
-  dot.setAttribute('visibility', 'visible');
+  if (dot) dot.setAttribute('visibility', 'hidden');
   $('accuracyChartRange').textContent = 'Recent range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' checks';
 }
 
@@ -2241,8 +2235,8 @@ function renderPerformanceHistory() {
   const values = performanceHistory;
   if (!values.length) {
     line.setAttribute('points', '');
-    area.setAttribute('points', '');
-    dot.setAttribute('visibility', 'hidden');
+    if (area) area.setAttribute('points', '');
+    if (dot) dot.setAttribute('visibility', 'hidden');
     $('performanceRange').textContent = 'Waiting for the first speed sample';
     return;
   }
@@ -2258,9 +2252,7 @@ function renderPerformanceHistory() {
   line.setAttribute('points', pointString);
   area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + (left + width) + ',' + bottom);
   const last = points[points.length - 1];
-  dot.setAttribute('cx', last[0].toFixed(1));
-  dot.setAttribute('cy', last[1].toFixed(1));
-  dot.setAttribute('visibility', 'visible');
+  if (dot) dot.setAttribute('visibility', 'hidden');
   $('performanceRange').textContent = 'Observed range 0–' + Math.round(max).toLocaleString() + ' characters/second · ' + values.length + ' samples';
 }
 
