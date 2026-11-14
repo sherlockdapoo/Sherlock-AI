@@ -1079,9 +1079,14 @@ body,.app{color:#27354d}
             <div class="accuracy-track" role="progressbar" aria-label="Neural network validation accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="neuralAccuracyTrack"><div class="accuracy-fill" id="neuralAccuracyFill"></div></div>
             <div class="accuracy-caption"><span>Exact next-character matches · up to 1,024 held-out positions</span><span>0–100%</span></div>
           </div>
-          <div class="optimizer-picker optimizer-fixed">
-            <strong>Optimizer: AdamW</strong>
-            <p>Fixed optimizer · learning rate 0.003 · weight decay 0.0001</p>
+          <div class="optimizer-picker">
+            <label for="neuralLearningRate">Learning rate</label>
+            <select id="neuralLearningRate" aria-label="Neural training learning rate">
+              <option value="0.001">0.001 · Careful</option>
+              <option value="0.003" selected>0.003 · Balanced (default)</option>
+              <option value="0.005">0.005 · Faster updates</option>
+            </select>
+            <p>AdamW optimizer · weight decay 0.0001. Choose before starting a training run.</p>
           </div>
           <div class="neural-control-row">
             <button class="btn btn-primary" id="neuralStartBtn" type="button">✳ <span>Start neural training</span></button>
@@ -1851,13 +1856,18 @@ function resetNeuralExperimentMetrics(optimizer) {
 function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
   $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
+  $('neuralLearningRate').disabled = neuralTraining || neuralRequestBusy;
 }
 function selectedNeuralOptimizer() {
   return 'adamw';
 }
+function selectedNeuralLearningRate() {
+  const value = Number($('neuralLearningRate').value);
+  return [0.001, 0.003, 0.005].includes(value) ? value : 0.003;
+}
 function updateNeuralOptimizerSummary() {
   const summary = $('neuralOptimizerSummary');
-  if (summary) summary.textContent = 'AdamW · fixed · learning rate 0.003 · weight decay 0.0001';
+  if (summary) summary.textContent = 'AdamW · learning rate ' + selectedNeuralLearningRate().toFixed(3) + ' · weight decay 0.0001';
 }
 updateNeuralOptimizerSummary();
 
@@ -1874,7 +1884,7 @@ function ensureNeuralWorker() {
       $('neuralMessage').textContent = 'Neural network initialised: ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting the first training batches…';
       if (neuralStartPending) {
         neuralStartPending = false;
-        neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
+        neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer(), learningRate: selectedNeuralLearningRate()});
       }
       renderNeuralLiveView();
     } else if (data.type === 'data-ready' || data.type === 'reset-ready') {
@@ -1888,7 +1898,7 @@ function ensureNeuralWorker() {
       }
       if (neuralStartPending) {
         neuralStartPending = false;
-        neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
+        neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer(), learningRate: selectedNeuralLearningRate()});
       }
       renderNeuralLiveView();
     } else if (data.type === 'model-loaded') {
@@ -2088,7 +2098,7 @@ async function startNeuralTraining() {
         );
       }
     } else {
-      worker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
+      worker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer(), learningRate: selectedNeuralLearningRate()});
     }
   } catch (error) {
     if (startupAttempt !== neuralStartupAttempt || datasetAbortController.signal.aborted) return;
@@ -2152,6 +2162,7 @@ function requestNeuralGeneration(prompt) {
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
+$('neuralLearningRate').addEventListener('change', updateNeuralOptimizerSummary);
 
 function updateAccuracy(value) {
   const measured = value !== null && Number.isFinite(Number(value));
