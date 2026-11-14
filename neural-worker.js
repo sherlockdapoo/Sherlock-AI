@@ -16,7 +16,7 @@ const PARAMS = B2_OFFSET + VOCAB;
 const BATCH_SIZE = 24;
 const LEARNING_RATE = 0.003;
 const EVAL_EVERY = 100;
-const EVAL_SAMPLES = 256;
+const EVAL_SAMPLES = 512;
 const BATCHES_PER_SLICE = 4;
 
 let trainData = null;
@@ -29,6 +29,11 @@ let bestParameters = null;
 let bestAccuracy = -1;
 let latestAccuracy = null;
 let latestLoss = 0;
+let latestValidationLoss = null;
+let latestPerplexity = null;
+let bestValidationLoss = Infinity;
+let evaluationCount = 0;
+let validationSamples = 0;
 let running = false;
 let initialized = false;
 let steps = 0;
@@ -79,6 +84,11 @@ function initializeParameters() {
   bestAccuracy = -1;
   latestAccuracy = null;
   latestLoss = 0;
+  latestValidationLoss = null;
+  latestPerplexity = null;
+  bestValidationLoss = Infinity;
+  evaluationCount = 0;
+  validationSamples = 0;
   steps = 0;
   examplesSeen = 0;
   optimizerStep = 0;
@@ -202,38 +212,56 @@ function predict(data, position) {
 }
 function evaluate() {
   if (!validationData || validationData.length <= CONTEXT + 2) return null;
-  const count = Math.min(EVAL_SAMPLES, validationData.length - CONTEXT - 1);
-  const stride = Math.max(1, Math.floor((validationData.length - CONTEXT - 1) / count));
+  const available = validationData.length - CONTEXT - 1;
+  const count = Math.min(EVAL_SAMPLES, available);
   let correct = 0;
   let totalLoss = 0;
   let total = 0;
   for (let i = 0; i < count; i++) {
-    const position = CONTEXT + i * stride;
-    if (position >= validationData.length) break;
+    // Evenly space a fixed sample across the held-out validation stream.
+    const position = CONTEXT + Math.floor(i * available / count);
     const result = predict(validationData, position);
-    if (result.character === byteAt(validationData, position)) correct++;
-    const targetProbability = probabilities[byteAt(validationData, position)];
+    const target = byteAt(validationData, position);
+    if (result.character === target) correct++;
+    const targetProbability = probabilities[target];
     totalLoss += -Math.log(Math.max(targetProbability, 1e-9));
     total++;
   }
   if (!total) return null;
+
   const score = correct * 100 / total;
+  const validationLoss = totalLoss / total;
+  const perplexity = Math.exp(validationLoss);
   latestAccuracy = score;
-  latestLoss = totalLoss / total;
-  if (score > bestAccuracy) {
+  latestValidationLoss = validationLoss;
+  latestPerplexity = perplexity;
+  evaluationCount++;
+  validationSamples = total;
+
+  // Cross-entropy is the checkpoint selection metric; accuracy breaks ties.
+  const improved = validationLoss < bestValidationLoss - 1e-7 ||
+    (Math.abs(validationLoss - bestValidationLoss) <= 1e-7 && score > bestAccuracy);
+  if (improved) {
+    bestValidationLoss = validationLoss;
     bestAccuracy = score;
     bestParameters = new Float32Array(parameters);
     const checkpointBuffer = bestParameters.slice().buffer;
     self.postMessage({
       type: "checkpoint",
-      accuracy: bestAccuracy,
+      accuracy: score,
+      bestAccuracy,
+      validationLoss,
+      bestValidationLoss,
+      perplexity,
+      evaluations: evaluationCount,
+      validationSamples: total,
       steps,
       examples: examplesSeen,
       loss: movingLoss,
       modelBuffer: checkpointBuffer
     }, [checkpointBuffer]);
   }
-  return score;
+  return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
 }
 function progressPayload() {
   const now = performance.now();
@@ -250,6 +278,11 @@ function progressPayload() {
     accuracy: latestAccuracy,
     bestAccuracy,
     loss: movingLoss,
+    validationLoss: latestValidationLoss,
+    bestValidationLoss: Number.isFinite(bestValidationLoss) ? bestValidationLoss : null,
+    perplexity: latestPerplexity,
+    evaluations: evaluationCount,
+    validationSamples,
     examplesPerSecond: speed,
     parameters: PARAMS,
     batchSize: BATCH_SIZE
@@ -287,7 +320,11 @@ function stopTraining() {
   if (!running) return;
   running = false;
   evaluate();
-  if (bestParameters) parameters.set(bestParameters);
+  if (bestParameters) {
+    parameters.set(bestParameters);
+    // Report metrics for the exact weights that will remain active after Stop.
+    evaluate();
+  }
   self.postMessage({type: "stopped", ...progressPayload(), restoredBest: Boolean(bestParameters)});
 }
 function generate(prompt, requestedLength) {
@@ -371,6 +408,13 @@ self.addEventListener("message", event => {
       bestParameters = new Float32Array(restored);
       bestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1;
       latestAccuracy = bestAccuracy >= 0 ? bestAccuracy : null;
+      latestValidationLoss = message.validationLoss !== null && message.validationLoss !== undefined && Number.isFinite(Number(message.validationLoss))
+        ? Number(message.validationLoss) : null;
+      bestValidationLoss = latestValidationLoss === null ? Infinity : latestValidationLoss;
+      latestPerplexity = message.perplexity !== null && message.perplexity !== undefined && Number.isFinite(Number(message.perplexity))
+        ? Number(message.perplexity) : null;
+      evaluationCount = Math.max(0, Number(message.evaluations) || 0);
+      validationSamples = Math.max(0, Number(message.validationSamples) || 0);
       steps = Math.max(0, Number(message.steps) || 0);
       examplesSeen = Math.max(0, Number(message.examples) || 0);
       optimizerStep = 0;
@@ -384,6 +428,11 @@ self.addEventListener("message", event => {
         parameters: PARAMS,
         accuracy: latestAccuracy,
         bestAccuracy,
+        validationLoss: latestValidationLoss,
+        bestValidationLoss: Number.isFinite(bestValidationLoss) ? bestValidationLoss : null,
+        perplexity: latestPerplexity,
+        evaluations: evaluationCount,
+        validationSamples,
         steps,
         examples: examplesSeen,
         loss: movingLoss
