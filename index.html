@@ -824,7 +824,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.11">v0.5.11</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.13">v0.5.13</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2580,12 +2580,99 @@ function joinCorpusBytes(streams) {
   return joined;
 }
 
+const NEURAL_DATA_CACHE_DB = 'sherlock-gpt-dataset-cache';
+const NEURAL_DATA_CACHE_STORE = 'datasets';
+
+function openNeuralDatasetDB() {
+  return new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) return reject(new Error('Browser storage is unavailable.'));
+    const request = indexedDB.open(NEURAL_DATA_CACHE_DB, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(NEURAL_DATA_CACHE_STORE)) db.createObjectStore(NEURAL_DATA_CACHE_STORE);
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error('Could not open browser dataset storage.'));
+  });
+}
+
+async function readNeuralDatasetCache() {
+  const db = await openNeuralDatasetDB();
+  try {
+    return await new Promise((resolve, reject) => {
+      const request = db.transaction(NEURAL_DATA_CACHE_STORE, 'readonly').objectStore(NEURAL_DATA_CACHE_STORE).get(NEURAL_DATASET_REVISION);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error || new Error('Could not read cached datasets.'));
+    });
+  } finally { db.close(); }
+}
+
+async function writeNeuralDatasetCache(data) {
+  const db = await openNeuralDatasetDB();
+  try {
+    await new Promise((resolve, reject) => {
+      const request = db.transaction(NEURAL_DATA_CACHE_STORE, 'readwrite').objectStore(NEURAL_DATA_CACHE_STORE).put({
+        revision: NEURAL_DATASET_REVISION,
+        trainBytes: data.trainBytes,
+        validationBytes: data.validationBytes,
+        trainConversations: data.trainConversations,
+        validationConversations: data.validationConversations,
+        trainRows: data.trainRows,
+        dailyTrainConversations: data.dailyTrainConversations,
+        ultraTrainConversations: data.ultraTrainConversations,
+        ultraAvailable: data.ultraAvailable,
+        datasetName: data.datasetName,
+        ultraError: data.ultraError || '',
+        savedAt: new Date().toISOString()
+      }, NEURAL_DATASET_REVISION);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error || new Error('Could not save datasets in browser storage.'));
+    });
+  } finally { db.close(); }
+}
+
+function displayLoadedNeuralDataset(data, fromCache) {
+  $('datasetName').textContent = data.datasetName;
+  $('conversationCount').textContent = data.trainConversations.toLocaleString();
+  $('neuralDatasetName').textContent = data.datasetName;
+  $('neuralTrainConversations').textContent = data.trainConversations.toLocaleString();
+  $('neuralValidationConversations').textContent = data.validationConversations.toLocaleString();
+  showDataProgress(1, 1, fromCache ? 'Using saved browser dataset' : (data.ultraAvailable ? 'DailyDialog + UltraChat ready' : 'DailyDialog ready · UltraChat unavailable'));
+  $('neuralMessage').textContent = fromCache
+    ? 'Restored the downloaded training datasets from this browser. No dataset download is needed.'
+    : data.ultraAvailable
+      ? 'Loaded ' + data.dailyTrainConversations.toLocaleString() + ' DailyDialog and ' + data.ultraTrainConversations.toLocaleString() + ' UltraChat training conversations, with separate held-out validation samples from both datasets.'
+      : 'Loaded ' + data.dailyTrainConversations.toLocaleString() + ' DailyDialog training conversations. UltraChat could not be loaded (' + data.ultraError + '), so this run will safely use DailyDialog only.';
+}
+
 async function loadTrainingDatasets(signal) {
   updateStatus('Loading conversation datasets', 'running');
   $('neuralStartBtn').disabled = true;
+  $('neuralMessage').textContent = 'Checking this browser for saved training datasets…';
+  showDataProgress(0, 1, 'Checking saved browser dataset');
+  try {
+    const saved = await readNeuralDatasetCache();
+    if (signal && signal.aborted) throw signal.reason || new Error('Dataset loading was cancelled.');
+    if (saved && saved.revision === NEURAL_DATASET_REVISION && saved.trainBytes && saved.validationBytes &&
+        saved.trainBytes.byteLength >= 1000 && saved.validationBytes.byteLength >= 500 &&
+        saved.trainBytes.byteLength <= 2000000 && saved.validationBytes.byteLength <= 120000) {
+      datasetCache = {
+        ...saved,
+        trainBytes: new Uint8Array(saved.trainBytes),
+        validationBytes: new Uint8Array(saved.validationBytes)
+      };
+      displayLoadedNeuralDataset(datasetCache, true);
+      updateGlobalNeuralStats();
+      renderNeuralLiveView();
+      return datasetCache;
+    }
+  } catch (error) {
+    if (signal && signal.aborted) throw error;
+    console.warn('Saved dataset cache unavailable; downloading fresh data:', error);
+  }
+
   $('neuralMessage').textContent = 'Finding the DailyDialog training and validation splits…';
   showDataProgress(0, 1, 'Finding DailyDialog splits');
-
   const dailyInfo = await getDatasetSplitInfo(HF_DATASET, 'train', 'validation', signal);
   const dailyTrainRows = await fetchSplit(dailyInfo.training, (done, total) => {
     showDataProgress(done, total, 'Downloading a 2,500-row DailyDialog training sample');
@@ -2595,39 +2682,27 @@ async function loadTrainingDatasets(signal) {
   }, DAILY_VALIDATION_ROWS, signal);
   const dailyTrain = buildCorpus(dailyTrainRows);
   const dailyValidation = buildCorpus(dailyValidationRows);
-  if (dailyTrain.conversations < 100 || dailyValidation.conversations < 20) {
-    throw new Error('DailyDialog did not contain enough readable training and validation conversations.');
-  }
+  if (dailyTrain.conversations < 100 || dailyValidation.conversations < 20) throw new Error('DailyDialog did not contain enough readable training and validation conversations.');
 
   let ultraTrain = {text: '', conversations: 0};
   let ultraValidation = {text: '', conversations: 0};
   let ultraRowsLoaded = 0;
   let ultraError = null;
-
   try {
     $('neuralMessage').textContent = 'DailyDialog is ready. Checking the UltraChat 200k sample…';
     const ultraInfo = await getDatasetSplitInfo(HF_ULTRACHAT_DATASET, 'train_sft', 'test_sft', signal);
-    const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => {
-      showDataProgress(done, total, 'Downloading a capped UltraChat training sample');
-    }, ULTRACHAT_TRAIN_ROWS, signal);
-    const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => {
-      showDataProgress(done, total, 'Downloading a capped UltraChat validation sample');
-    }, ULTRACHAT_VALIDATION_ROWS, signal);
+    const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a capped UltraChat training sample'), ULTRACHAT_TRAIN_ROWS, signal);
+    const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a capped UltraChat validation sample'), ULTRACHAT_VALIDATION_ROWS, signal);
     ultraTrain = buildCorpus(ultraTrainRows);
     ultraValidation = buildCorpus(ultraValidationRows);
     ultraRowsLoaded = ultraTrainRows.length + ultraValidationRows.length;
-    if (ultraTrain.conversations < 100 || ultraValidation.conversations < 20) {
-      throw new Error('UltraChat returned too few readable user/assistant conversations.');
-    }
+    if (ultraTrain.conversations < 100 || ultraValidation.conversations < 20) throw new Error('UltraChat returned too few readable user/assistant conversations.');
   } catch (error) {
     if (signal && signal.aborted) throw error;
     ultraError = error;
     console.warn('UltraChat sample unavailable; continuing with DailyDialog only:', error);
   }
 
-  // The legacy WebAssembly buffer is limited to 2 MB. Keep the combined
-  // training stream within that limit while reserving space for both sources.
-  // If UltraChat cannot be fetched, retain the original full DailyDialog budget.
   const dailyBudget = ultraError ? 2000000 : DAILY_TRAIN_BUDGET;
   const ultraBudget = ultraError ? 0 : ULTRACHAT_TRAIN_BUDGET;
   const dailyTrainBytes = encodeCorpusWithinLimit(dailyTrain.text, dailyBudget);
@@ -2638,17 +2713,11 @@ async function loadTrainingDatasets(signal) {
   const ultraValidationBytes = ultraError ? new Uint8Array(0) : encodeCorpusWithinLimit(ultraValidationText, VALIDATION_SOURCE_BUDGET);
   const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes]);
   const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes]);
-
-  if (trainBytes.length > 2000000 || validationBytes.length > 120000) {
-    throw new Error('The combined training text exceeded the existing local engine memory limit.');
-  }
-  if (trainBytes.length < 1000 || validationBytes.length < 500) {
-    throw new Error('The combined datasets did not contain enough readable text.');
-  }
+  if (trainBytes.length > 2000000 || validationBytes.length > 120000) throw new Error('The combined training text exceeded the existing local engine memory limit.');
+  if (trainBytes.length < 1000 || validationBytes.length < 500) throw new Error('The combined datasets did not contain enough readable text.');
 
   datasetCache = {
-    trainBytes,
-    validationBytes,
+    trainBytes, validationBytes,
     trainConversations: dailyTrain.conversations + (ultraError ? 0 : ultraTrain.conversations),
     validationConversations: dailyValidation.conversations + (ultraError ? 0 : ultraValidation.conversations),
     trainRows: dailyTrainRows.length + (ultraError ? 0 : ultraRowsLoaded),
@@ -2658,16 +2727,14 @@ async function loadTrainingDatasets(signal) {
     datasetName: ultraError ? 'DailyDialog only' : 'DailyDialog + UltraChat',
     ultraError: ultraError ? (ultraError.message || String(ultraError)) : ''
   };
-
-  $('datasetName').textContent = datasetCache.datasetName;
-  $('conversationCount').textContent = datasetCache.trainConversations.toLocaleString();
-  $('neuralDatasetName').textContent = datasetCache.datasetName;
-  $('neuralTrainConversations').textContent = datasetCache.trainConversations.toLocaleString();
-  $('neuralValidationConversations').textContent = datasetCache.validationConversations.toLocaleString();
-  showDataProgress(1, 1, ultraError ? 'DailyDialog ready · UltraChat unavailable' : 'DailyDialog + UltraChat ready');
-  $('neuralMessage').textContent = ultraError
-    ? 'Loaded ' + dailyTrain.conversations.toLocaleString() + ' DailyDialog training conversations. UltraChat could not be loaded (' + datasetCache.ultraError + '), so this run will safely use DailyDialog only.'
-    : 'Loaded ' + dailyTrain.conversations.toLocaleString() + ' DailyDialog and ' + ultraTrain.conversations.toLocaleString() + ' UltraChat training conversations, with separate held-out validation samples from both datasets.';
+  displayLoadedNeuralDataset(datasetCache, false);
+  try {
+    await writeNeuralDatasetCache(datasetCache);
+    $('neuralMessage').textContent += ' Saved in this browser for future visits.';
+  } catch (error) {
+    console.warn('Could not persist downloaded datasets:', error);
+    $('neuralMessage').textContent += ' Browser storage was unavailable, so a future reload may need another download.';
+  }
   updateGlobalNeuralStats();
   renderNeuralLiveView();
   return datasetCache;
