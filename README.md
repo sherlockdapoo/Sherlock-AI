@@ -36,6 +36,14 @@ The current score can still rise or fall between completed passes. This small co
 
 The current model is a small character-level 4-gram counter with backoff. It first uses the previous three characters when it has enough examples, then falls back to the previous two characters. Its counters are 32-bit, so an individual next-character count no longer stops at 65,535. It still learns character patterns rather than meaning, and it is not a modern language model.
 
+## Performance tuning
+
+The browser adjusts the next training batch automatically. It starts at 65,536 characters, samples recent C++ call durations, and tunes the next batch every three calls toward a roughly 30 ms target. The configured range is 16,384 to 196,608 characters. This aims to keep the engine busy without making individual calls unnecessarily long.
+
+The Live View reports measured throughput, average batch time, peak sampled throughput, cumulative C++ call time, and the next batch size. Throughput is measured on the device and can vary with browser scheduling, temperature, and other activity.
+
+The current WebAssembly engine is single-threaded. Adaptive batches do not use all four CPU cores; true multi-core training is a separate future upgrade that depends on browser and hosting support for WebAssembly threads and shared memory.
+
 ## Technology
 
 - Front end: HTML, CSS, and JavaScript.
