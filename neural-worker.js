@@ -265,6 +265,15 @@ function evaluate() {
   }
   return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
 }
+function networkSnapshot() {
+  const ii=Array.from({length:12},(_,i)=>i*4),hi=Array.from({length:16},(_,i)=>i*3),oi=Array.from({length:12},(_,i)=>i*11);
+  const input=ii.map(i=>inputVector[i]),hidden=hi.map(i=>hiddenVector[i]),output=oi.map(i=>probabilities[i]),w1=[],w2=[];
+  for(const h of hi)for(const i of ii)w1.push(parameters[W1_OFFSET+h*INPUT+i]);
+  for(const o of oi)for(const h of hi)w2.push(parameters[W2_OFFSET+o*HIDDEN+h]);
+  let top=0;for(let i=1;i<VOCAB;i++)if(probabilities[i]>probabilities[top])top=i;
+  const ch=top===10?'\\n':top===13?'\\r':top>=32&&top<127?String.fromCharCode(top):'?';
+  return {input,hidden,output,w1,w2,topCharacter:JSON.stringify(ch)+' · '+(probabilities[top]*100).toFixed(2)+'%'};
+}
 function progressPayload() {
   const now = performance.now();
   let speed = 0;
@@ -274,6 +283,7 @@ function progressPayload() {
   reportAt = now;
   reportExamples = examplesSeen;
   return {
+    network: networkSnapshot(),
     steps,
     examples: examplesSeen,
     epochs: trainData ? examplesSeen / Math.max(1, trainData.length - CONTEXT) : 0,
