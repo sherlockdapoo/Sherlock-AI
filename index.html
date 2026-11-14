@@ -30,6 +30,12 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-o
 .status.ready{border-color:#285c4d;color:#a2f0cb}.status.ready .status-dot{background:var(--green);box-shadow:0 0 0 3px rgba(112,223,176,.14)}
 .eyebrow{position:relative;z-index:1;color:#a9c7ff;font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 18px}
+/* Keep only the four key model status bubbles in the header. */
+.stats .stat:nth-child(2),
+.stats .stat:nth-child(3),
+.stats .stat:nth-child(4),
+.stats .stat:nth-child(6){display:none}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr))}
 .stat{min-width:0;padding:12px 14px;border:1px solid #293d59;border-radius:13px;background:linear-gradient(155deg,#132239,#0d1829)}
 .stat-label{display:block;color:#9fb1ca;font-size:11px}
 .stat-value{display:block;margin-top:3px;font-size:19px;font-weight:750;letter-spacing:-.4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
@@ -827,7 +833,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.14">v0.5.14</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.16">v0.5.16</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
