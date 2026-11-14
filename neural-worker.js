@@ -330,7 +330,8 @@ function runBatch() {
       lossInitialized = true;
 
       if (steps % EVAL_EVERY === 0) evaluate();
-      if (steps % 8 === 0) self.postMessage({type: "progress", ...progressPayload()});
+      // Report each mini-batch so the UI never appears frozen during startup.
+      self.postMessage({type: "progress", ...progressPayload()});
     }
     if (running) setTimeout(runBatch, 0);
   } catch (error) {
