@@ -44,6 +44,25 @@ The Live View reports measured throughput, average batch time, peak sampled thro
 
 The current WebAssembly engine is single-threaded. Adaptive batches do not use all four CPU cores; true multi-core training is a separate future upgrade that depends on browser and hosting support for WebAssembly threads and shared memory.
 
+## Neural network experiment (v0.2.0)
+
+The Neural Lab adds Sherlock's first actual neural network while keeping the original C++ character-counter as a separate baseline.
+
+- **Architecture:** a character-level multilayer perceptron (MLP) with a four-character context, 12-dimensional learned character embeddings, one 48-neuron ReLU hidden layer, and a 128-way softmax output.
+- **Size:** 10,160 trainable parameters.
+- **Learning task:** predict the next character from the previous four characters.
+- **Training:** cross-entropy loss, backpropagation, and the Adam optimiser (learning rate 0.003), using mini-batches of 12 examples.
+- **Data:** uses the same DailyDialog train and validation splits as the baseline. The neural worker receives copies of the prepared bytes, so both experiments keep separate model state.
+- **Validation:** reports top-1 next-character accuracy on up to 512 evenly spaced positions from the held-out validation text. This is a smaller sample than the original counter's validation check, so the two displayed percentages are useful indicators but are not a perfectly controlled head-to-head benchmark.
+- **Best checkpoint:** when training stops, the worker evaluates the network and restores the best validation-scoring weights seen in that page session.
+- **Chat:** after the neural model has trained and is stopped, the Chat tab switches to neural-network generation. Before that, the original C++ baseline remains available.
+
+The network trains in `neural-worker.js`, a dedicated browser Web Worker. This keeps the main page more responsive, but it is still one worker using one CPU thread. It does not yet use all four CPU cores, and moving the neural calculations into C++ WebAssembly or adding safe multi-core execution is a later optimisation.
+
+Like the baseline, the neural model exists only in page memory. Refreshing the page resets the neural weights and training counters. The first dataset load needs an internet connection; the neural training calculations themselves run locally in the browser.
+
+This is a deliberately small first neural model, not a transformer or a full ChatGPT-scale language model. The goal is to establish a real backpropagation training pipeline that can be measured and improved before increasing model size.
+
 ## Technology
 
 - Front end: HTML, CSS, and JavaScript.
