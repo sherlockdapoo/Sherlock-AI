@@ -1352,8 +1352,9 @@ function renderNeuralLossHistory() {
     line.setAttribute('points', '');
     area.setAttribute('points', '');
     dot.setAttribute('visibility', 'hidden');
-    $('neuralLossRange').textContent = 'Waiting for the first training update';
-    ['neuralLossYTop','neuralLossYMidTop','neuralLossYMidBottom','neuralLossYBottom','neuralLossXMid','neuralLossXEnd'].forEach(id => { if ($(id)) $(id).textContent = '—'; });
+    $('neuralLossRange').textContent = 'Waiting for the first training update · example axis scale';
+    const initialAxisLabels = { neuralLossYTop: '1.000', neuralLossYMidTop: '0.667', neuralLossYMidBottom: '0.333', neuralLossYBottom: '0.000', neuralLossXMid: '45', neuralLossXEnd: '90' };
+    Object.entries(initialAxisLabels).forEach(([id, value]) => { if ($(id)) $(id).textContent = value; });
     return;
   }
   const left = 64, right = 540, top = 24, bottom = 198;
