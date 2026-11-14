@@ -2343,13 +2343,23 @@ function showError(error) {
 async function getJSON(url) {
   let lastError = null;
   for (let attempt = 0; attempt < 3; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
     try {
-      const response = await fetch(url, { cache: 'force-cache', headers: { 'Accept': 'application/json' } });
+      const response = await fetch(url, {
+        cache: 'no-cache',
+        headers: { 'Accept': 'application/json' },
+        signal: controller.signal
+      });
       if (!response.ok) throw new Error('Dataset server returned ' + response.status);
       return await response.json();
     } catch (error) {
-      lastError = error;
+      lastError = error && error.name === 'AbortError'
+        ? new Error('Dataset request timed out after 12 seconds. Check your connection and try again.')
+        : error;
       if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
+    } finally {
+      clearTimeout(timeout);
     }
   }
   throw lastError || new Error('Dataset request failed.');
