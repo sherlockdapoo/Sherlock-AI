@@ -13,7 +13,12 @@ const W2_OFFSET = B1_OFFSET + HIDDEN;
 const B2_OFFSET = W2_OFFSET + VOCAB * HIDDEN;
 const PARAMS = B2_OFFSET + VOCAB;
 
-const BATCH_SIZE = 24;
+const DEFAULT_BATCH_SIZE = 24;
+const ALLOWED_BATCH_SIZES = [8, 16, 24, 32];
+const ALLOWED_MAX_STEPS = [0, 5000, 10000, 25000, 50000, 100000];
+let activeBatchSize = DEFAULT_BATCH_SIZE;
+let activeMaxSteps = 0;
+let runStartSteps = 0;
 const DEFAULT_LEARNING_RATE = 0.003;
 let activeLearningRate = DEFAULT_LEARNING_RATE;
 const ADAMW_WEIGHT_DECAY = 0.0001;
@@ -314,7 +319,9 @@ function progressPayload() {
     validationSamples,
     examplesPerSecond: speed,
     parameters: PARAMS,
-    batchSize: BATCH_SIZE,
+    batchSize: activeBatchSize,
+    maxSteps: activeMaxSteps,
+    runSteps: Math.max(0, steps - runStartSteps),
     optimizer: activeOptimizer,
     learningRate: activeLearningRate
   };
@@ -325,22 +332,27 @@ function runBatch() {
     const maximumPosition = trainData.length - 1;
     // Process several mini-batches per worker slice to reduce timer overhead.
     // Yield after each slice so the page can still send Stop and other messages.
-    for (let slice = 0; slice < BATCHES_PER_SLICE && running; slice++) {
+    for (let slice = 0; slice < BATCHES_PER_SLICE && running &&
+      (activeMaxSteps === 0 || steps - runStartSteps < activeMaxSteps); slice++) {
       let batchLoss = 0;
-      for (let i = 0; i < BATCH_SIZE; i++) {
+      for (let i = 0; i < activeBatchSize; i++) {
         const position = CONTEXT + randomInt(maximumPosition - CONTEXT + 1);
         batchLoss += trainExample(position);
       }
-      applyOptimizer(BATCH_SIZE);
+      applyOptimizer(activeBatchSize);
       steps++;
-      examplesSeen += BATCH_SIZE;
-      const averageLoss = batchLoss / BATCH_SIZE;
+      examplesSeen += activeBatchSize;
+      const averageLoss = batchLoss / activeBatchSize;
       movingLoss = lossInitialized ? movingLoss * 0.92 + averageLoss * 0.08 : averageLoss;
       lossInitialized = true;
 
       if (steps % EVAL_EVERY === 0) evaluate();
       // Report each mini-batch so the UI never appears frozen during startup.
       self.postMessage({type: "progress", ...progressPayload()});
+      if (activeMaxSteps > 0 && steps - runStartSteps >= activeMaxSteps) {
+        stopTraining("limit");
+        return;
+      }
     }
     if (running) setTimeout(runBatch, 0);
   } catch (error) {
@@ -348,12 +360,12 @@ function runBatch() {
     self.postMessage({type: "error", message: error && error.message ? error.message : String(error)});
   }
 }
-function stopTraining() {
+function stopTraining(reason = "manual") {
   if (!running) return;
   running = false;
   // Evaluate and save the exact latest weights. Do not roll back to an older checkpoint.
   evaluate();
-  self.postMessage({type: "stopped", ...progressPayload(), restoredBest: false});
+  self.postMessage({type: "stopped", ...progressPayload(), restoredBest: false, stopReason: reason});
 }
 function generate(prompt, requestedLength) {
   if (!initialized || examplesSeen === 0) return "Train the neural network first.";
@@ -431,6 +443,12 @@ self.addEventListener("message", event => {
       self.postMessage({type: "ready", parameters: PARAMS});
     } else if (message.type === "load-model") {
       activeOptimizer = message.optimizer === 'adamw' ? 'adamw' : 'adam';
+      activeLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
+        ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
+      activeBatchSize = ALLOWED_BATCH_SIZES.includes(Number(message.batchSize))
+        ? Number(message.batchSize) : DEFAULT_BATCH_SIZE;
+      activeMaxSteps = ALLOWED_MAX_STEPS.includes(Number(message.maxSteps))
+        ? Number(message.maxSteps) : 0;
       const restored = new Float32Array(message.modelBuffer);
       if (restored.length !== PARAMS) throw new Error("The saved neural model has the wrong number of weights.");
       parameters = new Float32Array(restored);
@@ -465,7 +483,10 @@ self.addEventListener("message", event => {
         validationSamples,
         steps,
         examples: examplesSeen,
-        loss: movingLoss
+        loss: movingLoss,
+        learningRate: activeLearningRate,
+        batchSize: activeBatchSize,
+        maxSteps: activeMaxSteps
       });
     } else if (message.type === "set-data") {
       setDatasetBuffers(message.trainBuffer, message.validationBuffer);
@@ -490,6 +511,10 @@ self.addEventListener("message", event => {
       const requestedLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
         ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
       activeLearningRate = requestedLearningRate;
+      activeBatchSize = ALLOWED_BATCH_SIZES.includes(Number(message.batchSize))
+        ? Number(message.batchSize) : DEFAULT_BATCH_SIZE;
+      activeMaxSteps = ALLOWED_MAX_STEPS.includes(Number(message.maxSteps))
+        ? Number(message.maxSteps) : 0;
       const optimizerChanged = requestedOptimizer !== activeOptimizer;
       if (optimizerChanged) {
         activeOptimizer = requestedOptimizer;
@@ -498,11 +523,20 @@ self.addEventListener("message", event => {
       }
       if (!trainData || !validationData) throw new Error("Load the DailyDialog dataset before training.");
       if (!running) {
+        runStartSteps = steps;
         running = true;
         reportAt = performance.now();
         reportExamples = examplesSeen;
         lastReportedSpeed = 0;
-        self.postMessage({type: "started", optimizer: activeOptimizer, learningRate: activeLearningRate, reset: optimizerChanged});
+        self.postMessage({
+          type: "started",
+          optimizer: activeOptimizer,
+          learningRate: activeLearningRate,
+          batchSize: activeBatchSize,
+          maxSteps: activeMaxSteps,
+          runSteps: 0,
+          reset: optimizerChanged
+        });
         setTimeout(runBatch, 0);
       }
     } else if (message.type === "stop") {
