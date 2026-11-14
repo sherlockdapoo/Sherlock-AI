@@ -208,8 +208,8 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .visual-chart{display:block;width:100%;height:auto;overflow:visible}
 .visual-chart .chart-grid{stroke:#253750;stroke-width:1;stroke-dasharray:4 6}
 .chart-axis{stroke:#8296b3;stroke-width:1.4}.chart-axis-label{fill:#9fb2cc;font:11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.chart-axis-title{fill:#c1d0e5;font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.neural-loss-chart,.neural-accuracy-chart{display:block;width:100%;height:auto;min-height:0}.neural-live-card:has(.neural-loss-chart){min-width:0}.neural-live-card:has(.neural-loss-chart) .visual-chart-wrap{padding:12px 10px 7px}.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:12px}
-@media(max-width:520px){.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:13px}}
+.neural-loss-chart,.neural-accuracy-chart{display:block;width:100%;height:250px;max-height:250px;min-height:0}.neural-live-card:has(.neural-loss-chart){min-width:0}.neural-live-card:has(.neural-loss-chart) .visual-chart-wrap{padding:12px 10px 7px}.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:12px}
+@media(max-width:520px){.neural-loss-chart,.neural-accuracy-chart{height:220px;max-height:220px}.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:13px}}
 .visual-chart .chart-line{fill:none;stroke:#83adff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .visual-chart .chart-area{fill:rgba(105,157,237,.12)}
 .visual-chart .chart-dot{fill:#a9c8ff;stroke:#12233a;stroke-width:3}
@@ -1239,6 +1239,7 @@ let neuralStartupAttempt = 0;
 let neuralRequestSequence = 0;
 let neuralPendingRequests = new Map();
 let neuralAccuracyHistory = [];
+let neuralAccuracyEvalHistory = [];
 let neuralLastEvalIndex = 0;
 let neuralLatestAccuracyValue = null;
 let neuralBestAccuracyValue = null;
@@ -1248,6 +1249,7 @@ let neuralBestValidationLossValue = null;
 let neuralEvaluationCountValue = 0;
 let neuralDatasetInitialized = false;
 let neuralLossHistory = [];
+let neuralLossStepHistory = [];
 let neuralLatestLossValue = null;
 let neuralExamplesValue = 0;
 let neuralStepsValue = 0;
@@ -1318,6 +1320,7 @@ function renderNeuralHistory() {
   const dot = $('neuralAccuracyDot');
   if (!line || !area || !dot) return;
   const values = neuralAccuracyHistory;
+  const evals = neuralAccuracyEvalHistory;
   $('neuralLatestAccuracy').textContent = neuralLatestAccuracyValue === null ? 'Not measured' : neuralLatestAccuracyValue.toFixed(3) + '%';
   $('neuralChartBest').textContent = neuralBestAccuracyValue === null ? 'Not measured' : neuralBestAccuracyValue.toFixed(3) + '%';
   $('neuralEvalCount').textContent = neuralEvaluationCountValue.toLocaleString();
@@ -1343,7 +1346,8 @@ function renderNeuralHistory() {
   let max = Math.min(100, Math.max(...values) + Math.max(0.5, (Math.max(...values) - Math.min(...values)) * 0.25));
   if (max - min < 0.05) { min = Math.max(0, min - 0.1); max = Math.min(100, max + 0.1); }
   const points = values.map((value, index) => {
-    const x = left + (values.length === 1 ? 0 : (right - left) * index / (values.length - 1));
+    const checkNumber = Number(evals[index]) || index + 1;
+    const x = left + (right - left) * Math.max(0, Math.min(400, checkNumber)) / 400;
     const y = bottom - ((value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
@@ -1360,9 +1364,9 @@ function renderNeuralHistory() {
     const value = max - (max - min) * index / 3;
     if ($(id)) $(id).textContent = fmt(value);
   });
-  if ($('neuralAccuracyXStart')) $('neuralAccuracyXStart').textContent = Math.max(1, neuralEvaluationCountValue - values.length + 1).toLocaleString();
-  if ($('neuralAccuracyXMid')) $('neuralAccuracyXMid').textContent = Math.round(Math.max(1, neuralEvaluationCountValue - values.length / 2 + 1)).toLocaleString();
-  if ($('neuralAccuracyXEnd')) $('neuralAccuracyXEnd').textContent = neuralEvaluationCountValue.toLocaleString();
+  if ($('neuralAccuracyXStart')) $('neuralAccuracyXStart').textContent = '0';
+  if ($('neuralAccuracyXMid')) $('neuralAccuracyXMid').textContent = '200';
+  if ($('neuralAccuracyXEnd')) $('neuralAccuracyXEnd').textContent = '400';
   $('neuralAccuracyRange').textContent = 'Observed range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' recent checks';
 }
 function renderNeuralLossHistory() {
@@ -1370,26 +1374,27 @@ function renderNeuralLossHistory() {
   const area = $('neuralLossArea');
   const dot = $('neuralLossDot');
   if (!line || !area || !dot) return;
-  const values = neuralLossHistory.filter(value => Number.isFinite(value));
+  const values = neuralLossHistory.map((value, index) => ({value, step: Number(neuralLossStepHistory[index]) || index + 1})).filter(item => Number.isFinite(item.value));
+  const lossValues = values.map(item => item.value);
   $('neuralLiveLoss').textContent = neuralLatestLossValue === null ? 'Not measured' : neuralLatestLossValue.toFixed(4);
   if (!values.length) {
     line.setAttribute('points', '');
     area.setAttribute('points', '');
     dot.setAttribute('visibility', 'hidden');
     $('neuralLossRange').textContent = 'Waiting for the first training update · example axis scale';
-    const initialAxisLabels = { neuralLossYTop: '1.000', neuralLossYMidTop: '0.667', neuralLossYMidBottom: '0.333', neuralLossYBottom: '0.000', neuralLossXMid: '45', neuralLossXEnd: '90' };
+    const initialAxisLabels = { neuralLossYTop: '1.000', neuralLossYMidTop: '0.667', neuralLossYMidBottom: '0.333', neuralLossYBottom: '0.000', neuralLossXMid: '10,000', neuralLossXEnd: '20,000' };
     Object.entries(initialAxisLabels).forEach(([id, value]) => { if ($(id)) $(id).textContent = value; });
     return;
   }
   const left = 64, right = 540, top = 24, bottom = 300;
-  let min = Math.min(...values), max = Math.max(...values);
+  let min = Math.min(...lossValues), max = Math.max(...lossValues);
   const spread = Math.max(0.05, max - min);
   min = Math.max(0, min - spread * 0.12);
   max += spread * 0.12;
   if (max - min < 0.0001) max = min + 0.1;
   const points = values.map((value, index) => {
-    const x = left + (values.length === 1 ? 0 : (right - left) * index / (values.length - 1));
-    const y = bottom - ((value - min) / (max - min)) * (bottom - top);
+    const x = left + (right - left) * Math.max(0, Math.min(20000, value.step)) / 20000;
+    const y = bottom - ((value.value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
   const pointString = points.map(point => point[0].toFixed(1) + ',' + point[1].toFixed(1)).join(' ');
@@ -1405,9 +1410,9 @@ function renderNeuralLossHistory() {
     const value = max - (max - min) * index / 3;
     $(id).textContent = fmt(value);
   });
-  $('neuralLossXMid').textContent = Math.max(1, Math.round((values.length + 1) / 2)).toLocaleString();
-  $('neuralLossXEnd').textContent = values.length.toLocaleString();
-  $('neuralLossRange').textContent = 'Recent loss range ' + Math.min(...values).toFixed(4) + '–' + Math.max(...values).toFixed(4);
+  $('neuralLossXMid').textContent = '10,000';
+  $('neuralLossXEnd').textContent = '20,000';
+  $('neuralLossRange').textContent = 'Recent loss range ' + Math.min(...lossValues).toFixed(4) + '–' + Math.max(...lossValues).toFixed(4) + ' · updates ' + values[0].step.toLocaleString() + '–' + values[values.length - 1].step.toLocaleString();
 }
 
 function updateGlobalNeuralStats() {
@@ -1670,7 +1675,8 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   if (Number.isFinite(Number(data.loss)) && examples > 0) {
     neuralLatestLossValue = Number(data.loss);
     neuralLossHistory.push(neuralLatestLossValue);
-    if (neuralLossHistory.length > 240) neuralLossHistory.shift();
+    neuralLossStepHistory.push(steps);
+    if (neuralLossHistory.length > 240) { neuralLossHistory.shift(); neuralLossStepHistory.shift(); }
   }
 
   if (data.validationLoss !== null && data.validationLoss !== undefined && Number.isFinite(Number(data.validationLoss))) {
@@ -1699,7 +1705,8 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     if (isNewEvaluation) {
       neuralLastEvalIndex = Math.max(neuralLastEvalIndex, evaluationCount);
       neuralAccuracyHistory.push(accuracy);
-      if (neuralAccuracyHistory.length > 120) neuralAccuracyHistory.shift();
+      neuralAccuracyEvalHistory.push(evaluationCount || neuralAccuracyHistory.length);
+      if (neuralAccuracyHistory.length > 120) { neuralAccuracyHistory.shift(); neuralAccuracyEvalHistory.shift(); }
     }
   }
   if (data.bestAccuracy !== null && data.bestAccuracy !== undefined && Number(data.bestAccuracy) >= 0) {
@@ -1716,6 +1723,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
 }
 function resetNeuralExperimentMetrics(optimizer) {
   neuralAccuracyHistory = [];
+  neuralAccuracyEvalHistory = [];
   neuralLastEvalIndex = 0;
   neuralLatestAccuracyValue = null;
   neuralBestAccuracyValue = null;
@@ -1724,6 +1732,7 @@ function resetNeuralExperimentMetrics(optimizer) {
   neuralBestValidationLossValue = null;
   neuralEvaluationCountValue = 0;
   neuralLossHistory = [];
+  neuralLossStepHistory = [];
   neuralLatestLossValue = null;
   neuralExamplesValue = 0;
   neuralStepsValue = 0;
