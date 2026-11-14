@@ -17,8 +17,8 @@ const BATCH_SIZE = 24;
 const LEARNING_RATE = 0.003;
 const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = 'adamw';
-const EVAL_EVERY = 50;
-const EVAL_SAMPLES = 1024;
+const EVAL_EVERY = 25;
+const EVAL_SAMPLES = 1280;
 const BATCHES_PER_SLICE = 6;
 
 let trainData = null;
