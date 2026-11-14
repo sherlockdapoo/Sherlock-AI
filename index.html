@@ -18,7 +18,7 @@ button,input{font:inherit}
 button{cursor:pointer}
 button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 .app{width:min(1040px,100%);margin:0 auto;padding:25px 20px 38px}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
 .logo{width:46px;height:46px;display:grid;place-items:center;border:1px solid #49689b;border-radius:15px;background:linear-gradient(145deg,#31558b,#172a49);box-shadow:0 8px 25px rgba(40,83,147,.22);color:#eaf2ff;font-size:25px}
 .brand-title{margin:0;font-size:19px;letter-spacing:-.4px;font-weight:750}
@@ -27,15 +27,12 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-o
 .status-dot{width:7px;height:7px;border-radius:50%;background:#8796aa;box-shadow:0 0 0 3px rgba(135,150,170,.12)}
 .status.running{border-color:#62532e;color:#ffe0a0}.status.running .status-dot{background:var(--amber);box-shadow:0 0 0 3px rgba(242,201,120,.14)}
 .status.ready{border-color:#285c4d;color:#a2f0cb}.status.ready .status-dot{background:var(--green);box-shadow:0 0 0 3px rgba(112,223,176,.14)}
-.intro{position:relative;overflow:hidden;padding:27px 28px;margin-bottom:18px;border:1px solid #2d4466;border-radius:23px;background:linear-gradient(115deg,rgba(29,54,91,.94),rgba(16,27,46,.97) 72%);box-shadow:var(--shadow)}
-.intro:after{content:"⌕";position:absolute;right:30px;top:-42px;font-size:190px;line-height:1;color:rgba(160,194,255,.055);pointer-events:none}
 .eyebrow{position:relative;z-index:1;color:#a9c7ff;font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
-.intro h2{position:relative;z-index:1;margin:8px 0 7px;max-width:650px;font-size:clamp(25px,5vw,35px);line-height:1.15;letter-spacing:-1px}
-.intro p{position:relative;z-index:1;max-width:650px;margin:0;color:#b6c5dc;font-size:14px}
-.stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px;max-width:690px}
-.stat{padding:11px 13px;border:1px solid rgba(112,145,194,.23);border-radius:14px;background:rgba(7,17,32,.43)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 18px}
+.stat{min-width:0;padding:12px 14px;border:1px solid #293d59;border-radius:13px;background:linear-gradient(155deg,#132239,#0d1829)}
 .stat-label{display:block;color:#9fb1ca;font-size:11px}
-.stat-value{display:block;margin-top:2px;font-size:20px;font-weight:750;letter-spacing:-.4px}
+.stat-value{display:block;margin-top:3px;font-size:19px;font-weight:750;letter-spacing:-.4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat-unit{display:block;margin-top:1px;color:#7f93af;font-size:9px}
 .tabs-wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}
 .tabs{display:inline-flex;gap:5px;padding:5px;border:1px solid var(--line);border-radius:15px;background:#0c1524}
 .tab{display:flex;align-items:center;justify-content:center;gap:8px;min-width:118px;padding:10px 15px;border:0;border-radius:11px;background:transparent;color:var(--muted);font-weight:700;font-size:13px;transition:background .18s,color .18s,box-shadow .18s}
@@ -107,12 +104,12 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .chat-hint{margin:0;padding:0 16px 13px;background:#101b2c;color:#7f93af;font-size:10px}
 .footer{padding:22px 0 0;color:#647895;text-align:center;font-size:10px}.footer a{color:#91b7f4;text-decoration:none}.footer a:hover{text-decoration:underline}
 @media(max-width:720px){
-  .app{padding:16px 13px 30px}.topbar{margin-bottom:18px}.intro{padding:22px 19px;border-radius:19px}.intro:after{right:3px;top:-20px;font-size:140px}.stats{gap:7px}.stat{padding:9px}.stat-value{font-size:17px}.stat-label{font-size:10px}
+  .app{padding:16px 13px 30px}.topbar{margin-bottom:14px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.stat{padding:10px}.stat-value{font-size:17px}.stat-label{font-size:10px}
   .training-grid{grid-template-columns:1fr}.training-main{padding:17px}
   .tabs-wrap{align-items:flex-start;flex-direction:column}.tabs{width:100%}.tab{flex:1;min-width:0}.tab-note{display:none}
 }
 @media(max-width:420px){
-  .brand-sub{font-size:11px}.status{padding:6px 8px;font-size:10px}.logo{width:41px;height:41px}.intro h2{font-size:25px}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat-value{font-size:16px}.actions{flex-wrap:wrap}.btn-primary{min-width:100%}.btn-secondary{flex:1}.message{max-width:90%}.chat-compose{padding:10px}.send-btn{min-width:68px;padding:9px}
+  .brand-sub{font-size:11px}.status{padding:6px 8px;font-size:10px}.logo{width:41px;height:41px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat-value{font-size:15px}.actions{flex-wrap:wrap}.btn-primary{min-width:100%}.btn-secondary{flex:1}.message{max-width:90%}.chat-compose{padding:10px}.send-btn{min-width:68px;padding:9px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
@@ -252,15 +249,11 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
 
-  <section class="intro">
-    <div class="eyebrow">Experiment 01 · First brain</div>
-    <h2>A tiny model. One character at a time.</h2>
-    <p>Sherlock learns from real everyday conversations in the DailyDialog dataset. your browser downloads the examples to your iPad, then the C++ WebAssembly engine trains locally. No Render training server is involved.</p>
-    <div class="stats">
-      <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
-      <div class="stat"><span class="stat-label">Current accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
-      <div class="stat"><span class="stat-label">Characters processed</span><strong class="stat-value" id="chars">0</strong></div>
-    </div>
+  <section class="stats" aria-label="Live model metrics">
+    <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
+    <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
+    <div class="stat"><span class="stat-label">Characters processed</span><strong class="stat-value" id="chars">0</strong></div>
+    <div class="stat"><span class="stat-label">Training speed</span><strong class="stat-value" id="topSpeed">0</strong><span class="stat-unit">characters per second</span></div>
   </section>
 
   <div class="tabs-wrap">
@@ -708,6 +701,7 @@ function renderLiveView(force = false) {
 
   samplePerformanceSpeed(now, seen);
   $('visualSpeed').textContent = training ? Math.round(performanceCurrentSpeed).toLocaleString() : '0';
+  $('topSpeed').textContent = training ? Math.round(performanceCurrentSpeed).toLocaleString() : '0';
   $('visualChars').textContent = seen.toLocaleString();
   $('visualPasses').textContent = passes.toLocaleString();
   $('visualSteps').textContent = steps.toLocaleString();
