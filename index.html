@@ -1346,8 +1346,7 @@ function renderNeuralHistory() {
   let max = Math.min(100, Math.max(...values) + Math.max(0.5, (Math.max(...values) - Math.min(...values)) * 0.25));
   if (max - min < 0.05) { min = Math.max(0, min - 0.1); max = Math.min(100, max + 0.1); }
   const points = values.map((value, index) => {
-    const checkNumber = Number(evals[index]) || index + 1;
-    const x = left + (right - left) * Math.max(0, Math.min(400, checkNumber)) / 400;
+    const x = left + (values.length === 1 ? 0 : (right - left) * index / (values.length - 1));
     const y = bottom - ((value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
@@ -1364,9 +1363,11 @@ function renderNeuralHistory() {
     const value = max - (max - min) * index / 3;
     if ($(id)) $(id).textContent = fmt(value);
   });
-  if ($('neuralAccuracyXStart')) $('neuralAccuracyXStart').textContent = '0';
-  if ($('neuralAccuracyXMid')) $('neuralAccuracyXMid').textContent = '200';
-  if ($('neuralAccuracyXEnd')) $('neuralAccuracyXEnd').textContent = '400';
+  const firstCheck = Number(evals[0]) || Math.max(1, neuralEvaluationCountValue - values.length + 1);
+  const lastCheck = Number(evals[evals.length - 1]) || neuralEvaluationCountValue;
+  if ($('neuralAccuracyXStart')) $('neuralAccuracyXStart').textContent = firstCheck.toLocaleString();
+  if ($('neuralAccuracyXMid')) $('neuralAccuracyXMid').textContent = Math.round((firstCheck + lastCheck) / 2).toLocaleString();
+  if ($('neuralAccuracyXEnd')) $('neuralAccuracyXEnd').textContent = lastCheck.toLocaleString();
   $('neuralAccuracyRange').textContent = 'Observed range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' recent checks';
 }
 function renderNeuralLossHistory() {
@@ -1393,7 +1394,7 @@ function renderNeuralLossHistory() {
   max += spread * 0.12;
   if (max - min < 0.0001) max = min + 0.1;
   const points = values.map((value, index) => {
-    const x = left + (right - left) * Math.max(0, Math.min(20000, value.step)) / 20000;
+    const x = left + (values.length === 1 ? 0 : (right - left) * index / (values.length - 1));
     const y = bottom - ((value.value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
@@ -1410,9 +1411,11 @@ function renderNeuralLossHistory() {
     const value = max - (max - min) * index / 3;
     $(id).textContent = fmt(value);
   });
-  $('neuralLossXMid').textContent = '10,000';
-  $('neuralLossXEnd').textContent = '20,000';
-  $('neuralLossRange').textContent = 'Recent loss range ' + Math.min(...lossValues).toFixed(4) + '–' + Math.max(...lossValues).toFixed(4) + ' · updates ' + values[0].step.toLocaleString() + '–' + values[values.length - 1].step.toLocaleString();
+  const firstStep = values[0].step;
+  const lastStep = values[values.length - 1].step;
+  $('neuralLossXMid').textContent = Math.round((firstStep + lastStep) / 2).toLocaleString();
+  $('neuralLossXEnd').textContent = lastStep.toLocaleString();
+  $('neuralLossRange').textContent = 'Recent loss range ' + Math.min(...lossValues).toFixed(4) + '–' + Math.max(...lossValues).toFixed(4) + ' · updates ' + firstStep.toLocaleString() + '–' + lastStep.toLocaleString();
 }
 
 function updateGlobalNeuralStats() {
