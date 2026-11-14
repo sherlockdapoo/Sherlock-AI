@@ -15,6 +15,8 @@ const PARAMS = B2_OFFSET + VOCAB;
 
 const BATCH_SIZE = 24;
 const LEARNING_RATE = 0.003;
+const ADAMW_WEIGHT_DECAY = 0.0001;
+let activeOptimizer = 'adam';
 const EVAL_EVERY = 100;
 const EVAL_SAMPLES = 256;
 const BATCHES_PER_SLICE = 6;
@@ -173,7 +175,7 @@ function trainExample(position) {
   }
   return loss;
 }
-function applyAdam(batchCount) {
+function applyOptimizer(batchCount) {
   let squaredNorm = 0;
   const inverseBatch = 1 / batchCount;
   for (let i = 0; i < PARAMS; i++) {
@@ -194,7 +196,13 @@ function applyAdam(batchCount) {
     secondMoment[i] = v;
     const mHat = m / correction1;
     const vHat = v / correction2;
-    parameters[i] -= LEARNING_RATE * mHat / (Math.sqrt(vHat) + 1e-8);
+    const adaptiveUpdate = LEARNING_RATE * mHat / (Math.sqrt(vHat) + 1e-8);
+    const decayParameter = (i >= EMBED_OFFSET && i < W1_OFFSET) ||
+      (i >= W1_OFFSET && i < B1_OFFSET) ||
+      (i >= W2_OFFSET && i < B2_OFFSET);
+    const weightDecay = activeOptimizer === 'adamw' && decayParameter
+      ? LEARNING_RATE * ADAMW_WEIGHT_DECAY * parameters[i] : 0;
+    parameters[i] -= adaptiveUpdate + weightDecay;
     gradients[i] = 0;
   }
 }
@@ -297,7 +305,8 @@ function progressPayload() {
     validationSamples,
     examplesPerSecond: speed,
     parameters: PARAMS,
-    batchSize: BATCH_SIZE
+    batchSize: BATCH_SIZE,
+    optimizer: activeOptimizer
   };
 }
 function runBatch() {
@@ -312,7 +321,7 @@ function runBatch() {
         const position = CONTEXT + randomInt(maximumPosition - CONTEXT + 1);
         batchLoss += trainExample(position);
       }
-      applyAdam(BATCH_SIZE);
+      applyOptimizer(BATCH_SIZE);
       steps++;
       examplesSeen += BATCH_SIZE;
       const averageLoss = batchLoss / BATCH_SIZE;
@@ -454,6 +463,12 @@ self.addEventListener("message", event => {
       self.postMessage({type: "data-ready", trainBytes: trainData.length, validationBytes: validationData.length});
     } else if (message.type === "start") {
       if (!initialized) throw new Error("Load or restore the neural model first.");
+      const requestedOptimizer = message.optimizer === 'adamw' ? 'adamw' : 'adam';
+      if (requestedOptimizer !== activeOptimizer) {
+        activeOptimizer = requestedOptimizer;
+        randomState = 0x5A17C0DE;
+        initializeParameters();
+      }
       if (!trainData || !validationData) throw new Error("Load the DailyDialog dataset before training.");
       if (!running) {
         running = true;
