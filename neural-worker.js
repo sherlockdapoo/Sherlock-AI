@@ -222,6 +222,15 @@ function evaluate() {
   if (score > bestAccuracy) {
     bestAccuracy = score;
     bestParameters = new Float32Array(parameters);
+    const checkpointBuffer = bestParameters.slice().buffer;
+    self.postMessage({
+      type: "checkpoint",
+      accuracy: bestAccuracy,
+      steps,
+      examples: examplesSeen,
+      loss: movingLoss,
+      modelBuffer: checkpointBuffer
+    }, [checkpointBuffer]);
   }
   return score;
 }
@@ -334,20 +343,52 @@ function generate(prompt, requestedLength) {
   return output.join("");
 }
 
+function setDatasetBuffers(trainBuffer, validationBuffer) {
+  trainData = new Uint8Array(trainBuffer);
+  validationData = new Uint8Array(validationBuffer);
+  if (trainData.length <= CONTEXT + 10 || validationData.length <= CONTEXT + 10)
+    throw new Error("The training or validation text is too short.");
+}
+
 self.addEventListener("message", event => {
   const message = event.data || {};
   try {
     if (message.type === "init") {
-      trainData = new Uint8Array(message.trainBuffer);
-      validationData = new Uint8Array(message.validationBuffer);
-      if (trainData.length <= CONTEXT + 10 || validationData.length <= CONTEXT + 10)
-        throw new Error("The training or validation text is too short.");
+      setDatasetBuffers(message.trainBuffer, message.validationBuffer);
       randomState = 0x5A17C0DE;
       initializeParameters();
       initialized = true;
       self.postMessage({type: "ready", parameters: PARAMS});
+    } else if (message.type === "load-model") {
+      const restored = new Float32Array(message.modelBuffer);
+      if (restored.length !== PARAMS) throw new Error("The saved neural model has the wrong number of weights.");
+      parameters = new Float32Array(restored);
+      bestParameters = new Float32Array(restored);
+      bestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1;
+      latestAccuracy = bestAccuracy >= 0 ? bestAccuracy : null;
+      steps = Math.max(0, Number(message.steps) || 0);
+      examplesSeen = Math.max(0, Number(message.examples) || 0);
+      optimizerStep = 0;
+      firstMoment.fill(0);
+      secondMoment.fill(0);
+      movingLoss = Math.max(0, Number(message.loss) || 0);
+      lossInitialized = movingLoss > 0;
+      initialized = true;
+      self.postMessage({
+        type: "model-loaded",
+        parameters: PARAMS,
+        accuracy: latestAccuracy,
+        bestAccuracy,
+        steps,
+        examples: examplesSeen,
+        loss: movingLoss
+      });
+    } else if (message.type === "set-data") {
+      setDatasetBuffers(message.trainBuffer, message.validationBuffer);
+      self.postMessage({type: "data-ready", trainBytes: trainData.length, validationBytes: validationData.length});
     } else if (message.type === "start") {
-      if (!initialized) throw new Error("Load the DailyDialog dataset first.");
+      if (!initialized) throw new Error("Load or restore the neural model first.");
+      if (!trainData || !validationData) throw new Error("Load the DailyDialog dataset before training.");
       if (!running) {
         running = true;
         reportAt = performance.now();
@@ -361,6 +402,7 @@ self.addEventListener("message", event => {
       self.postMessage({type: "generated", id: message.id, text: generate(message.prompt, message.length)});
     }
   } catch (error) {
+    running = false;
     self.postMessage({type: "error", id: message.id, message: error && error.message ? error.message : String(error)});
   }
 });
