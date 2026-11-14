@@ -464,6 +464,20 @@ self.addEventListener("message", event => {
     } else if (message.type === "set-data") {
       setDatasetBuffers(message.trainBuffer, message.validationBuffer);
       self.postMessage({type: "data-ready", trainBytes: trainData.length, validationBytes: validationData.length});
+    } else if (message.type === "reset-for-dataset") {
+      if (running) throw new Error("Stop training before resetting the model.");
+      setDatasetBuffers(message.trainBuffer, message.validationBuffer);
+      activeOptimizer = message.optimizer === "adam" ? "adam" : "adamw";
+      randomState = 0x5A17C0DE;
+      initializeParameters();
+      initialized = true;
+      self.postMessage({
+        type: "reset-ready",
+        optimizer: activeOptimizer,
+        parameters: PARAMS,
+        trainBytes: trainData.length,
+        validationBytes: validationData.length
+      });
     } else if (message.type === "start") {
       if (!initialized) throw new Error("Load or restore the neural model first.");
       const requestedOptimizer = message.optimizer === 'adamw' || (message.optimizer == null && activeOptimizer === 'adamw') ? 'adamw' : 'adam';
