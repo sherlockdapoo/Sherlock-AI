@@ -16,8 +16,8 @@ const PARAMS = B2_OFFSET + VOCAB;
 const BATCH_SIZE = 24;
 const LEARNING_RATE = 0.003;
 const EVAL_EVERY = 100;
-const EVAL_SAMPLES = 512;
-const BATCHES_PER_SLICE = 4;
+const EVAL_SAMPLES = 256;
+const BATCHES_PER_SLICE = 6;
 
 let trainData = null;
 let validationData = null;
@@ -218,8 +218,10 @@ function evaluate() {
   let totalLoss = 0;
   let total = 0;
   for (let i = 0; i < count; i++) {
-    // Evenly space a fixed sample across the held-out validation stream.
-    const position = CONTEXT + Math.floor(i * available / count);
+    // Keep the same 256-position validation layout used by v0.3.0 for fair comparison.
+    const stride = Math.max(1, Math.floor(available / count));
+    const position = CONTEXT + i * stride;
+    if (position >= validationData.length) break;
     const result = predict(validationData, position);
     const target = byteAt(validationData, position);
     if (result.character === target) correct++;
