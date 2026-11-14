@@ -558,6 +558,152 @@ body{
  .tab,.panel,.btn{transition:none!important;animation:none!important}
 }
 
+/* v0.4.6 · cool blue / indigo visual system */
+:root{
+ color-scheme:light;
+ --bg:#f3f5fa;--panel:#fff;--panel2:#f8f9fd;--line:#dfe4ef;
+ --text:#202b40;--muted:#6f7b91;--blue:#526fcb;--blue2:#4059ae;
+ --green:#5ba5a0;--amber:#d39a45;--shadow:0 12px 32px rgba(44,57,91,.075);
+}
+html{background:#f3f5fa}
+body{
+ background:
+ radial-gradient(ellipse at 92% 0%,rgba(190,203,242,.32),transparent 36%),
+ radial-gradient(ellipse at 4% 22%,rgba(206,224,235,.34),transparent 34%),
+ #f3f5fa;
+ color:#202b40;
+}
+.app{color:#202b40}
+.topbar{border-bottom-color:#dfe4ef}
+.logo{background:linear-gradient(145deg,#647fe0,#435cb8);color:#fff;box-shadow:0 8px 22px rgba(73,98,180,.2)}
+.brand-title{color:#222d43}
+.brand-version{border-color:#d7def2;background:#eef1fc;color:#5269b4}
+.brand-sub{color:#758097}
+.status{background:#fff;border-color:#dfe4ef;color:#59677e}
+.status.running{background:#fff7e9;border-color:#efdfbf;color:#8a672c}
+.status.ready{background:#eff7f3;border-color:#cfe4d9;color:#3f7866}
+.workspace-intro{
+ border-color:#273858;
+ background:linear-gradient(112deg,#1b2945 0%,#293b62 58%,#3d4c7d 100%);
+ box-shadow:0 22px 48px rgba(39,53,91,.16);
+ color:#f4f6ff;
+}
+.workspace-intro:before{border-color:rgba(207,219,255,.10)}
+.studio-kicker{color:#c1d0ff}
+.studio-kicker-dot{background:#9cb4ff;box-shadow:0 0 0 5px rgba(156,180,255,.13)}
+.studio-kicker-divider{color:#8d9bc1}
+.workspace-intro h2{color:#f5f7ff}
+.workspace-intro h2 em{color:#a9bbff}
+.workspace-intro-copy p{color:#c8d1e6}
+.studio-tags span{border-color:rgba(218,227,255,.18);background:rgba(230,236,255,.08);color:#e0e7ff}
+.studio-art-orbit{border-color:rgba(186,202,255,.34)}
+.orbit-two{border-color:rgba(183,218,224,.35)}
+.studio-art-core{background:linear-gradient(145deg,#d8e2ff,#91a7ed);box-shadow:0 0 55px rgba(153,174,244,.3),inset 0 2px 5px rgba(255,255,255,.6)}
+.studio-art-core:after{border-color:rgba(50,68,124,.55)}
+.studio-art-node{background:#c2d0ff;border-color:#34466f;box-shadow:0 0 0 5px rgba(194,208,255,.10)}
+.node-b,.node-c{background:#a8d8dd}
+.studio-art-label{color:#263765}
+.stats{gap:12px}
+.stat{border-color:#dfe5ef;background:#fff;box-shadow:0 5px 18px rgba(44,57,91,.045)}
+.stat-label{color:#728097}
+.stat-value{color:#26334c}
+.stat-unit{color:#8994a8}
+.tabs{border-color:#dce2ee;background:#e9edf6}
+.tab{color:#69768c}
+.tab:hover{background:#dfe5f2;color:#303e5a}
+.tab[aria-selected="true"]{background:linear-gradient(135deg,#6079d2,#465eae);color:#fff;box-shadow:0 4px 12px rgba(66,88,169,.2)}
+.tab-note{color:#828da1}
+.card{border-color:#dfe5ef;background:#fff;box-shadow:0 8px 26px rgba(44,57,91,.055)}
+.visual-hero{
+ border-color:#273858;
+ background:linear-gradient(120deg,#1e2e4b,#2b416b 62%,#3f5287);
+ box-shadow:0 13px 30px rgba(43,59,105,.14)
+}
+.visual-hero h2{color:#f5f7ff}
+.visual-hero p{color:#cbd5ec}
+.eyebrow{color:#b9c8ff}
+.visual-state{border-color:rgba(220,229,255,.25);background:rgba(10,20,43,.25);color:#edf1ff}
+.visual-state.is-ready{background:rgba(100,181,153,.16);border-color:rgba(158,219,193,.4);color:#c9f3df}
+.visual-state.is-running{background:rgba(227,188,111,.14);border-color:rgba(227,188,111,.4);color:#f7e4bd}
+.visual-kpi{border-color:rgba(222,231,255,.16);background:rgba(13,24,48,.24)}
+.visual-kpi span,.visual-kpi small{color:#c0cbe3}
+.visual-kpi strong{color:#f7f8ff}
+.visual-section-title h3{color:#29364e}
+.visual-section-title p{color:#7b879b}
+.visual-section-tag,.visual-mini-tag{border-color:#dce3f0;background:#eef1f8;color:#596b9e}
+.visual-card,.visual-accuracy,.visual-telemetry,.neural-observatory,.network-visual-card{background:#fff;border-color:#dfe5ef;box-shadow:0 7px 23px rgba(44,57,91,.045)}
+.visual-card-head h3,.visual-accuracy-top h3,.neural-observatory-head h3{color:#2b3850}
+.visual-card-head p,.visual-accuracy-top p,.neural-observatory-head p{color:#778399}
+.accuracy-box{border-color:#dce4f1;background:linear-gradient(135deg,#f1f4fc,#eaf0fa)}
+.accuracy-title{color:#64738d}
+.accuracy-number{color:#2c3b5d}
+.accuracy-track{background:#dbe2f0}
+.accuracy-fill{background:linear-gradient(90deg,#718fe3,#70c2bd);box-shadow:0 0 14px rgba(94,133,214,.18)}
+.accuracy-caption{color:#7d899e}
+.neural-control-row .btn-primary,.actions .btn-primary{background:linear-gradient(135deg,#738ce4,#536fcb);color:#fff;box-shadow:0 6px 15px rgba(75,102,190,.2)}
+.btn-secondary{border-color:#d4dceb;background:#eef1f7;color:#3e4d6a}
+.btn-secondary:not(:disabled):hover{background:#e2e8f4}
+.metric{border-bottom-color:#e8ecf3}
+.metric span{color:#7a869a}
+.metric strong{color:#34415a}
+.note,.visual-formula,.lookup-row,.telemetry-cell{background:#f6f8fc;border-color:#e1e6f0;color:#69778f}
+.lookup-row p{color:#718099}.lookup-name{color:#34445f}.lookup-badge{background:#edf1fa;color:#596fae}.lookup-code{color:#4f72ba}
+.lookup-facts span{border-color:#dde4f0;color:#65738b}
+.telemetry-cell span{color:#77849a}.telemetry-cell strong{color:#34415d}.telemetry-cell small{color:#8893a6}
+.visual-chart-wrap{border-color:#dfe5ef;background:#f7f9fd}
+.visual-chart .chart-grid{stroke:#e0e6f0}.visual-chart .chart-line{stroke:#5d78cb}.visual-chart .chart-area{fill:rgba(100,128,208,.13)}.visual-chart .chart-dot{fill:#718add;stroke:#fff}
+.visual-chart-legend{color:#7e8ba0}
+.visual-caution{border-color:#dfe5ef;background:#f5f7fb;color:#728097}
+.visual-caution strong{color:#394963}
+.network-visual-card{background:#fff;padding:22px}
+.network-visual-head h3{color:#2a3852}.network-visual-head p{color:#78849a}
+.network-live-pill{border-color:#dce2f1;background:#eef1fb;color:#586eae}
+.network-canvas-wrap{
+ border:1px solid #dfe5ef;border-radius:17px;
+ background:linear-gradient(145deg,#fbfcff,#f0f3fa);
+ padding:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)
+}
+#networkCanvas{background:#f5f7fc;border-radius:11px}
+.network-legend{color:#64738d}
+.network-legend i{box-shadow:0 0 0 2px rgba(54,70,103,.07)}
+.network-readout{border-color:#dfe5ef;background:#f6f8fc}
+.network-readout span{color:#7b879b}.network-readout strong{color:#2d3b55}
+.network-footnote{color:#7c889c}
+.neural-stage{border-color:#e0e6f0;background:#f6f8fc;color:#34445f}
+.neural-stage small{color:#77849a}
+.neural-stage.is-active{border-color:#aebce9;background:#eff2fc}
+.neural-stage.is-done{border-color:#b8d9d0;background:#eff8f5}
+.neural-live-card,.neural-checkpoint-card{border-color:#e0e6ef;background:#f8f9fc}
+.neural-checkpoint-top h3{color:#34415a}
+.neural-checkpoint-score{color:#526fc0}
+.neural-checkpoint-caption,.neural-checkpoint-meta,.neural-checkpoint-status{color:#758199}
+.neural-checkpoint-meta strong{color:#3a4963}
+.neural-checkpoint-badge{background:#eef1fa;color:#5d71b3}
+.chat-card{background:#fff;border-color:#dfe5ef;box-shadow:0 12px 32px rgba(44,57,91,.07)}
+.chat-head{border-bottom-color:#e3e8f1;background:#f8f9fc}
+.chat-head h3{color:#2c3951}.chat-head p{color:#7b879b}
+.avatar{border:0;background:#e1e8ff;color:#526bb6}
+.chat-lock{border-color:#e9dfc9;background:#faf6ec;color:#8b713f}
+.chat-log{background:radial-gradient(ellipse at 50% 0,rgba(202,214,246,.24),transparent 70%),#f5f7fb}
+.message{border-color:#dfe5ef;background:#edf1f9;color:#34435d;box-shadow:0 4px 12px rgba(44,57,91,.04)}
+.message.user{border-color:#5069b8;background:linear-gradient(135deg,#5a73c7,#465eaa);color:#fff}
+.chat-compose{border-top-color:#e3e8f1;background:#fff}
+.field{border-color:#d7dfed;background:#f8f9fc;color:#27364f}
+.field::placeholder{color:#929db0}
+.send-btn{border:0;background:#5d78ce;color:#fff}
+.chat-hint{background:#fff;color:#8590a3}
+.footer{color:#8993a5}
+.footer a{color:#536ebc}
+@media(max-width:760px){
+ .workspace-intro{padding:27px 25px}
+ .visual-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:520px){
+ .workspace-intro{padding:25px 20px}
+ .network-visual-card{padding:15px}
+ .network-canvas-wrap{padding:6px}
+}
+
 </style>
 </head>
 <body>
@@ -565,7 +711,7 @@ body{
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.5">v0.4.5</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.6">v0.4.6</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -827,7 +973,7 @@ body{
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.4.5 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-visual-head"><div><div class="eyebrow">v0.4.6 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
         <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
         <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
         <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
@@ -1232,31 +1378,28 @@ function renderNetworkVisualiser(snapshot) {
   if (!canvas) return;
   const rect = canvas.getBoundingClientRect();
   if (!rect.width || !rect.height) return;
-
-  // Render in CSS-pixel coordinates, but keep a high-DPI backing bitmap.
-  // This avoids the browser enlarging a small 900x330 image on mobile.
   const pixelRatio = Math.min(3, Math.max(1, window.devicePixelRatio || 1));
   const pixelWidth = Math.max(1, Math.round(rect.width * pixelRatio));
   const pixelHeight = Math.max(1, Math.round(rect.height * pixelRatio));
   if (canvas.width !== pixelWidth) canvas.width = pixelWidth;
   if (canvas.height !== pixelHeight) canvas.height = pixelHeight;
-
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const W = rect.width, H = rect.height;
   ctx.setTransform(pixelWidth / W, 0, 0, pixelHeight / H, 0, 0);
   ctx.clearRect(0, 0, W, H);
 
+  // Light canvas, matching the workspace. No legacy dark/black graph fill.
   const bg = ctx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, '#0c1b2e');
-  bg.addColorStop(1, '#07111f');
+  bg.addColorStop(0, '#fbfcff');
+  bg.addColorStop(1, '#f0f3fa');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  // Quiet column guides make the three network stages easier to follow.
   const columns = [W * 0.15, W * 0.5, W * 0.85];
+  const columnFills = ['rgba(74,126,211,.055)','rgba(139,112,211,.055)','rgba(213,153,66,.065)'];
   columns.forEach((x, index) => {
-    ctx.fillStyle = ['rgba(117,169,255,.035)','rgba(120,223,181,.035)','rgba(242,201,120,.035)'][index];
+    ctx.fillStyle = columnFills[index];
     ctx.beginPath();
     ctx.roundRect(x - W * 0.105, 27, W * 0.21, H - 54, 12);
     ctx.fill();
@@ -1280,9 +1423,9 @@ function renderNetworkVisualiser(snapshot) {
     ctx.moveTo(x1,y1);
     ctx.lineTo(x2,y2);
     ctx.strokeStyle = value >= 0
-      ? 'rgba(117,169,255,' + (0.035 + strength * 0.34) + ')'
-      : 'rgba(244,135,150,' + (0.035 + strength * 0.30) + ')';
-    ctx.lineWidth = 0.55 + strength * 1.25;
+      ? 'rgba(69,119,198,' + (0.12 + strength * 0.40) + ')'
+      : 'rgba(191,105,126,' + (0.10 + strength * 0.34) + ')';
+    ctx.lineWidth = 0.65 + strength * 1.25;
     ctx.lineCap = 'round';
     ctx.stroke();
   }
@@ -1294,21 +1437,20 @@ function renderNetworkVisualiser(snapshot) {
       drawEdge(xs[1]+radius,hy[h],xs[2]-radius,oy[o],w2[o*hidden.length+h]);
 
   const layers = [
-    {x:xs[0],values:input,y:iy,color:'#75a9ff',title:'EMBEDDING INPUT',sub:'12 / 48 shown'},
-    {x:xs[1],values:hidden,y:hy,color:'#78dfb5',title:'HIDDEN LAYER',sub:'16 / 48 shown'},
-    {x:xs[2],values:output,y:oy,color:'#f2c978',title:'OUTPUT',sub:'12 / 128 shown'}
+    {x:xs[0],values:input,y:iy,color:'#5689d8',title:'EMBEDDING INPUT',sub:'12 / 48 shown'},
+    {x:xs[1],values:hidden,y:hy,color:'#927bd7',title:'HIDDEN LAYER',sub:'16 / 48 shown'},
+    {x:xs[2],values:output,y:oy,color:'#d39a45',title:'OUTPUT',sub:'12 / 128 shown'}
   ];
   const titleSize = Math.max(9, Math.min(12, W * 0.012));
   layers.forEach((layer, layerIndex) => {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#d2e2f7';
-    ctx.font = '700 ' + titleSize + 'px system-ui, sans-serif';
+    ctx.fillStyle = '#34445e';
+    ctx.font = '750 ' + titleSize + 'px system-ui, sans-serif';
     ctx.fillText(layer.title, layer.x, 14);
-    ctx.fillStyle = '#8095b2';
+    ctx.fillStyle = '#7c899d';
     ctx.font = '500 ' + Math.max(8.5, titleSize - 1.5) + 'px system-ui, sans-serif';
     ctx.fillText(layer.sub, layer.x, H - 13);
-
     const scale = layerIndex === 2
       ? Math.max(0.015, ...layer.values.map(v => Number(v)||0))
       : Math.max(0.05, ...layer.values.map(v => Math.abs(Number(v)||0)));
@@ -1317,7 +1459,7 @@ function renderNetworkVisualiser(snapshot) {
       const intensity = Math.max(0.12, Math.min(1, Math.abs(value) / scale));
       const r = radius * (0.78 + intensity * 0.32);
       const glow = ctx.createRadialGradient(layer.x,layer.y[i],r*.25,layer.x,layer.y[i],r*2.8);
-      glow.addColorStop(0, layer.color + '55');
+      glow.addColorStop(0, layer.color + '38');
       glow.addColorStop(1, layer.color + '00');
       ctx.fillStyle = glow;
       ctx.beginPath();
@@ -1326,11 +1468,11 @@ function renderNetworkVisualiser(snapshot) {
       ctx.beginPath();
       ctx.arc(layer.x,layer.y[i],r,0,Math.PI*2);
       ctx.fillStyle = layer.color;
-      ctx.globalAlpha = 0.5 + intensity * 0.5;
+      ctx.globalAlpha = 0.62 + intensity * 0.38;
       ctx.fill();
       ctx.globalAlpha = 1;
-      ctx.strokeStyle = 'rgba(235,245,255,.86)';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.35;
       ctx.stroke();
     });
   });
