@@ -209,6 +209,9 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .visual-chart .chart-grid{stroke:#253750;stroke-width:1;stroke-dasharray:4 6}
 .chart-axis{stroke:#8296b3;stroke-width:1.4}.chart-axis-label{fill:#9fb2cc;font:11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.chart-axis-title{fill:#c1d0e5;font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .neural-loss-chart,.neural-accuracy-chart{display:block;width:100%;height:auto;aspect-ratio:560 / 260;max-height:none;min-height:0}.neural-live-card:has(.neural-loss-chart){min-width:0}.neural-live-card:has(.neural-loss-chart) .visual-chart-wrap{padding:5px 5px 3px}.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:12px}
+/* Keep the two neural graphs compact on tablet and mobile screens. */
+.neural-chart-card .visual-chart-wrap,.neural-live-card .visual-chart-wrap{max-width:440px;margin-left:auto;margin-right:auto}
+.neural-loss-chart,.neural-accuracy-chart{width:100%;max-width:420px;height:190px;aspect-ratio:auto;margin-left:auto;margin-right:auto}
 @media(max-width:520px){.neural-loss-chart,.neural-accuracy-chart{height:auto;max-height:none}.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:13px}}
 .visual-chart .chart-line{fill:none;stroke:#83adff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .visual-chart .chart-area{fill:rgba(105,157,237,.12)}
