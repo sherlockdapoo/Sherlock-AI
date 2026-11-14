@@ -817,7 +817,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.0">v0.5.0</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.1">v0.5.1</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1090,7 +1090,7 @@ body,.app{color:#27354d}
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.5.0 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-visual-head"><div><div class="eyebrow">v0.5.1 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
         <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
         <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
         <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
@@ -1231,6 +1231,7 @@ let performanceSampleChars = 0;
 let performanceLastBatchSeen = 0;
 
 let neuralWorker = null;
+let neuralActiveOptimizer = 'adam';
 let neuralWorkerInitialized = false;
 let neuralWorkerStarted = false;
 let neuralTraining = false;
@@ -1417,7 +1418,8 @@ function saveNeuralCheckpoint(data) {
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 2,
+    version: 3,
+    optimizer: data.optimizer === 'adamw' ? 'adamw' : neuralActiveOptimizer,
     accuracy: Number(data.accuracy),
     validationLoss: Number(data.validationLoss),
     perplexity: Number(data.perplexity),
@@ -1444,7 +1446,11 @@ function restoreSavedNeuralCheckpoint() {
     const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
     if (!stored) return;
     const record = JSON.parse(stored);
-    if (!record || ![1, 2].includes(record.version) || typeof record.weights !== 'string') throw new Error('Saved checkpoint format is not supported.');
+    if (!record || ![1, 2, 3].includes(record.version) || typeof record.weights !== 'string') throw new Error('Saved checkpoint format is not supported.');
+    const restoredOptimizer = record.optimizer === 'adamw' ? 'adamw' : 'adam';
+    neuralActiveOptimizer = restoredOptimizer;
+    $('neuralOptimizer').value = restoredOptimizer;
+    updateNeuralOptimizerSummary();
     const binary = atob(record.weights);
     if (binary.length !== 10160 * 4) throw new Error('Saved checkpoint size does not match this neural model.');
     const buffer = new ArrayBuffer(binary.length);
@@ -1462,6 +1468,7 @@ function restoreSavedNeuralCheckpoint() {
     setNeuralState('Restoring saved best model', 'running');
     worker.postMessage({
       type: 'load-model',
+      optimizer: restoredOptimizer,
       modelBuffer: buffer,
       accuracy: Number(record.accuracy),
       validationLoss: record.validationLoss !== null && record.validationLoss !== undefined && Number.isFinite(Number(record.validationLoss)) ? Number(record.validationLoss) : null,
@@ -1658,6 +1665,49 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   updateGlobalNeuralStats();
   renderNeuralLiveView();
 }
+function resetNeuralExperimentMetrics(optimizer) {
+  neuralAccuracyHistory = [];
+  neuralLastEvalIndex = 0;
+  neuralLatestAccuracyValue = null;
+  neuralBestAccuracyValue = null;
+  neuralLatestValidationLossValue = null;
+  neuralLatestPerplexityValue = null;
+  neuralBestValidationLossValue = null;
+  neuralEvaluationCountValue = 0;
+  neuralLossHistory = [];
+  neuralLatestLossValue = null;
+  neuralExamplesValue = 0;
+  neuralStepsValue = 0;
+  neuralSpeedValue = 0;
+  neuralCheckpointWasSaved = false;
+  neuralCheckpointSavedAt = null;
+  neuralCheckpointStepsValue = 0;
+  neuralCheckpointExamplesValue = 0;
+  $('neuralAccuracy').textContent = 'Not measured';
+  $('neuralAccuracyText').textContent = 'Not measured';
+  $('neuralAccuracyFill').style.width = '0%';
+  $('neuralAccuracyTrack').setAttribute('aria-valuenow', '0');
+  $('neuralBestAccuracy').textContent = 'Not measured';
+  $('neuralValidationLoss').textContent = 'Not measured';
+  $('neuralPerplexity').textContent = 'Not measured';
+  $('neuralValidationSamples').textContent = 'Not measured';
+  $('neuralLoss').textContent = 'Not measured';
+  $('neuralSteps').textContent = '0';
+  $('neuralExamples').textContent = '0';
+  $('neuralEpochs').textContent = '0.000';
+  $('neuralSpeed').textContent = '0';
+  $('neuralCheckpointSteps').textContent = '0';
+  $('neuralCheckpointExamples').textContent = '0';
+  $('neuralCheckpointStatus').textContent = 'Fresh ' + (optimizer === 'adamw' ? 'AdamW' : 'Adam') + ' run. The previous saved checkpoint remains in this browser until this run creates a new best.';
+  $('neuralCheckpointSavedAt').textContent = 'Waiting for this optimizer’s first checkpoint';
+  networkVisualiserSnapshot = null;
+  renderNetworkVisualiser();
+  renderNeuralHistory();
+  renderNeuralLossHistory();
+  updateGlobalNeuralStats();
+  renderNeuralLiveView();
+}
+
 function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
   $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
@@ -1698,6 +1748,9 @@ function ensureNeuralWorker() {
       }
       renderNeuralLiveView();
     } else if (data.type === 'model-loaded') {
+      neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
+      $('neuralOptimizer').value = neuralActiveOptimizer;
+      updateNeuralOptimizerSummary();
       neuralWorkerInitialized = true;
       neuralModelReady = Number(data.examples) > 0;
       neuralLatestAccuracyValue = Number.isFinite(Number(data.accuracy)) ? Number(data.accuracy) : null;
@@ -1716,6 +1769,8 @@ function ensureNeuralWorker() {
       setChatReady(false);
       updateNeuralControls();
     } else if (data.type === 'checkpoint') {
+      neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
+      updateNeuralOptimizerSummary();
       updateNeuralMetrics(data, true);
       try {
         saveNeuralCheckpoint(data);
@@ -1728,6 +1783,10 @@ function ensureNeuralWorker() {
         renderNeuralLiveView();
       }
     } else if (data.type === 'started') {
+      neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
+      $('neuralOptimizer').value = neuralActiveOptimizer;
+      updateNeuralOptimizerSummary();
+      if (data.reset) resetNeuralExperimentMetrics(neuralActiveOptimizer);
       neuralWorkerStarted = true;
       neuralTraining = true;
       setNeuralState('Training on this device', 'running');
