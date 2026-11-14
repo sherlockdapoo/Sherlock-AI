@@ -1223,6 +1223,7 @@ let neuralModelReady = false;
 let neuralRequestBusy = false;
 let neuralStartPending = false;
 let neuralStartupTimer = null;
+let neuralDatasetAbortController = null;
 let neuralStartupAttempt = 0;
 let neuralRequestSequence = 0;
 let neuralPendingRequests = new Map();
@@ -1294,8 +1295,10 @@ $('chatTab').addEventListener('click', () => setTab('chat'));
 $('neuralTab').addEventListener('click', () => setTab('neural'));
 
 function setNeuralState(label, mode = '') {
-  $('neuralStateText').textContent = label;
-  $('neuralBadge').className = 'visual-state' + (mode ? ' is-' + mode : '');
+  const badge = $('neuralLiveStatus');
+  const text = $('neuralLiveStatusText');
+  if (text) text.textContent = label;
+  if (badge) badge.className = 'visual-state' + (mode ? ' is-' + mode : '');
 }
 
 function renderNeuralHistory() {
@@ -1894,9 +1897,13 @@ async function startNeuralTraining() {
   }
   const startupAttempt = ++neuralStartupAttempt;
   if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+  const datasetAbortController = new AbortController();
+  neuralDatasetAbortController = datasetAbortController;
   neuralStartupTimer = setTimeout(() => {
     if (startupAttempt !== neuralStartupAttempt) return;
     neuralStartupTimer = null;
+    datasetAbortController.abort();
+    if (neuralDatasetAbortController === datasetAbortController) neuralDatasetAbortController = null;
     neuralTraining = false;
     neuralRequestBusy = false;
     neuralStartPending = false;
@@ -1920,10 +1927,11 @@ async function startNeuralTraining() {
   updateNeuralControls();
   setChatReady(modelReady);
   try {
-    const data = datasetCache || await loadTrainingDatasets();
+    const data = datasetCache || await loadTrainingDatasets(datasetAbortController.signal);
     if (startupAttempt !== neuralStartupAttempt || !neuralTraining) return;
     if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
     neuralStartupTimer = null;
+    if (neuralDatasetAbortController === datasetAbortController) neuralDatasetAbortController = null;
     currentNeuralDatasetFingerprint = fingerprintNeuralDataset(data);
     const worker = ensureNeuralWorker();
     const trainBuffer = data.trainBytes.slice().buffer;
@@ -1965,16 +1973,22 @@ async function startNeuralTraining() {
       worker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
     }
   } catch (error) {
-    if (startupAttempt !== neuralStartupAttempt) return;
+    if (startupAttempt !== neuralStartupAttempt || datasetAbortController.signal.aborted) return;
     if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
     neuralStartupTimer = null;
+    if (neuralDatasetAbortController === datasetAbortController) neuralDatasetAbortController = null;
     neuralTraining = false;
+    neuralRequestBusy = false;
+    neuralWorkerStarted = false;
     neuralStartPending = false;
     setNeuralState('Unable to start neural training');
     $('neuralMessage').textContent = 'Could not start the neural model: ' + (error && error.message ? error.message : String(error));
     setChatReady(modelReady);
   } finally {
-    if (startupAttempt === neuralStartupAttempt) neuralRequestBusy = false;
+    if (startupAttempt === neuralStartupAttempt) {
+      neuralRequestBusy = false;
+      updateNeuralControls();
+    }
     if (startupAttempt === neuralStartupAttempt && neuralTraining && !neuralWorkerStarted && !neuralStartupTimer) {
       neuralStartupTimer = setTimeout(() => {
         neuralStartupTimer = null;
@@ -2369,10 +2383,13 @@ function showError(error) {
   console.error(error);
 }
 
-async function getJSON(url) {
+async function getJSON(url, parentSignal) {
   let lastError = null;
   for (let attempt = 0; attempt < 3; attempt++) {
+    if (parentSignal && parentSignal.aborted) throw parentSignal.reason || new Error('Dataset loading was cancelled.');
     const controller = new AbortController();
+    const abortFromParent = () => controller.abort();
+    if (parentSignal) parentSignal.addEventListener('abort', abortFromParent, {once: true});
     const timeout = setTimeout(() => controller.abort(), 12000);
     try {
       const response = await fetch(url, {
@@ -2383,12 +2400,14 @@ async function getJSON(url) {
       if (!response.ok) throw new Error('Dataset server returned ' + response.status);
       return await response.json();
     } catch (error) {
+      if (parentSignal && parentSignal.aborted) throw error;
       lastError = error && error.name === 'AbortError'
         ? new Error('Dataset request timed out after 12 seconds. Check your connection and try again.')
         : error;
       if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
     } finally {
       clearTimeout(timeout);
+      if (parentSignal) parentSignal.removeEventListener('abort', abortFromParent);
     }
   }
   throw lastError || new Error('Dataset request failed.');
@@ -2439,7 +2458,7 @@ function getConversationText(row) {
   return lines.length >= 2 ? lines.join('\n') + '\n\n' : '';
 }
 
-async function fetchSplit(splitInfo, progressCallback, rowLimit) {
+async function fetchSplit(splitInfo, progressCallback, rowLimit, signal) {
   const availableRows = Number(splitInfo.num_examples);
   if (!Number.isFinite(availableRows) || availableRows < 1) throw new Error('The ' + splitInfo.split + ' split has no readable rows.');
   const totalRows = Number.isFinite(Number(rowLimit))
@@ -2453,6 +2472,7 @@ async function fetchSplit(splitInfo, progressCallback, rowLimit) {
 
   async function worker() {
     while (true) {
+      if (signal && signal.aborted) throw signal.reason || new Error('Dataset loading was cancelled.');
       const page = nextPage++;
       if (page >= pageCount) return;
       const rowsInPage = Math.min(PAGE_SIZE, totalRows - page * PAGE_SIZE);
@@ -2467,7 +2487,7 @@ async function fetchSplit(splitInfo, progressCallback, rowLimit) {
         offset: String(pageOffset),
         length: String(Math.min(rowsInPage, availableRows - pageOffset))
       });
-      const json = await getJSON(HF_API + '/rows?' + query.toString());
+      const json = await getJSON(HF_API + '/rows?' + query.toString(), signal);
       if (!Array.isArray(json.rows)) throw new Error('The ' + splitInfo.split + ' dataset page had an unexpected format.');
       pages[page] = json.rows.map(item => item.row || {});
       finished++;
@@ -2505,9 +2525,9 @@ function makeValidationSample(text, maxLength) {
   return segments.join('\n\n').slice(0, maxLength);
 }
 
-async function getDatasetSplitInfo(datasetId, trainingSplitName, validationSplitName) {
+async function getDatasetSplitInfo(datasetId, trainingSplitName, validationSplitName, signal) {
   const splitQuery = new URLSearchParams({dataset: datasetId});
-  const splitData = await getJSON(HF_API + '/splits?' + splitQuery.toString());
+  const splitData = await getJSON(HF_API + '/splits?' + splitQuery.toString(), signal);
   if (!Array.isArray(splitData.splits)) throw new Error(datasetId + ' split information was not available.');
 
   const configs = [...new Set(splitData.splits.map(item => item.config))];
@@ -2519,7 +2539,7 @@ async function getDatasetSplitInfo(datasetId, trainingSplitName, validationSplit
   }
 
   const sizeQuery = new URLSearchParams({dataset: datasetId});
-  const sizeData = await getJSON(HF_API + '/size?' + sizeQuery.toString());
+  const sizeData = await getJSON(HF_API + '/size?' + sizeQuery.toString(), signal);
   const sizedSplits = sizeData.size && sizeData.size.splits;
   if (!Array.isArray(sizedSplits)) throw new Error(datasetId + ' row counts are not available yet.');
 
@@ -2560,19 +2580,19 @@ function joinCorpusBytes(streams) {
   return joined;
 }
 
-async function loadTrainingDatasets() {
+async function loadTrainingDatasets(signal) {
   updateStatus('Loading conversation datasets', 'running');
   $('neuralStartBtn').disabled = true;
   $('neuralMessage').textContent = 'Finding the DailyDialog training and validation splits…';
   showDataProgress(0, 1, 'Finding DailyDialog splits');
 
-  const dailyInfo = await getDatasetSplitInfo(HF_DATASET, 'train', 'validation');
+  const dailyInfo = await getDatasetSplitInfo(HF_DATASET, 'train', 'validation', signal);
   const dailyTrainRows = await fetchSplit(dailyInfo.training, (done, total) => {
     showDataProgress(done, total, 'Downloading a 2,500-row DailyDialog training sample');
-  }, DAILY_TRAIN_ROWS);
+  }, DAILY_TRAIN_ROWS, signal);
   const dailyValidationRows = await fetchSplit(dailyInfo.validation, (done, total) => {
     showDataProgress(done, total, 'Downloading a 500-row DailyDialog validation sample');
-  }, DAILY_VALIDATION_ROWS);
+  }, DAILY_VALIDATION_ROWS, signal);
   const dailyTrain = buildCorpus(dailyTrainRows);
   const dailyValidation = buildCorpus(dailyValidationRows);
   if (dailyTrain.conversations < 100 || dailyValidation.conversations < 20) {
@@ -2586,13 +2606,13 @@ async function loadTrainingDatasets() {
 
   try {
     $('neuralMessage').textContent = 'DailyDialog is ready. Checking the UltraChat 200k sample…';
-    const ultraInfo = await getDatasetSplitInfo(HF_ULTRACHAT_DATASET, 'train_sft', 'test_sft');
+    const ultraInfo = await getDatasetSplitInfo(HF_ULTRACHAT_DATASET, 'train_sft', 'test_sft', signal);
     const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => {
       showDataProgress(done, total, 'Downloading a capped UltraChat training sample');
-    }, ULTRACHAT_TRAIN_ROWS);
+    }, ULTRACHAT_TRAIN_ROWS, signal);
     const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => {
       showDataProgress(done, total, 'Downloading a capped UltraChat validation sample');
-    }, ULTRACHAT_VALIDATION_ROWS);
+    }, ULTRACHAT_VALIDATION_ROWS, signal);
     ultraTrain = buildCorpus(ultraTrainRows);
     ultraValidation = buildCorpus(ultraValidationRows);
     ultraRowsLoaded = ultraTrainRows.length + ultraValidationRows.length;
@@ -2600,6 +2620,7 @@ async function loadTrainingDatasets() {
       throw new Error('UltraChat returned too few readable user/assistant conversations.');
     }
   } catch (error) {
+    if (signal && signal.aborted) throw error;
     ultraError = error;
     console.warn('UltraChat sample unavailable; continuing with DailyDialog only:', error);
   }
