@@ -114,6 +114,9 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
+/* v0.4.3 live neural network visualiser */
+.network-visual-card{padding:18px;overflow:hidden}.network-visual-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.network-visual-head h3{font-size:16px}.network-visual-head p{margin:4px 0 0;color:var(--muted);font-size:11px}.network-live-pill{padding:5px 8px;border:1px solid #315b52;border-radius:8px;background:#102a27;color:#9ce7c9;font-size:9px;font-weight:800;letter-spacing:.5px;white-space:nowrap}.network-canvas-wrap{border:1px solid #293f5c;border-radius:14px;background:#081321;padding:8px}#networkCanvas{display:block;width:100%;height:auto;min-height:220px}.network-legend{display:flex;flex-wrap:wrap;gap:12px;margin:10px 2px 0;color:#8ea3c0;font-size:9px}.network-legend span{display:inline-flex;align-items:center;gap:6px}.network-legend i{display:inline-block;width:8px;height:8px;border-radius:50%}.network-readouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:11px}.network-readout{padding:10px;border:1px solid #2a405c;border-radius:10px;background:#0c1829;min-width:0}.network-readout span{display:block;color:#8ea3c0;font-size:9px}.network-readout strong{display:block;margin-top:3px;color:#eaf3ff;font-size:13px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.network-footnote{margin:10px 2px 0;color:#788eaa;font-size:9px;line-height:1.5}@media(max-width:520px){.network-visual-card{padding:13px}.network-readouts{gap:6px}.network-readout{padding:8px}.network-readout strong{font-size:11px}.network-visual-head{flex-direction:column}}
+
 /* Live learning observatory */
 .visual-page{display:flex;flex-direction:column;gap:17px}
 .visual-hero{padding:22px;background:radial-gradient(ellipse at 92% 0,rgba(73,117,190,.22),transparent 42%),linear-gradient(145deg,#142744,#0e192b 72%);border-color:#304b70}
@@ -318,7 +321,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.2">v0.4.2</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.2">v0.4.3</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -565,6 +568,14 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         </section>
       </div>
 
+      <section class="card network-visual-card" aria-label="Live neural network visualiser">
+        <div class="network-visual-head"><div><div class="eyebrow">v0.4.3 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
+        <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
+        <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
+        <p class="network-footnote">A readable sample of the full network: 12 of 48 embedding inputs, 16 of 48 hidden neurons, and 12 of 128 output neurons. Displayed signals and connection strengths come from the actual model. This visualiser does not change training.</p>
+      </section>
+
       <section class="card neural-chart-card">
         <div class="visual-card-head">
           <div><h3>03 · Neural validation history</h3><p>Accuracy evaluations on the separate validation split. Each point is a completed evaluation.</p></div>
@@ -752,6 +763,7 @@ function setTab(name) {
   $('chatPanel').hidden = !chat;
   $('neuralPanel').hidden = !neural;
   if (neural) {
+    renderNetworkVisualiser(null);
     renderNeuralHistory();
     renderNeuralLossHistory();
     renderNeuralLiveView();
@@ -953,8 +965,26 @@ function restoreSavedNeuralCheckpoint() {
   }
 }
 
+function renderNetworkVisualiser(snapshot) {
+  const canvas=$('networkCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d'); if(!ctx) return;
+  const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#081321';ctx.fillRect(0,0,W,H);
+  const input=snapshot?.input||Array(12).fill(0),hidden=snapshot?.hidden||Array(16).fill(0),output=snapshot?.output||Array(12).fill(0),w1=snapshot?.w1||Array(192).fill(0),w2=snapshot?.w2||Array(192).fill(0);
+  const ys=n=>Array.from({length:n},(_,i)=>45+i*(240/Math.max(1,n-1))), iy=ys(input.length),hy=ys(hidden.length),oy=ys(output.length);
+  const strength=v=>Math.max(0,Math.min(1,Math.abs(Number(v)||0)/1.5));
+  function edge(x1,y1,x2,y2,v){const m=strength(v);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=(Number(v)||0)>=0?'rgba(117,169,255,'+(0.07+m*.48)+')':'rgba(244,135,150,'+(0.07+m*.42)+')';ctx.lineWidth=.45+m*1.8;ctx.stroke();}
+  for(let h=0;h<hidden.length;h++)for(let i=0;i<input.length;i++)edge(151,iy[i],434,hy[h],w1[h*input.length+i]);
+  for(let o=0;o<output.length;o++)for(let h=0;h<hidden.length;h++)edge(466,hy[h],749,oy[o],w2[o*hidden.length+h]);
+  [{x:135,v:input,y:iy,c:'#75a9ff',t:'EMBEDDING INPUT',s:'12 / 48 sampled'},{x:450,v:hidden,y:hy,c:'#78dfb5',t:'HIDDEN LAYER',s:'16 / 48 sampled'},{x:765,v:output,y:oy,c:'#f2c978',t:'OUTPUT',s:'12 / 128 sampled'}].forEach(layer=>{
+    ctx.textAlign='center';ctx.fillStyle='#b9cbe4';ctx.font='700 13px system-ui';ctx.fillText(layer.t,layer.x,20);ctx.fillStyle='#7187a5';ctx.font='10px system-ui';ctx.fillText(layer.s,layer.x,316);
+    layer.v.forEach((raw,i)=>{const v=Number(raw)||0,intensity=Math.max(.12,Math.min(1,Math.abs(v)/(layer.t==='OUTPUT'?.25:2.5)));ctx.beginPath();ctx.arc(layer.x,layer.y[i],6+intensity*2.5,0,Math.PI*2);ctx.fillStyle=layer.c;ctx.globalAlpha=.28+intensity*.72;ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle='rgba(226,239,255,.55)';ctx.lineWidth=1;ctx.stroke();});
+  });
+  $('networkMaxActivation').textContent=snapshot?Math.max(...hidden.map(v=>Number(v)||0)).toFixed(4):'Waiting';
+  $('networkTopCharacter').textContent=snapshot?.topCharacter||'Waiting';$('networkConnectionCount').textContent=snapshot?(w1.length+w2.length).toLocaleString():'0';$('networkVisualStatus').textContent=snapshot?'LIVE MODEL SIGNALS':'WAITING FOR MODEL';
+}
 function updateNeuralMetrics(data, forceEvaluation = false) {
   if (!data) return;
+  if (data.network) renderNetworkVisualiser(data.network);
   const examples = Number(data.examples) || 0;
   const steps = Number(data.steps) || 0;
   neuralExamplesValue = examples;
@@ -1022,7 +1052,7 @@ function updateNeuralControls() {
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.4.2', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.4.3', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
