@@ -743,7 +743,7 @@ function ensureNeuralWorker() {
       neuralTraining = false;
       neuralWorkerStarted = false;
       neuralModelReady = Number(data.examples) > 0;
-      setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'is-ready' : '');
+      setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
       $('neuralMessage').textContent = data.restoredBest
         ? 'Training stopped. The best validation checkpoint has been restored. Chat will now use the neural network.'
         : 'Training stopped. Complete more updates to make the neural model useful.';
