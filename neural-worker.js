@@ -217,9 +217,9 @@ function evaluate() {
   let correct = 0;
   let totalLoss = 0;
   let total = 0;
+  const stride = Math.max(1, Math.floor(available / count));
   for (let i = 0; i < count; i++) {
     // Keep the same 256-position validation layout used by v0.3.0 for fair comparison.
-    const stride = Math.max(1, Math.floor(available / count));
     const position = CONTEXT + i * stride;
     if (position >= validationData.length) break;
     const result = predict(validationData, position);
