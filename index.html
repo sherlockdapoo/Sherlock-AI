@@ -817,7 +817,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.1">v0.5.1</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.2">v0.5.2</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1046,8 +1046,8 @@ body,.app{color:#27354d}
           <div class="optimizer-picker">
             <label for="neuralOptimizer">Optimizer experiment</label>
             <select class="field" id="neuralOptimizer">
-              <option value="adam">Adam · current baseline</option>
-              <option value="adamw">AdamW · decoupled weight decay</option>
+              <option value="adam">Adam · comparison baseline</option>
+              <option value="adamw" selected>AdamW · default optimizer</option>
             </select>
             <p>Switching optimizers restarts from the same initial weights, so the comparison is fair.</p>
           </div>
@@ -1090,7 +1090,7 @@ body,.app{color:#27354d}
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.5.1 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-visual-head"><div><div class="eyebrow">v0.5.2 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
         <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
         <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
         <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
@@ -1231,7 +1231,7 @@ let performanceSampleChars = 0;
 let performanceLastBatchSeen = 0;
 
 let neuralWorker = null;
-let neuralActiveOptimizer = 'adam';
+let neuralActiveOptimizer = 'adamw';
 let neuralWorkerInitialized = false;
 let neuralWorkerStarted = false;
 let neuralTraining = false;
@@ -1718,8 +1718,8 @@ function selectedNeuralOptimizer() {
 }
 function updateNeuralOptimizerSummary() {
   $('neuralOptimizerSummary').textContent = selectedNeuralOptimizer() === 'adamw'
-    ? 'AdamW · learning rate 0.003 · weight decay 0.0001'
-    : 'Adam · learning rate 0.003';
+    ? 'AdamW · default · learning rate 0.003 · weight decay 0.0001'
+    : 'Adam · comparison baseline · learning rate 0.003';
 }
 $('neuralOptimizer').addEventListener('change', updateNeuralOptimizerSummary);
 updateNeuralOptimizerSummary();
@@ -1727,7 +1727,7 @@ updateNeuralOptimizerSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.1', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.2', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
