@@ -2,7 +2,7 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace now has two tabs: **Chat** and **Neural Lab**. The Neural Lab contains the training controls, its own live observatory, and a live neural network visualiser.
 
-## Open Sherlock GPT
+## Interface polish (v0.4.4)\n\nThe workspace uses a refined dark visual system, improved card and tab contrast, clearer focus states, and responsive spacing. The network diagram uses a high-density canvas that redraws on screen resize; the training algorithm, model dimensions, and saved checkpoint format are unchanged.\n\n## Open Sherlock GPT
 
 https://sherlockdapoo.github.io/Sherlock-AI/
 
@@ -10,7 +10,7 @@ Open **Neural Lab** and press **Start neural training**. The first run downloads
 
 The C++ character-counter training screen and its separate Live View have been removed from the visible workspace. The earlier counter remains only as an archived baseline in the project code; the active Chat path uses the neural model.
 
-## Neural network experiment (v0.4.3)
+## Neural network experiment (v0.4.4)
 
 - **Architecture:** character-level multilayer perceptron (MLP), four-character context, 12-dimensional learned embeddings, one 48-neuron ReLU hidden layer, and a 128-way softmax output.
 - **Size:** 10,160 trainable parameters.
@@ -18,7 +18,7 @@ The C++ character-counter training screen and its separate Live View have been r
 - **Training:** cross-entropy loss, backpropagation, and the Adam optimiser (learning rate 0.003), using mini-batches of 24 examples. Six mini-batches are processed per worker slice before yielding to the browser event loop.
 - **Data:** DailyDialog training and validation splits are used separately. The network does not train on its validation examples.
 - **Validation:** every 100 optimizer steps, the worker evaluates 256 positions from the held-out validation text (or all available positions if fewer than 256 exist), using the same fixed-stride layout as v0.3.0 for easier comparison. It reports top-1 accuracy, mean cross-entropy (negative log-likelihood), and perplexity (`exp(cross-entropy)`). Accuracy is the share of next characters predicted exactly; lower cross-entropy and lower perplexity indicate better probability estimates. These are character-prediction metrics, not measures of intelligence, factual knowledge, or conversation quality.
-- **Network visualiser (v0.4.3):** the Neural Lab draws a live sampled view of 12 embedding inputs, 16 hidden neurons, and 12 output neurons. The worker sends their real activation values and 384 sampled connection weights during progress updates. This is a readable sample of the 10,160-parameter network, not every neuron or connection.
+- **Network visualiser (v0.4.4):** the Neural Lab draws a live sampled view of 12 embedding inputs, 16 hidden neurons, and 12 output neurons. The worker sends their real activation values and 384 sampled connection weights during progress updates. This is a readable sample of the 10,160-parameter network, not every neuron or connection. The canvas now renders at the device pixel density (up to 3×) and adapts its drawing scale to the available screen width for crisp mobile and desktop display.
 - **Live view:** the Neural Lab shows the training pipeline, current loss curve, validation-accuracy curve, model architecture, and the latest training metrics from the worker.
 - **Best checkpoint:** the worker selects the weights with the highest held-out top-1 accuracy; validation cross-entropy breaks ties. It sends those weights and their validation metrics to the page, which stores them in browser local storage. New saves use checkpoint format v2 and include validation loss, perplexity, and evaluation counts. Existing v1 checkpoints remain loadable; their missing validation metrics are filled in after the next evaluation. When the site is opened again in the same browser, the worker restores the saved weights so Chat can use them without training again. Continuing training starts from those weights.
 - **Stop behaviour:** stopping performs a final validation check, restores the best weights seen in the run, and leaves Chat using that model.
