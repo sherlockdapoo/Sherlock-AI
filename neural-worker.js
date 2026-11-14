@@ -44,6 +44,7 @@ let optimizerStep = 0;
 let randomState = 0x5A17C0DE;
 let reportAt = 0;
 let reportExamples = 0;
+let lastReportedSpeed = 0;
 let movingLoss = 0;
 let lossInitialized = false;
 
@@ -281,12 +282,21 @@ function networkSnapshot() {
 }
 function progressPayload() {
   const now = performance.now();
-  let speed = 0;
-  if (reportAt > 0 && now > reportAt) {
-    speed = (examplesSeen - reportExamples) * 1000 / (now - reportAt);
+  // Measure over a 500 ms window instead of one tiny batch. This avoids
+  // huge spikes and zeroes caused by sub-millisecond timer resolution.
+  if (reportAt === 0) {
+    reportAt = now;
+    reportExamples = examplesSeen;
+  } else if (now - reportAt >= 500) {
+    const elapsed = now - reportAt;
+    const measured = Math.max(0, (examplesSeen - reportExamples) * 1000 / elapsed);
+    lastReportedSpeed = lastReportedSpeed > 0
+      ? lastReportedSpeed * 0.65 + measured * 0.35
+      : measured;
+    reportAt = now;
+    reportExamples = examplesSeen;
   }
-  reportAt = now;
-  reportExamples = examplesSeen;
+  const speed = lastReportedSpeed;
   return {
     network: networkSnapshot(),
     steps,
@@ -485,6 +495,7 @@ self.addEventListener("message", event => {
         running = true;
         reportAt = performance.now();
         reportExamples = examplesSeen;
+        lastReportedSpeed = 0;
         self.postMessage({type: "started", optimizer: activeOptimizer, reset: optimizerChanged});
         setTimeout(runBatch, 0);
       }
