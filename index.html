@@ -314,6 +314,61 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
  .neural-map-layer{padding:5px 0}
 }
 
+
+/* v0.4.4 interface polish */
+:root{--line:#2b405d;--shadow:0 16px 42px rgba(0,0,0,.24)}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;background:radial-gradient(ellipse at 8% -10%,rgba(76,125,202,.24),transparent 43%),radial-gradient(ellipse at 100% 10%,rgba(55,92,154,.18),transparent 38%),#080d19}
+.app{width:min(1080px,100%);padding-top:28px}
+.brand-title{letter-spacing:-.55px}
+.brand-version{box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.status,.tabs,.stat,.card{backdrop-filter:blur(10px)}
+.stats{gap:11px}
+.stat{border-color:#2d4260;background:linear-gradient(155deg,rgba(22,38,62,.96),rgba(12,23,40,.97));box-shadow:0 8px 22px rgba(0,0,0,.12)}
+.stat-value{letter-spacing:-.55px}
+.tabs{border-color:#2c405d;background:rgba(9,18,32,.88);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.tab{transition:background .18s ease,color .18s ease,transform .18s ease}
+.tab[aria-selected="true"]{background:linear-gradient(135deg,#3b68aa,#28518a);box-shadow:0 5px 18px rgba(54,105,183,.27),inset 0 1px 0 rgba(255,255,255,.16)}
+.card{border-color:rgba(72,98,134,.58);box-shadow:0 14px 38px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.025)}
+.visual-hero{background:radial-gradient(ellipse at 92% 0,rgba(91,143,221,.23),transparent 42%),linear-gradient(145deg,#172c4b,#0d192b 74%);border-color:#385678}
+.visual-card,.neural-live-card,.neural-checkpoint-card,.network-visual-card{background:linear-gradient(155deg,rgba(19,33,54,.98),rgba(10,19,33,.99))}
+.visual-section-title{margin-top:2px}
+.visual-section-tag,.visual-mini-tag{letter-spacing:.6px}
+.accuracy-box{box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.btn{box-shadow:0 5px 16px rgba(0,0,0,.12)}
+.btn-primary{background:linear-gradient(135deg,#9ac0ff,#6f9ff2)}
+.btn-secondary{border-color:#405777;background:linear-gradient(135deg,#203650,#17283f)}
+.field{transition:border-color .18s ease,box-shadow .18s ease}
+.field:focus{border-color:#729de0;box-shadow:0 0 0 3px rgba(115,158,226,.12);outline:none}
+.message{box-shadow:0 5px 16px rgba(0,0,0,.1)}
+#networkCanvas{display:block;width:100%;height:clamp(220px,32vw,350px);min-height:0;image-rendering:auto}
+.network-canvas-wrap{padding:10px;border-color:#304967;background:linear-gradient(155deg,#0c1c30,#07111f);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.network-visual-card{background:radial-gradient(ellipse at 50% 0,rgba(73,117,190,.10),transparent 55%),linear-gradient(155deg,#132239,#0b1728)}
+.network-readout{background:linear-gradient(145deg,#102039,#0b1728)}
+.network-readout strong{letter-spacing:-.2px}
+.neural-observatory{box-shadow:0 14px 40px rgba(0,0,0,.22)}
+.visual-chart-wrap{box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.footer{color:#7185a1}
+@media(hover:hover){
+ .card:hover{border-color:rgba(100,132,179,.68)}
+ .tab:not([aria-selected="true"]):hover{transform:translateY(-1px)}
+ .btn:not(:disabled):hover{filter:brightness(1.06)}
+}
+@media(max-width:720px){
+ .app{padding:17px 13px 30px}
+ .topbar{align-items:flex-start}
+ .stat{box-shadow:none}
+ .visual-page{gap:14px}
+}
+@media(max-width:420px){
+ .app{padding-left:11px;padding-right:11px}
+ .brand-title{font-size:17px}
+ .brand-sub{max-width:210px;line-height:1.35}
+ .network-visual-card{padding:13px}
+ .network-canvas-wrap{padding:6px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
 </style>
 </head>
 <body>
@@ -321,7 +376,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.2">v0.4.3</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.4">v0.4.4</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -569,7 +624,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.4.3 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-visual-head"><div><div class="eyebrow">v0.4.4 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
         <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
         <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
         <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
@@ -965,23 +1020,126 @@ function restoreSavedNeuralCheckpoint() {
   }
 }
 
+let networkVisualiserSnapshot = null;
+
 function renderNetworkVisualiser(snapshot) {
-  const canvas=$('networkCanvas'); if(!canvas) return;
-  const ctx=canvas.getContext('2d'); if(!ctx) return;
-  const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#081321';ctx.fillRect(0,0,W,H);
-  const input=snapshot?.input||Array(12).fill(0),hidden=snapshot?.hidden||Array(16).fill(0),output=snapshot?.output||Array(12).fill(0),w1=snapshot?.w1||Array(192).fill(0),w2=snapshot?.w2||Array(192).fill(0);
-  const ys=n=>Array.from({length:n},(_,i)=>45+i*(240/Math.max(1,n-1))), iy=ys(input.length),hy=ys(hidden.length),oy=ys(output.length);
-  const strength=v=>Math.max(0,Math.min(1,Math.abs(Number(v)||0)/1.5));
-  function edge(x1,y1,x2,y2,v){const m=strength(v);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=(Number(v)||0)>=0?'rgba(117,169,255,'+(0.07+m*.48)+')':'rgba(244,135,150,'+(0.07+m*.42)+')';ctx.lineWidth=.45+m*1.8;ctx.stroke();}
-  for(let h=0;h<hidden.length;h++)for(let i=0;i<input.length;i++)edge(151,iy[i],434,hy[h],w1[h*input.length+i]);
-  for(let o=0;o<output.length;o++)for(let h=0;h<hidden.length;h++)edge(466,hy[h],749,oy[o],w2[o*hidden.length+h]);
-  [{x:135,v:input,y:iy,c:'#75a9ff',t:'EMBEDDING INPUT',s:'12 / 48 sampled'},{x:450,v:hidden,y:hy,c:'#78dfb5',t:'HIDDEN LAYER',s:'16 / 48 sampled'},{x:765,v:output,y:oy,c:'#f2c978',t:'OUTPUT',s:'12 / 128 sampled'}].forEach(layer=>{
-    ctx.textAlign='center';ctx.fillStyle='#b9cbe4';ctx.font='700 13px system-ui';ctx.fillText(layer.t,layer.x,20);ctx.fillStyle='#7187a5';ctx.font='10px system-ui';ctx.fillText(layer.s,layer.x,316);
-    layer.v.forEach((raw,i)=>{const v=Number(raw)||0,intensity=Math.max(.12,Math.min(1,Math.abs(v)/(layer.t==='OUTPUT'?.25:2.5)));ctx.beginPath();ctx.arc(layer.x,layer.y[i],6+intensity*2.5,0,Math.PI*2);ctx.fillStyle=layer.c;ctx.globalAlpha=.28+intensity*.72;ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle='rgba(226,239,255,.55)';ctx.lineWidth=1;ctx.stroke();});
+  if (arguments.length) networkVisualiserSnapshot = snapshot;
+  const live = networkVisualiserSnapshot;
+  const canvas = $('networkCanvas');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+
+  // Render in CSS-pixel coordinates, but keep a high-DPI backing bitmap.
+  // This avoids the browser enlarging a small 900x330 image on mobile.
+  const pixelRatio = Math.min(3, Math.max(1, window.devicePixelRatio || 1));
+  const pixelWidth = Math.max(1, Math.round(rect.width * pixelRatio));
+  const pixelHeight = Math.max(1, Math.round(rect.height * pixelRatio));
+  if (canvas.width !== pixelWidth) canvas.width = pixelWidth;
+  if (canvas.height !== pixelHeight) canvas.height = pixelHeight;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const W = rect.width, H = rect.height;
+  ctx.setTransform(pixelWidth / W, 0, 0, pixelHeight / H, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0c1b2e');
+  bg.addColorStop(1, '#07111f');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Quiet column guides make the three network stages easier to follow.
+  const columns = [W * 0.15, W * 0.5, W * 0.85];
+  columns.forEach((x, index) => {
+    ctx.fillStyle = ['rgba(117,169,255,.035)','rgba(120,223,181,.035)','rgba(242,201,120,.035)'][index];
+    ctx.beginPath();
+    ctx.roundRect(x - W * 0.105, 27, W * 0.21, H - 54, 12);
+    ctx.fill();
   });
-  $('networkMaxActivation').textContent=snapshot?Math.max(...hidden.map(v=>Number(v)||0)).toFixed(4):'Waiting';
-  $('networkTopCharacter').textContent=snapshot?.topCharacter||'Waiting';$('networkConnectionCount').textContent=snapshot?(w1.length+w2.length).toLocaleString():'0';$('networkVisualStatus').textContent=snapshot?'LIVE MODEL SIGNALS':'WAITING FOR MODEL';
+
+  const input = live?.input || Array(12).fill(0);
+  const hidden = live?.hidden || Array(16).fill(0);
+  const output = live?.output || Array(12).fill(0);
+  const w1 = live?.w1 || Array(192).fill(0);
+  const w2 = live?.w2 || Array(192).fill(0);
+  const nodeY = count => Array.from({length:count}, (_,i) =>
+    count === 1 ? H * 0.5 : 39 + i * ((H - 78) / (count - 1)));
+  const iy = nodeY(input.length), hy = nodeY(hidden.length), oy = nodeY(output.length);
+  const xs = columns;
+  const radius = Math.max(4.1, Math.min(7, W * 0.0065));
+  const maxWeight = Math.max(0.001, ...w1.map(v => Math.abs(Number(v)||0)), ...w2.map(v => Math.abs(Number(v)||0)));
+  function drawEdge(x1,y1,x2,y2,weight) {
+    const value = Number(weight) || 0;
+    const strength = Math.min(1, Math.abs(value) / maxWeight);
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.strokeStyle = value >= 0
+      ? 'rgba(117,169,255,' + (0.035 + strength * 0.34) + ')'
+      : 'rgba(244,135,150,' + (0.035 + strength * 0.30) + ')';
+    ctx.lineWidth = 0.55 + strength * 1.25;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  }
+  for (let h=0; h<hidden.length; h++)
+    for (let i=0; i<input.length; i++)
+      drawEdge(xs[0]+radius,iy[i],xs[1]-radius,hy[h],w1[h*input.length+i]);
+  for (let o=0; o<output.length; o++)
+    for (let h=0; h<hidden.length; h++)
+      drawEdge(xs[1]+radius,hy[h],xs[2]-radius,oy[o],w2[o*hidden.length+h]);
+
+  const layers = [
+    {x:xs[0],values:input,y:iy,color:'#75a9ff',title:'EMBEDDING INPUT',sub:'12 / 48 shown'},
+    {x:xs[1],values:hidden,y:hy,color:'#78dfb5',title:'HIDDEN LAYER',sub:'16 / 48 shown'},
+    {x:xs[2],values:output,y:oy,color:'#f2c978',title:'OUTPUT',sub:'12 / 128 shown'}
+  ];
+  const titleSize = Math.max(9, Math.min(12, W * 0.012));
+  layers.forEach((layer, layerIndex) => {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#d2e2f7';
+    ctx.font = '700 ' + titleSize + 'px system-ui, sans-serif';
+    ctx.fillText(layer.title, layer.x, 14);
+    ctx.fillStyle = '#8095b2';
+    ctx.font = '500 ' + Math.max(8.5, titleSize - 1.5) + 'px system-ui, sans-serif';
+    ctx.fillText(layer.sub, layer.x, H - 13);
+
+    const scale = layerIndex === 2
+      ? Math.max(0.015, ...layer.values.map(v => Number(v)||0))
+      : Math.max(0.05, ...layer.values.map(v => Math.abs(Number(v)||0)));
+    layer.values.forEach((raw, i) => {
+      const value = Number(raw) || 0;
+      const intensity = Math.max(0.12, Math.min(1, Math.abs(value) / scale));
+      const r = radius * (0.78 + intensity * 0.32);
+      const glow = ctx.createRadialGradient(layer.x,layer.y[i],r*.25,layer.x,layer.y[i],r*2.8);
+      glow.addColorStop(0, layer.color + '55');
+      glow.addColorStop(1, layer.color + '00');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(layer.x,layer.y[i],r*2.8,0,Math.PI*2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(layer.x,layer.y[i],r,0,Math.PI*2);
+      ctx.fillStyle = layer.color;
+      ctx.globalAlpha = 0.5 + intensity * 0.5;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = 'rgba(235,245,255,.86)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+  });
+
+  const maxActivation = Math.max(0,...hidden.map(v => Number(v)||0));
+  $('networkMaxActivation').textContent = live ? maxActivation.toFixed(4) : 'Waiting';
+  $('networkTopCharacter').textContent = live?.topCharacter || 'Waiting';
+  $('networkConnectionCount').textContent = live ? (w1.length+w2.length).toLocaleString() : '0';
+  $('networkVisualStatus').textContent = live ? 'LIVE MODEL SIGNALS' : 'WAITING FOR MODEL';
 }
+window.addEventListener('resize', () => renderNetworkVisualiser());
+
 function updateNeuralMetrics(data, forceEvaluation = false) {
   if (!data) return;
   if (data.network) renderNetworkVisualiser(data.network);
@@ -1052,7 +1210,7 @@ function updateNeuralControls() {
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.4.3', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.4.4', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
