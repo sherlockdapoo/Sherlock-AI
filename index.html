@@ -230,7 +230,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
  .visual-score-pair div{text-align:left}
 }
 
-.performance-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:0 0 15px}
+.performance-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin:0 0 15px}
 .performance-kpi{min-width:0;padding:13px;border:1px solid #2a3e59;border-radius:12px;background:#0c1829}
 .performance-kpi span{display:block;color:#8ea3c0;font-size:10px}
 .performance-kpi strong{display:block;margin-top:6px;color:#eff5ff;font-size:clamp(16px,2.8vw,21px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
@@ -321,7 +321,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           <div class="visual-kpi"><span>Processing speed</span><strong id="visualSpeed">0</strong><small>characters per second</small></div>
           <div class="visual-kpi"><span>Characters learned</span><strong id="visualChars">0</strong><small>since this run started</small></div>
           <div class="visual-kpi"><span>Training passes</span><strong id="visualPasses">0</strong><small>full corpus cycles</small></div>
-          <div class="visual-kpi"><span>Engine steps</span><strong id="visualSteps">0</strong><small>65,536-character batches</small></div>
+          <div class="visual-kpi"><span>Engine steps</span><strong id="visualSteps">0</strong><small>adaptive training batches</small></div>
         </div>
       </section>
 
@@ -331,7 +331,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
       </div>
       <div class="visual-flow">
         <article class="flow-node" id="flowDataset"><div class="flow-node-top"><span class="flow-icon">▤</span><span class="flow-number">01 / INPUT</span></div><h4>Conversation data</h4><p>DailyDialog examples are downloaded and cleaned into a text stream.</p><span class="flow-state" id="flowDatasetState">Waiting</span></article>
-        <article class="flow-node" id="flowStream"><div class="flow-node-top"><span class="flow-icon">⇢</span><span class="flow-number">02 / READ</span></div><h4>Character stream</h4><p>The engine reads the training text in batches of 65,536 characters.</p><span class="flow-state" id="flowStreamState">Waiting</span></article>
+        <article class="flow-node" id="flowStream"><div class="flow-node-top"><span class="flow-icon">⇢</span><span class="flow-number">02 / READ</span></div><h4>Character stream</h4><p>The engine reads the training text in automatically adjusted character batches.</p><span class="flow-state" id="flowStreamState">Waiting</span></article>
         <article class="flow-node" id="flowContext"><div class="flow-node-top"><span class="flow-icon">▦</span><span class="flow-number">03 / CONTEXT</span></div><h4>Pattern lookup</h4><p>The previous three characters form the main context key.</p><span class="flow-state" id="flowContextState">Waiting</span></article>
         <article class="flow-node" id="flowCounters"><div class="flow-node-top"><span class="flow-icon">＋</span><span class="flow-number">04 / UPDATE</span></div><h4>Count patterns</h4><p>Next-character counts are increased in the model’s tables.</p><span class="flow-state" id="flowCountersState">Waiting</span></article>
         <article class="flow-node" id="flowValidation"><div class="flow-node-top"><span class="flow-icon">◎</span><span class="flow-number">05 / TEST</span></div><h4>Validation check</h4><p>Predictions are tested on separate conversations not used for training.</p><span class="flow-state" id="flowValidationState">Waiting</span></article>
@@ -390,6 +390,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           <div class="performance-kpi"><span>Average batch time</span><strong id="performanceAverageBatch">0 ms</strong><small>last 30 engine batches</small></div>
           <div class="performance-kpi"><span>Peak throughput</span><strong id="performancePeakSpeed">0</strong><small>highest 1-second sample</small></div>
           <div class="performance-kpi"><span>Engine compute time</span><strong id="performanceEngineTime">0.00 s</strong><small>time spent inside C++ training calls</small></div>
+          <div class="performance-kpi"><span>Next batch size</span><strong id="performanceNextBatch">65,536</strong><small>automatically tuned for this device</small></div>
         </div>
         <div class="performance-chart-head"><strong>Throughput over the last 60 seconds</strong><span id="performanceBatchCount">0 batches measured</span></div>
         <div class="visual-chart-wrap">
@@ -399,7 +400,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           </svg>
           <div class="visual-chart-legend"><span id="performanceRange">Waiting for the first speed sample</span><span>Older ← seconds → Newer</span></div>
         </div>
-        <p class="performance-note">Throughput includes browser scheduling time between samples. Batch time measures the C++ training call itself. Browsers do not expose reliable system-wide iPad CPU-use percentages to webpages.</p>
+        <p class="performance-note">Adaptive batches aim for about 30 ms per C++ call, adjusting between 16,384 and 196,608 characters. This balances throughput with interface responsiveness. The engine is still single-threaded, so this upgrade does not yet use all four CPU cores. Browsers do not expose reliable system-wide iPad CPU-use percentages to webpages.</p>
       </section>
 
       <section class="card visual-accuracy">
@@ -453,8 +454,10 @@ const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_API = 'https://datasets-server.huggingface.co';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
-// Yield briefly between batches instead of waiting 50 ms after every batch.
-// This lets the engine stay busier while still returning control to the browser.
+const MIN_TRAIN_STEP_SIZE = 16384;
+const MAX_TRAIN_STEP_SIZE = 196608;
+const TARGET_BATCH_MS = 30;
+// Yield briefly between batches so the browser can paint and handle taps.
 const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
 const PERFORMANCE_HISTORY_LIMIT = 60;
@@ -464,6 +467,8 @@ let engine = null;
 let training = false;
 let modelReady = false;
 let trainingTimer = null;
+let currentTrainStepSize = TRAIN_STEP_SIZE;
+let batchTuneCounter = 0;
 let requestBusy = false;
 let datasetCache = null;
 let bestAccuracy = null;
@@ -589,6 +594,7 @@ function renderPerformanceHistory() {
   $('performanceAverageBatch').textContent = averageBatch.toFixed(2) + ' ms';
   $('performancePeakSpeed').textContent = Math.round(performancePeakSpeed).toLocaleString();
   $('performanceEngineTime').textContent = (performanceTotalEngineMs / 1000).toFixed(2) + ' s';
+  $('performanceNextBatch').textContent = currentTrainStepSize.toLocaleString();
   $('performanceBatchCount').textContent = performanceBatchCount.toLocaleString() + ' batches measured';
 
   const values = performanceHistory;
@@ -627,6 +633,8 @@ function resetPerformanceMetrics() {
   performanceSampleAt = 0;
   performanceSampleChars = 0;
   performanceLastBatchSeen = Number(engine.characters_seen()) || 0;
+  currentTrainStepSize = TRAIN_STEP_SIZE;
+  batchTuneCounter = 0;
   renderPerformanceHistory();
 }
 
@@ -636,6 +644,23 @@ function recordBatchTiming(durationMs, charactersProcessed) {
   if (batchDurations.length > BATCH_TIMING_WINDOW) batchDurations.shift();
   performanceBatchCount++;
   performanceTotalEngineMs += duration;
+}
+
+function adaptTrainingBatchSize() {
+  batchTuneCounter++;
+  if (batchTuneCounter < 3 || !batchDurations.length) return;
+  batchTuneCounter = 0;
+
+  const recent = batchDurations.slice(-5);
+  const averageMs = recent.reduce((sum, value) => sum + value, 0) / recent.length;
+  const factor = Math.max(0.75, Math.min(1.25, TARGET_BATCH_MS / Math.max(1, averageMs)));
+  const rounded = Math.round((currentTrainStepSize * factor) / 4096) * 4096;
+  const nextSize = Math.max(MIN_TRAIN_STEP_SIZE, Math.min(MAX_TRAIN_STEP_SIZE, rounded));
+
+  if (nextSize !== currentTrainStepSize) {
+    currentTrainStepSize = nextSize;
+    $('performanceNextBatch').textContent = currentTrainStepSize.toLocaleString();
+  }
 }
 
 function samplePerformanceSpeed(now, charactersSeen) {
@@ -1051,11 +1076,13 @@ function runTrainingBatch() {
   if (!training || !engine) return;
   try {
     const batchStartedAt = performance.now();
-    const totalSeen = Number(engine.train_step(TRAIN_STEP_SIZE)) || 0;
+    const batchSize = currentTrainStepSize;
+    const totalSeen = Number(engine.train_step(batchSize)) || 0;
     const batchDurationMs = performance.now() - batchStartedAt;
     const processed = Math.max(0, totalSeen - performanceLastBatchSeen);
     performanceLastBatchSeen = totalSeen;
     recordBatchTiming(batchDurationMs, processed);
+    adaptTrainingBatchSize();
     updateTrainingMetrics();
     // A short timer yield gives the browser a chance to paint and handle taps.
     if (training) trainingTimer = setTimeout(runTrainingBatch, TRAIN_YIELD_MS);
