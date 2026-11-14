@@ -238,9 +238,9 @@ function evaluate() {
   evaluationCount++;
   validationSamples = total;
 
-  // Cross-entropy is the checkpoint selection metric; accuracy breaks ties.
-  const improved = validationLoss < bestValidationLoss - 1e-7 ||
-    (Math.abs(validationLoss - bestValidationLoss) <= 1e-7 && score > bestAccuracy);
+  // Preserve the previous accuracy-first checkpoint behaviour. Validation loss breaks ties.
+  const improved = score > bestAccuracy + 1e-7 ||
+    (Math.abs(score - bestAccuracy) <= 1e-7 && validationLoss < bestValidationLoss - 1e-7);
   if (improved) {
     bestValidationLoss = validationLoss;
     bestAccuracy = score;
