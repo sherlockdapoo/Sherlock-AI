@@ -705,7 +705,7 @@ body{
 }
 
 
-/* v0.4.7 · contrast repair: dark legacy text on light surfaces */
+/* v0.4.8 · contrast repair: dark legacy text on light surfaces */
 body,.app{color:#27354d}
 .topbar,.brand,.brand-name,.brand-title{color:#27354d}
 .brand-sub,.tab-note,.footer,.footer p{color:#68768d}
@@ -782,6 +782,20 @@ body,.app{color:#27354d}
  .panel .card:not(.visual-hero) .flow-node{min-height:112px}
 }
 
+
+/* v0.4.8 · readable neural architecture cards on the light workspace */
+.panel .card:not(.visual-hero) .neural-layer{
+  background:linear-gradient(145deg,#f5f8fd,#eaf0f8);
+  border-color:#d5dfed;
+  color:#293750;
+}
+.panel .card:not(.visual-hero) .neural-layer strong{
+  color:#293750;
+}
+.panel .card:not(.visual-hero) .neural-layer span{
+  color:#5f6f88;
+}
+
 </style>
 </head>
 <body>
@@ -789,7 +803,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.7">v0.4.7</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.7">v0.4.8</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1051,7 +1065,7 @@ body,.app{color:#27354d}
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.4.7 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-visual-head"><div><div class="eyebrow">v0.4.8 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
         <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
         <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
         <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
