@@ -2,11 +2,11 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace has two tabs: **Chat** and **Neural Lab**. Training runs locally in a dedicated browser worker, and the best model checkpoint is saved in this browser.
 
-## Version 0.5.1: Optimizer experiment
+## Version 0.5.2: AdamW becomes the default
 
-Neural Lab now lets you choose between **Adam** and **AdamW**. Both use the same learning rate (0.003), mini-batch size (24), model architecture, training data, and seeded initial weights. AdamW applies decoupled weight decay (0.0001) to weight tensors, while Adam keeps the previous behaviour.
+**AdamW is now Sherlock GPT's main optimizer and default for new training runs.** Adam remains available as a comparison baseline. New model initialisation starts with AdamW selected, and the worker also defaults to AdamW. Both use the same learning rate (0.003), mini-batch size (24), model architecture, training data, and seeded initial weights. AdamW applies decoupled weight decay (0.0001) to weight tensors, while Adam keeps the previous behaviour.
 
-Changing optimizer starts a fresh run from the same deterministic initial weights and resets the visible run metrics, so results from the two runs are not mixed together. Checkpoints remember which optimizer produced them and restore the matching selection after a page refresh. Older saved checkpoints are treated as Adam checkpoints.
+Changing optimizer starts a fresh run from the same deterministic initial weights and resets the visible run metrics, so results from the two runs are not mixed together. Checkpoints remember which optimizer produced them and restore the matching selection after a page refresh. Older saved checkpoints are treated as Adam checkpoints, preserving their original training history. New checkpoints continue to remember their optimizer.
 
 For a useful comparison, keep the dataset unchanged and compare both optimizers after the same number of training updates. Compare held-out accuracy and validation cross-entropy; this small character-level experiment does not directly measure conversation quality.
 
