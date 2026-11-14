@@ -824,7 +824,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.6">v0.5.6</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.7">v0.5.7</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1220,6 +1220,7 @@ let neuralTraining = false;
 let neuralModelReady = false;
 let neuralRequestBusy = false;
 let neuralStartPending = false;
+let neuralStartupTimer = null;
 let neuralRequestSequence = 0;
 let neuralPendingRequests = new Map();
 let neuralAccuracyHistory = [];
@@ -1734,7 +1735,7 @@ updateNeuralOptimizerSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.5', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.7', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -1797,6 +1798,8 @@ function ensureNeuralWorker() {
         renderNeuralLiveView();
       }
     } else if (data.type === 'started') {
+      if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+      neuralStartupTimer = null;
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       $('neuralOptimizer').value = neuralActiveOptimizer;
       updateNeuralOptimizerSummary();
@@ -1845,6 +1848,8 @@ function ensureNeuralWorker() {
           pending.reject(new Error(data.message || 'Neural generation failed.'));
         }
       } else {
+        if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+        neuralStartupTimer = null;
         neuralTraining = false;
         neuralWorkerStarted = false;
         neuralStartPending = false;
@@ -1860,6 +1865,8 @@ function ensureNeuralWorker() {
     }
   };
   neuralWorker.onerror = event => {
+    if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+    neuralStartupTimer = null;
     neuralTraining = false;
     neuralWorkerStarted = false;
     neuralStartPending = false;
@@ -1876,7 +1883,12 @@ function ensureNeuralWorker() {
 }
 
 async function startNeuralTraining() {
-  if (neuralTraining || neuralRequestBusy || training || requestBusy) return;
+  if (neuralTraining || neuralRequestBusy || training || requestBusy) {
+    $('neuralMessage').textContent = training || requestBusy
+      ? 'Stop the other training run before starting neural training.'
+      : 'Neural training is already starting or running.';
+    return;
+  }
   neuralRequestBusy = true;
   neuralTraining = true;
   neuralWorkerStarted = false;
@@ -1934,6 +1946,25 @@ async function startNeuralTraining() {
     setChatReady(modelReady);
   } finally {
     neuralRequestBusy = false;
+    if (neuralTraining && !neuralWorkerStarted && !neuralStartupTimer) {
+      neuralStartupTimer = setTimeout(() => {
+        neuralStartupTimer = null;
+        if (!neuralWorkerStarted && neuralTraining) {
+          neuralTraining = false;
+          neuralStartPending = false;
+          neuralWorkerStarted = false;
+          neuralWorkerInitialized = false;
+          neuralDatasetInitialized = false;
+          if (neuralWorker) neuralWorker.terminate();
+          neuralWorker = null;
+          setNeuralState('Neural startup timed out');
+          $('neuralMessage').textContent = 'The neural worker did not respond. Please tap Start neural training again. If this repeats, refresh the page to load the latest worker.';
+        }
+        updateNeuralControls();
+        updateGlobalNeuralStats();
+        renderNeuralLiveView();
+      }, 20000);
+    }
     updateNeuralControls();
     setChatReady();
     updateGlobalNeuralStats();
