@@ -705,7 +705,7 @@ body{
 }
 
 
-/* v0.4.8 · contrast repair: dark legacy text on light surfaces */
+/* v0.5.0 · contrast repair: dark legacy text on light surfaces */
 body,.app{color:#27354d}
 .topbar,.brand,.brand-name,.brand-title{color:#27354d}
 .brand-sub,.tab-note,.footer,.footer p{color:#68768d}
@@ -783,7 +783,7 @@ body,.app{color:#27354d}
 }
 
 
-/* v0.4.8 · readable neural architecture cards on the light workspace */
+/* v0.5.0 · readable neural architecture cards on the light workspace */
 .panel .card:not(.visual-hero) .neural-layer{
   background:linear-gradient(145deg,#f5f8fd,#eaf0f8);
   border-color:#d5dfed;
@@ -803,7 +803,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.7">v0.4.8</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.0">v0.5.0</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -858,13 +858,13 @@ body,.app{color:#27354d}
           <button class="btn btn-primary" id="trainBtn" type="button">⚡ <span>Start training</span></button>
           <button class="btn btn-secondary" id="stopBtn" type="button" disabled>■ Stop</button>
         </div>
-        <div class="data-load" id="dataLoad" hidden><div class="data-load-top"><span id="dataLoadLabel">Preparing DailyDialog…</span><strong id="dataLoadPercent">0%</strong></div><div class="data-track"><div class="data-fill" id="dataFill"></div></div></div>
-        <p class="train-message" id="trainMessage" aria-live="polite">Press Start training to load DailyDialog and begin learning.</p>
+        <div class="data-load" id="dataLoad" hidden><div class="data-load-top"><span id="dataLoadLabel">Preparing conversation datasets…</span><strong id="dataLoadPercent">0%</strong></div><div class="data-track"><div class="data-fill" id="dataFill"></div></div></div>
+        <p class="train-message" id="trainMessage" aria-live="polite">Press Start training to load DailyDialog + a small UltraChat sample.</p>
         <div class="metrics">
           <div class="metric"><span>Completed passes</span><strong id="epochText">0</strong></div>
           <div class="metric"><span>Best accuracy this run</span><strong id="bestAccuracy">Not measured</strong></div>
           <div class="metric"><span>Learning method</span><strong>Character trigram · C++ WASM</strong></div>
-          <div class="metric"><span>Training data</span><strong id="datasetName">DailyDialog · not loaded</strong></div>
+          <div class="metric"><span>Training data</span><strong id="datasetName">DailyDialog + UltraChat · not loaded</strong></div>
           <div class="metric"><span>Conversations loaded</span><strong id="conversationCount">0</strong></div>
           <div class="metric"><span>Validation data</span><strong>Separate held-out split</strong></div>
           <div class="metric"><span>Prediction task</span><strong>Next character</strong></div>
@@ -895,7 +895,7 @@ body,.app{color:#27354d}
         <span class="visual-section-tag" id="visualPipelineStatus">ENGINE STARTING</span>
       </div>
       <div class="visual-flow">
-        <article class="flow-node" id="flowDataset"><div class="flow-node-top"><span class="flow-icon">▤</span><span class="flow-number">01 / INPUT</span></div><h4>Conversation data</h4><p>DailyDialog examples are downloaded and cleaned into a text stream.</p><span class="flow-state" id="flowDatasetState">Waiting</span></article>
+        <article class="flow-node" id="flowDataset"><div class="flow-node-top"><span class="flow-icon">▤</span><span class="flow-number">01 / INPUT</span></div><h4>Conversation data</h4><p>DailyDialog and a capped UltraChat sample are cleaned into one training stream.</p><span class="flow-state" id="flowDatasetState">Waiting</span></article>
         <article class="flow-node" id="flowStream"><div class="flow-node-top"><span class="flow-icon">⇢</span><span class="flow-number">02 / READ</span></div><h4>Character stream</h4><p>The engine reads the training text in automatically adjusted character batches.</p><span class="flow-state" id="flowStreamState">Waiting</span></article>
         <article class="flow-node" id="flowContext"><div class="flow-node-top"><span class="flow-icon">▦</span><span class="flow-number">03 / CONTEXT</span></div><h4>Pattern lookup</h4><p>The previous three characters form the main context key.</p><span class="flow-state" id="flowContextState">Waiting</span></article>
         <article class="flow-node" id="flowCounters"><div class="flow-node-top"><span class="flow-icon">＋</span><span class="flow-number">04 / UPDATE</span></div><h4>Count patterns</h4><p>Next-character counts are increased in the model’s tables.</p><span class="flow-state" id="flowCountersState">Waiting</span></article>
@@ -1034,10 +1034,10 @@ body,.app{color:#27354d}
             <button class="btn btn-secondary" id="neuralStopBtn" type="button" disabled>■ Stop</button>
           </div>
           <div class="data-load neural-data-load" id="neuralDataLoad" hidden>
-            <div class="data-load-top"><span id="neuralDataLoadLabel">Preparing DailyDialog…</span><strong id="neuralDataLoadPercent">0%</strong></div>
+            <div class="data-load-top"><span id="neuralDataLoadLabel">Preparing conversation datasets…</span><strong id="neuralDataLoadPercent">0%</strong></div>
             <div class="data-track"><div class="data-fill" id="neuralDataFill"></div></div>
           </div>
-          <p class="train-message" id="neuralMessage" aria-live="polite">Press Start neural training. DailyDialog will be loaded once for the neural network.</p>
+          <p class="train-message" id="neuralMessage" aria-live="polite">Press Start neural training. DailyDialog and a bounded UltraChat sample will be loaded once.</p>
           <div class="metrics">
             <div class="metric"><span>Training updates</span><strong id="neuralSteps">0</strong></div>
             <div class="metric"><span>Corpus-equivalent passes</span><strong id="neuralEpochs">0.000</strong></div>
@@ -1065,7 +1065,7 @@ body,.app{color:#27354d}
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.4.8 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-visual-head"><div><div class="eyebrow">v0.5.0 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
         <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
         <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
         <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
@@ -1168,13 +1168,19 @@ body,.app{color:#27354d}
     </section>
   </section>
 
-  <footer class="footer">Sherlock GPT · local neural network training · best checkpoint saved in this browser<br>Dialogue data: DailyDialog by Li et al. (2017) · CC BY-NC-SA 4.0 · <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">Dataset and licence</a></footer>
+  <footer class="footer">Sherlock GPT · local neural network training · best checkpoint saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0) + a capped sample from <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT). Separate held-out validation samples are used.</footer>
 </main>
 
 <script>
 const ENGINE_URL = new URL('engine.wasm.gz.b64?v=0.9.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
+const HF_ULTRACHAT_DATASET = 'HuggingFaceH4/ultrachat_200k';
 const HF_API = 'https://datasets-server.huggingface.co';
+const ULTRACHAT_TRAIN_ROWS = 1200;
+const ULTRACHAT_VALIDATION_ROWS = 250;
+const DAILY_TRAIN_BUDGET = 1200000;
+const ULTRACHAT_TRAIN_BUDGET = 799000;
+const VALIDATION_SOURCE_BUDGET = 59999;
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
@@ -1782,7 +1788,7 @@ async function startNeuralTraining() {
   updateNeuralControls();
   setChatReady(modelReady);
   try {
-    const data = datasetCache || await loadDailyDialog();
+    const data = datasetCache || await loadTrainingDatasets();
     const worker = ensureNeuralWorker();
     const trainBuffer = data.trainBytes.slice().buffer;
     const validationBuffer = data.validationBytes.slice().buffer;
@@ -2155,7 +2161,7 @@ function renderEngineStatus() {
     $('trainBtn').disabled = true;
     $('trainBtn').innerHTML = '⚡ <span>Training…</span>';
     $('stopBtn').disabled = false;
-    $('trainMessage').textContent = 'C++ is learning from DailyDialog examples on this iPad. The score checks separate validation conversations.';
+    $('trainMessage').textContent = 'The local engine is learning from the loaded conversation dataset. The score checks separate validation conversations.';
   } else {
     updateStatus(seen > 0 ? 'Ready' : 'Engine ready', 'ready');
     $('trainBtn').disabled = false;
@@ -2163,7 +2169,7 @@ function renderEngineStatus() {
     $('stopBtn').disabled = true;
     $('trainMessage').textContent = seen > 0
       ? 'Training stopped. Sherlock is ready to generate character sequences.'
-      : 'DailyDialog is ready. Press Start training when you want to begin.';
+      : 'The conversation dataset is ready. Press Start training when you want to begin.';
   }
   setChatReady(seen > 0);
   renderLiveView();
@@ -2215,7 +2221,7 @@ function cleanTurn(value) {
 }
 
 function getConversationText(row) {
-  let turns = row.conversations || row.conversation || row.dialog || row.turns || row.text;
+  let turns = row.messages || row.conversations || row.conversation || row.dialog || row.turns || row.text;
   if (typeof turns === 'string') {
     try { turns = JSON.parse(turns); } catch (_) { return ''; }
   }
@@ -2243,9 +2249,12 @@ function getConversationText(row) {
   return lines.length >= 2 ? lines.join('\n') + '\n\n' : '';
 }
 
-async function fetchSplit(splitInfo, progressCallback) {
-  const totalRows = Number(splitInfo.num_examples);
-  if (!Number.isFinite(totalRows) || totalRows < 1) throw new Error('The ' + splitInfo.split + ' split has no readable rows.');
+async function fetchSplit(splitInfo, progressCallback, rowLimit) {
+  const availableRows = Number(splitInfo.num_examples);
+  if (!Number.isFinite(availableRows) || availableRows < 1) throw new Error('The ' + splitInfo.split + ' split has no readable rows.');
+  const totalRows = Number.isFinite(Number(rowLimit))
+    ? Math.min(availableRows, Math.max(1, Math.floor(Number(rowLimit))))
+    : availableRows;
   const pageCount = Math.ceil(totalRows / PAGE_SIZE);
   const pages = new Array(pageCount);
   let nextPage = 0;
@@ -2257,7 +2266,7 @@ async function fetchSplit(splitInfo, progressCallback) {
       if (page >= pageCount) return;
       const offset = page * PAGE_SIZE;
       const query = new URLSearchParams({
-        dataset: HF_DATASET,
+        dataset: splitInfo.dataset || HF_DATASET,
         config: splitInfo.config,
         split: splitInfo.split,
         offset: String(offset),
@@ -2301,73 +2310,145 @@ function makeValidationSample(text, maxLength) {
   return segments.join('\n\n').slice(0, maxLength);
 }
 
-async function loadDailyDialog() {
-  updateStatus('Loading DailyDialog', 'running');
-  $('neuralStartBtn').disabled = true;
-  $('neuralMessage').textContent = 'Finding the DailyDialog training and validation splits…';
-  showDataProgress(0, 1, 'Finding the DailyDialog splits');
-
-  const splitQuery = new URLSearchParams({dataset: HF_DATASET});
+async function getDatasetSplitInfo(datasetId, trainingSplitName, validationSplitName) {
+  const splitQuery = new URLSearchParams({dataset: datasetId});
   const splitData = await getJSON(HF_API + '/splits?' + splitQuery.toString());
-  if (!Array.isArray(splitData.splits)) throw new Error('DailyDialog split information was not available.');
+  if (!Array.isArray(splitData.splits)) throw new Error(datasetId + ' split information was not available.');
 
   const configs = [...new Set(splitData.splits.map(item => item.config))];
   const config = configs.includes('default') ? 'default' : configs[0];
-  const trainInfo = splitData.splits.find(item => item.config === config && item.split === 'train');
-  const validationInfo = splitData.splits.find(item => item.config === config && item.split === 'validation');
-  if (!trainInfo || !validationInfo) throw new Error('DailyDialog needs separate train and validation splits.');
+  const trainingInfo = splitData.splits.find(item => item.config === config && item.split === trainingSplitName);
+  const validationInfo = splitData.splits.find(item => item.config === config && item.split === validationSplitName);
+  if (!trainingInfo || !validationInfo) {
+    throw new Error(datasetId + ' needs separate ' + trainingSplitName + ' and ' + validationSplitName + ' splits.');
+  }
 
-  const sizeQuery = new URLSearchParams({dataset: HF_DATASET});
+  const sizeQuery = new URLSearchParams({dataset: datasetId});
   const sizeData = await getJSON(HF_API + '/size?' + sizeQuery.toString());
   const sizedSplits = sizeData.size && sizeData.size.splits;
-  if (!Array.isArray(sizedSplits)) throw new Error('DailyDialog row counts are not available yet.');
-  const trainSize = sizedSplits.find(item => item.config === config && item.split === 'train');
-  const validationSize = sizedSplits.find(item => item.config === config && item.split === 'validation');
-  if (!trainSize || !validationSize) throw new Error('DailyDialog train/validation sizes could not be found.');
+  if (!Array.isArray(sizedSplits)) throw new Error(datasetId + ' row counts are not available yet.');
 
-  const trainSplit = {...trainInfo, num_examples: Number(trainSize.num_rows)};
-  const validationSplit = {...validationInfo, num_examples: Number(validationSize.num_rows)};
-  const totalPages = Math.ceil(trainSplit.num_examples / PAGE_SIZE) +
-                     Math.ceil(validationSplit.num_examples / PAGE_SIZE);
-  let pagesDone = 0;
-  const trainRows = await fetchSplit(trainSplit, (done, total) => {
-    pagesDone = done;
-    showDataProgress(pagesDone, totalPages, 'Downloading training conversations');
-  });
-  const validationRows = await fetchSplit(validationSplit, (done, total) => {
-    pagesDone = Math.ceil(trainSplit.num_examples / PAGE_SIZE) + done;
-    showDataProgress(pagesDone, totalPages, 'Downloading validation conversations');
-  });
+  const trainingSize = sizedSplits.find(item => item.config === config && item.split === trainingSplitName);
+  const validationSize = sizedSplits.find(item => item.config === config && item.split === validationSplitName);
+  if (!trainingSize || !validationSize) throw new Error(datasetId + ' training/validation sizes could not be found.');
 
-  const train = buildCorpus(trainRows);
-  const validation = buildCorpus(validationRows);
-  if (train.conversations < 100 || validation.conversations < 20) {
-    throw new Error('The downloaded dataset did not contain enough readable conversations.');
+  return {
+    training: {...trainingInfo, dataset: datasetId, num_examples: Number(trainingSize.num_rows)},
+    validation: {...validationInfo, dataset: datasetId, num_examples: Number(validationSize.num_rows)}
+  };
+}
+
+function encodeCorpusWithinLimit(text, maxBytes) {
+  const bytes = new TextEncoder().encode(text || '');
+  if (bytes.length <= maxBytes) return bytes;
+  let end = maxBytes;
+  while (end > 0 && bytes[end - 1] !== 10) end--;
+  if (end < Math.floor(maxBytes * 0.70)) end = maxBytes;
+  return bytes.slice(0, end);
+}
+
+function joinCorpusBytes(streams) {
+  const usable = streams.filter(bytes => bytes && bytes.length);
+  if (!usable.length) return new Uint8Array(0);
+  const separator = new Uint8Array([10, 10]);
+  const totalLength = usable.reduce((sum, bytes) => sum + bytes.length, 0) + separator.length * (usable.length - 1);
+  const joined = new Uint8Array(totalLength);
+  let offset = 0;
+  usable.forEach((bytes, index) => {
+    if (index) {
+      joined.set(separator, offset);
+      offset += separator.length;
+    }
+    joined.set(bytes, offset);
+    offset += bytes.length;
+  });
+  return joined;
+}
+
+async function loadTrainingDatasets() {
+  updateStatus('Loading conversation datasets', 'running');
+  $('neuralStartBtn').disabled = true;
+  $('neuralMessage').textContent = 'Finding the DailyDialog training and validation splits…';
+  showDataProgress(0, 1, 'Finding DailyDialog splits');
+
+  const dailyInfo = await getDatasetSplitInfo(HF_DATASET, 'train', 'validation');
+  const dailyTrainRows = await fetchSplit(dailyInfo.training, (done, total) => {
+    showDataProgress(done, total, 'Downloading DailyDialog training conversations');
+  });
+  const dailyValidationRows = await fetchSplit(dailyInfo.validation, (done, total) => {
+    showDataProgress(done, total, 'Downloading DailyDialog validation conversations');
+  });
+  const dailyTrain = buildCorpus(dailyTrainRows);
+  const dailyValidation = buildCorpus(dailyValidationRows);
+  if (dailyTrain.conversations < 100 || dailyValidation.conversations < 20) {
+    throw new Error('DailyDialog did not contain enough readable training and validation conversations.');
   }
 
-  const encoder = new TextEncoder();
-  const trainBytes = encoder.encode(train.text);
-  const validationText = makeValidationSample(validation.text, 120000);
-  const validationBytes = encoder.encode(validationText);
-  const neuralTrainingCapacity = 2000000;
-  const validationCapacity = 120000;
-  let finalTrainBytes = trainBytes;
-  if (finalTrainBytes.length > neuralTrainingCapacity) {
-    finalTrainBytes = finalTrainBytes.slice(0, neuralTrainingCapacity);
-    while (finalTrainBytes.length && finalTrainBytes[finalTrainBytes.length - 1] !== 10) finalTrainBytes = finalTrainBytes.slice(0, -1);
+  let ultraTrain = {text: '', conversations: 0};
+  let ultraValidation = {text: '', conversations: 0};
+  let ultraRowsLoaded = 0;
+  let ultraError = null;
+
+  try {
+    $('neuralMessage').textContent = 'DailyDialog is ready. Checking the UltraChat 200k sample…';
+    const ultraInfo = await getDatasetSplitInfo(HF_ULTRACHAT_DATASET, 'train_sft', 'test_sft');
+    const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => {
+      showDataProgress(done, total, 'Downloading a capped UltraChat training sample');
+    }, ULTRACHAT_TRAIN_ROWS);
+    const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => {
+      showDataProgress(done, total, 'Downloading a capped UltraChat validation sample');
+    }, ULTRACHAT_VALIDATION_ROWS);
+    ultraTrain = buildCorpus(ultraTrainRows);
+    ultraValidation = buildCorpus(ultraValidationRows);
+    ultraRowsLoaded = ultraTrainRows.length + ultraValidationRows.length;
+    if (ultraTrain.conversations < 100 || ultraValidation.conversations < 20) {
+      throw new Error('UltraChat returned too few readable user/assistant conversations.');
+    }
+  } catch (error) {
+    ultraError = error;
+    console.warn('UltraChat sample unavailable; continuing with DailyDialog only:', error);
   }
-  if (validationBytes.length > validationCapacity) throw new Error('The validation sample exceeded the neural worker memory limit.');
+
+  // The legacy WebAssembly buffer is limited to 2 MB. Keep the combined
+  // training stream within that limit while reserving space for both sources.
+  // If UltraChat cannot be fetched, retain the original full DailyDialog budget.
+  const dailyBudget = ultraError ? 2000000 : DAILY_TRAIN_BUDGET;
+  const ultraBudget = ultraError ? 0 : ULTRACHAT_TRAIN_BUDGET;
+  const dailyTrainBytes = encodeCorpusWithinLimit(dailyTrain.text, dailyBudget);
+  const ultraTrainBytes = encodeCorpusWithinLimit(ultraTrain.text, ultraBudget);
+  const dailyValidationText = makeValidationSample(dailyValidation.text, ultraError ? 120000 : VALIDATION_SOURCE_BUDGET);
+  const ultraValidationText = ultraError ? '' : makeValidationSample(ultraValidation.text, VALIDATION_SOURCE_BUDGET);
+  const dailyValidationBytes = encodeCorpusWithinLimit(dailyValidationText, ultraError ? 120000 : VALIDATION_SOURCE_BUDGET);
+  const ultraValidationBytes = ultraError ? new Uint8Array(0) : encodeCorpusWithinLimit(ultraValidationText, VALIDATION_SOURCE_BUDGET);
+  const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes]);
+  const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes]);
+
+  if (trainBytes.length > 2000000 || validationBytes.length > 120000) {
+    throw new Error('The combined training text exceeded the existing local engine memory limit.');
+  }
+  if (trainBytes.length < 1000 || validationBytes.length < 500) {
+    throw new Error('The combined datasets did not contain enough readable text.');
+  }
 
   datasetCache = {
-    trainBytes: finalTrainBytes,
+    trainBytes,
     validationBytes,
-    trainConversations: train.conversations,
-    validationConversations: validation.conversations,
-    trainRows: trainRows.length
+    trainConversations: dailyTrain.conversations + (ultraError ? 0 : ultraTrain.conversations),
+    validationConversations: dailyValidation.conversations + (ultraError ? 0 : ultraValidation.conversations),
+    trainRows: dailyTrainRows.length + (ultraError ? 0 : ultraRowsLoaded),
+    dailyTrainConversations: dailyTrain.conversations,
+    ultraTrainConversations: ultraError ? 0 : ultraTrain.conversations,
+    ultraAvailable: !ultraError,
+    datasetName: ultraError ? 'DailyDialog (UltraChat unavailable)' : 'DailyDialog + UltraChat sample',
+    ultraError: ultraError ? (ultraError.message || String(ultraError)) : ''
   };
 
-  showDataProgress(totalPages, totalPages, 'DailyDialog downloaded');
-  $('neuralMessage').textContent = 'Loaded ' + train.conversations.toLocaleString() + ' training conversations and ' + validation.conversations.toLocaleString() + ' separate validation conversations. Preparing the neural worker…';
+  $('datasetName').textContent = datasetCache.datasetName;
+  $('conversationCount').textContent = datasetCache.trainConversations.toLocaleString();
+  showDataProgress(1, 1, ultraError ? 'DailyDialog ready · UltraChat unavailable' : 'DailyDialog + UltraChat ready');
+  $('neuralMessage').textContent = ultraError
+    ? 'Loaded ' + dailyTrain.conversations.toLocaleString() + ' DailyDialog training conversations. UltraChat could not be loaded (' + datasetCache.ultraError + '), so this run will safely use DailyDialog only.'
+    : 'Loaded ' + dailyTrain.conversations.toLocaleString() + ' DailyDialog and ' + ultraTrain.conversations.toLocaleString() + ' UltraChat training conversations, with separate held-out validation samples from both datasets.';
   updateGlobalNeuralStats();
   renderNeuralLiveView();
   return datasetCache;
@@ -2411,7 +2492,7 @@ async function startTraining() {
   if (requestBusy || training || neuralTraining || neuralRequestBusy || !engine) return;
   requestBusy = true;
   try {
-    const data = datasetCache || await loadDailyDialog();
+    const data = datasetCache || await loadTrainingDatasets();
     installDataset(data);
     resetAccuracyTracking();
     resetPerformanceMetrics();
