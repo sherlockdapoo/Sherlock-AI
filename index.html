@@ -462,7 +462,7 @@ body{
 .visual-section-title h3{color:#25372b;font-size:17px;letter-spacing:-.4px}
 .visual-section-title p{color:#7a887e}
 .visual-section-tag{border-color:#d6e3d4;background:#e8f0e6;color:#4e6d4e;font-weight:800}
-/* v0.5.4: optimizer control uses the light workspace palette */
+/* v0.5.5: optimizer control uses the light workspace palette */
 .optimizer-picker{border-color:#dce6da;background:linear-gradient(145deg,#f4f8f1,#edf4eb);box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
 .optimizer-picker label{color:#304936}
 .optimizer-picker p{color:#718174}
@@ -1267,6 +1267,25 @@ let neuralCheckpointWasSaved = false;
 let neuralCheckpointSavedAt = null;
 let neuralCheckpointStepsValue = 0;
 let neuralCheckpointExamplesValue = 0;
+let currentNeuralDatasetFingerprint = null;
+let neuralRestoredDatasetFingerprint = null;
+
+function fingerprintNeuralDataset(data) {
+  const hash = (bytes, seed) => {
+    let value = seed >>> 0;
+    for (let i = 0; i < bytes.length; i++) {
+      value ^= bytes[i];
+      value = Math.imul(value, 16777619);
+    }
+    return (value >>> 0).toString(16).padStart(8, '0');
+  };
+  const trainA = hash(data.trainBytes, 2166136261);
+  const trainB = hash(data.trainBytes, 3339675911);
+  const validationA = hash(data.validationBytes, 2166136261);
+  const validationB = hash(data.validationBytes, 3339675911);
+  return [data.datasetName, data.trainConversations, data.validationConversations,
+    data.trainBytes.length, data.validationBytes.length, trainA, trainB, validationA, validationB].join(':');
+}
 
 const $ = id => document.getElementById(id);
 
@@ -1420,6 +1439,7 @@ function renderNeuralLiveView() {
 
 function saveNeuralCheckpoint(data) {
   const bytes = new Uint8Array(data.modelBuffer);
+  if (!currentNeuralDatasetFingerprint) throw new Error('The active dataset has not been identified yet.');
   if (bytes.byteLength !== 10160 * 4) throw new Error('The saved model has an unexpected size.');
   let binary = '';
   for (let offset = 0; offset < bytes.length; offset += 8192) {
@@ -1427,8 +1447,9 @@ function saveNeuralCheckpoint(data) {
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 4,
+    version: 5,
     datasetRevision: NEURAL_DATASET_REVISION,
+    datasetFingerprint: currentNeuralDatasetFingerprint,
     optimizer: data.optimizer === 'adamw' ? 'adamw' : neuralActiveOptimizer,
     accuracy: Number(data.accuracy),
     validationLoss: Number(data.validationLoss),
@@ -1456,7 +1477,8 @@ function restoreSavedNeuralCheckpoint() {
     const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
     if (!stored) return;
     const record = JSON.parse(stored);
-    if (!record || record.version !== 4 || record.datasetRevision !== NEURAL_DATASET_REVISION || typeof record.weights !== 'string') throw new Error('Saved checkpoint belongs to an older dataset or model version.');
+    if (!record || record.version !== 5 || record.datasetRevision !== NEURAL_DATASET_REVISION || typeof record.datasetFingerprint !== 'string' || typeof record.weights !== 'string') throw new Error('Saved checkpoint belongs to an older dataset or model version.');
+    neuralRestoredDatasetFingerprint = record.datasetFingerprint;
     const restoredOptimizer = record.optimizer === 'adamw' ? 'adamw' : 'adam';
     neuralActiveOptimizer = restoredOptimizer;
     $('neuralOptimizer').value = restoredOptimizer;
@@ -1737,7 +1759,7 @@ updateNeuralOptimizerSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.4', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.5', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -1750,8 +1772,15 @@ function ensureNeuralWorker() {
         neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
       }
       renderNeuralLiveView();
-    } else if (data.type === 'data-ready') {
+    } else if (data.type === 'data-ready' || data.type === 'reset-ready') {
       neuralDatasetInitialized = true;
+      if (data.type === 'reset-ready') {
+        neuralModelReady = false;
+        neuralRestoredDatasetFingerprint = null;
+        neuralCheckpointWasSaved = false;
+        $('neuralCheckpointStatus').textContent = 'Fresh model created for the newly loaded dataset. A new best checkpoint will be saved after validation improves.';
+        setNeuralState('Fresh model ready', 'ready');
+      }
       if (neuralStartPending) {
         neuralStartPending = false;
         neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
@@ -1882,6 +1911,7 @@ async function startNeuralTraining() {
   setChatReady(modelReady);
   try {
     const data = datasetCache || await loadTrainingDatasets();
+    currentNeuralDatasetFingerprint = fingerprintNeuralDataset(data);
     const worker = ensureNeuralWorker();
     const trainBuffer = data.trainBytes.slice().buffer;
     const validationBuffer = data.validationBytes.slice().buffer;
@@ -1893,10 +1923,31 @@ async function startNeuralTraining() {
       );
     } else if (!neuralDatasetInitialized) {
       neuralStartPending = true;
-      worker.postMessage(
-        {type: 'set-data', trainBuffer, validationBuffer},
-        [trainBuffer, validationBuffer]
-      );
+      const restoredDataMatches = neuralRestoredDatasetFingerprint !== null &&
+        neuralRestoredDatasetFingerprint === currentNeuralDatasetFingerprint;
+      if (neuralModelReady && !restoredDataMatches) {
+        try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
+        neuralCheckpointWasSaved = false;
+        neuralCheckpointSavedAt = null;
+        neuralCheckpointStepsValue = 0;
+        neuralCheckpointExamplesValue = 0;
+        neuralRestoredDatasetFingerprint = null;
+        neuralModelReady = false;
+        neuralActiveOptimizer = 'adamw';
+        $('neuralOptimizer').value = 'adamw';
+        updateNeuralOptimizerSummary();
+        resetNeuralExperimentMetrics('adamw');
+        $('neuralMessage').textContent = 'The saved model was trained on different data. Resetting to fresh AdamW weights for the dataset now loaded…';
+        worker.postMessage(
+          {type: 'reset-for-dataset', optimizer: 'adamw', trainBuffer, validationBuffer},
+          [trainBuffer, validationBuffer]
+        );
+      } else {
+        worker.postMessage(
+          {type: 'set-data', trainBuffer, validationBuffer},
+          [trainBuffer, validationBuffer]
+        );
+      }
     } else {
       worker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
     }
