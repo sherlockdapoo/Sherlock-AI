@@ -237,7 +237,17 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .performance-chart-head strong{font-size:12px;color:#dce8fa}
 .performance-chart-head span{font-size:10px;color:#8296b3}
 .performance-note{margin:10px 0 0;color:#7f93af;font-size:10px;line-height:1.5}
-@media(max-width:600px){.performance-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.neural-accuracy-box{margin-top:2px}
+.neural-control-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.neural-architecture{display:grid;gap:9px}
+.neural-layer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #2a405c;border-radius:12px;background:#0c1829}
+.neural-layer strong{color:#e3efff;font-size:12px}
+.neural-layer span{color:#8fa5c4;font-size:10px;text-align:right}
+.neural-chart-card{padding:18px}
+.neural-chart-card .visual-chart{margin-top:10px}
+.neural-stat-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}
+.neural-stat-pair .telemetry-cell{min-width:0}
+@media(max-width:600px){.performance-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.neural-layer{align-items:flex-start;flex-direction:column;gap:4px}.neural-layer span{text-align:left}}
 </style>
 </head>
 <body>
@@ -245,7 +255,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.1.0">v0.1.0</span></h1><p class="brand-sub">C++ WebAssembly · local iPad engine</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.2.0">v0.2.0</span></h1><p class="brand-sub">C++ WebAssembly + neural network · local training</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -262,6 +272,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
       <button class="tab" id="chatTab" type="button" role="tab" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">▤</span> Chat</button>
       <button class="tab" id="trainingTab" type="button" role="tab" aria-selected="true" aria-controls="trainingPanel"><span class="tab-icon">⌁</span> Training</button>
       <button class="tab" id="visualTab" type="button" role="tab" aria-selected="false" aria-controls="visualPanel"><span class="tab-icon">◈</span> Live View</button>
+      <button class="tab" id="neuralTab" type="button" role="tab" aria-selected="false" aria-controls="neuralPanel"><span class="tab-icon">✳</span> Neural Lab</button>
     </nav>
     <span class="tab-note">Your workspace · Choose a tab to switch views</span>
   </div>
@@ -419,6 +430,96 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
     </div>
   </section>
 
+
+  <section class="panel" id="neuralPanel" role="tabpanel" aria-labelledby="neuralTab" hidden>
+    <div class="visual-page">
+      <section class="card visual-hero">
+        <div class="visual-hero-top">
+          <div>
+            <div class="eyebrow">Phase 2 · First neural model · local device training</div>
+            <h2>Sherlock’s neural core</h2>
+            <p>This is a real trainable neural network. It learns character embeddings and weights through backpropagation, then tests its next-character predictions on separate validation conversations. Training runs in a background browser worker so the page can keep responding.</p>
+          </div>
+          <div class="visual-state" id="neuralBadge"><span class="visual-dot"></span><span id="neuralStateText">Waiting for dataset</span></div>
+        </div>
+        <div class="visual-kpis">
+          <div class="visual-kpi"><span>Trainable parameters</span><strong id="neuralParameters">10,160</strong><small>adjustable model weights</small></div>
+          <div class="visual-kpi"><span>Training examples</span><strong id="neuralExamples">0</strong><small>next-character examples seen</small></div>
+          <div class="visual-kpi"><span>Validation accuracy</span><strong id="neuralAccuracy">Not measured</strong><small>separate held-out sample</small></div>
+          <div class="visual-kpi"><span>Training speed</span><strong id="neuralSpeed">0</strong><small>examples per second</small></div>
+        </div>
+      </section>
+
+      <div class="visual-section-title">
+        <div><h3>01 · Neural training control</h3><p>Start the network, watch the loss and validation score, and stop whenever you are ready.</p></div>
+        <span class="visual-section-tag">BACKPROPAGATION + ADAM</span>
+      </div>
+
+      <div class="visual-two-col">
+        <section class="card visual-card">
+          <div class="visual-card-head">
+            <div><h3>Learning performance</h3><p>Current and best held-out accuracy for the neural model.</p></div>
+            <span class="visual-mini-tag">NEURAL MODEL</span>
+          </div>
+          <div class="accuracy-box neural-accuracy-box">
+            <div class="accuracy-top">
+              <span class="accuracy-title">Validation accuracy</span>
+              <strong class="accuracy-number" id="neuralAccuracyText">Not measured</strong>
+            </div>
+            <div class="accuracy-track" role="progressbar" aria-label="Neural network validation accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="neuralAccuracyTrack"><div class="accuracy-fill" id="neuralAccuracyFill"></div></div>
+            <div class="accuracy-caption"><span>Next-character predictions · 512 held-out positions</span><span>0–100%</span></div>
+          </div>
+          <div class="neural-control-row">
+            <button class="btn btn-primary" id="neuralStartBtn" type="button">✳ <span>Start neural training</span></button>
+            <button class="btn btn-secondary" id="neuralStopBtn" type="button" disabled>■ Stop</button>
+          </div>
+          <p class="train-message" id="neuralMessage" aria-live="polite">Press Start neural training. DailyDialog will be loaded once and shared with both model experiments.</p>
+          <div class="metrics">
+            <div class="metric"><span>Training updates</span><strong id="neuralSteps">0</strong></div>
+            <div class="metric"><span>Training passes</span><strong id="neuralEpochs">0.000</strong></div>
+            <div class="metric"><span>Best validation accuracy</span><strong id="neuralBestAccuracy">Not measured</strong></div>
+            <div class="metric"><span>Training loss</span><strong id="neuralLoss">Not measured</strong></div>
+            <div class="metric"><span>Optimizer</span><strong>Adam · learning rate 0.003</strong></div>
+            <div class="metric"><span>Batch size</span><strong>12 examples per update</strong></div>
+          </div>
+        </section>
+
+        <section class="card visual-card">
+          <div class="visual-card-head"><div><h3>02 · Inside the neural network</h3><p>The full path from a short character context to a prediction.</p></div><span class="visual-mini-tag">10,160 PARAMETERS</span></div>
+          <div class="neural-architecture">
+            <div class="neural-layer"><strong>Input context</strong><span>Previous 4 characters · 128-character alphabet</span></div>
+            <div class="neural-layer"><strong>Learned embeddings</strong><span>12 trainable numbers per character · 48 input values</span></div>
+            <div class="neural-layer"><strong>Hidden layer</strong><span>48 neurons · ReLU activation</span></div>
+            <div class="neural-layer"><strong>Output layer</strong><span>128 character scores · softmax probabilities</span></div>
+            <div class="neural-layer"><strong>Learning algorithm</strong><span>Cross-entropy loss · backpropagation · Adam</span></div>
+          </div>
+          <div class="note">This is a small character-level multilayer perceptron (MLP), not a transformer yet. Its weights are updated from prediction errors. The old C++ counter stays available as a separate baseline, and Chat switches to this network after it has trained.</div>
+        </section>
+      </div>
+
+      <section class="card neural-chart-card">
+        <div class="visual-card-head">
+          <div><h3>03 · Neural validation history</h3><p>Accuracy evaluations on the separate validation split. Each point is a completed evaluation.</p></div>
+          <span class="visual-mini-tag">LEARNING CURVE</span>
+        </div>
+        <div class="visual-score-pair">
+          <div><span>Latest check</span><strong id="neuralLatestAccuracy">Not measured</strong></div>
+          <div><span>Best check</span><strong id="neuralChartBest">Not measured</strong></div>
+          <div><span>Evaluations</span><strong id="neuralEvalCount">0</strong></div>
+        </div>
+        <div class="visual-chart-wrap">
+          <svg class="visual-chart" viewBox="0 0 520 160" role="img" aria-label="Neural network validation accuracy history">
+            <line class="chart-grid" x1="8" y1="20" x2="512" y2="20"></line><line class="chart-grid" x1="8" y1="60" x2="512" y2="60"></line><line class="chart-grid" x1="8" y1="100" x2="512" y2="100"></line><line class="chart-grid" x1="8" y1="140" x2="512" y2="140"></line>
+            <polygon class="chart-area" id="neuralAccuracyArea" points=""></polygon><polyline class="chart-line" id="neuralAccuracyLine" points=""></polyline><circle class="chart-dot" id="neuralAccuracyDot" cx="8" cy="140" r="5" visibility="hidden"></circle>
+          </svg>
+          <div class="visual-chart-legend"><span id="neuralAccuracyRange">Waiting for the first neural evaluation</span><span>Older ← evaluations → Newer</span></div>
+        </div>
+      </section>
+
+      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> the original engine stores character counts. This network adjusts thousands of numeric weights using gradients, so it can learn distributed patterns. It is still a tiny experimental model, not a full-size ChatGPT-style language model. Training happens locally in this browser tab and resets when the page is refreshed.</div></div>
+    </div>
+  </section>
+
   <section class="panel" id="chatPanel" role="tabpanel" aria-labelledby="chatTab" hidden>
     <section class="card chat-card">
       <div class="chat-head">
@@ -439,7 +540,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
     </section>
   </section>
 
-  <footer class="footer">Sherlock GPT · C++ WebAssembly running locally on your iPad<br>Dialogue data: DailyDialog by Li et al. (2017) · CC BY-NC-SA 4.0 · <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">Dataset and licence</a></footer>
+  <footer class="footer">Sherlock GPT · C++ WebAssembly baseline + neural network training in a local browser worker<br>Dialogue data: DailyDialog by Li et al. (2017) · CC BY-NC-SA 4.0 · <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">Dataset and licence</a></footer>
 </main>
 
 <script>
@@ -481,6 +582,20 @@ let performanceSampleAt = 0;
 let performanceSampleChars = 0;
 let performanceLastBatchSeen = 0;
 
+let neuralWorker = null;
+let neuralWorkerInitialized = false;
+let neuralWorkerStarted = false;
+let neuralTraining = false;
+let neuralModelReady = false;
+let neuralRequestBusy = false;
+let neuralStartPending = false;
+let neuralRequestSequence = 0;
+let neuralPendingRequests = new Map();
+let neuralAccuracyHistory = [];
+let neuralLastEvalIndex = 0;
+let neuralLatestAccuracyValue = null;
+let neuralBestAccuracyValue = null;
+
 const $ = id => document.getElementById(id);
 
 function addMessage(text, kind) {
@@ -494,21 +609,236 @@ function addMessage(text, kind) {
 function setTab(name) {
   const chat = name === 'chat';
   const visual = name === 'visual';
-  const trainingView = !chat && !visual;
+  const neural = name === 'neural';
+  const trainingView = !chat && !visual && !neural;
   $('chatTab').setAttribute('aria-selected', String(chat));
   $('trainingTab').setAttribute('aria-selected', String(trainingView));
   $('visualTab').setAttribute('aria-selected', String(visual));
+  $('neuralTab').setAttribute('aria-selected', String(neural));
   $('chatPanel').classList.toggle('active', chat);
   $('trainingPanel').classList.toggle('active', trainingView);
   $('visualPanel').classList.toggle('active', visual);
+  $('neuralPanel').classList.toggle('active', neural);
   $('chatPanel').hidden = !chat;
   $('trainingPanel').hidden = !trainingView;
   $('visualPanel').hidden = !visual;
+  $('neuralPanel').hidden = !neural;
   if (visual) renderLiveView(true);
+  if (neural) renderNeuralHistory();
 }
 $('chatTab').addEventListener('click', () => setTab('chat'));
 $('trainingTab').addEventListener('click', () => setTab('training'));
 $('visualTab').addEventListener('click', () => setTab('visual'));
+$('neuralTab').addEventListener('click', () => setTab('neural'));
+
+function setNeuralState(label, mode = '') {
+  $('neuralStateText').textContent = label;
+  $('neuralBadge').className = 'visual-state' + (mode ? ' is-' + mode : '');
+}
+
+function renderNeuralHistory() {
+  const line = $('neuralAccuracyLine');
+  const area = $('neuralAccuracyArea');
+  const dot = $('neuralAccuracyDot');
+  if (!line || !area || !dot) return;
+  const values = neuralAccuracyHistory;
+  $('neuralLatestAccuracy').textContent = neuralLatestAccuracyValue === null ? 'Not measured' : neuralLatestAccuracyValue.toFixed(3) + '%';
+  $('neuralChartBest').textContent = neuralBestAccuracyValue === null ? 'Not measured' : neuralBestAccuracyValue.toFixed(3) + '%';
+  $('neuralEvalCount').textContent = values.length.toLocaleString();
+  if (!values.length) {
+    line.setAttribute('points', '');
+    area.setAttribute('points', '');
+    dot.setAttribute('visibility', 'hidden');
+    $('neuralAccuracyRange').textContent = 'Waiting for the first neural evaluation';
+    return;
+  }
+  const width = 504, left = 8, top = 12, bottom = 140;
+  let min = Math.min(...values), max = Math.max(...values);
+  const spread = Math.max(0.5, max - min);
+  min = Math.max(0, min - spread * 0.35);
+  max = Math.min(100, max + spread * 0.35);
+  if (max - min < 0.01) max = Math.min(100, min + 1);
+  const points = values.map((value, index) => {
+    const x = left + (values.length === 1 ? 0 : width * index / (values.length - 1));
+    const y = bottom - ((value - min) / (max - min)) * (bottom - top);
+    return [x, y];
+  });
+  const pointString = points.map(point => point[0].toFixed(1) + ',' + point[1].toFixed(1)).join(' ');
+  line.setAttribute('points', pointString);
+  area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + (left + width) + ',' + bottom);
+  const last = points[points.length - 1];
+  dot.setAttribute('cx', last[0].toFixed(1));
+  dot.setAttribute('cy', last[1].toFixed(1));
+  dot.setAttribute('visibility', 'visible');
+  $('neuralAccuracyRange').textContent = 'Observed range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' checks';
+}
+
+function updateNeuralMetrics(data, forceEvaluation = false) {
+  if (!data) return;
+  const examples = Number(data.examples) || 0;
+  const steps = Number(data.steps) || 0;
+  $('neuralParameters').textContent = (Number(data.parameters) || 10160).toLocaleString();
+  $('neuralExamples').textContent = examples.toLocaleString();
+  $('neuralSteps').textContent = steps.toLocaleString();
+  $('neuralEpochs').textContent = (Number(data.epochs) || 0).toFixed(3);
+  $('neuralSpeed').textContent = Math.round(Number(data.examplesPerSecond) || 0).toLocaleString();
+  $('neuralLoss').textContent = Number.isFinite(Number(data.loss)) && examples > 0 ? Number(data.loss).toFixed(4) : 'Not measured';
+
+  if (data.accuracy !== null && data.accuracy !== undefined && Number.isFinite(Number(data.accuracy))) {
+    const accuracy = Number(data.accuracy);
+    neuralLatestAccuracyValue = accuracy;
+    $('neuralAccuracy').textContent = accuracy.toFixed(3) + '%';
+    $('neuralAccuracyText').textContent = accuracy.toFixed(3) + '%';
+    $('neuralAccuracyFill').style.width = Math.max(0, Math.min(100, accuracy)).toFixed(3) + '%';
+    $('neuralAccuracyTrack').setAttribute('aria-valuenow', accuracy.toFixed(3));
+    const evalIndex = Math.floor(steps / 25);
+    if (forceEvaluation || evalIndex > neuralLastEvalIndex) {
+      neuralLastEvalIndex = Math.max(neuralLastEvalIndex, evalIndex);
+      neuralAccuracyHistory.push(accuracy);
+      if (neuralAccuracyHistory.length > 60) neuralAccuracyHistory.shift();
+    }
+  }
+  if (data.bestAccuracy !== null && data.bestAccuracy !== undefined && Number(data.bestAccuracy) >= 0) {
+    neuralBestAccuracyValue = Number(data.bestAccuracy);
+    $('neuralBestAccuracy').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
+  }
+  renderNeuralHistory();
+}
+
+function updateNeuralControls() {
+  $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
+  $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
+}
+
+function ensureNeuralWorker() {
+  if (neuralWorker) return neuralWorker;
+  if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
+  const workerUrl = new URL('neural-worker.js?v=0.2.0', window.location.href);
+  neuralWorker = new Worker(workerUrl);
+  neuralWorker.onmessage = event => {
+    const data = event.data || {};
+    if (data.type === 'ready') {
+      neuralWorkerInitialized = true;
+      $('neuralMessage').textContent = 'Neural network initialised: ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting the first training batches…';
+      if (neuralStartPending) {
+        neuralStartPending = false;
+        neuralWorker.postMessage({type: 'start'});
+      }
+    } else if (data.type === 'started') {
+      neuralWorkerStarted = true;
+      neuralTraining = true;
+      setNeuralState('Training on this device', 'running');
+      $('neuralMessage').textContent = 'Backpropagation is updating the network weights locally. The validation score appears after the first evaluation.';
+      updateNeuralControls();
+      setChatReady(modelReady);
+    } else if (data.type === 'progress') {
+      updateNeuralMetrics(data);
+      neuralTraining = true;
+      neuralWorkerStarted = true;
+      setNeuralState('Training on this device', 'running');
+      $('neuralMessage').textContent = 'Training update ' + Number(data.steps).toLocaleString() + ' · ' + Number(data.examples).toLocaleString() + ' examples processed. The network is learning from prediction errors.';
+      updateNeuralControls();
+    } else if (data.type === 'stopped') {
+      updateNeuralMetrics(data, true);
+      neuralTraining = false;
+      neuralWorkerStarted = false;
+      neuralModelReady = Number(data.examples) > 0;
+      setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'is-ready' : '');
+      $('neuralMessage').textContent = data.restoredBest
+        ? 'Training stopped. The best validation checkpoint has been restored. Chat will now use the neural network.'
+        : 'Training stopped. Complete more updates to make the neural model useful.';
+      updateNeuralControls();
+      setChatReady(modelReady);
+    } else if (data.type === 'generated') {
+      const pending = neuralPendingRequests.get(data.id);
+      if (pending) {
+        neuralPendingRequests.delete(data.id);
+        pending.resolve(data.text);
+      }
+    } else if (data.type === 'error') {
+      if (data.id !== undefined) {
+        const pending = neuralPendingRequests.get(data.id);
+        if (pending) {
+          neuralPendingRequests.delete(data.id);
+          pending.reject(new Error(data.message || 'Neural generation failed.'));
+        }
+      } else {
+        neuralTraining = false;
+        neuralWorkerStarted = false;
+        neuralStartPending = false;
+        setNeuralState('Neural engine error');
+        $('neuralMessage').textContent = 'The neural engine stopped: ' + (data.message || 'Unknown error');
+        updateNeuralControls();
+        setChatReady(modelReady);
+      }
+    }
+  };
+  neuralWorker.onerror = event => {
+    neuralTraining = false;
+    neuralWorkerStarted = false;
+    neuralStartPending = false;
+    setNeuralState('Worker error');
+    $('neuralMessage').textContent = 'The background neural worker failed to load or run. ' + (event.message || 'Check that neural-worker.js deployed correctly.');
+    updateNeuralControls();
+    setChatReady(modelReady);
+  };
+  return neuralWorker;
+}
+
+async function startNeuralTraining() {
+  if (neuralTraining || neuralRequestBusy || training || requestBusy) return;
+  neuralRequestBusy = true;
+  neuralTraining = true;
+  neuralWorkerStarted = false;
+  setNeuralState('Preparing neural training', 'running');
+  $('neuralMessage').textContent = 'Preparing the training and validation examples…';
+  updateNeuralControls();
+  setChatReady(modelReady);
+  try {
+    const data = datasetCache || await loadDailyDialog();
+    const worker = ensureNeuralWorker();
+    if (neuralWorkerInitialized) {
+      worker.postMessage({type: 'start'});
+    } else {
+      neuralStartPending = true;
+      const trainBuffer = data.trainBytes.slice().buffer;
+      const validationBuffer = data.validationBytes.slice().buffer;
+      worker.postMessage(
+        {type: 'init', trainBuffer, validationBuffer},
+        [trainBuffer, validationBuffer]
+      );
+    }
+  } catch (error) {
+    neuralTraining = false;
+    neuralStartPending = false;
+    setNeuralState('Unable to start neural training');
+    $('neuralMessage').textContent = 'Could not start the neural model: ' + (error && error.message ? error.message : String(error));
+    setChatReady(modelReady);
+  } finally {
+    neuralRequestBusy = false;
+    updateNeuralControls();
+  }
+}
+
+function stopNeuralTraining() {
+  if (!neuralTraining || !neuralWorkerStarted || !neuralWorker) return;
+  $('neuralStopBtn').disabled = true;
+  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and restoring the best validation checkpoint…';
+  neuralWorker.postMessage({type: 'stop'});
+}
+
+function requestNeuralGeneration(prompt) {
+  if (!neuralWorker || !neuralWorkerInitialized || !neuralModelReady)
+    return Promise.reject(new Error('The neural model is not ready.'));
+  const id = ++neuralRequestSequence;
+  return new Promise((resolve, reject) => {
+    neuralPendingRequests.set(id, {resolve, reject});
+    neuralWorker.postMessage({type: 'generate', id, prompt, length: 90});
+  });
+}
+
+$('neuralStartBtn').addEventListener('click', startNeuralTraining);
+$('neuralStopBtn').addEventListener('click', stopNeuralTraining);
 
 function updateAccuracy(value) {
   const measured = value !== null && Number.isFinite(Number(value));
@@ -808,15 +1138,18 @@ function hideDataProgress() {
 
 function setChatReady(ready) {
   modelReady = ready;
-  const enabled = ready && !training;
+  const anyModelReady = ready || neuralModelReady;
+  const enabled = anyModelReady && !training && !neuralTraining;
   $('message').disabled = !enabled;
   $('sendBtn').disabled = !enabled;
   $('message').placeholder = enabled ? 'Type a short prompt, e.g. hi' : 'Train Sherlock and stop to unlock chat…';
-  $('chatLock').textContent = training ? 'Training in progress' : ready ? 'Model ready' : 'Training required';
-  $('chatSubtitle').textContent = ready ? 'Ready to generate character sequences' : 'Character-generation experiment';
-  $('chatHint').textContent = ready
-    ? 'Sherlock generates character sequences locally. It is a small text experiment, not a general conversation model.'
-    : 'The chat unlocks when training has finished and you stop the run.';
+  $('chatLock').textContent = training || neuralTraining ? 'Training in progress' : neuralModelReady ? 'Neural network ready' : anyModelReady ? 'Baseline model ready' : 'Training required';
+  $('chatSubtitle').textContent = neuralModelReady ? 'Neural network · local character generation' : anyModelReady ? 'Character-generation baseline' : 'Character-generation experiment';
+  $('chatHint').textContent = neuralModelReady
+    ? 'Chat is using Sherlock’s trained neural network. It predicts characters and is still a small experimental model.'
+    : anyModelReady
+      ? 'Chat is using the original C++ character-pattern baseline until the neural network is trained.'
+      : 'Train either model and stop its run to unlock chat.';
 }
 
 function renderEngineStatus() {
@@ -1087,7 +1420,7 @@ function runTrainingBatch() {
 }
 
 async function startTraining() {
-  if (requestBusy || training || !engine) return;
+  if (requestBusy || training || neuralTraining || neuralRequestBusy || !engine) return;
   requestBusy = true;
   try {
     const data = datasetCache || await loadDailyDialog();
@@ -1148,29 +1481,34 @@ function stopTraining() {
 $('trainBtn').addEventListener('click', startTraining);
 $('stopBtn').addEventListener('click', stopTraining);
 
-$('chatForm').addEventListener('submit', event => {
+$('chatForm').addEventListener('submit', async event => {
   event.preventDefault();
-  if (!modelReady || training || !engine) return;
+  if ((!modelReady && !neuralModelReady) || training || neuralTraining || !engine && !neuralModelReady) return;
   const prompt = $('message').value.trim();
   if (!prompt) return;
   addMessage(prompt, 'user');
   $('message').value = '';
   $('sendBtn').disabled = true;
   try {
-    const encoded = new TextEncoder().encode(prompt).subarray(0, 240);
-    const memory = new Uint8Array(engine.memory.buffer);
-    const input = engine.input_ptr();
-    memory.fill(0, input, input + 256);
-    memory.set(encoded, input);
-    const length = engine.generate_text(encoded.length, 90);
-    const output = engine.output_ptr();
-    const reply = new TextDecoder().decode(memory.subarray(output, output + length));
-    addMessage(reply || 'I could not find a matching character pattern.', 'bot');
+    let reply = '';
+    if (neuralModelReady) {
+      reply = await requestNeuralGeneration(prompt);
+    } else {
+      const encoded = new TextEncoder().encode(prompt).subarray(0, 240);
+      const memory = new Uint8Array(engine.memory.buffer);
+      const input = engine.input_ptr();
+      memory.fill(0, input, input + 256);
+      memory.set(encoded, input);
+      const length = engine.generate_text(encoded.length, 90);
+      const output = engine.output_ptr();
+      reply = new TextDecoder().decode(memory.subarray(output, output + length));
+    }
+    addMessage(reply || 'I could not generate a reply. Please try another prompt.', 'bot');
   } catch (error) {
     addMessage('Sherlock could not generate a reply. Please try again.', 'bot');
     console.error(error);
   } finally {
-    $('sendBtn').disabled = !modelReady || training;
+    $('sendBtn').disabled = !(modelReady || neuralModelReady) || training || neuralTraining;
   }
 });
 
@@ -1215,6 +1553,8 @@ async function loadEngine() {
   }
 }
 
+updateNeuralControls();
+renderNeuralHistory();
 loadEngine();
 </script>
 </body>
