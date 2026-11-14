@@ -1040,6 +1040,9 @@ body,.app{color:#27354d}
           <p class="train-message" id="neuralMessage" aria-live="polite">Press Start neural training. DailyDialog and a bounded UltraChat sample will be loaded once.</p>
           <div class="metrics">
             <div class="metric"><span>Training updates</span><strong id="neuralSteps">0</strong></div>
+            <div class="metric"><span>Training data</span><strong id="neuralDatasetName">Not loaded</strong></div>
+            <div class="metric"><span>Training conversations</span><strong id="neuralTrainConversations">Not loaded</strong></div>
+            <div class="metric"><span>Held-out conversations</span><strong id="neuralValidationConversations">Not loaded</strong></div>
             <div class="metric"><span>Corpus-equivalent passes</span><strong id="neuralEpochs">0.000</strong></div>
             <div class="metric"><span>Accuracy at best checkpoint</span><strong id="neuralBestAccuracy">Not measured</strong></div>
             <div class="metric"><span>Training loss · moving average</span><strong id="neuralLoss">Not measured</strong></div>
@@ -2444,12 +2447,15 @@ async function loadTrainingDatasets() {
     dailyTrainConversations: dailyTrain.conversations,
     ultraTrainConversations: ultraError ? 0 : ultraTrain.conversations,
     ultraAvailable: !ultraError,
-    datasetName: ultraError ? 'DailyDialog (UltraChat unavailable)' : 'DailyDialog + UltraChat sample',
+    datasetName: ultraError ? 'DailyDialog only' : 'DailyDialog + UltraChat',
     ultraError: ultraError ? (ultraError.message || String(ultraError)) : ''
   };
 
   $('datasetName').textContent = datasetCache.datasetName;
   $('conversationCount').textContent = datasetCache.trainConversations.toLocaleString();
+  $('neuralDatasetName').textContent = datasetCache.datasetName;
+  $('neuralTrainConversations').textContent = datasetCache.trainConversations.toLocaleString();
+  $('neuralValidationConversations').textContent = datasetCache.validationConversations.toLocaleString();
   showDataProgress(1, 1, ultraError ? 'DailyDialog ready · UltraChat unavailable' : 'DailyDialog + UltraChat ready');
   $('neuralMessage').textContent = ultraError
     ? 'Loaded ' + dailyTrain.conversations.toLocaleString() + ' DailyDialog training conversations. UltraChat could not be loaded (' + datasetCache.ultraError + '), so this run will safely use DailyDialog only.'
