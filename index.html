@@ -1686,6 +1686,8 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   if (data.network) renderNetworkVisualiser(data.network);
   const examples = Number(data.examples) || 0;
   const steps = Number(data.steps) || 0;
+  let lossHistoryChanged = false;
+  let accuracyHistoryChanged = false;
   neuralExamplesValue = examples;
   neuralStepsValue = steps;
   neuralSpeedValue = Number(data.examplesPerSecond) || 0;
@@ -1698,9 +1700,21 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   $('neuralLoss').textContent = Number.isFinite(Number(data.loss)) && examples > 0 ? Number(data.loss).toFixed(4) : 'Not measured';
   if (Number.isFinite(Number(data.loss)) && examples > 0) {
     neuralLatestLossValue = Number(data.loss);
-    neuralLossHistory.push(neuralLatestLossValue);
-    neuralLossStepHistory.push(steps);
-    if (neuralLossHistory.length > 240) { neuralLossHistory.shift(); neuralLossStepHistory.shift(); }
+    $('neuralLiveLoss').textContent = neuralLatestLossValue.toFixed(4);
+    const lastRecordedStep = neuralLossStepHistory.length
+      ? Number(neuralLossStepHistory[neuralLossStepHistory.length - 1])
+      : 0;
+    const shouldRecordLoss = steps > 0 &&
+      (steps === 1 || steps % NEURAL_LOSS_SAMPLE_EVERY === 0 || data.type === 'stopped');
+    if (shouldRecordLoss && lastRecordedStep !== steps) {
+      neuralLossHistory.push(neuralLatestLossValue);
+      neuralLossStepHistory.push(steps);
+      while (neuralLossHistory.length > NEURAL_LOSS_HISTORY_LIMIT) {
+        neuralLossHistory.shift();
+        neuralLossStepHistory.shift();
+      }
+      lossHistoryChanged = true;
+    }
   }
 
   if (data.validationLoss !== null && data.validationLoss !== undefined && Number.isFinite(Number(data.validationLoss))) {
@@ -1730,7 +1744,11 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
       neuralLastEvalIndex = Math.max(neuralLastEvalIndex, evaluationCount);
       neuralAccuracyHistory.push(accuracy);
       neuralAccuracyEvalHistory.push(evaluationCount || neuralAccuracyHistory.length);
-      if (neuralAccuracyHistory.length > 120) { neuralAccuracyHistory.shift(); neuralAccuracyEvalHistory.shift(); }
+      while (neuralAccuracyHistory.length > NEURAL_ACCURACY_HISTORY_LIMIT) {
+        neuralAccuracyHistory.shift();
+        neuralAccuracyEvalHistory.shift();
+      }
+      accuracyHistoryChanged = true;
     }
   }
   if (data.bestAccuracy !== null && data.bestAccuracy !== undefined && Number(data.bestAccuracy) >= 0) {
@@ -1740,8 +1758,8 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   if (data.bestValidationLoss !== null && data.bestValidationLoss !== undefined && Number.isFinite(Number(data.bestValidationLoss))) {
     neuralBestValidationLossValue = Number(data.bestValidationLoss);
   }
-  renderNeuralHistory();
-  renderNeuralLossHistory();
+  if (accuracyHistoryChanged || neuralAccuracyHistory.length === 0) renderNeuralHistory();
+  if (lossHistoryChanged || neuralLossHistory.length === 0) renderNeuralLossHistory();
   updateGlobalNeuralStats();
   renderNeuralLiveView();
 }
