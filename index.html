@@ -827,7 +827,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.13">v0.5.13</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.14">v0.5.14</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1015,7 +1015,7 @@ body,.app{color:#27354d}
       <div class="visual-two-col">
         <section class="card visual-card">
           <div class="visual-card-head">
-            <div><h3>Learning performance</h3><p>Current accuracy and the highest-accuracy checkpoint. Validation loss breaks ties.</p></div>
+            <div><h3>Learning performance</h3><p>Current accuracy and the latest saved model.</p></div>
             <span class="visual-mini-tag">NEURAL MODEL</span>
           </div>
           <div class="accuracy-box neural-accuracy-box">
@@ -1045,7 +1045,7 @@ body,.app{color:#27354d}
             <div class="metric"><span>Training conversations</span><strong id="neuralTrainConversations">Not loaded</strong></div>
             <div class="metric"><span>Held-out conversations</span><strong id="neuralValidationConversations">Not loaded</strong></div>
             <div class="metric"><span>Corpus-equivalent passes</span><strong id="neuralEpochs">0.000</strong></div>
-            <div class="metric"><span>Accuracy at best checkpoint</span><strong id="neuralBestAccuracy">Not measured</strong></div>
+            <div class="metric"><span>Accuracy at latest model</span><strong id="neuralBestAccuracy">Not measured</strong></div>
             <div class="metric"><span>Training loss · moving average</span><strong id="neuralLoss">Not measured</strong></div>
             <div class="metric"><span>Validation cross-entropy</span><strong id="neuralValidationLoss">Not measured</strong></div>
             <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
@@ -1083,7 +1083,7 @@ body,.app{color:#27354d}
         </div>
         <div class="visual-score-pair">
           <div><span>Latest check</span><strong id="neuralLatestAccuracy">Not measured</strong></div>
-          <div><span>Best checkpoint</span><strong id="neuralChartBest">Not measured</strong></div>
+          <div><span>Latest model</span><strong id="neuralChartBest">Not measured</strong></div>
           <div><span>Evaluations</span><strong id="neuralEvalCount">0</strong></div>
         </div>
         <div class="visual-chart-wrap">
@@ -1098,7 +1098,7 @@ body,.app{color:#27354d}
 
       <section class="card neural-observatory" aria-label="Neural Lab live view">
         <div class="neural-observatory-head">
-          <div><div class="eyebrow">Live view · Neural Lab</div><h3>Neural training observatory</h3><p>Live signals from Sherlock’s actual worker: data state, training progress, loss, validation and saved best weights.</p></div>
+          <div><div class="eyebrow">Live view · Neural Lab</div><h3>Neural training observatory</h3><p>Live signals from Sherlock’s actual worker: data state, training progress, loss, validation and latest saved weights.</p></div>
           <span class="visual-state" id="neuralLiveStatus"><span class="visual-dot"></span><span id="neuralLiveStatusText">Waiting for training</span></span>
         </div>
         <div class="neural-flow" aria-label="Neural training pipeline">
@@ -1126,21 +1126,21 @@ body,.app{color:#27354d}
             </div>
           </section>
           <section class="neural-checkpoint-card">
-            <div class="neural-checkpoint-top"><div><span class="neural-checkpoint-kicker">Model protection</span><h3>Best checkpoint</h3></div><span class="neural-checkpoint-badge" id="neuralCheckpointBadge">WAITING</span></div>
+            <div class="neural-checkpoint-top"><div><span class="neural-checkpoint-kicker">Model protection</span><h3>Latest model</h3></div><span class="neural-checkpoint-badge" id="neuralCheckpointBadge">WAITING</span></div>
             <strong class="neural-checkpoint-score" id="neuralCheckpointAccuracy">Not measured</strong>
-            <span class="neural-checkpoint-caption">Highest validation accuracy; validation loss breaks ties</span>
+            <span class="neural-checkpoint-caption">Metrics from the latest validation check</span>
             <div class="neural-checkpoint-meta"><span>Checkpoint validation loss</span><strong id="neuralCheckpointLoss">Not measured</strong></div>
             <div class="neural-checkpoint-divider"></div>
             <div class="neural-checkpoint-meta"><span>Steps saved</span><strong id="neuralCheckpointSteps">0</strong></div>
             <div class="neural-checkpoint-meta"><span>Examples saved</span><strong id="neuralCheckpointExamples">0</strong></div>
-            <p id="neuralCheckpointStatus" class="neural-checkpoint-status">The best model will be saved automatically on this browser when validation improves.</p>
+            <p id="neuralCheckpointStatus" class="neural-checkpoint-status">The latest model is saved automatically on this browser after each validation check.</p>
             <small id="neuralCheckpointSavedAt" class="neural-checkpoint-time">No saved checkpoint yet</small>
           </section>
         </div>
         </section>
       </section>
 
-      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The highest-accuracy validation checkpoint is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
+      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The latest validated model is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
     </div>
   </section>
 
@@ -1164,7 +1164,7 @@ body,.app{color:#27354d}
     </section>
   </section>
 
-  <footer class="footer">Sherlock GPT · local neural network training · best checkpoint saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0) + a capped sample from <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT). Separate held-out validation samples are used.</footer>
+  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0) + a capped sample from <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT). Separate held-out validation samples are used.</footer>
 </main>
 
 <script>
@@ -1386,14 +1386,14 @@ function renderNeuralLossHistory() {
 }
 
 function updateGlobalNeuralStats() {
-  $('state').textContent = neuralTraining ? 'Training' : neuralModelReady ? 'Best model ready' : datasetCache ? 'Data ready' : 'Empty';
+  $('state').textContent = neuralTraining ? 'Training' : neuralModelReady ? 'Latest model ready' : datasetCache ? 'Data ready' : 'Empty';
   $('accuracy').textContent = neuralLatestAccuracyValue === null ? 'Not measured' : neuralLatestAccuracyValue.toFixed(3) + '%';
   $('chars').textContent = neuralExamplesValue.toLocaleString();
   // The legacy top-level speed is reserved for the C++ baseline engine.
   // Neural training speed is shown in its own dedicated metric.
   if (!neuralTraining) $('neuralSpeed').textContent = Math.round(neuralSpeedValue).toLocaleString();
   if (neuralTraining) updateStatus('Neural training', 'running');
-  else if (neuralModelReady) updateStatus('Best model ready', 'ready');
+  else if (neuralModelReady) updateStatus('Latest model ready', 'ready');
   else if (datasetCache) updateStatus('Dataset ready', 'ready');
   else updateStatus('Neural model waiting');
 }
@@ -1413,7 +1413,7 @@ function renderNeuralLiveView() {
   const loaded = Boolean(datasetCache) || neuralDatasetInitialized;
   $('neuralPanel').classList.toggle('is-training', running);
   $('neuralLiveStatus').className = 'visual-state' + (running ? ' is-running' : ready ? ' is-ready' : '');
-  $('neuralLiveStatusText').textContent = running ? 'TRAINING ACTIVE' : ready ? 'BEST MODEL READY' : loaded ? 'DATA READY' : 'WAITING FOR DATA';
+  $('neuralLiveStatusText').textContent = running ? 'TRAINING ACTIVE' : ready ? 'LATEST MODEL READY' : loaded ? 'DATA READY' : 'WAITING FOR DATA';
   setNeuralStage('neuralStageData', 'neuralStageDataState', loaded ? 'is-done' : '', loaded ? 'Loaded' : 'Waiting');
   setNeuralStage('neuralStageContext', 'neuralStageContextState', running ? 'is-active' : ready ? 'is-ready' : '', running ? 'Reading context' : ready ? 'Ready' : 'Waiting');
   setNeuralStage('neuralStageEmbedding', 'neuralStageEmbeddingState', running ? 'is-active' : ready ? 'is-ready' : '', running ? 'Embedding lookup' : ready ? 'Learned' : 'Waiting');
@@ -1422,12 +1422,12 @@ function renderNeuralLiveView() {
   setNeuralStage('neuralStageValidation', 'neuralStageValidationState', neuralLatestAccuracyValue !== null ? 'is-done' : '', neuralLatestAccuracyValue !== null ? 'Scored' : 'Waiting');
   $('neuralCheckpointAccuracy').textContent = neuralBestAccuracyValue === null ? 'Not measured' : neuralBestAccuracyValue.toFixed(3) + '%';
   $('neuralCheckpointLoss').textContent = neuralBestValidationLossValue === null ? 'Not measured' : neuralBestValidationLossValue.toFixed(4);
-  $('neuralCheckpointBadge').textContent = neuralCheckpointWasSaved ? 'BEST SAVED' : neuralBestAccuracyValue !== null ? 'BEST FOUND' : 'WAITING';
+  $('neuralCheckpointBadge').textContent = neuralCheckpointWasSaved ? 'LATEST SAVED' : neuralBestAccuracyValue !== null ? 'LATEST SAVED' : 'WAITING';
   $('neuralCheckpointStatus').textContent = neuralCheckpointWasSaved
-    ? 'The best validation weights are saved on this browser and will be restored on your next visit.'
+    ? 'The latest validated weights are saved on this browser and will be restored on your next visit.'
     : neuralBestAccuracyValue !== null
-      ? 'A best checkpoint exists in this training session. It will be saved when the worker reports the checkpoint.'
-      : 'The best model will be saved automatically on this browser when validation improves.';
+      ? 'The latest evaluated model is ready to be saved by the worker.'
+      : 'The latest model is saved automatically on this browser after each validation check.';
   $('neuralCheckpointSavedAt').textContent = neuralCheckpointSavedAt ? 'Saved ' + new Date(neuralCheckpointSavedAt).toLocaleString() : 'No saved checkpoint yet';
 }
 
@@ -1488,8 +1488,8 @@ function restoreSavedNeuralCheckpoint() {
     neuralCheckpointExamplesValue = Number(record.examples) || 0;
     $('neuralCheckpointSteps').textContent = neuralCheckpointStepsValue.toLocaleString();
     $('neuralCheckpointExamples').textContent = neuralCheckpointExamplesValue.toLocaleString();
-    $('neuralCheckpointStatus').textContent = 'Saved checkpoint found. Restoring the best model into the neural worker…';
-    setNeuralState('Restoring saved best model', 'running');
+    $('neuralCheckpointStatus').textContent = 'Saved checkpoint found. Restoring the latest saved model into the neural worker…';
+    setNeuralState('Restoring latest saved model', 'running');
     worker.postMessage({
       type: 'load-model',
       optimizer: restoredOptimizer,
@@ -1506,7 +1506,7 @@ function restoreSavedNeuralCheckpoint() {
   } catch (error) {
     try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
     neuralCheckpointWasSaved = false;
-    $('neuralCheckpointStatus').textContent = 'The previous checkpoint could not be loaded. A new best model can be saved after training.';
+    $('neuralCheckpointStatus').textContent = 'The previous checkpoint could not be loaded. The latest model can be saved after training.';
     console.warn('Saved neural checkpoint unavailable:', error);
   }
 }
@@ -1722,7 +1722,7 @@ function resetNeuralExperimentMetrics(optimizer) {
   $('neuralSpeed').textContent = '0';
   $('neuralCheckpointSteps').textContent = '0';
   $('neuralCheckpointExamples').textContent = '0';
-  $('neuralCheckpointStatus').textContent = 'Fresh ' + (optimizer === 'adamw' ? 'AdamW' : 'Adam') + ' run. The previous saved checkpoint remains in this browser until this run creates a new best.';
+  $('neuralCheckpointStatus').textContent = 'Fresh ' + (optimizer === 'adamw' ? 'AdamW' : 'Adam') + ' run. The previous saved model remains in this browser until this run creates a newer checkpoint.';
   $('neuralCheckpointSavedAt').textContent = 'Waiting for this optimizer’s first checkpoint';
   networkVisualiserSnapshot = null;
   renderNetworkVisualiser();
@@ -1767,7 +1767,7 @@ function ensureNeuralWorker() {
         neuralModelReady = false;
         neuralRestoredDatasetFingerprint = null;
         neuralCheckpointWasSaved = false;
-        $('neuralCheckpointStatus').textContent = 'Previous dataset checkpoint cleared. A new best model will be saved when validation improves.';
+        $('neuralCheckpointStatus').textContent = 'Previous dataset checkpoint cleared. The latest model will be saved after the next validation check.';
         setNeuralState('Fresh model ready', 'ready');
       }
       if (neuralStartPending) {
@@ -1782,8 +1782,8 @@ function ensureNeuralWorker() {
       neuralLatestAccuracyValue = Number.isFinite(Number(data.accuracy)) ? Number(data.accuracy) : null;
       neuralBestAccuracyValue = Number.isFinite(Number(data.bestAccuracy)) && Number(data.bestAccuracy) >= 0 ? Number(data.bestAccuracy) : null;
       neuralCheckpointWasSaved = true;
-      setNeuralState('Saved best model ready', 'ready');
-      $('neuralMessage').textContent = 'Restored Sherlock’s best saved neural checkpoint. Chat can use this model now, and you can continue training from these weights.';
+      setNeuralState('Latest model ready', 'ready');
+      $('neuralMessage').textContent = 'Restored Sherlock’s latest saved neural model. Chat can use this model now, and you can continue training from these weights.';
       updateNeuralMetrics({
         parameters: data.parameters, examples: data.examples, steps: data.steps,
         accuracy: data.accuracy, bestAccuracy: data.bestAccuracy,
@@ -1838,7 +1838,7 @@ function ensureNeuralWorker() {
       neuralModelReady = Number(data.examples) > 0;
       setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
       $('neuralMessage').textContent = data.restoredBest
-        ? 'Training stopped. The highest-accuracy checkpoint has been restored and saved. Chat can now use this network.'
+        ? 'Training stopped. The latest model has been saved. Chat can now use this network.'
         : 'Training stopped. Complete more updates to make the neural model useful.';
       updateNeuralControls();
       setChatReady(modelReady);
@@ -2020,7 +2020,7 @@ async function startNeuralTraining() {
 function stopNeuralTraining() {
   if (!neuralTraining || !neuralWorkerStarted || !neuralWorker) return;
   $('neuralStopBtn').disabled = true;
-  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and restoring the highest-accuracy checkpoint…';
+  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and saving the latest model…';
   neuralWorker.postMessage({type: 'stop'});
 }
 
@@ -2339,10 +2339,10 @@ function setChatReady() {
   $('sendBtn').disabled = !enabled;
   $('message').placeholder = enabled ? 'Type a short prompt for Sherlock…' : 'Train Sherlock and stop to unlock chat…';
   $('chatLock').textContent = neuralTraining ? 'Training in progress' : neuralModelReady ? 'Best neural model ready' : 'Training required';
-  $('chatSubtitle').textContent = neuralModelReady ? 'Best saved neural checkpoint · local generation' : 'Character-level neural experiment';
+  $('chatSubtitle').textContent = neuralModelReady ? 'Latest saved neural model · local generation' : 'Character-level neural experiment';
   $('chatHint').textContent = neuralModelReady
-    ? 'Chat is using Sherlock’s best saved neural network. It predicts characters and is still a small experimental model.'
-    : 'Train the neural network and stop the run to unlock chat. The best checkpoint is saved in this browser.';
+    ? 'Chat is using Sherlock’s latest saved neural network. It predicts characters and is still a small experimental model.'
+    : 'Train the neural network and stop the run to unlock chat. The latest model is saved in this browser.';
 }
 
 function renderEngineStatus() {
