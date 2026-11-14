@@ -13,10 +13,11 @@ const W2_OFFSET = B1_OFFSET + HIDDEN;
 const B2_OFFSET = W2_OFFSET + VOCAB * HIDDEN;
 const PARAMS = B2_OFFSET + VOCAB;
 
-const BATCH_SIZE = 12;
+const BATCH_SIZE = 24;
 const LEARNING_RATE = 0.003;
-const EVAL_EVERY = 25;
-const EVAL_SAMPLES = 512;
+const EVAL_EVERY = 100;
+const EVAL_SAMPLES = 256;
+const BATCHES_PER_SLICE = 4;
 
 let trainData = null;
 let validationData = null;
@@ -258,20 +259,24 @@ function runBatch() {
   if (!running) return;
   try {
     const maximumPosition = trainData.length - 1;
-    let batchLoss = 0;
-    for (let i = 0; i < BATCH_SIZE; i++) {
-      const position = CONTEXT + randomInt(maximumPosition - CONTEXT + 1);
-      batchLoss += trainExample(position);
-    }
-    applyAdam(BATCH_SIZE);
-    steps++;
-    examplesSeen += BATCH_SIZE;
-    const averageLoss = batchLoss / BATCH_SIZE;
-    movingLoss = lossInitialized ? movingLoss * 0.92 + averageLoss * 0.08 : averageLoss;
-    lossInitialized = true;
+    // Process several mini-batches per worker slice to reduce timer overhead.
+    // Yield after each slice so the page can still send Stop and other messages.
+    for (let slice = 0; slice < BATCHES_PER_SLICE && running; slice++) {
+      let batchLoss = 0;
+      for (let i = 0; i < BATCH_SIZE; i++) {
+        const position = CONTEXT + randomInt(maximumPosition - CONTEXT + 1);
+        batchLoss += trainExample(position);
+      }
+      applyAdam(BATCH_SIZE);
+      steps++;
+      examplesSeen += BATCH_SIZE;
+      const averageLoss = batchLoss / BATCH_SIZE;
+      movingLoss = lossInitialized ? movingLoss * 0.92 + averageLoss * 0.08 : averageLoss;
+      lossInitialized = true;
 
-    if (steps % EVAL_EVERY === 0) evaluate();
-    if (steps % 4 === 0) self.postMessage({type: "progress", ...progressPayload()});
+      if (steps % EVAL_EVERY === 0) evaluate();
+      if (steps % 8 === 0) self.postMessage({type: "progress", ...progressPayload()});
+    }
     if (running) setTimeout(runBatch, 0);
   } catch (error) {
     running = false;
