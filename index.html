@@ -1244,7 +1244,7 @@ const TARGET_BATCH_MS = 30;
 const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
 const NEURAL_LOSS_SAMPLE_EVERY = 5;
-const MAX_NEURAL_GRAPH_POINTS = 1200; // Keep charts smooth while retaining every recorded check and sample in memory.
+const MAX_NEURAL_GRAPH_POINTS = 240; // Limit SVG vertices for reliable mobile rendering; full history remains stored.
 const PERFORMANCE_HISTORY_LIMIT = 60;
 const BATCH_TIMING_WINDOW = 30;
 
