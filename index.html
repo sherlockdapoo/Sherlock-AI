@@ -208,8 +208,8 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .visual-chart{display:block;width:100%;height:auto;overflow:visible}
 .visual-chart .chart-grid{stroke:#253750;stroke-width:1;stroke-dasharray:4 6}
 .chart-axis{stroke:#8296b3;stroke-width:1.4}.chart-axis-label{fill:#9fb2cc;font:11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.chart-axis-title{fill:#c1d0e5;font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.neural-loss-chart{min-height:270px}.neural-live-card:has(.neural-loss-chart){min-width:0}.neural-live-card:has(.neural-loss-chart) .visual-chart-wrap{padding:12px 10px 7px}
-@media(max-width:520px){.neural-loss-chart{min-height:230px}.chart-axis-label{font-size:12px}}
+.neural-loss-chart,.neural-accuracy-chart{display:block;width:100%;height:auto;min-height:0}.neural-live-card:has(.neural-loss-chart){min-width:0}.neural-live-card:has(.neural-loss-chart) .visual-chart-wrap{padding:12px 10px 7px}.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:12px}
+@media(max-width:520px){.neural-loss-chart .chart-axis-label,.neural-accuracy-chart .chart-axis-label{font-size:13px}}
 .visual-chart .chart-line{fill:none;stroke:#83adff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .visual-chart .chart-area{fill:rgba(105,157,237,.12)}
 .visual-chart .chart-dot{fill:#a9c8ff;stroke:#12233a;stroke-width:3}
@@ -1093,11 +1093,11 @@ body,.app{color:#27354d}
           <div><span>Evaluations</span><strong id="neuralEvalCount">0</strong></div>
         </div>
         <div class="visual-chart-wrap">
-          <svg class="visual-chart" viewBox="0 0 560 180" role="img" aria-label="Neural network validation accuracy history with numbered axes">
-            <line class="chart-grid" x1="48" y1="18" x2="530" y2="18"></line><line class="chart-grid" x1="48" y1="59" x2="530" y2="59"></line><line class="chart-grid" x1="48" y1="99" x2="530" y2="99"></line><line class="chart-grid" x1="48" y1="140" x2="530" y2="140"></line>
-            <text class="chart-axis-label" x="42" y="22" text-anchor="end" id="neuralAccuracyYTop">100%</text><text class="chart-axis-label" x="42" y="63" text-anchor="end" id="neuralAccuracyYMidTop">75%</text><text class="chart-axis-label" x="42" y="103" text-anchor="end" id="neuralAccuracyYMidBottom">50%</text><text class="chart-axis-label" x="42" y="144" text-anchor="end" id="neuralAccuracyYBottom">0%</text>
-            <polygon class="chart-area" id="neuralAccuracyArea" points=""></polygon><polyline class="chart-line" id="neuralAccuracyLine" points=""></polyline><circle class="chart-dot" id="neuralAccuracyDot" cx="48" cy="140" r="5" visibility="hidden"></circle>
-            <text class="chart-axis-label" x="48" y="164" text-anchor="middle" id="neuralAccuracyXStart">1</text><text class="chart-axis-label" x="289" y="164" text-anchor="middle" id="neuralAccuracyXMid">—</text><text class="chart-axis-label" x="530" y="164" text-anchor="middle" id="neuralAccuracyXEnd">—</text>
+          <svg class="visual-chart neural-accuracy-chart" viewBox="0 0 560 390" role="img" aria-label="Large neural network validation accuracy history with zoomed numbered axes">
+            <line class="chart-grid" x1="48" y1="24" x2="530" y2="24"></line><line class="chart-grid" x1="48" y1="116" x2="530" y2="116"></line><line class="chart-grid" x1="48" y1="208" x2="530" y2="208"></line><line class="chart-grid" x1="48" y1="300" x2="530" y2="300"></line>
+            <text class="chart-axis-label" x="42" y="28" text-anchor="end" id="neuralAccuracyYTop">100%</text><text class="chart-axis-label" x="42" y="120" text-anchor="end" id="neuralAccuracyYMidTop">75%</text><text class="chart-axis-label" x="42" y="212" text-anchor="end" id="neuralAccuracyYMidBottom">50%</text><text class="chart-axis-label" x="42" y="304" text-anchor="end" id="neuralAccuracyYBottom">0%</text>
+            <line class="chart-axis" x1="48" y1="24" x2="48" y2="300"></line><line class="chart-axis" x1="48" y1="300" x2="530" y2="300"></line><polygon class="chart-area" id="neuralAccuracyArea" points=""></polygon><polyline class="chart-line" id="neuralAccuracyLine" points=""></polyline><circle class="chart-dot" id="neuralAccuracyDot" cx="48" cy="300" r="6" visibility="hidden"></circle>
+            <text class="chart-axis-label" x="48" y="324" text-anchor="middle" id="neuralAccuracyXStart">1</text><text class="chart-axis-label" x="289" y="324" text-anchor="middle" id="neuralAccuracyXMid">—</text><text class="chart-axis-label" x="530" y="324" text-anchor="middle" id="neuralAccuracyXEnd">—</text><text class="chart-axis-title" x="289" y="366" text-anchor="middle">Validation checks</text><text class="chart-axis-title" transform="translate(14 162) rotate(-90)" text-anchor="middle">Accuracy</text>
           </svg>
           <div class="visual-chart-legend"><span id="neuralAccuracyRange">Waiting for the first neural evaluation</span><span>Older ← evaluations → Newer</span></div>
         </div>
@@ -1122,13 +1122,13 @@ body,.app{color:#27354d}
             <div class="visual-card-head"><div><h3>Training loss · live curve</h3><p>Smoothed loss reported by the neural worker. Lower is generally better.</p></div><span class="visual-mini-tag">LIVE METRIC</span></div>
             <div class="neural-live-value"><strong id="neuralLiveLoss">Not measured</strong><span>moving average</span></div>
             <div class="visual-chart-wrap">
-              <svg class="visual-chart neural-loss-chart" viewBox="0 0 560 260" role="img" aria-label="Larger neural network training loss graph with numbered update and loss axes">
-                <line class="chart-grid" x1="64" y1="24" x2="540" y2="24"></line><line class="chart-grid" x1="64" y1="82" x2="540" y2="82"></line><line class="chart-grid" x1="64" y1="140" x2="540" y2="140"></line><line class="chart-grid" x1="64" y1="198" x2="540" y2="198"></line>
-                <text class="chart-axis-label" id="neuralLossYTop" x="56" y="28" text-anchor="end">—</text><text class="chart-axis-label" id="neuralLossYMidTop" x="56" y="86" text-anchor="end">—</text><text class="chart-axis-label" id="neuralLossYMidBottom" x="56" y="144" text-anchor="end">—</text><text class="chart-axis-label" id="neuralLossYBottom" x="56" y="202" text-anchor="end">—</text>
-                <line class="chart-axis" x1="64" y1="24" x2="64" y2="198"></line><line class="chart-axis" x1="64" y1="198" x2="540" y2="198"></line>
-                <polygon class="chart-area" id="neuralLossArea" points=""></polygon><polyline class="chart-line" id="neuralLossLine" points=""></polyline><circle class="chart-dot" id="neuralLossDot" cx="64" cy="198" r="5" visibility="hidden"></circle>
-                <text class="chart-axis-label" x="64" y="220" text-anchor="middle">1</text><text class="chart-axis-label" id="neuralLossXMid" x="302" y="220" text-anchor="middle">—</text><text class="chart-axis-label" id="neuralLossXEnd" x="540" y="220" text-anchor="middle">—</text>
-                <text class="chart-axis-title" x="302" y="246" text-anchor="middle">Training updates</text><text class="chart-axis-title" transform="translate(15 112) rotate(-90)" text-anchor="middle">Loss</text>
+              <svg class="visual-chart neural-loss-chart" viewBox="0 0 560 390" role="img" aria-label="Extra large neural network training loss graph with numbered update and loss axes">
+                <line class="chart-grid" x1="64" y1="24" x2="540" y2="24"></line><line class="chart-grid" x1="64" y1="116" x2="540" y2="116"></line><line class="chart-grid" x1="64" y1="208" x2="540" y2="208"></line><line class="chart-grid" x1="64" y1="300" x2="540" y2="300"></line>
+                <text class="chart-axis-label" id="neuralLossYTop" x="56" y="28" text-anchor="end">—</text><text class="chart-axis-label" id="neuralLossYMidTop" x="56" y="120" text-anchor="end">—</text><text class="chart-axis-label" id="neuralLossYMidBottom" x="56" y="212" text-anchor="end">—</text><text class="chart-axis-label" id="neuralLossYBottom" x="56" y="304" text-anchor="end">—</text>
+                <line class="chart-axis" x1="64" y1="24" x2="64" y2="300"></line><line class="chart-axis" x1="64" y1="300" x2="540" y2="300"></line>
+                <polygon class="chart-area" id="neuralLossArea" points=""></polygon><polyline class="chart-line" id="neuralLossLine" points=""></polyline><circle class="chart-dot" id="neuralLossDot" cx="64" cy="300" r="6" visibility="hidden"></circle>
+                <text class="chart-axis-label" x="64" y="324" text-anchor="middle">1</text><text class="chart-axis-label" id="neuralLossXMid" x="302" y="324" text-anchor="middle">—</text><text class="chart-axis-label" id="neuralLossXEnd" x="540" y="324" text-anchor="middle">—</text>
+                <text class="chart-axis-title" x="302" y="366" text-anchor="middle">Training updates</text><text class="chart-axis-title" transform="translate(15 162) rotate(-90)" text-anchor="middle">Loss</text>
               </svg>
               <div class="visual-chart-legend"><span id="neuralLossRange">Waiting for the first training update</span><span>Older ← updates → Newer</span></div>
             </div>
@@ -1338,10 +1338,10 @@ function renderNeuralHistory() {
     $('neuralAccuracyRange').textContent = 'Waiting for the first neural evaluation';
     return;
   }
-  const left = 48, right = 530, top = 18, bottom = 140;
-  let min = Math.max(0, Math.min(...values) - Math.max(0.5, (Math.max(...values) - Math.min(...values)) * 0.25));
+  const left = 48, right = 530, top = 24, bottom = 300;
+  let min = Math.max(0, Math.min(...values) - Math.max(0.1, (Math.max(...values) - Math.min(...values)) * 0.20));
   let max = Math.min(100, Math.max(...values) + Math.max(0.5, (Math.max(...values) - Math.min(...values)) * 0.25));
-  if (max - min < 0.01) { min = Math.max(0, min - 0.5); max = Math.min(100, max + 0.5); }
+  if (max - min < 0.05) { min = Math.max(0, min - 0.1); max = Math.min(100, max + 0.1); }
   const points = values.map((value, index) => {
     const x = left + (values.length === 1 ? 0 : (right - left) * index / (values.length - 1));
     const y = bottom - ((value - min) / (max - min)) * (bottom - top);
@@ -1354,7 +1354,8 @@ function renderNeuralHistory() {
   dot.setAttribute('cx', last[0].toFixed(1));
   dot.setAttribute('cy', last[1].toFixed(1));
   dot.setAttribute('visibility', 'visible');
-  const fmt = value => value.toFixed(1) + '%';
+  const accuracyDecimals = max - min < 1 ? 2 : 1;
+  const fmt = value => value.toFixed(accuracyDecimals) + '%';
   ['neuralAccuracyYTop','neuralAccuracyYMidTop','neuralAccuracyYMidBottom','neuralAccuracyYBottom'].forEach((id, index) => {
     const value = max - (max - min) * index / 3;
     if ($(id)) $(id).textContent = fmt(value);
@@ -1380,7 +1381,7 @@ function renderNeuralLossHistory() {
     Object.entries(initialAxisLabels).forEach(([id, value]) => { if ($(id)) $(id).textContent = value; });
     return;
   }
-  const left = 64, right = 540, top = 24, bottom = 198;
+  const left = 64, right = 540, top = 24, bottom = 300;
   let min = Math.min(...values), max = Math.max(...values);
   const spread = Math.max(0.05, max - min);
   min = Math.max(0, min - spread * 0.12);
@@ -1398,7 +1399,8 @@ function renderNeuralLossHistory() {
   dot.setAttribute('cx', last[0].toFixed(1));
   dot.setAttribute('cy', last[1].toFixed(1));
   dot.setAttribute('visibility', 'visible');
-  const fmt = value => value.toFixed(3);
+  const lossDecimals = max - min < 0.1 ? 4 : 3;
+  const fmt = value => value.toFixed(lossDecimals);
   ['neuralLossYTop','neuralLossYMidTop','neuralLossYMidBottom','neuralLossYBottom'].forEach((id, index) => {
     const value = max - (max - min) * index / 3;
     $(id).textContent = fmt(value);
@@ -1771,7 +1773,7 @@ updateNeuralOptimizerSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.17', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.18', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
