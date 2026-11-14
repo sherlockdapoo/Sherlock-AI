@@ -704,6 +704,84 @@ body{
  .network-canvas-wrap{padding:6px}
 }
 
+
+/* v0.4.7 · contrast repair: dark legacy text on light surfaces */
+body,.app{color:#27354d}
+.topbar,.brand,.brand-name,.brand-title{color:#27354d}
+.brand-sub,.tab-note,.footer,.footer p{color:#68768d}
+.stats .stat{color:#27354d}
+.stats .stat-label{color:#65738a}
+.stats .stat-value{color:#263650}
+.stats .stat-unit{color:#748198}
+.tabs{background:#e9edf6;border-color:#d7dfed}
+.tab{color:#53627b}
+.tab:hover{color:#263650;background:#dce4f3}
+.tab[aria-selected="true"]{color:#fff}
+.panel .card:not(.visual-hero){color:#293750}
+.panel .card:not(.visual-hero) h1,
+.panel .card:not(.visual-hero) h2,
+.panel .card:not(.visual-hero) h3,
+.panel .card:not(.visual-hero) h4,
+.panel .card:not(.visual-hero) strong,
+.panel .card:not(.visual-hero) label{color:#293750}
+.panel .card:not(.visual-hero) p,
+.panel .card:not(.visual-hero) .sub,
+.panel .card:not(.visual-hero) small{color:#66758d}
+.panel .card:not(.visual-hero) .live-label{background:#eaf0fb;color:#526cb1}
+.panel .card:not(.visual-hero) .visual-section-tag,
+.panel .card:not(.visual-hero) .visual-mini-tag{background:#edf1fa;color:#566da9;border-color:#d9e1f0}
+.panel .card:not(.visual-hero) .visual-state{background:#eef1f8;color:#596985;border-color:#d9e0ed}
+.panel .card:not(.visual-hero) .visual-state.is-ready{background:#edf7f2;color:#3f7866;border-color:#cfe5d8}
+.panel .card:not(.visual-hero) .visual-state.is-running{background:#fff7e9;color:#87662f;border-color:#eddfc1}
+.panel .card:not(.visual-hero) .flow-node{background:#f6f8fc;border-color:#dce3ef}
+.panel .card:not(.visual-hero) .flow-node h4{color:#34435e}
+.panel .card:not(.visual-hero) .flow-node p{color:#687790}
+.panel .card:not(.visual-hero) .flow-number{color:#76849a}
+.panel .card:not(.visual-hero) .flow-icon{background:#edf1fb;color:#5a72b7;border-color:#dce3f1}
+.panel .card:not(.visual-hero) .flow-node.is-active{background:#fff7e9;border-color:#e8d4a8}
+.panel .card:not(.visual-hero) .flow-node.is-active h4{color:#705528}
+.panel .card:not(.visual-hero) .flow-node.is-active p{color:#856e45}
+.panel .card:not(.visual-hero) .flow-node.is-done{background:#eff7f3;border-color:#cfe5d8}
+.panel .card:not(.visual-hero) .flow-node.is-done h4{color:#3f705e}
+.panel .card:not(.visual-hero) .flow-state{color:#65738a}
+.panel .card:not(.visual-hero) .network-live-pill{background:#edf7f3;color:#417b69;border-color:#cfe5dc}
+.panel .card:not(.visual-hero) .network-readout{background:#f5f7fc;border-color:#dce3ef}
+.panel .card:not(.visual-hero) .network-readout span{color:#6d7b91}
+.panel .card:not(.visual-hero) .network-readout strong{color:#2c3c58}
+.panel .card:not(.visual-hero) .network-legend{color:#66758c}
+.panel .card:not(.visual-hero) .network-footnote{color:#718097}
+.panel .card:not(.visual-hero) .accuracy-title{color:#62718a}
+.panel .card:not(.visual-hero) .accuracy-number{color:#2c3d5b}
+.panel .card:not(.visual-hero) .accuracy-caption{color:#728097}
+.panel .card:not(.visual-hero) .metric span{color:#718097}
+.panel .card:not(.visual-hero) .metric strong{color:#2d3e59}
+.panel .card:not(.visual-hero) .visual-kpi{background:rgba(255,255,255,.13)}
+.panel .card:not(.visual-hero) .visual-kpi span,
+.panel .card:not(.visual-hero) .visual-kpi small{color:#d3def4}
+.panel .card:not(.visual-hero) .visual-kpi strong{color:#fff}
+.panel .card:not(.visual-hero) .visual-caution{background:#f5f7fb;color:#687790;border-color:#dce3ef}
+.panel .card:not(.visual-hero) .visual-caution strong{color:#35445f}
+.panel .card:not(.visual-hero) .neural-checkpoint-score{color:#526fc0}
+.panel .card:not(.visual-hero) .neural-checkpoint-badge{background:#edf1fa;color:#5d71b3}
+.panel .card:not(.visual-hero) .chat-head{background:#f8f9fc}
+.panel .card:not(.visual-hero) .chat-head h3{color:#293750}
+.panel .card:not(.visual-hero) .chat-head p{color:#718097}
+.panel .card:not(.visual-hero) .message{background:#edf1f9;color:#34435d;border-color:#dfe5ef}
+.panel .card:not(.visual-hero) .message.user{background:linear-gradient(135deg,#5a73c7,#465eaa);color:#fff;border-color:#5069b8}
+.panel .card:not(.visual-hero) .chat-hint{color:#78869c}
+.panel .card:not(.visual-hero) .field{background:#fff;color:#293750;border-color:#d7dfed}
+.panel .card:not(.visual-hero) .field::placeholder{color:#8995a8}
+.panel .card:not(.visual-hero) .btn-secondary{background:#edf1f8;color:#3f4f6a;border-color:#d7dfed}
+.panel .card:not(.visual-hero) .btn-primary{color:#fff}
+.workspace-intro,.visual-hero{color:#f5f7ff}
+.workspace-intro h2,.visual-hero h2{color:#f5f7ff}
+.workspace-intro p,.visual-hero p{color:#cbd5ec}
+.workspace-intro .studio-kicker{color:#c1d0ff}
+.workspace-intro .studio-tags span{color:#e0e7ff}
+@media(max-width:520px){
+ .panel .card:not(.visual-hero) .flow-node{min-height:112px}
+}
+
 </style>
 </head>
 <body>
@@ -711,7 +789,7 @@ body{
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.6">v0.4.6</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.7">v0.4.7</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -973,7 +1051,7 @@ body{
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.4.6 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
+        <div class="network-visual-head"><div><div class="eyebrow">v0.4.7 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
         <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
         <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
         <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
