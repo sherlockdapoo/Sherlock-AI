@@ -318,7 +318,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.3.0">v0.3.0</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.4.0">v0.4.0</span></h1><p class="brand-sub">Neural network · local training and best-checkpoint saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -543,9 +543,12 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
             <div class="metric"><span>Training updates</span><strong id="neuralSteps">0</strong></div>
             <div class="metric"><span>Corpus-equivalent passes</span><strong id="neuralEpochs">0.000</strong></div>
             <div class="metric"><span>Best validation accuracy</span><strong id="neuralBestAccuracy">Not measured</strong></div>
-            <div class="metric"><span>Training loss</span><strong id="neuralLoss">Not measured</strong></div>
+            <div class="metric"><span>Training loss · moving average</span><strong id="neuralLoss">Not measured</strong></div>
+            <div class="metric"><span>Validation cross-entropy</span><strong id="neuralValidationLoss">Not measured</strong></div>
+            <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
+            <div class="metric"><span>Validation examples per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
             <div class="metric"><span>Optimizer</span><strong>Adam · learning rate 0.003</strong></div>
-            <div class="metric"><span>Batch size</span><strong>12 examples per update</strong></div>
+            <div class="metric"><span>Batch size</span><strong>24 examples per update</strong></div>
           </div>
         </section>
 
@@ -569,7 +572,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         </div>
         <div class="visual-score-pair">
           <div><span>Latest check</span><strong id="neuralLatestAccuracy">Not measured</strong></div>
-          <div><span>Best check</span><strong id="neuralChartBest">Not measured</strong></div>
+          <div><span>Best checkpoint</span><strong id="neuralChartBest">Not measured</strong></div>
           <div><span>Evaluations</span><strong id="neuralEvalCount">0</strong></div>
         </div>
         <div class="visual-chart-wrap">
@@ -610,7 +613,8 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
           <section class="neural-checkpoint-card">
             <div class="neural-checkpoint-top"><div><span class="neural-checkpoint-kicker">Model protection</span><h3>Best checkpoint</h3></div><span class="neural-checkpoint-badge" id="neuralCheckpointBadge">WAITING</span></div>
             <strong class="neural-checkpoint-score" id="neuralCheckpointAccuracy">Not measured</strong>
-            <span class="neural-checkpoint-caption">Best held-out validation accuracy</span>
+            <span class="neural-checkpoint-caption">Accuracy at the lowest validation loss</span>
+            <div class="neural-checkpoint-meta"><span>Checkpoint validation loss</span><strong id="neuralCheckpointLoss">Not measured</strong></div>
             <div class="neural-checkpoint-divider"></div>
             <div class="neural-checkpoint-meta"><span>Steps saved</span><strong id="neuralCheckpointSteps">0</strong></div>
             <div class="neural-checkpoint-meta"><span>Examples saved</span><strong id="neuralCheckpointExamples">0</strong></div>
@@ -633,7 +637,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         </section>
       </section>
 
-      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The best validation checkpoint is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
+      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The lowest-validation-loss checkpoint is saved in this browser and restored when you return; training counters and chart history still reset when the page is refreshed.</div></div>
     </div>
   </section>
 
@@ -713,6 +717,10 @@ let neuralAccuracyHistory = [];
 let neuralLastEvalIndex = 0;
 let neuralLatestAccuracyValue = null;
 let neuralBestAccuracyValue = null;
+let neuralLatestValidationLossValue = null;
+let neuralLatestPerplexityValue = null;
+let neuralBestValidationLossValue = null;
+let neuralEvaluationCountValue = 0;
 let neuralDatasetInitialized = false;
 let neuralLossHistory = [];
 let neuralLatestLossValue = null;
@@ -765,7 +773,7 @@ function renderNeuralHistory() {
   const values = neuralAccuracyHistory;
   $('neuralLatestAccuracy').textContent = neuralLatestAccuracyValue === null ? 'Not measured' : neuralLatestAccuracyValue.toFixed(3) + '%';
   $('neuralChartBest').textContent = neuralBestAccuracyValue === null ? 'Not measured' : neuralBestAccuracyValue.toFixed(3) + '%';
-  $('neuralEvalCount').textContent = values.length.toLocaleString();
+  $('neuralEvalCount').textContent = neuralEvaluationCountValue.toLocaleString();
   if (!values.length) {
     line.setAttribute('points', '');
     area.setAttribute('points', '');
@@ -863,6 +871,7 @@ function renderNeuralLiveView() {
   setNeuralStage('neuralStageOutput', 'neuralStageOutputState', running ? 'is-active' : ready ? 'is-ready' : '', running ? 'Predicting' : ready ? 'Ready' : 'Waiting');
   setNeuralStage('neuralStageValidation', 'neuralStageValidationState', neuralLatestAccuracyValue !== null ? 'is-done' : '', neuralLatestAccuracyValue !== null ? 'Scored' : 'Waiting');
   $('neuralCheckpointAccuracy').textContent = neuralBestAccuracyValue === null ? 'Not measured' : neuralBestAccuracyValue.toFixed(3) + '%';
+  $('neuralCheckpointLoss').textContent = neuralBestValidationLossValue === null ? 'Not measured' : neuralBestValidationLossValue.toFixed(4);
   $('neuralCheckpointBadge').textContent = neuralCheckpointWasSaved ? 'BEST SAVED' : neuralBestAccuracyValue !== null ? 'BEST FOUND' : 'WAITING';
   $('neuralCheckpointStatus').textContent = neuralCheckpointWasSaved
     ? 'The best validation weights are saved on this browser and will be restored on your next visit.'
@@ -881,8 +890,12 @@ function saveNeuralCheckpoint(data) {
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 1,
+    version: 2,
     accuracy: Number(data.accuracy),
+    validationLoss: Number(data.validationLoss),
+    perplexity: Number(data.perplexity),
+    evaluations: Number(data.evaluations) || 0,
+    validationSamples: Number(data.validationSamples) || 0,
     steps: Number(data.steps) || 0,
     examples: Number(data.examples) || 0,
     loss: Number(data.loss) || 0,
@@ -904,7 +917,7 @@ function restoreSavedNeuralCheckpoint() {
     const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
     if (!stored) return;
     const record = JSON.parse(stored);
-    if (!record || record.version !== 1 || typeof record.weights !== 'string') throw new Error('Saved checkpoint format is not supported.');
+    if (!record || ![1, 2].includes(record.version) || typeof record.weights !== 'string') throw new Error('Saved checkpoint format is not supported.');
     const binary = atob(record.weights);
     if (binary.length !== 10160 * 4) throw new Error('Saved checkpoint size does not match this neural model.');
     const buffer = new ArrayBuffer(binary.length);
@@ -924,6 +937,10 @@ function restoreSavedNeuralCheckpoint() {
       type: 'load-model',
       modelBuffer: buffer,
       accuracy: Number(record.accuracy),
+      validationLoss: record.validationLoss !== null && record.validationLoss !== undefined && Number.isFinite(Number(record.validationLoss)) ? Number(record.validationLoss) : null,
+      perplexity: record.perplexity !== null && record.perplexity !== undefined && Number.isFinite(Number(record.perplexity)) ? Number(record.perplexity) : null,
+      evaluations: Number(record.evaluations) || 0,
+      validationSamples: Number(record.validationSamples) || 0,
       steps: neuralCheckpointStepsValue,
       examples: neuralCheckpointExamplesValue,
       loss: Number(record.loss) || 0
@@ -943,6 +960,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   neuralExamplesValue = examples;
   neuralStepsValue = steps;
   neuralSpeedValue = Number(data.examplesPerSecond) || 0;
+  neuralEvaluationCountValue = Math.max(neuralEvaluationCountValue, Number(data.evaluations) || 0);
   $('neuralParameters').textContent = (Number(data.parameters) || 10160).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
   $('neuralSteps').textContent = steps.toLocaleString();
@@ -955,6 +973,18 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     if (neuralLossHistory.length > 90) neuralLossHistory.shift();
   }
 
+  if (data.validationLoss !== null && data.validationLoss !== undefined && Number.isFinite(Number(data.validationLoss))) {
+    neuralLatestValidationLossValue = Number(data.validationLoss);
+    $('neuralValidationLoss').textContent = neuralLatestValidationLossValue.toFixed(4);
+  }
+  if (data.perplexity !== null && data.perplexity !== undefined && Number.isFinite(Number(data.perplexity))) {
+    neuralLatestPerplexityValue = Number(data.perplexity);
+    $('neuralPerplexity').textContent = neuralLatestPerplexityValue.toFixed(3);
+  }
+  if (Number(data.validationSamples) > 0) {
+    $('neuralValidationSamples').textContent = Number(data.validationSamples).toLocaleString();
+  }
+
   if (data.accuracy !== null && data.accuracy !== undefined && Number.isFinite(Number(data.accuracy))) {
     const accuracy = Number(data.accuracy);
     neuralLatestAccuracyValue = accuracy;
@@ -962,9 +992,12 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     $('neuralAccuracyText').textContent = accuracy.toFixed(3) + '%';
     $('neuralAccuracyFill').style.width = Math.max(0, Math.min(100, accuracy)).toFixed(3) + '%';
     $('neuralAccuracyTrack').setAttribute('aria-valuenow', accuracy.toFixed(3));
-    const evalIndex = Math.floor(steps / 25);
-    if (forceEvaluation || evalIndex > neuralLastEvalIndex) {
-      neuralLastEvalIndex = Math.max(neuralLastEvalIndex, evalIndex);
+
+    const evaluationCount = Number(data.evaluations) || 0;
+    const isNewEvaluation = evaluationCount > neuralLastEvalIndex ||
+      (forceEvaluation && evaluationCount === 0 && neuralAccuracyHistory.length === 0);
+    if (isNewEvaluation) {
+      neuralLastEvalIndex = Math.max(neuralLastEvalIndex, evaluationCount);
       neuralAccuracyHistory.push(accuracy);
       if (neuralAccuracyHistory.length > 60) neuralAccuracyHistory.shift();
     }
@@ -973,12 +1006,14 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     neuralBestAccuracyValue = Number(data.bestAccuracy);
     $('neuralBestAccuracy').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
   }
+  if (data.bestValidationLoss !== null && data.bestValidationLoss !== undefined && Number.isFinite(Number(data.bestValidationLoss))) {
+    neuralBestValidationLossValue = Number(data.bestValidationLoss);
+  }
   renderNeuralHistory();
   renderNeuralLossHistory();
   updateGlobalNeuralStats();
   renderNeuralLiveView();
 }
-
 function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
   $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
@@ -987,7 +1022,7 @@ function updateNeuralControls() {
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.3.0', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.4.0', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -1018,19 +1053,15 @@ function ensureNeuralWorker() {
       updateNeuralMetrics({
         parameters: data.parameters, examples: data.examples, steps: data.steps,
         accuracy: data.accuracy, bestAccuracy: data.bestAccuracy,
+        validationLoss: data.validationLoss, bestValidationLoss: data.bestValidationLoss,
+        perplexity: data.perplexity, evaluations: data.evaluations,
+        validationSamples: data.validationSamples,
         loss: data.loss, examplesPerSecond: 0
       }, true);
       setChatReady(false);
       updateNeuralControls();
     } else if (data.type === 'checkpoint') {
-      neuralLatestAccuracyValue = Number(data.accuracy);
-      neuralBestAccuracyValue = Number(data.accuracy);
-      $('neuralAccuracy').textContent = neuralLatestAccuracyValue.toFixed(3) + '%';
-      $('neuralAccuracyText').textContent = neuralLatestAccuracyValue.toFixed(3) + '%';
-      $('neuralAccuracyFill').style.width = Math.max(0, Math.min(100, neuralLatestAccuracyValue)).toFixed(3) + '%';
-      $('neuralAccuracyTrack').setAttribute('aria-valuenow', neuralLatestAccuracyValue.toFixed(3));
-      $('neuralBestAccuracy').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
-      $('neuralChartBest').textContent = neuralBestAccuracyValue.toFixed(3) + '%';
+      updateNeuralMetrics(data, true);
       try {
         saveNeuralCheckpoint(data);
         updateGlobalNeuralStats();
@@ -1066,7 +1097,7 @@ function ensureNeuralWorker() {
       neuralModelReady = Number(data.examples) > 0;
       setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
       $('neuralMessage').textContent = data.restoredBest
-        ? 'Training stopped. The best validation checkpoint has been restored and saved. Chat can now use this network.'
+        ? 'Training stopped. The lowest-validation-loss checkpoint has been restored and saved. Chat can now use this network.'
         : 'Training stopped. Complete more updates to make the neural model useful.';
       updateNeuralControls();
       setChatReady(modelReady);
@@ -1163,7 +1194,7 @@ async function startNeuralTraining() {
 function stopNeuralTraining() {
   if (!neuralTraining || !neuralWorkerStarted || !neuralWorker) return;
   $('neuralStopBtn').disabled = true;
-  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and restoring the best validation checkpoint…';
+  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and restoring the lowest-validation-loss checkpoint…';
   neuralWorker.postMessage({type: 'stop'});
 }
 
@@ -1797,8 +1828,8 @@ function stopTraining() {
     renderEngineStatus();
 
     if (restored) {
-      $('trainMessage').textContent = 'Training stopped. Restored the best validation model from this run.';
-      addMessage('Training stopped. I restored my best validation model (' + bestAccuracy.toFixed(3) + '%).', 'bot');
+      $('trainMessage').textContent = 'Training stopped. Restored the lowest-validation-loss model from this run.';
+      addMessage('Training stopped. I restored my lowest-validation-loss model (' + bestAccuracy.toFixed(3) + '%).', 'bot');
     } else {
       addMessage('Training stopped. Sherlock is ready for a prompt.', 'bot');
     }
