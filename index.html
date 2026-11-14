@@ -230,6 +230,16 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
  .visual-score-pair div{text-align:left}
 }
 
+.performance-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:0 0 15px}
+.performance-kpi{min-width:0;padding:13px;border:1px solid #2a3e59;border-radius:12px;background:#0c1829}
+.performance-kpi span{display:block;color:#8ea3c0;font-size:10px}
+.performance-kpi strong{display:block;margin-top:6px;color:#eff5ff;font-size:clamp(16px,2.8vw,21px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.performance-kpi small{display:block;margin-top:3px;color:#7186a2;font-size:9px}
+.performance-chart-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:6px 0 10px}
+.performance-chart-head strong{font-size:12px;color:#dce8fa}
+.performance-chart-head span{font-size:10px;color:#8296b3}
+.performance-note{margin:10px 0 0;color:#7f93af;font-size:10px;line-height:1.5}
+@media(max-width:600px){.performance-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -373,6 +383,25 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
         </div>
       </section>
 
+      <section class="card visual-telemetry">
+        <div class="visual-card-head"><div><h3>05 · Live engine performance</h3><p>Measured from actual C++ WebAssembly training calls and observed character throughput.</p></div><span class="visual-mini-tag">LIVE BENCHMARK</span></div>
+        <div class="performance-kpis">
+          <div class="performance-kpi"><span>Current throughput</span><strong id="performanceCurrentSpeed">0</strong><small>characters per second · wall-clock</small></div>
+          <div class="performance-kpi"><span>Average batch time</span><strong id="performanceAverageBatch">0 ms</strong><small>last 30 engine batches</small></div>
+          <div class="performance-kpi"><span>Peak throughput</span><strong id="performancePeakSpeed">0</strong><small>highest 1-second sample</small></div>
+          <div class="performance-kpi"><span>Engine compute time</span><strong id="performanceEngineTime">0.00 s</strong><small>time spent inside C++ training calls</small></div>
+        </div>
+        <div class="performance-chart-head"><strong>Throughput over the last 60 seconds</strong><span id="performanceBatchCount">0 batches measured</span></div>
+        <div class="visual-chart-wrap">
+          <svg class="visual-chart" viewBox="0 0 520 160" role="img" aria-label="Sherlock training throughput over time">
+            <line class="chart-grid" x1="8" y1="20" x2="512" y2="20"></line><line class="chart-grid" x1="8" y1="60" x2="512" y2="60"></line><line class="chart-grid" x1="8" y1="100" x2="512" y2="100"></line><line class="chart-grid" x1="8" y1="140" x2="512" y2="140"></line>
+            <polygon class="chart-area" id="performanceArea" points=""></polygon><polyline class="chart-line" id="performanceLine" points=""></polyline><circle class="chart-dot" id="performanceDot" cx="8" cy="140" r="5" visibility="hidden"></circle>
+          </svg>
+          <div class="visual-chart-legend"><span id="performanceRange">Waiting for the first speed sample</span><span>Older ← seconds → Newer</span></div>
+        </div>
+        <p class="performance-note">Throughput includes browser scheduling time between samples. Batch time measures the C++ training call itself. Browsers do not expose reliable system-wide iPad CPU-use percentages to webpages.</p>
+      </section>
+
       <section class="card visual-accuracy">
         <div class="visual-accuracy-top">
           <div><h3>05 · Validation accuracy history</h3><p>Each point is a real held-out next-character evaluation.</p></div>
@@ -428,6 +457,8 @@ const TRAIN_STEP_SIZE = 65536;
 // This lets the engine stay busier while still returning control to the browser.
 const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
+const PERFORMANCE_HISTORY_LIMIT = 60;
+const BATCH_TIMING_WINDOW = 30;
 
 let engine = null;
 let training = false;
@@ -441,9 +472,15 @@ let accuracyHistory = [];
 let lastCompletedPasses = 0;
 let lastAccuracyCheckAt = 0;
 let lastVisualRenderAt = 0;
-let speedSampleAt = 0;
-let speedSampleChars = 0;
-let smoothedCharsPerSecond = 0;
+let performanceHistory = [];
+let batchDurations = [];
+let performanceBatchCount = 0;
+let performanceTotalEngineMs = 0;
+let performanceCurrentSpeed = 0;
+let performancePeakSpeed = 0;
+let performanceSampleAt = 0;
+let performanceSampleChars = 0;
+let performanceLastBatchSeen = 0;
 
 const $ = id => document.getElementById(id);
 
@@ -539,6 +576,88 @@ function renderAccuracyHistory() {
   $('accuracyChartRange').textContent = 'Recent range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' checks';
 }
 
+function renderPerformanceHistory() {
+  const line = $('performanceLine');
+  const area = $('performanceArea');
+  const dot = $('performanceDot');
+  if (!line || !area || !dot) return;
+
+  $('performanceCurrentSpeed').textContent = Math.round(training ? performanceCurrentSpeed : 0).toLocaleString();
+  const averageBatch = batchDurations.length
+    ? batchDurations.reduce((sum, value) => sum + value, 0) / batchDurations.length
+    : 0;
+  $('performanceAverageBatch').textContent = averageBatch.toFixed(2) + ' ms';
+  $('performancePeakSpeed').textContent = Math.round(performancePeakSpeed).toLocaleString();
+  $('performanceEngineTime').textContent = (performanceTotalEngineMs / 1000).toFixed(2) + ' s';
+  $('performanceBatchCount').textContent = performanceBatchCount.toLocaleString() + ' batches measured';
+
+  const values = performanceHistory;
+  if (!values.length) {
+    line.setAttribute('points', '');
+    area.setAttribute('points', '');
+    dot.setAttribute('visibility', 'hidden');
+    $('performanceRange').textContent = 'Waiting for the first speed sample';
+    return;
+  }
+
+  const width = 504, left = 8, top = 12, bottom = 140;
+  const max = Math.max(1, ...values);
+  const points = values.map((value, index) => {
+    const x = left + (values.length === 1 ? 0 : width * index / (values.length - 1));
+    const y = bottom - (value / max) * (bottom - top);
+    return [x, y];
+  });
+  const pointString = points.map(point => point[0].toFixed(1) + ',' + point[1].toFixed(1)).join(' ');
+  line.setAttribute('points', pointString);
+  area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + (left + width) + ',' + bottom);
+  const last = points[points.length - 1];
+  dot.setAttribute('cx', last[0].toFixed(1));
+  dot.setAttribute('cy', last[1].toFixed(1));
+  dot.setAttribute('visibility', 'visible');
+  $('performanceRange').textContent = 'Observed range 0–' + Math.round(max).toLocaleString() + ' characters/second · ' + values.length + ' samples';
+}
+
+function resetPerformanceMetrics() {
+  performanceHistory = [];
+  batchDurations = [];
+  performanceBatchCount = 0;
+  performanceTotalEngineMs = 0;
+  performanceCurrentSpeed = 0;
+  performancePeakSpeed = 0;
+  performanceSampleAt = 0;
+  performanceSampleChars = 0;
+  performanceLastBatchSeen = Number(engine.characters_seen()) || 0;
+  renderPerformanceHistory();
+}
+
+function recordBatchTiming(durationMs, charactersProcessed) {
+  const duration = Math.max(0.01, Number(durationMs) || 0);
+  batchDurations.push(duration);
+  if (batchDurations.length > BATCH_TIMING_WINDOW) batchDurations.shift();
+  performanceBatchCount++;
+  performanceTotalEngineMs += duration;
+}
+
+function samplePerformanceSpeed(now, charactersSeen) {
+  if (!training) return;
+  if (!performanceSampleAt) {
+    performanceSampleAt = now;
+    performanceSampleChars = charactersSeen;
+    return;
+  }
+
+  const elapsed = now - performanceSampleAt;
+  if (elapsed < 900) return;
+  const processed = Math.max(0, charactersSeen - performanceSampleChars);
+  performanceCurrentSpeed = processed * 1000 / elapsed;
+  performancePeakSpeed = Math.max(performancePeakSpeed, performanceCurrentSpeed);
+  performanceHistory.push(performanceCurrentSpeed);
+  if (performanceHistory.length > PERFORMANCE_HISTORY_LIMIT) performanceHistory.shift();
+  performanceSampleAt = now;
+  performanceSampleChars = charactersSeen;
+  renderPerformanceHistory();
+}
+
 function readableCharacter(value) {
   if (value === undefined || value === null) return '·';
   if (value === 32) return 'SPACE';
@@ -562,17 +681,8 @@ function renderLiveView(force = false) {
   const cursor = Number(engine.training_position()) || 0;
   const trainingSize = datasetCache ? datasetCache.trainBytes.length : Number(engine.training_size()) || 0;
 
-  if (speedSampleAt > 0) {
-    const seconds = (now - speedSampleAt) / 1000;
-    if (seconds > 0.05) {
-      const instantSpeed = Math.max(0, (seen - speedSampleChars) / seconds);
-      smoothedCharsPerSecond = smoothedCharsPerSecond ? smoothedCharsPerSecond * 0.55 + instantSpeed * 0.45 : instantSpeed;
-    }
-  }
-  speedSampleAt = now;
-  speedSampleChars = seen;
-
-  $('visualSpeed').textContent = training ? Math.round(smoothedCharsPerSecond).toLocaleString() : '0';
+  samplePerformanceSpeed(now, seen);
+  $('visualSpeed').textContent = training ? Math.round(performanceCurrentSpeed).toLocaleString() : '0';
   $('visualChars').textContent = seen.toLocaleString();
   $('visualPasses').textContent = passes.toLocaleString();
   $('visualSteps').textContent = steps.toLocaleString();
@@ -940,7 +1050,12 @@ function runTrainingBatch() {
   trainingTimer = null;
   if (!training || !engine) return;
   try {
-    engine.train_step(TRAIN_STEP_SIZE);
+    const batchStartedAt = performance.now();
+    const totalSeen = Number(engine.train_step(TRAIN_STEP_SIZE)) || 0;
+    const batchDurationMs = performance.now() - batchStartedAt;
+    const processed = Math.max(0, totalSeen - performanceLastBatchSeen);
+    performanceLastBatchSeen = totalSeen;
+    recordBatchTiming(batchDurationMs, processed);
     updateTrainingMetrics();
     // A short timer yield gives the browser a chance to paint and handle taps.
     if (training) trainingTimer = setTimeout(runTrainingBatch, TRAIN_YIELD_MS);
@@ -956,9 +1071,7 @@ async function startTraining() {
     const data = datasetCache || await loadDailyDialog();
     installDataset(data);
     resetAccuracyTracking();
-    speedSampleAt = 0;
-    speedSampleChars = Number(engine.characters_seen()) || 0;
-    smoothedCharsPerSecond = 0;
+    resetPerformanceMetrics();
     training = true;
     modelReady = false;
     setChatReady(false);
@@ -1074,6 +1187,7 @@ async function loadEngine() {
     $('epochText').textContent = '0';
     $('chars').textContent = '0';
     resetAccuracyTracking();
+    resetPerformanceMetrics();
   } catch (error) {
     showError(error);
   }
