@@ -22,6 +22,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-o
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
 .logo{width:46px;height:46px;display:grid;place-items:center;border:1px solid #49689b;border-radius:15px;background:linear-gradient(145deg,#31558b,#172a49);box-shadow:0 8px 25px rgba(40,83,147,.22);color:#eaf2ff;font-size:25px}
 .brand-title{margin:0;font-size:19px;letter-spacing:-.4px;font-weight:750}
+.brand-version{display:inline-flex;align-items:center;margin-left:7px;padding:3px 7px;border:1px solid #3b5274;border-radius:7px;background:#14243b;color:#b9d3ff;font-size:10px;font-weight:750;letter-spacing:.35px;vertical-align:middle}
 .brand-sub{margin:2px 0 0;color:var(--muted);font-size:12px}
 .status{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #354761;border-radius:999px;background:rgba(14,24,41,.78);color:#c7d5e9;font-size:12px;white-space:nowrap}
 .status-dot{width:7px;height:7px;border-radius:50%;background:#8796aa;box-shadow:0 0 0 3px rgba(135,150,170,.12)}
@@ -244,7 +245,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT</h1><p class="brand-sub">C++ WebAssembly · local iPad engine</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.1.0">v0.1.0</span></h1><p class="brand-sub">C++ WebAssembly · local iPad engine</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
