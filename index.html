@@ -1087,9 +1087,11 @@ body,.app{color:#27354d}
           <div><span>Evaluations</span><strong id="neuralEvalCount">0</strong></div>
         </div>
         <div class="visual-chart-wrap">
-          <svg class="visual-chart" viewBox="0 0 520 160" role="img" aria-label="Neural network validation accuracy history">
-            <line class="chart-grid" x1="8" y1="20" x2="512" y2="20"></line><line class="chart-grid" x1="8" y1="60" x2="512" y2="60"></line><line class="chart-grid" x1="8" y1="100" x2="512" y2="100"></line><line class="chart-grid" x1="8" y1="140" x2="512" y2="140"></line>
-            <polygon class="chart-area" id="neuralAccuracyArea" points=""></polygon><polyline class="chart-line" id="neuralAccuracyLine" points=""></polyline><circle class="chart-dot" id="neuralAccuracyDot" cx="8" cy="140" r="5" visibility="hidden"></circle>
+          <svg class="visual-chart" viewBox="0 0 560 180" role="img" aria-label="Neural network validation accuracy history with numbered axes">
+            <line class="chart-grid" x1="48" y1="18" x2="530" y2="18"></line><line class="chart-grid" x1="48" y1="59" x2="530" y2="59"></line><line class="chart-grid" x1="48" y1="99" x2="530" y2="99"></line><line class="chart-grid" x1="48" y1="140" x2="530" y2="140"></line>
+            <text class="chart-axis-label" x="42" y="22" text-anchor="end" id="neuralAccuracyYTop">100%</text><text class="chart-axis-label" x="42" y="63" text-anchor="end" id="neuralAccuracyYMidTop">75%</text><text class="chart-axis-label" x="42" y="103" text-anchor="end" id="neuralAccuracyYMidBottom">50%</text><text class="chart-axis-label" x="42" y="144" text-anchor="end" id="neuralAccuracyYBottom">0%</text>
+            <polygon class="chart-area" id="neuralAccuracyArea" points=""></polygon><polyline class="chart-line" id="neuralAccuracyLine" points=""></polyline><circle class="chart-dot" id="neuralAccuracyDot" cx="48" cy="140" r="5" visibility="hidden"></circle>
+            <text class="chart-axis-label" x="48" y="164" text-anchor="middle" id="neuralAccuracyXStart">1</text><text class="chart-axis-label" x="289" y="164" text-anchor="middle" id="neuralAccuracyXMid">—</text><text class="chart-axis-label" x="530" y="164" text-anchor="middle" id="neuralAccuracyXEnd">—</text>
           </svg>
           <div class="visual-chart-legend"><span id="neuralAccuracyRange">Waiting for the first neural evaluation</span><span>Older ← evaluations → Newer</span></div>
         </div>
@@ -1313,34 +1315,49 @@ function renderNeuralHistory() {
   $('neuralLatestAccuracy').textContent = neuralLatestAccuracyValue === null ? 'Not measured' : neuralLatestAccuracyValue.toFixed(3) + '%';
   $('neuralChartBest').textContent = neuralBestAccuracyValue === null ? 'Not measured' : neuralBestAccuracyValue.toFixed(3) + '%';
   $('neuralEvalCount').textContent = neuralEvaluationCountValue.toLocaleString();
+  const labels = {
+    neuralAccuracyYTop: '100%',
+    neuralAccuracyYMidTop: '75%',
+    neuralAccuracyYMidBottom: '50%',
+    neuralAccuracyYBottom: '0%',
+    neuralAccuracyXStart: '1',
+    neuralAccuracyXMid: '—',
+    neuralAccuracyXEnd: '—'
+  };
   if (!values.length) {
     line.setAttribute('points', '');
     area.setAttribute('points', '');
     dot.setAttribute('visibility', 'hidden');
+    Object.entries(labels).forEach(([id, value]) => { if ($(id)) $(id).textContent = value; });
     $('neuralAccuracyRange').textContent = 'Waiting for the first neural evaluation';
     return;
   }
-  const width = 504, left = 8, top = 12, bottom = 140;
-  let min = Math.min(...values), max = Math.max(...values);
-  const spread = Math.max(0.5, max - min);
-  min = Math.max(0, min - spread * 0.35);
-  max = Math.min(100, max + spread * 0.35);
-  if (max - min < 0.01) max = Math.min(100, min + 1);
+  const left = 48, right = 530, top = 18, bottom = 140;
+  let min = Math.max(0, Math.min(...values) - Math.max(0.5, (Math.max(...values) - Math.min(...values)) * 0.25));
+  let max = Math.min(100, Math.max(...values) + Math.max(0.5, (Math.max(...values) - Math.min(...values)) * 0.25));
+  if (max - min < 0.01) { min = Math.max(0, min - 0.5); max = Math.min(100, max + 0.5); }
   const points = values.map((value, index) => {
-    const x = left + (values.length === 1 ? 0 : width * index / (values.length - 1));
+    const x = left + (values.length === 1 ? 0 : (right - left) * index / (values.length - 1));
     const y = bottom - ((value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
   const pointString = points.map(point => point[0].toFixed(1) + ',' + point[1].toFixed(1)).join(' ');
   line.setAttribute('points', pointString);
-  area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + (left + width) + ',' + bottom);
+  area.setAttribute('points', left + ',' + bottom + ' ' + pointString + ' ' + right + ',' + bottom);
   const last = points[points.length - 1];
   dot.setAttribute('cx', last[0].toFixed(1));
   dot.setAttribute('cy', last[1].toFixed(1));
   dot.setAttribute('visibility', 'visible');
-  $('neuralAccuracyRange').textContent = 'Observed range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' checks';
+  const fmt = value => value.toFixed(1) + '%';
+  ['neuralAccuracyYTop','neuralAccuracyYMidTop','neuralAccuracyYMidBottom','neuralAccuracyYBottom'].forEach((id, index) => {
+    const value = max - (max - min) * index / 3;
+    if ($(id)) $(id).textContent = fmt(value);
+  });
+  if ($('neuralAccuracyXStart')) $('neuralAccuracyXStart').textContent = Math.max(1, neuralEvaluationCountValue - values.length + 1).toLocaleString();
+  if ($('neuralAccuracyXMid')) $('neuralAccuracyXMid').textContent = Math.round(Math.max(1, neuralEvaluationCountValue - values.length / 2 + 1)).toLocaleString();
+  if ($('neuralAccuracyXEnd')) $('neuralAccuracyXEnd').textContent = neuralEvaluationCountValue.toLocaleString();
+  $('neuralAccuracyRange').textContent = 'Observed range ' + Math.min(...values).toFixed(3) + '%–' + Math.max(...values).toFixed(3) + '% · ' + values.length + ' recent checks';
 }
-
 function renderNeuralLossHistory() {
   const line = $('neuralLossLine');
   const area = $('neuralLossArea');
@@ -1645,7 +1662,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   if (Number.isFinite(Number(data.loss)) && examples > 0) {
     neuralLatestLossValue = Number(data.loss);
     neuralLossHistory.push(neuralLatestLossValue);
-    if (neuralLossHistory.length > 90) neuralLossHistory.shift();
+    if (neuralLossHistory.length > 240) neuralLossHistory.shift();
   }
 
   if (data.validationLoss !== null && data.validationLoss !== undefined && Number.isFinite(Number(data.validationLoss))) {
@@ -1674,7 +1691,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     if (isNewEvaluation) {
       neuralLastEvalIndex = Math.max(neuralLastEvalIndex, evaluationCount);
       neuralAccuracyHistory.push(accuracy);
-      if (neuralAccuracyHistory.length > 60) neuralAccuracyHistory.shift();
+      if (neuralAccuracyHistory.length > 120) neuralAccuracyHistory.shift();
     }
   }
   if (data.bestAccuracy !== null && data.bestAccuracy !== undefined && Number(data.bestAccuracy) >= 0) {
