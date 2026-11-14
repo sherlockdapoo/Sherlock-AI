@@ -1221,6 +1221,7 @@ let neuralModelReady = false;
 let neuralRequestBusy = false;
 let neuralStartPending = false;
 let neuralStartupTimer = null;
+let neuralStartupAttempt = 0;
 let neuralRequestSequence = 0;
 let neuralPendingRequests = new Map();
 let neuralAccuracyHistory = [];
@@ -1889,6 +1890,26 @@ async function startNeuralTraining() {
       : 'Neural training is already starting or running.';
     return;
   }
+  const startupAttempt = ++neuralStartupAttempt;
+  if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+  neuralStartupTimer = setTimeout(() => {
+    if (startupAttempt !== neuralStartupAttempt) return;
+    neuralStartupTimer = null;
+    neuralTraining = false;
+    neuralRequestBusy = false;
+    neuralStartPending = false;
+    neuralWorkerStarted = false;
+    neuralWorkerInitialized = false;
+    neuralDatasetInitialized = false;
+    if (neuralWorker) neuralWorker.terminate();
+    neuralWorker = null;
+    setNeuralState('Dataset loading timed out');
+    $('neuralMessage').textContent = 'Dataset loading took too long. Your start attempt has been unlocked. Tap Start neural training to retry.';
+    updateNeuralControls();
+    setChatReady(modelReady);
+    updateGlobalNeuralStats();
+    renderNeuralLiveView();
+  }, 90000);
   neuralRequestBusy = true;
   neuralTraining = true;
   neuralWorkerStarted = false;
@@ -1898,6 +1919,9 @@ async function startNeuralTraining() {
   setChatReady(modelReady);
   try {
     const data = datasetCache || await loadTrainingDatasets();
+    if (startupAttempt !== neuralStartupAttempt || !neuralTraining) return;
+    if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+    neuralStartupTimer = null;
     currentNeuralDatasetFingerprint = fingerprintNeuralDataset(data);
     const worker = ensureNeuralWorker();
     const trainBuffer = data.trainBytes.slice().buffer;
@@ -1939,14 +1963,17 @@ async function startNeuralTraining() {
       worker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer()});
     }
   } catch (error) {
+    if (startupAttempt !== neuralStartupAttempt) return;
+    if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+    neuralStartupTimer = null;
     neuralTraining = false;
     neuralStartPending = false;
     setNeuralState('Unable to start neural training');
     $('neuralMessage').textContent = 'Could not start the neural model: ' + (error && error.message ? error.message : String(error));
     setChatReady(modelReady);
   } finally {
-    neuralRequestBusy = false;
-    if (neuralTraining && !neuralWorkerStarted && !neuralStartupTimer) {
+    if (startupAttempt === neuralStartupAttempt) neuralRequestBusy = false;
+    if (startupAttempt === neuralStartupAttempt && neuralTraining && !neuralWorkerStarted && !neuralStartupTimer) {
       neuralStartupTimer = setTimeout(() => {
         neuralStartupTimer = null;
         if (!neuralWorkerStarted && neuralTraining) {
