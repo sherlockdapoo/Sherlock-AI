@@ -2,6 +2,14 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace has two tabs: **Chat** and **Neural Lab**. Training runs locally in a dedicated browser worker, and the best model checkpoint is saved in this browser.
 
+## Version 0.5.1: Optimizer experiment
+
+Neural Lab now lets you choose between **Adam** and **AdamW**. Both use the same learning rate (0.003), mini-batch size (24), model architecture, training data, and seeded initial weights. AdamW applies decoupled weight decay (0.0001) to weight tensors, while Adam keeps the previous behaviour.
+
+Changing optimizer starts a fresh run from the same deterministic initial weights and resets the visible run metrics, so results from the two runs are not mixed together. Checkpoints remember which optimizer produced them and restore the matching selection after a page refresh. Older saved checkpoints are treated as Adam checkpoints.
+
+For a useful comparison, keep the dataset unchanged and compare both optimizers after the same number of training updates. Compare held-out accuracy and validation cross-entropy; this small character-level experiment does not directly measure conversation quality.
+
 ## Version 0.5.0: Multi-dataset training
 
 The training-data loader now supports two conversation sources:
@@ -26,7 +34,7 @@ The C++ character-counter training screen and its separate Live View have been r
 - **Architecture:** character-level multilayer perceptron (MLP), four-character context, 12-dimensional learned embeddings, one 48-neuron ReLU hidden layer, and a 128-way softmax output.
 - **Size:** 10,160 trainable parameters.
 - **Learning task:** predict the next character from the previous four characters.
-- **Training:** cross-entropy loss, backpropagation, and the Adam optimiser (learning rate 0.003), using mini-batches of 24 examples. Six mini-batches are processed per worker slice before yielding to the browser event loop.
+- **Training:** cross-entropy loss and backpropagation, using mini-batches of 24 examples. Neural Lab supports Adam and AdamW (learning rate 0.003); AdamW uses decoupled weight decay of 0.0001. Six mini-batches are processed per worker slice before yielding to the browser event loop.
 - **Validation/evaluation:** every 100 optimizer steps, the worker evaluates 256 positions from the combined held-out text (or all available positions if fewer than 256 exist). It reports top-1 accuracy, mean cross-entropy (negative log-likelihood), and perplexity (`exp(cross-entropy)`). Accuracy is the share of next characters predicted exactly; lower cross-entropy and lower perplexity indicate better probability estimates. These are character-prediction metrics, not measures of intelligence, factual knowledge, or conversation quality.
 - **Network visualiser:** the Neural Lab draws a live sampled view of 12 embedding inputs, 16 hidden neurons, and 12 output neurons. The worker sends real activation values and sampled connection weights during progress updates. This is a readable sample of the 10,160-parameter network, not every neuron or connection.
 - **Best checkpoint:** the worker selects weights with the highest held-out top-1 accuracy; validation cross-entropy breaks ties. The page stores those weights in browser local storage. The saved checkpoint stores model weights and score, not the full training history or optimiser state.
