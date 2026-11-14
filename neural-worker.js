@@ -258,6 +258,7 @@ function evaluate() {
     const checkpointBuffer = bestParameters.slice().buffer;
     self.postMessage({
       type: "checkpoint",
+      optimizer: activeOptimizer,
       accuracy: score,
       bestAccuracy,
       validationLoss,
@@ -423,6 +424,7 @@ self.addEventListener("message", event => {
       initialized = true;
       self.postMessage({type: "ready", parameters: PARAMS});
     } else if (message.type === "load-model") {
+      activeOptimizer = message.optimizer === 'adamw' ? 'adamw' : 'adam';
       const restored = new Float32Array(message.modelBuffer);
       if (restored.length !== PARAMS) throw new Error("The saved neural model has the wrong number of weights.");
       parameters = new Float32Array(restored);
@@ -446,6 +448,7 @@ self.addEventListener("message", event => {
       initialized = true;
       self.postMessage({
         type: "model-loaded",
+        optimizer: activeOptimizer,
         parameters: PARAMS,
         accuracy: latestAccuracy,
         bestAccuracy,
@@ -464,7 +467,8 @@ self.addEventListener("message", event => {
     } else if (message.type === "start") {
       if (!initialized) throw new Error("Load or restore the neural model first.");
       const requestedOptimizer = message.optimizer === 'adamw' ? 'adamw' : 'adam';
-      if (requestedOptimizer !== activeOptimizer) {
+      const optimizerChanged = requestedOptimizer !== activeOptimizer;
+      if (optimizerChanged) {
         activeOptimizer = requestedOptimizer;
         randomState = 0x5A17C0DE;
         initializeParameters();
@@ -474,7 +478,7 @@ self.addEventListener("message", event => {
         running = true;
         reportAt = performance.now();
         reportExamples = examplesSeen;
-        self.postMessage({type: "started"});
+        self.postMessage({type: "started", optimizer: activeOptimizer, reset: optimizerChanged});
         setTimeout(runBatch, 0);
       }
     } else if (message.type === "stop") {
