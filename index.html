@@ -298,7 +298,11 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .optimizer-picker select{min-height:40px;padding:9px 11px;border:1px solid #3a5274;border-radius:9px;background:#14243a;color:#f4f8ff}
 .optimizer-picker p{margin:0;color:#9fb1ca;font-size:10px}
 .optimizer-picker select:disabled{opacity:.6}
+.neural-config-picker{grid-template-columns:repeat(2,minmax(0,1fr))}
+.neural-config-picker>p{grid-column:1/-1}
+.neural-config-picker>div{display:grid;grid-template-columns:1fr;gap:6px;min-width:0}
 .neural-control-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+@media(max-width:440px){.neural-config-picker{grid-template-columns:1fr}}
 .neural-architecture{display:grid;gap:9px}
 .neural-layer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #2a405c;border-radius:12px;background:#0c1829}
 .neural-layer strong{color:#e3efff;font-size:12px}
@@ -1088,6 +1092,27 @@ body,.app{color:#27354d}
             </select>
             <p>AdamW optimizer · weight decay 0.0001. Choose before starting a training run.</p>
           </div>
+          <div class="optimizer-picker neural-config-picker">
+            <div><label for="neuralBatchSize">Batch size</label>
+              <select id="neuralBatchSize" aria-label="Neural training batch size">
+                <option value="8">8 examples · lighter</option>
+                <option value="16">16 examples · small</option>
+                <option value="24" selected>24 examples · balanced</option>
+                <option value="32">32 examples · larger</option>
+              </select>
+            </div>
+            <div><label for="neuralMaxSteps">Training steps per run</label>
+              <select id="neuralMaxSteps" aria-label="Maximum training steps per run">
+                <option value="0" selected>Unlimited · stop manually</option>
+                <option value="5000">5,000 steps</option>
+                <option value="10000">10,000 steps</option>
+                <option value="25000">25,000 steps</option>
+                <option value="50000">50,000 steps</option>
+                <option value="100000">100,000 steps</option>
+              </select>
+            </div>
+            <p id="neuralTrainingConfigSummary">Next run: unlimited steps · batch size 24 · learning rate 0.003.</p>
+          </div>
           <div class="neural-control-row">
             <button class="btn btn-primary" id="neuralStartBtn" type="button">✳ <span>Start neural training</span></button>
             <button class="btn btn-secondary" id="neuralStopBtn" type="button" disabled>■ Stop</button>
@@ -1109,7 +1134,8 @@ body,.app{color:#27354d}
             <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
             <div class="metric"><span>Validation character positions per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
             <div class="metric"><span>Optimizer</span><strong id="neuralOptimizerSummary">Adam · learning rate 0.003</strong></div>
-            <div class="metric"><span>Batch size</span><strong>24 examples per update</strong></div>
+            <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">24 examples per update</strong></div>
+            <div class="metric"><span>Run progress</span><strong id="neuralRunProgress">Unlimited</strong></div>
           </div>
         </section>
 
@@ -1560,6 +1586,10 @@ function saveNeuralCheckpoint(data) {
     steps: Number(data.steps) || 0,
     examples: Number(data.examples) || 0,
     loss: Number(data.loss) || 0,
+    learningRate: [0.001, 0.003, 0.005].includes(Number(data.learningRate)) ? Number(data.learningRate) : selectedNeuralLearningRate(),
+    batchSize: [8, 16, 24, 32].includes(Number(data.batchSize)) ? Number(data.batchSize) : selectedNeuralBatchSize(),
+    maxSteps: [0, 5000, 10000, 25000, 50000, 100000].includes(Number(data.maxSteps)) ? Number(data.maxSteps) : selectedNeuralMaxSteps(),
+    runSteps: Math.max(0, Number(data.runSteps) || 0),
     savedAt,
     weights: btoa(binary)
   };
@@ -1608,7 +1638,10 @@ function restoreSavedNeuralCheckpoint() {
       validationSamples: Number(record.validationSamples) || 0,
       steps: neuralCheckpointStepsValue,
       examples: neuralCheckpointExamplesValue,
-      loss: Number(record.loss) || 0
+      loss: Number(record.loss) || 0,
+      learningRate: record.learningRate,
+      batchSize: record.batchSize,
+      maxSteps: record.maxSteps
     }, [buffer]);
   } catch (error) {
     try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
@@ -1748,6 +1781,16 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   $('neuralParameters').textContent = (Number(data.parameters) || 10160).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
   $('neuralSteps').textContent = steps.toLocaleString();
+  if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
+    $('neuralBatchSizeMetric').textContent = Number(data.batchSize).toLocaleString() + ' examples per update';
+  }
+  if (Number.isFinite(Number(data.runSteps))) {
+    const runSteps = Math.max(0, Number(data.runSteps));
+    const maxSteps = Math.max(0, Number(data.maxSteps) || 0);
+    $('neuralRunProgress').textContent = maxSteps
+      ? runSteps.toLocaleString() + ' / ' + maxSteps.toLocaleString()
+      : runSteps.toLocaleString() + ' · unlimited';
+  }
   $('neuralEpochs').textContent = (Number(data.epochs) || 0).toFixed(3);
   $('neuralSpeed').textContent = Math.round(Number(data.examplesPerSecond) || 0).toLocaleString();
   $('neuralLoss').textContent = Number.isFinite(Number(data.loss)) && examples > 0 ? Number(data.loss).toFixed(4) : 'Not measured';
@@ -1857,6 +1900,8 @@ function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
   $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
   $('neuralLearningRate').disabled = neuralTraining || neuralRequestBusy;
+  $('neuralBatchSize').disabled = neuralTraining || neuralRequestBusy;
+  $('neuralMaxSteps').disabled = neuralTraining || neuralRequestBusy;
 }
 function selectedNeuralOptimizer() {
   return 'adamw';
@@ -1865,16 +1910,42 @@ function selectedNeuralLearningRate() {
   const value = Number($('neuralLearningRate').value);
   return [0.001, 0.003, 0.005].includes(value) ? value : 0.003;
 }
+function selectedNeuralBatchSize() {
+  const value = Number($('neuralBatchSize').value);
+  return [8, 16, 24, 32].includes(value) ? value : 24;
+}
+function selectedNeuralMaxSteps() {
+  const value = Number($('neuralMaxSteps').value);
+  return [0, 5000, 10000, 25000, 50000, 100000].includes(value) ? value : 0;
+}
 function updateNeuralOptimizerSummary() {
   const summary = $('neuralOptimizerSummary');
   if (summary) summary.textContent = 'AdamW · learning rate ' + selectedNeuralLearningRate().toFixed(3) + ' · weight decay 0.0001';
 }
+function updateNeuralTrainingConfigSummary() {
+  const summary = $('neuralTrainingConfigSummary');
+  if (!summary) return;
+  const maxSteps = selectedNeuralMaxSteps();
+  summary.textContent = 'Next run: ' + (maxSteps ? maxSteps.toLocaleString() + ' steps' : 'unlimited steps') +
+    ' · batch size ' + selectedNeuralBatchSize() +
+    ' · learning rate ' + selectedNeuralLearningRate().toFixed(3) + '.';
+}
+function postNeuralTrainingStart(targetWorker = neuralWorker) {
+  targetWorker.postMessage({
+    type: 'start',
+    optimizer: selectedNeuralOptimizer(),
+    learningRate: selectedNeuralLearningRate(),
+    batchSize: selectedNeuralBatchSize(),
+    maxSteps: selectedNeuralMaxSteps()
+  });
+}
 updateNeuralOptimizerSummary();
+updateNeuralTrainingConfigSummary();
 
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.19', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.5.20', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -1884,7 +1955,7 @@ function ensureNeuralWorker() {
       $('neuralMessage').textContent = 'Neural network initialised: ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting the first training batches…';
       if (neuralStartPending) {
         neuralStartPending = false;
-        neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer(), learningRate: selectedNeuralLearningRate()});
+        postNeuralTrainingStart();
       }
       renderNeuralLiveView();
     } else if (data.type === 'data-ready' || data.type === 'reset-ready') {
@@ -1898,11 +1969,16 @@ function ensureNeuralWorker() {
       }
       if (neuralStartPending) {
         neuralStartPending = false;
-        neuralWorker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer(), learningRate: selectedNeuralLearningRate()});
+        postNeuralTrainingStart();
       }
       renderNeuralLiveView();
     } else if (data.type === 'model-loaded') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
+      if ([0.001, 0.003, 0.005].includes(Number(data.learningRate))) $('neuralLearningRate').value = String(Number(data.learningRate));
+      if ([8, 16, 24, 32].includes(Number(data.batchSize))) $('neuralBatchSize').value = String(Number(data.batchSize));
+      if ([0, 5000, 10000, 25000, 50000, 100000].includes(Number(data.maxSteps))) $('neuralMaxSteps').value = String(Number(data.maxSteps));
+      updateNeuralOptimizerSummary();
+      updateNeuralTrainingConfigSummary();
       neuralWorkerInitialized = true;
       neuralModelReady = Number(data.examples) > 0;
       neuralLatestAccuracyValue = Number.isFinite(Number(data.accuracy)) ? Number(data.accuracy) : null;
@@ -1963,9 +2039,11 @@ function ensureNeuralWorker() {
       neuralWorkerStarted = false;
       neuralModelReady = Number(data.examples) > 0;
       setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
-      $('neuralMessage').textContent = data.restoredBest
-        ? 'Training stopped. The latest model has been saved. Chat can now use this network.'
-        : 'Training stopped. Complete more updates to make the neural model useful.';
+      $('neuralMessage').textContent = data.stopReason === 'limit'
+        ? 'Training-step target reached. The latest model has been evaluated and saved.'
+        : data.restoredBest
+          ? 'Training stopped. The latest model has been saved. Chat can now use this network.'
+          : 'Training stopped. Complete more updates to make the neural model useful.';
       updateNeuralControls();
       setChatReady(modelReady);
       updateGlobalNeuralStats();
@@ -2098,7 +2176,7 @@ async function startNeuralTraining() {
         );
       }
     } else {
-      worker.postMessage({type: 'start', optimizer: selectedNeuralOptimizer(), learningRate: selectedNeuralLearningRate()});
+      postNeuralTrainingStart(worker);
     }
   } catch (error) {
     if (startupAttempt !== neuralStartupAttempt || datasetAbortController.signal.aborted) return;
@@ -2162,7 +2240,12 @@ function requestNeuralGeneration(prompt) {
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
-$('neuralLearningRate').addEventListener('change', updateNeuralOptimizerSummary);
+$('neuralLearningRate').addEventListener('change', () => {
+  updateNeuralOptimizerSummary();
+  updateNeuralTrainingConfigSummary();
+});
+$('neuralBatchSize').addEventListener('change', updateNeuralTrainingConfigSummary);
+$('neuralMaxSteps').addEventListener('change', updateNeuralTrainingConfigSummary);
 
 function updateAccuracy(value) {
   const measured = value !== null && Number.isFinite(Number(value));
