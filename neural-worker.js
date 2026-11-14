@@ -302,6 +302,10 @@ function generate(prompt, requestedLength) {
     }
     let maximum = -Infinity;
     for (let c = 0; c < VOCAB; c++) {
+      if ((c < 32 && c !== 10 && c !== 13) || c === 127) {
+        probabilities[c] = -100;
+        continue;
+      }
       let sum = parameters[B2_OFFSET + c];
       const row = W2_OFFSET + c * HIDDEN;
       for (let k = 0; k < HIDDEN; k++)
