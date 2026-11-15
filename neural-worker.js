@@ -258,7 +258,11 @@ function evaluate() {
   bestValidationLoss = validationLoss;
   bestAccuracy = score;
   bestParameters = new Float32Array(parameters);
-  const checkpointBuffer = parameters.slice().buffer;
+  const checkpointState = new Float32Array(PARAMS * 3);
+  checkpointState.set(parameters, 0);
+  checkpointState.set(firstMoment, PARAMS);
+  checkpointState.set(secondMoment, PARAMS * 2);
+  const checkpointBuffer = checkpointState.buffer;
   self.postMessage({
     type: "checkpoint",
     optimizer: activeOptimizer,
@@ -276,6 +280,8 @@ function evaluate() {
     batchSize: activeBatchSize,
     maxSteps: activeMaxSteps,
     runSteps: Math.max(0, steps - runStartSteps),
+    optimizerStep,
+    randomState: randomState >>> 0,
     modelBuffer: checkpointBuffer
   }, [checkpointBuffer]);
   return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
@@ -449,10 +455,13 @@ self.addEventListener("message", event => {
         ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
       activeBatchSize = DEFAULT_BATCH_SIZE;
       activeMaxSteps = PERMANENT_MAX_STEPS;
-      const restored = new Float32Array(message.modelBuffer);
-      if (restored.length !== PARAMS) throw new Error("The saved neural model has the wrong number of weights.");
-      parameters = new Float32Array(restored);
-      bestParameters = new Float32Array(restored);
+      const restoredState = new Float32Array(message.modelBuffer);
+      if (restoredState.length !== PARAMS * 3) throw new Error("The saved training state has the wrong number of values.");
+      parameters = restoredState.slice(0, PARAMS);
+      firstMoment.set(restoredState.subarray(PARAMS, PARAMS * 2));
+      secondMoment.set(restoredState.subarray(PARAMS * 2, PARAMS * 3));
+      gradients.fill(0);
+      bestParameters = new Float32Array(parameters);
       bestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1;
       latestAccuracy = bestAccuracy >= 0 ? bestAccuracy : null;
       latestValidationLoss = message.validationLoss !== null && message.validationLoss !== undefined && Number.isFinite(Number(message.validationLoss))
@@ -464,9 +473,8 @@ self.addEventListener("message", event => {
       validationSamples = Math.max(0, Number(message.validationSamples) || 0);
       steps = Math.max(0, Number(message.steps) || 0);
       examplesSeen = Math.max(0, Number(message.examples) || 0);
-      optimizerStep = 0;
-      firstMoment.fill(0);
-      secondMoment.fill(0);
+      optimizerStep = Math.max(0, Math.floor(Number(message.optimizerStep) || 0));
+      randomState = (Number(message.randomState) >>> 0) || 0x5A17C0DE;
       movingLoss = Math.max(0, Number(message.loss) || 0);
       lossInitialized = movingLoss > 0;
       initialized = true;
@@ -486,7 +494,8 @@ self.addEventListener("message", event => {
         loss: movingLoss,
         learningRate: activeLearningRate,
         batchSize: activeBatchSize,
-        maxSteps: activeMaxSteps
+        maxSteps: activeMaxSteps,
+        fullTrainingState: Number(message.checkpointVersion) >= 6
       });
     } else if (message.type === "set-data") {
       setDatasetBuffers(message.trainBuffer, message.validationBuffer);
