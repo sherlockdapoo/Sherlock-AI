@@ -1174,7 +1174,7 @@ body,.app{color:#27354d}
         </section>
       </section>
 
-      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The latest model weights, optimiser memory, training counters and random-state are saved in this browser and restored when you return; chart history still resets when the page is refreshed.</div></div>
+      <div class="visual-caution"><span class="visual-caution-icon">ⓘ</span><div><strong>What changed:</strong> this small network adjusts thousands of numeric weights using gradients. It is not a full-size ChatGPT-style language model. The latest model, optimiser memory, training counters, random-state and both graph histories are saved in this browser and restored when you return.</div></div>
     </div>
   </section>
 
@@ -1489,10 +1489,10 @@ function renderNeuralLiveView() {
   $('neuralCheckpointLoss').textContent = neuralBestValidationLossValue === null ? 'Not measured' : neuralBestValidationLossValue.toFixed(4);
   $('neuralCheckpointBadge').textContent = neuralCheckpointWasSaved ? 'LATEST SAVED' : neuralBestAccuracyValue !== null ? 'LATEST SAVED' : 'WAITING';
   $('neuralCheckpointStatus').textContent = neuralCheckpointWasSaved
-    ? 'The latest model and full optimiser state are saved on this browser and restored on your next visit.'
+    ? 'The latest model, full optimiser state and both graph histories are saved on this browser and restored on your next visit.'
     : neuralBestAccuracyValue !== null
-      ? 'The latest evaluated model and optimiser state are ready to be saved by the worker.'
-      : 'The latest model and full training state are saved automatically after each validation check.';
+      ? 'The latest evaluated model, optimiser state and graph history are ready to be saved by the worker.'
+      : 'The latest model, full training state and both graph histories are saved automatically after each validation check.';
   $('neuralCheckpointSavedAt').textContent = neuralCheckpointSavedAt ? 'Saved ' + new Date(neuralCheckpointSavedAt).toLocaleString() : 'No saved checkpoint yet';
 }
 
@@ -1506,7 +1506,7 @@ function saveNeuralCheckpoint(data) {
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 6,
+    version: 7,
     datasetRevision: NEURAL_DATASET_REVISION,
     datasetFingerprint: currentNeuralDatasetFingerprint,
     optimizer: data.optimizer === 'adamw' ? 'adamw' : neuralActiveOptimizer,
@@ -1524,6 +1524,10 @@ function saveNeuralCheckpoint(data) {
     runSteps: Math.max(0, Number(data.runSteps) || 0),
     optimizerStep: Math.max(0, Math.floor(Number(data.optimizerStep) || 0)),
     randomState: (Number(data.randomState) >>> 0) || 0x5A17C0DE,
+    accuracyHistory: neuralAccuracyHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
+    accuracyEvalHistory: neuralAccuracyEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
+    lossHistory: neuralLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
+    lossStepHistory: neuralLossStepHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
     savedAt,
     trainingState: btoa(binary)
   };
@@ -1544,13 +1548,30 @@ function restoreSavedNeuralCheckpoint() {
     const record = JSON.parse(stored);
     const checkpointVersion = Number(record && record.version);
     const legacyCheckpoint = checkpointVersion === 5;
-    if (!record || ![5, 6].includes(checkpointVersion) ||
+    if (!record || ![5, 6, 7].includes(checkpointVersion) ||
       record.datasetRevision !== NEURAL_DATASET_REVISION ||
       typeof record.datasetFingerprint !== 'string' ||
       (legacyCheckpoint ? typeof record.weights !== 'string' : typeof record.trainingState !== 'string')) {
       throw new Error('Saved checkpoint belongs to an older dataset or model version.');
     }
     neuralRestoredDatasetFingerprint = record.datasetFingerprint;
+    const restoreFiniteHistory = items =>
+      Array.isArray(items)
+        ? items.slice(-MAX_NEURAL_GRAPH_POINTS).map(Number).filter(Number.isFinite)
+        : [];
+    neuralAccuracyHistory = restoreFiniteHistory(record.accuracyHistory);
+    neuralAccuracyEvalHistory = restoreFiniteHistory(record.accuracyEvalHistory);
+    neuralLossHistory = restoreFiniteHistory(record.lossHistory);
+    neuralLossStepHistory = restoreFiniteHistory(record.lossStepHistory);
+    const accuracyLength = Math.min(neuralAccuracyHistory.length, neuralAccuracyEvalHistory.length);
+    neuralAccuracyHistory = neuralAccuracyHistory.slice(-accuracyLength);
+    neuralAccuracyEvalHistory = neuralAccuracyEvalHistory.slice(-accuracyLength);
+    const lossLength = Math.min(neuralLossHistory.length, neuralLossStepHistory.length);
+    neuralLossHistory = neuralLossHistory.slice(-lossLength);
+    neuralLossStepHistory = neuralLossStepHistory.slice(-lossLength);
+    neuralLastEvalIndex = neuralAccuracyEvalHistory.length
+      ? Math.max(0, Number(neuralAccuracyEvalHistory[neuralAccuracyEvalHistory.length - 1]) || 0)
+      : 0;
     const restoredOptimizer = record.optimizer === 'adam' ? 'adam' : 'adamw';
     neuralActiveOptimizer = restoredOptimizer;
     const binary = atob(legacyCheckpoint ? record.weights : record.trainingState);
@@ -1567,6 +1588,8 @@ function restoreSavedNeuralCheckpoint() {
     neuralCheckpointExamplesValue = Number(record.examples) || 0;
     $('neuralCheckpointSteps').textContent = neuralCheckpointStepsValue.toLocaleString();
     $('neuralCheckpointExamples').textContent = neuralCheckpointExamplesValue.toLocaleString();
+    renderNeuralHistory();
+    renderNeuralLossHistory();
     $('neuralCheckpointStatus').textContent = legacyCheckpoint
       ? 'Older checkpoint found. Restoring its model weights; optimiser memory will rebuild as training continues…'
       : 'Full training checkpoint found. Restoring model weights and optimiser memory…';
