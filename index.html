@@ -1142,14 +1142,6 @@ body,.app{color:#27354d}
           <div><div class="eyebrow">Live view · Neural Lab</div><h3>Neural training observatory</h3><p>Live signals from Sherlock’s actual worker: data state, training progress, loss, validation and latest saved weights.</p></div>
           <span class="visual-state" id="neuralLiveStatus"><span class="visual-dot"></span><span id="neuralLiveStatusText">Waiting for training</span></span>
         </div>
-        <div class="neural-flow" aria-label="Neural training pipeline">
-          <article class="neural-stage" id="neuralStageData"><span class="neural-stage-number">01</span><strong>Conversation data</strong><small id="neuralStageDataState">Waiting</small></article>
-          <article class="neural-stage" id="neuralStageContext"><span class="neural-stage-number">02</span><strong>Character context</strong><small id="neuralStageContextState">Waiting</small></article>
-          <article class="neural-stage" id="neuralStageEmbedding"><span class="neural-stage-number">03</span><strong>Embeddings</strong><small id="neuralStageEmbeddingState">Waiting</small></article>
-          <article class="neural-stage" id="neuralStageHidden"><span class="neural-stage-number">04</span><strong>48-neuron layer</strong><small id="neuralStageHiddenState">Waiting</small></article>
-          <article class="neural-stage" id="neuralStageOutput"><span class="neural-stage-number">05</span><strong>Character output</strong><small id="neuralStageOutputState">Waiting</small></article>
-          <article class="neural-stage" id="neuralStageValidation"><span class="neural-stage-number">06</span><strong>Validation</strong><small id="neuralStageValidationState">Waiting</small></article>
-        </div>
         <div class="neural-monitor-grid">
           <section class="neural-live-card">
             <div class="visual-card-head"><div><h3>Training loss · live curve</h3><p>Smoothed loss reported by the neural worker. Lower is generally better.</p></div><span class="visual-mini-tag">LIVE METRIC</span></div>
@@ -1485,14 +1477,6 @@ function updateGlobalNeuralStats() {
   else updateStatus('Neural model waiting');
 }
 
-function setNeuralStage(nodeId, stateId, state, label) {
-  const node = $(nodeId);
-  if (!node) return;
-  node.classList.remove('is-active', 'is-done', 'is-ready');
-  if (state) node.classList.add(state);
-  $(stateId).textContent = label;
-}
-
 function renderNeuralLiveView() {
   if (!$('neuralLiveStatusText')) return;
   const running = neuralTraining;
@@ -1501,12 +1485,6 @@ function renderNeuralLiveView() {
   $('neuralPanel').classList.toggle('is-training', running);
   $('neuralLiveStatus').className = 'visual-state' + (running ? ' is-running' : ready ? ' is-ready' : '');
   $('neuralLiveStatusText').textContent = running ? 'TRAINING ACTIVE' : ready ? 'LATEST MODEL READY' : loaded ? 'DATA READY' : 'WAITING FOR DATA';
-  setNeuralStage('neuralStageData', 'neuralStageDataState', loaded ? 'is-done' : '', loaded ? 'Loaded' : 'Waiting');
-  setNeuralStage('neuralStageContext', 'neuralStageContextState', running ? 'is-active' : ready ? 'is-ready' : '', running ? 'Reading context' : ready ? 'Ready' : 'Waiting');
-  setNeuralStage('neuralStageEmbedding', 'neuralStageEmbeddingState', running ? 'is-active' : ready ? 'is-ready' : '', running ? 'Embedding lookup' : ready ? 'Learned' : 'Waiting');
-  setNeuralStage('neuralStageHidden', 'neuralStageHiddenState', running ? 'is-active' : ready ? 'is-ready' : '', running ? 'Forward + backprop' : ready ? 'Ready' : 'Waiting');
-  setNeuralStage('neuralStageOutput', 'neuralStageOutputState', running ? 'is-active' : ready ? 'is-ready' : '', running ? 'Predicting' : ready ? 'Ready' : 'Waiting');
-  setNeuralStage('neuralStageValidation', 'neuralStageValidationState', neuralLatestAccuracyValue !== null ? 'is-done' : '', neuralLatestAccuracyValue !== null ? 'Scored' : 'Waiting');
   $('neuralCheckpointAccuracy').textContent = neuralBestAccuracyValue === null ? 'Not measured' : neuralBestAccuracyValue.toFixed(3) + '%';
   $('neuralCheckpointLoss').textContent = neuralBestValidationLossValue === null ? 'Not measured' : neuralBestValidationLossValue.toFixed(4);
   $('neuralCheckpointBadge').textContent = neuralCheckpointWasSaved ? 'LATEST SAVED' : neuralBestAccuracyValue !== null ? 'LATEST SAVED' : 'WAITING';
@@ -2460,7 +2438,6 @@ function showDataProgress(done, total, label) {
   $('neuralDataLoadPercent').textContent = percent + '%';
   $('neuralDataFill').style.width = percent + '%';
   $('neuralMessage').textContent = label + ' · ' + done.toLocaleString() + ' of ' + total.toLocaleString() + ' pages';
-  $('neuralStageDataState').textContent = 'Loading';
   renderNeuralLiveView();
 }
 
