@@ -963,18 +963,6 @@ body,.app{color:#27354d}
         </div>
       </section>
 
-      <div class="visual-section-title">
-        <div><h3>01 · The learning pipeline</h3><p>Five connected stages, updated from the browser’s actual training state.</p></div>
-        <span class="visual-section-tag" id="visualPipelineStatus">ENGINE STARTING</span>
-      </div>
-      <div class="visual-flow">
-        <article class="flow-node" id="flowDataset"><div class="flow-node-top"><span class="flow-icon">▤</span><span class="flow-number">01 / INPUT</span></div><h4>Conversation data</h4><p>DailyDialog and a capped UltraChat sample are cleaned into one training stream.</p><span class="flow-state" id="flowDatasetState">Waiting</span></article>
-        <article class="flow-node" id="flowStream"><div class="flow-node-top"><span class="flow-icon">⇢</span><span class="flow-number">02 / READ</span></div><h4>Character stream</h4><p>The engine reads the training text in automatically adjusted character batches.</p><span class="flow-state" id="flowStreamState">Waiting</span></article>
-        <article class="flow-node" id="flowContext"><div class="flow-node-top"><span class="flow-icon">▦</span><span class="flow-number">03 / CONTEXT</span></div><h4>Pattern lookup</h4><p>The previous three characters form the main context key.</p><span class="flow-state" id="flowContextState">Waiting</span></article>
-        <article class="flow-node" id="flowCounters"><div class="flow-node-top"><span class="flow-icon">＋</span><span class="flow-number">04 / UPDATE</span></div><h4>Count patterns</h4><p>Next-character counts are increased in the model’s tables.</p><span class="flow-state" id="flowCountersState">Waiting</span></article>
-        <article class="flow-node" id="flowValidation"><div class="flow-node-top"><span class="flow-icon">◎</span><span class="flow-number">05 / TEST</span></div><h4>Validation check</h4><p>Predictions are tested on separate conversations not used for training.</p><span class="flow-state" id="flowValidationState">Waiting</span></article>
-      </div>
-
       <div class="visual-two-col">
         <section class="card visual-card">
           <div class="visual-card-head"><div><h3>02 · Character microscope</h3><p>A real window around the engine’s current position in the training text.</p></div><span class="visual-mini-tag">LIVE CURSOR</span></div>
@@ -2407,21 +2395,6 @@ function renderLiveView(force = false) {
   badge.classList.toggle('is-ready', !training);
   $('visualLiveText').textContent = training ? 'TRAINING RUN ACTIVE' : seen > 0 ? 'MODEL PAUSED · READY' : datasetCache ? 'DATA LOADED · READY' : 'ENGINE READY · WAITING';
 
-  const dataReady = Boolean(datasetCache);
-  $('visualPipelineStatus').textContent = training ? 'PIPELINE ACTIVE' : dataReady ? 'DATASET READY' : 'AWAITING DATA';
-  const stageStates = [
-    ['flowDataset', 'flowDatasetState', dataReady ? 'is-done' : '', dataReady ? 'LOADED' : 'WAITING'],
-    ['flowStream', 'flowStreamState', training ? 'is-active' : dataReady ? 'is-ready' : '', training ? 'READING BATCH' : dataReady ? 'READY' : 'WAITING'],
-    ['flowContext', 'flowContextState', training ? 'is-active' : seen > 0 ? 'is-ready' : '', training ? 'SCANNING CONTEXT' : seen > 0 ? 'READY' : 'WAITING'],
-    ['flowCounters', 'flowCountersState', training ? 'is-active' : seen > 0 ? 'is-ready' : '', training ? 'UPDATING COUNTS' : seen > 0 ? 'UPDATED' : 'WAITING'],
-    ['flowValidation', 'flowValidationState', latestAccuracy !== null ? 'is-done' : '', latestAccuracy !== null ? 'EVALUATED' : 'WAITING']
-  ];
-  for (const [nodeId, stateId, stateClass, label] of stageStates) {
-    const node = $(nodeId);
-    node.classList.remove('is-active', 'is-done', 'is-ready');
-    if (stateClass) node.classList.add(stateClass);
-    $(stateId).textContent = label;
-  }
 
   const corpusBytes = datasetCache && datasetCache.trainBytes;
   if (corpusBytes && corpusBytes.length > 3) {
