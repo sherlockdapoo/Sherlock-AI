@@ -1026,7 +1026,7 @@ body,.app{color:#27354d}
     <div class="stat"><span class="stat-label">Examples processed</span><strong class="stat-value" id="chars">0</strong></div>
     <div class="stat"><span class="stat-label">Training speed</span><strong class="stat-value" id="topSpeed">0</strong><span class="stat-unit">examples per second</span></div>
     <div class="stat"><span class="stat-label">Trainable parameters</span><strong class="stat-value" id="neuralParameters">10,160</strong><span class="stat-unit">adjustable model weights</span></div>
-    <div class="stat"><span class="stat-label">Training examples</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-character examples seen</span></div>
+    <div class="stat"><span class="stat-label">Training examples</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-token examples seen</span></div>
     <div class="stat"><span class="stat-label">Validation accuracy</span><strong class="stat-value" id="neuralAccuracy">Not measured</strong><span class="stat-unit">separate held-out sample</span></div>
     <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">examples per second</span></div>
   </section>
@@ -1226,6 +1226,8 @@ body,.app{color:#27354d}
           <div class="metrics">
             <div class="metric"><span>Training updates</span><strong id="neuralSteps">0</strong></div>
             <div class="metric"><span>Training data</span><strong id="neuralDatasetName">Not loaded</strong></div>
+            <div class="metric"><span>Tokenizer vocabulary</span><strong id="neuralTokenizerSummary">Not loaded</strong></div>
+            <div class="metric"><span>Validation unknown tokens</span><strong id="neuralTokenizerUnknownRate">Not measured</strong></div>
             <div class="metric"><span>Training conversations</span><strong id="neuralTrainConversations">Not loaded</strong></div>
             <div class="metric"><span>Held-out conversations</span><strong id="neuralValidationConversations">Not loaded</strong></div>
             <div class="metric"><span>Corpus-equivalent passes</span><strong id="neuralEpochs">0.000</strong></div>
@@ -1233,7 +1235,7 @@ body,.app{color:#27354d}
             <div class="metric"><span>Training loss · moving average</span><strong id="neuralLoss">Not measured</strong></div>
             <div class="metric"><span>Validation cross-entropy</span><strong id="neuralValidationLoss">Not measured</strong></div>
             <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
-            <div class="metric"><span>Validation character positions per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
+            <div class="metric"><span>Validation tokens per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
             <div class="metric"><span>Optimizer</span><strong id="neuralOptimizerSummary">AdamW · learning rate 0.001</strong></div>
             <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">32 examples per update</strong></div>
             <div class="metric"><span>Run progress</span><strong id="neuralRunProgress">Unlimited</strong></div>
@@ -1341,7 +1343,7 @@ body,.app{color:#27354d}
         <span class="chat-lock" id="chatLock">Training required</span>
       </div>
       <div class="playground-intro">
-        <strong>What Sherlock can do right now:</strong> continue a short piece of text using patterns learned during training. This is a small character-level neural model, not yet a full instruction-following chatbot.
+        <strong>What Sherlock can do right now:</strong> continue a short piece of text using patterns learned during training. This is a small word-level neural model, not yet a full instruction-following chatbot.
       </div>
       <form id="chatForm" class="chat-compose playground-compose">
         <label class="playground-prompt-label" for="message">Your test prompt</label>
@@ -1404,7 +1406,7 @@ const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB traini
 const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v3-expanded';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v4-wordlevel';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-previous-dataset-checkpoint-v1';
 const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
 const PAGE_SIZE = 100;
@@ -1857,14 +1859,16 @@ function renderNeuralLiveView() {
 function saveNeuralCheckpoint(data) {
   const bytes = new Uint8Array(data.modelBuffer);
   if (!currentNeuralDatasetFingerprint) throw new Error('The active dataset has not been identified yet.');
-  if (bytes.byteLength !== 10160 * 3 * 4) throw new Error('The saved training state has an unexpected size.');
+  const parameterCount = Math.floor(Number(data.parameters) || 0);
+  if (!parameterCount || bytes.byteLength !== parameterCount * 3 * 4) throw new Error('The saved training state has an unexpected size.');
   let binary = '';
   for (let offset = 0; offset < bytes.length; offset += 8192) {
     binary += String.fromCharCode(...bytes.subarray(offset, Math.min(bytes.length, offset + 8192)));
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 7,
+    version: 8,
+    parameterCount,
     datasetRevision: NEURAL_DATASET_REVISION,
     datasetFingerprint: currentNeuralDatasetFingerprint,
     optimizer: data.optimizer === 'adamw' ? 'adamw' : neuralActiveOptimizer,
@@ -1905,11 +1909,10 @@ function restoreSavedNeuralCheckpoint() {
     if (!stored) return;
     const record = JSON.parse(stored);
     const checkpointVersion = Number(record && record.version);
-    const legacyCheckpoint = checkpointVersion === 5;
-    if (!record || ![5, 6, 7].includes(checkpointVersion) ||
+    if (!record || checkpointVersion !== 8 || Number(record.parameterCount) !== 174144 ||
       record.datasetRevision !== NEURAL_DATASET_REVISION ||
       typeof record.datasetFingerprint !== 'string' ||
-      (legacyCheckpoint ? typeof record.weights !== 'string' : typeof record.trainingState !== 'string')) {
+      typeof record.trainingState !== 'string') {
       throw new Error('Saved checkpoint belongs to an older dataset or model version.');
     }
     neuralRestoredDatasetFingerprint = record.datasetFingerprint;
@@ -1932,10 +1935,10 @@ function restoreSavedNeuralCheckpoint() {
       : 0;
     const restoredOptimizer = record.optimizer === 'adam' ? 'adam' : 'adamw';
     neuralActiveOptimizer = restoredOptimizer;
-    const binary = atob(legacyCheckpoint ? record.weights : record.trainingState);
-    const expectedBinaryLength = legacyCheckpoint ? 10160 * 4 : 10160 * 3 * 4;
+    const binary = atob(record.trainingState);
+    const expectedBinaryLength = Number(record.parameterCount) * 3 * 4;
     if (binary.length !== expectedBinaryLength) throw new Error('Saved training state size does not match this neural model.');
-    const buffer = new ArrayBuffer(10160 * 3 * 4);
+    const buffer = new ArrayBuffer(expectedBinaryLength);
     const bytes = new Uint8Array(buffer);
     for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
     const worker = ensureNeuralWorker();
@@ -1948,16 +1951,15 @@ function restoreSavedNeuralCheckpoint() {
     $('neuralCheckpointExamples').textContent = neuralCheckpointExamplesValue.toLocaleString();
     renderNeuralHistory();
     renderNeuralLossHistory();
-    $('neuralCheckpointStatus').textContent = legacyCheckpoint
-      ? 'Older checkpoint found. Restoring its model weights; optimiser memory will rebuild as training continues…'
-      : 'Full training checkpoint found. Restoring model weights and optimiser memory…';
+    $('neuralCheckpointStatus').textContent = 'Full word-level training checkpoint found. Restoring model weights and optimiser memory…';
     setNeuralState('Restoring latest saved model', 'running');
     worker.postMessage({
       type: 'load-model',
       optimizer: restoredOptimizer,
       checkpointVersion,
-      optimizerStep: legacyCheckpoint ? 0 : Number(record.optimizerStep) || 0,
-      randomState: legacyCheckpoint ? 0x5A17C0DE : Number(record.randomState) >>> 0,
+      parameterCount: Number(record.parameterCount),
+      optimizerStep: Number(record.optimizerStep) || 0,
+      randomState: Number(record.randomState) >>> 0,
       modelBuffer: buffer,
       accuracy: Number(record.accuracy),
       validationLoss: record.validationLoss !== null && record.validationLoss !== undefined && Number.isFinite(Number(record.validationLoss)) ? Number(record.validationLoss) : null,
@@ -2278,14 +2280,16 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.6.3', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.7.0', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
     if (data.type === 'ready') {
       neuralWorkerInitialized = true;
       neuralDatasetInitialized = true;
-      $('neuralMessage').textContent = 'Neural network initialised: ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting the first training batches…';
+      $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
+      $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
+      $('neuralMessage').textContent = 'Word-level tokenizer ready with ' + Number(data.vocabularySize).toLocaleString() + ' tokens and ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting training…';
       if (neuralStartPending) {
         neuralStartPending = false;
         postNeuralTrainingStart();
@@ -2293,6 +2297,9 @@ function ensureNeuralWorker() {
       renderNeuralLiveView();
     } else if (data.type === 'data-ready' || data.type === 'reset-ready') {
       neuralDatasetInitialized = true;
+      $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
+      $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
+      $('neuralMessage').textContent = 'Word-level tokenizer ready. ' + Number(data.trainTokens || 0).toLocaleString() + ' training tokens and ' + Number(data.validationTokens || 0).toLocaleString() + ' validation tokens.';
       if (data.type === 'reset-ready') {
         neuralModelReady = false;
         neuralRestoredDatasetFingerprint = null;
