@@ -549,7 +549,17 @@ self.addEventListener("message", event => {
     } else if (message.type === "stop") {
       stopTraining();
     } else if (message.type === "generate") {
-      self.postMessage({type: "generated", id: message.id, text: generate(message.prompt, message.length)});
+      // Use a prompt-derived seed for repeatable comparisons without changing
+      // the training PRNG state or optimiser trajectory.
+      const savedRandomState = randomState;
+      try {
+        const requestedSeed = Number(message.seed);
+        if (Number.isFinite(requestedSeed) && requestedSeed >= 0)
+          randomState = (requestedSeed >>> 0) || 0x5A17C0DE;
+        self.postMessage({type: "generated", id: message.id, text: generate(message.prompt, message.length)});
+      } finally {
+        randomState = savedRandomState;
+      }
     }
   } catch (error) {
     running = false;
