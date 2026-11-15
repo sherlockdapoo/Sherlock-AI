@@ -1185,7 +1185,7 @@ body,.app{color:#27354d}
     <div class="visual-page">
       <div class="visual-section-title">
         <div><h3>01 · Neural training control</h3><p>Experimental training: learn next-token patterns from Sherlock response turns, using the user's preceding text as context.</p></div>
-        <span class="visual-section-tag">v0.12.0 EXPERIMENT · 32-TOKEN CONTEXT + END-OF-TURN</span>
+        <span class="visual-section-tag">v0.12.1 EXPERIMENT · 32-TOKEN CONTEXT + END-OF-TURN</span>
       </div>
 
       <div class="visual-two-col learning-performance-row">
@@ -1431,7 +1431,7 @@ const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0120-legacy-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0120-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0120-archive-v1';
-const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
+const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-curated-v0121-2026-11';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -2443,7 +2443,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.12.0-context32-eos', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.12.1-curated-curriculum', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3619,6 +3619,174 @@ async function ensureGsm8kHoldout(data) {
   return bytes;
 }
 
+
+function buildSherlockCurriculum() {
+  const training = [];
+  const validation = [];
+  const add = (target, question, answer) => {
+    const q = String(question || '').trim();
+    const a = String(answer || '').trim();
+    if (!q || !a || q.length > 180 || a.length > 220) return;
+    target.push('user: ' + q + '\nsherlock: ' + a + '\n\n');
+  };
+
+  // Short, verifiable arithmetic examples.
+  for (let a = 2; a <= 11; a++) {
+    for (let b = 1; b <= 6; b++) {
+      add(training, 'What is ' + a + ' plus ' + b + '?', String(a + b) + '.');
+      add(training, 'Calculate ' + (a + 12) + ' minus ' + b + '.', String(a + 12 - b) + '.');
+      add(training, 'What is ' + a + ' times ' + b + '?', String(a * b) + '.');
+    }
+  }
+
+  // Concise factual answers with stable, elementary facts.
+  const facts = [
+    ['What planet do humans live on?', 'Earth.'],
+    ['What is the capital of France?', 'Paris.'],
+    ['What is the capital of Japan?', 'Tokyo.'],
+    ['How many days are in a week?', 'Seven.'],
+    ['How many months are in a year?', 'Twelve.'],
+    ['What gas do humans breathe in to survive?', 'Oxygen.'],
+    ['Which star is closest to Earth?', 'The Sun.'],
+    ['What is the largest ocean?', 'The Pacific Ocean.'],
+    ['What is frozen water called?', 'Ice.'],
+    ['How many sides does a triangle have?', 'Three.'],
+    ['What is the opposite of hot?', 'Cold.'],
+    ['Which animal is known for having a long trunk?', 'An elephant.'],
+    ['What do bees make?', 'Honey.'],
+    ['Which organ pumps blood around the body?', 'The heart.'],
+    ['What is the boiling point of water at sea level in Celsius?', 'About 100 degrees Celsius.'],
+    ['Which planet is known as the Red Planet?', 'Mars.'],
+    ['How many legs does a spider have?', 'Eight.'],
+    ['What is the largest planet in our solar system?', 'Jupiter.'],
+    ['What language is primarily spoken in Brazil?', 'Portuguese.'],
+    ['What is the chemical symbol for water?', 'H2O.'],
+    ['Which direction does the Sun rise from?', 'The east.'],
+    ['What is the nearest galaxy to the Milky Way among the large galaxies?', 'The Andromeda Galaxy.'],
+    ['What is the process plants use to make food from sunlight?', 'Photosynthesis.'],
+    ['How many minutes are in one hour?', 'Sixty.'],
+    ['What is the hard outer layer of the Earth called?', 'The crust.'],
+    ['Which instrument measures temperature?', 'A thermometer.'],
+    ['What is the square root of 81?', 'Nine.'],
+    ['What is the first month of the year?', 'January.'],
+    ['What is the main source of energy for Earth?', 'The Sun.'],
+    ['Which blood cells help fight infection?', 'White blood cells.'],
+    ['What is the capital of Italy?', 'Rome.'],
+    ['How many degrees are in a right angle?', 'Ninety degrees.'],
+    ['What is a young frog called?', 'A tadpole.'],
+    ['Which force pulls objects towards Earth?', 'Gravity.'],
+    ['What is the largest land animal?', 'The African elephant.'],
+    ['What is the chemical symbol for oxygen?', 'O.'],
+    ['Which planet has prominent rings?', 'Saturn.'],
+    ['What do you call an animal that eats only plants?', 'A herbivore.'],
+    ['How many centimetres are in a metre?', 'One hundred.'],
+    ['What is the capital of the United Kingdom?', 'London.'],
+    ['Which part of a plant absorbs water from soil?', 'The roots.'],
+    ['What is the opposite of increase?', 'Decrease.'],
+    ['How many hours are in a day?', 'Twenty-four.'],
+    ['What is the centre of an atom called?', 'The nucleus.'],
+    ['Which ocean lies between Africa and Australia?', 'The Indian Ocean.'],
+    ['What is the name of our galaxy?', 'The Milky Way.'],
+    ['Which material is attracted to a magnet: iron or wood?', 'Iron.'],
+    ['What is the plural of mouse?', 'Mice.'],
+    ['Which season comes after spring?', 'Summer.'],
+    ['What is 100 divided by 10?', 'Ten.']
+  ];
+  for (const [q, a] of facts) add(training, q, a);
+
+  // Exact-format and instruction-following examples.
+  const instructionPairs = [
+    ['Reply with exactly one word: the colour of a clear daytime sky.', 'Blue.'],
+    ['Reply with exactly two words: name a large ocean.', 'Pacific Ocean.'],
+    ['Answer using only a number: how many sides has a square?', '4'],
+    ['Give one word that means the opposite of begin.', 'End.'],
+    ['Name one fruit in a single word.', 'Apple.'],
+    ['Reply with exactly three words: RED BLUE GREEN.', 'RED BLUE GREEN'],
+    ['Answer in one short sentence: what is 5 plus 7?', '5 plus 7 equals 12.'],
+    ['Give only the final answer: what is 9 times 6?', '54'],
+    ['Name one planet, with no extra explanation.', 'Venus.'],
+    ['Use a question mark and ask about the weather.', 'What is the weather like?'],
+    ['Write a polite greeting in three words.', 'Hello, how are you?'],
+    ['Give one adjective to describe ice.', 'Cold.'],
+    ['Answer with yes or no: is 10 greater than 3?', 'Yes.'],
+    ['Answer with yes or no: is 2 an odd number?', 'No.'],
+    ['Write the number twelve using digits only.', '12'],
+    ['Write the number forty using digits only.', '40'],
+    ['Name the opposite of empty in one word.', 'Full.'],
+    ['Give one example of a mammal.', 'Dolphin.'],
+    ['Reply with exactly two words: a frozen drink ingredient.', 'Ice cubes.'],
+    ['Summarise this in five words: Plants need light to grow.', 'Plants need light for growth.']
+  ];
+  for (let i = 0; i < 4; i++) {
+    for (const [q, a] of instructionPairs) {
+      const variants = [
+        [q, a],
+        [q.replace('Reply', 'Respond'), a],
+        [q.replace('Answer', 'Respond'), a],
+        [q.replace('Give', 'Provide'), a]
+      ];
+      const item = variants[i];
+      add(training, item[0], item[1]);
+    }
+  }
+
+  // Simple one-step reasoning, with the answer stated directly.
+  for (let i = 1; i <= 20; i++) {
+    add(training, 'A box has ' + i + ' pencils. ' + (i % 2 ? 'Two' : 'Three') + ' more are added. How many pencils are there now?',
+      String(i + (i % 2 ? 2 : 3)) + ' pencils.');
+    add(training, 'There are ' + (i + 5) + ' birds. ' + i + ' fly away. How many remain?',
+      '5 birds remain.');
+    add(training, 'Sam has ' + (i + 4) + ' cards and gives ' + i + ' away. How many cards are left?',
+      '4 cards are left.');
+    add(training, 'A shelf has ' + i + ' books on it. Another shelf has 2 books. How many books altogether?',
+      String(i + 2) + ' books.');
+  }
+
+  // Short multi-turn examples teach the model to use a nearby earlier fact.
+  for (let i = 1; i <= 20; i++) {
+    const colour = ['purple', 'green', 'blue', 'orange'][i % 4];
+    const animal = ['cat', 'dog', 'rabbit', 'fox'][i % 4];
+    training.push('user: My favourite colour is ' + colour + '.\nsherlock: I will keep that in mind.\n' +
+      'user: What is my favourite colour?\nsherlock: ' + colour + '.\n\n');
+    training.push('user: My favourite animal is a ' + animal + '.\nsherlock: Got it.\n' +
+      'user: Which animal did I mention?\nsherlock: You mentioned a ' + animal + '.\n\n');
+  }
+
+  // A separate, hand-written holdout. These questions do not appear above.
+  const heldOut = [
+    ['What is 14 plus 9?', '23.'],
+    ['What is 17 minus 8?', '9.'],
+    ['What is 7 times 8?', '56.'],
+    ['How many seconds are in a minute?', 'Sixty.'],
+    ['What is the capital of Spain?', 'Madrid.'],
+    ['Which planet is closest to the Sun?', 'Mercury.'],
+    ['What is the opposite of noisy?', 'Quiet.'],
+    ['Answer with a number only: how many sides has a pentagon?', '5'],
+    ['Reply with exactly two words: name a season.', 'Autumn season.'],
+    ['A bus has 12 people. 5 get off. How many remain?', '7 people remain.'],
+    ['Mia has 6 shells and finds 4 more. How many shells does she have?', '10 shells.'],
+    ['What is the main gas in Earth’s atmosphere?', 'Nitrogen.'],
+    ['Which organ helps humans breathe?', 'The lungs.'],
+    ['What is 64 divided by 8?', '8.'],
+    ['What is the capital of Canada?', 'Ottawa.'],
+    ['What do caterpillars become?', 'Butterflies or moths.'],
+    ['Which shape has four equal sides and four right angles?', 'A square.'],
+    ['What is the opposite of ancient?', 'Modern.'],
+    ['A pen costs 3 coins. How many coins do 4 pens cost?', '12 coins.'],
+    ['Answer in one word: what is the day after Monday?', 'Tuesday.']
+  ];
+  for (const [q, a] of heldOut) add(validation, q, a);
+
+  const trainingText = training.join('');
+  const validationText = validation.join('');
+  return {
+    trainBytes: new TextEncoder().encode(trainingText),
+    validationBytes: new TextEncoder().encode(validationText),
+    trainConversations: training.length,
+    validationConversations: validation.length
+  };
+}
+
 function encodeCorpusWithinLimit(text, maxBytes) {
   const bytes = new TextEncoder().encode(text || '');
   if (bytes.length <= maxBytes) return bytes;
@@ -3852,8 +4020,9 @@ async function loadTrainingDatasets(signal) {
   const ultraValidationBytes = encodeCorpusWithinLimit(ultraValidationText, VALIDATION_SOURCE_BUDGET);
   const noRobotsValidationBytes = encodeCorpusWithinLimit(noRobotsValidationText, VALIDATION_SOURCE_BUDGET);
   const mathValidationBytes = encodeCorpusWithinLimit(mathValidationText, VALIDATION_SOURCE_BUDGET);
-  const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes, noRobotsTrainBytes, mathTrainBytes]);
-  const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes, noRobotsValidationBytes, mathValidationBytes]);
+  const curated = buildSherlockCurriculum();
+  const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes, noRobotsTrainBytes, mathTrainBytes, curated.trainBytes]);
+  const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes, noRobotsValidationBytes, mathValidationBytes, curated.validationBytes]);
   if (trainBytes.length > MAX_TRAIN_CORPUS_BYTES || validationBytes.length > MAX_VALIDATION_CORPUS_BYTES) throw new Error('The expanded dataset exceeded the safe browser engine memory limit.');
   if (trainBytes.length < 1000 || validationBytes.length < 500) throw new Error('The combined datasets did not contain enough readable training and validation text.');
 
@@ -3861,8 +4030,8 @@ async function loadTrainingDatasets(signal) {
   if (ultraAvailable) loadedSources.push('UltraChat');
   if (noRobotsAvailable) loadedSources.push('No Robots');
   if (mathAvailable) loadedSources.push('GSM8K maths');
-  const trainConversations = dailyTrain.conversations + ultraTrain.conversations + noRobotsTrain.conversations + mathTrain.conversations;
-  const validationConversations = dailyValidation.conversations + ultraValidation.conversations + noRobotsValidation.conversations + mathValidation.conversations;
+  const trainConversations = dailyTrain.conversations + ultraTrain.conversations + noRobotsTrain.conversations + mathTrain.conversations + curated.trainConversations;
+  const validationConversations = dailyValidation.conversations + ultraValidation.conversations + noRobotsValidation.conversations + mathValidation.conversations + curated.validationConversations;
   datasetCache = {
     trainBytes, validationBytes,
     trainConversations, validationConversations,
@@ -3876,7 +4045,7 @@ async function loadTrainingDatasets(signal) {
     mathAvailable,
     mathValidationBytes,
     mathValidationConversations: mathAvailable ? mathValidation.conversations : 0,
-    datasetName: loadedSources.join(' + '),
+    datasetName: loadedSources.concat(['Sherlock curated curriculum']).join(' + '),
     ultraError: ultraError ? (ultraError.message || String(ultraError)) : '',
     noRobotsError: noRobotsError ? (noRobotsError.message || String(noRobotsError)) : '',
     mathError: mathError ? (mathError.message || String(mathError)) : ''
