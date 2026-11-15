@@ -188,7 +188,7 @@ function diagnoseUnknownTokens(trainBuffer, validationBuffer) {
   const counts = new Map();
   walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
   const ranked = Array.from(counts.entries())
-    .filter(([token]) => token !== " " && token !== "\\n\\n")
+    .filter(([token]) => token !== " " && token !== "\n\n")
     .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
     .slice(0, VOCAB - 3);
   const knownTokens = new Set(["<unk>", " ", "\n\n"]);
