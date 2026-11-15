@@ -874,16 +874,6 @@ body,.app{color:#27354d}
 }
 
 
-/* Checkpoint milestone comparison */
-.comparison-card{margin-top:14px}
-.comparison-selects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
-.comparison-selects label{display:grid;gap:6px;color:#a9bdd9;font-size:10px;font-weight:700}
-.comparison-selects .field{padding:10px;font-size:11px}
-.comparison-button{width:100%;margin-bottom:10px}
-.comparison-result{padding:12px;border:1px solid #2a405c;border-radius:12px;background:#0c1829;color:#9eb2ce;font-size:11px;line-height:1.7}
-.comparison-result strong{color:#edf5ff}
-@media(max-width:520px){.comparison-selects{grid-template-columns:1fr}}
-
 /* Render neural history as clean connected lines only, without point markers or filled areas. */
 #neuralLossDot,#neuralAccuracyDot{display:none!important}
 #neuralLossArea,#neuralAccuracyArea{display:none!important}
@@ -896,7 +886,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.24">v0.5.24</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.25">v0.5.25</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1181,17 +1171,6 @@ body,.app{color:#27354d}
             <small id="neuralCheckpointSavedAt" class="neural-checkpoint-time">No saved checkpoint yet</small>
           </section>
         </div>
-        <section class="neural-checkpoint-card comparison-card" aria-labelledby="checkpointCompareTitle">
-          <div class="neural-checkpoint-top"><div><span class="neural-checkpoint-kicker">Training milestones</span><h3 id="checkpointCompareTitle">Checkpoint comparison</h3></div><span class="neural-checkpoint-badge">HISTORY</span></div>
-          <p class="neural-checkpoint-status">Compare saved validation milestones. This history stores metrics only and does not replace your full latest-model checkpoint.</p>
-          <div class="comparison-selects">
-            <label>Earlier milestone<select id="checkpointCompareA" class="field"><option value="">No milestone yet</option></select></label>
-            <label>Later milestone<select id="checkpointCompareB" class="field"><option value="">No milestone yet</option></select></label>
-          </div>
-          <button class="btn btn-secondary comparison-button" id="compareCheckpointsBtn" type="button" disabled>Compare milestones</button>
-          <div id="checkpointComparisonResult" class="comparison-result" aria-live="polite">Saved milestones will appear here after validation checkpoints.</div>
-          <small id="checkpointHistoryCount" class="neural-checkpoint-time">0 milestones recorded</small>
-        </section>
         </section>
       </section>
 
@@ -1517,83 +1496,6 @@ function renderNeuralLiveView() {
   $('neuralCheckpointSavedAt').textContent = neuralCheckpointSavedAt ? 'Saved ' + new Date(neuralCheckpointSavedAt).toLocaleString() : 'No saved checkpoint yet';
 }
 
-const NEURAL_MILESTONE_KEY = 'sherlock-gpt-checkpoint-milestones-v1';
-const MAX_CHECKPOINT_MILESTONES = 40;
-let checkpointMilestones = [];
-
-function loadCheckpointMilestones() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(NEURAL_MILESTONE_KEY) || '[]');
-    checkpointMilestones = Array.isArray(saved) ? saved.filter(item => item &&
-      Number.isFinite(Number(item.steps)) && Number.isFinite(Number(item.accuracy)) &&
-      Number.isFinite(Number(item.validationLoss))).slice(-MAX_CHECKPOINT_MILESTONES) : [];
-  } catch (_) { checkpointMilestones = []; }
-  renderCheckpointComparison();
-}
-
-function recordMilestone(item) {
-  if (!item || !Number.isFinite(Number(item.steps)) ||
-      !Number.isFinite(Number(item.accuracy)) || !Number.isFinite(Number(item.validationLoss))) return;
-  const milestone = {
-    id: String(item.steps) + '-' + String(item.savedAt || Date.now()),
-    savedAt: item.savedAt || new Date().toISOString(),
-    steps: Number(item.steps), examples: Number(item.examples) || 0,
-    accuracy: Number(item.accuracy), validationLoss: Number(item.validationLoss),
-    perplexity: Number(item.perplexity) || 0,
-    evaluations: Number(item.evaluations) || 0
-  };
-  const existing = checkpointMilestones.findIndex(entry => entry.steps === milestone.steps);
-  if (existing >= 0) checkpointMilestones[existing] = milestone;
-  else checkpointMilestones.push(milestone);
-  checkpointMilestones.sort((a,b) => a.steps - b.steps);
-  checkpointMilestones = checkpointMilestones.slice(-MAX_CHECKPOINT_MILESTONES);
-  try { localStorage.setItem(NEURAL_MILESTONE_KEY, JSON.stringify(checkpointMilestones)); }
-  catch (error) { console.warn('Could not save checkpoint comparison history:', error); }
-  renderCheckpointComparison();
-}
-
-function renderCheckpointComparison() {
-  const first = $('checkpointCompareA');
-  const second = $('checkpointCompareB');
-  if (!first || !second) return;
-  const previousA = first.value;
-  const previousB = second.value;
-  const options = checkpointMilestones.map(item => {
-    const label = 'Step ' + item.steps.toLocaleString() + ' · ' + item.accuracy.toFixed(2) + '%';
-    return '<option value="' + item.id.replace(/&/g,'&amp;').replace(/"/g,'&quot;') + '">' + label + '</option>';
-  }).join('');
-  const placeholder = '<option value="">Select a milestone</option>';
-  first.innerHTML = placeholder + options;
-  second.innerHTML = placeholder + options;
-  if (checkpointMilestones.some(item => item.id === previousA)) first.value = previousA;
-  if (checkpointMilestones.some(item => item.id === previousB)) second.value = previousB;
-  if (checkpointMilestones.length >= 2) {
-    if (!first.value) first.selectedIndex = 1;
-    if (!second.value) second.selectedIndex = checkpointMilestones.length;
-  }
-  $('compareCheckpointsBtn').disabled = checkpointMilestones.length < 2;
-  $('checkpointHistoryCount').textContent = checkpointMilestones.length + ' of ' + MAX_CHECKPOINT_MILESTONES + ' milestones recorded';
-  if (checkpointMilestones.length < 2) $('checkpointComparisonResult').textContent = 'At least two saved validation milestones are needed for a comparison.';
-}
-
-function compareCheckpointMilestones() {
-  const a = checkpointMilestones.find(item => item.id === $('checkpointCompareA').value);
-  const b = checkpointMilestones.find(item => item.id === $('checkpointCompareB').value);
-  const output = $('checkpointComparisonResult');
-  if (!a || !b || a.id === b.id) {
-    output.textContent = 'Choose two different milestones to compare.';
-    return;
-  }
-  const accuracyChange = b.accuracy - a.accuracy;
-  const lossChange = b.validationLoss - a.validationLoss;
-  const signed = value => (value > 0 ? '+' : '') + value.toFixed(3);
-  output.innerHTML = '<strong>Step ' + a.steps.toLocaleString() + ' → Step ' + b.steps.toLocaleString() + '</strong><br>' +
-    'Accuracy: ' + a.accuracy.toFixed(3) + '% → ' + b.accuracy.toFixed(3) + '% (' + signed(accuracyChange) + ' percentage points)<br>' +
-    'Validation loss: ' + a.validationLoss.toFixed(4) + ' → ' + b.validationLoss.toFixed(4) + ' (' + signed(lossChange) + ')<br>' +
-    'Examples processed: ' + a.examples.toLocaleString() + ' → ' + b.examples.toLocaleString() + '<br>' +
-    (accuracyChange > 0 && lossChange < 0 ? '<strong>Both metrics improved.</strong>' : accuracyChange < 0 && lossChange > 0 ? '<strong>Both metrics declined.</strong>' : '<strong>Mixed result.</strong> Check both metrics before judging the run.');
-}
-
 function saveNeuralCheckpoint(data) {
   const bytes = new Uint8Array(data.modelBuffer);
   if (!currentNeuralDatasetFingerprint) throw new Error('The active dataset has not been identified yet.');
@@ -1629,11 +1531,6 @@ function saveNeuralCheckpoint(data) {
     savedAt,
     trainingState: btoa(binary)
   };
-  recordMilestone({
-    savedAt, steps: record.steps, examples: record.examples,
-    accuracy: record.accuracy, validationLoss: record.validationLoss,
-    perplexity: record.perplexity, evaluations: record.evaluations
-  });
   localStorage.setItem(NEURAL_CHECKPOINT_KEY, JSON.stringify(record));
   neuralCheckpointWasSaved = true;
   neuralCheckpointSavedAt = savedAt;
@@ -2067,9 +1964,6 @@ function ensureNeuralWorker() {
         loss: data.loss, examplesPerSecond: 0
       }, true);
       setChatReady(false);
-      loadCheckpointMilestones();
-$('compareCheckpointsBtn').addEventListener('click', compareCheckpointMilestones);
-
 updateNeuralControls();
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
