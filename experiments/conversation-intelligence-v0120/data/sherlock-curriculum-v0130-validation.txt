@@ -7,7 +7,7 @@ sherlock: 26.
 user: What is 12 times 9?
 sherlock: 108.
 
-user: What is 144 divided by 12?
+user: What is 156 divided by 13?
 sherlock: 12.
 
 user: What is the capital of Germany?
