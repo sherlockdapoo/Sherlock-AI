@@ -26,6 +26,7 @@ static const uint32_t MAX_CONTEXT3_ENTRIES = 49152u; // Keep the hash table belo
 static const uint32_t CONTEXT3_MASK = CONTEXT3_SLOTS - 1u;
 static const uint32_t EMPTY_KEY = 0xFFFFFFFFu;
 static const uint32_t MIN_CONTEXT3_COUNT = 3u;
+static const uint32_t MAX_VALIDATION_SAMPLES = 10000u;
 
 struct Context3Entry {
     uint32_t key;
@@ -40,8 +41,8 @@ static uint32_t totals2[CONTEXT2_COUNT];
 // next-character counts. 65,536 slots keep memory bounded on mobile devices.
 static Context3Entry contexts3[CONTEXT3_SLOTS];
 
-// A compact best-validation checkpoint. It is updated only when the held-out
-// score improves, and can be restored when the user stops training.
+// A compact best-accuracy checkpoint. It is updated only when held-out
+// accuracy improves, and can be restored when the user stops training.
 static uint32_t best_counts2[CONTEXT2_COUNT * ALPHABET];
 static uint32_t best_totals2[CONTEXT2_COUNT];
 static Context3Entry best_contexts3[CONTEXT3_SLOTS];
@@ -126,13 +127,17 @@ static int sample_from_row(const uint32_t *row) {
 
 static uint32_t score_validation() {
     if (validation_length < 4u) return 0;
-    uint32_t sample_count = validation_length > 10000u ? 10000u : validation_length - 3u;
-    uint32_t stride = validation_length > 10000u ? validation_length / sample_count : 1u;
-    if (!stride) stride = 1u;
 
+    // Sample evenly and explicitly cap the number of evaluated positions.
+    // Integer-stride loops can exceed the cap when the dataset is just over
+    // 10,000 bytes, so map each sample index into the available range instead.
+    const uint32_t available = validation_length - 3u;
+    const uint32_t sample_count = available < MAX_VALIDATION_SAMPLES
+        ? available : MAX_VALIDATION_SAMPLES;
     uint32_t correct = 0;
-    uint32_t total = 0;
-    for (uint32_t i = 3; i < validation_length; i += stride) {
+
+    for (uint32_t sample = 0; sample < sample_count; ++sample) {
+        const uint32_t i = 3u + (uint32_t)(((uint64_t)sample * available) / sample_count);
         int a = safe_char(validation_data[i - 3]);
         int b = safe_char(validation_data[i - 2]);
         int c = safe_char(validation_data[i - 1]);
@@ -149,9 +154,11 @@ static uint32_t score_validation() {
             prediction = most_likely(row);
         }
         if (prediction == actual) ++correct;
-        ++total;
     }
-    return total ? (uint32_t)(((uint64_t)correct * 100000u + total / 2u) / total) : 0u;
+
+    return sample_count
+        ? (uint32_t)(((uint64_t)correct * 100000u + sample_count / 2u) / sample_count)
+        : 0u;
 }
 
 static void save_best_checkpoint(uint32_t score) {
@@ -244,8 +251,9 @@ __attribute__((visibility("default"))) int train_step(int character_budget) {
 }
 
 // Fixed held-out accuracy, in thousandths of one percent. A new best model is
-// snapshotted only when its validation score improves.
+// snapshotted only when its validation accuracy improves.
 __attribute__((visibility("default"))) int accuracy_thousandths_percent() {
+    if (validation_length < 4u) return -1;
     uint32_t score = score_validation();
     save_best_checkpoint(score);
     return (int)score;
