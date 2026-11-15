@@ -184,9 +184,6 @@ function forwardContext() {
 
   let maximum = -Infinity;
   for (let c = 0; c < vocabularySize; c++) {
-      probabilities[c] = -Infinity;
-      continue;
-    }
     let sum = parameters[B2_OFFSET + c];
     const row = W2_OFFSET + c * HIDDEN;
     for (let k = 0; k < HIDDEN; k++)
@@ -195,11 +192,7 @@ function forwardContext() {
     if (sum > maximum) maximum = sum;
   }
   let denominator = 0;
-  for (let c = 0; c < VOCAB; c++) {
-    if (c >= vocabularySize) {
-      probabilities[c] = 0;
-      continue;
-    }
+  for (let c = 0; c < vocabularySize; c++) {
     const value = Math.exp(probabilities[c] - maximum);
     probabilities[c] = value;
     denominator += value;
