@@ -13,9 +13,8 @@ const W2_OFFSET = B1_OFFSET + HIDDEN;
 const B2_OFFSET = W2_OFFSET + VOCAB * HIDDEN;
 const PARAMS = B2_OFFSET + VOCAB;
 
-const DEFAULT_BATCH_SIZE = 24;
-const ALLOWED_BATCH_SIZES = [8, 16, 24, 32];
-const ALLOWED_MAX_STEPS = [0, 5000, 10000, 25000, 50000, 100000];
+const DEFAULT_BATCH_SIZE = 32;
+const PERMANENT_MAX_STEPS = 0;
 let activeBatchSize = DEFAULT_BATCH_SIZE;
 let activeMaxSteps = 0;
 let runStartSteps = 0;
@@ -448,10 +447,8 @@ self.addEventListener("message", event => {
       activeOptimizer = message.optimizer === 'adamw' ? 'adamw' : 'adam';
       activeLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
         ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
-      activeBatchSize = ALLOWED_BATCH_SIZES.includes(Number(message.batchSize))
-        ? Number(message.batchSize) : DEFAULT_BATCH_SIZE;
-      activeMaxSteps = ALLOWED_MAX_STEPS.includes(Number(message.maxSteps))
-        ? Number(message.maxSteps) : 0;
+      activeBatchSize = DEFAULT_BATCH_SIZE;
+      activeMaxSteps = PERMANENT_MAX_STEPS;
       const restored = new Float32Array(message.modelBuffer);
       if (restored.length !== PARAMS) throw new Error("The saved neural model has the wrong number of weights.");
       parameters = new Float32Array(restored);
@@ -514,10 +511,8 @@ self.addEventListener("message", event => {
       const requestedLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
         ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
       activeLearningRate = requestedLearningRate;
-      activeBatchSize = ALLOWED_BATCH_SIZES.includes(Number(message.batchSize))
-        ? Number(message.batchSize) : DEFAULT_BATCH_SIZE;
-      activeMaxSteps = ALLOWED_MAX_STEPS.includes(Number(message.maxSteps))
-        ? Number(message.maxSteps) : 0;
+      activeBatchSize = DEFAULT_BATCH_SIZE;
+      activeMaxSteps = PERMANENT_MAX_STEPS;
       const optimizerChanged = requestedOptimizer !== activeOptimizer;
       if (optimizerChanged) {
         activeOptimizer = requestedOptimizer;
