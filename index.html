@@ -3560,24 +3560,27 @@ async function writeNeuralDatasetCache(data) {
 }
 
 function displayLoadedNeuralDataset(data, fromCache) {
-  const sources = ['DailyDialog'];
-  if (data.ultraAvailable) sources.push('UltraChat');
-  if (data.noRobotsAvailable) sources.push('No Robots');
-  if (data.mathAvailable) sources.push('GSM8K maths');
+  const isStandalone = data.datasetName === 'Sherlock standalone curriculum v0.14.0';
+  const sources = isStandalone ? ['Sherlock standalone curriculum v0.14.0'] : ['DailyDialog'];
+  if (!isStandalone && data.ultraAvailable) sources.push('UltraChat');
+  if (!isStandalone && data.noRobotsAvailable) sources.push('No Robots');
+  if (!isStandalone && data.mathAvailable) sources.push('GSM8K maths');
   $('datasetName').textContent = data.datasetName;
   $('conversationCount').textContent = data.trainConversations.toLocaleString();
   $('neuralDatasetName').textContent = data.datasetName;
   $('neuralTrainConversations').textContent = data.trainConversations.toLocaleString();
   $('neuralValidationConversations').textContent = data.validationConversations.toLocaleString();
-  showDataProgress(1, 1, fromCache ? 'Using saved browser dataset' : sources.join(' + ') + ' ready');
+  showDataProgress(1, 1, fromCache ? 'Using saved ' + (isStandalone ? 'standalone curriculum' : 'browser dataset') : sources.join(' + ') + ' ready');
   if (fromCache) {
-    $('neuralMessage').textContent = 'Restored the expanded training datasets from this browser. No dataset download is needed.';
+    $('neuralMessage').textContent = isStandalone
+      ? 'Restored Sherlock standalone curriculum v0.14.0 from this browser. No external datasets are used.'
+      : 'Restored the expanded training datasets from this browser. No dataset download is needed.';
   } else {
     $('neuralMessage').textContent = 'Loaded ' + data.trainConversations.toLocaleString() + ' training conversations from ' + sources.join(', ') + ', with ' + data.validationConversations.toLocaleString() + ' separate held-out validation conversations.';
     const warnings = [];
-    if (data.ultraError) warnings.push('UltraChat was unavailable: ' + data.ultraError);
-    if (data.noRobotsError) warnings.push('No Robots was unavailable: ' + data.noRobotsError);
-    if (data.mathError) warnings.push('GSM8K maths was unavailable: ' + data.mathError);
+    if (!isStandalone && data.ultraError) warnings.push('UltraChat was unavailable: ' + data.ultraError);
+    if (!isStandalone && data.noRobotsError) warnings.push('No Robots was unavailable: ' + data.noRobotsError);
+    if (!isStandalone && data.mathError) warnings.push('GSM8K maths was unavailable: ' + data.mathError);
     if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
   }
 }
