@@ -45,7 +45,7 @@ Sherlock GPT uses bounded samples from four public English-language datasets. Da
 - Training examples and held-out evaluation examples remain separate. GSM8K uses its `test` split only for validation; it is not included in training.
 - The combined training text is limited to 9 MiB, matching the existing local engine buffer. The combined held-out text is limited to 128 KiB.
 - Each optional source can fail independently. The application reports which sources were available and continues with the others when enough valid data remains.
-- Cleaned examples are flattened into a character stream. The active model learns next-character patterns; this is not token-level instruction fine-tuning.
+- Cleaned examples are flattened into a text stream and split into word, punctuation, space, and newline tokens. The tokenizer keeps the 1,021 most frequent training tokens plus three reserved IDs; rare or unseen tokens are mapped to an unknown-token ID. The active model predicts the next token from the preceding eight tokens; this is not full instruction fine-tuning.
 - The new dataset revision is cached in browser storage. A model checkpoint from the earlier dataset mix is archived in this browser and a fresh model is trained against the expanded data.
 
 ## Licence reminder
