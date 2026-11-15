@@ -1009,6 +1009,17 @@ body{-webkit-overflow-scrolling:auto}
 #backToTop:focus-visible{outline:3px solid #9fc2ff;outline-offset:3px}
 @media(prefers-reduced-motion:reduce){#backToTop{transition:none}}
 
+
+/* v0.14.1 · link the main Neural Lab to the isolated standalone curriculum experiment */
+.experiment-launch-card{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:2px;padding:18px 20px}
+.experiment-launch-copy{min-width:0;flex:1}
+.experiment-launch-copy .visual-card-head{margin-bottom:8px}
+.experiment-launch-copy h3{color:#25372b;font-size:16px}
+.experiment-launch-copy .visual-card-head p,.experiment-launch-note{margin:4px 0 0;color:#718078;font-size:11px;line-height:1.55}
+.experiment-launch-note{margin-top:8px;max-width:760px}
+.experiment-launch-button{flex:0 0 auto;min-height:44px;padding-inline:16px;text-decoration:none;white-space:nowrap}
+@media(max-width:680px){.experiment-launch-card{align-items:stretch;flex-direction:column;gap:12px;padding:15px}.experiment-launch-button{width:100%;white-space:normal}.experiment-launch-copy .visual-card-head{align-items:flex-start;flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -1017,7 +1028,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website update 0.13.0, stable model 0.9.9">v0.14.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website update 0.14.1, stable model 0.9.9">v0.14.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1185,6 +1196,17 @@ body{-webkit-overflow-scrolling:auto}
 
   <section class="panel active" id="neuralPanel" role="tabpanel" aria-labelledby="neuralTab">
     <div class="visual-page">
+      <section class="card visual-card experiment-launch-card" aria-labelledby="experimentLaunchTitle">
+        <div class="experiment-launch-copy">
+          <div class="visual-card-head">
+            <div><h3 id="experimentLaunchTitle">v0.14.0 · Standalone training experiment</h3><p>Try the larger, separate-context experiment without replacing the stable model.</p></div>
+            <span class="visual-mini-tag">10,000 TRAIN · 1,000 VALIDATION</span>
+          </div>
+          <p class="experiment-launch-note">Open the experiment and press <strong>Start neural training</strong>. The website fetches both training files directly into this browser and saves them in browser storage for future visits. No external datasets are used, and stable v0.9.9 stays untouched. You do not need to download or upload files manually.</p>
+        </div>
+        <a class="btn btn-primary experiment-launch-button" href="experiments/conversation-intelligence-v0120/">Open v0.14.0 training lab <span aria-hidden="true">↗</span></a>
+      </section>
+
       <div class="visual-section-title">
         <div><h3>01 · Neural training control</h3><p>Start the network, watch the loss and validation score, and stop whenever you are ready.</p></div>
         <span class="visual-section-tag">BACKPROPAGATION + ADAMW</span>
