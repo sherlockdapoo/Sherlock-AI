@@ -55,18 +55,16 @@ def accuracy(counts, text):
 
 def train_loop():
     global training, epochs, score, model
-    # Build the model once from training data. Further epochs measure it repeatedly
-    # rather than pretending duplicate passes create new knowledge.
-    counts = build_counts(TRAIN_TEXT)
-    with lock:
-        model = counts
-        score = accuracy(model, TEST_TEXT)
-    while not stop_event.wait(0.5):
+    try:
+        # This baseline builds its count table in one pass; it has no repeated epochs.
+        counts = build_counts(TRAIN_TEXT)
         with lock:
-            epochs += 1
+            model = counts
             score = accuracy(model, TEST_TEXT)
-    with lock:
-        training = False
+            epochs = 1
+    finally:
+        with lock:
+            training = False
 
 class StartRequest(BaseModel):
     reset: bool = True
