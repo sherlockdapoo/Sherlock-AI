@@ -3555,7 +3555,6 @@ function displayLoadedNeuralDataset(data, fromCache) {
     if (data.mathError) warnings.push('GSM8K maths was unavailable: ' + data.mathError);
     if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
   }
-  renderDatasetQuality(data);
 }
 async function loadTrainingDatasets(signal) {
   updateStatus('Loading expanded conversation datasets', 'running');
