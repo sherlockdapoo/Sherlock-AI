@@ -1424,7 +1424,7 @@ const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v4-wordlevel-1024';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-previous-dataset-checkpoint-v1';
-const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-quality-v2-2026-11';
+const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -2049,21 +2049,18 @@ function restoreSavedNeuralCheckpoint() {
       maxSteps: record.maxSteps
     }, [buffer]);
   } catch (error) {
-    let archivedPreviousCheckpoint = false;
     try {
       const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
       const previous = stored ? JSON.parse(stored) : null;
+      const oldVersion = Number(previous && previous.version);
       const hasModelData = previous && (typeof previous.trainingState === 'string' || typeof previous.weights === 'string');
-      if (hasModelData && previous.datasetRevision !== NEURAL_DATASET_REVISION) {
+      if (hasModelData && [5, 6, 7].includes(oldVersion) && previous.datasetRevision !== NEURAL_DATASET_REVISION) {
         localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY, stored);
-        archivedPreviousCheckpoint = true;
       }
       localStorage.removeItem(NEURAL_CHECKPOINT_KEY);
     } catch (_) {}
     neuralCheckpointWasSaved = false;
-    $('neuralCheckpointStatus').textContent = archivedPreviousCheckpoint
-      ? 'The previous model used the unfiltered dataset and was archived in this browser. Start training again to build a model for the cleaned dataset.'
-      : 'The previous dataset checkpoint could not be restored. Start training again to create a new checkpoint.';
+    $('neuralCheckpointStatus').textContent = 'The previous dataset checkpoint was archived in this browser. Train again to create a checkpoint for the expanded dataset.';
     console.warn('Saved neural checkpoint unavailable:', error);
   }
 }
@@ -3155,45 +3152,21 @@ async function fetchSplit(splitInfo, progressCallback, rowLimit, signal) {
   return pages.flat();
 }
 
-function keepTrainingExample(dialogue, quality) {
-  if (!quality) return true;
-  const words = dialogue
-    .replace(/^(?:user|sherlock):\s*/gim, ' ')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-  const hasUser = /^user:\s*\S/im.test(dialogue);
-  const hasSherlock = /^sherlock:\s*\S/im.test(dialogue);
-  if (!hasUser || !hasSherlock) {
-    quality.speakerFormat++;
-    return false;
-  }
-  if (words.length < 12) {
-    quality.veryBrief++;
-    return false;
-  }
-  const key = dialogue.replace(/\s+/g, ' ').trim().toLowerCase();
-  if (quality.seen.has(key)) {
-    quality.duplicates++;
-    return false;
-  }
-  quality.seen.add(key);
-  return true;
-}
-
-function buildCorpus(rows, trainingQuality = null) {
+function buildCorpus(rows) {
   const chunks = [];
   let validConversations = 0;
   for (const row of rows) {
     const dialogue = getConversationText(row);
-    if (!dialogue || !keepTrainingExample(dialogue, trainingQuality)) continue;
-    chunks.push(dialogue);
-    validConversations++;
+    if (dialogue) {
+      chunks.push(dialogue);
+      validConversations++;
+    }
   }
   return { text: chunks.join(''), conversations: validConversations };
 }
 
-function buildGsm8kCorpus(rows, trainingQuality = null) {
+
+function buildGsm8kCorpus(rows) {
   const chunks = [];
   let validProblems = 0;
   for (const row of rows) {
@@ -3203,9 +3176,7 @@ function buildGsm8kCorpus(rows, trainingQuality = null) {
       .replace(/####\s*/g, 'Final answer: ');
     const answer = cleanTurn(answerText);
     if (!question || !answer) continue;
-    const dialogue = 'user: ' + question + '\nsherlock: ' + answer + '\n\n';
-    if (!keepTrainingExample(dialogue, trainingQuality)) continue;
-    chunks.push(dialogue);
+    chunks.push('user: ' + question + '\nsherlock: ' + answer + '\n\n');
     validProblems++;
   }
   return {text: chunks.join(''), conversations: validProblems};
@@ -3576,7 +3547,6 @@ async function writeNeuralDatasetCache(data) {
         noRobotsAvailable: data.noRobotsAvailable,
         mathTrainConversations: data.mathTrainConversations,
         mathAvailable: data.mathAvailable,
-        trainingQuality: data.trainingQuality || null,
         mathValidationBytes: data.mathValidationBytes ? new Uint8Array(data.mathValidationBytes) : null,
         mathValidationConversations: Number(data.mathValidationConversations) || 0,
         datasetName: data.datasetName,
@@ -3611,15 +3581,6 @@ function displayLoadedNeuralDataset(data, fromCache) {
     if (data.noRobotsError) warnings.push('No Robots was unavailable: ' + data.noRobotsError);
     if (data.mathError) warnings.push('GSM8K maths was unavailable: ' + data.mathError);
     if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
-  }
-  const quality = data.trainingQuality || {};
-  const removed = (Number(quality.duplicates) || 0) +
-    (Number(quality.veryBrief) || 0) + (Number(quality.speakerFormat) || 0);
-  if (removed) {
-    $('neuralMessage').textContent += ' Training filter removed ' +
-      (Number(quality.duplicates) || 0).toLocaleString() + ' exact duplicates, ' +
-      (Number(quality.veryBrief) || 0).toLocaleString() + ' very brief examples and ' +
-      (Number(quality.speakerFormat) || 0).toLocaleString() + ' examples with missing speaker types.';
   }
   renderDatasetQuality(data);
 }
@@ -3662,8 +3623,7 @@ async function loadTrainingDatasets(signal) {
   const dailyValidationRows = await fetchSplit(dailyInfo.validation, (done, total) => {
     showDataProgress(done, total, 'Downloading a 500-row DailyDialog validation sample');
   }, DAILY_VALIDATION_ROWS, signal);
-  const trainingQuality = {seen: new Set(), duplicates: 0, veryBrief: 0, speakerFormat: 0};
-  const dailyTrain = buildCorpus(dailyTrainRows, trainingQuality);
+  const dailyTrain = buildCorpus(dailyTrainRows);
   const dailyValidation = buildCorpus(dailyValidationRows);
   const dailyTrainRowCount = dailyTrainRows.length;
   dailyTrainRows.length = 0;
@@ -3679,7 +3639,7 @@ async function loadTrainingDatasets(signal) {
     const ultraInfo = await getDatasetSplitInfo(HF_ULTRACHAT_DATASET, 'train_sft', 'test_sft', signal);
     const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 1,600-row UltraChat training sample'), ULTRACHAT_TRAIN_ROWS, signal);
     const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 250-row UltraChat validation sample'), ULTRACHAT_VALIDATION_ROWS, signal);
-    ultraTrain = buildCorpus(ultraTrainRows, trainingQuality);
+    ultraTrain = buildCorpus(ultraTrainRows);
     ultraValidation = buildCorpus(ultraValidationRows);
     ultraTrainRowCount = ultraTrainRows.length;
     ultraTrainRows.length = 0;
@@ -3700,7 +3660,7 @@ async function loadTrainingDatasets(signal) {
     const noRobotsInfo = await getDatasetSplitInfo(HF_NO_ROBOTS_DATASET, 'train', 'test', signal);
     const noRobotsTrainRows = await fetchSplit(noRobotsInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 3,500-row No Robots training sample'), NO_ROBOTS_TRAIN_ROWS, signal);
     const noRobotsValidationRows = await fetchSplit(noRobotsInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 500-row No Robots held-out sample'), NO_ROBOTS_VALIDATION_ROWS, signal);
-    noRobotsTrain = buildCorpus(noRobotsTrainRows, trainingQuality);
+    noRobotsTrain = buildCorpus(noRobotsTrainRows);
     noRobotsValidation = buildCorpus(noRobotsValidationRows);
     noRobotsTrainRowCount = noRobotsTrainRows.length;
     noRobotsTrainRows.length = 0;
@@ -3721,7 +3681,7 @@ async function loadTrainingDatasets(signal) {
     const mathInfo = await getDatasetSplitInfo(HF_GSM8K_DATASET, 'train', 'test', signal, 'main');
     const mathTrainRows = await fetchSplit(mathInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 1,000-row GSM8K maths training sample'), GSM8K_TRAIN_ROWS, signal);
     const mathValidationRows = await fetchSplit(mathInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 250-row GSM8K held-out maths sample'), GSM8K_VALIDATION_ROWS, signal);
-    mathTrain = buildGsm8kCorpus(mathTrainRows, trainingQuality);
+    mathTrain = buildGsm8kCorpus(mathTrainRows);
     mathValidation = buildGsm8kCorpus(mathValidationRows);
     mathTrainRowCount = mathTrainRows.length;
     mathTrainRows.length = 0;
@@ -3770,11 +3730,6 @@ async function loadTrainingDatasets(signal) {
     noRobotsAvailable,
     mathTrainConversations: mathTrain.conversations,
     mathAvailable,
-    trainingQuality: {
-      duplicates: trainingQuality.duplicates,
-      veryBrief: trainingQuality.veryBrief,
-      speakerFormat: trainingQuality.speakerFormat
-    },
     mathValidationBytes,
     mathValidationConversations: mathAvailable ? mathValidation.conversations : 0,
     datasetName: loadedSources.join(' + '),
