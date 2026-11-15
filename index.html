@@ -879,6 +879,46 @@ body,.app{color:#27354d}
 #neuralLossArea,#neuralAccuracyArea{display:none!important}
 .learning-performance-row{grid-template-columns:minmax(0,1fr)}
 .learning-performance-row>.visual-card{width:100%;min-width:0}
+
+
+/* Phase 4 · Sherlock AI Playground */
+.playground-card{overflow:hidden}
+.playground-intro{padding:13px 20px;border-bottom:1px solid var(--line);background:#0d192a;color:#9fb2ce;font-size:11px;line-height:1.6}
+.playground-intro strong{color:#dceaff}
+.playground-compose{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:9px;padding:15px 20px 10px}
+.playground-prompt-label{grid-column:1/-1;color:#b9c9df;font-size:11px;font-weight:750}
+.playground-compose textarea.field{grid-column:1/-1;min-height:86px;resize:vertical;line-height:1.55}
+.playground-compose .send-btn{grid-column:2;min-width:190px;min-height:42px}
+.playground-suggestions{display:flex;flex-wrap:wrap;gap:7px;padding:0 20px 14px;background:#101b2c}
+.playground-chip{padding:6px 9px;border:1px solid #344b6d;border-radius:999px;background:#14243b;color:#a9c9ff;font-size:10px;font-weight:700}
+.playground-chip:active{transform:translateY(1px)}
+.playground-output-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 20px 0;background:#0a1322}
+.playground-output-head h4,.playground-compare-head h4{margin:0;color:#e5efff;font-size:13px}
+.playground-output-head small{color:#8296b3;font-size:9px;text-align:right}
+.playground-compare{padding:17px 20px;border-top:1px solid var(--line);background:#101b2c}
+.playground-compare-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.playground-compare-head p{margin:4px 0 0;color:#8ea3c0;font-size:10px;line-height:1.5}
+.playground-compare-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;margin:12px 0 10px}
+.playground-compare-controls .field{padding:10px;font-size:11px}
+.playground-compare-controls .btn{min-width:100px}
+.playground-comparison-result{padding:12px;border:1px solid #2a405c;border-radius:12px;background:#0c1829;color:#9eb2ce;font-size:11px;line-height:1.6}
+.playground-comparison-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
+.playground-run-card{min-width:0;padding:11px;border:1px solid #2c425f;border-radius:10px;background:#111f32}
+.playground-run-card h5{margin:0 0 5px;color:#e6efff;font-size:11px}
+.playground-run-meta,.playground-run-prompt{margin:0 0 7px;color:#8fa4c1;font-size:9px;line-height:1.5;overflow-wrap:anywhere}
+.playground-run-output{margin:0;color:#d8e5f7;font-size:11px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.playground-comparison-note{margin:10px 0 0;color:#8297b4;font-size:9px;line-height:1.5}
+.playground-card .chat-hint{padding-top:10px}
+@media(max-width:520px){
+  .playground-intro{padding:12px 14px}
+  .playground-compose{padding:14px;grid-template-columns:1fr}
+  .playground-compose .send-btn{grid-column:1;min-width:0;width:100%}
+  .playground-suggestions{padding:0 14px 13px}
+  .playground-output-head{padding:14px 14px 0}
+  .playground-compare{padding:14px}
+  .playground-compare-head{flex-direction:column}
+  .playground-compare-controls,.playground-comparison-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -886,7 +926,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.5.25">v0.5.25</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.6.0">v0.6.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -904,10 +944,10 @@ body,.app{color:#27354d}
 
   <div class="tabs-wrap">
     <nav class="tabs" role="tablist" aria-label="Sherlock GPT workspace">
-      <button class="tab" id="chatTab" type="button" role="tab" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">▤</span> Chat</button>
+      <button class="tab" id="chatTab" type="button" role="tab" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">⌕</span> Playground</button>
       <button class="tab" id="neuralTab" type="button" role="tab" aria-selected="true" aria-controls="neuralPanel"><span class="tab-icon">✳</span> Neural Lab</button>
     </nav>
-    <span class="tab-note">Chat · Neural training and live view</span>
+    <span class="tab-note">Playground · Neural training and live view</span>
   </div>
 
   <section class="panel" id="trainingPanel" role="tabpanel" aria-labelledby="trainingTab" hidden>
@@ -1179,22 +1219,49 @@ body,.app{color:#27354d}
   </section>
 
   <section class="panel" id="chatPanel" role="tabpanel" aria-labelledby="chatTab" hidden>
-    <section class="card chat-card">
+    <section class="card chat-card playground-card">
       <div class="chat-head">
         <div class="chat-head-left">
           <div class="avatar" aria-hidden="true">⌕</div>
-          <div><h3>Sherlock</h3><p id="chatSubtitle">Character-generation experiment</p></div>
+          <div><h3>Sherlock AI Playground</h3><p id="chatSubtitle">Prompt testing · local model</p></div>
         </div>
         <span class="chat-lock" id="chatLock">Training required</span>
       </div>
-      <div class="chat-log" id="chatlog" aria-live="polite">
-        <div class="message bot">Hello! I’m Sherlock, a tiny character model. Train me first, then send a short prompt to see what I generate.</div>
+      <div class="playground-intro">
+        <strong>What Sherlock can do right now:</strong> continue a short piece of text using patterns learned during training. This is a small character-level neural model, not yet a full instruction-following chatbot.
       </div>
-      <form id="chatForm" class="chat-compose">
-        <input id="message" class="field" placeholder="Train Sherlock before chatting…" autocomplete="off" disabled required aria-label="Message to Sherlock">
-        <button class="btn send-btn" id="sendBtn" type="submit" disabled>Send ↗</button>
+      <form id="chatForm" class="chat-compose playground-compose">
+        <label class="playground-prompt-label" for="message">Your test prompt</label>
+        <textarea id="message" class="field" rows="3" maxlength="180" placeholder="For example: The best way to learn is…" autocomplete="off" disabled required aria-label="Prompt for Sherlock"></textarea>
+        <button class="btn send-btn" id="sendBtn" type="submit" disabled>Generate continuation ↗</button>
       </form>
-      <p class="chat-hint" id="chatHint">Chat unlocks when Sherlock has a trained neural model and training is stopped.</p>
+      <div class="playground-suggestions" aria-label="Example prompts">
+        <button class="playground-chip" type="button" data-prompt="The best way to learn is">Learning</button>
+        <button class="playground-chip" type="button" data-prompt="Hello, how are you?">Greeting</button>
+        <button class="playground-chip" type="button" data-prompt="One interesting thing about science is">Science</button>
+      </div>
+      <div class="playground-output-head">
+        <h4>Latest output</h4>
+        <small id="playgroundLatestMeta">No tests yet</small>
+      </div>
+      <div class="chat-log" id="chatlog" aria-live="polite">
+        <div class="message bot">Train Sherlock, choose a starting phrase, and generate a text continuation here.</div>
+      </div>
+      <section class="playground-compare" aria-labelledby="playgroundCompareTitle">
+        <div class="playground-compare-head">
+          <div><h4 id="playgroundCompareTitle">Compare training runs</h4><p>Run the same prompt again after more training to see how Sherlock’s continuation changes.</p></div>
+          <span class="visual-mini-tag">TEST HISTORY</span>
+        </div>
+        <div class="playground-compare-controls">
+          <select id="playgroundCompareSelect" class="field" aria-label="Earlier playground test" disabled>
+            <option value="">No earlier test yet</option>
+          </select>
+          <button class="btn btn-secondary" id="playgroundCompareBtn" type="button" disabled>Compare</button>
+        </div>
+        <div id="playgroundComparisonResult" class="playground-comparison-result" aria-live="polite">Your generated tests will be saved in this browser. Make a second test to unlock comparisons.</div>
+        <small id="playgroundHistoryCount" class="neural-checkpoint-time">0 saved tests</small>
+      </section>
+      <p class="chat-hint" id="chatHint">Train Sherlock and stop training before generating. Outputs are experimental text continuations and may be inconsistent.</p>
     </section>
   </section>
 
@@ -1314,6 +1381,164 @@ function addMessage(text, kind) {
   el.textContent = text;
   $('chatlog').append(el);
   $('chatlog').scrollTop = $('chatlog').scrollHeight;
+}
+
+const PLAYGROUND_HISTORY_KEY = 'sherlock-gpt-playground-history-v1';
+const MAX_PLAYGROUND_RUNS = 30;
+let playgroundRuns = [];
+let playgroundRunSequence = 0;
+
+function playgroundSeed(prompt) {
+  let hash = 2166136261;
+  for (let i = 0; i < prompt.length; i++) {
+    hash ^= prompt.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0) || 0x5A17C0DE;
+}
+
+function loadPlaygroundHistory() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(PLAYGROUND_HISTORY_KEY) || '[]');
+    playgroundRuns = Array.isArray(saved) ? saved.filter(item =>
+      item && typeof item.id === 'string' &&
+      typeof item.prompt === 'string' && typeof item.output === 'string' &&
+      item.prompt.length <= 180 && item.output.length <= 400 &&
+      typeof item.savedAt === 'string'
+    ).slice(-MAX_PLAYGROUND_RUNS) : [];
+  } catch (_) {
+    playgroundRuns = [];
+  }
+  renderPlaygroundHistory();
+  if (playgroundRuns.length) {
+    const latest = playgroundRuns[playgroundRuns.length - 1];
+    $('chatlog').textContent = '';
+    addMessage(latest.prompt, 'user');
+    addMessage(latest.output || '(No continuation was generated.)', 'bot');
+    updatePlaygroundLatestMeta(latest);
+  }
+}
+
+function updatePlaygroundLatestMeta(run) {
+  if (!run) {
+    $('playgroundLatestMeta').textContent = 'No tests yet';
+    return;
+  }
+  const accuracy = Number.isFinite(Number(run.accuracy))
+    ? ' · ' + Number(run.accuracy).toFixed(3) + '% validation'
+    : '';
+  $('playgroundLatestMeta').textContent =
+    'Step ' + Number(run.steps || 0).toLocaleString() + accuracy +
+    ' · ' + new Date(run.savedAt).toLocaleString();
+}
+
+function savePlaygroundRun(prompt, output) {
+  playgroundRunSequence++;
+  const run = {
+    id: Date.now().toString(36) + '-' + playgroundRunSequence.toString(36),
+    savedAt: new Date().toISOString(),
+    prompt: String(prompt).slice(0, 180),
+    output: String(output).slice(0, 400),
+    steps: Math.max(0, Number(neuralStepsValue) || 0),
+    accuracy: Number.isFinite(Number(neuralLatestAccuracyValue)) ? Number(neuralLatestAccuracyValue) : null,
+    validationLoss: Number.isFinite(Number(neuralLatestValidationLossValue)) ? Number(neuralLatestValidationLossValue) : null
+  };
+  playgroundRuns.push(run);
+  playgroundRuns = playgroundRuns.slice(-MAX_PLAYGROUND_RUNS);
+  try {
+    localStorage.setItem(PLAYGROUND_HISTORY_KEY, JSON.stringify(playgroundRuns));
+  } catch (error) {
+    console.warn('Could not save Playground test history:', error);
+    $('playgroundComparisonResult').textContent = 'This test is available until the page is refreshed, but browser storage could not save the history.';
+  }
+  updatePlaygroundLatestMeta(run);
+  renderPlaygroundHistory(true);
+  return run;
+}
+
+function renderPlaygroundHistory(autoCompare = false) {
+  const select = $('playgroundCompareSelect');
+  if (!select) return;
+  const previousSelection = select.value;
+  const latest = playgroundRuns.length ? playgroundRuns[playgroundRuns.length - 1] : null;
+  const earlier = latest ? playgroundRuns.slice(0, -1).reverse() : [];
+  select.textContent = '';
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = earlier.length ? 'Choose an earlier test…' : 'No earlier test yet';
+  select.append(placeholder);
+  earlier.forEach(run => {
+    const option = document.createElement('option');
+    option.value = run.id;
+    const promptLabel = run.prompt.length > 30 ? run.prompt.slice(0, 30) + '…' : run.prompt;
+    option.textContent = 'Step ' + Number(run.steps || 0).toLocaleString() + ' · ' + promptLabel + ' · ' + new Date(run.savedAt).toLocaleDateString();
+    select.append(option);
+  });
+  const matching = earlier.find(run => latest && run.prompt === latest.prompt);
+  const retained = earlier.find(run => run.id === previousSelection);
+  if (matching) select.value = matching.id;
+  else if (retained) select.value = retained.id;
+  else if (earlier.length) select.value = earlier[0].id;
+  select.disabled = earlier.length === 0;
+  $('playgroundCompareBtn').disabled = earlier.length === 0;
+  $('playgroundHistoryCount').textContent = playgroundRuns.length + ' of ' + MAX_PLAYGROUND_RUNS + ' recent tests saved in this browser';
+  if (!latest) {
+    $('playgroundLatestMeta').textContent = 'No tests yet';
+    $('playgroundComparisonResult').textContent = 'Your generated tests will be saved in this browser. Make a second test to unlock comparisons.';
+  } else if (!earlier.length) {
+    $('playgroundComparisonResult').textContent = 'Your first test is saved. After more training, run the same prompt again to compare the two outputs.';
+  } else if (autoCompare || !previousSelection) {
+    comparePlaygroundRuns();
+  }
+}
+
+function comparePlaygroundRuns() {
+  const latest = playgroundRuns.length ? playgroundRuns[playgroundRuns.length - 1] : null;
+  const earlier = playgroundRuns.find(run => run.id === $('playgroundCompareSelect').value);
+  const target = $('playgroundComparisonResult');
+  target.textContent = '';
+  if (!latest || !earlier) {
+    target.textContent = 'Choose an earlier test to compare with the latest output.';
+    return;
+  }
+  const samePrompt = earlier.prompt === latest.prompt;
+  const intro = document.createElement('p');
+  intro.className = 'playground-comparison-note';
+  intro.textContent = samePrompt
+    ? 'Same prompt in both tests. The generation seed is fixed by the prompt, helping make changes easier to attribute to training.'
+    : 'These tests used different prompts, so this is a side-by-side review rather than a direct before-and-after comparison.';
+  target.append(intro);
+  const grid = document.createElement('div');
+  grid.className = 'playground-comparison-grid';
+  [
+    {label: 'Earlier test', run: earlier},
+    {label: 'Latest test', run: latest}
+  ].forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'playground-run-card';
+    const title = document.createElement('h5');
+    title.textContent = item.label;
+    const meta = document.createElement('p');
+    meta.className = 'playground-run-meta';
+    const accuracy = Number.isFinite(Number(item.run.accuracy))
+      ? ' · ' + Number(item.run.accuracy).toFixed(3) + '% validation'
+      : '';
+    meta.textContent = 'Step ' + Number(item.run.steps || 0).toLocaleString() + accuracy +
+      ' · ' + new Date(item.run.savedAt).toLocaleString();
+    const prompt = document.createElement('p');
+    prompt.className = 'playground-run-prompt';
+    prompt.textContent = 'Prompt: ' + item.run.prompt;
+    const output = document.createElement('p');
+    output.className = 'playground-run-output';
+    output.textContent = item.run.output || '(No continuation)';
+    card.append(title, meta, prompt, output);
+    grid.append(card);
+  });
+  target.append(grid);
+  const note = document.createElement('p');
+  note.className = 'playground-comparison-note';
+  note.textContent = 'A changed continuation does not automatically mean a better one. Judge whether the text is more coherent and relevant.';
+  target.append(note);
 }
 
 function setTab(name) {
@@ -1911,7 +2136,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.5.23', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.6.0', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2203,7 +2428,7 @@ function requestNeuralGeneration(prompt) {
   const id = ++neuralRequestSequence;
   return new Promise((resolve, reject) => {
     neuralPendingRequests.set(id, {resolve, reject});
-    neuralWorker.postMessage({type: 'generate', id, prompt, length: 90});
+    neuralWorker.postMessage({type: 'generate', id, prompt, seed: playgroundSeed(prompt), length: 90});
   });
 }
 
@@ -2493,12 +2718,12 @@ function setChatReady() {
   const enabled = neuralModelReady && !neuralTraining && !neuralRequestBusy;
   $('message').disabled = !enabled;
   $('sendBtn').disabled = !enabled;
-  $('message').placeholder = enabled ? 'Type a short prompt for Sherlock…' : 'Train Sherlock and stop to unlock chat…';
-  $('chatLock').textContent = neuralTraining ? 'Training in progress' : neuralModelReady ? 'Best neural model ready' : 'Training required';
-  $('chatSubtitle').textContent = neuralModelReady ? 'Latest saved neural model · local generation' : 'Character-level neural experiment';
+  $('message').placeholder = enabled ? 'Enter a short starting phrase…' : 'Train Sherlock and stop to unlock the Playground…';
+  $('chatLock').textContent = neuralTraining ? 'Training in progress' : neuralModelReady ? 'Model ready · local' : 'Training required';
+  $('chatSubtitle').textContent = neuralModelReady ? 'Prompt testing · latest local model' : 'Train the model to unlock prompt testing';
   $('chatHint').textContent = neuralModelReady
-    ? 'Chat is using Sherlock’s latest saved neural network. It predicts characters and is still a small experimental model.'
-    : 'Train the neural network and stop the run to unlock chat. The latest model is saved in this browser.';
+    ? 'Generation runs locally in this browser. Results are saved with the training step and validation score for later comparisons.'
+    : 'Train the neural network and stop the run to unlock the Playground. The latest model is saved in this browser.';
 }
 
 function renderEngineStatus() {
@@ -2994,22 +3219,42 @@ function stopTraining() {
 $('trainBtn').addEventListener('click', startTraining);
 $('stopBtn').addEventListener('click', stopTraining);
 
+Array.from(document.querySelectorAll('.playground-chip')).forEach(button => {
+  button.addEventListener('click', () => {
+    $('message').value = button.getAttribute('data-prompt') || '';
+    $('message').focus();
+  });
+});
+
+$('playgroundCompareBtn').addEventListener('click', comparePlaygroundRuns);
+
 $('chatForm').addEventListener('submit', async event => {
   event.preventDefault();
-  if (!neuralModelReady || neuralTraining) return;
-  const prompt = $('message').value.trim();
+  if (!neuralModelReady || neuralTraining || neuralRequestBusy) return;
+  const prompt = $('message').value.trim().slice(0, 180);
   if (!prompt) return;
   addMessage(prompt, 'user');
-  $('message').value = '';
   $('sendBtn').disabled = true;
+  const waiting = document.createElement('div');
+  waiting.className = 'message bot';
+  waiting.textContent = 'Generating a continuation…';
+  $('chatlog').append(waiting);
+  $('chatlog').scrollTop = $('chatlog').scrollHeight;
   try {
-    const reply = await requestNeuralGeneration(prompt);
-    addMessage(reply || 'I could not generate a reply. Please try another prompt.', 'bot');
+    const generated = await requestNeuralGeneration(prompt);
+    const continuation = generated && generated.startsWith(prompt)
+      ? generated.slice(prompt.length)
+      : generated;
+    waiting.textContent = continuation || '(Sherlock did not generate any additional characters.)';
+    const saved = savePlaygroundRun(prompt, waiting.textContent);
+    renderPlaygroundHistory(true);
+    $('message').value = prompt;
   } catch (error) {
-    addMessage('Sherlock could not generate a reply. Please try again.', 'bot');
+    waiting.textContent = 'Sherlock could not generate a continuation. Please try again.';
     console.error(error);
   } finally {
     $('sendBtn').disabled = !neuralModelReady || neuralTraining;
+    setChatReady();
   }
 });
 
@@ -3062,6 +3307,7 @@ renderNeuralLiveView();
 // One-time reset: discard the pre-UltraChat best model so training starts from fresh weights.
 try { localStorage.removeItem(LEGACY_NEURAL_CHECKPOINT_KEY); } catch (_) {}
 restoreSavedNeuralCheckpoint();
+loadPlaygroundHistory();
 </script>
 </body>
 </html>
