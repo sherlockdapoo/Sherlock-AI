@@ -1230,6 +1230,8 @@ body,.app{color:#27354d}
             <div class="metric"><span>Validation unknown tokens</span><strong id="neuralTokenizerUnknownRate">Not measured</strong></div>
             <div class="metric"><span>Training conversations</span><strong id="neuralTrainConversations">Not loaded</strong></div>
             <div class="metric"><span>Held-out conversations</span><strong id="neuralValidationConversations">Not loaded</strong></div>
+            <div class="metric"><span>Assistant training targets</span><strong id="neuralTrainingTargets">Not loaded</strong></div>
+            <div class="metric"><span>Assistant validation targets</span><strong id="neuralValidationTargets">Not loaded</strong></div>
             <div class="metric"><span>Assistant-response passes (estimated)</span><strong id="neuralEpochs">0.000</strong></div>
             <div class="metric"><span>Accuracy at latest model</span><strong id="neuralBestAccuracy">Not measured</strong></div>
             <div class="metric"><span>Training loss · moving average</span><strong id="neuralLoss">Not measured</strong></div>
@@ -2254,6 +2256,8 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   }
   neuralEvaluationCountValue = Math.max(neuralEvaluationCountValue, Number(data.evaluations) || 0);
   $('neuralParameters').textContent = (Number(data.parameters) || 61488).toLocaleString();
+  if (data.trainingTargetTokens !== undefined) $('neuralTrainingTargets').textContent = Number(data.trainingTargetTokens).toLocaleString();
+  if (data.validationTargetTokens !== undefined) $('neuralValidationTargets').textContent = Number(data.validationTargetTokens).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
   $('neuralSteps').textContent = steps.toLocaleString();
   if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
@@ -2371,6 +2375,8 @@ function resetNeuralExperimentMetrics(optimizer) {
   $('neuralAccuracyFill').style.width = '0%';
   $('neuralAccuracyTrack').setAttribute('aria-valuenow', '0');
   $('neuralBestAccuracy').textContent = 'Not measured';
+   $('neuralTrainingTargets').textContent = 'Not loaded';
+   $('neuralValidationTargets').textContent = 'Not loaded';
   $('neuralValidationLoss').textContent = 'Not measured';
   $('neuralPerplexity').textContent = 'Not measured';
   $('neuralValidationSamples').textContent = 'Not measured';
@@ -2445,6 +2451,8 @@ function ensureNeuralWorker() {
       neuralWorkerInitialized = true;
       neuralDatasetInitialized = true;
       $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
+       $('neuralTrainingTargets').textContent = Number(data.trainingTargetTokens || 0).toLocaleString();
+       $('neuralValidationTargets').textContent = Number(data.validationTargetTokens || 0).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
       $('neuralMessage').textContent = 'Word-level tokenizer ready with ' + Number(data.vocabularySize).toLocaleString() + ' tokens and ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting training…';
@@ -2456,6 +2464,8 @@ function ensureNeuralWorker() {
     } else if (data.type === 'data-ready' || data.type === 'reset-ready') {
       neuralDatasetInitialized = true;
       $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
+       $('neuralTrainingTargets').textContent = Number(data.trainingTargetTokens || 0).toLocaleString();
+       $('neuralValidationTargets').textContent = Number(data.validationTargetTokens || 0).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
       $('neuralMessage').textContent = 'Word-level tokenizer ready. ' + Number(data.trainTokens || 0).toLocaleString() + ' training tokens and ' + Number(data.validationTokens || 0).toLocaleString() + ' validation tokens.';
