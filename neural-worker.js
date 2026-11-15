@@ -286,6 +286,27 @@ function evaluate() {
   }, [checkpointBuffer]);
   return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
 }
+function evaluateMathText(data) {
+  if (!data || data.length <= CONTEXT + 2) throw new Error("The separate GSM8K held-out text is too short.");
+  const available = data.length - CONTEXT - 1;
+  const count = Math.min(EVAL_SAMPLES, available);
+  const stride = Math.max(1, Math.floor(available / count));
+  let correct = 0;
+  let totalLoss = 0;
+  let total = 0;
+  for (let i = 0; i < count; i++) {
+    const position = CONTEXT + i * stride;
+    if (position >= data.length) break;
+    const result = predict(data, position);
+    const target = byteAt(data, position);
+    if (result.character === target) correct++;
+    totalLoss += -Math.log(Math.max(probabilities[target], 1e-9));
+    total++;
+  }
+  if (!total) throw new Error("No GSM8K characters were available for evaluation.");
+  const loss = totalLoss / total;
+  return {accuracy: correct * 100 / total, loss, perplexity: Math.exp(loss), samples: total, bytes: data.length};
+}
 function networkSnapshot() {
   const ii=Array.from({length:12},(_,i)=>i*4),hi=Array.from({length:16},(_,i)=>i*3),oi=Array.from({length:12},(_,i)=>i*11);
   const input=ii.map(i=>inputVector[i]),hidden=hi.map(i=>hiddenVector[i]),output=oi.map(i=>probabilities[i]),w1=[],w2=[];
@@ -548,6 +569,18 @@ self.addEventListener("message", event => {
       }
     } else if (message.type === "stop") {
       stopTraining();
+    } else if (message.type === "evaluate-math") {
+      if (!initialized) throw new Error("Train or restore Sherlock before running the GSM8K benchmark.");
+      const mathData = new Uint8Array(message.mathBuffer);
+      const result = evaluateMathText(mathData);
+      self.postMessage({
+        type: "math-evaluation",
+        id: message.id,
+        ...result,
+        problems: Math.max(0, Number(message.problems) || 0),
+        steps,
+        examples: examplesSeen
+      });
     } else if (message.type === "generate") {
       // Use a prompt-derived seed for repeatable comparisons without changing
       // the training PRNG state or optimiser trajectory.
