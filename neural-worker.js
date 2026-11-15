@@ -506,12 +506,18 @@ function generate(prompt, requestedLength) {
     const candidates = [];
     let total = 0;
     const inverseTemperature = 1 / 0.85;
+    const previousToken = history.length ? history[history.length - 1] : SPACE_ID;
     for (let c = 1; c < vocabularySize; c++) {
+      // Training text normalises whitespace runs to one token. Avoid generating
+      // impossible repeated whitespace tokens that create empty-looking output.
+      if ((c === SPACE_ID || c === NEWLINE_ID) &&
+          (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
       const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature);
       probabilities[c] = weight;
       total += weight;
       candidates.push(c);
     }
+    if (!candidates.length) candidates.push(SPACE_ID), total = 1, probabilities[SPACE_ID] = 1;
     candidates.sort((a, b) => probabilities[b] - probabilities[a]);
 
     let nucleusTotal = 0;
