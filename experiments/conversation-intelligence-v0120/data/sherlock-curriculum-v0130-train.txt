@@ -1,0 +1,6602 @@
+user: What do you get when you add 0 to 1?
+sherlock: 1.
+
+user: Calculate 1 - 1.
+sherlock: 0.
+
+user: Multiply 0 by 1.
+sherlock: 0.
+
+user: Add 0 and 2.
+sherlock: 2.
+
+user: Subtract 2 from 2.
+sherlock: 0.
+
+user: What is 0 times 2?
+sherlock: 0.
+
+user: Calculate 0 + 3.
+sherlock: 3.
+
+user: What remains after taking 3 away from 3?
+sherlock: 0.
+
+user: Multiply 0 by 3.
+sherlock: 0.
+
+user: What is 0 plus 4?
+sherlock: 4.
+
+user: What is 4 minus 4?
+sherlock: 0.
+
+user: What is 0 times 4?
+sherlock: 0.
+
+user: What do you get when you add 0 to 5?
+sherlock: 5.
+
+user: Calculate 5 - 5.
+sherlock: 0.
+
+user: Multiply 0 by 5.
+sherlock: 0.
+
+user: Add 0 and 6.
+sherlock: 6.
+
+user: Subtract 6 from 6.
+sherlock: 0.
+
+user: What is 0 times 6?
+sherlock: 0.
+
+user: Calculate 0 + 7.
+sherlock: 7.
+
+user: What remains after taking 7 away from 7?
+sherlock: 0.
+
+user: Multiply 0 by 7.
+sherlock: 0.
+
+user: What is 0 plus 8?
+sherlock: 8.
+
+user: What is 8 minus 8?
+sherlock: 0.
+
+user: What is 0 times 8?
+sherlock: 0.
+
+user: What do you get when you add 0 to 9?
+sherlock: 9.
+
+user: Calculate 9 - 9.
+sherlock: 0.
+
+user: Multiply 0 by 9.
+sherlock: 0.
+
+user: Add 0 and 10.
+sherlock: 10.
+
+user: Subtract 10 from 10.
+sherlock: 0.
+
+user: What is 0 times 10?
+sherlock: 0.
+
+user: Calculate 0 + 11.
+sherlock: 11.
+
+user: What remains after taking 11 away from 11?
+sherlock: 0.
+
+user: Multiply 0 by 11.
+sherlock: 0.
+
+user: What is 0 plus 12?
+sherlock: 12.
+
+user: What is 12 minus 12?
+sherlock: 0.
+
+user: What is 0 times 12?
+sherlock: 0.
+
+user: What do you get when you add 0 to 13?
+sherlock: 13.
+
+user: Calculate 13 - 13.
+sherlock: 0.
+
+user: Add 0 and 14.
+sherlock: 14.
+
+user: Subtract 14 from 14.
+sherlock: 0.
+
+user: Calculate 0 + 15.
+sherlock: 15.
+
+user: What remains after taking 15 away from 15?
+sherlock: 0.
+
+user: What is 0 plus 16?
+sherlock: 16.
+
+user: What is 16 minus 16?
+sherlock: 0.
+
+user: Add 1 and 1.
+sherlock: 2.
+
+user: Subtract 1 from 2.
+sherlock: 1.
+
+user: What is the product of 1 and 1?
+sherlock: 1.
+
+user: Divide 1 by 1.
+sherlock: 1.
+
+user: Calculate 1 + 2.
+sherlock: 3.
+
+user: What remains after taking 2 away from 3?
+sherlock: 1.
+
+user: Calculate 1 × 2.
+sherlock: 2.
+
+user: How many times does 2 fit into 2?
+sherlock: 1.
+
+user: What is 1 plus 3?
+sherlock: 4.
+
+user: What is 4 minus 3?
+sherlock: 1.
+
+user: What is the product of 1 and 3?
+sherlock: 3.
+
+user: What is 3 divided by 3?
+sherlock: 1.
+
+user: What do you get when you add 1 to 4?
+sherlock: 5.
+
+user: Calculate 5 - 4.
+sherlock: 1.
+
+user: Calculate 1 × 4.
+sherlock: 4.
+
+user: Calculate 4 ÷ 4.
+sherlock: 1.
+
+user: Add 1 and 5.
+sherlock: 6.
+
+user: Subtract 5 from 6.
+sherlock: 1.
+
+user: What is the product of 1 and 5?
+sherlock: 5.
+
+user: Divide 5 by 5.
+sherlock: 1.
+
+user: Calculate 1 + 6.
+sherlock: 7.
+
+user: What remains after taking 6 away from 7?
+sherlock: 1.
+
+user: Calculate 1 × 6.
+sherlock: 6.
+
+user: How many times does 6 fit into 6?
+sherlock: 1.
+
+user: What is 1 plus 7?
+sherlock: 8.
+
+user: What is 8 minus 7?
+sherlock: 1.
+
+user: What is the product of 1 and 7?
+sherlock: 7.
+
+user: What is 7 divided by 7?
+sherlock: 1.
+
+user: What do you get when you add 1 to 8?
+sherlock: 9.
+
+user: Calculate 9 - 8.
+sherlock: 1.
+
+user: Calculate 1 × 8.
+sherlock: 8.
+
+user: Calculate 8 ÷ 8.
+sherlock: 1.
+
+user: Add 1 and 9.
+sherlock: 10.
+
+user: Subtract 9 from 10.
+sherlock: 1.
+
+user: What is the product of 1 and 9?
+sherlock: 9.
+
+user: Divide 9 by 9.
+sherlock: 1.
+
+user: Calculate 1 + 10.
+sherlock: 11.
+
+user: What remains after taking 10 away from 11?
+sherlock: 1.
+
+user: Calculate 1 × 10.
+sherlock: 10.
+
+user: How many times does 10 fit into 10?
+sherlock: 1.
+
+user: What is 1 plus 11?
+sherlock: 12.
+
+user: What is 12 minus 11?
+sherlock: 1.
+
+user: What is the product of 1 and 11?
+sherlock: 11.
+
+user: What is 11 divided by 11?
+sherlock: 1.
+
+user: What do you get when you add 1 to 12?
+sherlock: 13.
+
+user: Calculate 13 - 12.
+sherlock: 1.
+
+user: Calculate 1 × 12.
+sherlock: 12.
+
+user: Calculate 12 ÷ 12.
+sherlock: 1.
+
+user: Add 1 and 13.
+sherlock: 14.
+
+user: Subtract 13 from 14.
+sherlock: 1.
+
+user: Divide 13 by 13.
+sherlock: 1.
+
+user: Calculate 1 + 14.
+sherlock: 15.
+
+user: What remains after taking 14 away from 15?
+sherlock: 1.
+
+user: How many times does 14 fit into 14?
+sherlock: 1.
+
+user: What is 1 plus 15?
+sherlock: 16.
+
+user: What is 16 minus 15?
+sherlock: 1.
+
+user: What is 15 divided by 15?
+sherlock: 1.
+
+user: What do you get when you add 1 to 16?
+sherlock: 17.
+
+user: Calculate 17 - 16.
+sherlock: 1.
+
+user: Calculate 16 ÷ 16.
+sherlock: 1.
+
+user: Calculate 2 + 1.
+sherlock: 3.
+
+user: What remains after taking 1 away from 3?
+sherlock: 2.
+
+user: What is 2 times 1?
+sherlock: 2.
+
+user: How many times does 1 fit into 2?
+sherlock: 2.
+
+user: What is 2 plus 2?
+sherlock: 4.
+
+user: What is 4 minus 2?
+sherlock: 2.
+
+user: Multiply 2 by 2.
+sherlock: 4.
+
+user: What is 4 divided by 2?
+sherlock: 2.
+
+user: What do you get when you add 2 to 3?
+sherlock: 5.
+
+user: Calculate 5 - 3.
+sherlock: 2.
+
+user: What is 2 times 3?
+sherlock: 6.
+
+user: Calculate 6 ÷ 3.
+sherlock: 2.
+
+user: Add 2 and 4.
+sherlock: 6.
+
+user: Subtract 4 from 6.
+sherlock: 2.
+
+user: Multiply 2 by 4.
+sherlock: 8.
+
+user: Divide 8 by 4.
+sherlock: 2.
+
+user: Calculate 2 + 5.
+sherlock: 7.
+
+user: What remains after taking 5 away from 7?
+sherlock: 2.
+
+user: What is 2 times 5?
+sherlock: 10.
+
+user: How many times does 5 fit into 10?
+sherlock: 2.
+
+user: What is 2 plus 6?
+sherlock: 8.
+
+user: What is 8 minus 6?
+sherlock: 2.
+
+user: Multiply 2 by 6.
+sherlock: 12.
+
+user: What is 12 divided by 6?
+sherlock: 2.
+
+user: What do you get when you add 2 to 7?
+sherlock: 9.
+
+user: Calculate 9 - 7.
+sherlock: 2.
+
+user: What is 2 times 7?
+sherlock: 14.
+
+user: Calculate 14 ÷ 7.
+sherlock: 2.
+
+user: Add 2 and 8.
+sherlock: 10.
+
+user: Subtract 8 from 10.
+sherlock: 2.
+
+user: Multiply 2 by 8.
+sherlock: 16.
+
+user: Divide 16 by 8.
+sherlock: 2.
+
+user: Calculate 2 + 9.
+sherlock: 11.
+
+user: What remains after taking 9 away from 11?
+sherlock: 2.
+
+user: What is 2 times 9?
+sherlock: 18.
+
+user: How many times does 9 fit into 18?
+sherlock: 2.
+
+user: What is 2 plus 10?
+sherlock: 12.
+
+user: What is 12 minus 10?
+sherlock: 2.
+
+user: Multiply 2 by 10.
+sherlock: 20.
+
+user: What is 20 divided by 10?
+sherlock: 2.
+
+user: What do you get when you add 2 to 11?
+sherlock: 13.
+
+user: Calculate 13 - 11.
+sherlock: 2.
+
+user: What is 2 times 11?
+sherlock: 22.
+
+user: Calculate 22 ÷ 11.
+sherlock: 2.
+
+user: Add 2 and 12.
+sherlock: 14.
+
+user: Subtract 12 from 14.
+sherlock: 2.
+
+user: Multiply 2 by 12.
+sherlock: 24.
+
+user: Divide 24 by 12.
+sherlock: 2.
+
+user: Calculate 2 + 13.
+sherlock: 15.
+
+user: What remains after taking 13 away from 15?
+sherlock: 2.
+
+user: How many times does 13 fit into 26?
+sherlock: 2.
+
+user: What is 2 plus 14?
+sherlock: 16.
+
+user: What is 16 minus 14?
+sherlock: 2.
+
+user: What is 28 divided by 14?
+sherlock: 2.
+
+user: What do you get when you add 2 to 15?
+sherlock: 17.
+
+user: Calculate 17 - 15.
+sherlock: 2.
+
+user: Calculate 30 ÷ 15.
+sherlock: 2.
+
+user: Add 2 and 16.
+sherlock: 18.
+
+user: Subtract 16 from 18.
+sherlock: 2.
+
+user: Divide 32 by 16.
+sherlock: 2.
+
+user: What is 3 plus 1?
+sherlock: 4.
+
+user: What is 4 minus 1?
+sherlock: 3.
+
+user: Calculate 3 × 1.
+sherlock: 3.
+
+user: What is 3 divided by 1?
+sherlock: 3.
+
+user: What do you get when you add 3 to 2?
+sherlock: 5.
+
+user: Calculate 5 - 2.
+sherlock: 3.
+
+user: What is the product of 3 and 2?
+sherlock: 6.
+
+user: Calculate 6 ÷ 2.
+sherlock: 3.
+
+user: Add 3 and 3.
+sherlock: 6.
+
+user: Subtract 3 from 6.
+sherlock: 3.
+
+user: Calculate 3 × 3.
+sherlock: 9.
+
+user: Divide 9 by 3.
+sherlock: 3.
+
+user: Calculate 3 + 4.
+sherlock: 7.
+
+user: What remains after taking 4 away from 7?
+sherlock: 3.
+
+user: What is the product of 3 and 4?
+sherlock: 12.
+
+user: How many times does 4 fit into 12?
+sherlock: 3.
+
+user: What is 3 plus 5?
+sherlock: 8.
+
+user: What is 8 minus 5?
+sherlock: 3.
+
+user: Calculate 3 × 5.
+sherlock: 15.
+
+user: What is 15 divided by 5?
+sherlock: 3.
+
+user: What do you get when you add 3 to 6?
+sherlock: 9.
+
+user: Calculate 9 - 6.
+sherlock: 3.
+
+user: What is the product of 3 and 6?
+sherlock: 18.
+
+user: Calculate 18 ÷ 6.
+sherlock: 3.
+
+user: Add 3 and 7.
+sherlock: 10.
+
+user: Subtract 7 from 10.
+sherlock: 3.
+
+user: Calculate 3 × 7.
+sherlock: 21.
+
+user: Divide 21 by 7.
+sherlock: 3.
+
+user: Calculate 3 + 8.
+sherlock: 11.
+
+user: What remains after taking 8 away from 11?
+sherlock: 3.
+
+user: What is the product of 3 and 8?
+sherlock: 24.
+
+user: How many times does 8 fit into 24?
+sherlock: 3.
+
+user: What is 3 plus 9?
+sherlock: 12.
+
+user: What is 12 minus 9?
+sherlock: 3.
+
+user: Calculate 3 × 9.
+sherlock: 27.
+
+user: What is 27 divided by 9?
+sherlock: 3.
+
+user: What do you get when you add 3 to 10?
+sherlock: 13.
+
+user: Calculate 13 - 10.
+sherlock: 3.
+
+user: What is the product of 3 and 10?
+sherlock: 30.
+
+user: Calculate 30 ÷ 10.
+sherlock: 3.
+
+user: Add 3 and 11.
+sherlock: 14.
+
+user: Subtract 11 from 14.
+sherlock: 3.
+
+user: Calculate 3 × 11.
+sherlock: 33.
+
+user: Divide 33 by 11.
+sherlock: 3.
+
+user: Calculate 3 + 12.
+sherlock: 15.
+
+user: What remains after taking 12 away from 15?
+sherlock: 3.
+
+user: What is the product of 3 and 12?
+sherlock: 36.
+
+user: How many times does 12 fit into 36?
+sherlock: 3.
+
+user: What is 3 plus 13?
+sherlock: 16.
+
+user: What is 16 minus 13?
+sherlock: 3.
+
+user: What is 39 divided by 13?
+sherlock: 3.
+
+user: What do you get when you add 3 to 14?
+sherlock: 17.
+
+user: Calculate 17 - 14.
+sherlock: 3.
+
+user: Calculate 42 ÷ 14.
+sherlock: 3.
+
+user: Add 3 and 15.
+sherlock: 18.
+
+user: Subtract 15 from 18.
+sherlock: 3.
+
+user: Divide 45 by 15.
+sherlock: 3.
+
+user: Calculate 3 + 16.
+sherlock: 19.
+
+user: What remains after taking 16 away from 19?
+sherlock: 3.
+
+user: How many times does 16 fit into 48?
+sherlock: 3.
+
+user: What do you get when you add 4 to 1?
+sherlock: 5.
+
+user: Calculate 5 - 1.
+sherlock: 4.
+
+user: Multiply 4 by 1.
+sherlock: 4.
+
+user: Calculate 4 ÷ 1.
+sherlock: 4.
+
+user: Add 4 and 2.
+sherlock: 6.
+
+user: Subtract 2 from 6.
+sherlock: 4.
+
+user: What is 4 times 2?
+sherlock: 8.
+
+user: Divide 8 by 2.
+sherlock: 4.
+
+user: Calculate 4 + 3.
+sherlock: 7.
+
+user: What remains after taking 3 away from 7?
+sherlock: 4.
+
+user: Multiply 4 by 3.
+sherlock: 12.
+
+user: How many times does 3 fit into 12?
+sherlock: 4.
+
+user: What is 4 plus 4?
+sherlock: 8.
+
+user: What is 8 minus 4?
+sherlock: 4.
+
+user: What is 4 times 4?
+sherlock: 16.
+
+user: What is 16 divided by 4?
+sherlock: 4.
+
+user: What do you get when you add 4 to 5?
+sherlock: 9.
+
+user: Calculate 9 - 5.
+sherlock: 4.
+
+user: Multiply 4 by 5.
+sherlock: 20.
+
+user: Calculate 20 ÷ 5.
+sherlock: 4.
+
+user: Add 4 and 6.
+sherlock: 10.
+
+user: Subtract 6 from 10.
+sherlock: 4.
+
+user: What is 4 times 6?
+sherlock: 24.
+
+user: Divide 24 by 6.
+sherlock: 4.
+
+user: Calculate 4 + 7.
+sherlock: 11.
+
+user: What remains after taking 7 away from 11?
+sherlock: 4.
+
+user: Multiply 4 by 7.
+sherlock: 28.
+
+user: How many times does 7 fit into 28?
+sherlock: 4.
+
+user: What is 4 plus 8?
+sherlock: 12.
+
+user: What is 12 minus 8?
+sherlock: 4.
+
+user: What is 4 times 8?
+sherlock: 32.
+
+user: What is 32 divided by 8?
+sherlock: 4.
+
+user: What do you get when you add 4 to 9?
+sherlock: 13.
+
+user: Calculate 13 - 9.
+sherlock: 4.
+
+user: Multiply 4 by 9.
+sherlock: 36.
+
+user: Calculate 36 ÷ 9.
+sherlock: 4.
+
+user: Add 4 and 10.
+sherlock: 14.
+
+user: Subtract 10 from 14.
+sherlock: 4.
+
+user: What is 4 times 10?
+sherlock: 40.
+
+user: Divide 40 by 10.
+sherlock: 4.
+
+user: Calculate 4 + 11.
+sherlock: 15.
+
+user: What remains after taking 11 away from 15?
+sherlock: 4.
+
+user: Multiply 4 by 11.
+sherlock: 44.
+
+user: How many times does 11 fit into 44?
+sherlock: 4.
+
+user: What is 4 plus 12?
+sherlock: 16.
+
+user: What is 16 minus 12?
+sherlock: 4.
+
+user: What is 4 times 12?
+sherlock: 48.
+
+user: What is 48 divided by 12?
+sherlock: 4.
+
+user: What do you get when you add 4 to 13?
+sherlock: 17.
+
+user: Calculate 17 - 13.
+sherlock: 4.
+
+user: Calculate 52 ÷ 13.
+sherlock: 4.
+
+user: Add 4 and 14.
+sherlock: 18.
+
+user: Subtract 14 from 18.
+sherlock: 4.
+
+user: Divide 56 by 14.
+sherlock: 4.
+
+user: Calculate 4 + 15.
+sherlock: 19.
+
+user: What remains after taking 15 away from 19?
+sherlock: 4.
+
+user: How many times does 15 fit into 60?
+sherlock: 4.
+
+user: What is 4 plus 16?
+sherlock: 20.
+
+user: What is 20 minus 16?
+sherlock: 4.
+
+user: What is 64 divided by 16?
+sherlock: 4.
+
+user: Add 5 and 1.
+sherlock: 6.
+
+user: Subtract 1 from 6.
+sherlock: 5.
+
+user: What is the product of 5 and 1?
+sherlock: 5.
+
+user: Divide 5 by 1.
+sherlock: 5.
+
+user: Calculate 5 + 2.
+sherlock: 7.
+
+user: What remains after taking 2 away from 7?
+sherlock: 5.
+
+user: Calculate 5 × 2.
+sherlock: 10.
+
+user: How many times does 2 fit into 10?
+sherlock: 5.
+
+user: What is 5 plus 3?
+sherlock: 8.
+
+user: What is 8 minus 3?
+sherlock: 5.
+
+user: What is the product of 5 and 3?
+sherlock: 15.
+
+user: What is 15 divided by 3?
+sherlock: 5.
+
+user: What do you get when you add 5 to 4?
+sherlock: 9.
+
+user: Calculate 9 - 4.
+sherlock: 5.
+
+user: Calculate 5 × 4.
+sherlock: 20.
+
+user: Calculate 20 ÷ 4.
+sherlock: 5.
+
+user: Add 5 and 5.
+sherlock: 10.
+
+user: Subtract 5 from 10.
+sherlock: 5.
+
+user: What is the product of 5 and 5?
+sherlock: 25.
+
+user: Divide 25 by 5.
+sherlock: 5.
+
+user: Calculate 5 + 6.
+sherlock: 11.
+
+user: What remains after taking 6 away from 11?
+sherlock: 5.
+
+user: Calculate 5 × 6.
+sherlock: 30.
+
+user: How many times does 6 fit into 30?
+sherlock: 5.
+
+user: What is 5 plus 7?
+sherlock: 12.
+
+user: What is 12 minus 7?
+sherlock: 5.
+
+user: What is the product of 5 and 7?
+sherlock: 35.
+
+user: What is 35 divided by 7?
+sherlock: 5.
+
+user: What do you get when you add 5 to 8?
+sherlock: 13.
+
+user: Calculate 13 - 8.
+sherlock: 5.
+
+user: Calculate 5 × 8.
+sherlock: 40.
+
+user: Calculate 40 ÷ 8.
+sherlock: 5.
+
+user: Add 5 and 9.
+sherlock: 14.
+
+user: Subtract 9 from 14.
+sherlock: 5.
+
+user: What is the product of 5 and 9?
+sherlock: 45.
+
+user: Divide 45 by 9.
+sherlock: 5.
+
+user: Calculate 5 + 10.
+sherlock: 15.
+
+user: What remains after taking 10 away from 15?
+sherlock: 5.
+
+user: Calculate 5 × 10.
+sherlock: 50.
+
+user: How many times does 10 fit into 50?
+sherlock: 5.
+
+user: What is 5 plus 11?
+sherlock: 16.
+
+user: What is 16 minus 11?
+sherlock: 5.
+
+user: What is the product of 5 and 11?
+sherlock: 55.
+
+user: What is 55 divided by 11?
+sherlock: 5.
+
+user: What do you get when you add 5 to 12?
+sherlock: 17.
+
+user: Calculate 17 - 12.
+sherlock: 5.
+
+user: Calculate 5 × 12.
+sherlock: 60.
+
+user: Calculate 60 ÷ 12.
+sherlock: 5.
+
+user: Add 5 and 13.
+sherlock: 18.
+
+user: Subtract 13 from 18.
+sherlock: 5.
+
+user: Divide 65 by 13.
+sherlock: 5.
+
+user: Calculate 5 + 14.
+sherlock: 19.
+
+user: What remains after taking 14 away from 19?
+sherlock: 5.
+
+user: How many times does 14 fit into 70?
+sherlock: 5.
+
+user: What is 5 plus 15?
+sherlock: 20.
+
+user: What is 20 minus 15?
+sherlock: 5.
+
+user: What is 75 divided by 15?
+sherlock: 5.
+
+user: What do you get when you add 5 to 16?
+sherlock: 21.
+
+user: Calculate 21 - 16.
+sherlock: 5.
+
+user: Calculate 80 ÷ 16.
+sherlock: 5.
+
+user: Calculate 6 + 1.
+sherlock: 7.
+
+user: What remains after taking 1 away from 7?
+sherlock: 6.
+
+user: What is 6 times 1?
+sherlock: 6.
+
+user: How many times does 1 fit into 6?
+sherlock: 6.
+
+user: What is 6 plus 2?
+sherlock: 8.
+
+user: What is 8 minus 2?
+sherlock: 6.
+
+user: Multiply 6 by 2.
+sherlock: 12.
+
+user: What is 12 divided by 2?
+sherlock: 6.
+
+user: What do you get when you add 6 to 3?
+sherlock: 9.
+
+user: Calculate 9 - 3.
+sherlock: 6.
+
+user: What is 6 times 3?
+sherlock: 18.
+
+user: Calculate 18 ÷ 3.
+sherlock: 6.
+
+user: Add 6 and 4.
+sherlock: 10.
+
+user: Subtract 4 from 10.
+sherlock: 6.
+
+user: Multiply 6 by 4.
+sherlock: 24.
+
+user: Divide 24 by 4.
+sherlock: 6.
+
+user: Calculate 6 + 5.
+sherlock: 11.
+
+user: What remains after taking 5 away from 11?
+sherlock: 6.
+
+user: What is 6 times 5?
+sherlock: 30.
+
+user: How many times does 5 fit into 30?
+sherlock: 6.
+
+user: What is 6 plus 6?
+sherlock: 12.
+
+user: What is 12 minus 6?
+sherlock: 6.
+
+user: Multiply 6 by 6.
+sherlock: 36.
+
+user: What is 36 divided by 6?
+sherlock: 6.
+
+user: What do you get when you add 6 to 7?
+sherlock: 13.
+
+user: Calculate 13 - 7.
+sherlock: 6.
+
+user: What is 6 times 7?
+sherlock: 42.
+
+user: Calculate 42 ÷ 7.
+sherlock: 6.
+
+user: Add 6 and 8.
+sherlock: 14.
+
+user: Subtract 8 from 14.
+sherlock: 6.
+
+user: Multiply 6 by 8.
+sherlock: 48.
+
+user: Divide 48 by 8.
+sherlock: 6.
+
+user: Calculate 6 + 9.
+sherlock: 15.
+
+user: What remains after taking 9 away from 15?
+sherlock: 6.
+
+user: What is 6 times 9?
+sherlock: 54.
+
+user: How many times does 9 fit into 54?
+sherlock: 6.
+
+user: What is 6 plus 10?
+sherlock: 16.
+
+user: What is 16 minus 10?
+sherlock: 6.
+
+user: Multiply 6 by 10.
+sherlock: 60.
+
+user: What is 60 divided by 10?
+sherlock: 6.
+
+user: What do you get when you add 6 to 11?
+sherlock: 17.
+
+user: Calculate 17 - 11.
+sherlock: 6.
+
+user: What is 6 times 11?
+sherlock: 66.
+
+user: Calculate 66 ÷ 11.
+sherlock: 6.
+
+user: Add 6 and 12.
+sherlock: 18.
+
+user: Subtract 12 from 18.
+sherlock: 6.
+
+user: Multiply 6 by 12.
+sherlock: 72.
+
+user: Divide 72 by 12.
+sherlock: 6.
+
+user: Calculate 6 + 13.
+sherlock: 19.
+
+user: What remains after taking 13 away from 19?
+sherlock: 6.
+
+user: How many times does 13 fit into 78?
+sherlock: 6.
+
+user: What is 6 plus 14?
+sherlock: 20.
+
+user: What is 20 minus 14?
+sherlock: 6.
+
+user: What is 84 divided by 14?
+sherlock: 6.
+
+user: What do you get when you add 6 to 15?
+sherlock: 21.
+
+user: Calculate 21 - 15.
+sherlock: 6.
+
+user: Calculate 90 ÷ 15.
+sherlock: 6.
+
+user: Add 6 and 16.
+sherlock: 22.
+
+user: Subtract 16 from 22.
+sherlock: 6.
+
+user: Divide 96 by 16.
+sherlock: 6.
+
+user: What is 7 plus 1?
+sherlock: 8.
+
+user: What is 8 minus 1?
+sherlock: 7.
+
+user: Calculate 7 × 1.
+sherlock: 7.
+
+user: What is 7 divided by 1?
+sherlock: 7.
+
+user: What do you get when you add 7 to 2?
+sherlock: 9.
+
+user: Calculate 9 - 2.
+sherlock: 7.
+
+user: What is the product of 7 and 2?
+sherlock: 14.
+
+user: Calculate 14 ÷ 2.
+sherlock: 7.
+
+user: Add 7 and 3.
+sherlock: 10.
+
+user: Subtract 3 from 10.
+sherlock: 7.
+
+user: Calculate 7 × 3.
+sherlock: 21.
+
+user: Divide 21 by 3.
+sherlock: 7.
+
+user: Calculate 7 + 4.
+sherlock: 11.
+
+user: What remains after taking 4 away from 11?
+sherlock: 7.
+
+user: What is the product of 7 and 4?
+sherlock: 28.
+
+user: How many times does 4 fit into 28?
+sherlock: 7.
+
+user: What is 7 plus 5?
+sherlock: 12.
+
+user: What is 12 minus 5?
+sherlock: 7.
+
+user: Calculate 7 × 5.
+sherlock: 35.
+
+user: What is 35 divided by 5?
+sherlock: 7.
+
+user: What do you get when you add 7 to 6?
+sherlock: 13.
+
+user: Calculate 13 - 6.
+sherlock: 7.
+
+user: What is the product of 7 and 6?
+sherlock: 42.
+
+user: Calculate 42 ÷ 6.
+sherlock: 7.
+
+user: Add 7 and 7.
+sherlock: 14.
+
+user: Subtract 7 from 14.
+sherlock: 7.
+
+user: Calculate 7 × 7.
+sherlock: 49.
+
+user: Divide 49 by 7.
+sherlock: 7.
+
+user: Calculate 7 + 8.
+sherlock: 15.
+
+user: What remains after taking 8 away from 15?
+sherlock: 7.
+
+user: What is the product of 7 and 8?
+sherlock: 56.
+
+user: How many times does 8 fit into 56?
+sherlock: 7.
+
+user: What is 7 plus 9?
+sherlock: 16.
+
+user: What is 16 minus 9?
+sherlock: 7.
+
+user: Calculate 7 × 9.
+sherlock: 63.
+
+user: What is 63 divided by 9?
+sherlock: 7.
+
+user: What do you get when you add 7 to 10?
+sherlock: 17.
+
+user: Calculate 17 - 10.
+sherlock: 7.
+
+user: What is the product of 7 and 10?
+sherlock: 70.
+
+user: Calculate 70 ÷ 10.
+sherlock: 7.
+
+user: Add 7 and 11.
+sherlock: 18.
+
+user: Subtract 11 from 18.
+sherlock: 7.
+
+user: Calculate 7 × 11.
+sherlock: 77.
+
+user: Divide 77 by 11.
+sherlock: 7.
+
+user: Calculate 7 + 12.
+sherlock: 19.
+
+user: What remains after taking 12 away from 19?
+sherlock: 7.
+
+user: What is the product of 7 and 12?
+sherlock: 84.
+
+user: How many times does 12 fit into 84?
+sherlock: 7.
+
+user: What is 7 plus 13?
+sherlock: 20.
+
+user: What is 20 minus 13?
+sherlock: 7.
+
+user: What is 91 divided by 13?
+sherlock: 7.
+
+user: What do you get when you add 7 to 14?
+sherlock: 21.
+
+user: Calculate 21 - 14.
+sherlock: 7.
+
+user: Calculate 98 ÷ 14.
+sherlock: 7.
+
+user: Add 7 and 15.
+sherlock: 22.
+
+user: Subtract 15 from 22.
+sherlock: 7.
+
+user: Divide 105 by 15.
+sherlock: 7.
+
+user: Calculate 7 + 16.
+sherlock: 23.
+
+user: What remains after taking 16 away from 23?
+sherlock: 7.
+
+user: How many times does 16 fit into 112?
+sherlock: 7.
+
+user: What do you get when you add 8 to 1?
+sherlock: 9.
+
+user: Calculate 9 - 1.
+sherlock: 8.
+
+user: Multiply 8 by 1.
+sherlock: 8.
+
+user: Calculate 8 ÷ 1.
+sherlock: 8.
+
+user: Add 8 and 2.
+sherlock: 10.
+
+user: Subtract 2 from 10.
+sherlock: 8.
+
+user: What is 8 times 2?
+sherlock: 16.
+
+user: Divide 16 by 2.
+sherlock: 8.
+
+user: Calculate 8 + 3.
+sherlock: 11.
+
+user: What remains after taking 3 away from 11?
+sherlock: 8.
+
+user: Multiply 8 by 3.
+sherlock: 24.
+
+user: How many times does 3 fit into 24?
+sherlock: 8.
+
+user: What is 8 plus 4?
+sherlock: 12.
+
+user: What is 12 minus 4?
+sherlock: 8.
+
+user: What is 8 times 4?
+sherlock: 32.
+
+user: What is 32 divided by 4?
+sherlock: 8.
+
+user: What do you get when you add 8 to 5?
+sherlock: 13.
+
+user: Calculate 13 - 5.
+sherlock: 8.
+
+user: Multiply 8 by 5.
+sherlock: 40.
+
+user: Calculate 40 ÷ 5.
+sherlock: 8.
+
+user: Add 8 and 6.
+sherlock: 14.
+
+user: Subtract 6 from 14.
+sherlock: 8.
+
+user: What is 8 times 6?
+sherlock: 48.
+
+user: Divide 48 by 6.
+sherlock: 8.
+
+user: Calculate 8 + 7.
+sherlock: 15.
+
+user: What remains after taking 7 away from 15?
+sherlock: 8.
+
+user: Multiply 8 by 7.
+sherlock: 56.
+
+user: How many times does 7 fit into 56?
+sherlock: 8.
+
+user: What is 8 plus 8?
+sherlock: 16.
+
+user: What is 16 minus 8?
+sherlock: 8.
+
+user: What is 8 times 8?
+sherlock: 64.
+
+user: What is 64 divided by 8?
+sherlock: 8.
+
+user: What do you get when you add 8 to 9?
+sherlock: 17.
+
+user: Calculate 17 - 9.
+sherlock: 8.
+
+user: Multiply 8 by 9.
+sherlock: 72.
+
+user: Calculate 72 ÷ 9.
+sherlock: 8.
+
+user: Add 8 and 10.
+sherlock: 18.
+
+user: Subtract 10 from 18.
+sherlock: 8.
+
+user: What is 8 times 10?
+sherlock: 80.
+
+user: Divide 80 by 10.
+sherlock: 8.
+
+user: Calculate 8 + 11.
+sherlock: 19.
+
+user: What remains after taking 11 away from 19?
+sherlock: 8.
+
+user: Multiply 8 by 11.
+sherlock: 88.
+
+user: How many times does 11 fit into 88?
+sherlock: 8.
+
+user: What is 8 plus 12?
+sherlock: 20.
+
+user: What is 20 minus 12?
+sherlock: 8.
+
+user: What is 8 times 12?
+sherlock: 96.
+
+user: What is 96 divided by 12?
+sherlock: 8.
+
+user: What do you get when you add 8 to 13?
+sherlock: 21.
+
+user: Calculate 21 - 13.
+sherlock: 8.
+
+user: Calculate 104 ÷ 13.
+sherlock: 8.
+
+user: Add 8 and 14.
+sherlock: 22.
+
+user: Subtract 14 from 22.
+sherlock: 8.
+
+user: Divide 112 by 14.
+sherlock: 8.
+
+user: Calculate 8 + 15.
+sherlock: 23.
+
+user: What remains after taking 15 away from 23?
+sherlock: 8.
+
+user: How many times does 15 fit into 120?
+sherlock: 8.
+
+user: What is 8 plus 16?
+sherlock: 24.
+
+user: What is 24 minus 16?
+sherlock: 8.
+
+user: What is 128 divided by 16?
+sherlock: 8.
+
+user: Add 9 and 1.
+sherlock: 10.
+
+user: Subtract 1 from 10.
+sherlock: 9.
+
+user: What is the product of 9 and 1?
+sherlock: 9.
+
+user: Divide 9 by 1.
+sherlock: 9.
+
+user: Calculate 9 + 2.
+sherlock: 11.
+
+user: What remains after taking 2 away from 11?
+sherlock: 9.
+
+user: Calculate 9 × 2.
+sherlock: 18.
+
+user: How many times does 2 fit into 18?
+sherlock: 9.
+
+user: What is 9 plus 3?
+sherlock: 12.
+
+user: What is 12 minus 3?
+sherlock: 9.
+
+user: What is the product of 9 and 3?
+sherlock: 27.
+
+user: What is 27 divided by 3?
+sherlock: 9.
+
+user: What do you get when you add 9 to 4?
+sherlock: 13.
+
+user: Calculate 13 - 4.
+sherlock: 9.
+
+user: Calculate 9 × 4.
+sherlock: 36.
+
+user: Calculate 36 ÷ 4.
+sherlock: 9.
+
+user: Add 9 and 5.
+sherlock: 14.
+
+user: Subtract 5 from 14.
+sherlock: 9.
+
+user: What is the product of 9 and 5?
+sherlock: 45.
+
+user: Divide 45 by 5.
+sherlock: 9.
+
+user: Calculate 9 + 6.
+sherlock: 15.
+
+user: What remains after taking 6 away from 15?
+sherlock: 9.
+
+user: Calculate 9 × 6.
+sherlock: 54.
+
+user: How many times does 6 fit into 54?
+sherlock: 9.
+
+user: What is 9 plus 7?
+sherlock: 16.
+
+user: What is 16 minus 7?
+sherlock: 9.
+
+user: What is the product of 9 and 7?
+sherlock: 63.
+
+user: What is 63 divided by 7?
+sherlock: 9.
+
+user: What do you get when you add 9 to 8?
+sherlock: 17.
+
+user: Calculate 17 - 8.
+sherlock: 9.
+
+user: Calculate 9 × 8.
+sherlock: 72.
+
+user: Calculate 72 ÷ 8.
+sherlock: 9.
+
+user: Add 9 and 9.
+sherlock: 18.
+
+user: Subtract 9 from 18.
+sherlock: 9.
+
+user: What is the product of 9 and 9?
+sherlock: 81.
+
+user: Divide 81 by 9.
+sherlock: 9.
+
+user: Calculate 9 + 10.
+sherlock: 19.
+
+user: What remains after taking 10 away from 19?
+sherlock: 9.
+
+user: Calculate 9 × 10.
+sherlock: 90.
+
+user: How many times does 10 fit into 90?
+sherlock: 9.
+
+user: What is 9 plus 11?
+sherlock: 20.
+
+user: What is 20 minus 11?
+sherlock: 9.
+
+user: What is the product of 9 and 11?
+sherlock: 99.
+
+user: What is 99 divided by 11?
+sherlock: 9.
+
+user: What do you get when you add 9 to 12?
+sherlock: 21.
+
+user: Calculate 21 - 12.
+sherlock: 9.
+
+user: Calculate 9 × 12.
+sherlock: 108.
+
+user: Calculate 108 ÷ 12.
+sherlock: 9.
+
+user: Add 9 and 13.
+sherlock: 22.
+
+user: Subtract 13 from 22.
+sherlock: 9.
+
+user: Divide 117 by 13.
+sherlock: 9.
+
+user: Calculate 9 + 14.
+sherlock: 23.
+
+user: What remains after taking 14 away from 23?
+sherlock: 9.
+
+user: How many times does 14 fit into 126?
+sherlock: 9.
+
+user: What is 9 plus 15?
+sherlock: 24.
+
+user: What is 24 minus 15?
+sherlock: 9.
+
+user: What is 135 divided by 15?
+sherlock: 9.
+
+user: What do you get when you add 9 to 16?
+sherlock: 25.
+
+user: Calculate 25 - 16.
+sherlock: 9.
+
+user: Calculate 144 ÷ 16.
+sherlock: 9.
+
+user: Calculate 10 + 1.
+sherlock: 11.
+
+user: What remains after taking 1 away from 11?
+sherlock: 10.
+
+user: What is 10 times 1?
+sherlock: 10.
+
+user: How many times does 1 fit into 10?
+sherlock: 10.
+
+user: What is 10 plus 2?
+sherlock: 12.
+
+user: What is 12 minus 2?
+sherlock: 10.
+
+user: Multiply 10 by 2.
+sherlock: 20.
+
+user: What is 20 divided by 2?
+sherlock: 10.
+
+user: What do you get when you add 10 to 3?
+sherlock: 13.
+
+user: Calculate 13 - 3.
+sherlock: 10.
+
+user: What is 10 times 3?
+sherlock: 30.
+
+user: Calculate 30 ÷ 3.
+sherlock: 10.
+
+user: Add 10 and 4.
+sherlock: 14.
+
+user: Subtract 4 from 14.
+sherlock: 10.
+
+user: Multiply 10 by 4.
+sherlock: 40.
+
+user: Divide 40 by 4.
+sherlock: 10.
+
+user: Calculate 10 + 5.
+sherlock: 15.
+
+user: What remains after taking 5 away from 15?
+sherlock: 10.
+
+user: What is 10 times 5?
+sherlock: 50.
+
+user: How many times does 5 fit into 50?
+sherlock: 10.
+
+user: What is 10 plus 6?
+sherlock: 16.
+
+user: What is 16 minus 6?
+sherlock: 10.
+
+user: Multiply 10 by 6.
+sherlock: 60.
+
+user: What is 60 divided by 6?
+sherlock: 10.
+
+user: What do you get when you add 10 to 7?
+sherlock: 17.
+
+user: Calculate 17 - 7.
+sherlock: 10.
+
+user: What is 10 times 7?
+sherlock: 70.
+
+user: Calculate 70 ÷ 7.
+sherlock: 10.
+
+user: Add 10 and 8.
+sherlock: 18.
+
+user: Subtract 8 from 18.
+sherlock: 10.
+
+user: Multiply 10 by 8.
+sherlock: 80.
+
+user: Divide 80 by 8.
+sherlock: 10.
+
+user: Calculate 10 + 9.
+sherlock: 19.
+
+user: What remains after taking 9 away from 19?
+sherlock: 10.
+
+user: What is 10 times 9?
+sherlock: 90.
+
+user: How many times does 9 fit into 90?
+sherlock: 10.
+
+user: What is 10 plus 10?
+sherlock: 20.
+
+user: What is 20 minus 10?
+sherlock: 10.
+
+user: Multiply 10 by 10.
+sherlock: 100.
+
+user: What is 100 divided by 10?
+sherlock: 10.
+
+user: What do you get when you add 10 to 11?
+sherlock: 21.
+
+user: Calculate 21 - 11.
+sherlock: 10.
+
+user: What is 10 times 11?
+sherlock: 110.
+
+user: Calculate 110 ÷ 11.
+sherlock: 10.
+
+user: Add 10 and 12.
+sherlock: 22.
+
+user: Subtract 12 from 22.
+sherlock: 10.
+
+user: Multiply 10 by 12.
+sherlock: 120.
+
+user: Divide 120 by 12.
+sherlock: 10.
+
+user: Calculate 10 + 13.
+sherlock: 23.
+
+user: What remains after taking 13 away from 23?
+sherlock: 10.
+
+user: How many times does 13 fit into 130?
+sherlock: 10.
+
+user: What is 10 plus 14?
+sherlock: 24.
+
+user: What is 24 minus 14?
+sherlock: 10.
+
+user: What is 140 divided by 14?
+sherlock: 10.
+
+user: What do you get when you add 10 to 15?
+sherlock: 25.
+
+user: Calculate 25 - 15.
+sherlock: 10.
+
+user: Calculate 150 ÷ 15.
+sherlock: 10.
+
+user: Add 10 and 16.
+sherlock: 26.
+
+user: Subtract 16 from 26.
+sherlock: 10.
+
+user: Divide 160 by 16.
+sherlock: 10.
+
+user: What is 11 plus 1?
+sherlock: 12.
+
+user: What is 12 minus 1?
+sherlock: 11.
+
+user: Calculate 11 × 1.
+sherlock: 11.
+
+user: What is 11 divided by 1?
+sherlock: 11.
+
+user: What do you get when you add 11 to 2?
+sherlock: 13.
+
+user: Calculate 13 - 2.
+sherlock: 11.
+
+user: What is the product of 11 and 2?
+sherlock: 22.
+
+user: Calculate 22 ÷ 2.
+sherlock: 11.
+
+user: Add 11 and 3.
+sherlock: 14.
+
+user: Subtract 3 from 14.
+sherlock: 11.
+
+user: Calculate 11 × 3.
+sherlock: 33.
+
+user: Divide 33 by 3.
+sherlock: 11.
+
+user: Calculate 11 + 4.
+sherlock: 15.
+
+user: What remains after taking 4 away from 15?
+sherlock: 11.
+
+user: What is the product of 11 and 4?
+sherlock: 44.
+
+user: How many times does 4 fit into 44?
+sherlock: 11.
+
+user: What is 11 plus 5?
+sherlock: 16.
+
+user: What is 16 minus 5?
+sherlock: 11.
+
+user: Calculate 11 × 5.
+sherlock: 55.
+
+user: What is 55 divided by 5?
+sherlock: 11.
+
+user: What do you get when you add 11 to 6?
+sherlock: 17.
+
+user: Calculate 17 - 6.
+sherlock: 11.
+
+user: What is the product of 11 and 6?
+sherlock: 66.
+
+user: Calculate 66 ÷ 6.
+sherlock: 11.
+
+user: Add 11 and 7.
+sherlock: 18.
+
+user: Subtract 7 from 18.
+sherlock: 11.
+
+user: Calculate 11 × 7.
+sherlock: 77.
+
+user: Divide 77 by 7.
+sherlock: 11.
+
+user: Calculate 11 + 8.
+sherlock: 19.
+
+user: What remains after taking 8 away from 19?
+sherlock: 11.
+
+user: What is the product of 11 and 8?
+sherlock: 88.
+
+user: How many times does 8 fit into 88?
+sherlock: 11.
+
+user: What is 11 plus 9?
+sherlock: 20.
+
+user: What is 20 minus 9?
+sherlock: 11.
+
+user: Calculate 11 × 9.
+sherlock: 99.
+
+user: What is 99 divided by 9?
+sherlock: 11.
+
+user: What do you get when you add 11 to 10?
+sherlock: 21.
+
+user: Calculate 21 - 10.
+sherlock: 11.
+
+user: What is the product of 11 and 10?
+sherlock: 110.
+
+user: Calculate 110 ÷ 10.
+sherlock: 11.
+
+user: Add 11 and 11.
+sherlock: 22.
+
+user: Subtract 11 from 22.
+sherlock: 11.
+
+user: Calculate 11 × 11.
+sherlock: 121.
+
+user: Divide 121 by 11.
+sherlock: 11.
+
+user: Calculate 11 + 12.
+sherlock: 23.
+
+user: What remains after taking 12 away from 23?
+sherlock: 11.
+
+user: What is the product of 11 and 12?
+sherlock: 132.
+
+user: How many times does 12 fit into 132?
+sherlock: 11.
+
+user: What is 11 plus 13?
+sherlock: 24.
+
+user: What is 24 minus 13?
+sherlock: 11.
+
+user: What is 143 divided by 13?
+sherlock: 11.
+
+user: What do you get when you add 11 to 14?
+sherlock: 25.
+
+user: Calculate 25 - 14.
+sherlock: 11.
+
+user: Calculate 154 ÷ 14.
+sherlock: 11.
+
+user: Add 11 and 15.
+sherlock: 26.
+
+user: Subtract 15 from 26.
+sherlock: 11.
+
+user: Divide 165 by 15.
+sherlock: 11.
+
+user: Calculate 11 + 16.
+sherlock: 27.
+
+user: What remains after taking 16 away from 27?
+sherlock: 11.
+
+user: How many times does 16 fit into 176?
+sherlock: 11.
+
+user: What do you get when you add 12 to 1?
+sherlock: 13.
+
+user: Calculate 13 - 1.
+sherlock: 12.
+
+user: Multiply 12 by 1.
+sherlock: 12.
+
+user: Calculate 12 ÷ 1.
+sherlock: 12.
+
+user: Add 12 and 2.
+sherlock: 14.
+
+user: Subtract 2 from 14.
+sherlock: 12.
+
+user: What is 12 times 2?
+sherlock: 24.
+
+user: Divide 24 by 2.
+sherlock: 12.
+
+user: Calculate 12 + 3.
+sherlock: 15.
+
+user: What remains after taking 3 away from 15?
+sherlock: 12.
+
+user: Multiply 12 by 3.
+sherlock: 36.
+
+user: How many times does 3 fit into 36?
+sherlock: 12.
+
+user: What is 12 plus 4?
+sherlock: 16.
+
+user: What is 16 minus 4?
+sherlock: 12.
+
+user: What is 12 times 4?
+sherlock: 48.
+
+user: What is 48 divided by 4?
+sherlock: 12.
+
+user: What do you get when you add 12 to 5?
+sherlock: 17.
+
+user: Calculate 17 - 5.
+sherlock: 12.
+
+user: Multiply 12 by 5.
+sherlock: 60.
+
+user: Calculate 60 ÷ 5.
+sherlock: 12.
+
+user: Add 12 and 6.
+sherlock: 18.
+
+user: Subtract 6 from 18.
+sherlock: 12.
+
+user: What is 12 times 6?
+sherlock: 72.
+
+user: Divide 72 by 6.
+sherlock: 12.
+
+user: Calculate 12 + 7.
+sherlock: 19.
+
+user: What remains after taking 7 away from 19?
+sherlock: 12.
+
+user: Multiply 12 by 7.
+sherlock: 84.
+
+user: How many times does 7 fit into 84?
+sherlock: 12.
+
+user: What is 12 plus 8?
+sherlock: 20.
+
+user: What is 20 minus 8?
+sherlock: 12.
+
+user: What is 12 times 8?
+sherlock: 96.
+
+user: What is 96 divided by 8?
+sherlock: 12.
+
+user: What do you get when you add 12 to 9?
+sherlock: 21.
+
+user: Calculate 21 - 9.
+sherlock: 12.
+
+user: Multiply 12 by 9.
+sherlock: 108.
+
+user: Calculate 108 ÷ 9.
+sherlock: 12.
+
+user: Add 12 and 10.
+sherlock: 22.
+
+user: Subtract 10 from 22.
+sherlock: 12.
+
+user: What is 12 times 10?
+sherlock: 120.
+
+user: Divide 120 by 10.
+sherlock: 12.
+
+user: Calculate 12 + 11.
+sherlock: 23.
+
+user: What remains after taking 11 away from 23?
+sherlock: 12.
+
+user: Multiply 12 by 11.
+sherlock: 132.
+
+user: How many times does 11 fit into 132?
+sherlock: 12.
+
+user: What is 12 plus 12?
+sherlock: 24.
+
+user: What is 24 minus 12?
+sherlock: 12.
+
+user: What is 12 times 12?
+sherlock: 144.
+
+user: What is 144 divided by 12?
+sherlock: 12.
+
+user: What do you get when you add 12 to 13?
+sherlock: 25.
+
+user: Calculate 25 - 13.
+sherlock: 12.
+
+user: Calculate 156 ÷ 13.
+sherlock: 12.
+
+user: Add 12 and 14.
+sherlock: 26.
+
+user: Subtract 14 from 26.
+sherlock: 12.
+
+user: Divide 168 by 14.
+sherlock: 12.
+
+user: Calculate 12 + 15.
+sherlock: 27.
+
+user: What remains after taking 15 away from 27?
+sherlock: 12.
+
+user: How many times does 15 fit into 180?
+sherlock: 12.
+
+user: What is 12 plus 16?
+sherlock: 28.
+
+user: What is 28 minus 16?
+sherlock: 12.
+
+user: What is 192 divided by 16?
+sherlock: 12.
+
+user: Add 13 and 1.
+sherlock: 14.
+
+user: Subtract 1 from 14.
+sherlock: 13.
+
+user: What is the product of 13 and 1?
+sherlock: 13.
+
+user: Divide 13 by 1.
+sherlock: 13.
+
+user: Calculate 13 + 2.
+sherlock: 15.
+
+user: What remains after taking 2 away from 15?
+sherlock: 13.
+
+user: Calculate 13 × 2.
+sherlock: 26.
+
+user: How many times does 2 fit into 26?
+sherlock: 13.
+
+user: What is 13 plus 3?
+sherlock: 16.
+
+user: What is 16 minus 3?
+sherlock: 13.
+
+user: What is the product of 13 and 3?
+sherlock: 39.
+
+user: What is 39 divided by 3?
+sherlock: 13.
+
+user: What do you get when you add 13 to 4?
+sherlock: 17.
+
+user: Calculate 17 - 4.
+sherlock: 13.
+
+user: Calculate 13 × 4.
+sherlock: 52.
+
+user: Calculate 52 ÷ 4.
+sherlock: 13.
+
+user: Add 13 and 5.
+sherlock: 18.
+
+user: Subtract 5 from 18.
+sherlock: 13.
+
+user: What is the product of 13 and 5?
+sherlock: 65.
+
+user: Divide 65 by 5.
+sherlock: 13.
+
+user: Calculate 13 + 6.
+sherlock: 19.
+
+user: What remains after taking 6 away from 19?
+sherlock: 13.
+
+user: Calculate 13 × 6.
+sherlock: 78.
+
+user: How many times does 6 fit into 78?
+sherlock: 13.
+
+user: What is 13 plus 7?
+sherlock: 20.
+
+user: What is 20 minus 7?
+sherlock: 13.
+
+user: What is the product of 13 and 7?
+sherlock: 91.
+
+user: What is 91 divided by 7?
+sherlock: 13.
+
+user: What do you get when you add 13 to 8?
+sherlock: 21.
+
+user: Calculate 21 - 8.
+sherlock: 13.
+
+user: Calculate 13 × 8.
+sherlock: 104.
+
+user: Calculate 104 ÷ 8.
+sherlock: 13.
+
+user: Add 13 and 9.
+sherlock: 22.
+
+user: Subtract 9 from 22.
+sherlock: 13.
+
+user: What is the product of 13 and 9?
+sherlock: 117.
+
+user: Divide 117 by 9.
+sherlock: 13.
+
+user: Calculate 13 + 10.
+sherlock: 23.
+
+user: What remains after taking 10 away from 23?
+sherlock: 13.
+
+user: Calculate 13 × 10.
+sherlock: 130.
+
+user: How many times does 10 fit into 130?
+sherlock: 13.
+
+user: What is 13 plus 11?
+sherlock: 24.
+
+user: What is 24 minus 11?
+sherlock: 13.
+
+user: What is the product of 13 and 11?
+sherlock: 143.
+
+user: What is 143 divided by 11?
+sherlock: 13.
+
+user: What do you get when you add 13 to 12?
+sherlock: 25.
+
+user: Calculate 25 - 12.
+sherlock: 13.
+
+user: Calculate 13 × 12.
+sherlock: 156.
+
+user: Calculate 156 ÷ 12.
+sherlock: 13.
+
+user: Add 13 and 13.
+sherlock: 26.
+
+user: Subtract 13 from 26.
+sherlock: 13.
+
+user: Divide 169 by 13.
+sherlock: 13.
+
+user: Calculate 13 + 14.
+sherlock: 27.
+
+user: What remains after taking 14 away from 27?
+sherlock: 13.
+
+user: How many times does 14 fit into 182?
+sherlock: 13.
+
+user: What is 13 plus 15?
+sherlock: 28.
+
+user: What is 28 minus 15?
+sherlock: 13.
+
+user: What is 195 divided by 15?
+sherlock: 13.
+
+user: What do you get when you add 13 to 16?
+sherlock: 29.
+
+user: Calculate 29 - 16.
+sherlock: 13.
+
+user: Calculate 208 ÷ 16.
+sherlock: 13.
+
+user: Calculate 14 + 1.
+sherlock: 15.
+
+user: What remains after taking 1 away from 15?
+sherlock: 14.
+
+user: What is 14 times 1?
+sherlock: 14.
+
+user: How many times does 1 fit into 14?
+sherlock: 14.
+
+user: What is 14 plus 2?
+sherlock: 16.
+
+user: What is 16 minus 2?
+sherlock: 14.
+
+user: Multiply 14 by 2.
+sherlock: 28.
+
+user: What is 28 divided by 2?
+sherlock: 14.
+
+user: What do you get when you add 14 to 3?
+sherlock: 17.
+
+user: Calculate 17 - 3.
+sherlock: 14.
+
+user: What is 14 times 3?
+sherlock: 42.
+
+user: Calculate 42 ÷ 3.
+sherlock: 14.
+
+user: Add 14 and 4.
+sherlock: 18.
+
+user: Subtract 4 from 18.
+sherlock: 14.
+
+user: Multiply 14 by 4.
+sherlock: 56.
+
+user: Divide 56 by 4.
+sherlock: 14.
+
+user: Calculate 14 + 5.
+sherlock: 19.
+
+user: What remains after taking 5 away from 19?
+sherlock: 14.
+
+user: What is 14 times 5?
+sherlock: 70.
+
+user: How many times does 5 fit into 70?
+sherlock: 14.
+
+user: What is 14 plus 6?
+sherlock: 20.
+
+user: What is 20 minus 6?
+sherlock: 14.
+
+user: Multiply 14 by 6.
+sherlock: 84.
+
+user: What is 84 divided by 6?
+sherlock: 14.
+
+user: What do you get when you add 14 to 7?
+sherlock: 21.
+
+user: Calculate 21 - 7.
+sherlock: 14.
+
+user: What is 14 times 7?
+sherlock: 98.
+
+user: Calculate 98 ÷ 7.
+sherlock: 14.
+
+user: Add 14 and 8.
+sherlock: 22.
+
+user: Subtract 8 from 22.
+sherlock: 14.
+
+user: Multiply 14 by 8.
+sherlock: 112.
+
+user: Divide 112 by 8.
+sherlock: 14.
+
+user: Calculate 14 + 9.
+sherlock: 23.
+
+user: What remains after taking 9 away from 23?
+sherlock: 14.
+
+user: What is 14 times 9?
+sherlock: 126.
+
+user: How many times does 9 fit into 126?
+sherlock: 14.
+
+user: What is 14 plus 10?
+sherlock: 24.
+
+user: What is 24 minus 10?
+sherlock: 14.
+
+user: Multiply 14 by 10.
+sherlock: 140.
+
+user: What is 140 divided by 10?
+sherlock: 14.
+
+user: What do you get when you add 14 to 11?
+sherlock: 25.
+
+user: Calculate 25 - 11.
+sherlock: 14.
+
+user: What is 14 times 11?
+sherlock: 154.
+
+user: Calculate 154 ÷ 11.
+sherlock: 14.
+
+user: Add 14 and 12.
+sherlock: 26.
+
+user: Subtract 12 from 26.
+sherlock: 14.
+
+user: Multiply 14 by 12.
+sherlock: 168.
+
+user: Divide 168 by 12.
+sherlock: 14.
+
+user: Calculate 14 + 13.
+sherlock: 27.
+
+user: What remains after taking 13 away from 27?
+sherlock: 14.
+
+user: How many times does 13 fit into 182?
+sherlock: 14.
+
+user: What is 14 plus 14?
+sherlock: 28.
+
+user: What is 28 minus 14?
+sherlock: 14.
+
+user: What is 196 divided by 14?
+sherlock: 14.
+
+user: What do you get when you add 14 to 15?
+sherlock: 29.
+
+user: Calculate 29 - 15.
+sherlock: 14.
+
+user: Calculate 210 ÷ 15.
+sherlock: 14.
+
+user: Add 14 and 16.
+sherlock: 30.
+
+user: Subtract 16 from 30.
+sherlock: 14.
+
+user: Divide 224 by 16.
+sherlock: 14.
+
+user: What is 15 plus 1?
+sherlock: 16.
+
+user: What is 16 minus 1?
+sherlock: 15.
+
+user: Calculate 15 × 1.
+sherlock: 15.
+
+user: What is 15 divided by 1?
+sherlock: 15.
+
+user: What do you get when you add 15 to 2?
+sherlock: 17.
+
+user: Calculate 17 - 2.
+sherlock: 15.
+
+user: What is the product of 15 and 2?
+sherlock: 30.
+
+user: Calculate 30 ÷ 2.
+sherlock: 15.
+
+user: Add 15 and 3.
+sherlock: 18.
+
+user: Subtract 3 from 18.
+sherlock: 15.
+
+user: Calculate 15 × 3.
+sherlock: 45.
+
+user: Divide 45 by 3.
+sherlock: 15.
+
+user: Calculate 15 + 4.
+sherlock: 19.
+
+user: What remains after taking 4 away from 19?
+sherlock: 15.
+
+user: What is the product of 15 and 4?
+sherlock: 60.
+
+user: How many times does 4 fit into 60?
+sherlock: 15.
+
+user: What is 15 plus 5?
+sherlock: 20.
+
+user: What is 20 minus 5?
+sherlock: 15.
+
+user: Calculate 15 × 5.
+sherlock: 75.
+
+user: What is 75 divided by 5?
+sherlock: 15.
+
+user: What do you get when you add 15 to 6?
+sherlock: 21.
+
+user: Calculate 21 - 6.
+sherlock: 15.
+
+user: What is the product of 15 and 6?
+sherlock: 90.
+
+user: Calculate 90 ÷ 6.
+sherlock: 15.
+
+user: Add 15 and 7.
+sherlock: 22.
+
+user: Subtract 7 from 22.
+sherlock: 15.
+
+user: Calculate 15 × 7.
+sherlock: 105.
+
+user: Divide 105 by 7.
+sherlock: 15.
+
+user: Calculate 15 + 8.
+sherlock: 23.
+
+user: What remains after taking 8 away from 23?
+sherlock: 15.
+
+user: What is the product of 15 and 8?
+sherlock: 120.
+
+user: How many times does 8 fit into 120?
+sherlock: 15.
+
+user: What is 15 plus 9?
+sherlock: 24.
+
+user: What is 24 minus 9?
+sherlock: 15.
+
+user: Calculate 15 × 9.
+sherlock: 135.
+
+user: What is 135 divided by 9?
+sherlock: 15.
+
+user: What do you get when you add 15 to 10?
+sherlock: 25.
+
+user: Calculate 25 - 10.
+sherlock: 15.
+
+user: What is the product of 15 and 10?
+sherlock: 150.
+
+user: Calculate 150 ÷ 10.
+sherlock: 15.
+
+user: Add 15 and 11.
+sherlock: 26.
+
+user: Subtract 11 from 26.
+sherlock: 15.
+
+user: Calculate 15 × 11.
+sherlock: 165.
+
+user: Divide 165 by 11.
+sherlock: 15.
+
+user: Calculate 15 + 12.
+sherlock: 27.
+
+user: What remains after taking 12 away from 27?
+sherlock: 15.
+
+user: What is the product of 15 and 12?
+sherlock: 180.
+
+user: How many times does 12 fit into 180?
+sherlock: 15.
+
+user: What is 15 plus 13?
+sherlock: 28.
+
+user: What is 28 minus 13?
+sherlock: 15.
+
+user: What is 195 divided by 13?
+sherlock: 15.
+
+user: What do you get when you add 15 to 14?
+sherlock: 29.
+
+user: Calculate 29 - 14.
+sherlock: 15.
+
+user: Calculate 210 ÷ 14.
+sherlock: 15.
+
+user: Add 15 and 15.
+sherlock: 30.
+
+user: Subtract 15 from 30.
+sherlock: 15.
+
+user: Divide 225 by 15.
+sherlock: 15.
+
+user: Calculate 15 + 16.
+sherlock: 31.
+
+user: What remains after taking 16 away from 31?
+sherlock: 15.
+
+user: How many times does 16 fit into 240?
+sherlock: 15.
+
+user: What do you get when you add 16 to 1?
+sherlock: 17.
+
+user: Calculate 17 - 1.
+sherlock: 16.
+
+user: Multiply 16 by 1.
+sherlock: 16.
+
+user: Calculate 16 ÷ 1.
+sherlock: 16.
+
+user: Add 16 and 2.
+sherlock: 18.
+
+user: Subtract 2 from 18.
+sherlock: 16.
+
+user: What is 16 times 2?
+sherlock: 32.
+
+user: Divide 32 by 2.
+sherlock: 16.
+
+user: Calculate 16 + 3.
+sherlock: 19.
+
+user: What remains after taking 3 away from 19?
+sherlock: 16.
+
+user: Multiply 16 by 3.
+sherlock: 48.
+
+user: How many times does 3 fit into 48?
+sherlock: 16.
+
+user: What is 16 plus 4?
+sherlock: 20.
+
+user: What is 20 minus 4?
+sherlock: 16.
+
+user: What is 16 times 4?
+sherlock: 64.
+
+user: What is 64 divided by 4?
+sherlock: 16.
+
+user: What do you get when you add 16 to 5?
+sherlock: 21.
+
+user: Calculate 21 - 5.
+sherlock: 16.
+
+user: Multiply 16 by 5.
+sherlock: 80.
+
+user: Calculate 80 ÷ 5.
+sherlock: 16.
+
+user: Add 16 and 6.
+sherlock: 22.
+
+user: Subtract 6 from 22.
+sherlock: 16.
+
+user: What is 16 times 6?
+sherlock: 96.
+
+user: Divide 96 by 6.
+sherlock: 16.
+
+user: Calculate 16 + 7.
+sherlock: 23.
+
+user: What remains after taking 7 away from 23?
+sherlock: 16.
+
+user: Multiply 16 by 7.
+sherlock: 112.
+
+user: How many times does 7 fit into 112?
+sherlock: 16.
+
+user: What is 16 plus 8?
+sherlock: 24.
+
+user: What is 24 minus 8?
+sherlock: 16.
+
+user: What is 16 times 8?
+sherlock: 128.
+
+user: What is 128 divided by 8?
+sherlock: 16.
+
+user: What do you get when you add 16 to 9?
+sherlock: 25.
+
+user: Calculate 25 - 9.
+sherlock: 16.
+
+user: Multiply 16 by 9.
+sherlock: 144.
+
+user: Calculate 144 ÷ 9.
+sherlock: 16.
+
+user: Add 16 and 10.
+sherlock: 26.
+
+user: Subtract 10 from 26.
+sherlock: 16.
+
+user: What is 16 times 10?
+sherlock: 160.
+
+user: Divide 160 by 10.
+sherlock: 16.
+
+user: Calculate 16 + 11.
+sherlock: 27.
+
+user: What remains after taking 11 away from 27?
+sherlock: 16.
+
+user: Multiply 16 by 11.
+sherlock: 176.
+
+user: How many times does 11 fit into 176?
+sherlock: 16.
+
+user: What is 16 plus 12?
+sherlock: 28.
+
+user: What is 28 minus 12?
+sherlock: 16.
+
+user: What is 16 times 12?
+sherlock: 192.
+
+user: What is 192 divided by 12?
+sherlock: 16.
+
+user: What do you get when you add 16 to 13?
+sherlock: 29.
+
+user: Calculate 29 - 13.
+sherlock: 16.
+
+user: Calculate 208 ÷ 13.
+sherlock: 16.
+
+user: Add 16 and 14.
+sherlock: 30.
+
+user: Subtract 14 from 30.
+sherlock: 16.
+
+user: Divide 224 by 14.
+sherlock: 16.
+
+user: Calculate 16 + 15.
+sherlock: 31.
+
+user: What remains after taking 15 away from 31?
+sherlock: 16.
+
+user: How many times does 15 fit into 240?
+sherlock: 16.
+
+user: What is 16 plus 16?
+sherlock: 32.
+
+user: What is 32 minus 16?
+sherlock: 16.
+
+user: What is 256 divided by 16?
+sherlock: 16.
+
+user: Add 17 and 1.
+sherlock: 18.
+
+user: Subtract 1 from 18.
+sherlock: 17.
+
+user: What is the product of 17 and 1?
+sherlock: 17.
+
+user: Divide 17 by 1.
+sherlock: 17.
+
+user: Calculate 17 + 2.
+sherlock: 19.
+
+user: What remains after taking 2 away from 19?
+sherlock: 17.
+
+user: Calculate 17 × 2.
+sherlock: 34.
+
+user: How many times does 2 fit into 34?
+sherlock: 17.
+
+user: What is 17 plus 3?
+sherlock: 20.
+
+user: What is 20 minus 3?
+sherlock: 17.
+
+user: What is the product of 17 and 3?
+sherlock: 51.
+
+user: What is 51 divided by 3?
+sherlock: 17.
+
+user: What do you get when you add 17 to 4?
+sherlock: 21.
+
+user: Calculate 21 - 4.
+sherlock: 17.
+
+user: Calculate 17 × 4.
+sherlock: 68.
+
+user: Calculate 68 ÷ 4.
+sherlock: 17.
+
+user: Add 17 and 5.
+sherlock: 22.
+
+user: Subtract 5 from 22.
+sherlock: 17.
+
+user: What is the product of 17 and 5?
+sherlock: 85.
+
+user: Divide 85 by 5.
+sherlock: 17.
+
+user: Calculate 17 + 6.
+sherlock: 23.
+
+user: What remains after taking 6 away from 23?
+sherlock: 17.
+
+user: Calculate 17 × 6.
+sherlock: 102.
+
+user: How many times does 6 fit into 102?
+sherlock: 17.
+
+user: What is 17 plus 7?
+sherlock: 24.
+
+user: What is 24 minus 7?
+sherlock: 17.
+
+user: What is the product of 17 and 7?
+sherlock: 119.
+
+user: What is 119 divided by 7?
+sherlock: 17.
+
+user: What do you get when you add 17 to 8?
+sherlock: 25.
+
+user: Calculate 25 - 8.
+sherlock: 17.
+
+user: Calculate 17 × 8.
+sherlock: 136.
+
+user: Calculate 136 ÷ 8.
+sherlock: 17.
+
+user: Add 17 and 9.
+sherlock: 26.
+
+user: Subtract 9 from 26.
+sherlock: 17.
+
+user: What is the product of 17 and 9?
+sherlock: 153.
+
+user: Divide 153 by 9.
+sherlock: 17.
+
+user: Calculate 17 + 10.
+sherlock: 27.
+
+user: What remains after taking 10 away from 27?
+sherlock: 17.
+
+user: Calculate 17 × 10.
+sherlock: 170.
+
+user: How many times does 10 fit into 170?
+sherlock: 17.
+
+user: What is 17 plus 11?
+sherlock: 28.
+
+user: What is 28 minus 11?
+sherlock: 17.
+
+user: What is the product of 17 and 11?
+sherlock: 187.
+
+user: What is 187 divided by 11?
+sherlock: 17.
+
+user: What do you get when you add 17 to 12?
+sherlock: 29.
+
+user: Calculate 29 - 12.
+sherlock: 17.
+
+user: Calculate 17 × 12.
+sherlock: 204.
+
+user: Calculate 204 ÷ 12.
+sherlock: 17.
+
+user: Add 17 and 13.
+sherlock: 30.
+
+user: Subtract 13 from 30.
+sherlock: 17.
+
+user: Divide 221 by 13.
+sherlock: 17.
+
+user: Calculate 17 + 14.
+sherlock: 31.
+
+user: What remains after taking 14 away from 31?
+sherlock: 17.
+
+user: How many times does 14 fit into 238?
+sherlock: 17.
+
+user: What is 17 plus 15?
+sherlock: 32.
+
+user: What is 32 minus 15?
+sherlock: 17.
+
+user: What is 255 divided by 15?
+sherlock: 17.
+
+user: What do you get when you add 17 to 16?
+sherlock: 33.
+
+user: Calculate 33 - 16.
+sherlock: 17.
+
+user: Calculate 272 ÷ 16.
+sherlock: 17.
+
+user: Calculate 18 + 1.
+sherlock: 19.
+
+user: What remains after taking 1 away from 19?
+sherlock: 18.
+
+user: What is 18 times 1?
+sherlock: 18.
+
+user: How many times does 1 fit into 18?
+sherlock: 18.
+
+user: What is 18 plus 2?
+sherlock: 20.
+
+user: What is 20 minus 2?
+sherlock: 18.
+
+user: Multiply 18 by 2.
+sherlock: 36.
+
+user: What is 36 divided by 2?
+sherlock: 18.
+
+user: What do you get when you add 18 to 3?
+sherlock: 21.
+
+user: Calculate 21 - 3.
+sherlock: 18.
+
+user: What is 18 times 3?
+sherlock: 54.
+
+user: Calculate 54 ÷ 3.
+sherlock: 18.
+
+user: Add 18 and 4.
+sherlock: 22.
+
+user: Subtract 4 from 22.
+sherlock: 18.
+
+user: Multiply 18 by 4.
+sherlock: 72.
+
+user: Divide 72 by 4.
+sherlock: 18.
+
+user: Calculate 18 + 5.
+sherlock: 23.
+
+user: What remains after taking 5 away from 23?
+sherlock: 18.
+
+user: What is 18 times 5?
+sherlock: 90.
+
+user: How many times does 5 fit into 90?
+sherlock: 18.
+
+user: What is 18 plus 6?
+sherlock: 24.
+
+user: What is 24 minus 6?
+sherlock: 18.
+
+user: Multiply 18 by 6.
+sherlock: 108.
+
+user: What is 108 divided by 6?
+sherlock: 18.
+
+user: What do you get when you add 18 to 7?
+sherlock: 25.
+
+user: Calculate 25 - 7.
+sherlock: 18.
+
+user: What is 18 times 7?
+sherlock: 126.
+
+user: Calculate 126 ÷ 7.
+sherlock: 18.
+
+user: Add 18 and 8.
+sherlock: 26.
+
+user: Subtract 8 from 26.
+sherlock: 18.
+
+user: Multiply 18 by 8.
+sherlock: 144.
+
+user: Divide 144 by 8.
+sherlock: 18.
+
+user: Calculate 18 + 9.
+sherlock: 27.
+
+user: What remains after taking 9 away from 27?
+sherlock: 18.
+
+user: What is 18 times 9?
+sherlock: 162.
+
+user: How many times does 9 fit into 162?
+sherlock: 18.
+
+user: What is 18 plus 10?
+sherlock: 28.
+
+user: What is 28 minus 10?
+sherlock: 18.
+
+user: Multiply 18 by 10.
+sherlock: 180.
+
+user: What is 180 divided by 10?
+sherlock: 18.
+
+user: What do you get when you add 18 to 11?
+sherlock: 29.
+
+user: Calculate 29 - 11.
+sherlock: 18.
+
+user: What is 18 times 11?
+sherlock: 198.
+
+user: Calculate 198 ÷ 11.
+sherlock: 18.
+
+user: Add 18 and 12.
+sherlock: 30.
+
+user: Subtract 12 from 30.
+sherlock: 18.
+
+user: Multiply 18 by 12.
+sherlock: 216.
+
+user: Divide 216 by 12.
+sherlock: 18.
+
+user: Calculate 18 + 13.
+sherlock: 31.
+
+user: What remains after taking 13 away from 31?
+sherlock: 18.
+
+user: How many times does 13 fit into 234?
+sherlock: 18.
+
+user: What is 18 plus 14?
+sherlock: 32.
+
+user: What is 32 minus 14?
+sherlock: 18.
+
+user: What is 252 divided by 14?
+sherlock: 18.
+
+user: What do you get when you add 18 to 15?
+sherlock: 33.
+
+user: Calculate 33 - 15.
+sherlock: 18.
+
+user: Calculate 270 ÷ 15.
+sherlock: 18.
+
+user: Add 18 and 16.
+sherlock: 34.
+
+user: Subtract 16 from 34.
+sherlock: 18.
+
+user: Divide 288 by 16.
+sherlock: 18.
+
+user: What is 19 plus 1?
+sherlock: 20.
+
+user: What is 20 minus 1?
+sherlock: 19.
+
+user: Calculate 19 × 1.
+sherlock: 19.
+
+user: What is 19 divided by 1?
+sherlock: 19.
+
+user: What do you get when you add 19 to 2?
+sherlock: 21.
+
+user: Calculate 21 - 2.
+sherlock: 19.
+
+user: What is the product of 19 and 2?
+sherlock: 38.
+
+user: Calculate 38 ÷ 2.
+sherlock: 19.
+
+user: Add 19 and 3.
+sherlock: 22.
+
+user: Subtract 3 from 22.
+sherlock: 19.
+
+user: Calculate 19 × 3.
+sherlock: 57.
+
+user: Divide 57 by 3.
+sherlock: 19.
+
+user: Calculate 19 + 4.
+sherlock: 23.
+
+user: What remains after taking 4 away from 23?
+sherlock: 19.
+
+user: What is the product of 19 and 4?
+sherlock: 76.
+
+user: How many times does 4 fit into 76?
+sherlock: 19.
+
+user: What is 19 plus 5?
+sherlock: 24.
+
+user: What is 24 minus 5?
+sherlock: 19.
+
+user: Calculate 19 × 5.
+sherlock: 95.
+
+user: What is 95 divided by 5?
+sherlock: 19.
+
+user: What do you get when you add 19 to 6?
+sherlock: 25.
+
+user: Calculate 25 - 6.
+sherlock: 19.
+
+user: What is the product of 19 and 6?
+sherlock: 114.
+
+user: Calculate 114 ÷ 6.
+sherlock: 19.
+
+user: Add 19 and 7.
+sherlock: 26.
+
+user: Subtract 7 from 26.
+sherlock: 19.
+
+user: Calculate 19 × 7.
+sherlock: 133.
+
+user: Divide 133 by 7.
+sherlock: 19.
+
+user: Calculate 19 + 8.
+sherlock: 27.
+
+user: What remains after taking 8 away from 27?
+sherlock: 19.
+
+user: What is the product of 19 and 8?
+sherlock: 152.
+
+user: How many times does 8 fit into 152?
+sherlock: 19.
+
+user: What is 19 plus 9?
+sherlock: 28.
+
+user: What is 28 minus 9?
+sherlock: 19.
+
+user: Calculate 19 × 9.
+sherlock: 171.
+
+user: What is 171 divided by 9?
+sherlock: 19.
+
+user: What do you get when you add 19 to 10?
+sherlock: 29.
+
+user: Calculate 29 - 10.
+sherlock: 19.
+
+user: What is the product of 19 and 10?
+sherlock: 190.
+
+user: Calculate 190 ÷ 10.
+sherlock: 19.
+
+user: Add 19 and 11.
+sherlock: 30.
+
+user: Subtract 11 from 30.
+sherlock: 19.
+
+user: Calculate 19 × 11.
+sherlock: 209.
+
+user: Divide 209 by 11.
+sherlock: 19.
+
+user: Calculate 19 + 12.
+sherlock: 31.
+
+user: What remains after taking 12 away from 31?
+sherlock: 19.
+
+user: What is the product of 19 and 12?
+sherlock: 228.
+
+user: How many times does 12 fit into 228?
+sherlock: 19.
+
+user: What is 19 plus 13?
+sherlock: 32.
+
+user: What is 32 minus 13?
+sherlock: 19.
+
+user: What is 247 divided by 13?
+sherlock: 19.
+
+user: What do you get when you add 19 to 14?
+sherlock: 33.
+
+user: Calculate 33 - 14.
+sherlock: 19.
+
+user: Calculate 266 ÷ 14.
+sherlock: 19.
+
+user: Add 19 and 15.
+sherlock: 34.
+
+user: Subtract 15 from 34.
+sherlock: 19.
+
+user: Divide 285 by 15.
+sherlock: 19.
+
+user: Calculate 19 + 16.
+sherlock: 35.
+
+user: What remains after taking 16 away from 35?
+sherlock: 19.
+
+user: How many times does 16 fit into 304?
+sherlock: 19.
+
+user: What do you get when you add 20 to 1?
+sherlock: 21.
+
+user: Calculate 21 - 1.
+sherlock: 20.
+
+user: Multiply 20 by 1.
+sherlock: 20.
+
+user: Calculate 20 ÷ 1.
+sherlock: 20.
+
+user: Add 20 and 2.
+sherlock: 22.
+
+user: Subtract 2 from 22.
+sherlock: 20.
+
+user: What is 20 times 2?
+sherlock: 40.
+
+user: Divide 40 by 2.
+sherlock: 20.
+
+user: Calculate 20 + 3.
+sherlock: 23.
+
+user: What remains after taking 3 away from 23?
+sherlock: 20.
+
+user: Multiply 20 by 3.
+sherlock: 60.
+
+user: How many times does 3 fit into 60?
+sherlock: 20.
+
+user: What is 20 plus 4?
+sherlock: 24.
+
+user: What is 24 minus 4?
+sherlock: 20.
+
+user: What is 20 times 4?
+sherlock: 80.
+
+user: What is 80 divided by 4?
+sherlock: 20.
+
+user: What do you get when you add 20 to 5?
+sherlock: 25.
+
+user: Calculate 25 - 5.
+sherlock: 20.
+
+user: Multiply 20 by 5.
+sherlock: 100.
+
+user: Calculate 100 ÷ 5.
+sherlock: 20.
+
+user: Add 20 and 6.
+sherlock: 26.
+
+user: Subtract 6 from 26.
+sherlock: 20.
+
+user: What is 20 times 6?
+sherlock: 120.
+
+user: Divide 120 by 6.
+sherlock: 20.
+
+user: Calculate 20 + 7.
+sherlock: 27.
+
+user: What remains after taking 7 away from 27?
+sherlock: 20.
+
+user: Multiply 20 by 7.
+sherlock: 140.
+
+user: How many times does 7 fit into 140?
+sherlock: 20.
+
+user: What is 20 plus 8?
+sherlock: 28.
+
+user: What is 28 minus 8?
+sherlock: 20.
+
+user: What is 20 times 8?
+sherlock: 160.
+
+user: What is 160 divided by 8?
+sherlock: 20.
+
+user: What do you get when you add 20 to 9?
+sherlock: 29.
+
+user: Calculate 29 - 9.
+sherlock: 20.
+
+user: Multiply 20 by 9.
+sherlock: 180.
+
+user: Calculate 180 ÷ 9.
+sherlock: 20.
+
+user: Add 20 and 10.
+sherlock: 30.
+
+user: Subtract 10 from 30.
+sherlock: 20.
+
+user: What is 20 times 10?
+sherlock: 200.
+
+user: Divide 200 by 10.
+sherlock: 20.
+
+user: Calculate 20 + 11.
+sherlock: 31.
+
+user: What remains after taking 11 away from 31?
+sherlock: 20.
+
+user: Multiply 20 by 11.
+sherlock: 220.
+
+user: How many times does 11 fit into 220?
+sherlock: 20.
+
+user: What is 20 plus 12?
+sherlock: 32.
+
+user: What is 32 minus 12?
+sherlock: 20.
+
+user: What is 20 times 12?
+sherlock: 240.
+
+user: What is 240 divided by 12?
+sherlock: 20.
+
+user: What do you get when you add 20 to 13?
+sherlock: 33.
+
+user: Calculate 33 - 13.
+sherlock: 20.
+
+user: Calculate 260 ÷ 13.
+sherlock: 20.
+
+user: Add 20 and 14.
+sherlock: 34.
+
+user: Subtract 14 from 34.
+sherlock: 20.
+
+user: Divide 280 by 14.
+sherlock: 20.
+
+user: Calculate 20 + 15.
+sherlock: 35.
+
+user: What remains after taking 15 away from 35?
+sherlock: 20.
+
+user: How many times does 15 fit into 300?
+sherlock: 20.
+
+user: What is 20 plus 16?
+sherlock: 36.
+
+user: What is 36 minus 16?
+sherlock: 20.
+
+user: What is 320 divided by 16?
+sherlock: 20.
+
+user: Add 21 and 1.
+sherlock: 22.
+
+user: Subtract 1 from 22.
+sherlock: 21.
+
+user: What is the product of 21 and 1?
+sherlock: 21.
+
+user: Divide 21 by 1.
+sherlock: 21.
+
+user: Calculate 21 + 2.
+sherlock: 23.
+
+user: What remains after taking 2 away from 23?
+sherlock: 21.
+
+user: Calculate 21 × 2.
+sherlock: 42.
+
+user: How many times does 2 fit into 42?
+sherlock: 21.
+
+user: What is 21 plus 3?
+sherlock: 24.
+
+user: What is 24 minus 3?
+sherlock: 21.
+
+user: What is the product of 21 and 3?
+sherlock: 63.
+
+user: What is 63 divided by 3?
+sherlock: 21.
+
+user: What do you get when you add 21 to 4?
+sherlock: 25.
+
+user: Calculate 25 - 4.
+sherlock: 21.
+
+user: Calculate 21 × 4.
+sherlock: 84.
+
+user: Calculate 84 ÷ 4.
+sherlock: 21.
+
+user: Add 21 and 5.
+sherlock: 26.
+
+user: Subtract 5 from 26.
+sherlock: 21.
+
+user: What is the product of 21 and 5?
+sherlock: 105.
+
+user: Divide 105 by 5.
+sherlock: 21.
+
+user: Calculate 21 + 6.
+sherlock: 27.
+
+user: What remains after taking 6 away from 27?
+sherlock: 21.
+
+user: Calculate 21 × 6.
+sherlock: 126.
+
+user: How many times does 6 fit into 126?
+sherlock: 21.
+
+user: What is 21 plus 7?
+sherlock: 28.
+
+user: What is 28 minus 7?
+sherlock: 21.
+
+user: What is the product of 21 and 7?
+sherlock: 147.
+
+user: What is 147 divided by 7?
+sherlock: 21.
+
+user: What do you get when you add 21 to 8?
+sherlock: 29.
+
+user: Calculate 29 - 8.
+sherlock: 21.
+
+user: Calculate 21 × 8.
+sherlock: 168.
+
+user: Calculate 168 ÷ 8.
+sherlock: 21.
+
+user: Add 21 and 9.
+sherlock: 30.
+
+user: Subtract 9 from 30.
+sherlock: 21.
+
+user: What is the product of 21 and 9?
+sherlock: 189.
+
+user: Divide 189 by 9.
+sherlock: 21.
+
+user: Calculate 21 + 10.
+sherlock: 31.
+
+user: What remains after taking 10 away from 31?
+sherlock: 21.
+
+user: Calculate 21 × 10.
+sherlock: 210.
+
+user: How many times does 10 fit into 210?
+sherlock: 21.
+
+user: What is 21 plus 11?
+sherlock: 32.
+
+user: What is 32 minus 11?
+sherlock: 21.
+
+user: What is the product of 21 and 11?
+sherlock: 231.
+
+user: What is 231 divided by 11?
+sherlock: 21.
+
+user: What do you get when you add 21 to 12?
+sherlock: 33.
+
+user: Calculate 33 - 12.
+sherlock: 21.
+
+user: Calculate 21 × 12.
+sherlock: 252.
+
+user: Calculate 252 ÷ 12.
+sherlock: 21.
+
+user: Add 21 and 13.
+sherlock: 34.
+
+user: Subtract 13 from 34.
+sherlock: 21.
+
+user: Divide 273 by 13.
+sherlock: 21.
+
+user: Calculate 21 + 14.
+sherlock: 35.
+
+user: What remains after taking 14 away from 35?
+sherlock: 21.
+
+user: How many times does 14 fit into 294?
+sherlock: 21.
+
+user: What is 21 plus 15?
+sherlock: 36.
+
+user: What is 36 minus 15?
+sherlock: 21.
+
+user: What is 315 divided by 15?
+sherlock: 21.
+
+user: What do you get when you add 21 to 16?
+sherlock: 37.
+
+user: Calculate 37 - 16.
+sherlock: 21.
+
+user: Calculate 336 ÷ 16.
+sherlock: 21.
+
+user: Calculate 22 + 1.
+sherlock: 23.
+
+user: What remains after taking 1 away from 23?
+sherlock: 22.
+
+user: What is 22 times 1?
+sherlock: 22.
+
+user: How many times does 1 fit into 22?
+sherlock: 22.
+
+user: What is 22 plus 2?
+sherlock: 24.
+
+user: What is 24 minus 2?
+sherlock: 22.
+
+user: Multiply 22 by 2.
+sherlock: 44.
+
+user: What is 44 divided by 2?
+sherlock: 22.
+
+user: What do you get when you add 22 to 3?
+sherlock: 25.
+
+user: Calculate 25 - 3.
+sherlock: 22.
+
+user: What is 22 times 3?
+sherlock: 66.
+
+user: Calculate 66 ÷ 3.
+sherlock: 22.
+
+user: Add 22 and 4.
+sherlock: 26.
+
+user: Subtract 4 from 26.
+sherlock: 22.
+
+user: Multiply 22 by 4.
+sherlock: 88.
+
+user: Divide 88 by 4.
+sherlock: 22.
+
+user: Calculate 22 + 5.
+sherlock: 27.
+
+user: What remains after taking 5 away from 27?
+sherlock: 22.
+
+user: What is 22 times 5?
+sherlock: 110.
+
+user: How many times does 5 fit into 110?
+sherlock: 22.
+
+user: What is 22 plus 6?
+sherlock: 28.
+
+user: What is 28 minus 6?
+sherlock: 22.
+
+user: Multiply 22 by 6.
+sherlock: 132.
+
+user: What is 132 divided by 6?
+sherlock: 22.
+
+user: What do you get when you add 22 to 7?
+sherlock: 29.
+
+user: Calculate 29 - 7.
+sherlock: 22.
+
+user: What is 22 times 7?
+sherlock: 154.
+
+user: Calculate 154 ÷ 7.
+sherlock: 22.
+
+user: Add 22 and 8.
+sherlock: 30.
+
+user: Subtract 8 from 30.
+sherlock: 22.
+
+user: Multiply 22 by 8.
+sherlock: 176.
+
+user: Divide 176 by 8.
+sherlock: 22.
+
+user: Calculate 22 + 9.
+sherlock: 31.
+
+user: What remains after taking 9 away from 31?
+sherlock: 22.
+
+user: What is 22 times 9?
+sherlock: 198.
+
+user: How many times does 9 fit into 198?
+sherlock: 22.
+
+user: What is 22 plus 10?
+sherlock: 32.
+
+user: What is 32 minus 10?
+sherlock: 22.
+
+user: Multiply 22 by 10.
+sherlock: 220.
+
+user: What is 220 divided by 10?
+sherlock: 22.
+
+user: What do you get when you add 22 to 11?
+sherlock: 33.
+
+user: Calculate 33 - 11.
+sherlock: 22.
+
+user: What is 22 times 11?
+sherlock: 242.
+
+user: Calculate 242 ÷ 11.
+sherlock: 22.
+
+user: Add 22 and 12.
+sherlock: 34.
+
+user: Subtract 12 from 34.
+sherlock: 22.
+
+user: Multiply 22 by 12.
+sherlock: 264.
+
+user: Divide 264 by 12.
+sherlock: 22.
+
+user: Calculate 22 + 13.
+sherlock: 35.
+
+user: What remains after taking 13 away from 35?
+sherlock: 22.
+
+user: How many times does 13 fit into 286?
+sherlock: 22.
+
+user: What is 22 plus 14?
+sherlock: 36.
+
+user: What is 36 minus 14?
+sherlock: 22.
+
+user: What is 308 divided by 14?
+sherlock: 22.
+
+user: What do you get when you add 22 to 15?
+sherlock: 37.
+
+user: Calculate 37 - 15.
+sherlock: 22.
+
+user: Calculate 330 ÷ 15.
+sherlock: 22.
+
+user: Add 22 and 16.
+sherlock: 38.
+
+user: Subtract 16 from 38.
+sherlock: 22.
+
+user: Divide 352 by 16.
+sherlock: 22.
+
+user: What is 23 plus 1?
+sherlock: 24.
+
+user: What is 24 minus 1?
+sherlock: 23.
+
+user: Calculate 23 × 1.
+sherlock: 23.
+
+user: What is 23 divided by 1?
+sherlock: 23.
+
+user: What do you get when you add 23 to 2?
+sherlock: 25.
+
+user: Calculate 25 - 2.
+sherlock: 23.
+
+user: What is the product of 23 and 2?
+sherlock: 46.
+
+user: Calculate 46 ÷ 2.
+sherlock: 23.
+
+user: Add 23 and 3.
+sherlock: 26.
+
+user: Subtract 3 from 26.
+sherlock: 23.
+
+user: Calculate 23 × 3.
+sherlock: 69.
+
+user: Divide 69 by 3.
+sherlock: 23.
+
+user: Calculate 23 + 4.
+sherlock: 27.
+
+user: What remains after taking 4 away from 27?
+sherlock: 23.
+
+user: What is the product of 23 and 4?
+sherlock: 92.
+
+user: How many times does 4 fit into 92?
+sherlock: 23.
+
+user: What is 23 plus 5?
+sherlock: 28.
+
+user: What is 28 minus 5?
+sherlock: 23.
+
+user: Calculate 23 × 5.
+sherlock: 115.
+
+user: What is 115 divided by 5?
+sherlock: 23.
+
+user: What do you get when you add 23 to 6?
+sherlock: 29.
+
+user: Calculate 29 - 6.
+sherlock: 23.
+
+user: What is the product of 23 and 6?
+sherlock: 138.
+
+user: Calculate 138 ÷ 6.
+sherlock: 23.
+
+user: Add 23 and 7.
+sherlock: 30.
+
+user: Subtract 7 from 30.
+sherlock: 23.
+
+user: Calculate 23 × 7.
+sherlock: 161.
+
+user: Divide 161 by 7.
+sherlock: 23.
+
+user: Calculate 23 + 8.
+sherlock: 31.
+
+user: What remains after taking 8 away from 31?
+sherlock: 23.
+
+user: What is the product of 23 and 8?
+sherlock: 184.
+
+user: How many times does 8 fit into 184?
+sherlock: 23.
+
+user: What is 23 plus 9?
+sherlock: 32.
+
+user: What is 32 minus 9?
+sherlock: 23.
+
+user: Calculate 23 × 9.
+sherlock: 207.
+
+user: What is 207 divided by 9?
+sherlock: 23.
+
+user: What do you get when you add 23 to 10?
+sherlock: 33.
+
+user: Calculate 33 - 10.
+sherlock: 23.
+
+user: What is the product of 23 and 10?
+sherlock: 230.
+
+user: Calculate 230 ÷ 10.
+sherlock: 23.
+
+user: Add 23 and 11.
+sherlock: 34.
+
+user: Subtract 11 from 34.
+sherlock: 23.
+
+user: Calculate 23 × 11.
+sherlock: 253.
+
+user: Divide 253 by 11.
+sherlock: 23.
+
+user: Calculate 23 + 12.
+sherlock: 35.
+
+user: What remains after taking 12 away from 35?
+sherlock: 23.
+
+user: What is the product of 23 and 12?
+sherlock: 276.
+
+user: How many times does 12 fit into 276?
+sherlock: 23.
+
+user: What is 23 plus 13?
+sherlock: 36.
+
+user: What is 36 minus 13?
+sherlock: 23.
+
+user: What is 299 divided by 13?
+sherlock: 23.
+
+user: What do you get when you add 23 to 14?
+sherlock: 37.
+
+user: Calculate 37 - 14.
+sherlock: 23.
+
+user: Calculate 322 ÷ 14.
+sherlock: 23.
+
+user: Add 23 and 15.
+sherlock: 38.
+
+user: Subtract 15 from 38.
+sherlock: 23.
+
+user: Divide 345 by 15.
+sherlock: 23.
+
+user: Calculate 23 + 16.
+sherlock: 39.
+
+user: What remains after taking 16 away from 39?
+sherlock: 23.
+
+user: How many times does 16 fit into 368?
+sherlock: 23.
+
+user: What do you get when you add 24 to 1?
+sherlock: 25.
+
+user: Calculate 25 - 1.
+sherlock: 24.
+
+user: Multiply 24 by 1.
+sherlock: 24.
+
+user: Calculate 24 ÷ 1.
+sherlock: 24.
+
+user: Add 24 and 2.
+sherlock: 26.
+
+user: Subtract 2 from 26.
+sherlock: 24.
+
+user: What is 24 times 2?
+sherlock: 48.
+
+user: Divide 48 by 2.
+sherlock: 24.
+
+user: Calculate 24 + 3.
+sherlock: 27.
+
+user: What remains after taking 3 away from 27?
+sherlock: 24.
+
+user: Multiply 24 by 3.
+sherlock: 72.
+
+user: How many times does 3 fit into 72?
+sherlock: 24.
+
+user: What is 24 plus 4?
+sherlock: 28.
+
+user: What is 28 minus 4?
+sherlock: 24.
+
+user: What is 24 times 4?
+sherlock: 96.
+
+user: What is 96 divided by 4?
+sherlock: 24.
+
+user: What do you get when you add 24 to 5?
+sherlock: 29.
+
+user: Calculate 29 - 5.
+sherlock: 24.
+
+user: Multiply 24 by 5.
+sherlock: 120.
+
+user: Calculate 120 ÷ 5.
+sherlock: 24.
+
+user: Add 24 and 6.
+sherlock: 30.
+
+user: Subtract 6 from 30.
+sherlock: 24.
+
+user: What is 24 times 6?
+sherlock: 144.
+
+user: Divide 144 by 6.
+sherlock: 24.
+
+user: Calculate 24 + 7.
+sherlock: 31.
+
+user: What remains after taking 7 away from 31?
+sherlock: 24.
+
+user: Multiply 24 by 7.
+sherlock: 168.
+
+user: How many times does 7 fit into 168?
+sherlock: 24.
+
+user: What is 24 plus 8?
+sherlock: 32.
+
+user: What is 32 minus 8?
+sherlock: 24.
+
+user: What is 24 times 8?
+sherlock: 192.
+
+user: What is 192 divided by 8?
+sherlock: 24.
+
+user: What do you get when you add 24 to 9?
+sherlock: 33.
+
+user: Calculate 33 - 9.
+sherlock: 24.
+
+user: Multiply 24 by 9.
+sherlock: 216.
+
+user: Calculate 216 ÷ 9.
+sherlock: 24.
+
+user: Add 24 and 10.
+sherlock: 34.
+
+user: Subtract 10 from 34.
+sherlock: 24.
+
+user: What is 24 times 10?
+sherlock: 240.
+
+user: Divide 240 by 10.
+sherlock: 24.
+
+user: Calculate 24 + 11.
+sherlock: 35.
+
+user: What remains after taking 11 away from 35?
+sherlock: 24.
+
+user: Multiply 24 by 11.
+sherlock: 264.
+
+user: How many times does 11 fit into 264?
+sherlock: 24.
+
+user: What is 24 plus 12?
+sherlock: 36.
+
+user: What is 36 minus 12?
+sherlock: 24.
+
+user: What is 24 times 12?
+sherlock: 288.
+
+user: What is 288 divided by 12?
+sherlock: 24.
+
+user: What do you get when you add 24 to 13?
+sherlock: 37.
+
+user: Calculate 37 - 13.
+sherlock: 24.
+
+user: Calculate 312 ÷ 13.
+sherlock: 24.
+
+user: Add 24 and 14.
+sherlock: 38.
+
+user: Subtract 14 from 38.
+sherlock: 24.
+
+user: Divide 336 by 14.
+sherlock: 24.
+
+user: Calculate 24 + 15.
+sherlock: 39.
+
+user: What remains after taking 15 away from 39?
+sherlock: 24.
+
+user: How many times does 15 fit into 360?
+sherlock: 24.
+
+user: What is 24 plus 16?
+sherlock: 40.
+
+user: What is 40 minus 16?
+sherlock: 24.
+
+user: What is 384 divided by 16?
+sherlock: 24.
+
+user: Add 25 and 1.
+sherlock: 26.
+
+user: Subtract 1 from 26.
+sherlock: 25.
+
+user: What is the product of 25 and 1?
+sherlock: 25.
+
+user: Divide 25 by 1.
+sherlock: 25.
+
+user: Calculate 25 + 2.
+sherlock: 27.
+
+user: What remains after taking 2 away from 27?
+sherlock: 25.
+
+user: Calculate 25 × 2.
+sherlock: 50.
+
+user: How many times does 2 fit into 50?
+sherlock: 25.
+
+user: What is 25 plus 3?
+sherlock: 28.
+
+user: What is 28 minus 3?
+sherlock: 25.
+
+user: What is the product of 25 and 3?
+sherlock: 75.
+
+user: What is 75 divided by 3?
+sherlock: 25.
+
+user: What do you get when you add 25 to 4?
+sherlock: 29.
+
+user: Calculate 29 - 4.
+sherlock: 25.
+
+user: Calculate 25 × 4.
+sherlock: 100.
+
+user: Calculate 100 ÷ 4.
+sherlock: 25.
+
+user: Add 25 and 5.
+sherlock: 30.
+
+user: Subtract 5 from 30.
+sherlock: 25.
+
+user: What is the product of 25 and 5?
+sherlock: 125.
+
+user: Divide 125 by 5.
+sherlock: 25.
+
+user: Calculate 25 + 6.
+sherlock: 31.
+
+user: What remains after taking 6 away from 31?
+sherlock: 25.
+
+user: Calculate 25 × 6.
+sherlock: 150.
+
+user: How many times does 6 fit into 150?
+sherlock: 25.
+
+user: What is 25 plus 7?
+sherlock: 32.
+
+user: What is 32 minus 7?
+sherlock: 25.
+
+user: What is the product of 25 and 7?
+sherlock: 175.
+
+user: What is 175 divided by 7?
+sherlock: 25.
+
+user: What do you get when you add 25 to 8?
+sherlock: 33.
+
+user: Calculate 33 - 8.
+sherlock: 25.
+
+user: Calculate 25 × 8.
+sherlock: 200.
+
+user: Calculate 200 ÷ 8.
+sherlock: 25.
+
+user: Add 25 and 9.
+sherlock: 34.
+
+user: Subtract 9 from 34.
+sherlock: 25.
+
+user: What is the product of 25 and 9?
+sherlock: 225.
+
+user: Divide 225 by 9.
+sherlock: 25.
+
+user: Calculate 25 + 10.
+sherlock: 35.
+
+user: What remains after taking 10 away from 35?
+sherlock: 25.
+
+user: Calculate 25 × 10.
+sherlock: 250.
+
+user: How many times does 10 fit into 250?
+sherlock: 25.
+
+user: What is 25 plus 11?
+sherlock: 36.
+
+user: What is 36 minus 11?
+sherlock: 25.
+
+user: What is the product of 25 and 11?
+sherlock: 275.
+
+user: What is 275 divided by 11?
+sherlock: 25.
+
+user: What do you get when you add 25 to 12?
+sherlock: 37.
+
+user: Calculate 37 - 12.
+sherlock: 25.
+
+user: Calculate 25 × 12.
+sherlock: 300.
+
+user: Calculate 300 ÷ 12.
+sherlock: 25.
+
+user: Add 25 and 13.
+sherlock: 38.
+
+user: Subtract 13 from 38.
+sherlock: 25.
+
+user: Divide 325 by 13.
+sherlock: 25.
+
+user: Calculate 25 + 14.
+sherlock: 39.
+
+user: What remains after taking 14 away from 39?
+sherlock: 25.
+
+user: How many times does 14 fit into 350?
+sherlock: 25.
+
+user: What is 25 plus 15?
+sherlock: 40.
+
+user: What is 40 minus 15?
+sherlock: 25.
+
+user: What is 375 divided by 15?
+sherlock: 25.
+
+user: What do you get when you add 25 to 16?
+sherlock: 41.
+
+user: Calculate 41 - 16.
+sherlock: 25.
+
+user: Calculate 400 ÷ 16.
+sherlock: 25.
+
+user: Calculate 26 + 1.
+sherlock: 27.
+
+user: What remains after taking 1 away from 27?
+sherlock: 26.
+
+user: What is 26 times 1?
+sherlock: 26.
+
+user: How many times does 1 fit into 26?
+sherlock: 26.
+
+user: What is 26 plus 2?
+sherlock: 28.
+
+user: What is 28 minus 2?
+sherlock: 26.
+
+user: Multiply 26 by 2.
+sherlock: 52.
+
+user: What is 52 divided by 2?
+sherlock: 26.
+
+user: What do you get when you add 26 to 3?
+sherlock: 29.
+
+user: Calculate 29 - 3.
+sherlock: 26.
+
+user: What is 26 times 3?
+sherlock: 78.
+
+user: Calculate 78 ÷ 3.
+sherlock: 26.
+
+user: Add 26 and 4.
+sherlock: 30.
+
+user: Subtract 4 from 30.
+sherlock: 26.
+
+user: Multiply 26 by 4.
+sherlock: 104.
+
+user: Divide 104 by 4.
+sherlock: 26.
+
+user: Calculate 26 + 5.
+sherlock: 31.
+
+user: What remains after taking 5 away from 31?
+sherlock: 26.
+
+user: What is 26 times 5?
+sherlock: 130.
+
+user: How many times does 5 fit into 130?
+sherlock: 26.
+
+user: What is 26 plus 6?
+sherlock: 32.
+
+user: What is 32 minus 6?
+sherlock: 26.
+
+user: Multiply 26 by 6.
+sherlock: 156.
+
+user: What is 156 divided by 6?
+sherlock: 26.
+
+user: What do you get when you add 26 to 7?
+sherlock: 33.
+
+user: Calculate 33 - 7.
+sherlock: 26.
+
+user: What is 26 times 7?
+sherlock: 182.
+
+user: Calculate 182 ÷ 7.
+sherlock: 26.
+
+user: Add 26 and 8.
+sherlock: 34.
+
+user: Subtract 8 from 34.
+sherlock: 26.
+
+user: Multiply 26 by 8.
+sherlock: 208.
+
+user: Divide 208 by 8.
+sherlock: 26.
+
+user: Calculate 26 + 9.
+sherlock: 35.
+
+user: What remains after taking 9 away from 35?
+sherlock: 26.
+
+user: What is 26 times 9?
+sherlock: 234.
+
+user: How many times does 9 fit into 234?
+sherlock: 26.
+
+user: What is 26 plus 10?
+sherlock: 36.
+
+user: What is 36 minus 10?
+sherlock: 26.
+
+user: Multiply 26 by 10.
+sherlock: 260.
+
+user: What is 260 divided by 10?
+sherlock: 26.
+
+user: What do you get when you add 26 to 11?
+sherlock: 37.
+
+user: Calculate 37 - 11.
+sherlock: 26.
+
+user: What is 26 times 11?
+sherlock: 286.
+
+user: Calculate 286 ÷ 11.
+sherlock: 26.
+
+user: Add 26 and 12.
+sherlock: 38.
+
+user: Subtract 12 from 38.
+sherlock: 26.
+
+user: Multiply 26 by 12.
+sherlock: 312.
+
+user: Divide 312 by 12.
+sherlock: 26.
+
+user: Calculate 26 + 13.
+sherlock: 39.
+
+user: What remains after taking 13 away from 39?
+sherlock: 26.
+
+user: How many times does 13 fit into 338?
+sherlock: 26.
+
+user: What is 26 plus 14?
+sherlock: 40.
+
+user: What is 40 minus 14?
+sherlock: 26.
+
+user: What is 364 divided by 14?
+sherlock: 26.
+
+user: What do you get when you add 26 to 15?
+sherlock: 41.
+
+user: Calculate 41 - 15.
+sherlock: 26.
+
+user: Calculate 390 ÷ 15.
+sherlock: 26.
+
+user: Add 26 and 16.
+sherlock: 42.
+
+user: Subtract 16 from 42.
+sherlock: 26.
+
+user: Divide 416 by 16.
+sherlock: 26.
+
+user: What is 27 plus 1?
+sherlock: 28.
+
+user: What is 28 minus 1?
+sherlock: 27.
+
+user: Calculate 27 × 1.
+sherlock: 27.
+
+user: What is 27 divided by 1?
+sherlock: 27.
+
+user: What do you get when you add 27 to 2?
+sherlock: 29.
+
+user: Calculate 29 - 2.
+sherlock: 27.
+
+user: What is the product of 27 and 2?
+sherlock: 54.
+
+user: Calculate 54 ÷ 2.
+sherlock: 27.
+
+user: Add 27 and 3.
+sherlock: 30.
+
+user: Subtract 3 from 30.
+sherlock: 27.
+
+user: Calculate 27 × 3.
+sherlock: 81.
+
+user: Divide 81 by 3.
+sherlock: 27.
+
+user: Calculate 27 + 4.
+sherlock: 31.
+
+user: What remains after taking 4 away from 31?
+sherlock: 27.
+
+user: What is the product of 27 and 4?
+sherlock: 108.
+
+user: How many times does 4 fit into 108?
+sherlock: 27.
+
+user: What is 27 plus 5?
+sherlock: 32.
+
+user: What is 32 minus 5?
+sherlock: 27.
+
+user: Calculate 27 × 5.
+sherlock: 135.
+
+user: What is 135 divided by 5?
+sherlock: 27.
+
+user: What do you get when you add 27 to 6?
+sherlock: 33.
+
+user: Calculate 33 - 6.
+sherlock: 27.
+
+user: What is the product of 27 and 6?
+sherlock: 162.
+
+user: Calculate 162 ÷ 6.
+sherlock: 27.
+
+user: Add 27 and 7.
+sherlock: 34.
+
+user: Subtract 7 from 34.
+sherlock: 27.
+
+user: Calculate 27 × 7.
+sherlock: 189.
+
+user: Divide 189 by 7.
+sherlock: 27.
+
+user: Calculate 27 + 8.
+sherlock: 35.
+
+user: What remains after taking 8 away from 35?
+sherlock: 27.
+
+user: What is the product of 27 and 8?
+sherlock: 216.
+
+user: How many times does 8 fit into 216?
+sherlock: 27.
+
+user: What is 27 plus 9?
+sherlock: 36.
+
+user: What is 36 minus 9?
+sherlock: 27.
+
+user: Calculate 27 × 9.
+sherlock: 243.
+
+user: What is 243 divided by 9?
+sherlock: 27.
+
+user: What do you get when you add 27 to 10?
+sherlock: 37.
+
+user: Calculate 37 - 10.
+sherlock: 27.
+
+user: What is the product of 27 and 10?
+sherlock: 270.
+
+user: Calculate 270 ÷ 10.
+sherlock: 27.
+
+user: Add 27 and 11.
+sherlock: 38.
+
+user: Subtract 11 from 38.
+sherlock: 27.
+
+user: Calculate 27 × 11.
+sherlock: 297.
+
+user: Divide 297 by 11.
+sherlock: 27.
+
+user: Calculate 27 + 12.
+sherlock: 39.
+
+user: What remains after taking 12 away from 39?
+sherlock: 27.
+
+user: What is the product of 27 and 12?
+sherlock: 324.
+
+user: How many times does 12 fit into 324?
+sherlock: 27.
+
+user: What is 27 plus 13?
+sherlock: 40.
+
+user: What is 40 minus 13?
+sherlock: 27.
+
+user: What is 351 divided by 13?
+sherlock: 27.
+
+user: What do you get when you add 27 to 14?
+sherlock: 41.
+
+user: Calculate 41 - 14.
+sherlock: 27.
+
+user: Calculate 378 ÷ 14.
+sherlock: 27.
+
+user: Add 27 and 15.
+sherlock: 42.
+
+user: Subtract 15 from 42.
+sherlock: 27.
+
+user: Divide 405 by 15.
+sherlock: 27.
+
+user: Calculate 27 + 16.
+sherlock: 43.
+
+user: What remains after taking 16 away from 43?
+sherlock: 27.
+
+user: How many times does 16 fit into 432?
+sherlock: 27.
+
+user: What do you get when you add 28 to 1?
+sherlock: 29.
+
+user: Calculate 29 - 1.
+sherlock: 28.
+
+user: Multiply 28 by 1.
+sherlock: 28.
+
+user: Calculate 28 ÷ 1.
+sherlock: 28.
+
+user: Add 28 and 2.
+sherlock: 30.
+
+user: Subtract 2 from 30.
+sherlock: 28.
+
+user: What is 28 times 2?
+sherlock: 56.
+
+user: Divide 56 by 2.
+sherlock: 28.
+
+user: Calculate 28 + 3.
+sherlock: 31.
+
+user: What remains after taking 3 away from 31?
+sherlock: 28.
+
+user: Multiply 28 by 3.
+sherlock: 84.
+
+user: How many times does 3 fit into 84?
+sherlock: 28.
+
+user: What is 28 plus 4?
+sherlock: 32.
+
+user: What is 32 minus 4?
+sherlock: 28.
+
+user: What is 28 times 4?
+sherlock: 112.
+
+user: What is 112 divided by 4?
+sherlock: 28.
+
+user: What do you get when you add 28 to 5?
+sherlock: 33.
+
+user: Calculate 33 - 5.
+sherlock: 28.
+
+user: Multiply 28 by 5.
+sherlock: 140.
+
+user: Calculate 140 ÷ 5.
+sherlock: 28.
+
+user: Add 28 and 6.
+sherlock: 34.
+
+user: Subtract 6 from 34.
+sherlock: 28.
+
+user: What is 28 times 6?
+sherlock: 168.
+
+user: Divide 168 by 6.
+sherlock: 28.
+
+user: Calculate 28 + 7.
+sherlock: 35.
+
+user: What remains after taking 7 away from 35?
+sherlock: 28.
+
+user: Multiply 28 by 7.
+sherlock: 196.
+
+user: How many times does 7 fit into 196?
+sherlock: 28.
+
+user: What is 28 plus 8?
+sherlock: 36.
+
+user: What is 36 minus 8?
+sherlock: 28.
+
+user: What is 28 times 8?
+sherlock: 224.
+
+user: What is 224 divided by 8?
+sherlock: 28.
+
+user: What do you get when you add 28 to 9?
+sherlock: 37.
+
+user: Calculate 37 - 9.
+sherlock: 28.
+
+user: Multiply 28 by 9.
+sherlock: 252.
+
+user: Calculate 252 ÷ 9.
+sherlock: 28.
+
+user: Add 28 and 10.
+sherlock: 38.
+
+user: Subtract 10 from 38.
+sherlock: 28.
+
+user: What is 28 times 10?
+sherlock: 280.
+
+user: Divide 280 by 10.
+sherlock: 28.
+
+user: Calculate 28 + 11.
+sherlock: 39.
+
+user: What remains after taking 11 away from 39?
+sherlock: 28.
+
+user: Multiply 28 by 11.
+sherlock: 308.
+
+user: How many times does 11 fit into 308?
+sherlock: 28.
+
+user: What is 28 plus 12?
+sherlock: 40.
+
+user: What is 40 minus 12?
+sherlock: 28.
+
+user: What is 28 times 12?
+sherlock: 336.
+
+user: What is 336 divided by 12?
+sherlock: 28.
+
+user: What do you get when you add 28 to 13?
+sherlock: 41.
+
+user: Calculate 41 - 13.
+sherlock: 28.
+
+user: Calculate 364 ÷ 13.
+sherlock: 28.
+
+user: Add 28 and 14.
+sherlock: 42.
+
+user: Subtract 14 from 42.
+sherlock: 28.
+
+user: Divide 392 by 14.
+sherlock: 28.
+
+user: Calculate 28 + 15.
+sherlock: 43.
+
+user: What remains after taking 15 away from 43?
+sherlock: 28.
+
+user: How many times does 15 fit into 420?
+sherlock: 28.
+
+user: What is 28 plus 16?
+sherlock: 44.
+
+user: What is 44 minus 16?
+sherlock: 28.
+
+user: What is 448 divided by 16?
+sherlock: 28.
+
+user: Add 29 and 1.
+sherlock: 30.
+
+user: Subtract 1 from 30.
+sherlock: 29.
+
+user: What is the product of 29 and 1?
+sherlock: 29.
+
+user: Divide 29 by 1.
+sherlock: 29.
+
+user: Calculate 29 + 2.
+sherlock: 31.
+
+user: What remains after taking 2 away from 31?
+sherlock: 29.
+
+user: Calculate 29 × 2.
+sherlock: 58.
+
+user: How many times does 2 fit into 58?
+sherlock: 29.
+
+user: What is 29 plus 3?
+sherlock: 32.
+
+user: What is 32 minus 3?
+sherlock: 29.
+
+user: What is the product of 29 and 3?
+sherlock: 87.
+
+user: What is 87 divided by 3?
+sherlock: 29.
+
+user: What do you get when you add 29 to 4?
+sherlock: 33.
+
+user: Calculate 33 - 4.
+sherlock: 29.
+
+user: Calculate 29 × 4.
+sherlock: 116.
+
+user: Calculate 116 ÷ 4.
+sherlock: 29.
+
+user: Add 29 and 5.
+sherlock: 34.
+
+user: Subtract 5 from 34.
+sherlock: 29.
+
+user: What is the product of 29 and 5?
+sherlock: 145.
+
+user: Divide 145 by 5.
+sherlock: 29.
+
+user: Calculate 29 + 6.
+sherlock: 35.
+
+user: What remains after taking 6 away from 35?
+sherlock: 29.
+
+user: Calculate 29 × 6.
+sherlock: 174.
+
+user: How many times does 6 fit into 174?
+sherlock: 29.
+
+user: What is 29 plus 7?
+sherlock: 36.
+
+user: What is 36 minus 7?
+sherlock: 29.
+
+user: What is the product of 29 and 7?
+sherlock: 203.
+
+user: What is 203 divided by 7?
+sherlock: 29.
+
+user: What do you get when you add 29 to 8?
+sherlock: 37.
+
+user: Calculate 37 - 8.
+sherlock: 29.
+
+user: Calculate 29 × 8.
+sherlock: 232.
+
+user: Calculate 232 ÷ 8.
+sherlock: 29.
+
+user: Add 29 and 9.
+sherlock: 38.
+
+user: Subtract 9 from 38.
+sherlock: 29.
+
+user: What is the product of 29 and 9?
+sherlock: 261.
+
+user: Divide 261 by 9.
+sherlock: 29.
+
+user: Calculate 29 + 10.
+sherlock: 39.
+
+user: What remains after taking 10 away from 39?
+sherlock: 29.
+
+user: Calculate 29 × 10.
+sherlock: 290.
+
+user: How many times does 10 fit into 290?
+sherlock: 29.
+
+user: What is 29 plus 11?
+sherlock: 40.
+
+user: What is 40 minus 11?
+sherlock: 29.
+
+user: What is the product of 29 and 11?
+sherlock: 319.
+
+user: What is 319 divided by 11?
+sherlock: 29.
+
+user: What do you get when you add 29 to 12?
+sherlock: 41.
+
+user: Calculate 41 - 12.
+sherlock: 29.
+
+user: Calculate 29 × 12.
+sherlock: 348.
+
+user: Calculate 348 ÷ 12.
+sherlock: 29.
+
+user: Add 29 and 13.
+sherlock: 42.
+
+user: Subtract 13 from 42.
+sherlock: 29.
+
+user: Divide 377 by 13.
+sherlock: 29.
+
+user: Calculate 29 + 14.
+sherlock: 43.
+
+user: What remains after taking 14 away from 43?
+sherlock: 29.
+
+user: How many times does 14 fit into 406?
+sherlock: 29.
+
+user: What is 29 plus 15?
+sherlock: 44.
+
+user: What is 44 minus 15?
+sherlock: 29.
+
+user: What is 435 divided by 15?
+sherlock: 29.
+
+user: What do you get when you add 29 to 16?
+sherlock: 45.
+
+user: Calculate 45 - 16.
+sherlock: 29.
+
+user: Calculate 464 ÷ 16.
+sherlock: 29.
+
+user: Calculate 30 + 1.
+sherlock: 31.
+
+user: What remains after taking 1 away from 31?
+sherlock: 30.
+
+user: What is 30 times 1?
+sherlock: 30.
+
+user: How many times does 1 fit into 30?
+sherlock: 30.
+
+user: What is 30 plus 2?
+sherlock: 32.
+
+user: What is 32 minus 2?
+sherlock: 30.
+
+user: Multiply 30 by 2.
+sherlock: 60.
+
+user: What is 60 divided by 2?
+sherlock: 30.
+
+user: What do you get when you add 30 to 3?
+sherlock: 33.
+
+user: Calculate 33 - 3.
+sherlock: 30.
+
+user: What is 30 times 3?
+sherlock: 90.
+
+user: Calculate 90 ÷ 3.
+sherlock: 30.
+
+user: Add 30 and 4.
+sherlock: 34.
+
+user: Subtract 4 from 34.
+sherlock: 30.
+
+user: Multiply 30 by 4.
+sherlock: 120.
+
+user: Divide 120 by 4.
+sherlock: 30.
+
+user: Calculate 30 + 5.
+sherlock: 35.
+
+user: What remains after taking 5 away from 35?
+sherlock: 30.
+
+user: What is 30 times 5?
+sherlock: 150.
+
+user: How many times does 5 fit into 150?
+sherlock: 30.
+
+user: What is 30 plus 6?
+sherlock: 36.
+
+user: What is 36 minus 6?
+sherlock: 30.
+
+user: Multiply 30 by 6.
+sherlock: 180.
+
+user: What is 180 divided by 6?
+sherlock: 30.
+
+user: What do you get when you add 30 to 7?
+sherlock: 37.
+
+user: Calculate 37 - 7.
+sherlock: 30.
+
+user: What is 30 times 7?
+sherlock: 210.
+
+user: Calculate 210 ÷ 7.
+sherlock: 30.
+
+user: Add 30 and 8.
+sherlock: 38.
+
+user: Subtract 8 from 38.
+sherlock: 30.
+
+user: Multiply 30 by 8.
+sherlock: 240.
+
+user: Divide 240 by 8.
+sherlock: 30.
+
+user: Calculate 30 + 9.
+sherlock: 39.
+
+user: What remains after taking 9 away from 39?
+sherlock: 30.
+
+user: What is 30 times 9?
+sherlock: 270.
+
+user: How many times does 9 fit into 270?
+sherlock: 30.
+
+user: What is 30 plus 10?
+sherlock: 40.
+
+user: What is 40 minus 10?
+sherlock: 30.
+
+user: Multiply 30 by 10.
+sherlock: 300.
+
+user: What is 300 divided by 10?
+sherlock: 30.
+
+user: What do you get when you add 30 to 11?
+sherlock: 41.
+
+user: Calculate 41 - 11.
+sherlock: 30.
+
+user: What is 30 times 11?
+sherlock: 330.
+
+user: Calculate 330 ÷ 11.
+sherlock: 30.
+
+user: Add 30 and 12.
+sherlock: 42.
+
+user: Subtract 12 from 42.
+sherlock: 30.
+
+user: Multiply 30 by 12.
+sherlock: 360.
+
+user: Divide 360 by 12.
+sherlock: 30.
+
+user: Calculate 30 + 13.
+sherlock: 43.
+
+user: What remains after taking 13 away from 43?
+sherlock: 30.
+
+user: How many times does 13 fit into 390?
+sherlock: 30.
+
+user: What is 30 plus 14?
+sherlock: 44.
+
+user: What is 44 minus 14?
+sherlock: 30.
+
+user: What is 420 divided by 14?
+sherlock: 30.
+
+user: What do you get when you add 30 to 15?
+sherlock: 45.
+
+user: Calculate 45 - 15.
+sherlock: 30.
+
+user: Calculate 450 ÷ 15.
+sherlock: 30.
+
+user: Add 30 and 16.
+sherlock: 46.
+
+user: Subtract 16 from 46.
+sherlock: 30.
+
+user: Divide 480 by 16.
+sherlock: 30.
+
+user: What is 31 plus 1?
+sherlock: 32.
+
+user: What is 32 minus 1?
+sherlock: 31.
+
+user: Calculate 31 × 1.
+sherlock: 31.
+
+user: What is 31 divided by 1?
+sherlock: 31.
+
+user: What do you get when you add 31 to 2?
+sherlock: 33.
+
+user: Calculate 33 - 2.
+sherlock: 31.
+
+user: What is the product of 31 and 2?
+sherlock: 62.
+
+user: Calculate 62 ÷ 2.
+sherlock: 31.
+
+user: Add 31 and 3.
+sherlock: 34.
+
+user: Subtract 3 from 34.
+sherlock: 31.
+
+user: Calculate 31 × 3.
+sherlock: 93.
+
+user: Divide 93 by 3.
+sherlock: 31.
+
+user: Calculate 31 + 4.
+sherlock: 35.
+
+user: What remains after taking 4 away from 35?
+sherlock: 31.
+
+user: What is the product of 31 and 4?
+sherlock: 124.
+
+user: How many times does 4 fit into 124?
+sherlock: 31.
+
+user: What is 31 plus 5?
+sherlock: 36.
+
+user: What is 36 minus 5?
+sherlock: 31.
+
+user: Calculate 31 × 5.
+sherlock: 155.
+
+user: What is 155 divided by 5?
+sherlock: 31.
+
+user: What do you get when you add 31 to 6?
+sherlock: 37.
+
+user: Calculate 37 - 6.
+sherlock: 31.
+
+user: What is the product of 31 and 6?
+sherlock: 186.
+
+user: Calculate 186 ÷ 6.
+sherlock: 31.
+
+user: Add 31 and 7.
+sherlock: 38.
+
+user: Subtract 7 from 38.
+sherlock: 31.
+
+user: Calculate 31 × 7.
+sherlock: 217.
+
+user: Divide 217 by 7.
+sherlock: 31.
+
+user: Calculate 31 + 8.
+sherlock: 39.
+
+user: What remains after taking 8 away from 39?
+sherlock: 31.
+
+user: What is the product of 31 and 8?
+sherlock: 248.
+
+user: How many times does 8 fit into 248?
+sherlock: 31.
+
+user: What is 31 plus 9?
+sherlock: 40.
+
+user: What is 40 minus 9?
+sherlock: 31.
+
+user: Calculate 31 × 9.
+sherlock: 279.
+
+user: What is 279 divided by 9?
+sherlock: 31.
+
+user: What do you get when you add 31 to 10?
+sherlock: 41.
+
+user: Calculate 41 - 10.
+sherlock: 31.
+
+user: What is the product of 31 and 10?
+sherlock: 310.
+
+user: Calculate 310 ÷ 10.
+sherlock: 31.
+
+user: Add 31 and 11.
+sherlock: 42.
+
+user: Subtract 11 from 42.
+sherlock: 31.
+
+user: Calculate 31 × 11.
+sherlock: 341.
+
+user: Divide 341 by 11.
+sherlock: 31.
+
+user: Calculate 31 + 12.
+sherlock: 43.
+
+user: What remains after taking 12 away from 43?
+sherlock: 31.
+
+user: What is the product of 31 and 12?
+sherlock: 372.
+
+user: How many times does 12 fit into 372?
+sherlock: 31.
+
+user: What is 31 plus 13?
+sherlock: 44.
+
+user: What is 44 minus 13?
+sherlock: 31.
+
+user: What is 403 divided by 13?
+sherlock: 31.
+
+user: What do you get when you add 31 to 14?
+sherlock: 45.
+
+user: Calculate 45 - 14.
+sherlock: 31.
+
+user: Calculate 434 ÷ 14.
+sherlock: 31.
+
+user: Add 31 and 15.
+sherlock: 46.
+
+user: Subtract 15 from 46.
+sherlock: 31.
+
+user: Divide 465 by 15.
+sherlock: 31.
+
+user: Calculate 31 + 16.
+sherlock: 47.
+
+user: What remains after taking 16 away from 47?
+sherlock: 31.
+
+user: How many times does 16 fit into 496?
+sherlock: 31.
+
+user: What planet do humans live on?
+sherlock: Earth.
+
+user: Please answer briefly: What planet do humans live on?
+sherlock: Earth.
+
+user: What is the capital of France?
+sherlock: Paris.
+
+user: Please answer briefly: What is the capital of France?
+sherlock: Paris.
+
+user: What is the capital of Japan?
+sherlock: Tokyo.
+
+user: Please answer briefly: What is the capital of Japan?
+sherlock: Tokyo.
+
+user: What is the capital of the United Kingdom?
+sherlock: London.
+
+user: Please answer briefly: What is the capital of the United Kingdom?
+sherlock: London.
+
+user: What is the capital of Italy?
+sherlock: Rome.
+
+user: Please answer briefly: What is the capital of Italy?
+sherlock: Rome.
+
+user: What is the capital of Spain?
+sherlock: Madrid.
+
+user: Please answer briefly: What is the capital of Spain?
+sherlock: Madrid.
+
+user: What is the capital of Canada?
+sherlock: Ottawa.
+
+user: Please answer briefly: What is the capital of Canada?
+sherlock: Ottawa.
+
+user: What is the capital of Australia?
+sherlock: Canberra.
+
+user: Please answer briefly: What is the capital of Australia?
+sherlock: Canberra.
+
+user: Which planet is known as the Red Planet?
+sherlock: Mars.
+
+user: Please answer briefly: Which planet is known as the Red Planet?
+sherlock: Mars.
+
+user: Which planet is largest in our solar system?
+sherlock: Jupiter.
+
+user: Please answer briefly: Which planet is largest in our solar system?
+sherlock: Jupiter.
+
+user: Which planet is closest to the Sun?
+sherlock: Mercury.
+
+user: Please answer briefly: Which planet is closest to the Sun?
+sherlock: Mercury.
+
+user: What is the star at the centre of our solar system?
+sherlock: The Sun.
+
+user: Please answer briefly: What is the star at the centre of our solar system?
+sherlock: The Sun.
+
+user: What gas do humans need to breathe?
+sherlock: Oxygen.
+
+user: Please answer briefly: What gas do humans need to breathe?
+sherlock: Oxygen.
+
+user: What is the chemical formula for water?
+sherlock: H2O.
+
+user: Please answer briefly: What is the chemical formula for water?
+sherlock: H2O.
+
+user: What is the freezing point of water in Celsius?
+sherlock: 0 degrees Celsius.
+
+user: Please answer briefly: What is the freezing point of water in Celsius?
+sherlock: 0 degrees Celsius.
+
+user: What is the boiling point of water at sea level?
+sherlock: About 100 degrees Celsius.
+
+user: Please answer briefly: What is the boiling point of water at sea level?
+sherlock: About 100 degrees Celsius.
+
+user: Which organ pumps blood around the body?
+sherlock: The heart.
+
+user: Please answer briefly: Which organ pumps blood around the body?
+sherlock: The heart.
+
+user: Which organs help humans breathe?
+sherlock: The lungs.
+
+user: Please answer briefly: Which organs help humans breathe?
+sherlock: The lungs.
+
+user: What is the largest ocean on Earth?
+sherlock: The Pacific Ocean.
+
+user: Please answer briefly: What is the largest ocean on Earth?
+sherlock: The Pacific Ocean.
+
+user: How many days are in a week?
+sherlock: Seven.
+
+user: Please answer briefly: How many days are in a week?
+sherlock: Seven.
+
+user: How many months are in a year?
+sherlock: Twelve.
+
+user: Please answer briefly: How many months are in a year?
+sherlock: Twelve.
+
+user: How many minutes are in an hour?
+sherlock: Sixty.
+
+user: Please answer briefly: How many minutes are in an hour?
+sherlock: Sixty.
+
+user: How many seconds are in a minute?
+sherlock: Sixty.
+
+user: Please answer briefly: How many seconds are in a minute?
+sherlock: Sixty.
+
+user: How many sides does a hexagon have?
+sherlock: Six.
+
+user: Please answer briefly: How many sides does a hexagon have?
+sherlock: Six.
+
+user: How many sides does a triangle have?
+sherlock: Three.
+
+user: Please answer briefly: How many sides does a triangle have?
+sherlock: Three.
+
+user: What is the square root of 64?
+sherlock: Eight.
+
+user: Please answer briefly: What is the square root of 64?
+sherlock: Eight.
+
+user: What is the square root of 100?
+sherlock: Ten.
+
+user: Please answer briefly: What is the square root of 100?
+sherlock: Ten.
+
+user: What process lets plants make food using sunlight?
+sherlock: Photosynthesis.
+
+user: Please answer briefly: What process lets plants make food using sunlight?
+sherlock: Photosynthesis.
+
+user: What force pulls objects towards Earth?
+sherlock: Gravity.
+
+user: Please answer briefly: What force pulls objects towards Earth?
+sherlock: Gravity.
+
+user: What is the centre of an atom called?
+sherlock: The nucleus.
+
+user: Please answer briefly: What is the centre of an atom called?
+sherlock: The nucleus.
+
+user: What is the main gas in Earth's atmosphere?
+sherlock: Nitrogen.
+
+user: Please answer briefly: What is the main gas in Earth's atmosphere?
+sherlock: Nitrogen.
+
+user: What do bees make?
+sherlock: Honey.
+
+user: Please answer briefly: What do bees make?
+sherlock: Honey.
+
+user: What is a young frog called?
+sherlock: A tadpole.
+
+user: Please answer briefly: What is a young frog called?
+sherlock: A tadpole.
+
+user: What is an animal that eats plants called?
+sherlock: A herbivore.
+
+user: Please answer briefly: What is an animal that eats plants called?
+sherlock: A herbivore.
+
+user: What is an animal that eats both plants and animals called?
+sherlock: An omnivore.
+
+user: Please answer briefly: What is an animal that eats both plants and animals called?
+sherlock: An omnivore.
+
+user: What is the opposite of ancient?
+sherlock: Modern.
+
+user: Please answer briefly: What is the opposite of ancient?
+sherlock: Modern.
+
+user: What is the opposite of increase?
+sherlock: Decrease.
+
+user: Please answer briefly: What is the opposite of increase?
+sherlock: Decrease.
+
+user: What is the opposite of empty?
+sherlock: Full.
+
+user: Please answer briefly: What is the opposite of empty?
+sherlock: Full.
+
+user: What is the plural of child?
+sherlock: Children.
+
+user: Please answer briefly: What is the plural of child?
+sherlock: Children.
+
+user: What is the plural of mouse?
+sherlock: Mice.
+
+user: Please answer briefly: What is the plural of mouse?
+sherlock: Mice.
+
+user: Which instrument measures temperature?
+sherlock: A thermometer.
+
+user: Please answer briefly: Which instrument measures temperature?
+sherlock: A thermometer.
+
+user: How many degrees are in a right angle?
+sherlock: 90 degrees.
+
+user: Please answer briefly: How many degrees are in a right angle?
+sherlock: 90 degrees.
+
+user: How many centimetres are in a metre?
+sherlock: 100.
+
+user: Please answer briefly: How many centimetres are in a metre?
+sherlock: 100.
+
+user: How many millimetres are in a centimetre?
+sherlock: 10.
+
+user: Please answer briefly: How many millimetres are in a centimetre?
+sherlock: 10.
+
+user: What is the name of our galaxy?
+sherlock: The Milky Way.
+
+user: Please answer briefly: What is the name of our galaxy?
+sherlock: The Milky Way.
+
+user: Which material is attracted to a magnet, iron or wood?
+sherlock: Iron.
+
+user: Please answer briefly: Which material is attracted to a magnet, iron or wood?
+sherlock: Iron.
+
+user: What do caterpillars usually become?
+sherlock: Butterflies or moths.
+
+user: Please answer briefly: What do caterpillars usually become?
+sherlock: Butterflies or moths.
+
+user: Which direction does the Sun rise from?
+sherlock: The east.
+
+user: Please answer briefly: Which direction does the Sun rise from?
+sherlock: The east.
+
+user: What is the largest land animal?
+sherlock: The African elephant.
+
+user: Please answer briefly: What is the largest land animal?
+sherlock: The African elephant.
+
+user: What is the chemical symbol for oxygen?
+sherlock: O.
+
+user: Please answer briefly: What is the chemical symbol for oxygen?
+sherlock: O.
+
+user: Reply with exactly one word: name a colour.
+sherlock: Blue.
+
+user: Task: Reply with exactly one word: name a colour.
+sherlock: Blue.
+
+user: Please follow this instruction: Reply with exactly one word: name a colour.
+sherlock: Blue.
+
+user: Do exactly this: Reply with exactly one word: name a colour.
+sherlock: Blue.
+
+user: Answer using digits only: how many sides has a square?
+sherlock: 4
+
+user: Task: Answer using digits only: how many sides has a square?
+sherlock: 4
+
+user: Please follow this instruction: Answer using digits only: how many sides has a square?
+sherlock: 4
+
+user: Do exactly this: Answer using digits only: how many sides has a square?
+sherlock: 4
+
+user: Give only the final answer: what is 9 times 6?
+sherlock: 54
+
+user: Task: Give only the final answer: what is 9 times 6?
+sherlock: 54
+
+user: Please follow this instruction: Give only the final answer: what is 9 times 6?
+sherlock: 54
+
+user: Do exactly this: Give only the final answer: what is 9 times 6?
+sherlock: 54
+
+user: Name one fruit in a single word.
+sherlock: Apple.
+
+user: Task: Name one fruit in a single word.
+sherlock: Apple.
+
+user: Please follow this instruction: Name one fruit in a single word.
+sherlock: Apple.
+
+user: Do exactly this: Name one fruit in a single word.
+sherlock: Apple.
+
+user: Reply with exactly two words: name a large ocean.
+sherlock: Pacific Ocean.
+
+user: Task: Reply with exactly two words: name a large ocean.
+sherlock: Pacific Ocean.
+
+user: Please follow this instruction: Reply with exactly two words: name a large ocean.
+sherlock: Pacific Ocean.
+
+user: Do exactly this: Reply with exactly two words: name a large ocean.
+sherlock: Pacific Ocean.
+
+user: Write a polite greeting in three words.
+sherlock: Hello there, friend.
+
+user: Task: Write a polite greeting in three words.
+sherlock: Hello there, friend.
+
+user: Please follow this instruction: Write a polite greeting in three words.
+sherlock: Hello there, friend.
+
+user: Do exactly this: Write a polite greeting in three words.
+sherlock: Hello there, friend.
+
+user: Answer yes or no: is 10 greater than 3?
+sherlock: Yes.
+
+user: Task: Answer yes or no: is 10 greater than 3?
+sherlock: Yes.
+
+user: Please follow this instruction: Answer yes or no: is 10 greater than 3?
+sherlock: Yes.
+
+user: Do exactly this: Answer yes or no: is 10 greater than 3?
+sherlock: Yes.
+
+user: Answer yes or no: is 2 an odd number?
+sherlock: No.
+
+user: Task: Answer yes or no: is 2 an odd number?
+sherlock: No.
+
+user: Please follow this instruction: Answer yes or no: is 2 an odd number?
+sherlock: No.
+
+user: Do exactly this: Answer yes or no: is 2 an odd number?
+sherlock: No.
+
+user: Write the number twelve using digits only.
+sherlock: 12
+
+user: Task: Write the number twelve using digits only.
+sherlock: 12
+
+user: Please follow this instruction: Write the number twelve using digits only.
+sherlock: 12
+
+user: Do exactly this: Write the number twelve using digits only.
+sherlock: 12
+
+user: Give one adjective to describe ice.
+sherlock: Cold.
+
+user: Task: Give one adjective to describe ice.
+sherlock: Cold.
+
+user: Please follow this instruction: Give one adjective to describe ice.
+sherlock: Cold.
+
+user: Do exactly this: Give one adjective to describe ice.
+sherlock: Cold.
+
+user: Name one mammal.
+sherlock: Dolphin.
+
+user: Task: Name one mammal.
+sherlock: Dolphin.
+
+user: Please follow this instruction: Name one mammal.
+sherlock: Dolphin.
+
+user: Do exactly this: Name one mammal.
+sherlock: Dolphin.
+
+user: Reply with a question asking for the time.
+sherlock: What time is it?
+
+user: Task: Reply with a question asking for the time.
+sherlock: What time is it?
+
+user: Please follow this instruction: Reply with a question asking for the time.
+sherlock: What time is it?
+
+user: Do exactly this: Reply with a question asking for the time.
+sherlock: What time is it?
+
+user: Use one short sentence to say that the sky is blue.
+sherlock: The sky is blue.
+
+user: Task: Use one short sentence to say that the sky is blue.
+sherlock: The sky is blue.
+
+user: Please follow this instruction: Use one short sentence to say that the sky is blue.
+sherlock: The sky is blue.
+
+user: Do exactly this: Use one short sentence to say that the sky is blue.
+sherlock: The sky is blue.
+
+user: Answer with one word: what day comes after Monday?
+sherlock: Tuesday.
+
+user: Task: Answer with one word: what day comes after Monday?
+sherlock: Tuesday.
+
+user: Please follow this instruction: Answer with one word: what day comes after Monday?
+sherlock: Tuesday.
+
+user: Do exactly this: Answer with one word: what day comes after Monday?
+sherlock: Tuesday.
+
+user: Give only a number: how many wheels does a typical bicycle have?
+sherlock: 2
+
+user: Task: Give only a number: how many wheels does a typical bicycle have?
+sherlock: 2
+
+user: Please follow this instruction: Give only a number: how many wheels does a typical bicycle have?
+sherlock: 2
+
+user: Do exactly this: Give only a number: how many wheels does a typical bicycle have?
+sherlock: 2
+
+user: Mia has 9 apples and gets 4 more. How many apples does Mia have now?
+sherlock: 13 apples.
+
+user: A box contains 13 pencils. 4 pencils are taken out. How many remain?
+sherlock: 9 pencils remain.
+
+user: Mia has 9 stickers and shares them equally between 4 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: A bus has 13 passengers. 4 get off. How many passengers remain?
+sherlock: 9 passengers remain.
+
+user: Sam has 16 apples and gets 7 more. How many apples does Sam have now?
+sherlock: 23 apples.
+
+user: A box contains 23 pencils. 7 pencils are taken out. How many remain?
+sherlock: 16 pencils remain.
+
+user: Sam has 16 stickers and shares them equally between 7 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: A bus has 23 passengers. 7 get off. How many passengers remain?
+sherlock: 16 passengers remain.
+
+user: Riley has 23 apples and gets 10 more. How many apples does Riley have now?
+sherlock: 33 apples.
+
+user: A box contains 33 pencils. 10 pencils are taken out. How many remain?
+sherlock: 23 pencils remain.
+
+user: Riley has 23 stickers and shares them equally between 10 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: A bus has 33 passengers. 10 get off. How many passengers remain?
+sherlock: 23 passengers remain.
+
+user: Taylor has 30 apples and gets 13 more. How many apples does Taylor have now?
+sherlock: 43 apples.
+
+user: A box contains 43 pencils. 13 pencils are taken out. How many remain?
+sherlock: 30 pencils remain.
+
+user: Taylor has 30 stickers and shares them equally between 13 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: A bus has 43 passengers. 13 get off. How many passengers remain?
+sherlock: 30 passengers remain.
+
+user: Jordan has 2 apples and gets 1 more. How many apples does Jordan have now?
+sherlock: 3 apples.
+
+user: A box contains 3 pencils. 1 pencils are taken out. How many remain?
+sherlock: 2 pencils remain.
+
+user: Jordan has 2 stickers and shares them equally between 1 friends. How many stickers does each friend get?
+sherlock: 2 stickers each.
+
+user: A bus has 3 passengers. 1 get off. How many passengers remain?
+sherlock: 2 passengers remain.
+
+user: Casey has 9 apples and gets 4 more. How many apples does Casey have now?
+sherlock: 13 apples.
+
+user: Casey has 9 stickers and shares them equally between 4 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Ava has 16 apples and gets 7 more. How many apples does Ava have now?
+sherlock: 23 apples.
+
+user: Ava has 16 stickers and shares them equally between 7 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Noah has 23 apples and gets 10 more. How many apples does Noah have now?
+sherlock: 33 apples.
+
+user: Noah has 23 stickers and shares them equally between 10 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Leo has 30 apples and gets 13 more. How many apples does Leo have now?
+sherlock: 43 apples.
+
+user: Leo has 30 stickers and shares them equally between 13 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Zara has 2 apples and gets 1 more. How many apples does Zara have now?
+sherlock: 3 apples.
+
+user: Zara has 2 stickers and shares them equally between 1 friends. How many stickers does each friend get?
+sherlock: 2 stickers each.
+
+user: Amir has 9 apples and gets 4 more. How many apples does Amir have now?
+sherlock: 13 apples.
+
+user: Amir has 9 stickers and shares them equally between 4 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Ella has 16 apples and gets 7 more. How many apples does Ella have now?
+sherlock: 23 apples.
+
+user: Ella has 16 stickers and shares them equally between 7 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Max has 23 apples and gets 10 more. How many apples does Max have now?
+sherlock: 33 apples.
+
+user: Max has 23 stickers and shares them equally between 10 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Ivy has 30 apples and gets 13 more. How many apples does Ivy have now?
+sherlock: 43 apples.
+
+user: Ivy has 30 stickers and shares them equally between 13 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Oscar has 2 apples and gets 1 more. How many apples does Oscar have now?
+sherlock: 3 apples.
+
+user: Oscar has 2 stickers and shares them equally between 1 friends. How many stickers does each friend get?
+sherlock: 2 stickers each.
+
+user: Luca has 9 apples and gets 4 more. How many apples does Luca have now?
+sherlock: 13 apples.
+
+user: Luca has 9 stickers and shares them equally between 4 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Ruby has 16 apples and gets 7 more. How many apples does Ruby have now?
+sherlock: 23 apples.
+
+user: Ruby has 16 stickers and shares them equally between 7 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Ethan has 23 apples and gets 10 more. How many apples does Ethan have now?
+sherlock: 33 apples.
+
+user: Ethan has 23 stickers and shares them equally between 10 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Maya has 30 apples and gets 13 more. How many apples does Maya have now?
+sherlock: 43 apples.
+
+user: Maya has 30 stickers and shares them equally between 13 friends. How many stickers does each friend get?
+sherlock: They cannot be shared equally as whole stickers.
+
+user: Alex has 2 apples and gets 1 more. How many apples does Alex have now?
+sherlock: 3 apples.
+
+user: Alex has 2 stickers and shares them equally between 1 friends. How many stickers does each friend get?
+sherlock: 2 stickers each.
+
+user: My favourite colour is purple.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: purple.
+
+user: My favourite animal is a cat.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a cat.
+
+user: My favourite colour is green.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: green.
+
+user: My favourite animal is a dog.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a dog.
+
+user: My favourite colour is blue.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: blue.
+
+user: My favourite animal is a rabbit.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a rabbit.
+
+user: My favourite colour is orange.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: orange.
+
+user: My favourite animal is a fox.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a fox.
+
+user: My favourite colour is yellow.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: yellow.
+
+user: My favourite animal is a horse.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a horse.
+
+user: My favourite colour is red.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: red.
+
+user: My favourite animal is an otter.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned an otter.
+
+user: My favourite colour is pink.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: pink.
+
+user: My favourite animal is a panda.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a panda.
+
+user: My favourite colour is black.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: black.
+
+user: My favourite animal is a tiger.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a tiger.
+
+user: My favourite colour is white.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: white.
+
+user: My favourite animal is a lion.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a lion.
+
+user: My favourite colour is silver.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: silver.
+
+user: My favourite animal is a zebra.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a zebra.
+
+user: My favourite colour is gold.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: gold.
+
+user: My favourite animal is a koala.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a koala.
+
+user: My favourite colour is teal.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: teal.
+
+user: My favourite animal is an eagle.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned an eagle.
+
+user: My favourite colour is violet.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: violet.
+
+user: My favourite animal is a dolphin.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a dolphin.
+
+user: My favourite colour is brown.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: brown.
+
+user: My favourite animal is a whale.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a whale.
+
+user: My favourite colour is grey.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: grey.
+
+user: My favourite animal is a badger.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a badger.
+
+user: My favourite colour is cyan.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: cyan.
+
+user: My favourite animal is a wolf.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a wolf.
+
+user: My favourite colour is magenta.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: magenta.
+
+user: My favourite animal is a deer.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a deer.
+
+user: My favourite colour is navy.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: navy.
+
+user: My favourite animal is an owl.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned an owl.
+
+user: My favourite colour is lime.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: lime.
+
+user: My favourite animal is a penguin.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a penguin.
+
+user: My favourite colour is maroon.
+sherlock: I will remember that for this conversation.
+user: What is my favourite colour?
+sherlock: maroon.
+
+user: My favourite animal is a camel.
+sherlock: Got it.
+user: Which animal did I mention?
+sherlock: You mentioned a camel.
+
+user: What is a noun?
+sherlock: A noun is a word used to name a person, place, thing or idea.
+
+user: Explain briefly: What is a noun?
+sherlock: A noun is a word used to name a person, place, thing or idea.
+
+user: What is a verb?
+sherlock: A verb is a word that describes an action or state.
+
+user: Explain briefly: What is a verb?
+sherlock: A verb is a word that describes an action or state.
+
+user: What is an adjective?
+sherlock: An adjective describes a noun.
+
+user: Explain briefly: What is an adjective?
+sherlock: An adjective describes a noun.
+
+user: What is a fraction?
+sherlock: A fraction represents part of a whole.
+
+user: Explain briefly: What is a fraction?
+sherlock: A fraction represents part of a whole.
+
+user: What is a prime number?
+sherlock: A prime number is a whole number greater than 1 with exactly two factors: 1 and itself.
+
+user: Explain briefly: What is a prime number?
+sherlock: A prime number is a whole number greater than 1 with exactly two factors: 1 and itself.
+
+user: What is evaporation?
+sherlock: Evaporation is when a liquid changes into a gas at its surface.
+
+user: Explain briefly: What is evaporation?
+sherlock: Evaporation is when a liquid changes into a gas at its surface.
+
+user: What is condensation?
+sherlock: Condensation is when a gas cools and changes into a liquid.
+
+user: Explain briefly: What is condensation?
+sherlock: Condensation is when a gas cools and changes into a liquid.
+
+user: What is a habitat?
+sherlock: A habitat is the natural place where an organism lives.
+
+user: Explain briefly: What is a habitat?
+sherlock: A habitat is the natural place where an organism lives.
+
+user: What is a democracy?
+sherlock: A democracy is a system in which people have a say in how they are governed.
+
+user: Explain briefly: What is a democracy?
+sherlock: A democracy is a system in which people have a say in how they are governed.
+
+user: What is an adjective used for?
+sherlock: It gives more information about a noun.
+
+user: Explain briefly: What is an adjective used for?
+sherlock: It gives more information about a noun.
+

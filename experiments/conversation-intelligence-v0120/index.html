@@ -1061,7 +1061,7 @@ body,.app{color:#27354d}
           <button class="btn btn-secondary" id="stopBtn" type="button" disabled>■ Stop</button>
         </div>
         <div class="data-load" id="dataLoad" hidden><div class="data-load-top"><span id="dataLoadLabel">Preparing conversation datasets…</span><strong id="dataLoadPercent">0%</strong></div><div class="data-track"><div class="data-fill" id="dataFill"></div></div></div>
-        <p class="train-message" id="trainMessage" aria-live="polite">Press Start training to load DailyDialog + a small UltraChat sample.</p>
+        <p class="train-message" id="trainMessage" aria-live="polite">Press Start training to load Sherlock standalone curriculum.</p>
         <div class="metrics">
           <div class="metric"><span>Completed passes</span><strong id="epochText">0</strong></div>
           <div class="metric"><span>Best accuracy this run</span><strong id="bestAccuracy">Not measured</strong></div>
@@ -1185,7 +1185,7 @@ body,.app{color:#27354d}
     <div class="visual-page">
       <div class="visual-section-title">
         <div><h3>01 · Neural training control</h3><p>Experimental training: learn next-token patterns from Sherlock response turns, using the user's preceding text as context.</p></div>
-        <span class="visual-section-tag">v0.12.1 EXPERIMENT · 32-TOKEN CONTEXT + END-OF-TURN</span>
+        <span class="visual-section-tag">v0.13.0 EXPERIMENT · 32-TOKEN CONTEXT + END-OF-TURN</span>
       </div>
 
       <div class="visual-two-col learning-performance-row">
@@ -1222,7 +1222,7 @@ body,.app{color:#27354d}
             <div class="data-load-top"><span id="neuralDataLoadLabel">Preparing conversation datasets…</span><strong id="neuralDataLoadPercent">0%</strong></div>
             <div class="data-track"><div class="data-fill" id="neuralDataFill"></div></div>
           </div>
-          <p class="train-message" id="neuralMessage" aria-live="polite">Press Start neural training. DailyDialog and a bounded UltraChat sample will be loaded once.</p>
+          <p class="train-message" id="neuralMessage" aria-live="polite">Press Start neural training. The Sherlock standalone curriculum will be loaded once.</p>
           <div class="metrics">
             <div class="metric"><span>Training updates</span><strong id="neuralSteps">0</strong></div>
             <div class="metric"><span>Training data</span><strong id="neuralDatasetName">Not loaded</strong></div>
@@ -1268,7 +1268,7 @@ body,.app{color:#27354d}
           <div class="dataset-quality-stat"><span>Very brief conversations</span><strong id="dataQualityShort">—</strong><small>Fewer than 12 words</small></div>
           <div class="dataset-quality-stat"><span>Speaker-format flags</span><strong id="dataQualityFormat">—</strong><small>Missing a user or Sherlock turn</small></div>
         </div>
-        <div class="dataset-quality-source" id="dataQualitySources">DailyDialog: not loaded · UltraChat: not loaded · No Robots: not loaded · GSM8K maths: not loaded</div>
+        <div class="dataset-quality-source" id="dataQualitySources">Sherlock standalone curriculum: not loaded</div>
         <div class="dataset-quality-actions">
           <p id="dataQualityStatus" role="status" aria-live="polite">No data scanned yet. Inspecting downloads the dataset but does not start training.</p>
           <button class="btn btn-secondary" id="dataQualityInspectBtn" type="button">Load & inspect dataset</button>
@@ -1403,7 +1403,7 @@ body,.app{color:#27354d}
     </section>
   </section>
 
-  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
+  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: standalone Sherlock curriculum v0.13.0 · legacy source references: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
 </main>
 
 <script>
@@ -1428,10 +1428,10 @@ const GSM8K_TRAIN_BUDGET = 1500000;
 const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB training buffer safely.
 const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
-const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0121-legacy-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0121-v1';
-const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0121-archive-v1';
-const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-curated-v0121-2026-11';
+const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0130-legacy-v1';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0130-v1';
+const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-conversation-v0130-archive-v1';
+const NEURAL_DATASET_REVISION = 'sherlock-standalone-curriculum-v0130-2026-11';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -1986,7 +1986,7 @@ function restoreSavedNeuralCheckpoint() {
   try {
     const isCompatibleCheckpoint = candidate =>
       candidate && Number(candidate.version) === 9 &&
-      Number(candidate.parameterCount) === 61488 &&
+      Number(candidate.parameterCount) === 70704 &&
       candidate.datasetRevision === NEURAL_DATASET_REVISION &&
       typeof candidate.datasetFingerprint === 'string' &&
       typeof candidate.trainingState === 'string';
@@ -2443,7 +2443,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.12.1-curated-curriculum', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.13.0-standalone-curriculum', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3363,11 +3363,12 @@ function renderDatasetQuality(data) {
   $('dataQualityOverlap').textContent = format(report.validationOverlap);
   $('dataQualityShort').textContent = format(report.veryBrief);
   $('dataQualityFormat').textContent = format(report.speakerFormatFlags);
-  $('dataQualitySources').textContent =
-    'DailyDialog rows parsed: ' + format(report.dailyTrainConversations) + ' · ' +
-    'UltraChat rows parsed: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) : 'not loaded') + ' · ' +
-    'No Robots rows parsed: ' + (report.noRobotsAvailable ? format(report.noRobotsTrainConversations) : 'not loaded') + ' · ' +
-    'GSM8K maths pairs parsed: ' + (report.mathAvailable ? format(report.mathTrainConversations) : 'not loaded');
+  $('dataQualitySources').textContent = String(data.datasetName || '').includes('standalone curriculum')
+    ? 'Sherlock standalone curriculum: ' + format(report.trainingBlocks) + ' training examples · ' + format(report.validationBlocks) + ' held-out examples'
+    : 'DailyDialog rows parsed: ' + format(report.dailyTrainConversations) + ' · ' +
+      'UltraChat rows parsed: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) : 'not loaded') + ' · ' +
+      'No Robots rows parsed: ' + (report.noRobotsAvailable ? format(report.noRobotsTrainConversations) : 'not loaded') + ' · ' +
+      'GSM8K maths pairs parsed: ' + (report.mathAvailable ? format(report.mathTrainConversations) : 'not loaded');
   const findings = [];
   if (report.duplicateCopies) findings.push(format(report.duplicateCopies) + ' exact duplicate training copies');
   if (report.validationOverlap) findings.push(format(report.validationOverlap) + ' held-out text excerpts also found in training');
@@ -3870,7 +3871,7 @@ async function writeNeuralDatasetCache(data) {
 }
 
 function displayLoadedNeuralDataset(data, fromCache) {
-  const sources = ['DailyDialog'];
+  const sources = String(data.datasetName || '').includes('standalone curriculum') ? ['Sherlock standalone curriculum'] : ['DailyDialog'];
   if (data.ultraAvailable) sources.push('UltraChat');
   if (data.noRobotsAvailable) sources.push('No Robots');
   if (data.mathAvailable) sources.push('GSM8K maths');
@@ -3893,6 +3894,74 @@ function displayLoadedNeuralDataset(data, fromCache) {
   }
   renderDatasetQuality(data);
 }
+
+const STANDALONE_CURRICULUM_ONLY = true;
+const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0130-train.txt';
+const STANDALONE_VALIDATION_URL = 'data/sherlock-curriculum-v0130-validation.txt';
+
+async function loadStandaloneCurriculum(signal) {
+  $('neuralMessage').textContent = 'Loading Sherlock’s standalone training library…';
+  showDataProgress(0, 2, 'Loading the training library');
+  const loadText = async (path, label, progress) => {
+    if (signal && signal.aborted) throw signal.reason || new Error('Dataset loading was cancelled.');
+    const response = await fetch(new URL(path, window.location.href), {signal, cache: 'no-store'});
+    if (!response.ok) throw new Error(label + ' could not be loaded (HTTP ' + response.status + ').');
+    const value = await response.text();
+    if (!value.trim()) throw new Error(label + ' was empty.');
+    showDataProgress(progress, 2, label + ' loaded');
+    return value;
+  };
+  const [trainingText, validationText] = await Promise.all([
+    loadText(STANDALONE_TRAIN_URL, 'Training examples', 1),
+    loadText(STANDALONE_VALIDATION_URL, 'Held-out validation examples', 2)
+  ]);
+  const blocks = value => value.split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
+  const trainingBlocks = blocks(trainingText);
+  const validationBlocks = blocks(validationText);
+  const validFormat = block => /^user:\s*\S/im.test(block) && /^sherlock:\s*\S/im.test(block);
+  if (trainingBlocks.length < 1000 || validationBlocks.length < 200)
+    throw new Error('The standalone library did not contain enough training or held-out examples.');
+  if (!trainingBlocks.every(validFormat) || !validationBlocks.every(validFormat))
+    throw new Error('The standalone library contains an incorrectly formatted conversation.');
+  const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
+  const trainingSet = new Set(trainingBlocks.map(normalise));
+  if (validationBlocks.some(block => trainingSet.has(normalise(block))))
+    throw new Error('A held-out validation example also appears in training. The library was not loaded.');
+  const trainBytes = new TextEncoder().encode(trainingText);
+  const validationBytes = new TextEncoder().encode(validationText);
+  if (trainBytes.length > MAX_TRAIN_CORPUS_BYTES || validationBytes.length > MAX_VALIDATION_CORPUS_BYTES)
+    throw new Error('The standalone library exceeds the safe browser memory limit.');
+  const data = {
+    trainBytes, validationBytes,
+    trainConversations: trainingBlocks.length,
+    validationConversations: validationBlocks.length,
+    trainRows: trainingBlocks.length,
+    dailyTrainConversations: 0,
+    ultraTrainConversations: 0,
+    ultraAvailable: false,
+    noRobotsTrainConversations: 0,
+    noRobotsAvailable: false,
+    mathTrainConversations: 0,
+    mathAvailable: false,
+    mathValidationBytes: null,
+    mathValidationConversations: 0,
+    datasetName: 'Sherlock standalone curriculum v0.13.0',
+    ultraError: '', noRobotsError: '', mathError: ''
+  };
+  datasetCache = data;
+  displayLoadedNeuralDataset(data, false);
+  $('neuralMessage').textContent = 'Loaded ' + trainingBlocks.length.toLocaleString() +
+    ' standalone training conversations and ' + validationBlocks.length.toLocaleString() +
+    ' separate held-out examples. No external datasets are used.';
+  try {
+    await writeNeuralDatasetCache(data);
+    $('neuralMessage').textContent += ' Saved in this browser for future visits.';
+  } catch (error) {
+    console.warn('Could not persist the standalone dataset:', error);
+  }
+  return data;
+}
+
 async function loadTrainingDatasets(signal) {
   updateStatus('Loading expanded conversation datasets', 'running');
   $('neuralStartBtn').disabled = true;
@@ -3922,6 +3991,8 @@ async function loadTrainingDatasets(signal) {
     if (signal && signal.aborted) throw error;
     console.warn('Saved expanded dataset cache unavailable; downloading fresh data:', error);
   }
+
+  if (STANDALONE_CURRICULUM_ONLY) return await loadStandaloneCurriculum(signal);
 
   $('neuralMessage').textContent = 'Finding the DailyDialog training and validation splits…';
   showDataProgress(0, 1, 'Finding DailyDialog splits');
