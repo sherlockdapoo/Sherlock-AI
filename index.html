@@ -242,7 +242,7 @@ h3{margin:0;font-size:17px;letter-spacing:-.3px}
 .neural-live-card>.visual-card-head p{font-size:11px}
 .neural-live-card .neural-live-value{margin:0 0 10px}
 .neural-chart-card .visual-chart-wrap,.neural-live-card .visual-chart-wrap{max-width:none;width:100%}
-.neural-loss-chart,.neural-accuracy-chart{display:block;width:100%;height:auto;aspect-ratio:560 / 260;max-width:none;margin-left:auto;margin-right:auto}
+.neural-loss-chart,.neural-accuracy-chart,.neural-validation-loss-chart{display:block;width:100%;height:auto;aspect-ratio:560 / 260;max-width:none;margin-left:auto;margin-right:auto}
 .neural-checkpoint-card{width:100%;max-width:none;min-height:0;padding:16px;margin-left:0;margin-right:0}
 .neural-checkpoint-top{gap:8px}
 .neural-checkpoint-top h3{font-size:16px}
@@ -1015,7 +1015,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.8.0">v0.8.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.9.2">v0.9.2</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1314,6 +1314,22 @@ body,.app{color:#27354d}
               <div class="visual-chart-legend"><span id="neuralLossRange">Waiting for the first training update</span><span>Older ← updates → Newer</span></div>
             </div>
           </section>
+          <section class="neural-live-card">
+            <div class="visual-card-head"><div><h3>Validation loss · held-out curve</h3><p>Cross-entropy measured on unseen validation tokens. Lower is better.</p></div><span class="visual-mini-tag">VALIDATION METRIC</span></div>
+            <div class="neural-live-value"><strong id="neuralLiveValidationLoss">Not measured</strong><span>latest evaluation</span></div>
+            <div class="visual-chart-wrap">
+              <svg class="visual-chart neural-validation-loss-chart" viewBox="0 0 560 260" role="img" aria-label="Neural validation loss history graph">
+                <line class="chart-grid" x1="64" y1="18" x2="540" y2="18"></line><line class="chart-grid" x1="64" y1="68.7" x2="540" y2="68.7"></line><line class="chart-grid" x1="64" y1="119.3" x2="540" y2="119.3"></line><line class="chart-grid" x1="64" y1="170" x2="540" y2="170"></line>
+                <line class="chart-grid" x1="64" y1="18" x2="64" y2="170"></line><line class="chart-grid" x1="183" y1="18" x2="183" y2="170"></line><line class="chart-grid" x1="302" y1="18" x2="302" y2="170"></line><line class="chart-grid" x1="421" y1="18" x2="421" y2="170"></line><line class="chart-grid" x1="540" y1="18" x2="540" y2="170"></line>
+                <text class="chart-axis-label" id="neuralValidationLossYTop" x="56" y="22" text-anchor="end">—</text><text class="chart-axis-label" id="neuralValidationLossYMidTop" x="56" y="72.7" text-anchor="end">—</text><text class="chart-axis-label" id="neuralValidationLossYMidBottom" x="56" y="123.3" text-anchor="end">—</text><text class="chart-axis-label" id="neuralValidationLossYBottom" x="56" y="174" text-anchor="end">—</text>
+                <line class="chart-axis" x1="64" y1="18" x2="64" y2="170"></line><line class="chart-axis" x1="64" y1="170" x2="540" y2="170"></line>
+                <polyline class="chart-line" id="neuralValidationLossLine" points=""></polyline>
+                <text class="chart-axis-label" x="64" y="190" text-anchor="middle" id="neuralValidationLossXStart">1</text><text class="chart-axis-label" x="183" y="190" text-anchor="middle" id="neuralValidationLossXQuarter">—</text><text class="chart-axis-label" x="302" y="190" text-anchor="middle" id="neuralValidationLossXMid">—</text><text class="chart-axis-label" x="421" y="190" text-anchor="middle" id="neuralValidationLossXThreeQuarter">—</text><text class="chart-axis-label" x="540" y="190" text-anchor="middle" id="neuralValidationLossXEnd">—</text>
+                <text class="chart-axis-title" x="302" y="235" text-anchor="middle">Validation checks</text><text class="chart-axis-title" transform="translate(15 94) rotate(-90)" text-anchor="middle">Cross-entropy loss</text>
+              </svg>
+              <div class="visual-chart-legend"><span id="neuralValidationLossRange">Waiting for the first validation evaluation</span><span>Older ← evaluations → Newer</span></div>
+            </div>
+          </section>
           <section class="neural-checkpoint-card">
             <div class="neural-checkpoint-top"><div><span class="neural-checkpoint-kicker">Model protection</span><h3>Latest model</h3></div><span class="neural-checkpoint-badge" id="neuralCheckpointBadge">WAITING</span></div>
             <strong class="neural-checkpoint-score" id="neuralCheckpointAccuracy">Not measured</strong>
@@ -1472,6 +1488,9 @@ let neuralEvaluationCountValue = 0;
 let neuralDatasetInitialized = false;
 let neuralLossHistory = [];
 let neuralLossStepHistory = [];
+let neuralValidationLossHistory = [];
+let neuralValidationLossEvalHistory = [];
+let neuralLastValidationLossEvalIndex = 0;
 let neuralLatestLossValue = null;
 let neuralExamplesValue = 0;
 let neuralStepsValue = 0;
@@ -1687,6 +1706,7 @@ function setTab(name) {
     renderNetworkVisualiser(null);
     renderNeuralHistory();
     renderNeuralLossHistory();
+    renderNeuralValidationLossHistory();
     renderNeuralLiveView();
   }
 }
@@ -1763,6 +1783,52 @@ function renderNeuralHistory() {
   ['neuralAccuracyXStart','neuralAccuracyXQuarter','neuralAccuracyXMid','neuralAccuracyXThreeQuarter','neuralAccuracyXEnd']
     .forEach((id, index) => { if ($(id)) $(id).textContent = checkTicks[index]; });
   $('neuralAccuracyRange').textContent = 'Full run: ' + values.length.toLocaleString() + ' checks · observed range ' + minimum.toFixed(3) + '%–' + maximum.toFixed(3) + '%';
+}
+function renderNeuralValidationLossHistory() {
+  const line = $('neuralValidationLossLine');
+  if (!line) return;
+  const values = neuralValidationLossHistory.map((value, index) => ({
+    value, evaluation: Number(neuralValidationLossEvalHistory[index]) || index + 1
+  })).filter(item => Number.isFinite(item.value));
+  const losses = values.map(item => item.value);
+  $('neuralLiveValidationLoss').textContent = neuralLatestValidationLossValue === null ? 'Not measured' : neuralLatestValidationLossValue.toFixed(4);
+  if (!values.length) {
+    line.setAttribute('points', '');
+    $('neuralValidationLossRange').textContent = 'Waiting for the first validation evaluation';
+    const labels = {
+      neuralValidationLossYTop:'—', neuralValidationLossYMidTop:'—',
+      neuralValidationLossYMidBottom:'—', neuralValidationLossYBottom:'—',
+      neuralValidationLossXStart:'1', neuralValidationLossXQuarter:'—',
+      neuralValidationLossXMid:'—', neuralValidationLossXThreeQuarter:'—',
+      neuralValidationLossXEnd:'—'
+    };
+    Object.entries(labels).forEach(([id,value]) => { if ($(id)) $(id).textContent = value; });
+    return;
+  }
+  const left = 64, right = 540, top = 18, bottom = 170;
+  const minValue = Math.min(...losses), maxValue = Math.max(...losses);
+  const spread = Math.max(0.05, maxValue - minValue);
+  const min = Math.max(0, minValue - spread * 0.12);
+  const max = Math.max(min + 0.0001, maxValue + spread * 0.12);
+  const sampled = values.length > MAX_NEURAL_GRAPH_POINTS
+    ? Array.from({length:MAX_NEURAL_GRAPH_POINTS}, (_,i) => values[Math.round(i*(values.length-1)/(MAX_NEURAL_GRAPH_POINTS-1))])
+    : values;
+  const points = sampled.map((item,index) => {
+    const x = left + 24 + (right - left - 48) * (sampled.length === 1 ? 1 : index/(sampled.length-1));
+    const y = bottom - ((item.value-min)/(max-min))*(bottom-top);
+    return x.toFixed(1)+','+y.toFixed(1);
+  });
+  line.setAttribute('points', points.join(' '));
+  const decimals = max-min < 0.1 ? 4 : 3;
+  ['neuralValidationLossYTop','neuralValidationLossYMidTop','neuralValidationLossYMidBottom','neuralValidationLossYBottom'].forEach((id,index) => {
+    if ($(id)) $(id).textContent = (max-(max-min)*index/3).toFixed(decimals);
+  });
+  const first = values[0].evaluation, last = values[values.length-1].evaluation;
+  const ticks = [0,.25,.5,.75,1].map(f => Math.round(first+(last-first)*f).toLocaleString());
+  ['neuralValidationLossXStart','neuralValidationLossXQuarter','neuralValidationLossXMid','neuralValidationLossXThreeQuarter','neuralValidationLossXEnd'].forEach((id,index) => {
+    if ($(id)) $(id).textContent = ticks[index];
+  });
+  $('neuralValidationLossRange').textContent = values.length.toLocaleString()+' checks · loss range '+minValue.toFixed(4)+'–'+maxValue.toFixed(4);
 }
 function renderNeuralLossHistory() {
   const line = $('neuralLossLine');
@@ -1890,6 +1956,8 @@ function saveNeuralCheckpoint(data) {
     accuracyEvalHistory: neuralAccuracyEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
     lossHistory: neuralLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
     lossStepHistory: neuralLossStepHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
+    validationLossHistory: neuralValidationLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
+    validationLossEvalHistory: neuralValidationLossEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
     savedAt,
     trainingState: btoa(binary)
   };
@@ -1924,12 +1992,18 @@ function restoreSavedNeuralCheckpoint() {
     neuralAccuracyEvalHistory = restoreFiniteHistory(record.accuracyEvalHistory);
     neuralLossHistory = restoreFiniteHistory(record.lossHistory);
     neuralLossStepHistory = restoreFiniteHistory(record.lossStepHistory);
+    neuralValidationLossHistory = restoreFiniteHistory(record.validationLossHistory);
+    neuralValidationLossEvalHistory = restoreFiniteHistory(record.validationLossEvalHistory);
     const accuracyLength = Math.min(neuralAccuracyHistory.length, neuralAccuracyEvalHistory.length);
     neuralAccuracyHistory = neuralAccuracyHistory.slice(-accuracyLength);
     neuralAccuracyEvalHistory = neuralAccuracyEvalHistory.slice(-accuracyLength);
     const lossLength = Math.min(neuralLossHistory.length, neuralLossStepHistory.length);
     neuralLossHistory = neuralLossHistory.slice(-lossLength);
     neuralLossStepHistory = neuralLossStepHistory.slice(-lossLength);
+    const validationLossLength = Math.min(neuralValidationLossHistory.length, neuralValidationLossEvalHistory.length);
+    neuralValidationLossHistory = neuralValidationLossHistory.slice(-validationLossLength);
+    neuralValidationLossEvalHistory = neuralValidationLossEvalHistory.slice(-validationLossLength);
+    neuralLastValidationLossEvalIndex = neuralValidationLossEvalHistory.length ? Math.max(0, Number(neuralValidationLossEvalHistory[neuralValidationLossEvalHistory.length - 1]) || 0) : 0;
     neuralLastEvalIndex = neuralAccuracyEvalHistory.length
       ? Math.max(0, Number(neuralAccuracyEvalHistory[neuralAccuracyEvalHistory.length - 1]) || 0)
       : 0;
@@ -1951,6 +2025,7 @@ function restoreSavedNeuralCheckpoint() {
     $('neuralCheckpointExamples').textContent = neuralCheckpointExamplesValue.toLocaleString();
     renderNeuralHistory();
     renderNeuralLossHistory();
+    renderNeuralValidationLossHistory();
     $('neuralCheckpointStatus').textContent = 'Full word-level training checkpoint found. Restoring model weights and optimiser memory…';
     setNeuralState('Restoring latest saved model', 'running');
     worker.postMessage({
@@ -2148,9 +2223,22 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     }
   }
 
+  let validationLossHistoryChanged = false;
   if (data.validationLoss !== null && data.validationLoss !== undefined && Number.isFinite(Number(data.validationLoss))) {
     neuralLatestValidationLossValue = Number(data.validationLoss);
     $('neuralValidationLoss').textContent = neuralLatestValidationLossValue.toFixed(4);
+    const evaluationIndex = Number(data.evaluations) || 0;
+    if (evaluationIndex > 0 && evaluationIndex > neuralLastValidationLossEvalIndex) {
+      neuralValidationLossHistory.push(neuralLatestValidationLossValue);
+      neuralValidationLossEvalHistory.push(evaluationIndex);
+      neuralLastValidationLossEvalIndex = evaluationIndex;
+      if (neuralValidationLossHistory.length > MAX_NEURAL_GRAPH_POINTS) {
+        neuralValidationLossHistory = neuralValidationLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS);
+        neuralValidationLossEvalHistory = neuralValidationLossEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS);
+      }
+      validationLossHistoryChanged = true;
+    }
+    $('neuralLiveValidationLoss').textContent = neuralLatestValidationLossValue.toFixed(4);
   }
   if (data.perplexity !== null && data.perplexity !== undefined && Number.isFinite(Number(data.perplexity))) {
     neuralLatestPerplexityValue = Number(data.perplexity);
@@ -2187,6 +2275,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   }
   if (accuracyHistoryChanged || neuralAccuracyHistory.length === 0) renderNeuralHistory();
   if (lossHistoryChanged || neuralLossHistory.length === 0) renderNeuralLossHistory();
+  if (validationLossHistoryChanged || neuralValidationLossHistory.length === 0) renderNeuralValidationLossHistory();
   updateGlobalNeuralStats();
   renderNeuralLiveView();
 }
@@ -2202,6 +2291,9 @@ function resetNeuralExperimentMetrics(optimizer) {
   neuralEvaluationCountValue = 0;
   neuralLossHistory = [];
   neuralLossStepHistory = [];
+  neuralValidationLossHistory = [];
+  neuralValidationLossEvalHistory = [];
+  neuralLastValidationLossEvalIndex = 0;
   neuralLatestLossValue = null;
   neuralExamplesValue = 0;
   neuralStepsValue = 0;
@@ -2231,6 +2323,7 @@ function resetNeuralExperimentMetrics(optimizer) {
   renderNetworkVisualiser();
   renderNeuralHistory();
   renderNeuralLossHistory();
+  renderNeuralValidationLossHistory();
   updateGlobalNeuralStats();
   renderNeuralLiveView();
 }
