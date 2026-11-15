@@ -986,7 +986,7 @@ body,.app{color:#27354d}
 #chatPanel .playground-card .chat-hint{background:#101b2c!important;border-color:#2a3d59!important}
 #chatPanel .playground-card button:disabled{opacity:.55}
 
-/* v0.7.0 · dataset quality inspector */
+/* v0.8.0 · dataset quality inspector */
 .dataset-quality-card{padding:20px;background:#fff;border:1px solid #dfe5ef;min-width:0}
 .dataset-quality-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
 .dataset-quality-stat{min-width:0;padding:13px;border:1px solid #dfe5ef;border-radius:12px;background:#f6f8fc}
@@ -1000,7 +1000,12 @@ body,.app{color:#27354d}
 .dataset-quality-note{display:block;margin-top:10px;color:#8793a8;font-size:9px;line-height:1.5}
 .dataset-quality-card .visual-card-head h3{color:#293750}
 .dataset-quality-card .visual-card-head p{color:#778399}
+.gsm8k-benchmark-card{margin-top:14px}
+.gsm8k-benchmark-card .dataset-quality-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.gsm8k-benchmark-card .dataset-quality-stat strong{font-size:clamp(16px,2.2vw,21px)}
+.gsm8k-benchmark-card .dataset-quality-source{overflow-wrap:anywhere}
 @media(max-width:620px){
+  .gsm8k-benchmark-card .dataset-quality-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dataset-quality-card{padding:15px}
   .dataset-quality-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .dataset-quality-stat{padding:11px}
@@ -1015,7 +1020,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.7.0">v0.7.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.8.0">v0.8.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1267,6 +1272,28 @@ body,.app{color:#27354d}
         <small class="dataset-quality-note">Checks run on this browser. Duplicate detection compares complete conversations after normalising case and whitespace. Very brief conversations are only flagged for review, not automatically treated as bad data.</small>
       </section>
 
+      <section class="card dataset-quality-card gsm8k-benchmark-card" aria-labelledby="gsm8kBenchmarkTitle">
+        <div class="visual-card-head">
+          <div>
+            <h3 id="gsm8kBenchmarkTitle">GSM8K held-out benchmark</h3>
+            <p>Measure character prediction on separate maths questions Sherlock has not trained on.</p>
+          </div>
+          <span class="visual-mini-tag">UNSEEN MATHS TEXT</span>
+        </div>
+        <div class="dataset-quality-grid">
+          <div class="dataset-quality-stat"><span>Next-character match</span><strong id="gsm8kBenchmarkAccuracy">Not measured</strong><small>Exact character predictions</small></div>
+          <div class="dataset-quality-stat"><span>Average loss</span><strong id="gsm8kBenchmarkLoss">Not measured</strong><small>Lower is better</small></div>
+          <div class="dataset-quality-stat"><span>Characters checked</span><strong id="gsm8kBenchmarkSamples">Not measured</strong><small>Spread across held-out text</small></div>
+        </div>
+        <div class="dataset-quality-actions">
+          <p id="gsm8kBenchmarkStatus" role="status" aria-live="polite">Train Sherlock AI first, then run its first held-out maths-text check.</p>
+          <button class="btn btn-secondary" id="gsm8kBenchmarkBtn" type="button">Run held-out check</button>
+        </div>
+        <div class="dataset-quality-source" id="gsm8kBenchmarkComparison">The first run creates a baseline. Run it again after more training to compare progress.</div>
+        <div class="dataset-quality-source" id="gsm8kBenchmarkHistory">No benchmark runs saved yet.</div>
+        <small class="dataset-quality-note">Important: this checks next-character prediction and text-pattern learning. It does not measure whether Sherlock can solve a maths problem correctly. The held-out GSM8K test examples are kept out of training.</small>
+      </section>
+
       <section class="card neural-chart-card">
         <div class="visual-card-head">
           <div><h3>Neural validation history</h3><p>Accuracy evaluations on the separate validation split. Each point is a completed evaluation.</p></div>
@@ -1480,6 +1507,12 @@ let neuralCheckpointStepsValue = 0;
 let neuralCheckpointExamplesValue = 0;
 let currentNeuralDatasetFingerprint = null;
 let neuralRestoredDatasetFingerprint = null;
+const GSM8K_BENCHMARK_HISTORY_KEY = 'sherlock-gsm8k-benchmark-history-v1';
+const GSM8K_BENCHMARK_HISTORY_LIMIT = 60;
+let gsm8kBenchmarkHistory = [];
+let gsm8kBenchmarkPending = false;
+let gsm8kBenchmarkRequestId = 0;
+let gsm8kBenchmarkPendingId = null;
 
 function fingerprintNeuralDataset(data) {
   const hash = (bytes, seed) => {
@@ -2272,7 +2305,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.6.1', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.6.2', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2378,6 +2411,24 @@ updateNeuralControls();
       setChatReady(modelReady);
       updateGlobalNeuralStats();
       renderNeuralLiveView();
+    } else if (data.type === 'math-evaluation') {
+      if (data.id === gsm8kBenchmarkPendingId) {
+        try {
+          recordGsm8kBenchmark(data);
+          const problemCount = Number(data.problems) || 0;
+          $('gsm8kBenchmarkStatus').textContent =
+            'Check complete: ' + problemCount.toLocaleString() +
+            ' held-out GSM8K questions represented in the test text · model step ' +
+            Number(data.steps).toLocaleString() + '. Run again after more training to compare.';
+        } catch (error) {
+          $('gsm8kBenchmarkStatus').textContent = 'Benchmark result could not be saved: ' +
+            (error && error.message ? error.message : String(error));
+        }
+        gsm8kBenchmarkPending = false;
+        gsm8kBenchmarkPendingId = null;
+        $('gsm8kBenchmarkBtn').disabled = false;
+        $('gsm8kBenchmarkBtn').textContent = 'Run again';
+      }
     } else if (data.type === 'generated') {
       const pending = neuralPendingRequests.get(data.id);
       if (pending) {
@@ -2385,7 +2436,13 @@ updateNeuralControls();
         pending.resolve(data.text);
       }
     } else if (data.type === 'error') {
-      if (data.id !== undefined) {
+      if (data.id === gsm8kBenchmarkPendingId) {
+        gsm8kBenchmarkPending = false;
+        gsm8kBenchmarkPendingId = null;
+        $('gsm8kBenchmarkStatus').textContent = 'Benchmark failed: ' + (data.message || 'Unknown worker error');
+        $('gsm8kBenchmarkBtn').disabled = false;
+        $('gsm8kBenchmarkBtn').textContent = 'Try again';
+      } else if (data.id !== undefined) {
         const pending = neuralPendingRequests.get(data.id);
         if (pending) {
           neuralPendingRequests.delete(data.id);
@@ -2571,6 +2628,7 @@ function requestNeuralGeneration(prompt) {
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
 $('dataQualityInspectBtn').addEventListener('click', inspectDatasetQuality);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
+$('gsm8kBenchmarkBtn').addEventListener('click', runGsm8kBenchmark);
 $('neuralLearningRate').addEventListener('change', () => {
   updateNeuralOptimizerSummary();
   updateNeuralTrainingConfigSummary();
@@ -3166,6 +3224,116 @@ async function inspectDatasetQuality() {
   }
 }
 
+function restoreGsm8kBenchmarkHistory() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(GSM8K_BENCHMARK_HISTORY_KEY) || '[]');
+    gsm8kBenchmarkHistory = Array.isArray(saved) ? saved.filter(item =>
+      item && Number.isFinite(Number(item.accuracy)) &&
+      Number.isFinite(Number(item.loss)) &&
+      Number.isFinite(Number(item.samples)) &&
+      typeof item.savedAt === 'string'
+    ).slice(-GSM8K_BENCHMARK_HISTORY_LIMIT) : [];
+  } catch (_) {
+    gsm8kBenchmarkHistory = [];
+  }
+  renderGsm8kBenchmarkHistory();
+}
+
+function renderGsm8kBenchmarkHistory() {
+  const accuracy = $('gsm8kBenchmarkAccuracy');
+  if (!accuracy) return;
+  const latest = gsm8kBenchmarkHistory[gsm8kBenchmarkHistory.length - 1];
+  const previous = gsm8kBenchmarkHistory.length > 1
+    ? gsm8kBenchmarkHistory[gsm8kBenchmarkHistory.length - 2] : null;
+  if (!latest) {
+    accuracy.textContent = 'Not measured';
+    $('gsm8kBenchmarkLoss').textContent = 'Not measured';
+    $('gsm8kBenchmarkSamples').textContent = 'Not measured';
+    $('gsm8kBenchmarkComparison').textContent = 'The first run creates a baseline. Run it again after more training to compare progress.';
+    $('gsm8kBenchmarkHistory').textContent = 'No benchmark runs saved yet.';
+    return;
+  }
+  accuracy.textContent = latest.accuracy.toFixed(3) + '%';
+  $('gsm8kBenchmarkLoss').textContent = latest.loss.toFixed(4);
+  $('gsm8kBenchmarkSamples').textContent = Number(latest.samples).toLocaleString();
+  $('gsm8kBenchmarkComparison').textContent = previous
+    ? 'Since the previous check: next-character match ' +
+      (latest.accuracy - previous.accuracy >= 0 ? '+' : '') +
+      (latest.accuracy - previous.accuracy).toFixed(3) + ' percentage points · average loss ' +
+      (latest.loss - previous.loss <= 0 ? '' : '+') +
+      (latest.loss - previous.loss).toFixed(4) + ' (lower is better).'
+    : 'First benchmark baseline saved at training step ' + Number(latest.steps).toLocaleString() + '. Run again after more training to compare.';
+  const recent = gsm8kBenchmarkHistory.slice(-5).reverse();
+  $('gsm8kBenchmarkHistory').textContent = 'Saved checks: ' + gsm8kBenchmarkHistory.length.toLocaleString() +
+    ' · ' + recent.map((run, index) =>
+      '#' + (gsm8kBenchmarkHistory.length - index) + ' ' + run.accuracy.toFixed(2) +
+      '% match · loss ' + run.loss.toFixed(3) + ' · step ' + Number(run.steps).toLocaleString() +
+      ' · ' + new Date(run.savedAt).toLocaleString()
+    ).join('  |  ');
+}
+
+function recordGsm8kBenchmark(data) {
+  const record = {
+    accuracy: Number(data.accuracy),
+    loss: Number(data.loss),
+    perplexity: Number(data.perplexity),
+    samples: Number(data.samples),
+    bytes: Number(data.bytes),
+    problems: Number(data.problems) || 0,
+    steps: Number(data.steps) || 0,
+    examples: Number(data.examples) || 0,
+    savedAt: new Date().toISOString()
+  };
+  if (![record.accuracy, record.loss, record.perplexity, record.samples].every(Number.isFinite)) {
+    throw new Error('The worker returned incomplete GSM8K benchmark results.');
+  }
+  gsm8kBenchmarkHistory.push(record);
+  gsm8kBenchmarkHistory = gsm8kBenchmarkHistory.slice(-GSM8K_BENCHMARK_HISTORY_LIMIT);
+  try {
+    localStorage.setItem(GSM8K_BENCHMARK_HISTORY_KEY, JSON.stringify(gsm8kBenchmarkHistory));
+  } catch (error) {
+    console.warn('Could not save GSM8K benchmark history:', error);
+  }
+  renderGsm8kBenchmarkHistory();
+}
+
+async function runGsm8kBenchmark() {
+  if (gsm8kBenchmarkPending) return;
+  if (!neuralWorker || !neuralWorkerInitialized || (!neuralTraining && !neuralModelReady)) {
+    $('gsm8kBenchmarkStatus').textContent = 'Start neural training first, or restore a trained checkpoint, before running the benchmark.';
+    return;
+  }
+  if (neuralRequestBusy || requestBusy || training) {
+    $('gsm8kBenchmarkStatus').textContent = 'Finish the current Playground request or other training task before running this check.';
+    return;
+  }
+  gsm8kBenchmarkPending = true;
+  $('gsm8kBenchmarkBtn').disabled = true;
+  $('gsm8kBenchmarkBtn').textContent = 'Preparing check…';
+  try {
+    const data = datasetCache || await loadTrainingDatasets();
+    const mathBytes = await ensureGsm8kHoldout(data);
+    if (!neuralWorker || !neuralWorkerInitialized) throw new Error('The neural worker is not ready. Refresh the page and restore the model, then retry.');
+    const id = ++gsm8kBenchmarkRequestId;
+    gsm8kBenchmarkPendingId = id;
+    const mathBuffer = mathBytes.slice().buffer;
+    $('gsm8kBenchmarkStatus').textContent = 'Running the held-out GSM8K text-pattern check on the current model…';
+    $('gsm8kBenchmarkBtn').textContent = 'Checking…';
+    neuralWorker.postMessage({
+      type: 'evaluate-math',
+      id,
+      mathBuffer,
+      problems: Number(data.mathValidationConversations) || 0
+    }, [mathBuffer]);
+  } catch (error) {
+    gsm8kBenchmarkPending = false;
+    gsm8kBenchmarkPendingId = null;
+    $('gsm8kBenchmarkStatus').textContent = 'Benchmark could not run: ' + (error && error.message ? error.message : String(error));
+    $('gsm8kBenchmarkBtn').disabled = false;
+    $('gsm8kBenchmarkBtn').textContent = 'Run held-out check';
+  }
+}
+
 function makeValidationSample(text, maxLength) {
   if (text.length <= maxLength) return text;
   const segmentCount = 16;
@@ -3206,6 +3374,31 @@ async function getDatasetSplitInfo(datasetId, trainingSplitName, validationSplit
     training: {...trainingInfo, dataset: datasetId, num_examples: Number(trainingSize.num_rows)},
     validation: {...validationInfo, dataset: datasetId, num_examples: Number(validationSize.num_rows)}
   };
+}
+
+async function ensureGsm8kHoldout(data) {
+  if (!data || !data.mathAvailable) throw new Error('GSM8K maths data is not available in the loaded dataset.');
+  if (data.mathValidationBytes && data.mathValidationBytes.length > 16) return data.mathValidationBytes;
+  $('gsm8kBenchmarkStatus').textContent = 'Preparing the separate GSM8K test sample. This will not change the training data…';
+  const info = await getDatasetSplitInfo(HF_GSM8K_DATASET, 'train', 'test', null, 'main');
+  const rows = await fetchSplit(info.validation, (done, total) => {
+    $('gsm8kBenchmarkStatus').textContent = 'Loading held-out GSM8K test rows: ' + done.toLocaleString() + ' / ' + total.toLocaleString() + ' pages…';
+  }, GSM8K_VALIDATION_ROWS, null);
+  const corpus = buildGsm8kCorpus(rows);
+  rows.length = 0;
+  if (corpus.conversations < 20) throw new Error('GSM8K returned too few readable held-out test questions.');
+  const sampledText = makeValidationSample(corpus.text, VALIDATION_SOURCE_BUDGET);
+  const bytes = encodeCorpusWithinLimit(sampledText, VALIDATION_SOURCE_BUDGET);
+  if (bytes.length <= 16) throw new Error('The GSM8K held-out text was empty after parsing.');
+  data.mathValidationBytes = bytes;
+  data.mathValidationConversations = corpus.conversations;
+  datasetCache = data;
+  try {
+    await writeNeuralDatasetCache(data);
+  } catch (error) {
+    console.warn('Could not save the separate GSM8K benchmark sample:', error);
+  }
+  return bytes;
 }
 
 function encodeCorpusWithinLimit(text, maxBytes) {
@@ -3280,6 +3473,8 @@ async function writeNeuralDatasetCache(data) {
         noRobotsAvailable: data.noRobotsAvailable,
         mathTrainConversations: data.mathTrainConversations,
         mathAvailable: data.mathAvailable,
+        mathValidationBytes: data.mathValidationBytes ? new Uint8Array(data.mathValidationBytes) : null,
+        mathValidationConversations: Number(data.mathValidationConversations) || 0,
         datasetName: data.datasetName,
         ultraError: data.ultraError || '',
         noRobotsError: data.noRobotsError || '',
@@ -3331,7 +3526,9 @@ async function loadTrainingDatasets(signal) {
       datasetCache = {
         ...saved,
         trainBytes: new Uint8Array(saved.trainBytes),
-        validationBytes: new Uint8Array(saved.validationBytes)
+        validationBytes: new Uint8Array(saved.validationBytes),
+        mathValidationBytes: saved.mathValidationBytes ? new Uint8Array(saved.mathValidationBytes) : null,
+        mathValidationConversations: Number(saved.mathValidationConversations) || 0
       };
       displayLoadedNeuralDataset(datasetCache, true);
       updateGlobalNeuralStats();
@@ -3459,6 +3656,8 @@ async function loadTrainingDatasets(signal) {
     noRobotsAvailable,
     mathTrainConversations: mathTrain.conversations,
     mathAvailable,
+    mathValidationBytes,
+    mathValidationConversations: mathAvailable ? mathValidation.conversations : 0,
     datasetName: loadedSources.join(' + '),
     ultraError: ultraError ? (ultraError.message || String(ultraError)) : '',
     noRobotsError: noRobotsError ? (noRobotsError.message || String(noRobotsError)) : '',
@@ -3666,6 +3865,7 @@ renderNeuralLiveView();
 try { localStorage.removeItem(LEGACY_NEURAL_CHECKPOINT_KEY); } catch (_) {}
 restoreSavedNeuralCheckpoint();
 loadPlaygroundHistory();
+restoreGsm8kBenchmarkHistory();
 </script>
 </body>
 </html>
