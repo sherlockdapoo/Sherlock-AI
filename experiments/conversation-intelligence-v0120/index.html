@@ -3874,6 +3874,7 @@ function displayLoadedNeuralDataset(data, fromCache) {
   if (data.ultraAvailable) sources.push('UltraChat');
   if (data.noRobotsAvailable) sources.push('No Robots');
   if (data.mathAvailable) sources.push('GSM8K maths');
+  if (String(data.datasetName || '').includes('Sherlock curated curriculum')) sources.push('Sherlock curated curriculum');
   $('datasetName').textContent = data.datasetName;
   $('conversationCount').textContent = data.trainConversations.toLocaleString();
   $('neuralDatasetName').textContent = data.datasetName;
