@@ -2444,7 +2444,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.15.1-best-restore-early-stop', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.15.2-responsive-training', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
