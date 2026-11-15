@@ -1028,7 +1028,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.15.1, trainer v0.14.0">v0.15.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.16.0, trainer v0.14.0">v0.16.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1935,18 +1935,20 @@ function renderNeuralLiveView() {
   $('neuralCheckpointSavedAt').textContent = neuralCheckpointSavedAt ? 'Saved ' + new Date(neuralCheckpointSavedAt).toLocaleString() : 'No saved checkpoint yet';
 }
 
-function saveNeuralCheckpoint(data) {
-  const bytes = new Uint8Array(data.modelBuffer);
+let neuralCheckpointSaveQueue = Promise.resolve();
+
+async function saveNeuralCheckpoint(data) {
   if (!currentNeuralDatasetFingerprint) throw new Error('The active dataset has not been identified yet.');
   const parameterCount = Math.floor(Number(data.parameters) || 0);
-  if (!parameterCount || bytes.byteLength !== parameterCount * 3 * 4) throw new Error('The saved training state has an unexpected size.');
-  let binary = '';
-  for (let offset = 0; offset < bytes.length; offset += 8192) {
-    binary += String.fromCharCode(...bytes.subarray(offset, Math.min(bytes.length, offset + 8192)));
+  const modelBuffer = data.modelBuffer;
+  if (parameterCount !== NEURAL_MODEL_PARAMETER_COUNT ||
+      !(modelBuffer instanceof ArrayBuffer) ||
+      modelBuffer.byteLength !== parameterCount * 3 * Float32Array.BYTES_PER_ELEMENT) {
+    throw new Error('The saved training state does not match the active neural model.');
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 9,
+    version: 10,
     parameterCount,
     datasetRevision: NEURAL_DATASET_REVISION,
     datasetFingerprint: currentNeuralDatasetFingerprint,
@@ -1974,9 +1976,9 @@ function saveNeuralCheckpoint(data) {
     validationLossHistory: neuralValidationLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
     validationLossEvalHistory: neuralValidationLossEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
     savedAt,
-    trainingState: btoa(binary)
+    modelBuffer
   };
-  localStorage.setItem(NEURAL_CHECKPOINT_KEY, JSON.stringify(record));
+  await writeNeuralCheckpointRecord(record);
   neuralCheckpointWasSaved = true;
   neuralCheckpointSavedAt = savedAt;
   neuralCheckpointStepsValue = record.steps;
@@ -1985,51 +1987,110 @@ function saveNeuralCheckpoint(data) {
   $('neuralCheckpointExamples').textContent = record.examples.toLocaleString();
   renderNeuralLiveView();
 }
+async function restoreSavedNeuralCheckpoint() {
+  const isCurrentCheckpoint = candidate =>
+    candidate && Number(candidate.version) === 10 &&
+    Number(candidate.parameterCount) === NEURAL_MODEL_PARAMETER_COUNT &&
+    candidate.datasetRevision === NEURAL_DATASET_REVISION &&
+    typeof candidate.datasetFingerprint === 'string' &&
+    candidate.modelBuffer instanceof ArrayBuffer &&
+    candidate.modelBuffer.byteLength === NEURAL_MODEL_PARAMETER_COUNT * 3 * Float32Array.BYTES_PER_ELEMENT;
 
-function restoreSavedNeuralCheckpoint() {
+  const isLegacyCompatibleCheckpoint = candidate =>
+    candidate && Number(candidate.version) === 9 &&
+    Number(candidate.parameterCount) === NEURAL_MODEL_PARAMETER_COUNT &&
+    candidate.datasetRevision === NEURAL_DATASET_REVISION &&
+    typeof candidate.datasetFingerprint === 'string' &&
+    typeof candidate.trainingState === 'string';
+
   try {
-    const isCompatibleCheckpoint = candidate =>
-      candidate && Number(candidate.version) === 9 &&
-      Number(candidate.parameterCount) === 61488 &&
-      candidate.datasetRevision === NEURAL_DATASET_REVISION &&
-      typeof candidate.datasetFingerprint === 'string' &&
-      typeof candidate.trainingState === 'string';
-    // Compare the main checkpoint and both archives, then restore the newest
-    // checkpoint that is compatible with this exact model and dataset revision.
-    const checkpointKeys = [
-      NEURAL_CHECKPOINT_KEY,
-      NEURAL_ARCHIVE_CHECKPOINT_KEY,
-      NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup'
-    ];
-    const candidates = [];
-    for (const key of checkpointKeys) {
-      const raw = localStorage.getItem(key);
-      if (!raw) continue;
-      try {
-        const candidate = JSON.parse(raw);
-        if (isCompatibleCheckpoint(candidate)) {
-          candidates.push({ key, raw, record: candidate });
+    let record = null;
+    let checkpointVersion = 10;
+    let checkpointSource = 'IndexedDB';
+
+    try {
+      const stored = await readNeuralCheckpointRecord();
+      if (isCurrentCheckpoint(stored)) {
+        record = stored;
+      } else if (stored && stored.modelBuffer instanceof ArrayBuffer) {
+        $('neuralCheckpointStatus').textContent = 'A saved checkpoint exists, but it belongs to a different model or dataset revision. It has been preserved and was not loaded.';
+      }
+    } catch (storageError) {
+      console.warn('Could not read the IndexedDB neural checkpoint:', storageError);
+    }
+
+    if (!record) {
+      const checkpointKeys = [
+        NEURAL_CHECKPOINT_KEY,
+        NEURAL_ARCHIVE_CHECKPOINT_KEY,
+        NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup'
+      ];
+      const legacyCandidates = [];
+      for (const key of checkpointKeys) {
+        const raw = localStorage.getItem(key);
+        if (!raw) continue;
+        try {
+          const candidate = JSON.parse(raw);
+          if (isLegacyCompatibleCheckpoint(candidate)) {
+            legacyCandidates.push({key, raw, record: candidate});
+          }
+        } catch (_) {}
+      }
+      legacyCandidates.sort((a, b) =>
+        (Date.parse(b.record.savedAt || '') || 0) - (Date.parse(a.record.savedAt || '') || 0)
+      );
+      if (legacyCandidates.length) {
+        const legacy = legacyCandidates[0].record;
+        const binary = atob(legacy.trainingState);
+        const expectedBinaryLength = NEURAL_MODEL_PARAMETER_COUNT * 3 * Float32Array.BYTES_PER_ELEMENT;
+        if (binary.length !== expectedBinaryLength) throw new Error('Legacy saved training state size does not match this neural model.');
+        const buffer = new ArrayBuffer(expectedBinaryLength);
+        const bytes = new Uint8Array(buffer);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        record = {...legacy, version: 10, modelBuffer: buffer};
+        delete record.trainingState;
+        checkpointVersion = 9;
+        checkpointSource = 'migrated browser checkpoint';
+        try {
+          await writeNeuralCheckpointRecord(record);
+        } catch (migrationError) {
+          console.warn('Could not migrate the legacy checkpoint into IndexedDB; it remains in browser storage:', migrationError);
         }
-      } catch (_) {}
+      }
     }
-    if (!candidates.length) {
+
+    if (!record) {
       const mainStored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
-      if (!mainStored) return;
-      throw new Error('Saved checkpoint belongs to an older dataset or model version.');
+      if (mainStored) {
+        let checkpointPreserved = false;
+        try {
+          const previous = JSON.parse(mainStored);
+          const hasModelData = previous && (
+            typeof previous.trainingState === 'string' ||
+            typeof previous.weights === 'string'
+          );
+          if (hasModelData) {
+            if (!localStorage.getItem(NEURAL_ARCHIVE_CHECKPOINT_KEY)) {
+              localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY, mainStored);
+              checkpointPreserved = true;
+            } else if (!localStorage.getItem(NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup')) {
+              localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup', mainStored);
+              checkpointPreserved = true;
+            }
+            if (checkpointPreserved) localStorage.removeItem(NEURAL_CHECKPOINT_KEY);
+          }
+        } catch (archiveError) {
+          console.warn('Could not safely archive the unavailable checkpoint:', archiveError);
+        }
+        neuralCheckpointWasSaved = false;
+        $('neuralCheckpointStatus').textContent = checkpointPreserved
+          ? 'An older or incompatible checkpoint was preserved in this browser archive. It was not loaded because its model or dataset may differ.'
+          : 'No compatible saved checkpoint was found. Existing archive data was left untouched.';
+      }
+      return;
     }
-    candidates.sort((a, b) =>
-      (Date.parse(b.record.savedAt || '') || 0) - (Date.parse(a.record.savedAt || '') || 0)
-    );
-    const newest = candidates[0];
-    const stored = newest.raw;
-    const record = newest.record;
-    if (newest.key !== NEURAL_CHECKPOINT_KEY) {
-      localStorage.setItem(NEURAL_CHECKPOINT_KEY, stored);
-    }
-    const checkpointVersion = Number(record && record.version);
-    if (!isCompatibleCheckpoint(record)) {
-      throw new Error('Saved checkpoint belongs to an older dataset or model version.');
-    }
+
+    if (!isCurrentCheckpoint(record)) throw new Error('Saved checkpoint belongs to an incompatible model or dataset version.');
     neuralRestoredDatasetFingerprint = record.datasetFingerprint;
     const restoreFiniteHistory = items =>
       Array.isArray(items)
@@ -2050,18 +2111,13 @@ function restoreSavedNeuralCheckpoint() {
     const validationLossLength = Math.min(neuralValidationLossHistory.length, neuralValidationLossEvalHistory.length);
     neuralValidationLossHistory = neuralValidationLossHistory.slice(-validationLossLength);
     neuralValidationLossEvalHistory = neuralValidationLossEvalHistory.slice(-validationLossLength);
-    neuralLastValidationLossEvalIndex = neuralValidationLossEvalHistory.length ? Math.max(0, Number(neuralValidationLossEvalHistory[neuralValidationLossEvalHistory.length - 1]) || 0) : 0;
+    neuralLastValidationLossEvalIndex = neuralValidationLossEvalHistory.length
+      ? Math.max(0, Number(neuralValidationLossEvalHistory[neuralValidationLossEvalHistory.length - 1]) || 0) : 0;
     neuralLastEvalIndex = neuralAccuracyEvalHistory.length
-      ? Math.max(0, Number(neuralAccuracyEvalHistory[neuralAccuracyEvalHistory.length - 1]) || 0)
-      : 0;
+      ? Math.max(0, Number(neuralAccuracyEvalHistory[neuralAccuracyEvalHistory.length - 1]) || 0) : 0;
     const restoredOptimizer = record.optimizer === 'adam' ? 'adam' : 'adamw';
     neuralActiveOptimizer = restoredOptimizer;
-    const binary = atob(record.trainingState);
-    const expectedBinaryLength = Number(record.parameterCount) * 3 * 4;
-    if (binary.length !== expectedBinaryLength) throw new Error('Saved training state size does not match this neural model.');
-    const buffer = new ArrayBuffer(expectedBinaryLength);
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const buffer = record.modelBuffer.slice(0);
     const worker = ensureNeuralWorker();
     neuralWorkerInitialized = true;
     neuralCheckpointWasSaved = true;
@@ -2073,7 +2129,7 @@ function restoreSavedNeuralCheckpoint() {
     renderNeuralHistory();
     renderNeuralLossHistory();
     renderNeuralValidationLossHistory();
-    $('neuralCheckpointStatus').textContent = 'Full word-level training checkpoint found. Restoring model weights and optimiser memory…';
+    $('neuralCheckpointStatus').textContent = 'Full word-level training checkpoint found in ' + checkpointSource + '. Restoring model weights and optimiser memory…';
     setNeuralState('Restoring latest saved model', 'running');
     worker.postMessage({
       type: 'load-model',
@@ -2098,37 +2154,11 @@ function restoreSavedNeuralCheckpoint() {
       maxSteps: record.maxSteps
     }, [buffer]);
   } catch (error) {
-    let checkpointPreserved = false;
-    try {
-      const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
-      const previous = stored ? JSON.parse(stored) : null;
-      const hasModelData = previous && (
-        typeof previous.trainingState === 'string' ||
-        typeof previous.weights === 'string'
-      );
-      if (stored && hasModelData) {
-        // Never discard a trained checkpoint just because its dataset revision differs.
-        // Keep the first archive intact; use a second slot rather than overwriting it.
-        if (!localStorage.getItem(NEURAL_ARCHIVE_CHECKPOINT_KEY)) {
-          localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY, stored);
-          checkpointPreserved = true;
-        } else if (!localStorage.getItem(NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup')) {
-          localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup', stored);
-          checkpointPreserved = true;
-        }
-        if (checkpointPreserved) localStorage.removeItem(NEURAL_CHECKPOINT_KEY);
-      }
-    } catch (archiveError) {
-      console.warn('Could not safely archive the unavailable checkpoint:', archiveError);
-    }
     neuralCheckpointWasSaved = false;
-    $('neuralCheckpointStatus').textContent = checkpointPreserved
-      ? 'A checkpoint from a different dataset version was preserved in this browser archive. It was not loaded because its dataset may not match.'
-      : 'The saved checkpoint could not be restored. Existing archive data was left untouched.';
+    $('neuralCheckpointStatus').textContent = 'The saved neural checkpoint could not be restored safely. Existing checkpoint data was preserved.';
     console.warn('Saved neural checkpoint unavailable:', error);
   }
 }
-
 let networkVisualiserSnapshot = null;
 
 function renderNetworkVisualiser(snapshot) {
@@ -2259,7 +2289,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     neuralSpeedValue = Number(data.examplesPerSecond);
   }
   neuralEvaluationCountValue = Math.max(neuralEvaluationCountValue, Number(data.evaluations) || 0);
-  $('neuralParameters').textContent = (Number(data.parameters) || 61488).toLocaleString();
+  $('neuralParameters').textContent = (Number(data.parameters) || NEURAL_MODEL_PARAMETER_COUNT).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
   $('neuralSteps').textContent = steps.toLocaleString();
   if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
@@ -2444,7 +2474,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.15.2-responsive-training', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.16.0-indexeddb-checkpoints', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2520,16 +2550,18 @@ updateNeuralControls();
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
       updateNeuralMetrics(data, true);
-      try {
-        saveNeuralCheckpoint(data);
-        updateGlobalNeuralStats();
-        renderNeuralLiveView();
-      } catch (error) {
-        neuralCheckpointWasSaved = false;
-        $('neuralCheckpointStatus').textContent = 'Could not save this checkpoint in browser storage. It remains active until this page is closed.';
-        console.warn('Could not save neural checkpoint:', error);
-        renderNeuralLiveView();
-      }
+      neuralCheckpointSaveQueue = neuralCheckpointSaveQueue
+        .then(() => saveNeuralCheckpoint(data))
+        .then(() => {
+          updateGlobalNeuralStats();
+          renderNeuralLiveView();
+        })
+        .catch(error => {
+          neuralCheckpointWasSaved = false;
+          $('neuralCheckpointStatus').textContent = 'Could not save this checkpoint in browser storage. The active model remains available until this page is closed.';
+          console.warn('Could not save neural checkpoint:', error);
+          renderNeuralLiveView();
+        });
     } else if (data.type === 'started') {
       if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
       neuralStartupTimer = null;
@@ -2745,6 +2777,7 @@ async function startNeuralTraining() {
       const restoredDataMatches = neuralRestoredDatasetFingerprint !== null &&
         neuralRestoredDatasetFingerprint === currentNeuralDatasetFingerprint;
       if (neuralRestoredDatasetFingerprint !== null && !restoredDataMatches) {
+        deleteNeuralCheckpointRecord().catch(error => console.warn('Could not clear the incompatible neural checkpoint:', error));
         try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
         neuralCheckpointWasSaved = false;
         neuralCheckpointSavedAt = null;
@@ -3535,18 +3568,59 @@ function joinCorpusBytes(streams) {
 
 const NEURAL_DATA_CACHE_DB = 'sherlock-gpt-dataset-cache';
 const NEURAL_DATA_CACHE_STORE = 'datasets';
+const NEURAL_CHECKPOINT_STORE = 'checkpoints';
+const NEURAL_MODEL_PARAMETER_COUNT = 70704;
 
 function openNeuralDatasetDB() {
   return new Promise((resolve, reject) => {
     if (!('indexedDB' in window)) return reject(new Error('Browser storage is unavailable.'));
-    const request = indexedDB.open(NEURAL_DATA_CACHE_DB, 1);
+    const request = indexedDB.open(NEURAL_DATA_CACHE_DB, 2);
     request.onupgradeneeded = () => {
       const db = request.result;
       if (!db.objectStoreNames.contains(NEURAL_DATA_CACHE_STORE)) db.createObjectStore(NEURAL_DATA_CACHE_STORE);
+      if (!db.objectStoreNames.contains(NEURAL_CHECKPOINT_STORE)) db.createObjectStore(NEURAL_CHECKPOINT_STORE);
     };
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error || new Error('Could not open browser dataset storage.'));
   });
+}
+
+async function writeNeuralCheckpointRecord(record) {
+  const db = await openNeuralDatasetDB();
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction(NEURAL_CHECKPOINT_STORE, 'readwrite');
+      transaction.objectStore(NEURAL_CHECKPOINT_STORE).put(record, NEURAL_CHECKPOINT_KEY);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error || new Error('Could not save the neural checkpoint.'));
+      transaction.onabort = () => reject(transaction.error || new Error('Neural checkpoint save was cancelled.'));
+    });
+  } finally { db.close(); }
+}
+
+async function readNeuralCheckpointRecord() {
+  const db = await openNeuralDatasetDB();
+  try {
+    return await new Promise((resolve, reject) => {
+      const transaction = db.transaction(NEURAL_CHECKPOINT_STORE, 'readonly');
+      const request = transaction.objectStore(NEURAL_CHECKPOINT_STORE).get(NEURAL_CHECKPOINT_KEY);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error || new Error('Could not read the neural checkpoint.'));
+    });
+  } finally { db.close(); }
+}
+
+async function deleteNeuralCheckpointRecord() {
+  const db = await openNeuralDatasetDB();
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction(NEURAL_CHECKPOINT_STORE, 'readwrite');
+      transaction.objectStore(NEURAL_CHECKPOINT_STORE).delete(NEURAL_CHECKPOINT_KEY);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error || new Error('Could not clear the neural checkpoint.'));
+      transaction.onabort = () => reject(transaction.error || new Error('Neural checkpoint removal was cancelled.'));
+    });
+  } finally { db.close(); }
 }
 
 async function readNeuralDatasetCache() {
