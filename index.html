@@ -920,28 +920,71 @@ body,.app{color:#27354d}
   .playground-compare-controls,.playground-comparison-grid{grid-template-columns:1fr}
 }
 
-/* Playground colour contrast fix: prevent native form controls rendering dark text. */
-.playground-card textarea,
-.playground-card select,
-.playground-card input,
-.playground-card option{
-  color:#f4f7ff!important;
-  -webkit-text-fill-color:#f4f7ff;
-  color-scheme:dark;
+/* v0.6.2 · isolate Playground from the global light-theme overrides.
+   The rest of the workspace stays light; this panel uses a deliberate dark palette. */
+#chatPanel .playground-card{
+  background:#0e192a!important;border-color:#2a3d59!important;color:#eaf1ff!important;
 }
-.playground-card textarea::placeholder,
-.playground-card input::placeholder{
-  color:#a9b8ce!important;
-  -webkit-text-fill-color:#a9b8ce;
-  opacity:1;
+#chatPanel .playground-card .chat-head,
+#chatPanel .playground-card .chat-compose,
+#chatPanel .playground-card .playground-compare,
+#chatPanel .playground-card .playground-suggestions{
+  background:#101b2c!important;border-color:#2a3d59!important;
 }
-.playground-card select option{
-  background-color:#101b2c;
+#chatPanel .playground-card .chat-head h3,
+#chatPanel .playground-card .playground-output-head h4,
+#chatPanel .playground-card .playground-compare-head h4,
+#chatPanel .playground-card .playground-run-card h5{color:#f4f7ff!important}
+#chatPanel .playground-card .chat-head p,
+#chatPanel .playground-card .playground-intro,
+#chatPanel .playground-card .playground-intro strong,
+#chatPanel .playground-card .playground-prompt-label,
+#chatPanel .playground-card .playground-output-head small,
+#chatPanel .playground-card .playground-compare-head p,
+#chatPanel .playground-card .playground-run-meta,
+#chatPanel .playground-card .playground-run-prompt,
+#chatPanel .playground-card .playground-comparison-note,
+#chatPanel .playground-card .chat-hint,
+#chatPanel .playground-card #playgroundHistoryCount{color:#a9b9d2!important}
+#chatPanel .playground-card .playground-intro{background:#0d192a!important;border-color:#2a3d59!important}
+#chatPanel .playground-card .chat-lock{background:#292416!important;border-color:#5e512f!important;color:#f0d28f!important}
+#chatPanel .playground-card textarea.field,
+#chatPanel .playground-card select.field,
+#chatPanel .playground-card input.field{
+  color:#f4f7ff!important;-webkit-text-fill-color:#f4f7ff!important;
+  caret-color:#f4f7ff!important;background:#091321!important;
+  border-color:#405675!important;color-scheme:dark;
 }
-.playground-card .playground-chip,
-.playground-card .playground-compare-controls button{
-  color:#f4f7ff;
+#chatPanel .playground-card textarea.field::placeholder,
+#chatPanel .playground-card input.field::placeholder{
+  color:#a9b8ce!important;-webkit-text-fill-color:#a9b8ce!important;opacity:1!important;
 }
+#chatPanel .playground-card select.field option{color:#f4f7ff!important;background:#101b2c!important}
+#chatPanel .playground-card .send-btn{
+  background:linear-gradient(135deg,#80aaff,#5f8fe8)!important;
+  color:#081426!important;-webkit-text-fill-color:#081426!important;border:0!important;
+}
+#chatPanel .playground-card .playground-chip,
+#chatPanel .playground-card .playground-compare-controls .btn-secondary{
+  background:#192b44!important;border:1px solid #405675!important;
+  color:#f4f7ff!important;-webkit-text-fill-color:#f4f7ff!important;
+}
+#chatPanel .playground-card .playground-output-head,
+#chatPanel .playground-card .chat-log{background:#0a1322!important}
+#chatPanel .playground-card .message.bot{
+  background:#15243a!important;border-color:#2b405f!important;color:#eaf1ff!important;
+}
+#chatPanel .playground-card .message.user{
+  background:linear-gradient(135deg,#2b5489,#244776)!important;
+  border-color:#3863a0!important;color:#fff!important;
+}
+#chatPanel .playground-card .playground-comparison-result{
+  background:#0c1829!important;border-color:#2a405c!important;color:#c2d0e5!important;
+}
+#chatPanel .playground-card .playground-run-card{background:#111f32!important;border-color:#2c425f!important}
+#chatPanel .playground-card .playground-run-output{color:#e0eaff!important}
+#chatPanel .playground-card .chat-hint{background:#101b2c!important;border-color:#2a3d59!important}
+#chatPanel .playground-card button:disabled{opacity:.55}
 </style>
 </head>
 <body>
@@ -949,7 +992,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.6.1">v0.6.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.6.2">v0.6.2</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
