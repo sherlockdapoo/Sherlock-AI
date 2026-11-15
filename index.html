@@ -877,6 +877,8 @@ body,.app{color:#27354d}
 /* Render neural history as clean connected lines only, without point markers or filled areas. */
 #neuralLossDot,#neuralAccuracyDot{display:none!important}
 #neuralLossArea,#neuralAccuracyArea{display:none!important}
+.learning-performance-row{grid-template-columns:minmax(0,1fr)}
+.learning-performance-row>.visual-card{width:100%;min-width:0}
 </style>
 </head>
 <body>
@@ -973,7 +975,7 @@ body,.app{color:#27354d}
         <article class="flow-node" id="flowValidation"><div class="flow-node-top"><span class="flow-icon">◎</span><span class="flow-number">05 / TEST</span></div><h4>Validation check</h4><p>Predictions are tested on separate conversations not used for training.</p><span class="flow-state" id="flowValidationState">Waiting</span></article>
       </div>
 
-      <div class="visual-two-col">
+      <div class="visual-two-col learning-performance-row">
         <section class="card visual-card">
           <div class="visual-card-head"><div><h3>02 · Character microscope</h3><p>A real window around the engine’s current position in the training text.</p></div><span class="visual-mini-tag">LIVE CURSOR</span></div>
           <div class="visual-sample-meta"><span>TRAINING TEXT POSITION</span><strong id="visualPosition">Dataset not loaded</strong></div>
@@ -1123,14 +1125,6 @@ body,.app{color:#27354d}
 
 
       </div>
-
-      <section class="card network-visual-card" aria-label="Live neural network visualiser">
-        <div class="network-visual-head"><div><div class="eyebrow">v0.5.4 · neural vision</div><h3>04 · Live neural network</h3><p>Watch real activation values and sampled connection weights from Sherlock’s model.</p></div><span class="network-live-pill" id="networkVisualStatus">WAITING FOR MODEL</span></div>
-        <div class="network-canvas-wrap"><canvas id="networkCanvas" width="900" height="330" role="img" aria-label="Live diagram of sampled embedding, hidden, and output neurons with connections"></canvas></div>
-        <div class="network-legend"><span><i style="background:#75a9ff"></i>Embedding signal</span><span><i style="background:#78dfb5"></i>Hidden activation</span><span><i style="background:#f2c978"></i>Output probability</span><span><i style="background:#8fa2bd"></i>Connection strength</span></div>
-        <div class="network-readouts"><div class="network-readout"><span>Largest hidden activation</span><strong id="networkMaxActivation">Waiting</strong></div><div class="network-readout"><span>Most likely next character</span><strong id="networkTopCharacter">Waiting</strong></div><div class="network-readout"><span>Visualised connections</span><strong id="networkConnectionCount">0</strong></div></div>
-        <p class="network-footnote">A readable sample of the full network: 12 of 48 embedding inputs, 16 of 48 hidden neurons, and 12 of 128 output neurons. Displayed signals and connection strengths come from the actual model. This visualiser does not change training.</p>
-      </section>
 
       <section class="card neural-chart-card">
         <div class="visual-card-head">
