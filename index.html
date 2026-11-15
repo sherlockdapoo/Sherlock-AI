@@ -1422,7 +1422,7 @@ const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB traini
 const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v4-wordlevel-1024';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v5-wordlevel-2048';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-previous-dataset-checkpoint-v1';
 const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
 const PAGE_SIZE = 100;
@@ -1933,7 +1933,7 @@ function saveNeuralCheckpoint(data) {
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 9,
+    version: 10,
     parameterCount,
     datasetRevision: NEURAL_DATASET_REVISION,
     datasetFingerprint: currentNeuralDatasetFingerprint,
@@ -1974,8 +1974,8 @@ function saveNeuralCheckpoint(data) {
 function restoreSavedNeuralCheckpoint() {
   try {
     const isCompatibleCheckpoint = candidate =>
-      candidate && Number(candidate.version) === 9 &&
-      Number(candidate.parameterCount) === 61488 &&
+      candidate && Number(candidate.version) === 10 &&
+      Number(candidate.parameterCount) === 119856 &&
       candidate.datasetRevision === NEURAL_DATASET_REVISION &&
       typeof candidate.datasetFingerprint === 'string' &&
       typeof candidate.trainingState === 'string';
@@ -2239,7 +2239,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   neuralStepsValue = steps;
   neuralSpeedValue = Number(data.examplesPerSecond) || 0;
   neuralEvaluationCountValue = Math.max(neuralEvaluationCountValue, Number(data.evaluations) || 0);
-  $('neuralParameters').textContent = (Number(data.parameters) || 61488).toLocaleString();
+  $('neuralParameters').textContent = (Number(data.parameters) || 119856).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
   $('neuralSteps').textContent = steps.toLocaleString();
   if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
@@ -2420,7 +2420,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.7.2', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.8.0', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
