@@ -1,11 +1,11 @@
 /* Sherlock GPT neural worker: a compact word-token MLP trained with backpropagation. */
 "use strict";
 
-const VOCAB = 2048;
+const VOCAB = 1024;
 const CONTEXT = 8;
-const EMBED = 16;
+const EMBED = 8;
 const INPUT = CONTEXT * EMBED;
-const HIDDEN = 64;
+const HIDDEN = 48;
 const UNK_ID = 0;
 const SPACE_ID = 1;
 const NEWLINE_ID = 2;
@@ -617,7 +617,7 @@ self.addEventListener("message", event => {
         learningRate: activeLearningRate,
         batchSize: activeBatchSize,
         maxSteps: activeMaxSteps,
-        fullTrainingState: Number(message.checkpointVersion) >= 8
+        fullTrainingState: Number(message.checkpointVersion) >= 9
       });
     } else if (message.type === "set-data") {
       const dataInfo = setDatasetBuffers(message.trainBuffer, message.validationBuffer);
