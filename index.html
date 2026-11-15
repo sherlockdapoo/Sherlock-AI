@@ -1139,17 +1139,7 @@ body,.app{color:#27354d}
           </div>
         </section>
 
-        <section class="card visual-card">
-          <div class="visual-card-head"><div><h3>02 · Inside the neural network</h3><p>The full path from a short character context to a prediction.</p></div><span class="visual-mini-tag">10,160 PARAMETERS</span></div>
-          <div class="neural-architecture">
-            <div class="neural-layer"><strong>Input context</strong><span>Previous 4 characters · 128-character alphabet</span></div>
-            <div class="neural-layer"><strong>Learned embeddings</strong><span>12 trainable numbers per character · 48 input values</span></div>
-            <div class="neural-layer"><strong>Hidden layer</strong><span>48 neurons · ReLU activation</span></div>
-            <div class="neural-layer"><strong>Output layer</strong><span>128 character scores · softmax probabilities</span></div>
-            <div class="neural-layer"><strong>Learning algorithm</strong><span>Cross-entropy loss · backpropagation · Adam</span></div>
-          </div>
-          <div class="note">This is a small character-level multilayer perceptron (MLP), not a transformer yet. Its weights are updated from prediction errors. The earlier C++ counter is kept as an archived baseline. Chat uses this network after its first training run.</div>
-        </section>
+
       </div>
 
       <section class="card network-visual-card" aria-label="Live neural network visualiser">
