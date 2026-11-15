@@ -2287,6 +2287,7 @@ function ensureNeuralWorker() {
     if (data.type === 'ready') {
       neuralWorkerInitialized = true;
       neuralDatasetInitialized = true;
+      $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
       $('neuralMessage').textContent = 'Word-level tokenizer ready with ' + Number(data.vocabularySize).toLocaleString() + ' tokens and ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting training…';
@@ -2297,6 +2298,7 @@ function ensureNeuralWorker() {
       renderNeuralLiveView();
     } else if (data.type === 'data-ready' || data.type === 'reset-ready') {
       neuralDatasetInitialized = true;
+      $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
       $('neuralMessage').textContent = 'Word-level tokenizer ready. ' + Number(data.trainTokens || 0).toLocaleString() + ' training tokens and ' + Number(data.validationTokens || 0).toLocaleString() + ' validation tokens.';
