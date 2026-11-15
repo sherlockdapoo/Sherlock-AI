@@ -1028,7 +1028,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.15.1, trainer v0.14.0">v0.15.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.15.3, trainer v0.14.0">v0.15.3</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2412,7 +2412,7 @@ function selectedNeuralLearningRate() {
   return [0.001, 0.003, 0.005].includes(value) ? value : 0.001;
 }
 function selectedNeuralBatchSize() {
-  return 32;
+  return 8;
 }
 function selectedNeuralMaxSteps() {
   return 0;
@@ -2444,7 +2444,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.15.2-responsive-training', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.15.3-tablet-yield', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
