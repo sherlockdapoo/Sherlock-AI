@@ -1259,7 +1259,7 @@ body,.app{color:#27354d}
           <div class="dataset-quality-stat"><span>Very brief conversations</span><strong id="dataQualityShort">—</strong><small>Fewer than 12 words</small></div>
           <div class="dataset-quality-stat"><span>Speaker-format flags</span><strong id="dataQualityFormat">—</strong><small>Missing a user or Sherlock turn</small></div>
         </div>
-        <div class="dataset-quality-source" id="dataQualitySources">DailyDialog: not loaded · UltraChat: not loaded</div>
+        <div class="dataset-quality-source" id="dataQualitySources">DailyDialog: not loaded · UltraChat: not loaded · No Robots: not loaded</div>
         <div class="dataset-quality-actions">
           <p id="dataQualityStatus" role="status" aria-live="polite">No data scanned yet. Inspecting downloads the dataset but does not start training.</p>
           <button class="btn btn-secondary" id="dataQualityInspectBtn" type="button">Load & inspect dataset</button>
@@ -1378,24 +1378,30 @@ body,.app{color:#27354d}
     </section>
   </section>
 
-  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0) + a capped sample from <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT). Separate held-out validation samples are used.</footer>
+  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), and <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0). Training and held-out validation splits remain separate.</footer>
 </main>
 
 <script>
 const ENGINE_URL = new URL('engine.wasm.gz.b64?v=0.9.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_ULTRACHAT_DATASET = 'HuggingFaceH4/ultrachat_200k';
+const HF_NO_ROBOTS_DATASET = 'HuggingFaceH4/no_robots';
 const HF_API = 'https://datasets-server.huggingface.co';
-const DAILY_TRAIN_ROWS = 2500;
+const DAILY_TRAIN_ROWS = 3000;
 const DAILY_VALIDATION_ROWS = 500;
-const ULTRACHAT_TRAIN_ROWS = 1200;
+const ULTRACHAT_TRAIN_ROWS = 1400;
 const ULTRACHAT_VALIDATION_ROWS = 250;
-const DAILY_TRAIN_BUDGET = 1200000;
-const ULTRACHAT_TRAIN_BUDGET = 799000;
-const VALIDATION_SOURCE_BUDGET = 59999;
+const NO_ROBOTS_TRAIN_ROWS = 3000;
+const NO_ROBOTS_VALIDATION_ROWS = 500;
+const DAILY_TRAIN_BUDGET = 1800000;
+const ULTRACHAT_TRAIN_BUDGET = 1800000;
+const NO_ROBOTS_TRAIN_BUDGET = 2800000;
+const MAX_TRAIN_CORPUS_BYTES = 8 * 1024 * 1024; // Keep a 1 MiB margin below the WASM engine's 9 MiB capacity.
+const MAX_VALIDATION_CORPUS_BYTES = 120000;
+const VALIDATION_SOURCE_BUDGET = 36000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v2-ultrachat';
-const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-2026-11';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v3-expanded';
+const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-2026-11';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -3068,7 +3074,9 @@ function analyseDatasetQuality(data) {
     averageWords: trainingBlocks.length ? wordTotal / trainingBlocks.length : 0,
     dailyTrainConversations: Number(data.dailyTrainConversations) || 0,
     ultraTrainConversations: Number(data.ultraTrainConversations) || 0,
-    ultraAvailable: Boolean(data.ultraAvailable)
+    ultraAvailable: Boolean(data.ultraAvailable),
+    noRobotsTrainConversations: Number(data.noRobotsTrainConversations) || 0,
+    noRobotsAvailable: Boolean(data.noRobotsAvailable)
   };
 }
 
@@ -3083,7 +3091,8 @@ function renderDatasetQuality(data) {
   $('dataQualityFormat').textContent = format(report.speakerFormatFlags);
   $('dataQualitySources').textContent =
     'DailyDialog rows parsed: ' + format(report.dailyTrainConversations) + ' · ' +
-    'UltraChat rows parsed: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) : 'not loaded');
+    'UltraChat rows parsed: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) : 'not loaded') + ' · ' +
+    'No Robots rows parsed: ' + (report.noRobotsAvailable ? format(report.noRobotsTrainConversations) : 'not loaded');
   const findings = [];
   if (report.duplicateCopies) findings.push(format(report.duplicateCopies) + ' exact duplicate training copies');
   if (report.validationOverlap) findings.push(format(report.validationOverlap) + ' held-out text excerpts also found in training');
@@ -3232,8 +3241,11 @@ async function writeNeuralDatasetCache(data) {
         dailyTrainConversations: data.dailyTrainConversations,
         ultraTrainConversations: data.ultraTrainConversations,
         ultraAvailable: data.ultraAvailable,
+        noRobotsTrainConversations: data.noRobotsTrainConversations,
+        noRobotsAvailable: data.noRobotsAvailable,
         datasetName: data.datasetName,
         ultraError: data.ultraError || '',
+        noRobotsError: data.noRobotsError || '',
         savedAt: new Date().toISOString()
       }, NEURAL_DATASET_REVISION);
       request.onsuccess = () => resolve();
@@ -3243,31 +3255,38 @@ async function writeNeuralDatasetCache(data) {
 }
 
 function displayLoadedNeuralDataset(data, fromCache) {
+  const sources = ['DailyDialog'];
+  if (data.ultraAvailable) sources.push('UltraChat');
+  if (data.noRobotsAvailable) sources.push('No Robots');
   $('datasetName').textContent = data.datasetName;
   $('conversationCount').textContent = data.trainConversations.toLocaleString();
   $('neuralDatasetName').textContent = data.datasetName;
   $('neuralTrainConversations').textContent = data.trainConversations.toLocaleString();
   $('neuralValidationConversations').textContent = data.validationConversations.toLocaleString();
-  showDataProgress(1, 1, fromCache ? 'Using saved browser dataset' : (data.ultraAvailable ? 'DailyDialog + UltraChat ready' : 'DailyDialog ready · UltraChat unavailable'));
-  $('neuralMessage').textContent = fromCache
-    ? 'Restored the downloaded training datasets from this browser. No dataset download is needed.'
-    : data.ultraAvailable
-      ? 'Loaded ' + data.dailyTrainConversations.toLocaleString() + ' DailyDialog and ' + data.ultraTrainConversations.toLocaleString() + ' UltraChat training conversations, with separate held-out validation samples from both datasets.'
-      : 'Loaded ' + data.dailyTrainConversations.toLocaleString() + ' DailyDialog training conversations. UltraChat could not be loaded (' + data.ultraError + '), so this run will safely use DailyDialog only.';
+  showDataProgress(1, 1, fromCache ? 'Using saved browser dataset' : sources.join(' + ') + ' ready');
+  if (fromCache) {
+    $('neuralMessage').textContent = 'Restored the expanded training datasets from this browser. No dataset download is needed.';
+  } else {
+    $('neuralMessage').textContent = 'Loaded ' + data.trainConversations.toLocaleString() + ' training conversations from ' + sources.join(', ') + ', with ' + data.validationConversations.toLocaleString() + ' separate held-out validation conversations.';
+    const warnings = [];
+    if (data.ultraError) warnings.push('UltraChat was unavailable: ' + data.ultraError);
+    if (data.noRobotsError) warnings.push('No Robots was unavailable: ' + data.noRobotsError);
+    if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
+  }
   renderDatasetQuality(data);
 }
-
 async function loadTrainingDatasets(signal) {
-  updateStatus('Loading conversation datasets', 'running');
+  updateStatus('Loading expanded conversation datasets', 'running');
   $('neuralStartBtn').disabled = true;
-  $('neuralMessage').textContent = 'Checking this browser for saved training datasets…';
+  $('neuralMessage').textContent = 'Checking this browser for the expanded training datasets…';
   showDataProgress(0, 1, 'Checking saved browser dataset');
   try {
     const saved = await readNeuralDatasetCache();
     if (signal && signal.aborted) throw signal.reason || new Error('Dataset loading was cancelled.');
     if (saved && saved.revision === NEURAL_DATASET_REVISION && saved.trainBytes && saved.validationBytes &&
         saved.trainBytes.byteLength >= 1000 && saved.validationBytes.byteLength >= 500 &&
-        saved.trainBytes.byteLength <= 2000000 && saved.validationBytes.byteLength <= 120000) {
+        saved.trainBytes.byteLength <= MAX_TRAIN_CORPUS_BYTES && saved.validationBytes.byteLength <= MAX_VALIDATION_CORPUS_BYTES &&
+        Number.isFinite(Number(saved.noRobotsTrainConversations)) && typeof saved.noRobotsAvailable === 'boolean') {
       datasetCache = {
         ...saved,
         trainBytes: new Uint8Array(saved.trainBytes),
@@ -3280,79 +3299,126 @@ async function loadTrainingDatasets(signal) {
     }
   } catch (error) {
     if (signal && signal.aborted) throw error;
-    console.warn('Saved dataset cache unavailable; downloading fresh data:', error);
+    console.warn('Saved expanded dataset cache unavailable; downloading fresh data:', error);
   }
 
   $('neuralMessage').textContent = 'Finding the DailyDialog training and validation splits…';
   showDataProgress(0, 1, 'Finding DailyDialog splits');
   const dailyInfo = await getDatasetSplitInfo(HF_DATASET, 'train', 'validation', signal);
   const dailyTrainRows = await fetchSplit(dailyInfo.training, (done, total) => {
-    showDataProgress(done, total, 'Downloading a 2,500-row DailyDialog training sample');
+    showDataProgress(done, total, 'Downloading a 3,000-row DailyDialog training sample');
   }, DAILY_TRAIN_ROWS, signal);
   const dailyValidationRows = await fetchSplit(dailyInfo.validation, (done, total) => {
     showDataProgress(done, total, 'Downloading a 500-row DailyDialog validation sample');
   }, DAILY_VALIDATION_ROWS, signal);
   const dailyTrain = buildCorpus(dailyTrainRows);
   const dailyValidation = buildCorpus(dailyValidationRows);
+  const dailyTrainRowCount = dailyTrainRows.length;
+  dailyTrainRows.length = 0;
+  dailyValidationRows.length = 0;
   if (dailyTrain.conversations < 100 || dailyValidation.conversations < 20) throw new Error('DailyDialog did not contain enough readable training and validation conversations.');
 
   let ultraTrain = {text: '', conversations: 0};
   let ultraValidation = {text: '', conversations: 0};
-  let ultraRowsLoaded = 0;
+  let ultraTrainRowCount = 0;
   let ultraError = null;
   try {
     $('neuralMessage').textContent = 'DailyDialog is ready. Checking the UltraChat 200k sample…';
     const ultraInfo = await getDatasetSplitInfo(HF_ULTRACHAT_DATASET, 'train_sft', 'test_sft', signal);
-    const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a capped UltraChat training sample'), ULTRACHAT_TRAIN_ROWS, signal);
-    const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a capped UltraChat validation sample'), ULTRACHAT_VALIDATION_ROWS, signal);
+    const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 1,400-row UltraChat training sample'), ULTRACHAT_TRAIN_ROWS, signal);
+    const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 250-row UltraChat validation sample'), ULTRACHAT_VALIDATION_ROWS, signal);
     ultraTrain = buildCorpus(ultraTrainRows);
     ultraValidation = buildCorpus(ultraValidationRows);
-    ultraRowsLoaded = ultraTrainRows.length + ultraValidationRows.length;
+    ultraTrainRowCount = ultraTrainRows.length;
+    ultraTrainRows.length = 0;
+    ultraValidationRows.length = 0;
     if (ultraTrain.conversations < 100 || ultraValidation.conversations < 20) throw new Error('UltraChat returned too few readable user/assistant conversations.');
   } catch (error) {
     if (signal && signal.aborted) throw error;
     ultraError = error;
-    console.warn('UltraChat sample unavailable; continuing with DailyDialog only:', error);
+    console.warn('UltraChat sample unavailable; continuing with the other sources:', error);
   }
 
-  const dailyBudget = ultraError ? 2000000 : DAILY_TRAIN_BUDGET;
-  const ultraBudget = ultraError ? 0 : ULTRACHAT_TRAIN_BUDGET;
+  let noRobotsTrain = {text: '', conversations: 0};
+  let noRobotsValidation = {text: '', conversations: 0};
+  let noRobotsTrainRowCount = 0;
+  let noRobotsError = null;
+  try {
+    $('neuralMessage').textContent = 'The existing sources are ready. Checking the human-written No Robots dataset…';
+    const noRobotsInfo = await getDatasetSplitInfo(HF_NO_ROBOTS_DATASET, 'train', 'test', signal);
+    const noRobotsTrainRows = await fetchSplit(noRobotsInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 3,000-row No Robots training sample'), NO_ROBOTS_TRAIN_ROWS, signal);
+    const noRobotsValidationRows = await fetchSplit(noRobotsInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 500-row No Robots held-out sample'), NO_ROBOTS_VALIDATION_ROWS, signal);
+    noRobotsTrain = buildCorpus(noRobotsTrainRows);
+    noRobotsValidation = buildCorpus(noRobotsValidationRows);
+    noRobotsTrainRowCount = noRobotsTrainRows.length;
+    noRobotsTrainRows.length = 0;
+    noRobotsValidationRows.length = 0;
+    if (noRobotsTrain.conversations < 100 || noRobotsValidation.conversations < 20) throw new Error('No Robots returned too few readable user/assistant conversations.');
+  } catch (error) {
+    if (signal && signal.aborted) throw error;
+    noRobotsError = error;
+    console.warn('No Robots sample unavailable; continuing with the other sources:', error);
+  }
+
+  const ultraAvailable = !ultraError;
+  const noRobotsAvailable = !noRobotsError;
+  const optionalSourceCount = Number(ultraAvailable) + Number(noRobotsAvailable);
+  const dailyBudget = optionalSourceCount === 2 ? DAILY_TRAIN_BUDGET : optionalSourceCount === 1 ? 2200000 : 2000000;
+  const ultraBudget = ultraAvailable ? (noRobotsAvailable ? ULTRACHAT_TRAIN_BUDGET : 2600000) : 0;
+  const noRobotsBudget = noRobotsAvailable ? (ultraAvailable ? NO_ROBOTS_TRAIN_BUDGET : 3500000) : 0;
+  const validationSources = 1 + optionalSourceCount;
+  const validationBudget = validationSources === 3 ? VALIDATION_SOURCE_BUDGET : validationSources === 2 ? 55000 : 100000;
   const dailyTrainBytes = encodeCorpusWithinLimit(dailyTrain.text, dailyBudget);
   const ultraTrainBytes = encodeCorpusWithinLimit(ultraTrain.text, ultraBudget);
-  const dailyValidationText = makeValidationSample(dailyValidation.text, ultraError ? 120000 : VALIDATION_SOURCE_BUDGET);
-  const ultraValidationText = ultraError ? '' : makeValidationSample(ultraValidation.text, VALIDATION_SOURCE_BUDGET);
-  const dailyValidationBytes = encodeCorpusWithinLimit(dailyValidationText, ultraError ? 120000 : VALIDATION_SOURCE_BUDGET);
-  const ultraValidationBytes = ultraError ? new Uint8Array(0) : encodeCorpusWithinLimit(ultraValidationText, VALIDATION_SOURCE_BUDGET);
-  const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes]);
-  const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes]);
-  if (trainBytes.length > 2000000 || validationBytes.length > 120000) throw new Error('The combined training text exceeded the existing local engine memory limit.');
-  if (trainBytes.length < 1000 || validationBytes.length < 500) throw new Error('The combined datasets did not contain enough readable text.');
+  const noRobotsTrainBytes = encodeCorpusWithinLimit(noRobotsTrain.text, noRobotsBudget);
+  const dailyValidationText = makeValidationSample(dailyValidation.text, validationBudget);
+  const ultraValidationText = ultraAvailable ? makeValidationSample(ultraValidation.text, validationBudget) : '';
+  const noRobotsValidationText = noRobotsAvailable ? makeValidationSample(noRobotsValidation.text, validationBudget) : '';
+  const dailyValidationBytes = encodeCorpusWithinLimit(dailyValidationText, validationBudget);
+  const ultraValidationBytes = encodeCorpusWithinLimit(ultraValidationText, validationBudget);
+  const noRobotsValidationBytes = encodeCorpusWithinLimit(noRobotsValidationText, validationBudget);
+  const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes, noRobotsTrainBytes]);
+  const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes, noRobotsValidationBytes]);
+  if (trainBytes.length > MAX_TRAIN_CORPUS_BYTES || validationBytes.length > MAX_VALIDATION_CORPUS_BYTES) throw new Error('The expanded dataset exceeded the safe browser engine memory limit.');
+  if (trainBytes.length < 1000 || validationBytes.length < 500) throw new Error('The combined datasets did not contain enough readable training and validation text.');
 
+  const loadedSources = ['DailyDialog'];
+  if (ultraAvailable) loadedSources.push('UltraChat');
+  if (noRobotsAvailable) loadedSources.push('No Robots');
+  const trainConversations = dailyTrain.conversations + ultraTrain.conversations + noRobotsTrain.conversations;
+  const validationConversations = dailyValidation.conversations + ultraValidation.conversations + noRobotsValidation.conversations;
   datasetCache = {
     trainBytes, validationBytes,
-    trainConversations: dailyTrain.conversations + (ultraError ? 0 : ultraTrain.conversations),
-    validationConversations: dailyValidation.conversations + (ultraError ? 0 : ultraValidation.conversations),
-    trainRows: dailyTrainRows.length + (ultraError ? 0 : ultraRowsLoaded),
+    trainConversations, validationConversations,
+    trainRows: dailyTrainRowCount + ultraTrainRowCount + noRobotsTrainRowCount,
     dailyTrainConversations: dailyTrain.conversations,
-    ultraTrainConversations: ultraError ? 0 : ultraTrain.conversations,
-    ultraAvailable: !ultraError,
-    datasetName: ultraError ? 'DailyDialog only' : 'DailyDialog + UltraChat',
-    ultraError: ultraError ? (ultraError.message || String(ultraError)) : ''
+    ultraTrainConversations: ultraTrain.conversations,
+    ultraAvailable,
+    noRobotsTrainConversations: noRobotsTrain.conversations,
+    noRobotsAvailable,
+    datasetName: loadedSources.join(' + '),
+    ultraError: ultraError ? (ultraError.message || String(ultraError)) : '',
+    noRobotsError: noRobotsError ? (noRobotsError.message || String(noRobotsError)) : ''
   };
   displayLoadedNeuralDataset(datasetCache, false);
   try {
     await writeNeuralDatasetCache(datasetCache);
     $('neuralMessage').textContent += ' Saved in this browser for future visits.';
   } catch (error) {
-    console.warn('Could not persist downloaded datasets:', error);
+    console.warn('Could not persist expanded datasets:', error);
     $('neuralMessage').textContent += ' Browser storage was unavailable, so a future reload may need another download.';
   }
   updateGlobalNeuralStats();
   renderNeuralLiveView();
   return datasetCache;
 }
-
 function installDataset(data) {
+  if (data.trainBytes.length > engine.training_capacity()) {
+    throw new Error('The expanded training corpus is larger than this WebAssembly build can hold.');
+  }
+  if (data.validationBytes.length > engine.validation_capacity()) {
+    throw new Error('The held-out validation corpus is larger than this WebAssembly build can hold.');
+  }
   const memory = new Uint8Array(engine.memory.buffer);
   const trainPtr = engine.training_ptr();
   const validationPtr = engine.validation_ptr();
