@@ -1015,7 +1015,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.9.6">v0.9.6</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.9.7">v0.9.7</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1240,6 +1240,11 @@ body,.app{color:#27354d}
             <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">32 tokens per update</strong></div>
             <div class="metric"><span>Run progress</span><strong id="neuralRunProgress">Unlimited</strong></div>
           </div>
+          <div class="dataset-quality-source" id="neuralUnknownTokenDiagnosis" role="status" aria-live="polite">Unknown-token audit has not run yet. This read-only check compares validation tokens with the training vocabulary.</div>
+          <div class="dataset-quality-actions">
+            <p>This check does not train, reset, or change Sherlock's model.</p>
+            <button class="btn btn-secondary" id="neuralUnknownInspectBtn" type="button">Inspect unknown tokens</button>
+          </div>
         </section>
 
 
@@ -1447,6 +1452,8 @@ let batchTuneCounter = 0;
 let requestBusy = false;
 let datasetCache = null;
 let datasetQualityInspecting = false;
+let neuralUnknownDiagnosisPending = false;
+let neuralUnknownDiagnosisId = 0;
 let bestAccuracy = null;
 let latestAccuracy = null;
 let accuracyHistory = [];
@@ -2426,7 +2433,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.7.4', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.7.5', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2557,6 +2564,33 @@ updateNeuralControls();
         $('gsm8kBenchmarkBtn').disabled = false;
         $('gsm8kBenchmarkBtn').textContent = 'Run again';
       }
+    } else if (data.type === 'unknown-token-diagnosis' && data.id === neuralUnknownDiagnosisId) {
+      neuralUnknownDiagnosisPending = false;
+      neuralRequestBusy = false;
+      const button = $('neuralUnknownInspectBtn');
+      button.disabled = false;
+      button.textContent = 'Re-scan unknown tokens';
+      const total = Math.max(0, Number(data.totalTokens) || 0);
+      const unknown = Math.max(0, Number(data.unknownTokens) || 0);
+      const rate = Number.isFinite(Number(data.unknownRate)) ? Number(data.unknownRate) : 0;
+      const unique = Math.max(0, Number(data.uniqueUnknownTokens) || 0);
+      const top = Array.isArray(data.topUnknownTokens) ? data.topUnknownTokens : [];
+      const examples = top.length
+        ? top.map(item => JSON.stringify(String(item.token)) + ' × ' + Number(item.count || 0).toLocaleString()).join(', ')
+        : 'none';
+      $('neuralUnknownTokenDiagnosis').textContent =
+        'Vocabulary: ' + Number(data.vocabularySize || 0).toLocaleString() +
+        ' · Validation unknowns: ' + unknown.toLocaleString() + ' / ' + total.toLocaleString() +
+        ' (' + rate.toFixed(1) + '%) · Distinct missing tokens: ' + unique.toLocaleString() +
+        ' · Most frequent: ' + examples;
+      updateNeuralControls();
+    } else if (data.type === 'unknown-token-diagnosis-error' && data.id === neuralUnknownDiagnosisId) {
+      neuralUnknownDiagnosisPending = false;
+      neuralRequestBusy = false;
+      $('neuralUnknownInspectBtn').disabled = false;
+      $('neuralUnknownInspectBtn').textContent = 'Try audit again';
+      $('neuralUnknownTokenDiagnosis').textContent = 'The audit could not finish: ' + (data.message || 'Unknown worker error');
+      updateNeuralControls();
     } else if (data.type === 'generated') {
       const pending = neuralPendingRequests.get(data.id);
       if (pending) {
@@ -2594,6 +2628,14 @@ updateNeuralControls();
     }
   };
   neuralWorker.onerror = event => {
+    if (neuralUnknownDiagnosisPending) {
+      neuralUnknownDiagnosisPending = false;
+      neuralRequestBusy = false;
+      $('neuralUnknownInspectBtn').disabled = false;
+      $('neuralUnknownInspectBtn').textContent = 'Try audit again';
+      $('neuralUnknownTokenDiagnosis').textContent = 'The audit worker failed: ' + (event.message || 'Check that neural-worker.js deployed correctly.');
+      updateNeuralControls();
+    }
     if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
     neuralStartupTimer = null;
     neuralTraining = false;
@@ -2755,6 +2797,7 @@ function requestNeuralGeneration(prompt) {
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
 $('dataQualityInspectBtn').addEventListener('click', inspectDatasetQuality);
+$('neuralUnknownInspectBtn').addEventListener('click', inspectNeuralUnknownTokens);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
 $('neuralLearningRate').addEventListener('change', () => {
   updateNeuralOptimizerSummary();
@@ -3321,6 +3364,40 @@ function renderDatasetQuality(data) {
       format(report.veryBrief) + ' conversations are very brief.';
   $('dataQualityInspectBtn').textContent = 'Re-scan dataset';
   return report;
+}
+
+async function inspectNeuralUnknownTokens() {
+  if (neuralUnknownDiagnosisPending) return;
+  if (neuralTraining || neuralWorkerStarted || neuralRequestBusy || requestBusy || training) {
+    $('neuralUnknownTokenDiagnosis').textContent = 'Stop the current training or request before running the token audit.';
+    return;
+  }
+  const button = $('neuralUnknownInspectBtn');
+  neuralUnknownDiagnosisPending = true;
+  neuralRequestBusy = true;
+  const id = ++neuralUnknownDiagnosisId;
+  button.disabled = true;
+  button.textContent = 'Inspecting…';
+  $('neuralUnknownTokenDiagnosis').textContent = 'Loading the saved dataset and counting validation tokens against the training vocabulary…';
+  updateNeuralControls();
+  try {
+    const data = datasetCache || await loadTrainingDatasets();
+    const worker = ensureNeuralWorker();
+    const trainBuffer = data.trainBytes.slice().buffer;
+    const validationBuffer = data.validationBytes.slice().buffer;
+    worker.postMessage(
+      {type: 'diagnose-unknown-tokens', id, trainBuffer, validationBuffer},
+      [trainBuffer, validationBuffer]
+    );
+  } catch (error) {
+    neuralUnknownDiagnosisPending = false;
+    neuralRequestBusy = false;
+    button.disabled = false;
+    button.textContent = 'Try audit again';
+    $('neuralUnknownTokenDiagnosis').textContent = 'The audit could not start: ' +
+      (error && error.message ? error.message : String(error));
+    updateNeuralControls();
+  }
 }
 
 async function inspectDatasetQuality() {
