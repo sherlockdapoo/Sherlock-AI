@@ -2,24 +2,20 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace has two tabs: **Chat** and **Neural Lab**. Training runs locally in a dedicated browser worker, and the best model checkpoint is saved in this browser.
 
-## Version 0.5.2: AdamW becomes the default
+## Version 0.9.1: four-source dataset expansion
 
-**AdamW is now Sherlock GPT's main optimizer and default for new training runs.** Adam remains available as a comparison baseline. New model initialisation starts with AdamW selected, and the worker also defaults to AdamW. Both use the same learning rate (0.003), mini-batch size (24), model architecture, training data, and seeded initial weights. AdamW applies decoupled weight decay (0.0001) to weight tensors, while Adam keeps the previous behaviour.
+Sherlock GPT now combines four bounded public datasets to give its small character-level model more varied text:
 
-Changing optimizer starts a fresh run from the same deterministic initial weights and resets the visible run metrics, so results from the two runs are not mixed together. Checkpoints remember which optimizer produced them and restore the matching selection after a page refresh. Older saved checkpoints are treated as Adam checkpoints, preserving their original training history. New checkpoints continue to remember their optimizer.
+- **DailyDialog:** up to 3,500 training conversations and 500 held-out validation conversations.
+- **UltraChat 200k:** up to 1,600 training conversations from `train_sft` and 250 held-out conversations from `test_sft`.
+- **No Robots:** up to 3,500 training conversations from `train` and 500 held-out conversations from `test`.
+- **GSM8K:** up to 1,000 maths word problems and worked answers from the `main/train` split, with 250 separate problems from `main/test` held out for evaluation.
 
-For a useful comparison, keep the dataset unchanged and compare both optimizers after the same number of training updates. Compare held-out accuracy and validation cross-entropy; this small character-level experiment does not directly measure conversation quality.
+The loader samples across each available split rather than taking only its first rows. It formats GSM8K question/answer pairs as user/Sherlock turns, while leaving each source's evaluation examples outside the training stream. Optional sources can fail independently; the interface reports which sources loaded.
 
-## Version 0.5.0: Multi-dataset training
+The combined training text can now use up to **9 MiB**, matching the existing local engine buffer, and held-out text can use up to **128 KiB**. Downloads are cached in this browser. The new dataset revision causes Sherlock to start a fresh model for the new data mix; the previous compatible checkpoint is archived in this browser before it is replaced.
 
-The training-data loader now supports two conversation sources:
-
-- **DailyDialog** for everyday multi-turn conversations.
-- **UltraChat 200k** for a broader sample of instruction-style conversations.
-
-The UltraChat download is deliberately capped at 1,200 training conversations and 250 held-out evaluation conversations. Sherlock does not download the full 1.6 GB dataset. When UltraChat is available through the Hugging Face Dataset Viewer API, the combined training stream stays within the existing 2 MB local engine buffer: up to 1.2 MB from DailyDialog and about 0.8 MB from UltraChat. If UltraChat's dataset endpoint is unavailable, the loader falls back to the original DailyDialog-only setup and tells the user.
-
-The UltraChat training sample comes from `train_sft`. Its separate `test_sft` sample is used only for held-out evaluation, never for training. DailyDialog's `train` and `validation` splits remain separate. The combined validation stream is capped at 120 KB.
+Because the validation mix has changed, scores from this revision should not be compared directly with scores from earlier dataset versions. These metrics still measure next-character prediction, not mathematical reasoning or general intelligence.
 
 ## Open Sherlock GPT
 
@@ -42,18 +38,14 @@ The C++ character-counter training screen and its separate Live View have been r
 
 ## Training data and licences
 
-- [DailyDialog](https://huggingface.co/datasets/li2017dailydialog/daily_dialog), delivered through the [agentlans browser-readable mirror](https://huggingface.co/datasets/agentlans/li2017dailydialog). The dataset is labelled **CC BY-NC-SA 4.0**.
-- [UltraChat 200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k). Its dataset card lists an **MIT** licence. Sherlock samples from `train_sft` and uses a small `test_sft` sample only for held-out evaluation.
-- Only user and assistant turns are included; system messages are ignored. Text is cleaned and converted into a character stream.
-- The UltraChat Dataset Viewer currently may not serve every split. If the required split or rows cannot be fetched, Sherlock reports the issue and continues with DailyDialog only.
+- [DailyDialog](https://huggingface.co/datasets/li2017dailydialog/daily_dialog), accessed through the [browser-readable mirror](https://huggingface.co/datasets/agentlans/li2017dailydialog). The dataset is labelled **CC BY-NC-SA 4.0**.
+- [UltraChat 200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k). Its dataset card lists **MIT**.
+- [No Robots](https://huggingface.co/datasets/HuggingFaceH4/no_robots). Its dataset card lists **CC BY-NC 4.0**.
+- [GSM8K](https://huggingface.co/datasets/openai/gsm8k). Its dataset card lists **MIT**.
 
-DailyDialog's non-commercial and ShareAlike conditions still matter when reusing or redistributing material or adaptations. The app's dataset notice links to the source pages and full licence texts. This README is a practical summary, not legal advice.
+Only the selected training split is included in the training text. Each held-out validation/test sample is assembled separately and is not passed to the training buffer. Text is cleaned, converted to a simple user/Sherlock conversation format, and used for character-level next-character prediction. This is not token-level supervised fine-tuning.
 
-## Performance and device use
-
-The neural worker keeps training off the main page thread so the interface can remain interactive. It currently uses one worker and one CPU thread; it does not use all four CPU cores. Actual speed depends on the browser and device, and should be compared using the live examples-per-second metric. True multi-core execution is a separate upgrade and depends on browser support and hosting requirements for WebAssembly threads and shared memory.
-
-The model is intentionally small and is not a transformer or a full ChatGPT-scale model. More data can improve the variety of character patterns it sees, but it does not automatically give the model reasoning ability or reliable factual knowledge.
+Review each dataset's card and licence before redistributing data or model outputs. In particular, DailyDialog and No Robots have non-commercial terms. This README is a practical summary, not legal advice.
 
 ## Technology
 
