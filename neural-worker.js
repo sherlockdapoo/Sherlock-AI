@@ -27,7 +27,7 @@ const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 320;
-const BATCHES_PER_SLICE = 2;
+const BATCHES_PER_SLICE = 8;
 
 let trainData = null;
 let validationData = null;
