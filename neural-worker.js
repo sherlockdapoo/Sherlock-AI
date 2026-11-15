@@ -28,7 +28,9 @@ let activeLearningRate = DEFAULT_LEARNING_RATE;
 const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
-const EVAL_SAMPLES = 320;
+const EVAL_SAMPLES = 640;
+const EARLY_STOP_PATIENCE = 10;
+const MIN_VALIDATION_IMPROVEMENT = 0.001;
 const BATCHES_PER_SLICE = 8;
 const PROGRESS_INTERVAL_MS = 250;
 const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
@@ -50,6 +52,14 @@ let gradients = new Float32Array(PARAMS);
 let firstMoment = new Float32Array(PARAMS);
 let secondMoment = new Float32Array(PARAMS);
 let bestParameters = null;
+let bestFirstMoment = new Float32Array(PARAMS);
+let bestSecondMoment = new Float32Array(PARAMS);
+let bestOptimizerStep = 0;
+let bestRandomState = 0x5A17C0DE;
+let bestSteps = 0;
+let bestExamples = 0;
+let bestMovingLoss = 0;
+let evaluationsWithoutImprovement = 0;
 let bestAccuracy = -1;
 let latestAccuracy = null;
 let latestLoss = 0;
@@ -254,6 +264,14 @@ function initialiseParameters() {
   for (let i = W2_OFFSET; i < B2_OFFSET; i++)
     parameters[i] = (randomUnit() * 2 - 1) * w2Scale;
   bestParameters = null;
+  bestFirstMoment.fill(0);
+  bestSecondMoment.fill(0);
+  bestOptimizerStep = 0;
+  bestRandomState = randomState >>> 0;
+  bestSteps = 0;
+  bestExamples = 0;
+  bestMovingLoss = 0;
+  evaluationsWithoutImprovement = 0;
   bestAccuracy = -1;
   latestAccuracy = null;
   latestLoss = 0;
@@ -430,10 +448,20 @@ function evaluate() {
   evaluationCount++;
   validationSamples = total;
 
-  if (validationLoss < bestValidationLoss) {
+  if (validationLoss < bestValidationLoss - MIN_VALIDATION_IMPROVEMENT) {
     bestValidationLoss = validationLoss;
     bestAccuracy = score;
     bestParameters = new Float32Array(parameters);
+    bestFirstMoment.set(firstMoment);
+    bestSecondMoment.set(secondMoment);
+    bestOptimizerStep = optimizerStep;
+    bestRandomState = randomState >>> 0;
+    bestSteps = steps;
+    bestExamples = examplesSeen;
+    bestMovingLoss = movingLoss;
+    evaluationsWithoutImprovement = 0;
+  } else {
+    evaluationsWithoutImprovement++;
   }
   const checkpointState = new Float32Array(PARAMS * 3);
   checkpointState.set(parameters, 0);
@@ -580,7 +608,13 @@ function runBatch() {
       movingLoss = lossInitialized ? movingLoss * 0.92 + averageLoss * 0.08 : averageLoss;
       lossInitialized = true;
 
-      if (steps % EVAL_EVERY === 0) evaluate();
+      if (steps % EVAL_EVERY === 0) {
+        evaluate();
+        if (evaluationsWithoutImprovement >= EARLY_STOP_PATIENCE) {
+          stopTraining("early-stopping");
+          return;
+        }
+      }
       if (activeMaxSteps > 0 && steps - runStartSteps >= activeMaxSteps) {
         stopTraining("limit");
         return;
@@ -601,7 +635,55 @@ function stopTraining(reason = "manual") {
   if (!running) return;
   running = false;
   evaluate();
-  self.postMessage({type: "stopped", ...progressPayload(), restoredBest: false, stopReason: reason});
+
+  const restoredBest = bestParameters instanceof Float32Array;
+  if (restoredBest) {
+    parameters.set(bestParameters);
+    firstMoment.set(bestFirstMoment);
+    secondMoment.set(bestSecondMoment);
+    optimizerStep = bestOptimizerStep;
+    randomState = bestRandomState >>> 0;
+    steps = bestSteps;
+    examplesSeen = bestExamples;
+    movingLoss = bestMovingLoss;
+    lossInitialized = true;
+    latestAccuracy = bestAccuracy;
+    latestValidationLoss = bestValidationLoss;
+    latestPerplexity = Math.exp(bestValidationLoss);
+
+    const checkpointState = new Float32Array(PARAMS * 3);
+    checkpointState.set(parameters, 0);
+    checkpointState.set(firstMoment, PARAMS);
+    checkpointState.set(secondMoment, PARAMS * 2);
+    const checkpointBuffer = checkpointState.buffer;
+    self.postMessage({
+      type: "checkpoint",
+      optimizer: activeOptimizer,
+      learningRate: activeLearningRate,
+      accuracy: bestAccuracy,
+      bestAccuracy,
+      validationLoss: bestValidationLoss,
+      bestValidationLoss,
+      perplexity: latestPerplexity,
+      evaluations: evaluationCount,
+      validationSamples,
+      steps,
+      examples: examplesSeen,
+      loss: movingLoss,
+      batchSize: activeBatchSize,
+      maxSteps: activeMaxSteps,
+      runSteps: Math.max(0, steps - runStartSteps),
+      optimizerStep,
+      randomState: randomState >>> 0,
+      parameters: PARAMS,
+      assistantTargetMetrics: true,
+      trainingTargetTokens: trainTargetPositions.length,
+      validationTargetTokens: validationTargetPositions.length,
+      modelBuffer: checkpointBuffer
+    }, [checkpointBuffer]);
+  }
+  const stopReasonLabel = reason === "early-stopping" ? "early-stopping" : reason;
+  self.postMessage({type: "stopped", ...progressPayload(), restoredBest, stopReason: stopReasonLabel});
 }
 function generate(prompt, requestedLength) {
   if (!initialized || examplesSeen === 0 || vocabularySize <= 3) return "Train the neural network first.";
@@ -713,6 +795,14 @@ self.addEventListener("message", event => {
       secondMoment.set(restoredState.subarray(PARAMS * 2, PARAMS * 3));
       gradients.fill(0);
       bestParameters = new Float32Array(parameters);
+      bestFirstMoment.set(firstMoment);
+      bestSecondMoment.set(secondMoment);
+      bestOptimizerStep = Math.max(0, Math.floor(Number(message.optimizerStep) || 0));
+      bestRandomState = (Number(message.randomState) >>> 0) || 0x5A17C0DE;
+      bestSteps = Math.max(0, Number(message.steps) || 0);
+      bestExamples = Math.max(0, Number(message.examples) || 0);
+      bestMovingLoss = Math.max(0, Number(message.loss) || 0);
+      evaluationsWithoutImprovement = 0;
       bestAccuracy = Number.isFinite(Number(message.bestAccuracy)) ? Number(message.bestAccuracy) :
         (Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1);
       latestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : null;
