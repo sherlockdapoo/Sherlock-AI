@@ -1015,7 +1015,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.9.5">v0.9.5</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.9.6">v0.9.6</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2237,7 +2237,10 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   let accuracyHistoryChanged = false;
   neuralExamplesValue = examples;
   neuralStepsValue = steps;
-  neuralSpeedValue = Number(data.examplesPerSecond) || 0;
+  if (data.examplesPerSecond !== undefined && data.examplesPerSecond !== null &&
+      Number.isFinite(Number(data.examplesPerSecond))) {
+    neuralSpeedValue = Number(data.examplesPerSecond);
+  }
   neuralEvaluationCountValue = Math.max(neuralEvaluationCountValue, Number(data.evaluations) || 0);
   $('neuralParameters').textContent = (Number(data.parameters) || 61488).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
@@ -2253,7 +2256,10 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
       : runSteps.toLocaleString() + ' · unlimited';
   }
   $('neuralEpochs').textContent = (Number(data.epochs) || 0).toFixed(3);
-  $('neuralSpeed').textContent = Math.round(Number(data.examplesPerSecond) || 0).toLocaleString();
+  if (data.examplesPerSecond !== undefined && data.examplesPerSecond !== null &&
+      Number.isFinite(Number(data.examplesPerSecond))) {
+    $('neuralSpeed').textContent = Math.round(Number(data.examplesPerSecond)).toLocaleString();
+  }
   $('neuralLoss').textContent = Number.isFinite(Number(data.loss)) && examples > 0 ? Number(data.loss).toFixed(4) : 'Not measured';
   if (Number.isFinite(Number(data.loss)) && examples > 0) {
     neuralLatestLossValue = Number(data.loss);
