@@ -1028,7 +1028,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website update 0.15.0, trainer v0.14.0">v0.14.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website update 0.15.1, trainer v0.14.0">v0.14.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1483,6 +1483,8 @@ let neuralModelReady = false;
 let neuralRequestBusy = false;
 let neuralStartPending = false;
 let neuralStartupTimer = null;
+let neuralStopTimeout = null;
+let neuralStopPending = false;
 let neuralDatasetAbortController = null;
 let neuralStartupAttempt = 0;
 let neuralRequestSequence = 0;
@@ -2398,7 +2400,7 @@ function resetNeuralExperimentMetrics(optimizer) {
 
 function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
-  $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
+  $('neuralStopBtn').disabled = !neuralTraining || !neuralWorker || neuralStopPending;
   $('neuralLearningRate').disabled = neuralTraining || neuralRequestBusy;
 }
 function selectedNeuralOptimizer() {
@@ -2441,7 +2443,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.15.0-main-v0140', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.15.1-best-restore-early-stop', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2551,16 +2553,21 @@ updateNeuralControls();
       updateGlobalNeuralStats();
       renderNeuralLiveView();
     } else if (data.type === 'stopped') {
+      if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
+      neuralStopTimeout = null;
+      neuralStopPending = false;
       updateNeuralMetrics(data, true);
       neuralTraining = false;
       neuralWorkerStarted = false;
       neuralModelReady = Number(data.examples) > 0;
       setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
       $('neuralMessage').textContent = data.stopReason === 'limit'
-        ? 'Training-step target reached. The latest model has been evaluated and saved.'
-        : data.restoredBest
-          ? 'Training stopped. The latest model has been saved. Chat can now use this network.'
-          : 'Training stopped. Complete more updates to make the neural model useful.';
+        ? 'Training-step target reached. The best validation checkpoint has been restored and saved.'
+        : data.stopReason === 'early-stopping'
+          ? 'Early stopping: validation loss stopped improving. Sherlock restored and saved its best checkpoint.'
+          : data.restoredBest
+            ? 'Training stopped. Sherlock restored and saved its best validation checkpoint.'
+            : 'Training stopped. Complete more updates to make the neural model useful.';
       updateNeuralControls();
       setChatReady(modelReady);
       updateGlobalNeuralStats();
@@ -2617,6 +2624,9 @@ updateNeuralControls();
         pending.resolve(data.text);
       }
     } else if (data.type === 'error') {
+      if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
+      neuralStopTimeout = null;
+      neuralStopPending = false;
       if (data.id === gsm8kBenchmarkPendingId) {
         gsm8kBenchmarkPending = false;
         gsm8kBenchmarkPendingId = null;
@@ -2647,6 +2657,9 @@ updateNeuralControls();
     }
   };
   neuralWorker.onerror = event => {
+    if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
+    neuralStopTimeout = null;
+    neuralStopPending = false;
     if (neuralUnknownDiagnosisPending) {
       neuralUnknownDiagnosisPending = false;
       neuralRequestBusy = false;
@@ -2798,10 +2811,29 @@ async function startNeuralTraining() {
 }
 
 function stopNeuralTraining() {
-  if (!neuralTraining || !neuralWorkerStarted || !neuralWorker) return;
+  if (!neuralTraining || !neuralWorker || neuralStopPending) return;
+  neuralStopPending = true;
   $('neuralStopBtn').disabled = true;
-  $('neuralMessage').textContent = 'Stop requested. The worker is finishing its current small batch and saving the latest model…';
+  $('neuralStopBtn').textContent = '■ Stopping…';
+  $('neuralMessage').textContent = 'Stop requested. Sherlock is restoring its best validation checkpoint…';
   neuralWorker.postMessage({type: 'stop'});
+  if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
+  neuralStopTimeout = setTimeout(() => {
+    if (!neuralStopPending || !neuralTraining) return;
+    if (neuralWorker) neuralWorker.terminate();
+    neuralWorker = null;
+    neuralWorkerInitialized = false;
+    neuralWorkerStarted = false;
+    neuralTraining = false;
+    neuralStopPending = false;
+    neuralModelReady = false;
+    setNeuralState('Worker stopped after timeout');
+    $('neuralMessage').textContent = 'The worker did not acknowledge Stop, so it was safely terminated. Your last saved checkpoint is preserved; refresh the page to restore it. Updates since that checkpoint may be lost.';
+    updateNeuralControls();
+    setChatReady(false);
+    updateGlobalNeuralStats();
+    renderNeuralLiveView();
+  }, 10000);
 }
 
 function requestNeuralGeneration(prompt) {
