@@ -1010,14 +1010,16 @@ body,.app{color:#27354d}
 
 
 /* Restore reliable page scrolling on touch devices and provide a direct way back to the top. */
+/* Keep the document as the browser's native page scroller on touch devices.
+   overflow-x:hidden on the root/body can trap vertical page scrolling in mobile browsers. */
 html,body{
   min-height:100%;
   height:auto;
-  overflow-x:hidden;
-  overflow-y:auto;
+  overflow-x:clip;
+  overflow-y:visible;
   overscroll-behavior-y:auto;
 }
-body{-webkit-overflow-scrolling:touch;touch-action:pan-y}
+body{-webkit-overflow-scrolling:auto}
 #backToTop{
   position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
   z-index:9999;display:inline-flex;align-items:center;justify-content:center;
