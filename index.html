@@ -1979,29 +1979,38 @@ function restoreSavedNeuralCheckpoint() {
       candidate.datasetRevision === NEURAL_DATASET_REVISION &&
       typeof candidate.datasetFingerprint === 'string' &&
       typeof candidate.trainingState === 'string';
-    let stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
-    let record = stored ? JSON.parse(stored) : null;
-    // Try archived checkpoints only when their model AND dataset revision match.
-    // This avoids loading weights against a different tokenizer or training corpus.
-    if (!isCompatibleCheckpoint(record)) {
-      const archiveKeys = [
-        NEURAL_ARCHIVE_CHECKPOINT_KEY,
-        NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup'
-      ];
-      for (const archiveKey of archiveKeys) {
-        const archived = localStorage.getItem(archiveKey);
-        if (!archived) continue;
-        let archivedRecord = null;
-        try { archivedRecord = JSON.parse(archived); } catch (_) {}
-        if (isCompatibleCheckpoint(archivedRecord)) {
-          stored = archived;
-          record = archivedRecord;
-          localStorage.setItem(NEURAL_CHECKPOINT_KEY, archived);
-          break;
+    // Compare the main checkpoint and both archives, then restore the newest
+    // checkpoint that is compatible with this exact model and dataset revision.
+    const checkpointKeys = [
+      NEURAL_CHECKPOINT_KEY,
+      NEURAL_ARCHIVE_CHECKPOINT_KEY,
+      NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup'
+    ];
+    const candidates = [];
+    for (const key of checkpointKeys) {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      try {
+        const candidate = JSON.parse(raw);
+        if (isCompatibleCheckpoint(candidate)) {
+          candidates.push({ key, raw, record: candidate });
         }
-      }
+      } catch (_) {}
     }
-    if (!stored && !record) return;
+    if (!candidates.length) {
+      const mainStored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
+      if (!mainStored) return;
+      throw new Error('Saved checkpoint belongs to an older dataset or model version.');
+    }
+    candidates.sort((a, b) =>
+      (Date.parse(b.record.savedAt || '') || 0) - (Date.parse(a.record.savedAt || '') || 0)
+    );
+    const newest = candidates[0];
+    const stored = newest.raw;
+    const record = newest.record;
+    if (newest.key !== NEURAL_CHECKPOINT_KEY) {
+      localStorage.setItem(NEURAL_CHECKPOINT_KEY, stored);
+    }
     const checkpointVersion = Number(record && record.version);
     if (!isCompatibleCheckpoint(record)) {
       throw new Error('Saved checkpoint belongs to an older dataset or model version.');
