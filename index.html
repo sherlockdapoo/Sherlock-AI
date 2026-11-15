@@ -1093,25 +1093,7 @@ body,.app{color:#27354d}
             <p>AdamW optimizer · weight decay 0.0001. Choose before starting a training run.</p>
           </div>
           <div class="optimizer-picker neural-config-picker">
-            <div><label for="neuralBatchSize">Batch size</label>
-              <select id="neuralBatchSize" aria-label="Neural training batch size">
-                <option value="8">8 examples · lighter</option>
-                <option value="16">16 examples · small</option>
-                <option value="24" selected>24 examples · balanced</option>
-                <option value="32">32 examples · larger</option>
-              </select>
-            </div>
-            <div><label for="neuralMaxSteps">Training steps per run</label>
-              <select id="neuralMaxSteps" aria-label="Maximum training steps per run">
-                <option value="0" selected>Unlimited · stop manually</option>
-                <option value="5000">5,000 steps</option>
-                <option value="10000">10,000 steps</option>
-                <option value="25000">25,000 steps</option>
-                <option value="50000">50,000 steps</option>
-                <option value="100000">100,000 steps</option>
-              </select>
-            </div>
-            <p id="neuralTrainingConfigSummary">Next run: unlimited steps · batch size 24 · learning rate 0.003.</p>
+            <p id="neuralTrainingConfigSummary">Permanent settings: batch size 32 · unlimited training steps. Press Stop whenever you want to end a run.</p>
           </div>
           <div class="neural-control-row">
             <button class="btn btn-primary" id="neuralStartBtn" type="button">✳ <span>Start neural training</span></button>
@@ -1134,7 +1116,7 @@ body,.app{color:#27354d}
             <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
             <div class="metric"><span>Validation character positions per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
             <div class="metric"><span>Optimizer</span><strong id="neuralOptimizerSummary">Adam · learning rate 0.003</strong></div>
-            <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">24 examples per update</strong></div>
+            <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">32 examples per update</strong></div>
             <div class="metric"><span>Run progress</span><strong id="neuralRunProgress">Unlimited</strong></div>
           </div>
         </section>
@@ -1890,8 +1872,6 @@ function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
   $('neuralStopBtn').disabled = !neuralTraining || !neuralWorkerStarted;
   $('neuralLearningRate').disabled = neuralTraining || neuralRequestBusy;
-  $('neuralBatchSize').disabled = neuralTraining || neuralRequestBusy;
-  $('neuralMaxSteps').disabled = neuralTraining || neuralRequestBusy;
 }
 function selectedNeuralOptimizer() {
   return 'adamw';
@@ -1901,12 +1881,10 @@ function selectedNeuralLearningRate() {
   return [0.001, 0.003, 0.005].includes(value) ? value : 0.003;
 }
 function selectedNeuralBatchSize() {
-  const value = Number($('neuralBatchSize').value);
-  return [8, 16, 24, 32].includes(value) ? value : 24;
+  return 32;
 }
 function selectedNeuralMaxSteps() {
-  const value = Number($('neuralMaxSteps').value);
-  return [0, 5000, 10000, 25000, 50000, 100000].includes(value) ? value : 0;
+  return 0;
 }
 function updateNeuralOptimizerSummary() {
   const summary = $('neuralOptimizerSummary');
@@ -1965,8 +1943,6 @@ function ensureNeuralWorker() {
     } else if (data.type === 'model-loaded') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       if ([0.001, 0.003, 0.005].includes(Number(data.learningRate))) $('neuralLearningRate').value = String(Number(data.learningRate));
-      if ([8, 16, 24, 32].includes(Number(data.batchSize))) $('neuralBatchSize').value = String(Number(data.batchSize));
-      if ([0, 5000, 10000, 25000, 50000, 100000].includes(Number(data.maxSteps))) $('neuralMaxSteps').value = String(Number(data.maxSteps));
       updateNeuralOptimizerSummary();
       updateNeuralTrainingConfigSummary();
       neuralWorkerInitialized = true;
@@ -2234,9 +2210,6 @@ $('neuralLearningRate').addEventListener('change', () => {
   updateNeuralOptimizerSummary();
   updateNeuralTrainingConfigSummary();
 });
-$('neuralBatchSize').addEventListener('change', updateNeuralTrainingConfigSummary);
-$('neuralMaxSteps').addEventListener('change', updateNeuralTrainingConfigSummary);
-
 function updateAccuracy(value) {
   const measured = value !== null && Number.isFinite(Number(value));
   const pct = measured ? Math.max(0, Math.min(100, Number(value))) : 0;
