@@ -1426,9 +1426,9 @@ const GSM8K_TRAIN_BUDGET = 1500000;
 const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB training buffer safely.
 const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
-const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
+const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-char-fallback-context16-legacy-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-char-fallback-context16-v1';
-const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-previous-dataset-checkpoint-v1';
+const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-char-fallback-context16-previous-dataset-v1';
 const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
@@ -1982,7 +1982,7 @@ function restoreSavedNeuralCheckpoint() {
   try {
     const isCompatibleCheckpoint = candidate =>
       candidate && Number(candidate.version) === 9 &&
-      Number(candidate.parameterCount) === 61488 &&
+      Number(candidate.parameterCount) === 64560 &&
       candidate.datasetRevision === NEURAL_DATASET_REVISION &&
       typeof candidate.datasetFingerprint === 'string' &&
       typeof candidate.trainingState === 'string';
