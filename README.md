@@ -2,7 +2,7 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace has two tabs: **Chat** and **Neural Lab**. Training runs locally in a dedicated browser worker, and the latest word-model checkpoint is saved in this browser.
 
-## Version 0.9.1: four-source dataset expansion
+## Version 0.9.2: validation-loss history graph
 
 Sherlock GPT now combines four bounded public datasets to give its compact word-level model more varied text:
 
@@ -33,7 +33,8 @@ The C++ character-counter training screen and its separate Live View have been r
 - **Training:** cross-entropy loss and backpropagation, using mini-batches of 32 tokens and AdamW (default learning rate 0.001; decoupled weight decay 0.0001). Two mini-batches are processed per worker slice before yielding to the browser event loop.
 - **Validation/evaluation:** every 50 optimizer steps, the worker evaluates up to 320 positions from the combined held-out token stream. It reports top-1 accuracy, mean cross-entropy (negative log-likelihood), and perplexity (`exp(cross-entropy)`). Accuracy is the share of next tokens predicted exactly; lower cross-entropy and lower perplexity indicate better probability estimates. These are next-token metrics, not measures of intelligence, factual knowledge, or conversation quality.
 - **Network visualiser:** the Neural Lab draws a live sampled view of token-embedding inputs, 16 hidden neurons, and 12 output-token neurons. The worker sends real activation values and sampled connection weights during progress updates. This is a readable sample of the 61,488-parameter network, not every neuron or connection.
-- **Checkpoint:** after each validation check, the page stores model weights, AdamW optimiser memory, training counters, model version, and both graph histories in this browser. The previous character-level checkpoint remains under its old browser storage key and is not overwritten by the word-level upgrade.
+- **Checkpoint:** after each validation check, the page stores model weights, AdamW optimiser memory, training counters, model version, and both graph histories in this browser.
+- **Validation-loss history:** Neural Lab now plots held-out cross-entropy at each completed validation check, alongside the existing training-loss and validation-accuracy graphs. The new history is saved in the browser checkpoint and continues accumulating after refresh. The previous character-level checkpoint remains under its old browser storage key and is not overwritten by the word-level upgrade.
 - **Stop behaviour:** stopping performs a final evaluation and saves the current word-level model state for Chat and future training.
 
 ## Training data and licences
