@@ -986,29 +986,6 @@ body,.app{color:#27354d}
 #chatPanel .playground-card .chat-hint{background:#101b2c!important;border-color:#2a3d59!important}
 #chatPanel .playground-card button:disabled{opacity:.55}
 
-/* v0.8.0 · dataset quality inspector */
-.dataset-quality-card{padding:20px;background:#fff;border:1px solid #dfe5ef;min-width:0}
-.dataset-quality-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
-.dataset-quality-stat{min-width:0;padding:13px;border:1px solid #dfe5ef;border-radius:12px;background:#f6f8fc}
-.dataset-quality-stat span{display:block;color:#718097;font-size:10px;font-weight:750}
-.dataset-quality-stat strong{display:block;margin-top:5px;color:#293750;font-size:clamp(17px,2.5vw,22px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.dataset-quality-stat small{display:block;margin-top:3px;color:#8793a8;font-size:9px;line-height:1.4}
-.dataset-quality-source{margin-top:11px;padding:9px 11px;border:1px solid #e1e7f0;border-radius:9px;background:#fafbfd;color:#64738b;font-size:10px;line-height:1.5}
-.dataset-quality-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}
-.dataset-quality-actions p{margin:0;color:#62718a;font-size:11px;line-height:1.5}
-.dataset-quality-actions .btn{flex-shrink:0;min-height:40px}
-.dataset-quality-note{display:block;margin-top:10px;color:#8793a8;font-size:9px;line-height:1.5}
-.dataset-quality-card .visual-card-head h3{color:#293750}
-.dataset-quality-card .visual-card-head p{color:#778399}
-@media(max-width:620px){
-  .dataset-quality-card{padding:15px}
-  .dataset-quality-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .dataset-quality-stat{padding:11px}
-  .dataset-quality-actions{align-items:stretch;flex-direction:column}
-  .dataset-quality-actions .btn{width:100%}
-}
-
-
 /* Restore reliable page scrolling on touch devices and provide a direct way back to the top. */
 /* Keep the document as the browser's native page scroller on touch devices.
    overflow-x:hidden on the root/body can trap vertical page scrolling in mobile browsers. */
@@ -1275,29 +1252,7 @@ body{-webkit-overflow-scrolling:auto}
 
       </div>
 
-      <section class="card dataset-quality-card" aria-labelledby="datasetQualityTitle">
-        <div class="visual-card-head">
-          <div>
-            <h3 id="datasetQualityTitle">Dataset Quality Inspector</h3>
-            <p>Checks the downloaded training and validation text before you train.</p>
-          </div>
-          <span class="visual-mini-tag">LOCAL DATA CHECK</span>
-        </div>
-        <div class="dataset-quality-grid" aria-live="polite">
-          <div class="dataset-quality-stat"><span>Training text</span><strong id="dataQualityBytes">—</strong><small>UTF-8 bytes loaded</small></div>
-          <div class="dataset-quality-stat"><span>Training conversations</span><strong id="dataQualityTrainBlocks">—</strong><small>Detected conversation blocks</small></div>
-          <div class="dataset-quality-stat"><span>Exact duplicate copies</span><strong id="dataQualityDuplicates">—</strong><small>Repeated full conversations</small></div>
-          <div class="dataset-quality-stat"><span>Held-out text matches</span><strong id="dataQualityOverlap">—</strong><small>Validation excerpts also found in training</small></div>
-          <div class="dataset-quality-stat"><span>Very brief conversations</span><strong id="dataQualityShort">—</strong><small>Fewer than 12 words</small></div>
-          <div class="dataset-quality-stat"><span>Speaker-format flags</span><strong id="dataQualityFormat">—</strong><small>Missing a user or Sherlock turn</small></div>
-        </div>
-        <div class="dataset-quality-source" id="dataQualitySources">DailyDialog: not loaded · UltraChat: not loaded · No Robots: not loaded · GSM8K maths: not loaded</div>
-        <div class="dataset-quality-actions">
-          <p id="dataQualityStatus" role="status" aria-live="polite">No data scanned yet. Inspecting downloads the dataset but does not start training.</p>
-          <button class="btn btn-secondary" id="dataQualityInspectBtn" type="button">Load & inspect dataset</button>
-        </div>
-        <small class="dataset-quality-note">Checks run on this browser. Duplicate detection compares complete conversations after normalising case and whitespace. Very brief conversations are only flagged for review, not automatically treated as bad data.</small>
-      </section>
+      
 
       <section class="card neural-chart-card">
         <div class="visual-card-head">
@@ -1476,7 +1431,6 @@ let currentTrainStepSize = TRAIN_STEP_SIZE;
 let batchTuneCounter = 0;
 let requestBusy = false;
 let datasetCache = null;
-let datasetQualityInspecting = false;
 let neuralUnknownDiagnosisPending = false;
 let neuralUnknownDiagnosisId = 0;
 let bestAccuracy = null;
@@ -2836,7 +2790,6 @@ function requestNeuralGeneration(prompt) {
 }
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
-$('dataQualityInspectBtn').addEventListener('click', inspectDatasetQuality);
 $('neuralUnknownInspectBtn').addEventListener('click', inspectNeuralUnknownTokens);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
 $('neuralLearningRate').addEventListener('change', () => {
@@ -3316,156 +3269,6 @@ function buildGsm8kCorpus(rows) {
     validProblems++;
   }
   return {text: chunks.join(''), conversations: validProblems};
-}
-
-function analyseDatasetQuality(data) {
-  const decoder = new TextDecoder('utf-8');
-  const trainingText = decoder.decode(data.trainBytes || new Uint8Array(0));
-  const validationText = decoder.decode(data.validationBytes || new Uint8Array(0));
-  const extractBlocks = text => text.split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
-  const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
-  const trainingBlocks = extractBlocks(trainingText);
-  const validationBlocks = extractBlocks(validationText);
-  const trainingSearchText = normalise(trainingText);
-  const seen = new Set();
-  let duplicateCopies = 0;
-  let veryBrief = 0;
-  let speakerFormatFlags = 0;
-  let wordTotal = 0;
-
-  for (const block of trainingBlocks) {
-    const key = normalise(block);
-    if (seen.has(key)) duplicateCopies++;
-    else seen.add(key);
-
-    const words = block
-      .replace(/^(?:user|sherlock):\s*/gim, ' ')
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean);
-    wordTotal += words.length;
-    if (words.length < 12) veryBrief++;
-
-    const hasUser = /^user:\s*\S/im.test(block);
-    const hasSherlock = /^sherlock:\s*\S/im.test(block);
-    if (!hasUser || !hasSherlock) speakerFormatFlags++;
-  }
-
-  // Validation text is stored as spaced-out held-out excerpts, not always
-  // complete conversation blocks. Check whether each sizeable excerpt occurs
-  // verbatim in the training text, rather than comparing unlike block types.
-  let validationOverlap = 0;
-  for (const block of validationBlocks) {
-    const key = normalise(block);
-    if (key.length >= 80 && trainingSearchText.includes(key)) validationOverlap++;
-  }
-
-  return {
-    trainingBytes: data.trainBytes ? data.trainBytes.length : 0,
-    validationBytes: data.validationBytes ? data.validationBytes.length : 0,
-    trainingBlocks: trainingBlocks.length,
-    validationBlocks: validationBlocks.length,
-    duplicateCopies,
-    validationOverlap,
-    veryBrief,
-    speakerFormatFlags,
-    averageWords: trainingBlocks.length ? wordTotal / trainingBlocks.length : 0,
-    dailyTrainConversations: Number(data.dailyTrainConversations) || 0,
-    ultraTrainConversations: Number(data.ultraTrainConversations) || 0,
-    ultraAvailable: Boolean(data.ultraAvailable),
-    noRobotsTrainConversations: Number(data.noRobotsTrainConversations) || 0,
-    noRobotsAvailable: Boolean(data.noRobotsAvailable),
-    mathTrainConversations: Number(data.mathTrainConversations) || 0,
-    mathAvailable: Boolean(data.mathAvailable)
-  };
-}
-
-function renderDatasetQuality(data) {
-  const report = analyseDatasetQuality(data);
-  const format = value => Number(value || 0).toLocaleString();
-  $('dataQualityBytes').textContent = format(report.trainingBytes);
-  $('dataQualityTrainBlocks').textContent = format(report.trainingBlocks);
-  $('dataQualityDuplicates').textContent = format(report.duplicateCopies);
-  $('dataQualityOverlap').textContent = format(report.validationOverlap);
-  $('dataQualityShort').textContent = format(report.veryBrief);
-  $('dataQualityFormat').textContent = format(report.speakerFormatFlags);
-  $('dataQualitySources').textContent =
-    'DailyDialog rows parsed: ' + format(report.dailyTrainConversations) + ' · ' +
-    'UltraChat rows parsed: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) : 'not loaded') + ' · ' +
-    'No Robots rows parsed: ' + (report.noRobotsAvailable ? format(report.noRobotsTrainConversations) : 'not loaded') + ' · ' +
-    'GSM8K maths pairs parsed: ' + (report.mathAvailable ? format(report.mathTrainConversations) : 'not loaded');
-  const findings = [];
-  if (report.duplicateCopies) findings.push(format(report.duplicateCopies) + ' exact duplicate training copies');
-  if (report.validationOverlap) findings.push(format(report.validationOverlap) + ' held-out text excerpts also found in training');
-  if (report.speakerFormatFlags) findings.push(format(report.speakerFormatFlags) + ' conversations with a missing speaker type');
-  $('dataQualityStatus').textContent = findings.length
-    ? 'Review flags: ' + findings.join('; ') + '. ' + format(report.veryBrief) + ' conversations are very brief.'
-    : 'No exact duplicate copies, repeated held-out excerpts, or speaker-format flags found in the loaded sample. ' +
-      format(report.veryBrief) + ' conversations are very brief.';
-  $('dataQualityInspectBtn').textContent = 'Re-scan dataset';
-  return report;
-}
-
-async function inspectNeuralUnknownTokens() {
-  if (neuralUnknownDiagnosisPending) return;
-  if (neuralTraining || neuralWorkerStarted || neuralRequestBusy || requestBusy || training) {
-    $('neuralUnknownTokenDiagnosis').textContent = 'Stop the current training or request before running the token audit.';
-    return;
-  }
-  const button = $('neuralUnknownInspectBtn');
-  neuralUnknownDiagnosisPending = true;
-  neuralRequestBusy = true;
-  const id = ++neuralUnknownDiagnosisId;
-  button.disabled = true;
-  button.textContent = 'Inspecting…';
-  $('neuralUnknownTokenDiagnosis').textContent = 'Loading the saved dataset and counting validation tokens against the training vocabulary…';
-  updateNeuralControls();
-  try {
-    const data = datasetCache || await loadTrainingDatasets();
-    const worker = ensureNeuralWorker();
-    const trainBuffer = data.trainBytes.slice().buffer;
-    const validationBuffer = data.validationBytes.slice().buffer;
-    worker.postMessage(
-      {type: 'diagnose-unknown-tokens', id, trainBuffer, validationBuffer},
-      [trainBuffer, validationBuffer]
-    );
-  } catch (error) {
-    neuralUnknownDiagnosisPending = false;
-    neuralRequestBusy = false;
-    button.disabled = false;
-    button.textContent = 'Try audit again';
-    $('neuralUnknownTokenDiagnosis').textContent = 'The audit could not start: ' +
-      (error && error.message ? error.message : String(error));
-    updateNeuralControls();
-  }
-}
-
-async function inspectDatasetQuality() {
-  if (datasetQualityInspecting) return;
-  if (neuralTraining || neuralRequestBusy || requestBusy || training) {
-    $('dataQualityStatus').textContent = 'Stop the current training or request before inspecting the dataset.';
-    return;
-  }
-  datasetQualityInspecting = true;
-  neuralRequestBusy = true;
-  $('dataQualityInspectBtn').disabled = true;
-  $('dataQualityInspectBtn').textContent = 'Inspecting…';
-  $('dataQualityStatus').textContent = 'Loading the saved dataset or downloading it for inspection. Training will not start.';
-  updateNeuralControls();
-  try {
-    const data = datasetCache || await loadTrainingDatasets();
-    renderDatasetQuality(data);
-    $('dataQualityStatus').textContent += ' Scan completed locally.';
-  } catch (error) {
-    $('dataQualityStatus').textContent = 'Dataset inspection could not finish: ' +
-      (error && error.message ? error.message : String(error));
-  } finally {
-    datasetQualityInspecting = false;
-    neuralRequestBusy = false;
-    $('dataQualityInspectBtn').disabled = false;
-    if (!datasetCache) $('dataQualityInspectBtn').textContent = 'Try inspection again';
-    updateNeuralControls();
-  }
 }
 
 function restoreGsm8kBenchmarkHistory() {
