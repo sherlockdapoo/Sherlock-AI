@@ -4023,7 +4023,7 @@ $('chatForm').addEventListener('submit', async event => {
     savePlaygroundRun(prompt, waiting.textContent);
     $('message').value = prompt;
   } catch (error) {
-    waiting.textContent = 'Sherlock could not generate a continuation. Please try again.';
+    waiting.textContent = 'Sherlock could not produce an answer. Please try again.';
     console.error(error);
   } finally {
     $('sendBtn').disabled = !neuralModelReady || neuralTraining;
