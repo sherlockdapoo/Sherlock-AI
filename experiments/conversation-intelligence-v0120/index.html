@@ -3915,15 +3915,15 @@ async function loadStandaloneCurriculum(signal) {
     loadText(STANDALONE_TRAIN_URL, 'Training examples', 1),
     loadText(STANDALONE_VALIDATION_URL, 'Held-out validation examples', 2)
   ]);
-  const blocks = value => value.split(/\\n{2,}/).map(block => block.trim()).filter(Boolean);
+  const blocks = value => value.split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
   const trainingBlocks = blocks(trainingText);
   const validationBlocks = blocks(validationText);
-  const validFormat = block => /^user:\\s*\\S/im.test(block) && /^sherlock:\\s*\\S/im.test(block);
+  const validFormat = block => /^user:\s*\S/im.test(block) && /^sherlock:\s*\S/im.test(block);
   if (trainingBlocks.length < 1000 || validationBlocks.length < 200)
     throw new Error('The standalone library did not contain enough training or held-out examples.');
   if (!trainingBlocks.every(validFormat) || !validationBlocks.every(validFormat))
     throw new Error('The standalone library contains an incorrectly formatted conversation.');
-  const normalise = block => block.replace(/\\s+/g, ' ').trim().toLowerCase();
+  const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingSet = new Set(trainingBlocks.map(normalise));
   if (validationBlocks.some(block => trainingSet.has(normalise(block))))
     throw new Error('A held-out validation example also appears in training. The library was not loaded.');
