@@ -28,6 +28,10 @@ let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 320;
 const BATCHES_PER_SLICE = 8;
+const PROGRESS_INTERVAL_MS = 250;
+const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
+let lastProgressMessageAt = -Infinity;
+let lastNetworkSnapshotAt = -Infinity;
 
 let trainData = null;
 let validationData = null;
@@ -424,8 +428,7 @@ function progressPayload() {
     reportAt = now;
     reportExamples = examplesSeen;
   }
-  return {
-    network: networkSnapshot(),
+  const payload = {
     steps,
     examples: examplesSeen,
     epochs: trainData ? examplesSeen / Math.max(1, trainData.length - CONTEXT) : 0,
@@ -450,6 +453,11 @@ function progressPayload() {
     trainTokens: trainData ? trainData.length : 0,
     validationTokens: validationData ? validationData.length : 0
   };
+  if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
+    payload.network = networkSnapshot();
+    lastNetworkSnapshotAt = now;
+  }
+  return payload;
 }
 function runBatch() {
   if (!running) return;
@@ -475,7 +483,11 @@ function runBatch() {
         return;
       }
     }
-    if (running) self.postMessage({type: "progress", ...progressPayload()});
+    const now = performance.now();
+    if (running && now - lastProgressMessageAt >= PROGRESS_INTERVAL_MS) {
+      self.postMessage({type: "progress", ...progressPayload()});
+      lastProgressMessageAt = now;
+    }
     if (running) setTimeout(runBatch, 0);
   } catch (error) {
     running = false;
@@ -659,6 +671,8 @@ self.addEventListener("message", event => {
       if (!running) {
         runStartSteps = steps;
         running = true;
+        lastProgressMessageAt = -Infinity;
+        lastNetworkSnapshotAt = -Infinity;
         reportAt = performance.now();
         reportExamples = examplesSeen;
         lastReportedSpeed = 0;
