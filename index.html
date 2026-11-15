@@ -1025,10 +1025,10 @@ body,.app{color:#27354d}
     <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
     <div class="stat"><span class="stat-label">Examples processed</span><strong class="stat-value" id="chars">0</strong></div>
     <div class="stat"><span class="stat-label">Training speed</span><strong class="stat-value" id="topSpeed">0</strong><span class="stat-unit">examples per second</span></div>
-    <div class="stat"><span class="stat-label">Trainable parameters</span><strong class="stat-value" id="neuralParameters">10,160</strong><span class="stat-unit">adjustable model weights</span></div>
-    <div class="stat"><span class="stat-label">Training examples</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-token examples seen</span></div>
+    <div class="stat"><span class="stat-label">Trainable parameters</span><strong class="stat-value" id="neuralParameters">61,488</strong><span class="stat-unit">adjustable model weights</span></div>
+    <div class="stat"><span class="stat-label">Training tokens</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-token examples seen</span></div>
     <div class="stat"><span class="stat-label">Validation accuracy</span><strong class="stat-value" id="neuralAccuracy">Not measured</strong><span class="stat-unit">separate held-out sample</span></div>
-    <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">examples per second</span></div>
+    <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">tokens per second</span></div>
   </section>
 
   <div class="tabs-wrap">
@@ -1237,7 +1237,7 @@ body,.app{color:#27354d}
             <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
             <div class="metric"><span>Validation tokens per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
             <div class="metric"><span>Optimizer</span><strong id="neuralOptimizerSummary">AdamW · learning rate 0.001</strong></div>
-            <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">32 examples per update</strong></div>
+            <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">32 tokens per update</strong></div>
             <div class="metric"><span>Run progress</span><strong id="neuralRunProgress">Unlimited</strong></div>
           </div>
         </section>
@@ -1321,7 +1321,7 @@ body,.app{color:#27354d}
             <div class="neural-checkpoint-meta"><span>Checkpoint validation loss</span><strong id="neuralCheckpointLoss">Not measured</strong></div>
             <div class="neural-checkpoint-divider"></div>
             <div class="neural-checkpoint-meta"><span>Steps saved</span><strong id="neuralCheckpointSteps">0</strong></div>
-            <div class="neural-checkpoint-meta"><span>Examples saved</span><strong id="neuralCheckpointExamples">0</strong></div>
+            <div class="neural-checkpoint-meta"><span>Tokens saved</span><strong id="neuralCheckpointExamples">0</strong></div>
             <p id="neuralCheckpointStatus" class="neural-checkpoint-status">The latest model is saved automatically on this browser after each validation check.</p>
             <small id="neuralCheckpointSavedAt" class="neural-checkpoint-time">No saved checkpoint yet</small>
           </section>
@@ -2121,7 +2121,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   $('neuralExamples').textContent = examples.toLocaleString();
   $('neuralSteps').textContent = steps.toLocaleString();
   if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
-    $('neuralBatchSizeMetric').textContent = Number(data.batchSize).toLocaleString() + ' examples per update';
+    $('neuralBatchSizeMetric').textContent = Number(data.batchSize).toLocaleString() + ' tokens per update';
   }
   if (Number.isFinite(Number(data.runSteps))) {
     const runSteps = Math.max(0, Number(data.runSteps));
