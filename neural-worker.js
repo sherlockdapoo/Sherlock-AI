@@ -421,6 +421,7 @@ function generate(prompt, requestedLength) {
         sum += parameters[row + j] * inputVector[j];
       hiddenVector[k] = sum > 0 ? sum : 0;
     }
+
     let maximum = -Infinity;
     for (let c = 0; c < VOCAB; c++) {
       if ((c < 32 && c !== 10 && c !== 13) || c === 127) {
@@ -434,18 +435,40 @@ function generate(prompt, requestedLength) {
       probabilities[c] = sum;
       if (sum > maximum) maximum = sum;
     }
+
+    // Nucleus (top-p) sampling keeps the smallest high-probability set whose
+    // combined probability reaches 92%. This trims unlikely character noise
+    // without changing the trained weights or optimiser state.
+    const candidates = [];
     let total = 0;
     for (let c = 0; c < VOCAB; c++) {
-      const probability = Math.exp((probabilities[c] - maximum) / 0.85);
-      probabilities[c] = probability;
-      total += probability;
+      if ((c < 32 && c !== 10 && c !== 13) || c === 127) {
+        probabilities[c] = 0;
+        continue;
+      }
+      const weight = Math.exp((probabilities[c] - maximum) / 0.85);
+      probabilities[c] = weight;
+      total += weight;
+      candidates.push(c);
     }
-    let pick = randomUnit() * total;
-    let chosen = 32;
-    for (let c = 0; c < VOCAB; c++) {
-      pick -= probabilities[c];
+    candidates.sort((a, b) => probabilities[b] - probabilities[a]);
+
+    let nucleusTotal = 0;
+    let nucleusCount = 0;
+    const nucleusTarget = total * 0.92;
+    for (let j = 0; j < candidates.length; j++) {
+      nucleusTotal += probabilities[candidates[j]];
+      nucleusCount = j + 1;
+      if (nucleusTotal >= nucleusTarget) break;
+    }
+
+    let pick = randomUnit() * nucleusTotal;
+    let chosen = candidates[nucleusCount - 1] ?? 32;
+    for (let j = 0; j < nucleusCount; j++) {
+      const code = candidates[j];
+      pick -= probabilities[code];
       if (pick <= 0) {
-        chosen = c;
+        chosen = code;
         break;
       }
     }
