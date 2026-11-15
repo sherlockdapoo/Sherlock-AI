@@ -48,6 +48,9 @@ Only the selected training split is included in the training text. Each held-out
 
 Review each dataset's card and licence before redistributing data or model outputs. In particular, DailyDialog and No Robots have non-commercial terms. This README is a practical summary, not legal advice.
 
+
+The archived C++/WebAssembly character-counter baseline is not the active Neural Lab trainer. Its legacy validation routine uses an exact 10,000-sample maximum, rejects validation sets too short to score, and selects saved checkpoints by held-out accuracy rather than validation loss. These changes do not alter the active JavaScript neural model.
+
 ## Technology
 
 - Front end: HTML, CSS, and JavaScript.
