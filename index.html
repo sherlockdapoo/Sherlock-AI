@@ -1424,7 +1424,7 @@ function updatePlaygroundLatestMeta(run) {
     $('playgroundLatestMeta').textContent = 'No tests yet';
     return;
   }
-  const accuracy = Number.isFinite(Number(run.accuracy))
+  const accuracy = run.accuracy !== null && run.accuracy !== undefined && Number.isFinite(Number(run.accuracy))
     ? ' · ' + Number(run.accuracy).toFixed(3) + '% validation'
     : '';
   $('playgroundLatestMeta').textContent =
@@ -1440,8 +1440,8 @@ function savePlaygroundRun(prompt, output) {
     prompt: String(prompt).slice(0, 180),
     output: String(output).slice(0, 400),
     steps: Math.max(0, Number(neuralStepsValue) || 0),
-    accuracy: Number.isFinite(Number(neuralLatestAccuracyValue)) ? Number(neuralLatestAccuracyValue) : null,
-    validationLoss: Number.isFinite(Number(neuralLatestValidationLossValue)) ? Number(neuralLatestValidationLossValue) : null
+    accuracy: neuralLatestAccuracyValue !== null && neuralLatestAccuracyValue !== undefined && Number.isFinite(Number(neuralLatestAccuracyValue)) ? Number(neuralLatestAccuracyValue) : null,
+    validationLoss: neuralLatestValidationLossValue !== null && neuralLatestValidationLossValue !== undefined && Number.isFinite(Number(neuralLatestValidationLossValue)) ? Number(neuralLatestValidationLossValue) : null
   };
   playgroundRuns.push(run);
   playgroundRuns = playgroundRuns.slice(-MAX_PLAYGROUND_RUNS);
@@ -1520,7 +1520,7 @@ function comparePlaygroundRuns() {
     title.textContent = item.label;
     const meta = document.createElement('p');
     meta.className = 'playground-run-meta';
-    const accuracy = Number.isFinite(Number(item.run.accuracy))
+    const accuracy = item.run.accuracy !== null && item.run.accuracy !== undefined && Number.isFinite(Number(item.run.accuracy))
       ? ' · ' + Number(item.run.accuracy).toFixed(3) + '% validation'
       : '';
     meta.textContent = 'Step ' + Number(item.run.steps || 0).toLocaleString() + accuracy +
@@ -3246,8 +3246,7 @@ $('chatForm').addEventListener('submit', async event => {
       ? generated.slice(prompt.length)
       : generated;
     waiting.textContent = continuation || '(Sherlock did not generate any additional characters.)';
-    const saved = savePlaygroundRun(prompt, waiting.textContent);
-    renderPlaygroundHistory(true);
+    savePlaygroundRun(prompt, waiting.textContent);
     $('message').value = prompt;
   } catch (error) {
     waiting.textContent = 'Sherlock could not generate a continuation. Please try again.';
