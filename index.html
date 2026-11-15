@@ -1935,7 +1935,38 @@ function renderNeuralLiveView() {
   $('neuralCheckpointSavedAt').textContent = neuralCheckpointSavedAt ? 'Saved ' + new Date(neuralCheckpointSavedAt).toLocaleString() : 'No saved checkpoint yet';
 }
 
-let neuralCheckpointSaveQueue = Promise.resolve();
+let neuralCheckpointSaveInProgress = false;
+let neuralCheckpointPendingData = null;
+
+function queueNeuralCheckpointSave(data) {
+  neuralCheckpointPendingData = data;
+  if (neuralCheckpointSaveInProgress) return;
+  neuralCheckpointSaveInProgress = true;
+  (async () => {
+    while (neuralCheckpointPendingData) {
+      const nextCheckpoint = neuralCheckpointPendingData;
+      neuralCheckpointPendingData = null;
+      try {
+        await saveNeuralCheckpoint(nextCheckpoint);
+        updateGlobalNeuralStats();
+        renderNeuralLiveView();
+      } catch (error) {
+        neuralCheckpointWasSaved = false;
+        $('neuralCheckpointStatus').textContent = 'Could not save this checkpoint in browser storage. The active model remains available until this page is closed.';
+        console.warn('Could not save neural checkpoint:', error);
+        renderNeuralLiveView();
+      }
+    }
+    neuralCheckpointSaveInProgress = false;
+  })().catch(error => {
+    neuralCheckpointSaveInProgress = false;
+    neuralCheckpointPendingData = null;
+    neuralCheckpointWasSaved = false;
+    $('neuralCheckpointStatus').textContent = 'Checkpoint saving stopped unexpectedly. The active model remains available until this page is closed.';
+    console.warn('Neural checkpoint save queue failed:', error);
+    renderNeuralLiveView();
+  });
+}
 
 async function saveNeuralCheckpoint(data) {
   if (!currentNeuralDatasetFingerprint) throw new Error('The active dataset has not been identified yet.');
@@ -2550,18 +2581,7 @@ updateNeuralControls();
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
       updateNeuralMetrics(data, true);
-      neuralCheckpointSaveQueue = neuralCheckpointSaveQueue
-        .then(() => saveNeuralCheckpoint(data))
-        .then(() => {
-          updateGlobalNeuralStats();
-          renderNeuralLiveView();
-        })
-        .catch(error => {
-          neuralCheckpointWasSaved = false;
-          $('neuralCheckpointStatus').textContent = 'Could not save this checkpoint in browser storage. The active model remains available until this page is closed.';
-          console.warn('Could not save neural checkpoint:', error);
-          renderNeuralLiveView();
-        });
+      queueNeuralCheckpointSave(data);
     } else if (data.type === 'started') {
       if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
       neuralStartupTimer = null;
