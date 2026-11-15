@@ -2,22 +2,26 @@
 
 ## Dataset
 - Training: 10,000 conversations in `data/sherlock-curriculum-v0140-train.txt`.
-- Held-out validation: 1,000 conversations in `data/sherlock-curriculum-v0140-validation.txt`.
-- Training file: 670,202 bytes.
-- Validation file: 73,637 bytes.
-- Source training conversations retained: 2174.
-- Unique prompt rewrites added: 6,472.
-- New arithmetic training examples: 1,354.
-- Held-out source conversations retained: 225.
-- Unique held-out prompt rewrites added: 675.
-- New held-out arithmetic examples: 100.
-- Exact validation/source-training overlap: 0.
-- Duplicate blocks within either final split: 0.
+- Held-out validation: 1,000 independently generated conversations in `data/sherlock-curriculum-v0140-validation.txt`.
+- Training examples retained from v0.13.0: 2,174.
+- Additional training examples: 7,826.
+- Validation contains new task instances, not prompt rewrites of the v0.13.0 validation seeds.
+- Exact normalized prompt overlap with training: 0.
+- Duplicate validation prompts: 0.
+- Malformed role blocks: 0.
+- Validation file size: 72083 characters; within the 128 KiB loader limit.
 
-## How it was made
-The v0.13.0 standalone curriculum is preserved as the seed set. Training examples receive alternate prompt phrasings, with memory-oriented lead-ins for multi-turn conversations. Fresh arithmetic examples fill the remaining training and validation counts using separate number ranges.
+## Validation coverage
+- 300 arithmetic questions: addition, subtraction, multiplication, and exact division.
+- 100 percentage questions.
+- 100 unit-conversion questions.
+- 150 multi-step word problems.
+- 150 number-pattern questions.
+- 200 letter and instruction questions using unseen labels.
+- This is a synthetic benchmark of held-out task instances, not a measure of broad real-world knowledge.
 
-Many entries are controlled rephrasings of existing examples, not 10,000 entirely independent facts. This increases prompt variation and arithmetic practice, but does not guarantee better answers.
+## How the training set was made
+The v0.13.0 standalone curriculum is preserved as the seed set. Training examples add alternate prompt phrasings and new arithmetic practice. Many entries are controlled rephrasings, not 10,000 entirely independent facts. This increases prompt variation and arithmetic practice, but does not guarantee better answers.
 
 ## Model isolation
 - Standalone files only. No external dataset downloads.
@@ -26,4 +30,4 @@ Many entries are controlled rephrasings of existing examples, not 10,000 entirel
 - v0.13.0 and stable v0.9.9 remain preserved.
 
 ## Evaluation
-Check real browser training speed, train and validation loss, next-token accuracy, unknown-token rate, and the same five-question answer benchmark. Keep stable v0.9.9 unless repeated comparisons show a reliable improvement.
+Compare real browser training speed, train and validation loss, next-token accuracy, unknown-token rate, and the same five-question answer benchmark. Validation is now separated by task instances from training, although broad skill types are intentionally shared. Keep stable v0.9.9 unless repeated comparisons show a reliable improvement.
