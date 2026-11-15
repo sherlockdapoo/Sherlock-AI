@@ -919,6 +919,29 @@ body,.app{color:#27354d}
   .playground-compare-head{flex-direction:column}
   .playground-compare-controls,.playground-comparison-grid{grid-template-columns:1fr}
 }
+
+/* Playground colour contrast fix: prevent native form controls rendering dark text. */
+.playground-card textarea,
+.playground-card select,
+.playground-card input,
+.playground-card option{
+  color:#f4f7ff!important;
+  -webkit-text-fill-color:#f4f7ff;
+  color-scheme:dark;
+}
+.playground-card textarea::placeholder,
+.playground-card input::placeholder{
+  color:#a9b8ce!important;
+  -webkit-text-fill-color:#a9b8ce;
+  opacity:1;
+}
+.playground-card select option{
+  background-color:#101b2c;
+}
+.playground-card .playground-chip,
+.playground-card .playground-compare-controls button{
+  color:#f4f7ff;
+}
 </style>
 </head>
 <body>
@@ -926,7 +949,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.6.0">v0.6.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.6.1">v0.6.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
