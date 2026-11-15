@@ -2036,6 +2036,7 @@ async function restoreSavedNeuralCheckpoint() {
 
   try {
     let record = null;
+    let incompatibleStoredCheckpoint = null;
     let checkpointVersion = 10;
     let checkpointSource = 'IndexedDB';
 
@@ -2044,6 +2045,7 @@ async function restoreSavedNeuralCheckpoint() {
       if (isCurrentCheckpoint(stored)) {
         record = stored;
       } else if (stored && stored.modelBuffer instanceof ArrayBuffer) {
+        incompatibleStoredCheckpoint = stored;
         $('neuralCheckpointStatus').textContent = 'A saved checkpoint exists, but it belongs to a different model or dataset revision. It has been preserved and was not loaded.';
       }
     } catch (storageError) {
@@ -2083,6 +2085,12 @@ async function restoreSavedNeuralCheckpoint() {
         checkpointVersion = 9;
         checkpointSource = 'migrated browser checkpoint';
         try {
+          if (incompatibleStoredCheckpoint) {
+            const existingArchive = await readNeuralCheckpointRecord(NEURAL_ARCHIVE_CHECKPOINT_KEY);
+            if (!existingArchive) {
+              await writeNeuralCheckpointRecord(incompatibleStoredCheckpoint, NEURAL_ARCHIVE_CHECKPOINT_KEY);
+            }
+          }
           await writeNeuralCheckpointRecord(record);
         } catch (migrationError) {
           console.warn('Could not migrate the legacy checkpoint into IndexedDB; it remains in browser storage:', migrationError);
@@ -3605,12 +3613,12 @@ function openNeuralDatasetDB() {
   });
 }
 
-async function writeNeuralCheckpointRecord(record) {
+async function writeNeuralCheckpointRecord(record, key = NEURAL_CHECKPOINT_KEY) {
   const db = await openNeuralDatasetDB();
   try {
     await new Promise((resolve, reject) => {
       const transaction = db.transaction(NEURAL_CHECKPOINT_STORE, 'readwrite');
-      transaction.objectStore(NEURAL_CHECKPOINT_STORE).put(record, NEURAL_CHECKPOINT_KEY);
+      transaction.objectStore(NEURAL_CHECKPOINT_STORE).put(record, key);
       transaction.oncomplete = () => resolve();
       transaction.onerror = () => reject(transaction.error || new Error('Could not save the neural checkpoint.'));
       transaction.onabort = () => reject(transaction.error || new Error('Neural checkpoint save was cancelled.'));
@@ -3618,12 +3626,12 @@ async function writeNeuralCheckpointRecord(record) {
   } finally { db.close(); }
 }
 
-async function readNeuralCheckpointRecord() {
+async function readNeuralCheckpointRecord(key = NEURAL_CHECKPOINT_KEY) {
   const db = await openNeuralDatasetDB();
   try {
     return await new Promise((resolve, reject) => {
       const transaction = db.transaction(NEURAL_CHECKPOINT_STORE, 'readonly');
-      const request = transaction.objectStore(NEURAL_CHECKPOINT_STORE).get(NEURAL_CHECKPOINT_KEY);
+      const request = transaction.objectStore(NEURAL_CHECKPOINT_STORE).get(key);
       request.onsuccess = () => resolve(request.result || null);
       request.onerror = () => reject(request.error || new Error('Could not read the neural checkpoint.'));
     });
