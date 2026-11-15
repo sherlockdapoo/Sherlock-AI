@@ -3744,7 +3744,7 @@ function buildSherlockCurriculum() {
     const animal = animals[i];
     training.push('user: My favourite colour is ' + colour + '.\nsherlock: I will keep that in mind.\n' +
       'user: What is my favourite colour?\nsherlock: ' + colour + '.\n\n');
-    training.push('user: My favourite animal is a ' + animal + '.\nsherlock: Got it.\n' +
+    training.push('user: My favourite animal is ' + (['a','e','i','o','u'].includes(animal[0]) ? 'an ' : 'a ') + animal + '.\nsherlock: Got it.\n' +
       'user: Which animal did I mention?\nsherlock: You mentioned a ' + animal + '.\n\n');
   }
 
