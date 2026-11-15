@@ -162,7 +162,7 @@ function buildTokenizer(trainingText) {
   const ranked = Array.from(counts.entries())
     .filter(([token]) => token !== " " && token !== "\n\n" && token !== EOS_TOKEN)
     .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
-    .slice(0, VOCAB - 3);
+    .slice(0, VOCAB - 4);
 
   vocabulary = new Array(VOCAB).fill(null);
   vocabulary[UNK_ID] = "<unk>";
@@ -213,7 +213,7 @@ function diagnoseUnknownTokens(trainBuffer, validationBuffer) {
   const ranked = Array.from(counts.entries())
     .filter(([token]) => token !== " " && token !== "\n\n" && token !== EOS_TOKEN)
     .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
-    .slice(0, VOCAB - 3);
+    .slice(0, VOCAB - 4);
   const knownTokens = new Set(["<unk>", " ", "\n\n", EOS_TOKEN]);
   for (const [token] of ranked) knownTokens.add(token);
 
