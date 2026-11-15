@@ -2117,7 +2117,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   neuralStepsValue = steps;
   neuralSpeedValue = Number(data.examplesPerSecond) || 0;
   neuralEvaluationCountValue = Math.max(neuralEvaluationCountValue, Number(data.evaluations) || 0);
-  $('neuralParameters').textContent = (Number(data.parameters) || 10160).toLocaleString();
+  $('neuralParameters').textContent = (Number(data.parameters) || 61488).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
   $('neuralSteps').textContent = steps.toLocaleString();
   if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
