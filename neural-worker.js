@@ -65,7 +65,6 @@ let lossInitialized = false;
 const inputVector = new Float32Array(INPUT);
 const hiddenVector = new Float32Array(HIDDEN);
 const probabilities = new Float32Array(VOCAB);
-const outputDelta = new Float32Array(VOCAB);
 const hiddenDelta = new Float32Array(HIDDEN);
 const contextCodes = new Uint16Array(CONTEXT);
 
@@ -184,11 +183,7 @@ function forwardContext() {
   }
 
   let maximum = -Infinity;
-  for (let c = 0; c < VOCAB; c++) {
-    if (c >= vocabularySize) {
-      probabilities[c] = -Infinity;
-      continue;
-    }
+  for (let c = 0; c < vocabularySize; c++) {
     let sum = parameters[B2_OFFSET + c];
     const row = W2_OFFSET + c * HIDDEN;
     for (let k = 0; k < HIDDEN; k++)
@@ -197,11 +192,7 @@ function forwardContext() {
     if (sum > maximum) maximum = sum;
   }
   let denominator = 0;
-  for (let c = 0; c < VOCAB; c++) {
-    if (c >= vocabularySize) {
-      probabilities[c] = 0;
-      continue;
-    }
+  for (let c = 0; c < vocabularySize; c++) {
     const value = Math.exp(probabilities[c] - maximum);
     probabilities[c] = value;
     denominator += value;
@@ -222,12 +213,8 @@ function trainExample(position) {
   const loss = -Math.log(targetProbability);
 
   hiddenDelta.fill(0);
-  for (let c = 0; c < VOCAB; c++) {
-    const delta = c < vocabularySize
-      ? probs[c] - (c === target ? 1 : 0)
-      : 0;
-    outputDelta[c] = delta;
-    if (delta === 0) continue;
+  for (let c = 0; c < vocabularySize; c++) {
+    const delta = probs[c] - (c === target ? 1 : 0);
     gradients[B2_OFFSET + c] += delta;
     const row = W2_OFFSET + c * HIDDEN;
     for (let k = 0; k < HIDDEN; k++) {
