@@ -1711,6 +1711,7 @@ function renderNeuralHistory() {
     return;
   }
   const left = 48, right = 530, top = 18, bottom = 170;
+  const lineLeft = left + 24, lineRight = right - 24; // Slightly shorter plotted line, with axes unchanged.
   let minimum = Infinity, maximum = -Infinity;
   for (const value of values) { if (value < minimum) minimum = value; if (value > maximum) maximum = value; }
   let min = Math.max(0, minimum - Math.max(0.1, (maximum - minimum) * 0.20));
@@ -1720,7 +1721,7 @@ function renderNeuralHistory() {
     ? Array.from({length: MAX_NEURAL_GRAPH_POINTS}, (_, i) => values[Math.round(i * (values.length - 1) / (MAX_NEURAL_GRAPH_POINTS - 1))])
     : values;
   const points = graphValues.map((value, index) => {
-    const x = left + (right - left) * (graphValues.length === 1 ? 1 : index / (graphValues.length - 1));
+    const x = lineLeft + (lineRight - lineLeft) * (graphValues.length === 1 ? 1 : index / (graphValues.length - 1));
     const y = bottom - ((value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
@@ -1769,6 +1770,7 @@ function renderNeuralLossHistory() {
     return;
   }
   const left = 64, right = 540, top = 18, bottom = 170;
+  const lineLeft = left + 24, lineRight = right - 24; // Slightly shorter plotted line, with axes unchanged.
   let minValue = Infinity, maxValue = -Infinity;
   for (const value of lossValues) { if (value < minValue) minValue = value; if (value > maxValue) maxValue = value; }
   const spread = Math.max(0.05, maxValue - minValue);
@@ -1778,7 +1780,7 @@ function renderNeuralLossHistory() {
     ? Array.from({length: MAX_NEURAL_GRAPH_POINTS}, (_, i) => values[Math.round(i * (values.length - 1) / (MAX_NEURAL_GRAPH_POINTS - 1))])
     : values;
   const points = graphValues.map((value, index) => {
-    const x = left + (right - left) * (graphValues.length === 1 ? 1 : index / (graphValues.length - 1));
+    const x = lineLeft + (lineRight - lineLeft) * (graphValues.length === 1 ? 1 : index / (graphValues.length - 1));
     const y = bottom - ((value.value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
