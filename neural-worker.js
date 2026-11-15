@@ -2,13 +2,15 @@
 "use strict";
 
 const VOCAB = 1024;
-const CONTEXT = 8;
+const CONTEXT = 32;
 const EMBED = 8;
 const INPUT = CONTEXT * EMBED;
 const HIDDEN = 48;
 const UNK_ID = 0;
 const SPACE_ID = 1;
 const NEWLINE_ID = 2;
+const EOS_ID = 3;
+const EOS_TOKEN = "\uE000";
 const EMBED_OFFSET = 0;
 const W1_OFFSET = VOCAB * EMBED;
 const B1_OFFSET = W1_OFFSET + HIDDEN * INPUT;
@@ -35,6 +37,8 @@ let lastNetworkSnapshotAt = -Infinity;
 
 let trainData = null;
 let validationData = null;
+let trainTargetPositions = new Uint32Array(0);
+let validationTargetPositions = new Uint32Array(0);
 let vocabulary = new Array(VOCAB).fill(null);
 let tokenToId = new Map();
 let vocabularySize = 0;
@@ -95,26 +99,83 @@ function normaliseToken(token) {
 function walkTokens(text, callback) {
   const pattern = /[a-z0-9]+(?:'[a-z0-9]+)?|[ \t]+|\n+|[^a-z0-9\s]/g;
   let match;
-  while ((match = pattern.exec(text)) !== null) callback(normaliseToken(match[0]));
+  let tokenIndex = 0;
+  while ((match = pattern.exec(text)) !== null) {
+    callback(normaliseToken(match[0]), match.index, tokenIndex);
+    tokenIndex++;
+  }
+}
+
+// Insert a dedicated target at the end of each Sherlock response.
+function markAssistantEndTokens(text) {
+  const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
+  let output = "";
+  let cursor = 0;
+  let activeRole = null;
+  let match;
+  while ((match = rolePattern.exec(text)) !== null) {
+    output += text.slice(cursor, match.index);
+    if (activeRole === "sherlock") output += EOS_TOKEN;
+    output += match[0];
+    cursor = rolePattern.lastIndex;
+    activeRole = match[1];
+  }
+  output += text.slice(cursor);
+  if (activeRole === "sherlock") output += EOS_TOKEN;
+  return output;
+}
+
+// Return token positions whose targets fall inside Sherlock responses.
+// The preceding context is still taken from the full conversation stream.
+function collectAssistantTargetPositions(text) {
+  const ranges = [];
+  const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
+  let activeRole = null;
+  let bodyStart = 0;
+  let match;
+  while ((match = rolePattern.exec(text)) !== null) {
+    if (activeRole === "sherlock" && bodyStart < match.index)
+      ranges.push([bodyStart, match.index]);
+    activeRole = match[1];
+    bodyStart = rolePattern.lastIndex;
+  }
+  if (activeRole === "sherlock" && bodyStart < text.length)
+    ranges.push([bodyStart, text.length]);
+
+  const positions = [];
+  let rangeIndex = 0;
+  let tokenIndex = 0;
+  walkTokens(text, (_token, offset) => {
+    while (rangeIndex < ranges.length && offset >= ranges[rangeIndex][1])
+      rangeIndex++;
+    if (tokenIndex >= CONTEXT && rangeIndex < ranges.length &&
+        offset >= ranges[rangeIndex][0] && offset < ranges[rangeIndex][1]) {
+      positions.push(tokenIndex);
+    }
+    tokenIndex++;
+  });
+  return Uint32Array.from(positions);
 }
 function buildTokenizer(trainingText) {
   const counts = new Map();
   walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
   const ranked = Array.from(counts.entries())
-    .filter(([token]) => token !== " " && token !== "\n\n")
+    .filter(([token]) => token !== " " && token !== "\n\n" && token !== EOS_TOKEN)
     .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
-    .slice(0, VOCAB - 3);
+    .slice(0, VOCAB - 4);
 
   vocabulary = new Array(VOCAB).fill(null);
   vocabulary[UNK_ID] = "<unk>";
   vocabulary[SPACE_ID] = " ";
   vocabulary[NEWLINE_ID] = "\n\n";
+  vocabulary[EOS_ID] = EOS_TOKEN;
   tokenToId = new Map([
     ["<unk>", UNK_ID],
     [" ", SPACE_ID],
-    ["\n\n", NEWLINE_ID]
+    ["\n\n", NEWLINE_ID],
+    [EOS_TOKEN, EOS_ID]
   ]);
-  vocabularySize = 3;
+  vocabularySize = 4;
   for (const [token] of ranked) {
     if (tokenToId.has(token) || vocabularySize >= VOCAB) continue;
     tokenToId.set(token, vocabularySize);
@@ -145,15 +206,15 @@ function encodeText(text) {
 
 function diagnoseUnknownTokens(trainBuffer, validationBuffer) {
   const decoder = new TextDecoder("utf-8");
-  const trainingText = decoder.decode(new Uint8Array(trainBuffer)).toLowerCase();
-  const validationText = decoder.decode(new Uint8Array(validationBuffer)).toLowerCase();
+  const trainingText = markAssistantEndTokens(decoder.decode(new Uint8Array(trainBuffer)).toLowerCase());
+  const validationText = markAssistantEndTokens(decoder.decode(new Uint8Array(validationBuffer)).toLowerCase());
   const counts = new Map();
   walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
   const ranked = Array.from(counts.entries())
-    .filter(([token]) => token !== " " && token !== "\n\n")
+    .filter(([token]) => token !== " " && token !== "\n\n" && token !== EOS_TOKEN)
     .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
-    .slice(0, VOCAB - 3);
-  const knownTokens = new Set(["<unk>", " ", "\n\n"]);
+    .slice(0, VOCAB - 4);
+  const knownTokens = new Set(["<unk>", " ", "\n\n", EOS_TOKEN]);
   for (const [token] of ranked) knownTokens.add(token);
 
   let totalTokens = 0;
@@ -344,16 +405,14 @@ function predict(data, position) {
   return {token: best, loss: -Math.log(Math.max(bestValue, 1e-9))};
 }
 function evaluate() {
-  if (!validationData || validationData.length <= CONTEXT + 2) return null;
-  const available = validationData.length - CONTEXT - 1;
-  const count = Math.min(EVAL_SAMPLES, available);
+  if (!validationData || validationTargetPositions.length === 0) return null;
+  const count = Math.min(EVAL_SAMPLES, validationTargetPositions.length);
+  const stride = Math.max(1, Math.floor(validationTargetPositions.length / count));
   let correct = 0;
   let totalLoss = 0;
   let total = 0;
-  const stride = Math.max(1, Math.floor(available / count));
   for (let i = 0; i < count; i++) {
-    const position = CONTEXT + i * stride;
-    if (position >= validationData.length) break;
+    const position = validationTargetPositions[Math.min(i * stride, validationTargetPositions.length - 1)];
     const result = predict(validationData, position);
     const target = tokenAt(validationData, position);
     if (result.token === target) correct++;
@@ -401,6 +460,9 @@ function evaluate() {
     optimizerStep,
     randomState: randomState >>> 0,
     parameters: PARAMS,
+    assistantTargetMetrics: true,
+    trainingTargetTokens: trainTargetPositions.length,
+    validationTargetTokens: validationTargetPositions.length,
     modelBuffer: checkpointBuffer
   }, [checkpointBuffer]);
   return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
@@ -470,7 +532,9 @@ function progressPayload() {
   const payload = {
     steps,
     examples: examplesSeen,
-    epochs: trainData ? examplesSeen / Math.max(1, trainData.length - CONTEXT) : 0,
+    epochs: trainTargetPositions.length ? examplesSeen / trainTargetPositions.length : 0,
+    trainingTargetTokens: trainTargetPositions.length,
+    validationTargetTokens: validationTargetPositions.length,
     accuracy: latestAccuracy,
     bestAccuracy,
     loss: movingLoss,
@@ -501,12 +565,12 @@ function progressPayload() {
 function runBatch() {
   if (!running) return;
   try {
-    const maximumPosition = trainData.length - 1;
+    if (!trainTargetPositions.length) throw new Error("No assistant-response training targets were found.");
     for (let slice = 0; slice < BATCHES_PER_SLICE && running &&
       (activeMaxSteps === 0 || steps - runStartSteps < activeMaxSteps); slice++) {
       let batchLoss = 0;
       for (let i = 0; i < activeBatchSize; i++) {
-        const position = CONTEXT + randomInt(maximumPosition - CONTEXT + 1);
+        const position = trainTargetPositions[randomInt(trainTargetPositions.length)];
         batchLoss += trainExample(position);
       }
       applyOptimizer(activeBatchSize);
@@ -541,11 +605,12 @@ function stopTraining(reason = "manual") {
 }
 function generate(prompt, requestedLength) {
   if (!initialized || examplesSeen === 0 || vocabularySize <= 3) return "Train the neural network first.";
-  const rawPrompt = String(prompt || "").slice(0, 180);
-  const promptEncoded = encodeText(rawPrompt.toLowerCase());
+  const rawPrompt = String(prompt || "").trim().slice(0, 180);
+  const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
+  const promptEncoded = encodeText(modelPrompt);
   const history = Array.from(promptEncoded.data);
   const maxLength = Math.max(1, Math.min(160, Number(requestedLength) || 80));
-  let output = rawPrompt;
+  let output = "";
 
   for (let i = 0; i < maxLength; i++) {
     for (let slot = 0; slot < CONTEXT; slot++) {
@@ -590,6 +655,7 @@ function generate(prompt, requestedLength) {
         break;
       }
     }
+    if (chosen === EOS_ID) break;
     history.push(chosen);
     output += vocabulary[chosen] || "";
   }
@@ -598,20 +664,26 @@ function generate(prompt, requestedLength) {
 
 function setDatasetBuffers(trainBuffer, validationBuffer) {
   const decoder = new TextDecoder("utf-8");
-  const trainingText = decoder.decode(new Uint8Array(trainBuffer)).toLowerCase();
-  const validationText = decoder.decode(new Uint8Array(validationBuffer)).toLowerCase();
+  const trainingText = markAssistantEndTokens(decoder.decode(new Uint8Array(trainBuffer)).toLowerCase());
+  const validationText = markAssistantEndTokens(decoder.decode(new Uint8Array(validationBuffer)).toLowerCase());
   buildTokenizer(trainingText);
   const encodedTraining = encodeText(trainingText);
   const encodedValidation = encodeText(validationText);
   trainData = encodedTraining.data;
   validationData = encodedValidation.data;
+  trainTargetPositions = collectAssistantTargetPositions(trainingText);
+  validationTargetPositions = collectAssistantTargetPositions(validationText);
   trainingUnknownRate = encodedTraining.unknownRate;
   validationUnknownRate = encodedValidation.unknownRate;
   if (trainData.length <= CONTEXT + 10 || validationData.length <= CONTEXT + 10)
     throw new Error("The tokenized training or validation text is too short.");
+  if (!trainTargetPositions.length || !validationTargetPositions.length)
+    throw new Error("Assistant-response targets were not found. Expected user: and sherlock: turns.");
   return {
     trainTokens: trainData.length,
     validationTokens: validationData.length,
+    trainingTargetTokens: trainTargetPositions.length,
+    validationTargetTokens: validationTargetPositions.length,
     vocabularySize,
     trainingUnknownRate,
     validationUnknownRate
