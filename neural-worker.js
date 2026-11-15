@@ -26,8 +26,8 @@ let activeLearningRate = DEFAULT_LEARNING_RATE;
 const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
-const EVAL_SAMPLES = 640;
-const BATCHES_PER_SLICE = 24;
+const EVAL_SAMPLES = 320;
+const BATCHES_PER_SLICE = 2;
 
 let trainData = null;
 let validationData = null;
@@ -98,7 +98,7 @@ function buildTokenizer(trainingText) {
   walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
   const ranked = Array.from(counts.entries())
     .filter(([token]) => token !== " " && token !== "\n\n")
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
     .slice(0, VOCAB - 3);
 
   vocabulary = new Array(VOCAB).fill(null);
