@@ -1008,9 +1008,32 @@ body,.app{color:#27354d}
   .dataset-quality-actions .btn{width:100%}
 }
 
+
+/* Restore reliable page scrolling on touch devices and provide a direct way back to the top. */
+html,body{
+  min-height:100%;
+  height:auto;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:auto;
+}
+body{-webkit-overflow-scrolling:touch;touch-action:pan-y}
+#backToTop{
+  position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
+  z-index:9999;display:inline-flex;align-items:center;justify-content:center;
+  min-width:48px;min-height:48px;padding:10px 14px;border:1px solid #7895bd;
+  border-radius:999px;background:#244a7b;color:#fff;font:700 13px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  box-shadow:0 8px 24px rgba(0,0,0,.22);opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .18s ease,visibility .18s ease;
+}
+#backToTop.is-visible{opacity:1;visibility:visible;pointer-events:auto}
+#backToTop:focus-visible{outline:3px solid #9fc2ff;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){#backToTop{transition:none}}
+
 </style>
 </head>
 <body>
+<button id="backToTop" type="button" aria-label="Scroll to top" title="Back to top">↑ Top</button>
 <main class="app">
   <header class="topbar">
     <div class="brand">
@@ -2497,6 +2520,17 @@ function ensureNeuralWorker() {
         loss: data.loss, examplesPerSecond: 0
       }, true);
       setChatReady(false);
+
+const backToTopButton = document.getElementById('backToTop');
+function updateBackToTopButton() {
+  backToTopButton.classList.toggle('is-visible', window.scrollY > 280);
+}
+window.addEventListener('scroll', updateBackToTopButton, {passive:true});
+backToTopButton.addEventListener('click', () => {
+  window.scrollTo({top:0,left:0,behavior:'auto'});
+});
+updateBackToTopButton();
+
 updateNeuralControls();
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
