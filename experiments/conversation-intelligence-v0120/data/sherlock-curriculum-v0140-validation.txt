@@ -1,0 +1,2999 @@
+user: What is 37 plus 18?
+sherlock: 55.
+
+user: What is 45 minus 19?
+sherlock: 26.
+
+user: What is 12 times 9?
+sherlock: 108.
+
+user: What is 156 divided by 13?
+sherlock: 12.
+
+user: What is the capital of Germany?
+sherlock: Berlin.
+
+user: Which planet is famous for its rings?
+sherlock: Saturn.
+
+user: How many sides does an octagon have?
+sherlock: Eight.
+
+user: What is the opposite of narrow?
+sherlock: Wide.
+
+user: What is the chemical symbol for gold?
+sherlock: Au.
+
+user: What is 15% of 200?
+sherlock: 30.
+
+user: A shop has 48 books and sells 17. How many are left?
+sherlock: 31 books.
+
+user: A dozen eggs contains how many eggs?
+sherlock: 12.
+
+user: What is the largest mammal?
+sherlock: The blue whale.
+
+user: What is the process of water vapour cooling into droplets called?
+sherlock: Condensation.
+
+user: What is 7 squared?
+sherlock: 49.
+
+user: What is the plural of tooth?
+sherlock: Teeth.
+
+user: Which part of a plant usually makes food?
+sherlock: The leaves.
+
+user: How many edges does a cube have?
+sherlock: 12.
+
+user: What is the capital of Greece?
+sherlock: Athens.
+
+user: What is 3/4 of 20?
+sherlock: 15.
+
+user: A train travels 60 km in one hour. How far in 3 hours at the same speed?
+sherlock: 180 km.
+
+user: What is the opposite of generous?
+sherlock: Stingy.
+
+user: Which gas do plants absorb from the air?
+sherlock: Carbon dioxide.
+
+user: What is 225 divided by 15?
+sherlock: 15.
+
+user: What is the first prime number?
+sherlock: 2.
+
+user: What is 40 plus 20?
+sherlock: 60.
+
+user: What is 60 minus 20?
+sherlock: 40.
+
+user: What is 40 times 20?
+sherlock: 800.
+
+user: What is 800 divided by 20?
+sherlock: 40.
+
+user: What is 41 plus 21?
+sherlock: 62.
+
+user: What is 62 minus 21?
+sherlock: 41.
+
+user: What is 41 times 21?
+sherlock: 861.
+
+user: What is 861 divided by 21?
+sherlock: 41.
+
+user: What is 42 plus 22?
+sherlock: 64.
+
+user: What is 64 minus 22?
+sherlock: 42.
+
+user: What is 42 times 22?
+sherlock: 924.
+
+user: What is 924 divided by 22?
+sherlock: 42.
+
+user: What is 43 plus 23?
+sherlock: 66.
+
+user: What is 66 minus 23?
+sherlock: 43.
+
+user: What is 43 times 23?
+sherlock: 989.
+
+user: What is 989 divided by 23?
+sherlock: 43.
+
+user: What is 44 plus 24?
+sherlock: 68.
+
+user: What is 68 minus 24?
+sherlock: 44.
+
+user: What is 44 times 24?
+sherlock: 1056.
+
+user: What is 1056 divided by 24?
+sherlock: 44.
+
+user: What is 45 plus 25?
+sherlock: 70.
+
+user: What is 70 minus 25?
+sherlock: 45.
+
+user: What is 45 times 25?
+sherlock: 1125.
+
+user: What is 1125 divided by 25?
+sherlock: 45.
+
+user: What is 46 plus 26?
+sherlock: 72.
+
+user: What is 72 minus 26?
+sherlock: 46.
+
+user: What is 46 times 26?
+sherlock: 1196.
+
+user: What is 1196 divided by 26?
+sherlock: 46.
+
+user: What is 47 plus 27?
+sherlock: 74.
+
+user: What is 74 minus 27?
+sherlock: 47.
+
+user: What is 47 times 27?
+sherlock: 1269.
+
+user: What is 1269 divided by 27?
+sherlock: 47.
+
+user: What is 48 plus 28?
+sherlock: 76.
+
+user: What is 76 minus 28?
+sherlock: 48.
+
+user: What is 48 times 28?
+sherlock: 1344.
+
+user: What is 1344 divided by 28?
+sherlock: 48.
+
+user: What is 49 plus 29?
+sherlock: 78.
+
+user: What is 78 minus 29?
+sherlock: 49.
+
+user: What is 49 times 29?
+sherlock: 1421.
+
+user: What is 1421 divided by 29?
+sherlock: 49.
+
+user: What is 50 plus 20?
+sherlock: 70.
+
+user: What is 70 minus 20?
+sherlock: 50.
+
+user: What is 50 times 20?
+sherlock: 1000.
+
+user: What is 1000 divided by 20?
+sherlock: 50.
+
+user: What is 51 plus 21?
+sherlock: 72.
+
+user: What is 72 minus 21?
+sherlock: 51.
+
+user: What is 51 times 21?
+sherlock: 1071.
+
+user: What is 1071 divided by 21?
+sherlock: 51.
+
+user: What is 52 plus 22?
+sherlock: 74.
+
+user: What is 74 minus 22?
+sherlock: 52.
+
+user: What is 52 times 22?
+sherlock: 1144.
+
+user: What is 1144 divided by 22?
+sherlock: 52.
+
+user: What is 53 plus 23?
+sherlock: 76.
+
+user: What is 76 minus 23?
+sherlock: 53.
+
+user: What is 53 times 23?
+sherlock: 1219.
+
+user: What is 1219 divided by 23?
+sherlock: 53.
+
+user: What is 54 plus 24?
+sherlock: 78.
+
+user: What is 78 minus 24?
+sherlock: 54.
+
+user: What is 54 times 24?
+sherlock: 1296.
+
+user: What is 1296 divided by 24?
+sherlock: 54.
+
+user: What is 55 plus 25?
+sherlock: 80.
+
+user: What is 80 minus 25?
+sherlock: 55.
+
+user: What is 55 times 25?
+sherlock: 1375.
+
+user: What is 1375 divided by 25?
+sherlock: 55.
+
+user: What is 56 plus 26?
+sherlock: 82.
+
+user: What is 82 minus 26?
+sherlock: 56.
+
+user: What is 56 times 26?
+sherlock: 1456.
+
+user: What is 1456 divided by 26?
+sherlock: 56.
+
+user: What is 57 plus 27?
+sherlock: 84.
+
+user: What is 84 minus 27?
+sherlock: 57.
+
+user: What is 57 times 27?
+sherlock: 1539.
+
+user: What is 1539 divided by 27?
+sherlock: 57.
+
+user: What is 58 plus 28?
+sherlock: 86.
+
+user: What is 86 minus 28?
+sherlock: 58.
+
+user: What is 58 times 28?
+sherlock: 1624.
+
+user: What is 1624 divided by 28?
+sherlock: 58.
+
+user: What is 59 plus 29?
+sherlock: 88.
+
+user: What is 88 minus 29?
+sherlock: 59.
+
+user: What is 59 times 29?
+sherlock: 1711.
+
+user: What is 1711 divided by 29?
+sherlock: 59.
+
+user: What is 60 plus 20?
+sherlock: 80.
+
+user: What is 80 minus 20?
+sherlock: 60.
+
+user: What is 60 times 20?
+sherlock: 1200.
+
+user: What is 1200 divided by 20?
+sherlock: 60.
+
+user: What is 61 plus 21?
+sherlock: 82.
+
+user: What is 82 minus 21?
+sherlock: 61.
+
+user: What is 61 times 21?
+sherlock: 1281.
+
+user: What is 1281 divided by 21?
+sherlock: 61.
+
+user: What is 62 plus 22?
+sherlock: 84.
+
+user: What is 84 minus 22?
+sherlock: 62.
+
+user: What is 62 times 22?
+sherlock: 1364.
+
+user: What is 1364 divided by 22?
+sherlock: 62.
+
+user: What is 63 plus 23?
+sherlock: 86.
+
+user: What is 86 minus 23?
+sherlock: 63.
+
+user: What is 63 times 23?
+sherlock: 1449.
+
+user: What is 1449 divided by 23?
+sherlock: 63.
+
+user: What is 64 plus 24?
+sherlock: 88.
+
+user: What is 88 minus 24?
+sherlock: 64.
+
+user: What is 64 times 24?
+sherlock: 1536.
+
+user: What is 1536 divided by 24?
+sherlock: 64.
+
+user: What is 65 plus 25?
+sherlock: 90.
+
+user: What is 90 minus 25?
+sherlock: 65.
+
+user: What is 65 times 25?
+sherlock: 1625.
+
+user: What is 1625 divided by 25?
+sherlock: 65.
+
+user: What is 66 plus 26?
+sherlock: 92.
+
+user: What is 92 minus 26?
+sherlock: 66.
+
+user: What is 66 times 26?
+sherlock: 1716.
+
+user: What is 1716 divided by 26?
+sherlock: 66.
+
+user: What is 67 plus 27?
+sherlock: 94.
+
+user: What is 94 minus 27?
+sherlock: 67.
+
+user: What is 67 times 27?
+sherlock: 1809.
+
+user: What is 1809 divided by 27?
+sherlock: 67.
+
+user: What is 68 plus 28?
+sherlock: 96.
+
+user: What is 96 minus 28?
+sherlock: 68.
+
+user: What is 68 times 28?
+sherlock: 1904.
+
+user: What is 1904 divided by 28?
+sherlock: 68.
+
+user: What is 69 plus 29?
+sherlock: 98.
+
+user: What is 98 minus 29?
+sherlock: 69.
+
+user: What is 69 times 29?
+sherlock: 2001.
+
+user: What is 2001 divided by 29?
+sherlock: 69.
+
+user: What is 70 plus 20?
+sherlock: 90.
+
+user: What is 90 minus 20?
+sherlock: 70.
+
+user: What is 70 times 20?
+sherlock: 1400.
+
+user: What is 1400 divided by 20?
+sherlock: 70.
+
+user: What is 71 plus 21?
+sherlock: 92.
+
+user: What is 92 minus 21?
+sherlock: 71.
+
+user: What is 71 times 21?
+sherlock: 1491.
+
+user: What is 1491 divided by 21?
+sherlock: 71.
+
+user: What is 72 plus 22?
+sherlock: 94.
+
+user: What is 94 minus 22?
+sherlock: 72.
+
+user: What is 72 times 22?
+sherlock: 1584.
+
+user: What is 1584 divided by 22?
+sherlock: 72.
+
+user: What is 73 plus 23?
+sherlock: 96.
+
+user: What is 96 minus 23?
+sherlock: 73.
+
+user: What is 73 times 23?
+sherlock: 1679.
+
+user: What is 1679 divided by 23?
+sherlock: 73.
+
+user: What is 74 plus 24?
+sherlock: 98.
+
+user: What is 98 minus 24?
+sherlock: 74.
+
+user: What is 74 times 24?
+sherlock: 1776.
+
+user: What is 1776 divided by 24?
+sherlock: 74.
+
+user: What is 75 plus 25?
+sherlock: 100.
+
+user: What is 100 minus 25?
+sherlock: 75.
+
+user: What is 75 times 25?
+sherlock: 1875.
+
+user: What is 1875 divided by 25?
+sherlock: 75.
+
+user: What is 76 plus 26?
+sherlock: 102.
+
+user: What is 102 minus 26?
+sherlock: 76.
+
+user: What is 76 times 26?
+sherlock: 1976.
+
+user: What is 1976 divided by 26?
+sherlock: 76.
+
+user: What is 77 plus 27?
+sherlock: 104.
+
+user: What is 104 minus 27?
+sherlock: 77.
+
+user: What is 77 times 27?
+sherlock: 2079.
+
+user: What is 2079 divided by 27?
+sherlock: 77.
+
+user: What is 78 plus 28?
+sherlock: 106.
+
+user: What is 106 minus 28?
+sherlock: 78.
+
+user: What is 78 times 28?
+sherlock: 2184.
+
+user: What is 2184 divided by 28?
+sherlock: 78.
+
+user: What is 79 plus 29?
+sherlock: 108.
+
+user: What is 108 minus 29?
+sherlock: 79.
+
+user: What is 79 times 29?
+sherlock: 2291.
+
+user: What is 2291 divided by 29?
+sherlock: 79.
+
+user: What is 80 plus 20?
+sherlock: 100.
+
+user: What is 100 minus 20?
+sherlock: 80.
+
+user: What is 80 times 20?
+sherlock: 1600.
+
+user: What is 1600 divided by 20?
+sherlock: 80.
+
+user: What is 81 plus 21?
+sherlock: 102.
+
+user: What is 102 minus 21?
+sherlock: 81.
+
+user: What is 81 times 21?
+sherlock: 1701.
+
+user: What is 1701 divided by 21?
+sherlock: 81.
+
+user: What is 82 plus 22?
+sherlock: 104.
+
+user: What is 104 minus 22?
+sherlock: 82.
+
+user: What is 82 times 22?
+sherlock: 1804.
+
+user: What is 1804 divided by 22?
+sherlock: 82.
+
+user: What is 83 plus 23?
+sherlock: 106.
+
+user: What is 106 minus 23?
+sherlock: 83.
+
+user: What is 83 times 23?
+sherlock: 1909.
+
+user: What is 1909 divided by 23?
+sherlock: 83.
+
+user: What is 84 plus 24?
+sherlock: 108.
+
+user: What is 108 minus 24?
+sherlock: 84.
+
+user: What is 84 times 24?
+sherlock: 2016.
+
+user: What is 2016 divided by 24?
+sherlock: 84.
+
+user: What is 85 plus 25?
+sherlock: 110.
+
+user: What is 110 minus 25?
+sherlock: 85.
+
+user: What is 85 times 25?
+sherlock: 2125.
+
+user: What is 2125 divided by 25?
+sherlock: 85.
+
+user: What is 86 plus 26?
+sherlock: 112.
+
+user: What is 112 minus 26?
+sherlock: 86.
+
+user: What is 86 times 26?
+sherlock: 2236.
+
+user: What is 2236 divided by 26?
+sherlock: 86.
+
+user: What is 87 plus 27?
+sherlock: 114.
+
+user: What is 114 minus 27?
+sherlock: 87.
+
+user: What is 87 times 27?
+sherlock: 2349.
+
+user: What is 2349 divided by 27?
+sherlock: 87.
+
+user: What is 88 plus 28?
+sherlock: 116.
+
+user: What is 116 minus 28?
+sherlock: 88.
+
+user: What is 88 times 28?
+sherlock: 2464.
+
+user: What is 2464 divided by 28?
+sherlock: 88.
+
+user: What is 89 plus 29?
+sherlock: 118.
+
+user: What is 118 minus 29?
+sherlock: 89.
+
+user: What is 89 times 29?
+sherlock: 2581.
+
+user: What is 2581 divided by 29?
+sherlock: 89.
+
+user: For a separate held-out practice question: What is 37 plus 18?
+sherlock: 55.
+
+user: Please respond to this test question: What is 37 plus 18?
+sherlock: 55.
+
+user: Answer the following revision question: What is 37 plus 18?
+sherlock: 55.
+
+user: For a separate held-out practice question: What is 45 minus 19?
+sherlock: 26.
+
+user: Please respond to this test question: What is 45 minus 19?
+sherlock: 26.
+
+user: Answer the following revision question: What is 45 minus 19?
+sherlock: 26.
+
+user: For a separate held-out practice question: What is 12 times 9?
+sherlock: 108.
+
+user: Please respond to this test question: What is 12 times 9?
+sherlock: 108.
+
+user: Answer the following revision question: What is 12 times 9?
+sherlock: 108.
+
+user: For a separate held-out practice question: What is 156 divided by 13?
+sherlock: 12.
+
+user: Please respond to this test question: What is 156 divided by 13?
+sherlock: 12.
+
+user: Answer the following revision question: What is 156 divided by 13?
+sherlock: 12.
+
+user: For a separate held-out practice question: What is the capital of Germany?
+sherlock: Berlin.
+
+user: Please respond to this test question: What is the capital of Germany?
+sherlock: Berlin.
+
+user: Answer the following revision question: What is the capital of Germany?
+sherlock: Berlin.
+
+user: For a separate held-out practice question: Which planet is famous for its rings?
+sherlock: Saturn.
+
+user: Please respond to this test question: Which planet is famous for its rings?
+sherlock: Saturn.
+
+user: Answer the following revision question: Which planet is famous for its rings?
+sherlock: Saturn.
+
+user: For a separate held-out practice question: How many sides does an octagon have?
+sherlock: Eight.
+
+user: Please respond to this test question: How many sides does an octagon have?
+sherlock: Eight.
+
+user: Answer the following revision question: How many sides does an octagon have?
+sherlock: Eight.
+
+user: For a separate held-out practice question: What is the opposite of narrow?
+sherlock: Wide.
+
+user: Please respond to this test question: What is the opposite of narrow?
+sherlock: Wide.
+
+user: Answer the following revision question: What is the opposite of narrow?
+sherlock: Wide.
+
+user: For a separate held-out practice question: What is the chemical symbol for gold?
+sherlock: Au.
+
+user: Please respond to this test question: What is the chemical symbol for gold?
+sherlock: Au.
+
+user: Answer the following revision question: What is the chemical symbol for gold?
+sherlock: Au.
+
+user: For a separate held-out practice question: What is 15% of 200?
+sherlock: 30.
+
+user: Please respond to this test question: What is 15% of 200?
+sherlock: 30.
+
+user: Answer the following revision question: What is 15% of 200?
+sherlock: 30.
+
+user: For a separate held-out practice question: A shop has 48 books and sells 17. How many are left?
+sherlock: 31 books.
+
+user: Please respond to this test question: A shop has 48 books and sells 17. How many are left?
+sherlock: 31 books.
+
+user: Answer the following revision question: A shop has 48 books and sells 17. How many are left?
+sherlock: 31 books.
+
+user: For a separate held-out practice question: A dozen eggs contains how many eggs?
+sherlock: 12.
+
+user: Please respond to this test question: A dozen eggs contains how many eggs?
+sherlock: 12.
+
+user: Answer the following revision question: A dozen eggs contains how many eggs?
+sherlock: 12.
+
+user: For a separate held-out practice question: What is the largest mammal?
+sherlock: The blue whale.
+
+user: Please respond to this test question: What is the largest mammal?
+sherlock: The blue whale.
+
+user: Answer the following revision question: What is the largest mammal?
+sherlock: The blue whale.
+
+user: For a separate held-out practice question: What is the process of water vapour cooling into droplets called?
+sherlock: Condensation.
+
+user: Please respond to this test question: What is the process of water vapour cooling into droplets called?
+sherlock: Condensation.
+
+user: Answer the following revision question: What is the process of water vapour cooling into droplets called?
+sherlock: Condensation.
+
+user: For a separate held-out practice question: What is 7 squared?
+sherlock: 49.
+
+user: Please respond to this test question: What is 7 squared?
+sherlock: 49.
+
+user: Answer the following revision question: What is 7 squared?
+sherlock: 49.
+
+user: For a separate held-out practice question: What is the plural of tooth?
+sherlock: Teeth.
+
+user: Please respond to this test question: What is the plural of tooth?
+sherlock: Teeth.
+
+user: Answer the following revision question: What is the plural of tooth?
+sherlock: Teeth.
+
+user: For a separate held-out practice question: Which part of a plant usually makes food?
+sherlock: The leaves.
+
+user: Please respond to this test question: Which part of a plant usually makes food?
+sherlock: The leaves.
+
+user: Answer the following revision question: Which part of a plant usually makes food?
+sherlock: The leaves.
+
+user: For a separate held-out practice question: How many edges does a cube have?
+sherlock: 12.
+
+user: Please respond to this test question: How many edges does a cube have?
+sherlock: 12.
+
+user: Answer the following revision question: How many edges does a cube have?
+sherlock: 12.
+
+user: For a separate held-out practice question: What is the capital of Greece?
+sherlock: Athens.
+
+user: Please respond to this test question: What is the capital of Greece?
+sherlock: Athens.
+
+user: Answer the following revision question: What is the capital of Greece?
+sherlock: Athens.
+
+user: For a separate held-out practice question: What is 3/4 of 20?
+sherlock: 15.
+
+user: Please respond to this test question: What is 3/4 of 20?
+sherlock: 15.
+
+user: Answer the following revision question: What is 3/4 of 20?
+sherlock: 15.
+
+user: For a separate held-out practice question: A train travels 60 km in one hour. How far in 3 hours at the same speed?
+sherlock: 180 km.
+
+user: Please respond to this test question: A train travels 60 km in one hour. How far in 3 hours at the same speed?
+sherlock: 180 km.
+
+user: Answer the following revision question: A train travels 60 km in one hour. How far in 3 hours at the same speed?
+sherlock: 180 km.
+
+user: For a separate held-out practice question: What is the opposite of generous?
+sherlock: Stingy.
+
+user: Please respond to this test question: What is the opposite of generous?
+sherlock: Stingy.
+
+user: Answer the following revision question: What is the opposite of generous?
+sherlock: Stingy.
+
+user: For a separate held-out practice question: Which gas do plants absorb from the air?
+sherlock: Carbon dioxide.
+
+user: Please respond to this test question: Which gas do plants absorb from the air?
+sherlock: Carbon dioxide.
+
+user: Answer the following revision question: Which gas do plants absorb from the air?
+sherlock: Carbon dioxide.
+
+user: For a separate held-out practice question: What is 225 divided by 15?
+sherlock: 15.
+
+user: Please respond to this test question: What is 225 divided by 15?
+sherlock: 15.
+
+user: Answer the following revision question: What is 225 divided by 15?
+sherlock: 15.
+
+user: For a separate held-out practice question: What is the first prime number?
+sherlock: 2.
+
+user: Please respond to this test question: What is the first prime number?
+sherlock: 2.
+
+user: Answer the following revision question: What is the first prime number?
+sherlock: 2.
+
+user: For a separate held-out practice question: What is 40 plus 20?
+sherlock: 60.
+
+user: Please respond to this test question: What is 40 plus 20?
+sherlock: 60.
+
+user: Answer the following revision question: What is 40 plus 20?
+sherlock: 60.
+
+user: For a separate held-out practice question: What is 60 minus 20?
+sherlock: 40.
+
+user: Please respond to this test question: What is 60 minus 20?
+sherlock: 40.
+
+user: Answer the following revision question: What is 60 minus 20?
+sherlock: 40.
+
+user: For a separate held-out practice question: What is 40 times 20?
+sherlock: 800.
+
+user: Please respond to this test question: What is 40 times 20?
+sherlock: 800.
+
+user: Answer the following revision question: What is 40 times 20?
+sherlock: 800.
+
+user: For a separate held-out practice question: What is 800 divided by 20?
+sherlock: 40.
+
+user: Please respond to this test question: What is 800 divided by 20?
+sherlock: 40.
+
+user: Answer the following revision question: What is 800 divided by 20?
+sherlock: 40.
+
+user: For a separate held-out practice question: What is 41 plus 21?
+sherlock: 62.
+
+user: Please respond to this test question: What is 41 plus 21?
+sherlock: 62.
+
+user: Answer the following revision question: What is 41 plus 21?
+sherlock: 62.
+
+user: For a separate held-out practice question: What is 62 minus 21?
+sherlock: 41.
+
+user: Please respond to this test question: What is 62 minus 21?
+sherlock: 41.
+
+user: Answer the following revision question: What is 62 minus 21?
+sherlock: 41.
+
+user: For a separate held-out practice question: What is 41 times 21?
+sherlock: 861.
+
+user: Please respond to this test question: What is 41 times 21?
+sherlock: 861.
+
+user: Answer the following revision question: What is 41 times 21?
+sherlock: 861.
+
+user: For a separate held-out practice question: What is 861 divided by 21?
+sherlock: 41.
+
+user: Please respond to this test question: What is 861 divided by 21?
+sherlock: 41.
+
+user: Answer the following revision question: What is 861 divided by 21?
+sherlock: 41.
+
+user: For a separate held-out practice question: What is 42 plus 22?
+sherlock: 64.
+
+user: Please respond to this test question: What is 42 plus 22?
+sherlock: 64.
+
+user: Answer the following revision question: What is 42 plus 22?
+sherlock: 64.
+
+user: For a separate held-out practice question: What is 64 minus 22?
+sherlock: 42.
+
+user: Please respond to this test question: What is 64 minus 22?
+sherlock: 42.
+
+user: Answer the following revision question: What is 64 minus 22?
+sherlock: 42.
+
+user: For a separate held-out practice question: What is 42 times 22?
+sherlock: 924.
+
+user: Please respond to this test question: What is 42 times 22?
+sherlock: 924.
+
+user: Answer the following revision question: What is 42 times 22?
+sherlock: 924.
+
+user: For a separate held-out practice question: What is 924 divided by 22?
+sherlock: 42.
+
+user: Please respond to this test question: What is 924 divided by 22?
+sherlock: 42.
+
+user: Answer the following revision question: What is 924 divided by 22?
+sherlock: 42.
+
+user: For a separate held-out practice question: What is 43 plus 23?
+sherlock: 66.
+
+user: Please respond to this test question: What is 43 plus 23?
+sherlock: 66.
+
+user: Answer the following revision question: What is 43 plus 23?
+sherlock: 66.
+
+user: For a separate held-out practice question: What is 66 minus 23?
+sherlock: 43.
+
+user: Please respond to this test question: What is 66 minus 23?
+sherlock: 43.
+
+user: Answer the following revision question: What is 66 minus 23?
+sherlock: 43.
+
+user: For a separate held-out practice question: What is 43 times 23?
+sherlock: 989.
+
+user: Please respond to this test question: What is 43 times 23?
+sherlock: 989.
+
+user: Answer the following revision question: What is 43 times 23?
+sherlock: 989.
+
+user: For a separate held-out practice question: What is 989 divided by 23?
+sherlock: 43.
+
+user: Please respond to this test question: What is 989 divided by 23?
+sherlock: 43.
+
+user: Answer the following revision question: What is 989 divided by 23?
+sherlock: 43.
+
+user: For a separate held-out practice question: What is 44 plus 24?
+sherlock: 68.
+
+user: Please respond to this test question: What is 44 plus 24?
+sherlock: 68.
+
+user: Answer the following revision question: What is 44 plus 24?
+sherlock: 68.
+
+user: For a separate held-out practice question: What is 68 minus 24?
+sherlock: 44.
+
+user: Please respond to this test question: What is 68 minus 24?
+sherlock: 44.
+
+user: Answer the following revision question: What is 68 minus 24?
+sherlock: 44.
+
+user: For a separate held-out practice question: What is 44 times 24?
+sherlock: 1056.
+
+user: Please respond to this test question: What is 44 times 24?
+sherlock: 1056.
+
+user: Answer the following revision question: What is 44 times 24?
+sherlock: 1056.
+
+user: For a separate held-out practice question: What is 1056 divided by 24?
+sherlock: 44.
+
+user: Please respond to this test question: What is 1056 divided by 24?
+sherlock: 44.
+
+user: Answer the following revision question: What is 1056 divided by 24?
+sherlock: 44.
+
+user: For a separate held-out practice question: What is 45 plus 25?
+sherlock: 70.
+
+user: Please respond to this test question: What is 45 plus 25?
+sherlock: 70.
+
+user: Answer the following revision question: What is 45 plus 25?
+sherlock: 70.
+
+user: For a separate held-out practice question: What is 70 minus 25?
+sherlock: 45.
+
+user: Please respond to this test question: What is 70 minus 25?
+sherlock: 45.
+
+user: Answer the following revision question: What is 70 minus 25?
+sherlock: 45.
+
+user: For a separate held-out practice question: What is 45 times 25?
+sherlock: 1125.
+
+user: Please respond to this test question: What is 45 times 25?
+sherlock: 1125.
+
+user: Answer the following revision question: What is 45 times 25?
+sherlock: 1125.
+
+user: For a separate held-out practice question: What is 1125 divided by 25?
+sherlock: 45.
+
+user: Please respond to this test question: What is 1125 divided by 25?
+sherlock: 45.
+
+user: Answer the following revision question: What is 1125 divided by 25?
+sherlock: 45.
+
+user: For a separate held-out practice question: What is 46 plus 26?
+sherlock: 72.
+
+user: Please respond to this test question: What is 46 plus 26?
+sherlock: 72.
+
+user: Answer the following revision question: What is 46 plus 26?
+sherlock: 72.
+
+user: For a separate held-out practice question: What is 72 minus 26?
+sherlock: 46.
+
+user: Please respond to this test question: What is 72 minus 26?
+sherlock: 46.
+
+user: Answer the following revision question: What is 72 minus 26?
+sherlock: 46.
+
+user: For a separate held-out practice question: What is 46 times 26?
+sherlock: 1196.
+
+user: Please respond to this test question: What is 46 times 26?
+sherlock: 1196.
+
+user: Answer the following revision question: What is 46 times 26?
+sherlock: 1196.
+
+user: For a separate held-out practice question: What is 1196 divided by 26?
+sherlock: 46.
+
+user: Please respond to this test question: What is 1196 divided by 26?
+sherlock: 46.
+
+user: Answer the following revision question: What is 1196 divided by 26?
+sherlock: 46.
+
+user: For a separate held-out practice question: What is 47 plus 27?
+sherlock: 74.
+
+user: Please respond to this test question: What is 47 plus 27?
+sherlock: 74.
+
+user: Answer the following revision question: What is 47 plus 27?
+sherlock: 74.
+
+user: For a separate held-out practice question: What is 74 minus 27?
+sherlock: 47.
+
+user: Please respond to this test question: What is 74 minus 27?
+sherlock: 47.
+
+user: Answer the following revision question: What is 74 minus 27?
+sherlock: 47.
+
+user: For a separate held-out practice question: What is 47 times 27?
+sherlock: 1269.
+
+user: Please respond to this test question: What is 47 times 27?
+sherlock: 1269.
+
+user: Answer the following revision question: What is 47 times 27?
+sherlock: 1269.
+
+user: For a separate held-out practice question: What is 1269 divided by 27?
+sherlock: 47.
+
+user: Please respond to this test question: What is 1269 divided by 27?
+sherlock: 47.
+
+user: Answer the following revision question: What is 1269 divided by 27?
+sherlock: 47.
+
+user: For a separate held-out practice question: What is 48 plus 28?
+sherlock: 76.
+
+user: Please respond to this test question: What is 48 plus 28?
+sherlock: 76.
+
+user: Answer the following revision question: What is 48 plus 28?
+sherlock: 76.
+
+user: For a separate held-out practice question: What is 76 minus 28?
+sherlock: 48.
+
+user: Please respond to this test question: What is 76 minus 28?
+sherlock: 48.
+
+user: Answer the following revision question: What is 76 minus 28?
+sherlock: 48.
+
+user: For a separate held-out practice question: What is 48 times 28?
+sherlock: 1344.
+
+user: Please respond to this test question: What is 48 times 28?
+sherlock: 1344.
+
+user: Answer the following revision question: What is 48 times 28?
+sherlock: 1344.
+
+user: For a separate held-out practice question: What is 1344 divided by 28?
+sherlock: 48.
+
+user: Please respond to this test question: What is 1344 divided by 28?
+sherlock: 48.
+
+user: Answer the following revision question: What is 1344 divided by 28?
+sherlock: 48.
+
+user: For a separate held-out practice question: What is 49 plus 29?
+sherlock: 78.
+
+user: Please respond to this test question: What is 49 plus 29?
+sherlock: 78.
+
+user: Answer the following revision question: What is 49 plus 29?
+sherlock: 78.
+
+user: For a separate held-out practice question: What is 78 minus 29?
+sherlock: 49.
+
+user: Please respond to this test question: What is 78 minus 29?
+sherlock: 49.
+
+user: Answer the following revision question: What is 78 minus 29?
+sherlock: 49.
+
+user: For a separate held-out practice question: What is 49 times 29?
+sherlock: 1421.
+
+user: Please respond to this test question: What is 49 times 29?
+sherlock: 1421.
+
+user: Answer the following revision question: What is 49 times 29?
+sherlock: 1421.
+
+user: For a separate held-out practice question: What is 1421 divided by 29?
+sherlock: 49.
+
+user: Please respond to this test question: What is 1421 divided by 29?
+sherlock: 49.
+
+user: Answer the following revision question: What is 1421 divided by 29?
+sherlock: 49.
+
+user: For a separate held-out practice question: What is 50 plus 20?
+sherlock: 70.
+
+user: Please respond to this test question: What is 50 plus 20?
+sherlock: 70.
+
+user: Answer the following revision question: What is 50 plus 20?
+sherlock: 70.
+
+user: For a separate held-out practice question: What is 70 minus 20?
+sherlock: 50.
+
+user: Please respond to this test question: What is 70 minus 20?
+sherlock: 50.
+
+user: Answer the following revision question: What is 70 minus 20?
+sherlock: 50.
+
+user: For a separate held-out practice question: What is 50 times 20?
+sherlock: 1000.
+
+user: Please respond to this test question: What is 50 times 20?
+sherlock: 1000.
+
+user: Answer the following revision question: What is 50 times 20?
+sherlock: 1000.
+
+user: For a separate held-out practice question: What is 1000 divided by 20?
+sherlock: 50.
+
+user: Please respond to this test question: What is 1000 divided by 20?
+sherlock: 50.
+
+user: Answer the following revision question: What is 1000 divided by 20?
+sherlock: 50.
+
+user: For a separate held-out practice question: What is 51 plus 21?
+sherlock: 72.
+
+user: Please respond to this test question: What is 51 plus 21?
+sherlock: 72.
+
+user: Answer the following revision question: What is 51 plus 21?
+sherlock: 72.
+
+user: For a separate held-out practice question: What is 72 minus 21?
+sherlock: 51.
+
+user: Please respond to this test question: What is 72 minus 21?
+sherlock: 51.
+
+user: Answer the following revision question: What is 72 minus 21?
+sherlock: 51.
+
+user: For a separate held-out practice question: What is 51 times 21?
+sherlock: 1071.
+
+user: Please respond to this test question: What is 51 times 21?
+sherlock: 1071.
+
+user: Answer the following revision question: What is 51 times 21?
+sherlock: 1071.
+
+user: For a separate held-out practice question: What is 1071 divided by 21?
+sherlock: 51.
+
+user: Please respond to this test question: What is 1071 divided by 21?
+sherlock: 51.
+
+user: Answer the following revision question: What is 1071 divided by 21?
+sherlock: 51.
+
+user: For a separate held-out practice question: What is 52 plus 22?
+sherlock: 74.
+
+user: Please respond to this test question: What is 52 plus 22?
+sherlock: 74.
+
+user: Answer the following revision question: What is 52 plus 22?
+sherlock: 74.
+
+user: For a separate held-out practice question: What is 74 minus 22?
+sherlock: 52.
+
+user: Please respond to this test question: What is 74 minus 22?
+sherlock: 52.
+
+user: Answer the following revision question: What is 74 minus 22?
+sherlock: 52.
+
+user: For a separate held-out practice question: What is 52 times 22?
+sherlock: 1144.
+
+user: Please respond to this test question: What is 52 times 22?
+sherlock: 1144.
+
+user: Answer the following revision question: What is 52 times 22?
+sherlock: 1144.
+
+user: For a separate held-out practice question: What is 1144 divided by 22?
+sherlock: 52.
+
+user: Please respond to this test question: What is 1144 divided by 22?
+sherlock: 52.
+
+user: Answer the following revision question: What is 1144 divided by 22?
+sherlock: 52.
+
+user: For a separate held-out practice question: What is 53 plus 23?
+sherlock: 76.
+
+user: Please respond to this test question: What is 53 plus 23?
+sherlock: 76.
+
+user: Answer the following revision question: What is 53 plus 23?
+sherlock: 76.
+
+user: For a separate held-out practice question: What is 76 minus 23?
+sherlock: 53.
+
+user: Please respond to this test question: What is 76 minus 23?
+sherlock: 53.
+
+user: Answer the following revision question: What is 76 minus 23?
+sherlock: 53.
+
+user: For a separate held-out practice question: What is 53 times 23?
+sherlock: 1219.
+
+user: Please respond to this test question: What is 53 times 23?
+sherlock: 1219.
+
+user: Answer the following revision question: What is 53 times 23?
+sherlock: 1219.
+
+user: For a separate held-out practice question: What is 1219 divided by 23?
+sherlock: 53.
+
+user: Please respond to this test question: What is 1219 divided by 23?
+sherlock: 53.
+
+user: Answer the following revision question: What is 1219 divided by 23?
+sherlock: 53.
+
+user: For a separate held-out practice question: What is 54 plus 24?
+sherlock: 78.
+
+user: Please respond to this test question: What is 54 plus 24?
+sherlock: 78.
+
+user: Answer the following revision question: What is 54 plus 24?
+sherlock: 78.
+
+user: For a separate held-out practice question: What is 78 minus 24?
+sherlock: 54.
+
+user: Please respond to this test question: What is 78 minus 24?
+sherlock: 54.
+
+user: Answer the following revision question: What is 78 minus 24?
+sherlock: 54.
+
+user: For a separate held-out practice question: What is 54 times 24?
+sherlock: 1296.
+
+user: Please respond to this test question: What is 54 times 24?
+sherlock: 1296.
+
+user: Answer the following revision question: What is 54 times 24?
+sherlock: 1296.
+
+user: For a separate held-out practice question: What is 1296 divided by 24?
+sherlock: 54.
+
+user: Please respond to this test question: What is 1296 divided by 24?
+sherlock: 54.
+
+user: Answer the following revision question: What is 1296 divided by 24?
+sherlock: 54.
+
+user: For a separate held-out practice question: What is 55 plus 25?
+sherlock: 80.
+
+user: Please respond to this test question: What is 55 plus 25?
+sherlock: 80.
+
+user: Answer the following revision question: What is 55 plus 25?
+sherlock: 80.
+
+user: For a separate held-out practice question: What is 80 minus 25?
+sherlock: 55.
+
+user: Please respond to this test question: What is 80 minus 25?
+sherlock: 55.
+
+user: Answer the following revision question: What is 80 minus 25?
+sherlock: 55.
+
+user: For a separate held-out practice question: What is 55 times 25?
+sherlock: 1375.
+
+user: Please respond to this test question: What is 55 times 25?
+sherlock: 1375.
+
+user: Answer the following revision question: What is 55 times 25?
+sherlock: 1375.
+
+user: For a separate held-out practice question: What is 1375 divided by 25?
+sherlock: 55.
+
+user: Please respond to this test question: What is 1375 divided by 25?
+sherlock: 55.
+
+user: Answer the following revision question: What is 1375 divided by 25?
+sherlock: 55.
+
+user: For a separate held-out practice question: What is 56 plus 26?
+sherlock: 82.
+
+user: Please respond to this test question: What is 56 plus 26?
+sherlock: 82.
+
+user: Answer the following revision question: What is 56 plus 26?
+sherlock: 82.
+
+user: For a separate held-out practice question: What is 82 minus 26?
+sherlock: 56.
+
+user: Please respond to this test question: What is 82 minus 26?
+sherlock: 56.
+
+user: Answer the following revision question: What is 82 minus 26?
+sherlock: 56.
+
+user: For a separate held-out practice question: What is 56 times 26?
+sherlock: 1456.
+
+user: Please respond to this test question: What is 56 times 26?
+sherlock: 1456.
+
+user: Answer the following revision question: What is 56 times 26?
+sherlock: 1456.
+
+user: For a separate held-out practice question: What is 1456 divided by 26?
+sherlock: 56.
+
+user: Please respond to this test question: What is 1456 divided by 26?
+sherlock: 56.
+
+user: Answer the following revision question: What is 1456 divided by 26?
+sherlock: 56.
+
+user: For a separate held-out practice question: What is 57 plus 27?
+sherlock: 84.
+
+user: Please respond to this test question: What is 57 plus 27?
+sherlock: 84.
+
+user: Answer the following revision question: What is 57 plus 27?
+sherlock: 84.
+
+user: For a separate held-out practice question: What is 84 minus 27?
+sherlock: 57.
+
+user: Please respond to this test question: What is 84 minus 27?
+sherlock: 57.
+
+user: Answer the following revision question: What is 84 minus 27?
+sherlock: 57.
+
+user: For a separate held-out practice question: What is 57 times 27?
+sherlock: 1539.
+
+user: Please respond to this test question: What is 57 times 27?
+sherlock: 1539.
+
+user: Answer the following revision question: What is 57 times 27?
+sherlock: 1539.
+
+user: For a separate held-out practice question: What is 1539 divided by 27?
+sherlock: 57.
+
+user: Please respond to this test question: What is 1539 divided by 27?
+sherlock: 57.
+
+user: Answer the following revision question: What is 1539 divided by 27?
+sherlock: 57.
+
+user: For a separate held-out practice question: What is 58 plus 28?
+sherlock: 86.
+
+user: Please respond to this test question: What is 58 plus 28?
+sherlock: 86.
+
+user: Answer the following revision question: What is 58 plus 28?
+sherlock: 86.
+
+user: For a separate held-out practice question: What is 86 minus 28?
+sherlock: 58.
+
+user: Please respond to this test question: What is 86 minus 28?
+sherlock: 58.
+
+user: Answer the following revision question: What is 86 minus 28?
+sherlock: 58.
+
+user: For a separate held-out practice question: What is 58 times 28?
+sherlock: 1624.
+
+user: Please respond to this test question: What is 58 times 28?
+sherlock: 1624.
+
+user: Answer the following revision question: What is 58 times 28?
+sherlock: 1624.
+
+user: For a separate held-out practice question: What is 1624 divided by 28?
+sherlock: 58.
+
+user: Please respond to this test question: What is 1624 divided by 28?
+sherlock: 58.
+
+user: Answer the following revision question: What is 1624 divided by 28?
+sherlock: 58.
+
+user: For a separate held-out practice question: What is 59 plus 29?
+sherlock: 88.
+
+user: Please respond to this test question: What is 59 plus 29?
+sherlock: 88.
+
+user: Answer the following revision question: What is 59 plus 29?
+sherlock: 88.
+
+user: For a separate held-out practice question: What is 88 minus 29?
+sherlock: 59.
+
+user: Please respond to this test question: What is 88 minus 29?
+sherlock: 59.
+
+user: Answer the following revision question: What is 88 minus 29?
+sherlock: 59.
+
+user: For a separate held-out practice question: What is 59 times 29?
+sherlock: 1711.
+
+user: Please respond to this test question: What is 59 times 29?
+sherlock: 1711.
+
+user: Answer the following revision question: What is 59 times 29?
+sherlock: 1711.
+
+user: For a separate held-out practice question: What is 1711 divided by 29?
+sherlock: 59.
+
+user: Please respond to this test question: What is 1711 divided by 29?
+sherlock: 59.
+
+user: Answer the following revision question: What is 1711 divided by 29?
+sherlock: 59.
+
+user: For a separate held-out practice question: What is 60 plus 20?
+sherlock: 80.
+
+user: Please respond to this test question: What is 60 plus 20?
+sherlock: 80.
+
+user: Answer the following revision question: What is 60 plus 20?
+sherlock: 80.
+
+user: For a separate held-out practice question: What is 80 minus 20?
+sherlock: 60.
+
+user: Please respond to this test question: What is 80 minus 20?
+sherlock: 60.
+
+user: Answer the following revision question: What is 80 minus 20?
+sherlock: 60.
+
+user: For a separate held-out practice question: What is 60 times 20?
+sherlock: 1200.
+
+user: Please respond to this test question: What is 60 times 20?
+sherlock: 1200.
+
+user: Answer the following revision question: What is 60 times 20?
+sherlock: 1200.
+
+user: For a separate held-out practice question: What is 1200 divided by 20?
+sherlock: 60.
+
+user: Please respond to this test question: What is 1200 divided by 20?
+sherlock: 60.
+
+user: Answer the following revision question: What is 1200 divided by 20?
+sherlock: 60.
+
+user: For a separate held-out practice question: What is 61 plus 21?
+sherlock: 82.
+
+user: Please respond to this test question: What is 61 plus 21?
+sherlock: 82.
+
+user: Answer the following revision question: What is 61 plus 21?
+sherlock: 82.
+
+user: For a separate held-out practice question: What is 82 minus 21?
+sherlock: 61.
+
+user: Please respond to this test question: What is 82 minus 21?
+sherlock: 61.
+
+user: Answer the following revision question: What is 82 minus 21?
+sherlock: 61.
+
+user: For a separate held-out practice question: What is 61 times 21?
+sherlock: 1281.
+
+user: Please respond to this test question: What is 61 times 21?
+sherlock: 1281.
+
+user: Answer the following revision question: What is 61 times 21?
+sherlock: 1281.
+
+user: For a separate held-out practice question: What is 1281 divided by 21?
+sherlock: 61.
+
+user: Please respond to this test question: What is 1281 divided by 21?
+sherlock: 61.
+
+user: Answer the following revision question: What is 1281 divided by 21?
+sherlock: 61.
+
+user: For a separate held-out practice question: What is 62 plus 22?
+sherlock: 84.
+
+user: Please respond to this test question: What is 62 plus 22?
+sherlock: 84.
+
+user: Answer the following revision question: What is 62 plus 22?
+sherlock: 84.
+
+user: For a separate held-out practice question: What is 84 minus 22?
+sherlock: 62.
+
+user: Please respond to this test question: What is 84 minus 22?
+sherlock: 62.
+
+user: Answer the following revision question: What is 84 minus 22?
+sherlock: 62.
+
+user: For a separate held-out practice question: What is 62 times 22?
+sherlock: 1364.
+
+user: Please respond to this test question: What is 62 times 22?
+sherlock: 1364.
+
+user: Answer the following revision question: What is 62 times 22?
+sherlock: 1364.
+
+user: For a separate held-out practice question: What is 1364 divided by 22?
+sherlock: 62.
+
+user: Please respond to this test question: What is 1364 divided by 22?
+sherlock: 62.
+
+user: Answer the following revision question: What is 1364 divided by 22?
+sherlock: 62.
+
+user: For a separate held-out practice question: What is 63 plus 23?
+sherlock: 86.
+
+user: Please respond to this test question: What is 63 plus 23?
+sherlock: 86.
+
+user: Answer the following revision question: What is 63 plus 23?
+sherlock: 86.
+
+user: For a separate held-out practice question: What is 86 minus 23?
+sherlock: 63.
+
+user: Please respond to this test question: What is 86 minus 23?
+sherlock: 63.
+
+user: Answer the following revision question: What is 86 minus 23?
+sherlock: 63.
+
+user: For a separate held-out practice question: What is 63 times 23?
+sherlock: 1449.
+
+user: Please respond to this test question: What is 63 times 23?
+sherlock: 1449.
+
+user: Answer the following revision question: What is 63 times 23?
+sherlock: 1449.
+
+user: For a separate held-out practice question: What is 1449 divided by 23?
+sherlock: 63.
+
+user: Please respond to this test question: What is 1449 divided by 23?
+sherlock: 63.
+
+user: Answer the following revision question: What is 1449 divided by 23?
+sherlock: 63.
+
+user: For a separate held-out practice question: What is 64 plus 24?
+sherlock: 88.
+
+user: Please respond to this test question: What is 64 plus 24?
+sherlock: 88.
+
+user: Answer the following revision question: What is 64 plus 24?
+sherlock: 88.
+
+user: For a separate held-out practice question: What is 88 minus 24?
+sherlock: 64.
+
+user: Please respond to this test question: What is 88 minus 24?
+sherlock: 64.
+
+user: Answer the following revision question: What is 88 minus 24?
+sherlock: 64.
+
+user: For a separate held-out practice question: What is 64 times 24?
+sherlock: 1536.
+
+user: Please respond to this test question: What is 64 times 24?
+sherlock: 1536.
+
+user: Answer the following revision question: What is 64 times 24?
+sherlock: 1536.
+
+user: For a separate held-out practice question: What is 1536 divided by 24?
+sherlock: 64.
+
+user: Please respond to this test question: What is 1536 divided by 24?
+sherlock: 64.
+
+user: Answer the following revision question: What is 1536 divided by 24?
+sherlock: 64.
+
+user: For a separate held-out practice question: What is 65 plus 25?
+sherlock: 90.
+
+user: Please respond to this test question: What is 65 plus 25?
+sherlock: 90.
+
+user: Answer the following revision question: What is 65 plus 25?
+sherlock: 90.
+
+user: For a separate held-out practice question: What is 90 minus 25?
+sherlock: 65.
+
+user: Please respond to this test question: What is 90 minus 25?
+sherlock: 65.
+
+user: Answer the following revision question: What is 90 minus 25?
+sherlock: 65.
+
+user: For a separate held-out practice question: What is 65 times 25?
+sherlock: 1625.
+
+user: Please respond to this test question: What is 65 times 25?
+sherlock: 1625.
+
+user: Answer the following revision question: What is 65 times 25?
+sherlock: 1625.
+
+user: For a separate held-out practice question: What is 1625 divided by 25?
+sherlock: 65.
+
+user: Please respond to this test question: What is 1625 divided by 25?
+sherlock: 65.
+
+user: Answer the following revision question: What is 1625 divided by 25?
+sherlock: 65.
+
+user: For a separate held-out practice question: What is 66 plus 26?
+sherlock: 92.
+
+user: Please respond to this test question: What is 66 plus 26?
+sherlock: 92.
+
+user: Answer the following revision question: What is 66 plus 26?
+sherlock: 92.
+
+user: For a separate held-out practice question: What is 92 minus 26?
+sherlock: 66.
+
+user: Please respond to this test question: What is 92 minus 26?
+sherlock: 66.
+
+user: Answer the following revision question: What is 92 minus 26?
+sherlock: 66.
+
+user: For a separate held-out practice question: What is 66 times 26?
+sherlock: 1716.
+
+user: Please respond to this test question: What is 66 times 26?
+sherlock: 1716.
+
+user: Answer the following revision question: What is 66 times 26?
+sherlock: 1716.
+
+user: For a separate held-out practice question: What is 1716 divided by 26?
+sherlock: 66.
+
+user: Please respond to this test question: What is 1716 divided by 26?
+sherlock: 66.
+
+user: Answer the following revision question: What is 1716 divided by 26?
+sherlock: 66.
+
+user: For a separate held-out practice question: What is 67 plus 27?
+sherlock: 94.
+
+user: Please respond to this test question: What is 67 plus 27?
+sherlock: 94.
+
+user: Answer the following revision question: What is 67 plus 27?
+sherlock: 94.
+
+user: For a separate held-out practice question: What is 94 minus 27?
+sherlock: 67.
+
+user: Please respond to this test question: What is 94 minus 27?
+sherlock: 67.
+
+user: Answer the following revision question: What is 94 minus 27?
+sherlock: 67.
+
+user: For a separate held-out practice question: What is 67 times 27?
+sherlock: 1809.
+
+user: Please respond to this test question: What is 67 times 27?
+sherlock: 1809.
+
+user: Answer the following revision question: What is 67 times 27?
+sherlock: 1809.
+
+user: For a separate held-out practice question: What is 1809 divided by 27?
+sherlock: 67.
+
+user: Please respond to this test question: What is 1809 divided by 27?
+sherlock: 67.
+
+user: Answer the following revision question: What is 1809 divided by 27?
+sherlock: 67.
+
+user: For a separate held-out practice question: What is 68 plus 28?
+sherlock: 96.
+
+user: Please respond to this test question: What is 68 plus 28?
+sherlock: 96.
+
+user: Answer the following revision question: What is 68 plus 28?
+sherlock: 96.
+
+user: For a separate held-out practice question: What is 96 minus 28?
+sherlock: 68.
+
+user: Please respond to this test question: What is 96 minus 28?
+sherlock: 68.
+
+user: Answer the following revision question: What is 96 minus 28?
+sherlock: 68.
+
+user: For a separate held-out practice question: What is 68 times 28?
+sherlock: 1904.
+
+user: Please respond to this test question: What is 68 times 28?
+sherlock: 1904.
+
+user: Answer the following revision question: What is 68 times 28?
+sherlock: 1904.
+
+user: For a separate held-out practice question: What is 1904 divided by 28?
+sherlock: 68.
+
+user: Please respond to this test question: What is 1904 divided by 28?
+sherlock: 68.
+
+user: Answer the following revision question: What is 1904 divided by 28?
+sherlock: 68.
+
+user: For a separate held-out practice question: What is 69 plus 29?
+sherlock: 98.
+
+user: Please respond to this test question: What is 69 plus 29?
+sherlock: 98.
+
+user: Answer the following revision question: What is 69 plus 29?
+sherlock: 98.
+
+user: For a separate held-out practice question: What is 98 minus 29?
+sherlock: 69.
+
+user: Please respond to this test question: What is 98 minus 29?
+sherlock: 69.
+
+user: Answer the following revision question: What is 98 minus 29?
+sherlock: 69.
+
+user: For a separate held-out practice question: What is 69 times 29?
+sherlock: 2001.
+
+user: Please respond to this test question: What is 69 times 29?
+sherlock: 2001.
+
+user: Answer the following revision question: What is 69 times 29?
+sherlock: 2001.
+
+user: For a separate held-out practice question: What is 2001 divided by 29?
+sherlock: 69.
+
+user: Please respond to this test question: What is 2001 divided by 29?
+sherlock: 69.
+
+user: Answer the following revision question: What is 2001 divided by 29?
+sherlock: 69.
+
+user: For a separate held-out practice question: What is 70 plus 20?
+sherlock: 90.
+
+user: Please respond to this test question: What is 70 plus 20?
+sherlock: 90.
+
+user: Answer the following revision question: What is 70 plus 20?
+sherlock: 90.
+
+user: For a separate held-out practice question: What is 90 minus 20?
+sherlock: 70.
+
+user: Please respond to this test question: What is 90 minus 20?
+sherlock: 70.
+
+user: Answer the following revision question: What is 90 minus 20?
+sherlock: 70.
+
+user: For a separate held-out practice question: What is 70 times 20?
+sherlock: 1400.
+
+user: Please respond to this test question: What is 70 times 20?
+sherlock: 1400.
+
+user: Answer the following revision question: What is 70 times 20?
+sherlock: 1400.
+
+user: For a separate held-out practice question: What is 1400 divided by 20?
+sherlock: 70.
+
+user: Please respond to this test question: What is 1400 divided by 20?
+sherlock: 70.
+
+user: Answer the following revision question: What is 1400 divided by 20?
+sherlock: 70.
+
+user: For a separate held-out practice question: What is 71 plus 21?
+sherlock: 92.
+
+user: Please respond to this test question: What is 71 plus 21?
+sherlock: 92.
+
+user: Answer the following revision question: What is 71 plus 21?
+sherlock: 92.
+
+user: For a separate held-out practice question: What is 92 minus 21?
+sherlock: 71.
+
+user: Please respond to this test question: What is 92 minus 21?
+sherlock: 71.
+
+user: Answer the following revision question: What is 92 minus 21?
+sherlock: 71.
+
+user: For a separate held-out practice question: What is 71 times 21?
+sherlock: 1491.
+
+user: Please respond to this test question: What is 71 times 21?
+sherlock: 1491.
+
+user: Answer the following revision question: What is 71 times 21?
+sherlock: 1491.
+
+user: For a separate held-out practice question: What is 1491 divided by 21?
+sherlock: 71.
+
+user: Please respond to this test question: What is 1491 divided by 21?
+sherlock: 71.
+
+user: Answer the following revision question: What is 1491 divided by 21?
+sherlock: 71.
+
+user: For a separate held-out practice question: What is 72 plus 22?
+sherlock: 94.
+
+user: Please respond to this test question: What is 72 plus 22?
+sherlock: 94.
+
+user: Answer the following revision question: What is 72 plus 22?
+sherlock: 94.
+
+user: For a separate held-out practice question: What is 94 minus 22?
+sherlock: 72.
+
+user: Please respond to this test question: What is 94 minus 22?
+sherlock: 72.
+
+user: Answer the following revision question: What is 94 minus 22?
+sherlock: 72.
+
+user: For a separate held-out practice question: What is 72 times 22?
+sherlock: 1584.
+
+user: Please respond to this test question: What is 72 times 22?
+sherlock: 1584.
+
+user: Answer the following revision question: What is 72 times 22?
+sherlock: 1584.
+
+user: For a separate held-out practice question: What is 1584 divided by 22?
+sherlock: 72.
+
+user: Please respond to this test question: What is 1584 divided by 22?
+sherlock: 72.
+
+user: Answer the following revision question: What is 1584 divided by 22?
+sherlock: 72.
+
+user: For a separate held-out practice question: What is 73 plus 23?
+sherlock: 96.
+
+user: Please respond to this test question: What is 73 plus 23?
+sherlock: 96.
+
+user: Answer the following revision question: What is 73 plus 23?
+sherlock: 96.
+
+user: For a separate held-out practice question: What is 96 minus 23?
+sherlock: 73.
+
+user: Please respond to this test question: What is 96 minus 23?
+sherlock: 73.
+
+user: Answer the following revision question: What is 96 minus 23?
+sherlock: 73.
+
+user: For a separate held-out practice question: What is 73 times 23?
+sherlock: 1679.
+
+user: Please respond to this test question: What is 73 times 23?
+sherlock: 1679.
+
+user: Answer the following revision question: What is 73 times 23?
+sherlock: 1679.
+
+user: For a separate held-out practice question: What is 1679 divided by 23?
+sherlock: 73.
+
+user: Please respond to this test question: What is 1679 divided by 23?
+sherlock: 73.
+
+user: Answer the following revision question: What is 1679 divided by 23?
+sherlock: 73.
+
+user: For a separate held-out practice question: What is 74 plus 24?
+sherlock: 98.
+
+user: Please respond to this test question: What is 74 plus 24?
+sherlock: 98.
+
+user: Answer the following revision question: What is 74 plus 24?
+sherlock: 98.
+
+user: For a separate held-out practice question: What is 98 minus 24?
+sherlock: 74.
+
+user: Please respond to this test question: What is 98 minus 24?
+sherlock: 74.
+
+user: Answer the following revision question: What is 98 minus 24?
+sherlock: 74.
+
+user: For a separate held-out practice question: What is 74 times 24?
+sherlock: 1776.
+
+user: Please respond to this test question: What is 74 times 24?
+sherlock: 1776.
+
+user: Answer the following revision question: What is 74 times 24?
+sherlock: 1776.
+
+user: For a separate held-out practice question: What is 1776 divided by 24?
+sherlock: 74.
+
+user: Please respond to this test question: What is 1776 divided by 24?
+sherlock: 74.
+
+user: Answer the following revision question: What is 1776 divided by 24?
+sherlock: 74.
+
+user: For a separate held-out practice question: What is 75 plus 25?
+sherlock: 100.
+
+user: Please respond to this test question: What is 75 plus 25?
+sherlock: 100.
+
+user: Answer the following revision question: What is 75 plus 25?
+sherlock: 100.
+
+user: For a separate held-out practice question: What is 100 minus 25?
+sherlock: 75.
+
+user: Please respond to this test question: What is 100 minus 25?
+sherlock: 75.
+
+user: Answer the following revision question: What is 100 minus 25?
+sherlock: 75.
+
+user: For a separate held-out practice question: What is 75 times 25?
+sherlock: 1875.
+
+user: Please respond to this test question: What is 75 times 25?
+sherlock: 1875.
+
+user: Answer the following revision question: What is 75 times 25?
+sherlock: 1875.
+
+user: For a separate held-out practice question: What is 1875 divided by 25?
+sherlock: 75.
+
+user: Please respond to this test question: What is 1875 divided by 25?
+sherlock: 75.
+
+user: Answer the following revision question: What is 1875 divided by 25?
+sherlock: 75.
+
+user: For a separate held-out practice question: What is 76 plus 26?
+sherlock: 102.
+
+user: Please respond to this test question: What is 76 plus 26?
+sherlock: 102.
+
+user: Answer the following revision question: What is 76 plus 26?
+sherlock: 102.
+
+user: For a separate held-out practice question: What is 102 minus 26?
+sherlock: 76.
+
+user: Please respond to this test question: What is 102 minus 26?
+sherlock: 76.
+
+user: Answer the following revision question: What is 102 minus 26?
+sherlock: 76.
+
+user: For a separate held-out practice question: What is 76 times 26?
+sherlock: 1976.
+
+user: Please respond to this test question: What is 76 times 26?
+sherlock: 1976.
+
+user: Answer the following revision question: What is 76 times 26?
+sherlock: 1976.
+
+user: For a separate held-out practice question: What is 1976 divided by 26?
+sherlock: 76.
+
+user: Please respond to this test question: What is 1976 divided by 26?
+sherlock: 76.
+
+user: Answer the following revision question: What is 1976 divided by 26?
+sherlock: 76.
+
+user: For a separate held-out practice question: What is 77 plus 27?
+sherlock: 104.
+
+user: Please respond to this test question: What is 77 plus 27?
+sherlock: 104.
+
+user: Answer the following revision question: What is 77 plus 27?
+sherlock: 104.
+
+user: For a separate held-out practice question: What is 104 minus 27?
+sherlock: 77.
+
+user: Please respond to this test question: What is 104 minus 27?
+sherlock: 77.
+
+user: Answer the following revision question: What is 104 minus 27?
+sherlock: 77.
+
+user: For a separate held-out practice question: What is 77 times 27?
+sherlock: 2079.
+
+user: Please respond to this test question: What is 77 times 27?
+sherlock: 2079.
+
+user: Answer the following revision question: What is 77 times 27?
+sherlock: 2079.
+
+user: For a separate held-out practice question: What is 2079 divided by 27?
+sherlock: 77.
+
+user: Please respond to this test question: What is 2079 divided by 27?
+sherlock: 77.
+
+user: Answer the following revision question: What is 2079 divided by 27?
+sherlock: 77.
+
+user: For a separate held-out practice question: What is 78 plus 28?
+sherlock: 106.
+
+user: Please respond to this test question: What is 78 plus 28?
+sherlock: 106.
+
+user: Answer the following revision question: What is 78 plus 28?
+sherlock: 106.
+
+user: For a separate held-out practice question: What is 106 minus 28?
+sherlock: 78.
+
+user: Please respond to this test question: What is 106 minus 28?
+sherlock: 78.
+
+user: Answer the following revision question: What is 106 minus 28?
+sherlock: 78.
+
+user: For a separate held-out practice question: What is 78 times 28?
+sherlock: 2184.
+
+user: Please respond to this test question: What is 78 times 28?
+sherlock: 2184.
+
+user: Answer the following revision question: What is 78 times 28?
+sherlock: 2184.
+
+user: For a separate held-out practice question: What is 2184 divided by 28?
+sherlock: 78.
+
+user: Please respond to this test question: What is 2184 divided by 28?
+sherlock: 78.
+
+user: Answer the following revision question: What is 2184 divided by 28?
+sherlock: 78.
+
+user: For a separate held-out practice question: What is 79 plus 29?
+sherlock: 108.
+
+user: Please respond to this test question: What is 79 plus 29?
+sherlock: 108.
+
+user: Answer the following revision question: What is 79 plus 29?
+sherlock: 108.
+
+user: For a separate held-out practice question: What is 108 minus 29?
+sherlock: 79.
+
+user: Please respond to this test question: What is 108 minus 29?
+sherlock: 79.
+
+user: Answer the following revision question: What is 108 minus 29?
+sherlock: 79.
+
+user: For a separate held-out practice question: What is 79 times 29?
+sherlock: 2291.
+
+user: Please respond to this test question: What is 79 times 29?
+sherlock: 2291.
+
+user: Answer the following revision question: What is 79 times 29?
+sherlock: 2291.
+
+user: For a separate held-out practice question: What is 2291 divided by 29?
+sherlock: 79.
+
+user: Please respond to this test question: What is 2291 divided by 29?
+sherlock: 79.
+
+user: Answer the following revision question: What is 2291 divided by 29?
+sherlock: 79.
+
+user: For a separate held-out practice question: What is 80 plus 20?
+sherlock: 100.
+
+user: Please respond to this test question: What is 80 plus 20?
+sherlock: 100.
+
+user: Answer the following revision question: What is 80 plus 20?
+sherlock: 100.
+
+user: For a separate held-out practice question: What is 100 minus 20?
+sherlock: 80.
+
+user: Please respond to this test question: What is 100 minus 20?
+sherlock: 80.
+
+user: Answer the following revision question: What is 100 minus 20?
+sherlock: 80.
+
+user: For a separate held-out practice question: What is 80 times 20?
+sherlock: 1600.
+
+user: Please respond to this test question: What is 80 times 20?
+sherlock: 1600.
+
+user: Answer the following revision question: What is 80 times 20?
+sherlock: 1600.
+
+user: For a separate held-out practice question: What is 1600 divided by 20?
+sherlock: 80.
+
+user: Please respond to this test question: What is 1600 divided by 20?
+sherlock: 80.
+
+user: Answer the following revision question: What is 1600 divided by 20?
+sherlock: 80.
+
+user: For a separate held-out practice question: What is 81 plus 21?
+sherlock: 102.
+
+user: Please respond to this test question: What is 81 plus 21?
+sherlock: 102.
+
+user: Answer the following revision question: What is 81 plus 21?
+sherlock: 102.
+
+user: For a separate held-out practice question: What is 102 minus 21?
+sherlock: 81.
+
+user: Please respond to this test question: What is 102 minus 21?
+sherlock: 81.
+
+user: Answer the following revision question: What is 102 minus 21?
+sherlock: 81.
+
+user: For a separate held-out practice question: What is 81 times 21?
+sherlock: 1701.
+
+user: Please respond to this test question: What is 81 times 21?
+sherlock: 1701.
+
+user: Answer the following revision question: What is 81 times 21?
+sherlock: 1701.
+
+user: For a separate held-out practice question: What is 1701 divided by 21?
+sherlock: 81.
+
+user: Please respond to this test question: What is 1701 divided by 21?
+sherlock: 81.
+
+user: Answer the following revision question: What is 1701 divided by 21?
+sherlock: 81.
+
+user: For a separate held-out practice question: What is 82 plus 22?
+sherlock: 104.
+
+user: Please respond to this test question: What is 82 plus 22?
+sherlock: 104.
+
+user: Answer the following revision question: What is 82 plus 22?
+sherlock: 104.
+
+user: For a separate held-out practice question: What is 104 minus 22?
+sherlock: 82.
+
+user: Please respond to this test question: What is 104 minus 22?
+sherlock: 82.
+
+user: Answer the following revision question: What is 104 minus 22?
+sherlock: 82.
+
+user: For a separate held-out practice question: What is 82 times 22?
+sherlock: 1804.
+
+user: Please respond to this test question: What is 82 times 22?
+sherlock: 1804.
+
+user: Answer the following revision question: What is 82 times 22?
+sherlock: 1804.
+
+user: For a separate held-out practice question: What is 1804 divided by 22?
+sherlock: 82.
+
+user: Please respond to this test question: What is 1804 divided by 22?
+sherlock: 82.
+
+user: Answer the following revision question: What is 1804 divided by 22?
+sherlock: 82.
+
+user: For a separate held-out practice question: What is 83 plus 23?
+sherlock: 106.
+
+user: Please respond to this test question: What is 83 plus 23?
+sherlock: 106.
+
+user: Answer the following revision question: What is 83 plus 23?
+sherlock: 106.
+
+user: For a separate held-out practice question: What is 106 minus 23?
+sherlock: 83.
+
+user: Please respond to this test question: What is 106 minus 23?
+sherlock: 83.
+
+user: Answer the following revision question: What is 106 minus 23?
+sherlock: 83.
+
+user: For a separate held-out practice question: What is 83 times 23?
+sherlock: 1909.
+
+user: Please respond to this test question: What is 83 times 23?
+sherlock: 1909.
+
+user: Answer the following revision question: What is 83 times 23?
+sherlock: 1909.
+
+user: For a separate held-out practice question: What is 1909 divided by 23?
+sherlock: 83.
+
+user: Please respond to this test question: What is 1909 divided by 23?
+sherlock: 83.
+
+user: Answer the following revision question: What is 1909 divided by 23?
+sherlock: 83.
+
+user: For a separate held-out practice question: What is 84 plus 24?
+sherlock: 108.
+
+user: Please respond to this test question: What is 84 plus 24?
+sherlock: 108.
+
+user: Answer the following revision question: What is 84 plus 24?
+sherlock: 108.
+
+user: For a separate held-out practice question: What is 108 minus 24?
+sherlock: 84.
+
+user: Please respond to this test question: What is 108 minus 24?
+sherlock: 84.
+
+user: Answer the following revision question: What is 108 minus 24?
+sherlock: 84.
+
+user: For a separate held-out practice question: What is 84 times 24?
+sherlock: 2016.
+
+user: Please respond to this test question: What is 84 times 24?
+sherlock: 2016.
+
+user: Answer the following revision question: What is 84 times 24?
+sherlock: 2016.
+
+user: For a separate held-out practice question: What is 2016 divided by 24?
+sherlock: 84.
+
+user: Please respond to this test question: What is 2016 divided by 24?
+sherlock: 84.
+
+user: Answer the following revision question: What is 2016 divided by 24?
+sherlock: 84.
+
+user: For a separate held-out practice question: What is 85 plus 25?
+sherlock: 110.
+
+user: Please respond to this test question: What is 85 plus 25?
+sherlock: 110.
+
+user: Answer the following revision question: What is 85 plus 25?
+sherlock: 110.
+
+user: For a separate held-out practice question: What is 110 minus 25?
+sherlock: 85.
+
+user: Please respond to this test question: What is 110 minus 25?
+sherlock: 85.
+
+user: Answer the following revision question: What is 110 minus 25?
+sherlock: 85.
+
+user: For a separate held-out practice question: What is 85 times 25?
+sherlock: 2125.
+
+user: Please respond to this test question: What is 85 times 25?
+sherlock: 2125.
+
+user: Answer the following revision question: What is 85 times 25?
+sherlock: 2125.
+
+user: For a separate held-out practice question: What is 2125 divided by 25?
+sherlock: 85.
+
+user: Please respond to this test question: What is 2125 divided by 25?
+sherlock: 85.
+
+user: Answer the following revision question: What is 2125 divided by 25?
+sherlock: 85.
+
+user: For a separate held-out practice question: What is 86 plus 26?
+sherlock: 112.
+
+user: Please respond to this test question: What is 86 plus 26?
+sherlock: 112.
+
+user: Answer the following revision question: What is 86 plus 26?
+sherlock: 112.
+
+user: For a separate held-out practice question: What is 112 minus 26?
+sherlock: 86.
+
+user: Please respond to this test question: What is 112 minus 26?
+sherlock: 86.
+
+user: Answer the following revision question: What is 112 minus 26?
+sherlock: 86.
+
+user: For a separate held-out practice question: What is 86 times 26?
+sherlock: 2236.
+
+user: Please respond to this test question: What is 86 times 26?
+sherlock: 2236.
+
+user: Answer the following revision question: What is 86 times 26?
+sherlock: 2236.
+
+user: For a separate held-out practice question: What is 2236 divided by 26?
+sherlock: 86.
+
+user: Please respond to this test question: What is 2236 divided by 26?
+sherlock: 86.
+
+user: Answer the following revision question: What is 2236 divided by 26?
+sherlock: 86.
+
+user: For a separate held-out practice question: What is 87 plus 27?
+sherlock: 114.
+
+user: Please respond to this test question: What is 87 plus 27?
+sherlock: 114.
+
+user: Answer the following revision question: What is 87 plus 27?
+sherlock: 114.
+
+user: For a separate held-out practice question: What is 114 minus 27?
+sherlock: 87.
+
+user: Please respond to this test question: What is 114 minus 27?
+sherlock: 87.
+
+user: Answer the following revision question: What is 114 minus 27?
+sherlock: 87.
+
+user: For a separate held-out practice question: What is 87 times 27?
+sherlock: 2349.
+
+user: Please respond to this test question: What is 87 times 27?
+sherlock: 2349.
+
+user: Answer the following revision question: What is 87 times 27?
+sherlock: 2349.
+
+user: For a separate held-out practice question: What is 2349 divided by 27?
+sherlock: 87.
+
+user: Please respond to this test question: What is 2349 divided by 27?
+sherlock: 87.
+
+user: Answer the following revision question: What is 2349 divided by 27?
+sherlock: 87.
+
+user: For a separate held-out practice question: What is 88 plus 28?
+sherlock: 116.
+
+user: Please respond to this test question: What is 88 plus 28?
+sherlock: 116.
+
+user: Answer the following revision question: What is 88 plus 28?
+sherlock: 116.
+
+user: For a separate held-out practice question: What is 116 minus 28?
+sherlock: 88.
+
+user: Please respond to this test question: What is 116 minus 28?
+sherlock: 88.
+
+user: Answer the following revision question: What is 116 minus 28?
+sherlock: 88.
+
+user: For a separate held-out practice question: What is 88 times 28?
+sherlock: 2464.
+
+user: Please respond to this test question: What is 88 times 28?
+sherlock: 2464.
+
+user: Answer the following revision question: What is 88 times 28?
+sherlock: 2464.
+
+user: For a separate held-out practice question: What is 2464 divided by 28?
+sherlock: 88.
+
+user: Please respond to this test question: What is 2464 divided by 28?
+sherlock: 88.
+
+user: Answer the following revision question: What is 2464 divided by 28?
+sherlock: 88.
+
+user: For a separate held-out practice question: What is 89 plus 29?
+sherlock: 118.
+
+user: Please respond to this test question: What is 89 plus 29?
+sherlock: 118.
+
+user: Answer the following revision question: What is 89 plus 29?
+sherlock: 118.
+
+user: For a separate held-out practice question: What is 118 minus 29?
+sherlock: 89.
+
+user: Please respond to this test question: What is 118 minus 29?
+sherlock: 89.
+
+user: Answer the following revision question: What is 118 minus 29?
+sherlock: 89.
+
+user: For a separate held-out practice question: What is 89 times 29?
+sherlock: 2581.
+
+user: Please respond to this test question: What is 89 times 29?
+sherlock: 2581.
+
+user: Answer the following revision question: What is 89 times 29?
+sherlock: 2581.
+
+user: For a separate held-out practice question: What is 2581 divided by 29?
+sherlock: 89.
+
+user: Please respond to this test question: What is 2581 divided by 29?
+sherlock: 89.
+
+user: Answer the following revision question: What is 2581 divided by 29?
+sherlock: 89.
+
+user: What is 100000 plus 120000?
+sherlock: 220000.
+
+user: Calculate 300000 minus 120000.
+sherlock: 180000.
+
+user: What is the product of 301 and 401?
+sherlock: 120701.
+
+user: Divide 30300 by 101.
+sherlock: 300.
+
+user: What is 100007 plus 120011?
+sherlock: 220018.
+
+user: Calculate 300013 minus 120003.
+sherlock: 180010.
+
+user: What is the product of 302 and 401?
+sherlock: 121102.
+
+user: Divide 30600 by 102.
+sherlock: 300.
+
+user: What is 100014 plus 120022?
+sherlock: 220036.
+
+user: Calculate 300026 minus 120006.
+sherlock: 180020.
+
+user: What is the product of 303 and 401?
+sherlock: 121503.
+
+user: Divide 30900 by 103.
+sherlock: 300.
+
+user: What is 100021 plus 120033?
+sherlock: 220054.
+
+user: Calculate 300039 minus 120009.
+sherlock: 180030.
+
+user: What is the product of 304 and 401?
+sherlock: 121904.
+
+user: Divide 31200 by 104.
+sherlock: 300.
+
+user: What is 100028 plus 120044?
+sherlock: 220072.
+
+user: Calculate 300052 minus 120012.
+sherlock: 180040.
+
+user: What is the product of 305 and 401?
+sherlock: 122305.
+
+user: Divide 31500 by 105.
+sherlock: 300.
+
+user: What is 100035 plus 120055?
+sherlock: 220090.
+
+user: Calculate 300065 minus 120015.
+sherlock: 180050.
+
+user: What is the product of 306 and 401?
+sherlock: 122706.
+
+user: Divide 31800 by 106.
+sherlock: 300.
+
+user: What is 100042 plus 120066?
+sherlock: 220108.
+
+user: Calculate 300078 minus 120018.
+sherlock: 180060.
+
+user: What is the product of 307 and 401?
+sherlock: 123107.
+
+user: Divide 32100 by 107.
+sherlock: 300.
+
+user: What is 100049 plus 120077?
+sherlock: 220126.
+
+user: Calculate 300091 minus 120021.
+sherlock: 180070.
+
+user: What is the product of 308 and 401?
+sherlock: 123508.
+
+user: Divide 32400 by 108.
+sherlock: 300.
+
+user: What is 100056 plus 120088?
+sherlock: 220144.
+
+user: Calculate 300104 minus 120024.
+sherlock: 180080.
+
+user: What is the product of 309 and 401?
+sherlock: 123909.
+
+user: Divide 32700 by 109.
+sherlock: 300.
+
+user: What is 100063 plus 120099?
+sherlock: 220162.
+
+user: Calculate 300117 minus 120027.
+sherlock: 180090.
+
+user: What is the product of 310 and 401?
+sherlock: 124310.
+
+user: Divide 33000 by 110.
+sherlock: 300.
+
+user: What is 100070 plus 120110?
+sherlock: 220180.
+
+user: Calculate 300130 minus 120030.
+sherlock: 180100.
+
+user: What is the product of 311 and 401?
+sherlock: 124711.
+
+user: Divide 33300 by 111.
+sherlock: 300.
+
+user: What is 100077 plus 120121?
+sherlock: 220198.
+
+user: Calculate 300143 minus 120033.
+sherlock: 180110.
+
+user: What is the product of 312 and 401?
+sherlock: 125112.
+
+user: Divide 33600 by 112.
+sherlock: 300.
+
+user: What is 100084 plus 120132?
+sherlock: 220216.
+
+user: Calculate 300156 minus 120036.
+sherlock: 180120.
+
+user: What is the product of 313 and 401?
+sherlock: 125513.
+
+user: Divide 33900 by 113.
+sherlock: 300.
+
+user: What is 100091 plus 120143?
+sherlock: 220234.
+
+user: Calculate 300169 minus 120039.
+sherlock: 180130.
+
+user: What is the product of 314 and 401?
+sherlock: 125914.
+
+user: Divide 34200 by 114.
+sherlock: 300.
+
+user: What is 100098 plus 120154?
+sherlock: 220252.
+
+user: Calculate 300182 minus 120042.
+sherlock: 180140.
+
+user: What is the product of 315 and 401?
+sherlock: 126315.
+
+user: Divide 34500 by 115.
+sherlock: 300.
+
+user: What is 100105 plus 120165?
+sherlock: 220270.
+
+user: Calculate 300195 minus 120045.
+sherlock: 180150.
+
+user: What is the product of 316 and 401?
+sherlock: 126716.
+
+user: Divide 34800 by 116.
+sherlock: 300.
+
+user: What is 100112 plus 120176?
+sherlock: 220288.
+
+user: Calculate 300208 minus 120048.
+sherlock: 180160.
+
+user: What is the product of 317 and 401?
+sherlock: 127117.
+
+user: Divide 35100 by 117.
+sherlock: 300.
+
+user: What is 100119 plus 120187?
+sherlock: 220306.
+
+user: Calculate 300221 minus 120051.
+sherlock: 180170.
+
+user: What is the product of 318 and 401?
+sherlock: 127518.
+
+user: Divide 35400 by 118.
+sherlock: 300.
+
+user: What is 100126 plus 120198?
+sherlock: 220324.
+
+user: Calculate 300234 minus 120054.
+sherlock: 180180.
+
+user: What is the product of 319 and 401?
+sherlock: 127919.
+
+user: Divide 35700 by 119.
+sherlock: 300.
+
+user: What is 100133 plus 120209?
+sherlock: 220342.
+
+user: Calculate 300247 minus 120057.
+sherlock: 180190.
+
+user: What is the product of 320 and 401?
+sherlock: 128320.
+
+user: Divide 36000 by 120.
+sherlock: 300.
+
+user: What is 100140 plus 120220?
+sherlock: 220360.
+
+user: Calculate 300260 minus 120060.
+sherlock: 180200.
+
+user: What is the product of 321 and 401?
+sherlock: 128721.
+
+user: Divide 36300 by 121.
+sherlock: 300.
+
+user: What is 100147 plus 120231?
+sherlock: 220378.
+
+user: Calculate 300273 minus 120063.
+sherlock: 180210.
+
+user: What is the product of 322 and 401?
+sherlock: 129122.
+
+user: Divide 36600 by 122.
+sherlock: 300.
+
+user: What is 100154 plus 120242?
+sherlock: 220396.
+
+user: Calculate 300286 minus 120066.
+sherlock: 180220.
+
+user: What is the product of 323 and 401?
+sherlock: 129523.
+
+user: Divide 36900 by 123.
+sherlock: 300.
+
+user: What is 100161 plus 120253?
+sherlock: 220414.
+
+user: Calculate 300299 minus 120069.
+sherlock: 180230.
+
+user: What is the product of 324 and 401?
+sherlock: 129924.
+
+user: Divide 37200 by 124.
+sherlock: 300.
+
+user: What is 100168 plus 120264?
+sherlock: 220432.
+
+user: Calculate 300312 minus 120072.
+sherlock: 180240.
+
+user: What is the product of 325 and 401?
+sherlock: 130325.
+
+user: Divide 37500 by 125.
+sherlock: 300.
