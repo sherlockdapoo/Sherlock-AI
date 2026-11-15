@@ -1015,7 +1015,7 @@ body,.app{color:#27354d}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.9.8">v0.9.8</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Version 0.9.9">v0.9.9</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1025,7 +1025,7 @@ body,.app{color:#27354d}
     <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
     <div class="stat"><span class="stat-label">Examples processed</span><strong class="stat-value" id="chars">0</strong></div>
     <div class="stat"><span class="stat-label">Training speed</span><strong class="stat-value" id="topSpeed">0</strong><span class="stat-unit">examples per second</span></div>
-    <div class="stat"><span class="stat-label">Trainable parameters</span><strong class="stat-value" id="neuralParameters">76,080</strong><span class="stat-unit">adjustable model weights</span></div>
+    <div class="stat"><span class="stat-label">Trainable parameters</span><strong class="stat-value" id="neuralParameters">61,488</strong><span class="stat-unit">adjustable model weights</span></div>
     <div class="stat"><span class="stat-label">Training tokens</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-token examples seen</span></div>
     <div class="stat"><span class="stat-label">Validation accuracy</span><strong class="stat-value" id="neuralAccuracy">Not measured</strong><span class="stat-unit">separate held-out sample</span></div>
     <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">tokens per second</span></div>
@@ -1427,7 +1427,7 @@ const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB traini
 const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v5-wordlevel-1280';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v4-wordlevel-1024';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-previous-dataset-checkpoint-v1';
 const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
 const PAGE_SIZE = 100;
@@ -2433,7 +2433,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.7.6', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.7.7', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
