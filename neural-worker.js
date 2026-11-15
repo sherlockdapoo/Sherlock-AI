@@ -29,6 +29,7 @@ const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 640;
+const EVAL_CHUNK_SIZE = 40; // Yield between validation slices so Stop can be handled.
 const EARLY_STOP_PATIENCE = 10;
 const MIN_VALIDATION_IMPROVEMENT = 0.001;
 const BATCHES_PER_SLICE = 1; // Yield to the worker event queue after every batch so Stop and other messages are handled promptly.
@@ -60,6 +61,10 @@ let bestSteps = 0;
 let bestExamples = 0;
 let bestMovingLoss = 0;
 let evaluationsWithoutImprovement = 0;
+let evaluationInProgress = false;
+let stopRequested = false;
+let stopRequestReason = "manual";
+let bestCheckpointStepsSent = -1;
 let bestAccuracy = -1;
 let latestAccuracy = null;
 let latestLoss = 0;
@@ -272,6 +277,10 @@ function initialiseParameters() {
   bestExamples = 0;
   bestMovingLoss = 0;
   evaluationsWithoutImprovement = 0;
+  evaluationInProgress = false;
+  stopRequested = false;
+  stopRequestReason = "manual";
+  bestCheckpointStepsSent = -1;
   bestAccuracy = -1;
   latestAccuracy = null;
   latestLoss = 0;
@@ -422,78 +431,148 @@ function predict(data, position) {
   }
   return {token: best, loss: -Math.log(Math.max(bestValue, 1e-9))};
 }
-function evaluate() {
-  if (!validationData || validationTargetPositions.length === 0) return null;
-  const count = Math.min(EVAL_SAMPLES, validationTargetPositions.length);
-  const stride = Math.max(1, Math.floor(validationTargetPositions.length / count));
-  let correct = 0;
-  let totalLoss = 0;
-  let total = 0;
-  for (let i = 0; i < count; i++) {
-    const position = validationTargetPositions[Math.min(i * stride, validationTargetPositions.length - 1)];
-    const result = predict(validationData, position);
-    const target = tokenAt(validationData, position);
-    if (result.token === target) correct++;
-    totalLoss += -Math.log(Math.max(probabilities[target], 1e-9));
-    total++;
-  }
-  if (!total) return null;
-
-  const score = correct * 100 / total;
-  const validationLoss = totalLoss / total;
-  const perplexity = Math.exp(validationLoss);
-  latestAccuracy = score;
-  latestValidationLoss = validationLoss;
-  latestPerplexity = perplexity;
-  evaluationCount++;
-  validationSamples = total;
-
-  if (validationLoss < bestValidationLoss - MIN_VALIDATION_IMPROVEMENT) {
-    bestValidationLoss = validationLoss;
-    bestAccuracy = score;
-    bestParameters = new Float32Array(parameters);
-    bestFirstMoment.set(firstMoment);
-    bestSecondMoment.set(secondMoment);
-    bestOptimizerStep = optimizerStep;
-    bestRandomState = randomState >>> 0;
-    bestSteps = steps;
-    bestExamples = examplesSeen;
-    bestMovingLoss = movingLoss;
-    evaluationsWithoutImprovement = 0;
-  } else {
-    evaluationsWithoutImprovement++;
-  }
+function postBestCheckpoint() {
+  if (!(bestParameters instanceof Float32Array) || bestCheckpointStepsSent === bestSteps)
+    return false;
   const checkpointState = new Float32Array(PARAMS * 3);
-  checkpointState.set(parameters, 0);
-  checkpointState.set(firstMoment, PARAMS);
-  checkpointState.set(secondMoment, PARAMS * 2);
+  checkpointState.set(bestParameters, 0);
+  checkpointState.set(bestFirstMoment, PARAMS);
+  checkpointState.set(bestSecondMoment, PARAMS * 2);
   const checkpointBuffer = checkpointState.buffer;
   self.postMessage({
     type: "checkpoint",
     optimizer: activeOptimizer,
     learningRate: activeLearningRate,
-    accuracy: score,
+    accuracy: bestAccuracy,
     bestAccuracy,
-    validationLoss,
+    validationLoss: bestValidationLoss,
     bestValidationLoss,
-    perplexity,
+    perplexity: Math.exp(bestValidationLoss),
     evaluations: evaluationCount,
-    validationSamples: total,
-    steps,
-    examples: examplesSeen,
-    loss: movingLoss,
+    validationSamples,
+    steps: bestSteps,
+    examples: bestExamples,
+    loss: bestMovingLoss,
     batchSize: activeBatchSize,
     maxSteps: activeMaxSteps,
-    runSteps: Math.max(0, steps - runStartSteps),
-    optimizerStep,
-    randomState: randomState >>> 0,
+    runSteps: Math.max(0, bestSteps - runStartSteps),
+    optimizerStep: bestOptimizerStep,
+    randomState: bestRandomState >>> 0,
     parameters: PARAMS,
     assistantTargetMetrics: true,
     trainingTargetTokens: trainTargetPositions.length,
     validationTargetTokens: validationTargetPositions.length,
     modelBuffer: checkpointBuffer
   }, [checkpointBuffer]);
-  return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
+  bestCheckpointStepsSent = bestSteps;
+  return true;
+}
+function evaluateAsync() {
+  if (!validationData || validationTargetPositions.length === 0)
+    return Promise.resolve(null);
+  if (evaluationInProgress)
+    return Promise.reject(new Error("A validation pass is already running."));
+  evaluationInProgress = true;
+  const count = Math.min(EVAL_SAMPLES, validationTargetPositions.length);
+  const stride = Math.max(1, Math.floor(validationTargetPositions.length / count));
+  let cursor = 0;
+  let correct = 0;
+  let totalLoss = 0;
+  let total = 0;
+
+  return new Promise((resolve, reject) => {
+    const processChunk = () => {
+      // A Stop request is allowed to finish the current validation pass, but
+      // never starts another one. Each slice yields back to the worker event queue.
+      if (!running) {
+        evaluationInProgress = false;
+        resolve(null);
+        return;
+      }
+      try {
+        const end = Math.min(count, cursor + EVAL_CHUNK_SIZE);
+        for (; cursor < end; cursor++) {
+          const position = validationTargetPositions[Math.min(cursor * stride, validationTargetPositions.length - 1)];
+          const result = predict(validationData, position);
+          const target = tokenAt(validationData, position);
+          if (result.token === target) correct++;
+          totalLoss += -Math.log(Math.max(probabilities[target], 1e-9));
+          total++;
+        }
+        if (cursor < count) {
+          setTimeout(processChunk, 0);
+          return;
+        }
+        if (!total) {
+          evaluationInProgress = false;
+          resolve(null);
+          return;
+        }
+
+        const score = correct * 100 / total;
+        const validationLoss = totalLoss / total;
+        const perplexity = Math.exp(validationLoss);
+        latestAccuracy = score;
+        latestValidationLoss = validationLoss;
+        latestPerplexity = perplexity;
+        evaluationCount++;
+        validationSamples = total;
+
+        const improved = validationLoss < bestValidationLoss - MIN_VALIDATION_IMPROVEMENT;
+        if (improved) {
+          bestValidationLoss = validationLoss;
+          bestAccuracy = score;
+          bestParameters = new Float32Array(parameters);
+          bestFirstMoment.set(firstMoment);
+          bestSecondMoment.set(secondMoment);
+          bestOptimizerStep = optimizerStep;
+          bestRandomState = randomState >>> 0;
+          bestSteps = steps;
+          bestExamples = examplesSeen;
+          bestMovingLoss = movingLoss;
+          evaluationsWithoutImprovement = 0;
+        } else {
+          evaluationsWithoutImprovement++;
+        }
+
+        // Send the large model buffer only when the best checkpoint improves.
+        if (improved) {
+          postBestCheckpoint();
+        } else {
+          self.postMessage({
+            type: "evaluation",
+            optimizer: activeOptimizer,
+            learningRate: activeLearningRate,
+            accuracy: score,
+            bestAccuracy,
+            validationLoss,
+            bestValidationLoss,
+            perplexity,
+            evaluations: evaluationCount,
+            validationSamples: total,
+            steps,
+            examples: examplesSeen,
+            loss: movingLoss,
+            batchSize: activeBatchSize,
+            maxSteps: activeMaxSteps,
+            runSteps: Math.max(0, steps - runStartSteps),
+            optimizerStep,
+            randomState: randomState >>> 0,
+            parameters: PARAMS,
+            assistantTargetMetrics: true,
+            trainingTargetTokens: trainTargetPositions.length,
+            validationTargetTokens: validationTargetPositions.length
+          });
+        }
+        evaluationInProgress = false;
+        resolve({accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount});
+      } catch (error) {
+        evaluationInProgress = false;
+        reject(error);
+      }
+    };
+    setTimeout(processChunk, 0);
+  });
 }
 function evaluateMathText(text) {
   const encoded = encodeText(text);
@@ -594,31 +673,41 @@ function runBatch() {
   if (!running) return;
   try {
     if (!trainTargetPositions.length) throw new Error("No assistant-response training targets were found.");
-    for (let slice = 0; slice < BATCHES_PER_SLICE && running &&
-      (activeMaxSteps === 0 || steps - runStartSteps < activeMaxSteps); slice++) {
-      let batchLoss = 0;
-      for (let i = 0; i < activeBatchSize; i++) {
-        const position = trainTargetPositions[randomInt(trainTargetPositions.length)];
-        batchLoss += trainExample(position);
-      }
-      applyOptimizer(activeBatchSize);
-      steps++;
-      examplesSeen += activeBatchSize;
-      const averageLoss = batchLoss / activeBatchSize;
-      movingLoss = lossInitialized ? movingLoss * 0.92 + averageLoss * 0.08 : averageLoss;
-      lossInitialized = true;
+    let batchLoss = 0;
+    for (let i = 0; i < activeBatchSize; i++) {
+      const position = trainTargetPositions[randomInt(trainTargetPositions.length)];
+      batchLoss += trainExample(position);
+    }
+    applyOptimizer(activeBatchSize);
+    steps++;
+    examplesSeen += activeBatchSize;
+    const averageLoss = batchLoss / activeBatchSize;
+    movingLoss = lossInitialized ? movingLoss * 0.92 + averageLoss * 0.08 : averageLoss;
+    lossInitialized = true;
 
-      if (steps % EVAL_EVERY === 0) {
-        evaluate();
+    if (steps % EVAL_EVERY === 0) {
+      evaluateAsync().then(() => {
+        if (stopRequested) {
+          finishStop(stopRequestReason);
+          return;
+        }
+        if (!running) return;
         if (evaluationsWithoutImprovement >= EARLY_STOP_PATIENCE) {
           stopTraining("early-stopping");
           return;
         }
-      }
-      if (activeMaxSteps > 0 && steps - runStartSteps >= activeMaxSteps) {
-        stopTraining("limit");
-        return;
-      }
+        setTimeout(runBatch, 0);
+      }).catch(error => {
+        evaluationInProgress = false;
+        running = false;
+        stopRequested = false;
+        self.postMessage({type: "error", message: error && error.message ? error.message : String(error)});
+      });
+      return;
+    }
+    if (activeMaxSteps > 0 && steps - runStartSteps >= activeMaxSteps) {
+      stopTraining("limit");
+      return;
     }
     const now = performance.now();
     if (running && now - lastProgressMessageAt >= PROGRESS_INTERVAL_MS) {
@@ -631,10 +720,9 @@ function runBatch() {
     self.postMessage({type: "error", message: error && error.message ? error.message : String(error)});
   }
 }
-function stopTraining(reason = "manual") {
-  if (!running) return;
+function finishStop(reason = "manual") {
   running = false;
-  evaluate();
+  stopRequested = false;
 
   const restoredBest = bestParameters instanceof Float32Array;
   if (restoredBest) {
@@ -650,40 +738,19 @@ function stopTraining(reason = "manual") {
     latestAccuracy = bestAccuracy;
     latestValidationLoss = bestValidationLoss;
     latestPerplexity = Math.exp(bestValidationLoss);
-
-    const checkpointState = new Float32Array(PARAMS * 3);
-    checkpointState.set(parameters, 0);
-    checkpointState.set(firstMoment, PARAMS);
-    checkpointState.set(secondMoment, PARAMS * 2);
-    const checkpointBuffer = checkpointState.buffer;
-    self.postMessage({
-      type: "checkpoint",
-      optimizer: activeOptimizer,
-      learningRate: activeLearningRate,
-      accuracy: bestAccuracy,
-      bestAccuracy,
-      validationLoss: bestValidationLoss,
-      bestValidationLoss,
-      perplexity: latestPerplexity,
-      evaluations: evaluationCount,
-      validationSamples,
-      steps,
-      examples: examplesSeen,
-      loss: movingLoss,
-      batchSize: activeBatchSize,
-      maxSteps: activeMaxSteps,
-      runSteps: Math.max(0, steps - runStartSteps),
-      optimizerStep,
-      randomState: randomState >>> 0,
-      parameters: PARAMS,
-      assistantTargetMetrics: true,
-      trainingTargetTokens: trainTargetPositions.length,
-      validationTargetTokens: validationTargetPositions.length,
-      modelBuffer: checkpointBuffer
-    }, [checkpointBuffer]);
+    postBestCheckpoint();
   }
   const stopReasonLabel = reason === "early-stopping" ? "early-stopping" : reason;
   self.postMessage({type: "stopped", ...progressPayload(), restoredBest, stopReason: stopReasonLabel});
+}
+function stopTraining(reason = "manual") {
+  if (!running && !evaluationInProgress) return;
+  if (evaluationInProgress) {
+    stopRequested = true;
+    stopRequestReason = reason;
+    return;
+  }
+  finishStop(reason);
 }
 function generate(prompt, requestedLength) {
   if (!initialized || examplesSeen === 0 || vocabularySize <= 3) return "Train the neural network first.";
@@ -800,6 +867,7 @@ self.addEventListener("message", event => {
       bestOptimizerStep = Math.max(0, Math.floor(Number(message.optimizerStep) || 0));
       bestRandomState = (Number(message.randomState) >>> 0) || 0x5A17C0DE;
       bestSteps = Math.max(0, Number(message.steps) || 0);
+      bestCheckpointStepsSent = bestSteps;
       bestExamples = Math.max(0, Number(message.examples) || 0);
       bestMovingLoss = Math.max(0, Number(message.loss) || 0);
       evaluationsWithoutImprovement = 0;
@@ -891,6 +959,8 @@ self.addEventListener("message", event => {
           runSteps: 0,
           reset: optimizerChanged
         });
+        stopRequested = false;
+        stopRequestReason = "manual";
         setTimeout(runBatch, 0);
       }
     } else if (message.type === "stop") {
