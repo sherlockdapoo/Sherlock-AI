@@ -1973,14 +1973,37 @@ function saveNeuralCheckpoint(data) {
 
 function restoreSavedNeuralCheckpoint() {
   try {
-    const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
-    if (!stored) return;
-    const record = JSON.parse(stored);
+    const isCompatibleCheckpoint = candidate =>
+      candidate && Number(candidate.version) === 9 &&
+      Number(candidate.parameterCount) === 61488 &&
+      candidate.datasetRevision === NEURAL_DATASET_REVISION &&
+      typeof candidate.datasetFingerprint === 'string' &&
+      typeof candidate.trainingState === 'string';
+    let stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
+    let record = stored ? JSON.parse(stored) : null;
+    // Try archived checkpoints only when their model AND dataset revision match.
+    // This avoids loading weights against a different tokenizer or training corpus.
+    if (!isCompatibleCheckpoint(record)) {
+      const archiveKeys = [
+        NEURAL_ARCHIVE_CHECKPOINT_KEY,
+        NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup'
+      ];
+      for (const archiveKey of archiveKeys) {
+        const archived = localStorage.getItem(archiveKey);
+        if (!archived) continue;
+        let archivedRecord = null;
+        try { archivedRecord = JSON.parse(archived); } catch (_) {}
+        if (isCompatibleCheckpoint(archivedRecord)) {
+          stored = archived;
+          record = archivedRecord;
+          localStorage.setItem(NEURAL_CHECKPOINT_KEY, archived);
+          break;
+        }
+      }
+    }
+    if (!stored && !record) return;
     const checkpointVersion = Number(record && record.version);
-    if (!record || checkpointVersion !== 9 || Number(record.parameterCount) !== 61488 ||
-      record.datasetRevision !== NEURAL_DATASET_REVISION ||
-      typeof record.datasetFingerprint !== 'string' ||
-      typeof record.trainingState !== 'string') {
+    if (!isCompatibleCheckpoint(record)) {
       throw new Error('Saved checkpoint belongs to an older dataset or model version.');
     }
     neuralRestoredDatasetFingerprint = record.datasetFingerprint;
