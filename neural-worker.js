@@ -28,6 +28,10 @@ let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 320;
 const BATCHES_PER_SLICE = 8;
+const PROGRESS_INTERVAL_MS = 250;
+const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
+let lastProgressMessageAt = -Infinity;
+let lastNetworkSnapshotAt = -Infinity;
 
 let trainData = null;
 let validationData = null;
@@ -136,6 +140,43 @@ function encodeText(text) {
     data: Uint16Array.from(ids),
     unknownRate: total ? unknown * 100 / total : 0,
     totalTokens: total
+  };
+}
+
+function diagnoseUnknownTokens(trainBuffer, validationBuffer) {
+  const decoder = new TextDecoder("utf-8");
+  const trainingText = decoder.decode(new Uint8Array(trainBuffer)).toLowerCase();
+  const validationText = decoder.decode(new Uint8Array(validationBuffer)).toLowerCase();
+  const counts = new Map();
+  walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
+  const ranked = Array.from(counts.entries())
+    .filter(([token]) => token !== " " && token !== "\\n\\n")
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
+    .slice(0, VOCAB - 3);
+  const knownTokens = new Set(["<unk>", " ", "\\n\\n"]);
+  for (const [token] of ranked) knownTokens.add(token);
+
+  let totalTokens = 0;
+  let unknownTokens = 0;
+  const missingCounts = new Map();
+  walkTokens(validationText, token => {
+    totalTokens++;
+    if (!knownTokens.has(token)) {
+      unknownTokens++;
+      missingCounts.set(token, (missingCounts.get(token) || 0) + 1);
+    }
+  });
+  const topUnknownTokens = Array.from(missingCounts.entries())
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
+    .slice(0, 15)
+    .map(([token, count]) => ({token, count}));
+  return {
+    vocabularySize: knownTokens.size,
+    totalTokens,
+    unknownTokens,
+    unknownRate: totalTokens ? unknownTokens * 100 / totalTokens : 0,
+    uniqueUnknownTokens: missingCounts.size,
+    topUnknownTokens
   };
 }
 function initialiseParameters() {
@@ -424,8 +465,7 @@ function progressPayload() {
     reportAt = now;
     reportExamples = examplesSeen;
   }
-  return {
-    network: networkSnapshot(),
+  const payload = {
     steps,
     examples: examplesSeen,
     epochs: trainData ? examplesSeen / Math.max(1, trainData.length - CONTEXT) : 0,
@@ -450,6 +490,11 @@ function progressPayload() {
     trainTokens: trainData ? trainData.length : 0,
     validationTokens: validationData ? validationData.length : 0
   };
+  if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
+    payload.network = networkSnapshot();
+    lastNetworkSnapshotAt = now;
+  }
+  return payload;
 }
 function runBatch() {
   if (!running) return;
@@ -475,7 +520,11 @@ function runBatch() {
         return;
       }
     }
-    if (running) self.postMessage({type: "progress", ...progressPayload()});
+    const now = performance.now();
+    if (running && now - lastProgressMessageAt >= PROGRESS_INTERVAL_MS) {
+      self.postMessage({type: "progress", ...progressPayload()});
+      lastProgressMessageAt = now;
+    }
     if (running) setTimeout(runBatch, 0);
   } catch (error) {
     running = false;
@@ -641,6 +690,9 @@ self.addEventListener("message", event => {
         parameters: PARAMS,
         ...dataInfo
       });
+    } else if (message.type === "diagnose-unknown-tokens") {
+      const report = diagnoseUnknownTokens(message.trainBuffer, message.validationBuffer);
+      self.postMessage({type: "unknown-token-diagnosis", id: message.id, ...report});
     } else if (message.type === "start") {
       if (!initialized) throw new Error("Load or restore the neural model first.");
       const requestedOptimizer = message.optimizer === "adamw" || (message.optimizer == null && activeOptimizer === "adamw") ? "adamw" : "adam";
@@ -659,6 +711,8 @@ self.addEventListener("message", event => {
       if (!running) {
         runStartSteps = steps;
         running = true;
+        lastProgressMessageAt = -Infinity;
+        lastNetworkSnapshotAt = -Infinity;
         reportAt = performance.now();
         reportExamples = examplesSeen;
         lastReportedSpeed = 0;
@@ -699,7 +753,11 @@ self.addEventListener("message", event => {
       }
     }
   } catch (error) {
-    running = false;
-    self.postMessage({type: "error", id: message.id, message: error && error.message ? error.message : String(error)});
+    if (message.type !== "diagnose-unknown-tokens") running = false;
+    self.postMessage({
+      type: message.type === "diagnose-unknown-tokens" ? "unknown-token-diagnosis-error" : "error",
+      id: message.id,
+      message: error && error.message ? error.message : String(error)
+    });
   }
 });
