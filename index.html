@@ -3080,8 +3080,8 @@ function renderDatasetQuality(data) {
   $('dataQualityShort').textContent = format(report.veryBrief);
   $('dataQualityFormat').textContent = format(report.speakerFormatFlags);
   $('dataQualitySources').textContent =
-    'DailyDialog: ' + format(report.dailyTrainConversations) + ' training conversations · ' +
-    'UltraChat: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) + ' training conversations' : 'not loaded');
+    'DailyDialog rows parsed: ' + format(report.dailyTrainConversations) + ' · ' +
+    'UltraChat rows parsed: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) : 'not loaded');
   const findings = [];
   if (report.duplicateCopies) findings.push(format(report.duplicateCopies) + ' exact duplicate training copies');
   if (report.validationOverlap) findings.push(format(report.validationOverlap) + ' held-out text excerpts also found in training');
