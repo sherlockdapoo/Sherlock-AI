@@ -3706,7 +3706,7 @@ function buildSherlockCurriculum() {
     ['Give only the final answer: what is 9 times 6?', '54'],
     ['Name one planet, with no extra explanation.', 'Venus.'],
     ['Use a question mark and ask about the weather.', 'What is the weather like?'],
-    ['Write a polite greeting in three words.', 'Hello, how are you?'],
+    ['Write a polite greeting in three words.', 'Hello there, friend.'],
     ['Give one adjective to describe ice.', 'Cold.'],
     ['Answer with yes or no: is 10 greater than 3?', 'Yes.'],
     ['Answer with yes or no: is 2 an odd number?', 'No.'],
@@ -3726,13 +3726,13 @@ function buildSherlockCurriculum() {
 
   // Simple one-step reasoning, with the answer stated directly.
   for (let i = 1; i <= 20; i++) {
-    add(training, 'A box has ' + i + ' pencils. ' + (i % 2 ? 'Two' : 'Three') + ' more are added. How many pencils are there now?',
+    add(training, 'A box has ' + i + (i === 1 ? ' pencil. ' : ' pencils. ') + (i % 2 ? 'Two' : 'Three') + ' more are added. How many pencils are there now?',
       String(i + (i % 2 ? 2 : 3)) + ' pencils.');
-    add(training, 'There are ' + (i + 5) + ' birds. ' + i + ' fly away. How many remain?',
+    add(training, 'There are ' + (i + 5) + ' birds. ' + i + (i === 1 ? ' bird flies' : ' birds fly') + ' away. How many remain?',
       '5 birds remain.');
     add(training, 'Sam has ' + (i + 4) + ' cards and gives ' + i + ' away. How many cards are left?',
       '4 cards are left.');
-    add(training, 'A shelf has ' + i + ' books on it. Another shelf has 2 books. How many books altogether?',
+    add(training, 'A shelf has ' + i + (i === 1 ? ' book' : ' books') + ' on it. Another shelf has 2 books. How many books altogether?',
       String(i + 2) + ' books.');
   }
 
