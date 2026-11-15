@@ -1255,7 +1255,7 @@ body,.app{color:#27354d}
           <div class="dataset-quality-stat"><span>Training text</span><strong id="dataQualityBytes">—</strong><small>UTF-8 bytes loaded</small></div>
           <div class="dataset-quality-stat"><span>Training conversations</span><strong id="dataQualityTrainBlocks">—</strong><small>Detected conversation blocks</small></div>
           <div class="dataset-quality-stat"><span>Exact duplicate copies</span><strong id="dataQualityDuplicates">—</strong><small>Repeated full conversations</small></div>
-          <div class="dataset-quality-stat"><span>Train / validation overlap</span><strong id="dataQualityOverlap">—</strong><small>Exact matches across both splits</small></div>
+          <div class="dataset-quality-stat"><span>Held-out text matches</span><strong id="dataQualityOverlap">—</strong><small>Validation excerpts also found in training</small></div>
           <div class="dataset-quality-stat"><span>Very brief conversations</span><strong id="dataQualityShort">—</strong><small>Fewer than 12 words</small></div>
           <div class="dataset-quality-stat"><span>Speaker-format flags</span><strong id="dataQualityFormat">—</strong><small>Missing a user or Sherlock turn</small></div>
         </div>
@@ -3014,13 +3014,13 @@ function buildCorpus(rows) {
 
 function analyseDatasetQuality(data) {
   const decoder = new TextDecoder('utf-8');
-  const extractBlocks = bytes => decoder.decode(bytes || new Uint8Array(0))
-    .split(/\n{2,}/)
-    .map(block => block.trim())
-    .filter(Boolean);
+  const trainingText = decoder.decode(data.trainBytes || new Uint8Array(0));
+  const validationText = decoder.decode(data.validationBytes || new Uint8Array(0));
+  const extractBlocks = text => text.split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
-  const trainingBlocks = extractBlocks(data.trainBytes);
-  const validationBlocks = extractBlocks(data.validationBytes);
+  const trainingBlocks = extractBlocks(trainingText);
+  const validationBlocks = extractBlocks(validationText);
+  const trainingSearchText = normalise(trainingText);
   const seen = new Set();
   let duplicateCopies = 0;
   let veryBrief = 0;
@@ -3035,7 +3035,7 @@ function analyseDatasetQuality(data) {
     const words = block
       .replace(/^(?:user|sherlock):\s*/gim, ' ')
       .trim()
-      .split(/\\s+/)
+      .split(/\s+/)
       .filter(Boolean);
     wordTotal += words.length;
     if (words.length < 12) veryBrief++;
@@ -3045,9 +3045,13 @@ function analyseDatasetQuality(data) {
     if (!hasUser || !hasSherlock) speakerFormatFlags++;
   }
 
+  // Validation text is stored as spaced-out held-out excerpts, not always
+  // complete conversation blocks. Check whether each sizeable excerpt occurs
+  // verbatim in the training text, rather than comparing unlike block types.
   let validationOverlap = 0;
   for (const block of validationBlocks) {
-    if (seen.has(normalise(block))) validationOverlap++;
+    const key = normalise(block);
+    if (key.length >= 80 && trainingSearchText.includes(key)) validationOverlap++;
   }
 
   return {
@@ -3080,11 +3084,11 @@ function renderDatasetQuality(data) {
     'UltraChat: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) + ' training conversations' : 'not loaded');
   const findings = [];
   if (report.duplicateCopies) findings.push(format(report.duplicateCopies) + ' exact duplicate training copies');
-  if (report.validationOverlap) findings.push(format(report.validationOverlap) + ' exact train/validation overlaps');
+  if (report.validationOverlap) findings.push(format(report.validationOverlap) + ' held-out text excerpts also found in training');
   if (report.speakerFormatFlags) findings.push(format(report.speakerFormatFlags) + ' conversations with a missing speaker type');
   $('dataQualityStatus').textContent = findings.length
     ? 'Review flags: ' + findings.join('; ') + '. ' + format(report.veryBrief) + ' conversations are very brief.'
-    : 'No exact duplicate copies, train/validation overlaps, or speaker-format flags found in the loaded sample. ' +
+    : 'No exact duplicate copies, repeated held-out excerpts, or speaker-format flags found in the loaded sample. ' +
       format(report.veryBrief) + ' conversations are very brief.';
   $('dataQualityInspectBtn').textContent = 'Re-scan dataset';
   return report;
