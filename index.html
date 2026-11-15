@@ -1259,7 +1259,7 @@ body,.app{color:#27354d}
           <div class="dataset-quality-stat"><span>Very brief conversations</span><strong id="dataQualityShort">—</strong><small>Fewer than 12 words</small></div>
           <div class="dataset-quality-stat"><span>Speaker-format flags</span><strong id="dataQualityFormat">—</strong><small>Missing a user or Sherlock turn</small></div>
         </div>
-        <div class="dataset-quality-source" id="dataQualitySources">DailyDialog: not loaded · UltraChat: not loaded · No Robots: not loaded</div>
+        <div class="dataset-quality-source" id="dataQualitySources">DailyDialog: not loaded · UltraChat: not loaded · No Robots: not loaded · GSM8K maths: not loaded</div>
         <div class="dataset-quality-actions">
           <p id="dataQualityStatus" role="status" aria-live="polite">No data scanned yet. Inspecting downloads the dataset but does not start training.</p>
           <button class="btn btn-secondary" id="dataQualityInspectBtn" type="button">Load & inspect dataset</button>
@@ -1378,7 +1378,7 @@ body,.app{color:#27354d}
     </section>
   </section>
 
-  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), and <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0). Training and held-out validation splits remain separate.</footer>
+  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
 </main>
 
 <script>
@@ -1386,22 +1386,27 @@ const ENGINE_URL = new URL('engine.wasm.gz.b64?v=0.9.0', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_ULTRACHAT_DATASET = 'HuggingFaceH4/ultrachat_200k';
 const HF_NO_ROBOTS_DATASET = 'HuggingFaceH4/no_robots';
+const HF_GSM8K_DATASET = 'openai/gsm8k';
 const HF_API = 'https://datasets-server.huggingface.co';
-const DAILY_TRAIN_ROWS = 3000;
+const DAILY_TRAIN_ROWS = 3500;
 const DAILY_VALIDATION_ROWS = 500;
-const ULTRACHAT_TRAIN_ROWS = 1400;
+const ULTRACHAT_TRAIN_ROWS = 1600;
 const ULTRACHAT_VALIDATION_ROWS = 250;
-const NO_ROBOTS_TRAIN_ROWS = 3000;
+const NO_ROBOTS_TRAIN_ROWS = 3500;
 const NO_ROBOTS_VALIDATION_ROWS = 500;
-const DAILY_TRAIN_BUDGET = 1800000;
-const ULTRACHAT_TRAIN_BUDGET = 1800000;
-const NO_ROBOTS_TRAIN_BUDGET = 2800000;
-const MAX_TRAIN_CORPUS_BYTES = 8 * 1024 * 1024; // Keep a 1 MiB margin below the WASM engine's 9 MiB capacity.
-const MAX_VALIDATION_CORPUS_BYTES = 120000;
-const VALIDATION_SOURCE_BUDGET = 36000;
+const GSM8K_TRAIN_ROWS = 1000;
+const GSM8K_VALIDATION_ROWS = 250;
+const DAILY_TRAIN_BUDGET = 2000000;
+const ULTRACHAT_TRAIN_BUDGET = 2000000;
+const NO_ROBOTS_TRAIN_BUDGET = 3000000;
+const GSM8K_TRAIN_BUDGET = 1500000;
+const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB training buffer safely.
+const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
+const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v3-expanded';
-const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-2026-11';
+const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-previous-dataset-checkpoint-v1';
+const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -1961,7 +1966,16 @@ function restoreSavedNeuralCheckpoint() {
       maxSteps: record.maxSteps
     }, [buffer]);
   } catch (error) {
-    try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
+    try {
+      const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
+      const previous = stored ? JSON.parse(stored) : null;
+      const oldVersion = Number(previous && previous.version);
+      const hasModelData = previous && (typeof previous.trainingState === 'string' || typeof previous.weights === 'string');
+      if (hasModelData && [5, 6, 7].includes(oldVersion) && previous.datasetRevision !== NEURAL_DATASET_REVISION) {
+        localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY, stored);
+      }
+      localStorage.removeItem(NEURAL_CHECKPOINT_KEY);
+    } catch (_) {}
     neuralCheckpointWasSaved = false;
     $('neuralCheckpointStatus').textContent = 'The previous checkpoint could not be loaded. The latest model can be saved after training.';
     console.warn('Saved neural checkpoint unavailable:', error);
@@ -3020,6 +3034,22 @@ function buildCorpus(rows) {
 }
 
 
+function buildGsm8kCorpus(rows) {
+  const chunks = [];
+  let validProblems = 0;
+  for (const row of rows) {
+    const question = cleanTurn(row && row.question);
+    const answerText = String(row && row.answer || '')
+      .replace(/<<([^<>]+)>>/g, '$1')
+      .replace(/####\s*/g, 'Final answer: ');
+    const answer = cleanTurn(answerText);
+    if (!question || !answer) continue;
+    chunks.push('user: ' + question + '\nsherlock: ' + answer + '\n\n');
+    validProblems++;
+  }
+  return {text: chunks.join(''), conversations: validProblems};
+}
+
 function analyseDatasetQuality(data) {
   const decoder = new TextDecoder('utf-8');
   const trainingText = decoder.decode(data.trainBytes || new Uint8Array(0));
@@ -3076,7 +3106,9 @@ function analyseDatasetQuality(data) {
     ultraTrainConversations: Number(data.ultraTrainConversations) || 0,
     ultraAvailable: Boolean(data.ultraAvailable),
     noRobotsTrainConversations: Number(data.noRobotsTrainConversations) || 0,
-    noRobotsAvailable: Boolean(data.noRobotsAvailable)
+    noRobotsAvailable: Boolean(data.noRobotsAvailable),
+    mathTrainConversations: Number(data.mathTrainConversations) || 0,
+    mathAvailable: Boolean(data.mathAvailable)
   };
 }
 
@@ -3092,7 +3124,8 @@ function renderDatasetQuality(data) {
   $('dataQualitySources').textContent =
     'DailyDialog rows parsed: ' + format(report.dailyTrainConversations) + ' · ' +
     'UltraChat rows parsed: ' + (report.ultraAvailable ? format(report.ultraTrainConversations) : 'not loaded') + ' · ' +
-    'No Robots rows parsed: ' + (report.noRobotsAvailable ? format(report.noRobotsTrainConversations) : 'not loaded');
+    'No Robots rows parsed: ' + (report.noRobotsAvailable ? format(report.noRobotsTrainConversations) : 'not loaded') + ' · ' +
+    'GSM8K maths pairs parsed: ' + (report.mathAvailable ? format(report.mathTrainConversations) : 'not loaded');
   const findings = [];
   if (report.duplicateCopies) findings.push(format(report.duplicateCopies) + ' exact duplicate training copies');
   if (report.validationOverlap) findings.push(format(report.validationOverlap) + ' held-out text excerpts also found in training');
@@ -3145,13 +3178,15 @@ function makeValidationSample(text, maxLength) {
   return segments.join('\n\n').slice(0, maxLength);
 }
 
-async function getDatasetSplitInfo(datasetId, trainingSplitName, validationSplitName, signal) {
+async function getDatasetSplitInfo(datasetId, trainingSplitName, validationSplitName, signal, preferredConfig = '') {
   const splitQuery = new URLSearchParams({dataset: datasetId});
   const splitData = await getJSON(HF_API + '/splits?' + splitQuery.toString(), signal);
   if (!Array.isArray(splitData.splits)) throw new Error(datasetId + ' split information was not available.');
 
   const configs = [...new Set(splitData.splits.map(item => item.config))];
-  const config = configs.includes('default') ? 'default' : configs[0];
+  const config = preferredConfig && configs.includes(preferredConfig)
+    ? preferredConfig
+    : configs.includes('default') ? 'default' : configs[0];
   const trainingInfo = splitData.splits.find(item => item.config === config && item.split === trainingSplitName);
   const validationInfo = splitData.splits.find(item => item.config === config && item.split === validationSplitName);
   if (!trainingInfo || !validationInfo) {
@@ -3243,9 +3278,12 @@ async function writeNeuralDatasetCache(data) {
         ultraAvailable: data.ultraAvailable,
         noRobotsTrainConversations: data.noRobotsTrainConversations,
         noRobotsAvailable: data.noRobotsAvailable,
+        mathTrainConversations: data.mathTrainConversations,
+        mathAvailable: data.mathAvailable,
         datasetName: data.datasetName,
         ultraError: data.ultraError || '',
         noRobotsError: data.noRobotsError || '',
+        mathError: data.mathError || '',
         savedAt: new Date().toISOString()
       }, NEURAL_DATASET_REVISION);
       request.onsuccess = () => resolve();
@@ -3258,6 +3296,7 @@ function displayLoadedNeuralDataset(data, fromCache) {
   const sources = ['DailyDialog'];
   if (data.ultraAvailable) sources.push('UltraChat');
   if (data.noRobotsAvailable) sources.push('No Robots');
+  if (data.mathAvailable) sources.push('GSM8K maths');
   $('datasetName').textContent = data.datasetName;
   $('conversationCount').textContent = data.trainConversations.toLocaleString();
   $('neuralDatasetName').textContent = data.datasetName;
@@ -3271,6 +3310,7 @@ function displayLoadedNeuralDataset(data, fromCache) {
     const warnings = [];
     if (data.ultraError) warnings.push('UltraChat was unavailable: ' + data.ultraError);
     if (data.noRobotsError) warnings.push('No Robots was unavailable: ' + data.noRobotsError);
+    if (data.mathError) warnings.push('GSM8K maths was unavailable: ' + data.mathError);
     if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
   }
   renderDatasetQuality(data);
@@ -3286,7 +3326,8 @@ async function loadTrainingDatasets(signal) {
     if (saved && saved.revision === NEURAL_DATASET_REVISION && saved.trainBytes && saved.validationBytes &&
         saved.trainBytes.byteLength >= 1000 && saved.validationBytes.byteLength >= 500 &&
         saved.trainBytes.byteLength <= MAX_TRAIN_CORPUS_BYTES && saved.validationBytes.byteLength <= MAX_VALIDATION_CORPUS_BYTES &&
-        Number.isFinite(Number(saved.noRobotsTrainConversations)) && typeof saved.noRobotsAvailable === 'boolean') {
+        Number.isFinite(Number(saved.noRobotsTrainConversations)) && typeof saved.noRobotsAvailable === 'boolean' &&
+        Number.isFinite(Number(saved.mathTrainConversations)) && typeof saved.mathAvailable === 'boolean') {
       datasetCache = {
         ...saved,
         trainBytes: new Uint8Array(saved.trainBytes),
@@ -3360,45 +3401,68 @@ async function loadTrainingDatasets(signal) {
     console.warn('No Robots sample unavailable; continuing with the other sources:', error);
   }
 
+  let mathTrain = {text: '', conversations: 0};
+  let mathValidation = {text: '', conversations: 0};
+  let mathTrainRowCount = 0;
+  let mathError = null;
+  try {
+    $('neuralMessage').textContent = 'Conversation datasets are ready. Checking the GSM8K maths problems…';
+    const mathInfo = await getDatasetSplitInfo(HF_GSM8K_DATASET, 'train', 'test', signal, 'main');
+    const mathTrainRows = await fetchSplit(mathInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 1,000-row GSM8K maths training sample'), GSM8K_TRAIN_ROWS, signal);
+    const mathValidationRows = await fetchSplit(mathInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 250-row GSM8K held-out maths sample'), GSM8K_VALIDATION_ROWS, signal);
+    mathTrain = buildGsm8kCorpus(mathTrainRows);
+    mathValidation = buildGsm8kCorpus(mathValidationRows);
+    mathTrainRowCount = mathTrainRows.length;
+    mathTrainRows.length = 0;
+    mathValidationRows.length = 0;
+    if (mathTrain.conversations < 100 || mathValidation.conversations < 20) throw new Error('GSM8K returned too few readable maths question-and-answer pairs.');
+  } catch (error) {
+    if (signal && signal.aborted) throw error;
+    mathError = error;
+    console.warn('GSM8K maths sample unavailable; continuing with the conversation sources:', error);
+  }
+
   const ultraAvailable = !ultraError;
   const noRobotsAvailable = !noRobotsError;
-  const optionalSourceCount = Number(ultraAvailable) + Number(noRobotsAvailable);
-  const dailyBudget = optionalSourceCount === 2 ? DAILY_TRAIN_BUDGET : optionalSourceCount === 1 ? 2200000 : 2000000;
-  const ultraBudget = ultraAvailable ? (noRobotsAvailable ? ULTRACHAT_TRAIN_BUDGET : 2600000) : 0;
-  const noRobotsBudget = noRobotsAvailable ? (ultraAvailable ? NO_ROBOTS_TRAIN_BUDGET : 3500000) : 0;
-  const validationSources = 1 + optionalSourceCount;
-  const validationBudget = validationSources === 3 ? VALIDATION_SOURCE_BUDGET : validationSources === 2 ? 55000 : 100000;
-  const dailyTrainBytes = encodeCorpusWithinLimit(dailyTrain.text, dailyBudget);
-  const ultraTrainBytes = encodeCorpusWithinLimit(ultraTrain.text, ultraBudget);
-  const noRobotsTrainBytes = encodeCorpusWithinLimit(noRobotsTrain.text, noRobotsBudget);
-  const dailyValidationText = makeValidationSample(dailyValidation.text, validationBudget);
-  const ultraValidationText = ultraAvailable ? makeValidationSample(ultraValidation.text, validationBudget) : '';
-  const noRobotsValidationText = noRobotsAvailable ? makeValidationSample(noRobotsValidation.text, validationBudget) : '';
-  const dailyValidationBytes = encodeCorpusWithinLimit(dailyValidationText, validationBudget);
-  const ultraValidationBytes = encodeCorpusWithinLimit(ultraValidationText, validationBudget);
-  const noRobotsValidationBytes = encodeCorpusWithinLimit(noRobotsValidationText, validationBudget);
-  const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes, noRobotsTrainBytes]);
-  const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes, noRobotsValidationBytes]);
+  const mathAvailable = !mathError;
+  const dailyTrainBytes = encodeCorpusWithinLimit(dailyTrain.text, DAILY_TRAIN_BUDGET);
+  const ultraTrainBytes = encodeCorpusWithinLimit(ultraTrain.text, ultraAvailable ? ULTRACHAT_TRAIN_BUDGET : 0);
+  const noRobotsTrainBytes = encodeCorpusWithinLimit(noRobotsTrain.text, noRobotsAvailable ? NO_ROBOTS_TRAIN_BUDGET : 0);
+  const mathTrainBytes = encodeCorpusWithinLimit(mathTrain.text, mathAvailable ? GSM8K_TRAIN_BUDGET : 0);
+  const dailyValidationText = makeValidationSample(dailyValidation.text, VALIDATION_SOURCE_BUDGET);
+  const ultraValidationText = ultraAvailable ? makeValidationSample(ultraValidation.text, VALIDATION_SOURCE_BUDGET) : '';
+  const noRobotsValidationText = noRobotsAvailable ? makeValidationSample(noRobotsValidation.text, VALIDATION_SOURCE_BUDGET) : '';
+  const mathValidationText = mathAvailable ? makeValidationSample(mathValidation.text, VALIDATION_SOURCE_BUDGET) : '';
+  const dailyValidationBytes = encodeCorpusWithinLimit(dailyValidationText, VALIDATION_SOURCE_BUDGET);
+  const ultraValidationBytes = encodeCorpusWithinLimit(ultraValidationText, VALIDATION_SOURCE_BUDGET);
+  const noRobotsValidationBytes = encodeCorpusWithinLimit(noRobotsValidationText, VALIDATION_SOURCE_BUDGET);
+  const mathValidationBytes = encodeCorpusWithinLimit(mathValidationText, VALIDATION_SOURCE_BUDGET);
+  const trainBytes = joinCorpusBytes([dailyTrainBytes, ultraTrainBytes, noRobotsTrainBytes, mathTrainBytes]);
+  const validationBytes = joinCorpusBytes([dailyValidationBytes, ultraValidationBytes, noRobotsValidationBytes, mathValidationBytes]);
   if (trainBytes.length > MAX_TRAIN_CORPUS_BYTES || validationBytes.length > MAX_VALIDATION_CORPUS_BYTES) throw new Error('The expanded dataset exceeded the safe browser engine memory limit.');
   if (trainBytes.length < 1000 || validationBytes.length < 500) throw new Error('The combined datasets did not contain enough readable training and validation text.');
 
   const loadedSources = ['DailyDialog'];
   if (ultraAvailable) loadedSources.push('UltraChat');
   if (noRobotsAvailable) loadedSources.push('No Robots');
-  const trainConversations = dailyTrain.conversations + ultraTrain.conversations + noRobotsTrain.conversations;
-  const validationConversations = dailyValidation.conversations + ultraValidation.conversations + noRobotsValidation.conversations;
+  if (mathAvailable) loadedSources.push('GSM8K maths');
+  const trainConversations = dailyTrain.conversations + ultraTrain.conversations + noRobotsTrain.conversations + mathTrain.conversations;
+  const validationConversations = dailyValidation.conversations + ultraValidation.conversations + noRobotsValidation.conversations + mathValidation.conversations;
   datasetCache = {
     trainBytes, validationBytes,
     trainConversations, validationConversations,
-    trainRows: dailyTrainRowCount + ultraTrainRowCount + noRobotsTrainRowCount,
+    trainRows: dailyTrainRowCount + ultraTrainRowCount + noRobotsTrainRowCount + mathTrainRowCount,
     dailyTrainConversations: dailyTrain.conversations,
     ultraTrainConversations: ultraTrain.conversations,
     ultraAvailable,
-    noRobotsTrainConversations: noRobotsTrain.conversations,
+    noRobotsTrainConversations: noRobots.conversations,
     noRobotsAvailable,
+    mathTrainConversations: mathTrain.conversations,
+    mathAvailable,
     datasetName: loadedSources.join(' + '),
     ultraError: ultraError ? (ultraError.message || String(ultraError)) : '',
-    noRobotsError: noRobotsError ? (noRobotsError.message || String(noRobotsError)) : ''
+    noRobotsError: noRobotsError ? (noRobotsError.message || String(noRobotsError)) : '',
+    mathError: mathError ? (mathError.message || String(mathError)) : ''
   };
   displayLoadedNeuralDataset(datasetCache, false);
   try {
