@@ -1028,7 +1028,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.16.0, trainer v0.14.0">v0.16.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.16.1, trainer v0.14.0">v0.16.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2513,7 +2513,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.16.0-indexeddb-checkpoints', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.16.1-yielding-validation', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2585,6 +2585,10 @@ backToTopButton.addEventListener('click', () => {
 updateBackToTopButton();
 
 updateNeuralControls();
+    } else if (data.type === 'evaluation') {
+      updateNeuralMetrics(data, true);
+      $('neuralMessage').textContent = 'Validation check ' + Number(data.evaluations).toLocaleString() +
+        ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens.';
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
@@ -3736,14 +3740,26 @@ async function loadStandaloneCurriculum(signal) {
     loadText(STANDALONE_TRAIN_URL, 'Training examples', 1),
     loadText(STANDALONE_VALIDATION_URL, 'Held-out validation examples', 2)
   ]);
-  const blocks = value => value.split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
+  const blocks = value => value.replace(/\r\n?/g, '\n').split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
   const trainingBlocks = blocks(trainingText);
   const validationBlocks = blocks(validationText);
-  const validFormat = block => /^user:\s*\S/im.test(block) && /^sherlock:\s*\S/im.test(block);
-  if (trainingBlocks.length < 1000 || validationBlocks.length < 200)
-    throw new Error('The standalone library did not contain enough training or held-out examples.');
-  if (!trainingBlocks.every(validFormat) || !validationBlocks.every(validFormat))
-    throw new Error('The standalone library contains an incorrectly formatted conversation.');
+  const validateConversationBlocks = (items, label, expectedCount) => {
+    if (items.length !== expectedCount)
+      throw new Error(label + ' must contain exactly ' + expectedCount.toLocaleString() + ' conversations; found ' + items.length.toLocaleString() + '.');
+    for (let index = 0; index < items.length; index++) {
+      const turns = items[index].split('\n');
+      if (turns.length !== 2 && turns.length !== 4)
+        throw new Error(label + ' conversation ' + (index + 1) + ' must contain one or two complete user/assistant exchanges.');
+      for (let turn = 0; turn < turns.length; turn++) {
+        const expectedRole = turn % 2 === 0 ? 'user' : 'sherlock';
+        const match = turns[turn].match(/^(user|sherlock):[ \t]+(.+)$/);
+        if (!match || match[1] !== expectedRole || !match[2].trim())
+          throw new Error(label + ' conversation ' + (index + 1) + ' has a missing, empty or out-of-order ' + expectedRole + ' turn.');
+      }
+    }
+  };
+  validateConversationBlocks(trainingBlocks, 'Training library', 10000);
+  validateConversationBlocks(validationBlocks, 'Validation library', 1000);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingSet = new Set(trainingBlocks.map(normalise));
   if (validationBlocks.some(block => trainingSet.has(normalise(block))))
