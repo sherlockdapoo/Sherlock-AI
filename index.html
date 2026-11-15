@@ -1977,7 +1977,7 @@ function restoreSavedNeuralCheckpoint() {
       localStorage.removeItem(NEURAL_CHECKPOINT_KEY);
     } catch (_) {}
     neuralCheckpointWasSaved = false;
-    $('neuralCheckpointStatus').textContent = 'The previous checkpoint could not be loaded. The latest model can be saved after training.';
+    $('neuralCheckpointStatus').textContent = 'The previous dataset checkpoint was archived in this browser. Train again to create a checkpoint for the expanded dataset.';
     console.warn('Saved neural checkpoint unavailable:', error);
   }
 }
@@ -2456,7 +2456,7 @@ async function startNeuralTraining() {
     setChatReady(modelReady);
     updateGlobalNeuralStats();
     renderNeuralLiveView();
-  }, 90000);
+  }, 150000);
   neuralRequestBusy = true;
   neuralTraining = true;
   neuralWorkerStarted = false;
@@ -3347,7 +3347,7 @@ async function loadTrainingDatasets(signal) {
   showDataProgress(0, 1, 'Finding DailyDialog splits');
   const dailyInfo = await getDatasetSplitInfo(HF_DATASET, 'train', 'validation', signal);
   const dailyTrainRows = await fetchSplit(dailyInfo.training, (done, total) => {
-    showDataProgress(done, total, 'Downloading a 3,000-row DailyDialog training sample');
+    showDataProgress(done, total, 'Downloading a 3,500-row DailyDialog training sample');
   }, DAILY_TRAIN_ROWS, signal);
   const dailyValidationRows = await fetchSplit(dailyInfo.validation, (done, total) => {
     showDataProgress(done, total, 'Downloading a 500-row DailyDialog validation sample');
@@ -3366,7 +3366,7 @@ async function loadTrainingDatasets(signal) {
   try {
     $('neuralMessage').textContent = 'DailyDialog is ready. Checking the UltraChat 200k sample…';
     const ultraInfo = await getDatasetSplitInfo(HF_ULTRACHAT_DATASET, 'train_sft', 'test_sft', signal);
-    const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 1,400-row UltraChat training sample'), ULTRACHAT_TRAIN_ROWS, signal);
+    const ultraTrainRows = await fetchSplit(ultraInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 1,600-row UltraChat training sample'), ULTRACHAT_TRAIN_ROWS, signal);
     const ultraValidationRows = await fetchSplit(ultraInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 250-row UltraChat validation sample'), ULTRACHAT_VALIDATION_ROWS, signal);
     ultraTrain = buildCorpus(ultraTrainRows);
     ultraValidation = buildCorpus(ultraValidationRows);
@@ -3387,7 +3387,7 @@ async function loadTrainingDatasets(signal) {
   try {
     $('neuralMessage').textContent = 'The existing sources are ready. Checking the human-written No Robots dataset…';
     const noRobotsInfo = await getDatasetSplitInfo(HF_NO_ROBOTS_DATASET, 'train', 'test', signal);
-    const noRobotsTrainRows = await fetchSplit(noRobotsInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 3,000-row No Robots training sample'), NO_ROBOTS_TRAIN_ROWS, signal);
+    const noRobotsTrainRows = await fetchSplit(noRobotsInfo.training, (done, total) => showDataProgress(done, total, 'Downloading a 3,500-row No Robots training sample'), NO_ROBOTS_TRAIN_ROWS, signal);
     const noRobotsValidationRows = await fetchSplit(noRobotsInfo.validation, (done, total) => showDataProgress(done, total, 'Downloading a 500-row No Robots held-out sample'), NO_ROBOTS_VALIDATION_ROWS, signal);
     noRobotsTrain = buildCorpus(noRobotsTrainRows);
     noRobotsValidation = buildCorpus(noRobotsValidationRows);
