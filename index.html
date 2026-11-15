@@ -2049,18 +2049,33 @@ function restoreSavedNeuralCheckpoint() {
       maxSteps: record.maxSteps
     }, [buffer]);
   } catch (error) {
+    let checkpointPreserved = false;
     try {
       const stored = localStorage.getItem(NEURAL_CHECKPOINT_KEY);
       const previous = stored ? JSON.parse(stored) : null;
-      const oldVersion = Number(previous && previous.version);
-      const hasModelData = previous && (typeof previous.trainingState === 'string' || typeof previous.weights === 'string');
-      if (hasModelData && [5, 6, 7].includes(oldVersion) && previous.datasetRevision !== NEURAL_DATASET_REVISION) {
-        localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY, stored);
+      const hasModelData = previous && (
+        typeof previous.trainingState === 'string' ||
+        typeof previous.weights === 'string'
+      );
+      if (stored && hasModelData) {
+        // Never discard a trained checkpoint just because its dataset revision differs.
+        // Keep the first archive intact; use a second slot rather than overwriting it.
+        if (!localStorage.getItem(NEURAL_ARCHIVE_CHECKPOINT_KEY)) {
+          localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY, stored);
+          checkpointPreserved = true;
+        } else if (!localStorage.getItem(NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup')) {
+          localStorage.setItem(NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup', stored);
+          checkpointPreserved = true;
+        }
+        if (checkpointPreserved) localStorage.removeItem(NEURAL_CHECKPOINT_KEY);
       }
-      localStorage.removeItem(NEURAL_CHECKPOINT_KEY);
-    } catch (_) {}
+    } catch (archiveError) {
+      console.warn('Could not safely archive the unavailable checkpoint:', archiveError);
+    }
     neuralCheckpointWasSaved = false;
-    $('neuralCheckpointStatus').textContent = 'The previous dataset checkpoint was archived in this browser. Train again to create a checkpoint for the expanded dataset.';
+    $('neuralCheckpointStatus').textContent = checkpointPreserved
+      ? 'A checkpoint from a different dataset version was preserved in this browser archive. It was not loaded because its dataset may not match.'
+      : 'The saved checkpoint could not be restored. Existing archive data was left untouched.';
     console.warn('Saved neural checkpoint unavailable:', error);
   }
 }
