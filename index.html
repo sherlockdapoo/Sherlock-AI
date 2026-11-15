@@ -1432,6 +1432,9 @@ const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-legacy-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-archive-v1';
 const NEURAL_DATASET_REVISION = 'sherlock-standalone-curriculum-v0140-2026-11';
+const STANDALONE_CURRICULUM_ONLY = true;
+const STANDALONE_TRAIN_URL = 'experiments/conversation-intelligence-v0120/data/sherlock-curriculum-v0140-train.txt';
+const STANDALONE_VALIDATION_URL = 'experiments/conversation-intelligence-v0120/data/sherlock-curriculum-v0140-validation.txt';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -3578,9 +3581,6 @@ function displayLoadedNeuralDataset(data, fromCache) {
     if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
   }
 }
-const STANDALONE_CURRICULUM_ONLY = true;
-const STANDALONE_TRAIN_URL = 'experiments/conversation-intelligence-v0120/data/sherlock-curriculum-v0140-train.txt';
-const STANDALONE_VALIDATION_URL = 'experiments/conversation-intelligence-v0120/data/sherlock-curriculum-v0140-validation.txt';
 
 async function loadStandaloneCurriculum(signal) {
   $('neuralMessage').textContent = 'Loading Sherlock’s standalone training library…';
