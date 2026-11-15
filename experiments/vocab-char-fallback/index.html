@@ -1364,7 +1364,7 @@ body,.app{color:#27354d}
         <span class="chat-lock" id="chatLock">Training required</span>
       </div>
       <div class="playground-intro">
-        <strong>What Sherlock can do right now:</strong> continue a short piece of text using patterns learned during training. This is a small word-level neural model, not yet a full instruction-following chatbot.
+        <strong>What Sherlock can do right now:</strong> continue a short piece of text using patterns learned during training. This is a small hybrid word/character neural model, not yet a full instruction-following chatbot.
       </div>
       <form id="chatForm" class="chat-compose playground-compose">
         <label class="playground-prompt-label" for="message">Your test prompt</label>
@@ -2065,7 +2065,7 @@ function restoreSavedNeuralCheckpoint() {
     renderNeuralHistory();
     renderNeuralLossHistory();
     renderNeuralValidationLossHistory();
-    $('neuralCheckpointStatus').textContent = 'Full word-level training checkpoint found. Restoring model weights and optimiser memory…';
+    $('neuralCheckpointStatus').textContent = 'Hybrid word/character training checkpoint found. Restoring model weights and optimiser memory…';
     setNeuralState('Restoring latest saved model', 'running');
     worker.postMessage({
       type: 'load-model',
@@ -2572,6 +2572,7 @@ updateNeuralControls();
       button.textContent = 'Re-scan fallback words';
       const total = Math.max(0, Number(data.totalTokens) || 0);
       const fallback = Math.max(0, Number(data.fallbackWords) || 0);
+      const unknown = Math.max(0, Number(data.unknownTokens) || 0);
       const rate = Number.isFinite(Number(data.fallbackRate)) ? Number(data.fallbackRate) : 0;
       const unique = Math.max(0, Number(data.uniqueFallbackWords) || 0);
       const top = Array.isArray(data.topFallbackWords) ? data.topFallbackWords : [];
@@ -2582,6 +2583,7 @@ updateNeuralControls();
         'Vocabulary: ' + Number(data.vocabularySize || 0).toLocaleString() +
         ' · Validation words using letter fallback: ' + fallback.toLocaleString() + ' / ' + total.toLocaleString() +
         ' (' + rate.toFixed(1) + '%) · Distinct fallback words: ' + unique.toLocaleString() +
+        ' · Still-unhandled symbols: ' + unknown.toLocaleString() +
         ' · Most frequent: ' + examples;
       updateNeuralControls();
     } else if (data.type === 'unknown-token-diagnosis-error' && data.id === neuralUnknownDiagnosisId) {
