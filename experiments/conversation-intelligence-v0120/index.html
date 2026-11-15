@@ -3717,17 +3717,11 @@ function buildSherlockCurriculum() {
     ['Reply with exactly two words: a frozen drink ingredient.', 'Ice cubes.'],
     ['Summarise this in five words: Plants need light to grow.', 'Plants need light for growth.']
   ];
-  for (let i = 0; i < 4; i++) {
-    for (const [q, a] of instructionPairs) {
-      const variants = [
-        [q, a],
-        [q.replace('Reply', 'Respond'), a],
-        [q.replace('Answer', 'Respond'), a],
-        [q.replace('Give', 'Provide'), a]
-      ];
-      const item = variants[i];
-      add(training, item[0], item[1]);
-    }
+  for (const [q, a] of instructionPairs) {
+    add(training, q, a);
+    add(training, 'Please follow this instruction: ' + q, a);
+    add(training, 'Task: ' + q, a);
+    add(training, 'Do exactly this: ' + q, a);
   }
 
   // Simple one-step reasoning, with the answer stated directly.
@@ -3743,13 +3737,15 @@ function buildSherlockCurriculum() {
   }
 
   // Short multi-turn examples teach the model to use a nearby earlier fact.
-  for (let i = 1; i <= 20; i++) {
-    const colour = ['purple', 'green', 'blue', 'orange'][i % 4];
-    const animal = ['cat', 'dog', 'rabbit', 'fox'][i % 4];
-    training.push('user: My favourite colour is ' + colour + '.\nsherlock: I will keep that in mind.\n' +
-      'user: What is my favourite colour?\nsherlock: ' + colour + '.\n\n');
-    training.push('user: My favourite animal is a ' + animal + '.\nsherlock: Got it.\n' +
-      'user: Which animal did I mention?\nsherlock: You mentioned a ' + animal + '.\n\n');
+  const colours = ['purple', 'green', 'blue', 'orange', 'yellow', 'red', 'pink', 'black', 'white', 'silver', 'gold', 'teal', 'violet', 'brown', 'grey', 'cyan', 'magenta', 'navy', 'lime', 'maroon'];
+  const animals = ['cat', 'dog', 'rabbit', 'fox', 'horse', 'otter', 'panda', 'tiger', 'lion', 'zebra', 'koala', 'eagle', 'dolphin', 'whale', 'badger', 'wolf', 'deer', 'owl', 'penguin', 'camel'];
+  for (let i = 0; i < 20; i++) {
+    const colour = colours[i];
+    const animal = animals[i];
+    training.push('user: My favourite colour is ' + colour + '.\\nsherlock: I will keep that in mind.\\n' +
+      'user: What is my favourite colour?\\nsherlock: ' + colour + '.\\n\\n');
+    training.push('user: My favourite animal is a ' + animal + '.\\nsherlock: Got it.\\n' +
+      'user: Which animal did I mention?\\nsherlock: You mentioned a ' + animal + '.\\n\\n');
   }
 
   // A separate, hand-written holdout. These questions do not appear above.
