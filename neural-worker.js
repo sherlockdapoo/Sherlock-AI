@@ -24,7 +24,7 @@ const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = 'adamw';
 const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 640;
-const BATCHES_PER_SLICE = 6;
+const BATCHES_PER_SLICE = 24;
 
 let trainData = null;
 let validationData = null;
@@ -376,13 +376,14 @@ function runBatch() {
       lossInitialized = true;
 
       if (steps % EVAL_EVERY === 0) evaluate();
-      // Report each mini-batch so the UI never appears frozen during startup.
-      self.postMessage({type: "progress", ...progressPayload()});
       if (activeMaxSteps > 0 && steps - runStartSteps >= activeMaxSteps) {
         stopTraining("limit");
         return;
       }
     }
+    // Send one UI update per slice, not after every mini-batch. This reduces
+    // message traffic and snapshot work while keeping slices short and responsive.
+    if (running) self.postMessage({type: "progress", ...progressPayload()});
     if (running) setTimeout(runBatch, 0);
   } catch (error) {
     running = false;
