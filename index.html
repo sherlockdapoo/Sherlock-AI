@@ -1000,12 +1000,7 @@ body,.app{color:#27354d}
 .dataset-quality-note{display:block;margin-top:10px;color:#8793a8;font-size:9px;line-height:1.5}
 .dataset-quality-card .visual-card-head h3{color:#293750}
 .dataset-quality-card .visual-card-head p{color:#778399}
-.gsm8k-benchmark-card{margin-top:14px}
-.gsm8k-benchmark-card .dataset-quality-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.gsm8k-benchmark-card .dataset-quality-stat strong{font-size:clamp(16px,2.2vw,21px)}
-.gsm8k-benchmark-card .dataset-quality-source{overflow-wrap:anywhere}
 @media(max-width:620px){
-  .gsm8k-benchmark-card .dataset-quality-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dataset-quality-card{padding:15px}
   .dataset-quality-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .dataset-quality-stat{padding:11px}
@@ -1270,28 +1265,6 @@ body,.app{color:#27354d}
           <button class="btn btn-secondary" id="dataQualityInspectBtn" type="button">Load & inspect dataset</button>
         </div>
         <small class="dataset-quality-note">Checks run on this browser. Duplicate detection compares complete conversations after normalising case and whitespace. Very brief conversations are only flagged for review, not automatically treated as bad data.</small>
-      </section>
-
-      <section class="card dataset-quality-card gsm8k-benchmark-card" aria-labelledby="gsm8kBenchmarkTitle">
-        <div class="visual-card-head">
-          <div>
-            <h3 id="gsm8kBenchmarkTitle">GSM8K held-out benchmark</h3>
-            <p>Measure character prediction on separate maths questions Sherlock has not trained on.</p>
-          </div>
-          <span class="visual-mini-tag">UNSEEN MATHS TEXT</span>
-        </div>
-        <div class="dataset-quality-grid">
-          <div class="dataset-quality-stat"><span>Next-character match</span><strong id="gsm8kBenchmarkAccuracy">Not measured</strong><small>Exact character predictions</small></div>
-          <div class="dataset-quality-stat"><span>Average loss</span><strong id="gsm8kBenchmarkLoss">Not measured</strong><small>Lower is better</small></div>
-          <div class="dataset-quality-stat"><span>Characters checked</span><strong id="gsm8kBenchmarkSamples">Not measured</strong><small>Spread across held-out text</small></div>
-        </div>
-        <div class="dataset-quality-actions">
-          <p id="gsm8kBenchmarkStatus" role="status" aria-live="polite">Train Sherlock AI first, then run its first held-out maths-text check.</p>
-          <button class="btn btn-secondary" id="gsm8kBenchmarkBtn" type="button">Run held-out check</button>
-        </div>
-        <div class="dataset-quality-source" id="gsm8kBenchmarkComparison">The first run creates a baseline. Run it again after more training to compare progress.</div>
-        <div class="dataset-quality-source" id="gsm8kBenchmarkHistory">No benchmark runs saved yet.</div>
-        <small class="dataset-quality-note">Important: this checks next-character prediction and text-pattern learning. It does not measure whether Sherlock can solve a maths problem correctly. The held-out GSM8K test examples are kept out of training.</small>
       </section>
 
       <section class="card neural-chart-card">
@@ -2628,7 +2601,6 @@ function requestNeuralGeneration(prompt) {
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
 $('dataQualityInspectBtn').addEventListener('click', inspectDatasetQuality);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
-$('gsm8kBenchmarkBtn').addEventListener('click', runGsm8kBenchmark);
 $('neuralLearningRate').addEventListener('change', () => {
   updateNeuralOptimizerSummary();
   updateNeuralTrainingConfigSummary();
@@ -3865,7 +3837,6 @@ renderNeuralLiveView();
 try { localStorage.removeItem(LEGACY_NEURAL_CHECKPOINT_KEY); } catch (_) {}
 restoreSavedNeuralCheckpoint();
 loadPlaygroundHistory();
-restoreGsm8kBenchmarkHistory();
 </script>
 </body>
 </html>
