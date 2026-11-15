@@ -1,11 +1,14 @@
-/* Sherlock GPT neural worker: a small character-level MLP trained with backpropagation. */
+/* Sherlock GPT neural worker: a compact word-token MLP trained with backpropagation. */
 "use strict";
 
-const VOCAB = 128;
-const CONTEXT = 4;
-const EMBED = 12;
+const VOCAB = 2048;
+const CONTEXT = 8;
+const EMBED = 16;
 const INPUT = CONTEXT * EMBED;
-const HIDDEN = 48;
+const HIDDEN = 64;
+const UNK_ID = 0;
+const SPACE_ID = 1;
+const NEWLINE_ID = 2;
 const EMBED_OFFSET = 0;
 const W1_OFFSET = VOCAB * EMBED;
 const B1_OFFSET = W1_OFFSET + HIDDEN * INPUT;
@@ -21,13 +24,19 @@ let runStartSteps = 0;
 const DEFAULT_LEARNING_RATE = 0.001;
 let activeLearningRate = DEFAULT_LEARNING_RATE;
 const ADAMW_WEIGHT_DECAY = 0.0001;
-let activeOptimizer = 'adamw';
+let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 640;
 const BATCHES_PER_SLICE = 24;
 
 let trainData = null;
 let validationData = null;
+let vocabulary = new Array(VOCAB).fill(null);
+let tokenToId = new Map();
+let vocabularySize = 0;
+let trainingUnknownRate = 0;
+let validationUnknownRate = 0;
+let mathUnknownRate = 0;
 let parameters = new Float32Array(PARAMS);
 let gradients = new Float32Array(PARAMS);
 let firstMoment = new Float32Array(PARAMS);
@@ -58,7 +67,7 @@ const hiddenVector = new Float32Array(HIDDEN);
 const probabilities = new Float32Array(VOCAB);
 const outputDelta = new Float32Array(VOCAB);
 const hiddenDelta = new Float32Array(HIDDEN);
-const contextCodes = new Uint8Array(CONTEXT);
+const contextCodes = new Uint16Array(CONTEXT);
 
 function randomUnit() {
   let x = randomState >>> 0;
@@ -71,11 +80,65 @@ function randomUnit() {
 function randomInt(max) {
   return Math.floor(randomUnit() * max);
 }
-function byteAt(data, index) {
-  const value = data[index] || 0;
-  return value < VOCAB ? value : 63;
+function tokenAt(data, index) {
+  return index >= 0 && index < data.length ? data[index] : SPACE_ID;
 }
-function initializeParameters() {
+function normaliseToken(token) {
+  if (token[0] === "\n") return "\n\n";
+  if (token[0] === " " || token[0] === "\t") return " ";
+  return token;
+}
+function walkTokens(text, callback) {
+  const pattern = /[a-z0-9]+(?:'[a-z0-9]+)?|[ \t]+|\n+|[^a-z0-9\s]/g;
+  let match;
+  while ((match = pattern.exec(text)) !== null) callback(normaliseToken(match[0]));
+}
+function buildTokenizer(trainingText) {
+  const counts = new Map();
+  walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
+  const ranked = Array.from(counts.entries())
+    .filter(([token]) => token !== " " && token !== "\n\n")
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, VOCAB - 3);
+
+  vocabulary = new Array(VOCAB).fill(null);
+  vocabulary[UNK_ID] = "<unk>";
+  vocabulary[SPACE_ID] = " ";
+  vocabulary[NEWLINE_ID] = "\n\n";
+  tokenToId = new Map([
+    ["<unk>", UNK_ID],
+    [" ", SPACE_ID],
+    ["\n\n", NEWLINE_ID]
+  ]);
+  vocabularySize = 3;
+  for (const [token] of ranked) {
+    if (tokenToId.has(token) || vocabularySize >= VOCAB) continue;
+    tokenToId.set(token, vocabularySize);
+    vocabulary[vocabularySize] = token;
+    vocabularySize++;
+  }
+}
+function encodeText(text) {
+  const ids = [];
+  let unknown = 0;
+  let total = 0;
+  walkTokens(text, token => {
+    const id = tokenToId.get(token);
+    if (id === undefined) {
+      ids.push(UNK_ID);
+      unknown++;
+    } else {
+      ids.push(id);
+    }
+    total++;
+  });
+  return {
+    data: Uint16Array.from(ids),
+    unknownRate: total ? unknown * 100 / total : 0,
+    totalTokens: total
+  };
+}
+function initialiseParameters() {
   parameters.fill(0);
   gradients.fill(0);
   firstMoment.fill(0);
@@ -103,10 +166,9 @@ function initializeParameters() {
   movingLoss = 0;
   lossInitialized = false;
 }
-function forward(data, position) {
+function forwardContext() {
   for (let slot = 0; slot < CONTEXT; slot++) {
-    const code = byteAt(data, position - CONTEXT + slot);
-    contextCodes[slot] = code;
+    const code = contextCodes[slot] < vocabularySize ? contextCodes[slot] : UNK_ID;
     const source = EMBED_OFFSET + code * EMBED;
     const destination = slot * EMBED;
     for (let j = 0; j < EMBED; j++)
@@ -123,6 +185,10 @@ function forward(data, position) {
 
   let maximum = -Infinity;
   for (let c = 0; c < VOCAB; c++) {
+    if (c >= vocabularySize) {
+      probabilities[c] = -Infinity;
+      continue;
+    }
     let sum = parameters[B2_OFFSET + c];
     const row = W2_OFFSET + c * HIDDEN;
     for (let k = 0; k < HIDDEN; k++)
@@ -132,24 +198,36 @@ function forward(data, position) {
   }
   let denominator = 0;
   for (let c = 0; c < VOCAB; c++) {
+    if (c >= vocabularySize) {
+      probabilities[c] = 0;
+      continue;
+    }
     const value = Math.exp(probabilities[c] - maximum);
     probabilities[c] = value;
     denominator += value;
   }
   const inverse = 1 / Math.max(denominator, 1e-20);
-  for (let c = 0; c < VOCAB; c++) probabilities[c] *= inverse;
+  for (let c = 0; c < vocabularySize; c++) probabilities[c] *= inverse;
   return probabilities;
 }
+function forward(data, position) {
+  for (let slot = 0; slot < CONTEXT; slot++)
+    contextCodes[slot] = tokenAt(data, position - CONTEXT + slot);
+  return forwardContext();
+}
 function trainExample(position) {
-  const target = byteAt(trainData, position);
+  const target = tokenAt(trainData, position);
   const probs = forward(trainData, position);
   const targetProbability = Math.max(probs[target], 1e-9);
   const loss = -Math.log(targetProbability);
 
   hiddenDelta.fill(0);
   for (let c = 0; c < VOCAB; c++) {
-    const delta = probs[c] - (c === target ? 1 : 0);
+    const delta = c < vocabularySize
+      ? probs[c] - (c === target ? 1 : 0)
+      : 0;
     outputDelta[c] = delta;
+    if (delta === 0) continue;
     gradients[B2_OFFSET + c] += delta;
     const row = W2_OFFSET + c * HIDDEN;
     for (let k = 0; k < HIDDEN; k++) {
@@ -206,7 +284,7 @@ function applyOptimizer(batchCount) {
     const decayParameter = (i >= EMBED_OFFSET && i < W1_OFFSET) ||
       (i >= W1_OFFSET && i < B1_OFFSET) ||
       (i >= W2_OFFSET && i < B2_OFFSET);
-    const weightDecay = activeOptimizer === 'adamw' && decayParameter
+    const weightDecay = activeOptimizer === "adamw" && decayParameter
       ? activeLearningRate * ADAMW_WEIGHT_DECAY * parameters[i] : 0;
     parameters[i] -= adaptiveUpdate + weightDecay;
     gradients[i] = 0;
@@ -216,13 +294,13 @@ function predict(data, position) {
   forward(data, position);
   let best = 0;
   let bestValue = probabilities[0];
-  for (let c = 1; c < VOCAB; c++) {
+  for (let c = 1; c < vocabularySize; c++) {
     if (probabilities[c] > bestValue) {
       best = c;
       bestValue = probabilities[c];
     }
   }
-  return { character: best, loss: -Math.log(Math.max(bestValue, 1e-9)) };
+  return {token: best, loss: -Math.log(Math.max(bestValue, 1e-9))};
 }
 function evaluate() {
   if (!validationData || validationData.length <= CONTEXT + 2) return null;
@@ -233,14 +311,12 @@ function evaluate() {
   let total = 0;
   const stride = Math.max(1, Math.floor(available / count));
   for (let i = 0; i < count; i++) {
-    // Spread validation positions across the held-out text for a steadier measurement.
     const position = CONTEXT + i * stride;
     if (position >= validationData.length) break;
     const result = predict(validationData, position);
-    const target = byteAt(validationData, position);
-    if (result.character === target) correct++;
-    const targetProbability = probabilities[target];
-    totalLoss += -Math.log(Math.max(targetProbability, 1e-9));
+    const target = tokenAt(validationData, position);
+    if (result.token === target) correct++;
+    totalLoss += -Math.log(Math.max(probabilities[target], 1e-9));
     total++;
   }
   if (!total) return null;
@@ -254,7 +330,6 @@ function evaluate() {
   evaluationCount++;
   validationSamples = total;
 
-  // The latest evaluated weights are always the active saved model.
   bestValidationLoss = validationLoss;
   bestAccuracy = score;
   bestParameters = new Float32Array(parameters);
@@ -282,11 +357,15 @@ function evaluate() {
     runSteps: Math.max(0, steps - runStartSteps),
     optimizerStep,
     randomState: randomState >>> 0,
+    parameters: PARAMS,
     modelBuffer: checkpointBuffer
   }, [checkpointBuffer]);
   return {accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount};
 }
-function evaluateMathText(data) {
+function evaluateMathText(text) {
+  const encoded = encodeText(text);
+  const data = encoded.data;
+  mathUnknownRate = encoded.unknownRate;
   if (!data || data.length <= CONTEXT + 2) throw new Error("The separate GSM8K held-out text is too short.");
   const available = data.length - CONTEXT - 1;
   const count = Math.min(EVAL_SAMPLES, available);
@@ -298,28 +377,41 @@ function evaluateMathText(data) {
     const position = CONTEXT + i * stride;
     if (position >= data.length) break;
     const result = predict(data, position);
-    const target = byteAt(data, position);
-    if (result.character === target) correct++;
+    const target = tokenAt(data, position);
+    if (result.token === target) correct++;
     totalLoss += -Math.log(Math.max(probabilities[target], 1e-9));
     total++;
   }
-  if (!total) throw new Error("No GSM8K characters were available for evaluation.");
+  if (!total) throw new Error("No GSM8K tokens were available for evaluation.");
   const loss = totalLoss / total;
-  return {accuracy: correct * 100 / total, loss, perplexity: Math.exp(loss), samples: total, bytes: data.length};
+  return {
+    accuracy: correct * 100 / total,
+    loss,
+    perplexity: Math.exp(loss),
+    samples: total,
+    tokens: data.length,
+    unknownRate: mathUnknownRate,
+    vocabularySize
+  };
 }
 function networkSnapshot() {
-  const ii=Array.from({length:12},(_,i)=>i*4),hi=Array.from({length:16},(_,i)=>i*3),oi=Array.from({length:12},(_,i)=>i*11);
-  const input=ii.map(i=>inputVector[i]),hidden=hi.map(i=>hiddenVector[i]),output=oi.map(i=>probabilities[i]),w1=[],w2=[];
-  for(const h of hi)for(const i of ii)w1.push(parameters[W1_OFFSET+h*INPUT+i]);
-  for(const o of oi)for(const h of hi)w2.push(parameters[W2_OFFSET+o*HIDDEN+h]);
-  let top=0;for(let i=1;i<VOCAB;i++)if(probabilities[i]>probabilities[top])top=i;
-  const ch=top===10?'\\n':top===13?'\\r':top>=32&&top<127?String.fromCharCode(top):'?';
-  return {input,hidden,output,w1,w2,topCharacter:JSON.stringify(ch)+' · '+(probabilities[top]*100).toFixed(2)+'%'};
+  const inputIds = Array.from({length: 12}, (_, i) => Math.floor(i * (INPUT - 1) / 11));
+  const hiddenIds = Array.from({length: 16}, (_, i) => Math.floor(i * (HIDDEN - 1) / 15));
+  const outputIds = Array.from({length: 12}, (_, i) => Math.floor(i * (vocabularySize - 1) / 11));
+  const input = inputIds.map(i => inputVector[i]);
+  const hidden = hiddenIds.map(i => hiddenVector[i]);
+  const output = outputIds.map(i => probabilities[i]);
+  const w1 = [], w2 = [];
+  for (const h of hiddenIds) for (const i of inputIds) w1.push(parameters[W1_OFFSET + h * INPUT + i]);
+  for (const o of outputIds) for (const h of hiddenIds) w2.push(parameters[W2_OFFSET + o * HIDDEN + h]);
+  let top = 0;
+  for (let i = 1; i < vocabularySize; i++) if (probabilities[i] > probabilities[top]) top = i;
+  const token = vocabulary[top] || "<unk>";
+  const label = token.replace(/\n/g, "↵").slice(0, 14);
+  return {input, hidden, output, w1, w2, topCharacter: JSON.stringify(label) + " · " + (probabilities[top] * 100).toFixed(2) + "%"};
 }
 function progressPayload() {
   const now = performance.now();
-  // Measure over a 500 ms window instead of one tiny batch. This avoids
-  // huge spikes and zeroes caused by sub-millisecond timer resolution.
   if (reportAt === 0) {
     reportAt = now;
     reportExamples = examplesSeen;
@@ -332,7 +424,6 @@ function progressPayload() {
     reportAt = now;
     reportExamples = examplesSeen;
   }
-  const speed = lastReportedSpeed;
   return {
     network: networkSnapshot(),
     steps,
@@ -346,21 +437,24 @@ function progressPayload() {
     perplexity: latestPerplexity,
     evaluations: evaluationCount,
     validationSamples,
-    examplesPerSecond: speed,
+    examplesPerSecond: lastReportedSpeed,
     parameters: PARAMS,
     batchSize: activeBatchSize,
     maxSteps: activeMaxSteps,
     runSteps: Math.max(0, steps - runStartSteps),
     optimizer: activeOptimizer,
-    learningRate: activeLearningRate
+    learningRate: activeLearningRate,
+    vocabularySize,
+    trainingUnknownRate,
+    validationUnknownRate,
+    trainTokens: trainData ? trainData.length : 0,
+    validationTokens: validationData ? validationData.length : 0
   };
 }
 function runBatch() {
   if (!running) return;
   try {
     const maximumPosition = trainData.length - 1;
-    // Process several mini-batches per worker slice to reduce timer overhead.
-    // Yield after each slice so the page can still send Stop and other messages.
     for (let slice = 0; slice < BATCHES_PER_SLICE && running &&
       (activeMaxSteps === 0 || steps - runStartSteps < activeMaxSteps); slice++) {
       let batchLoss = 0;
@@ -381,8 +475,6 @@ function runBatch() {
         return;
       }
     }
-    // Send one UI update per slice, not after every mini-batch. This reduces
-    // message traffic and snapshot work while keeping slices short and responsive.
     if (running) self.postMessage({type: "progress", ...progressPayload()});
     if (running) setTimeout(runBatch, 0);
   } catch (error) {
@@ -393,60 +485,29 @@ function runBatch() {
 function stopTraining(reason = "manual") {
   if (!running) return;
   running = false;
-  // Evaluate and save the exact latest weights. Do not roll back to an older checkpoint.
   evaluate();
   self.postMessage({type: "stopped", ...progressPayload(), restoredBest: false, stopReason: reason});
 }
 function generate(prompt, requestedLength) {
-  if (!initialized || examplesSeen === 0) return "Train the neural network first.";
-  const maxLength = Math.max(1, Math.min(160, Number(requestedLength) || 100));
-  const output = Array.from(String(prompt || "").slice(0, 180));
-  const history = output.map(character => {
-    const code = character.charCodeAt(0);
-    return code < VOCAB ? code : 63;
-  });
+  if (!initialized || examplesSeen === 0 || vocabularySize <= 3) return "Train the neural network first.";
+  const rawPrompt = String(prompt || "").slice(0, 180);
+  const promptEncoded = encodeText(rawPrompt.toLowerCase());
+  const history = Array.from(promptEncoded.data);
+  const maxLength = Math.max(1, Math.min(160, Number(requestedLength) || 80));
+  let output = rawPrompt;
+
   for (let i = 0; i < maxLength; i++) {
-    const position = history.length;
     for (let slot = 0; slot < CONTEXT; slot++) {
-      const sourceIndex = position - CONTEXT + slot;
-      contextCodes[slot] = sourceIndex >= 0 ? history[sourceIndex] : 32;
-      const source = EMBED_OFFSET + contextCodes[slot] * EMBED;
-      for (let j = 0; j < EMBED; j++)
-        inputVector[slot * EMBED + j] = parameters[source + j];
+      const sourceIndex = history.length - CONTEXT + slot;
+      contextCodes[slot] = sourceIndex >= 0 ? history[sourceIndex] : SPACE_ID;
     }
-    for (let k = 0; k < HIDDEN; k++) {
-      let sum = parameters[B1_OFFSET + k];
-      const row = W1_OFFSET + k * INPUT;
-      for (let j = 0; j < INPUT; j++)
-        sum += parameters[row + j] * inputVector[j];
-      hiddenVector[k] = sum > 0 ? sum : 0;
-    }
+    forwardContext();
 
-    let maximum = -Infinity;
-    for (let c = 0; c < VOCAB; c++) {
-      if ((c < 32 && c !== 10 && c !== 13) || c === 127) {
-        probabilities[c] = -100;
-        continue;
-      }
-      let sum = parameters[B2_OFFSET + c];
-      const row = W2_OFFSET + c * HIDDEN;
-      for (let k = 0; k < HIDDEN; k++)
-        sum += parameters[row + k] * hiddenVector[k];
-      probabilities[c] = sum;
-      if (sum > maximum) maximum = sum;
-    }
-
-    // Nucleus (top-p) sampling keeps the smallest high-probability set whose
-    // combined probability reaches 92%. This trims unlikely character noise
-    // without changing the trained weights or optimiser state.
     const candidates = [];
     let total = 0;
-    for (let c = 0; c < VOCAB; c++) {
-      if ((c < 32 && c !== 10 && c !== 13) || c === 127) {
-        probabilities[c] = 0;
-        continue;
-      }
-      const weight = Math.exp((probabilities[c] - maximum) / 0.85);
+    const inverseTemperature = 1 / 0.85;
+    for (let c = 1; c < vocabularySize; c++) {
+      const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature);
       probabilities[c] = weight;
       total += weight;
       candidates.push(c);
@@ -463,45 +524,61 @@ function generate(prompt, requestedLength) {
     }
 
     let pick = randomUnit() * nucleusTotal;
-    let chosen = candidates[nucleusCount - 1] ?? 32;
+    let chosen = candidates[nucleusCount - 1] ?? SPACE_ID;
     for (let j = 0; j < nucleusCount; j++) {
-      const code = candidates[j];
-      pick -= probabilities[code];
+      const id = candidates[j];
+      pick -= probabilities[id];
       if (pick <= 0) {
-        chosen = code;
+        chosen = id;
         break;
       }
     }
     history.push(chosen);
-    output.push(String.fromCharCode(chosen));
+    output += vocabulary[chosen] || "";
   }
-  return output.join("");
+  return output;
 }
 
 function setDatasetBuffers(trainBuffer, validationBuffer) {
-  trainData = new Uint8Array(trainBuffer);
-  validationData = new Uint8Array(validationBuffer);
+  const decoder = new TextDecoder("utf-8");
+  const trainingText = decoder.decode(new Uint8Array(trainBuffer)).toLowerCase();
+  const validationText = decoder.decode(new Uint8Array(validationBuffer)).toLowerCase();
+  buildTokenizer(trainingText);
+  const encodedTraining = encodeText(trainingText);
+  const encodedValidation = encodeText(validationText);
+  trainData = encodedTraining.data;
+  validationData = encodedValidation.data;
+  trainingUnknownRate = encodedTraining.unknownRate;
+  validationUnknownRate = encodedValidation.unknownRate;
   if (trainData.length <= CONTEXT + 10 || validationData.length <= CONTEXT + 10)
-    throw new Error("The training or validation text is too short.");
+    throw new Error("The tokenized training or validation text is too short.");
+  return {
+    trainTokens: trainData.length,
+    validationTokens: validationData.length,
+    vocabularySize,
+    trainingUnknownRate,
+    validationUnknownRate
+  };
 }
 
 self.addEventListener("message", event => {
   const message = event.data || {};
   try {
     if (message.type === "init") {
-      setDatasetBuffers(message.trainBuffer, message.validationBuffer);
+      const dataInfo = setDatasetBuffers(message.trainBuffer, message.validationBuffer);
       randomState = 0x5A17C0DE;
-      initializeParameters();
+      initialiseParameters();
       initialized = true;
-      self.postMessage({type: "ready", parameters: PARAMS});
+      self.postMessage({type: "ready", parameters: PARAMS, ...dataInfo});
     } else if (message.type === "load-model") {
-      activeOptimizer = message.optimizer === 'adamw' ? 'adamw' : 'adam';
+      activeOptimizer = message.optimizer === "adamw" ? "adamw" : "adam";
       activeLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
         ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
       activeBatchSize = DEFAULT_BATCH_SIZE;
       activeMaxSteps = PERMANENT_MAX_STEPS;
       const restoredState = new Float32Array(message.modelBuffer);
-      if (restoredState.length !== PARAMS * 3) throw new Error("The saved training state has the wrong number of values.");
+      if (restoredState.length !== PARAMS * 3 || Number(message.parameterCount) !== PARAMS)
+        throw new Error("The saved word-token training state does not match this model version.");
       parameters = restoredState.slice(0, PARAMS);
       firstMoment.set(restoredState.subarray(PARAMS, PARAMS * 2));
       secondMoment.set(restoredState.subarray(PARAMS * 2, PARAMS * 3));
@@ -540,28 +617,27 @@ self.addEventListener("message", event => {
         learningRate: activeLearningRate,
         batchSize: activeBatchSize,
         maxSteps: activeMaxSteps,
-        fullTrainingState: Number(message.checkpointVersion) >= 6
+        fullTrainingState: Number(message.checkpointVersion) >= 8
       });
     } else if (message.type === "set-data") {
-      setDatasetBuffers(message.trainBuffer, message.validationBuffer);
-      self.postMessage({type: "data-ready", trainBytes: trainData.length, validationBytes: validationData.length});
+      const dataInfo = setDatasetBuffers(message.trainBuffer, message.validationBuffer);
+      self.postMessage({type: "data-ready", ...dataInfo});
     } else if (message.type === "reset-for-dataset") {
       if (running) throw new Error("Stop training before resetting the model.");
-      setDatasetBuffers(message.trainBuffer, message.validationBuffer);
+      const dataInfo = setDatasetBuffers(message.trainBuffer, message.validationBuffer);
       activeOptimizer = message.optimizer === "adam" ? "adam" : "adamw";
       randomState = 0x5A17C0DE;
-      initializeParameters();
+      initialiseParameters();
       initialized = true;
       self.postMessage({
         type: "reset-ready",
         optimizer: activeOptimizer,
         parameters: PARAMS,
-        trainBytes: trainData.length,
-        validationBytes: validationData.length
+        ...dataInfo
       });
     } else if (message.type === "start") {
       if (!initialized) throw new Error("Load or restore the neural model first.");
-      const requestedOptimizer = message.optimizer === 'adamw' || (message.optimizer == null && activeOptimizer === 'adamw') ? 'adamw' : 'adam';
+      const requestedOptimizer = message.optimizer === "adamw" || (message.optimizer == null && activeOptimizer === "adamw") ? "adamw" : "adam";
       const requestedLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
         ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
       activeLearningRate = requestedLearningRate;
@@ -571,9 +647,9 @@ self.addEventListener("message", event => {
       if (optimizerChanged) {
         activeOptimizer = requestedOptimizer;
         randomState = 0x5A17C0DE;
-        initializeParameters();
+        initialiseParameters();
       }
-      if (!trainData || !validationData) throw new Error("Load the DailyDialog dataset before training.");
+      if (!trainData || !validationData) throw new Error("Load the training and validation datasets before training.");
       if (!running) {
         runStartSteps = steps;
         running = true;
@@ -594,9 +670,9 @@ self.addEventListener("message", event => {
     } else if (message.type === "stop") {
       stopTraining();
     } else if (message.type === "evaluate-math") {
-      if (!initialized) throw new Error("Train or restore Sherlock before running the GSM8K benchmark.");
-      const mathData = new Uint8Array(message.mathBuffer);
-      const result = evaluateMathText(mathData);
+      if (!initialized || vocabularySize <= 3) throw new Error("Load the training data before running the GSM8K benchmark.");
+      const decoder = new TextDecoder("utf-8");
+      const result = evaluateMathText(decoder.decode(message.mathBuffer).toLowerCase());
       self.postMessage({
         type: "math-evaluation",
         id: message.id,
@@ -606,8 +682,6 @@ self.addEventListener("message", event => {
         examples: examplesSeen
       });
     } else if (message.type === "generate") {
-      // Use a prompt-derived seed for repeatable comparisons without changing
-      // the training PRNG state or optimiser trajectory.
       const savedRandomState = randomState;
       try {
         const requestedSeed = Number(message.seed);
