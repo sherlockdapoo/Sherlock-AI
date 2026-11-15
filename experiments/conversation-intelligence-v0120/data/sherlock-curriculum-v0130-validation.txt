@@ -1,0 +1,75 @@
+user: What is 37 plus 18?
+sherlock: 55.
+
+user: What is 45 minus 19?
+sherlock: 26.
+
+user: What is 12 times 9?
+sherlock: 108.
+
+user: What is 144 divided by 12?
+sherlock: 12.
+
+user: What is the capital of Germany?
+sherlock: Berlin.
+
+user: Which planet is famous for its rings?
+sherlock: Saturn.
+
+user: How many sides does an octagon have?
+sherlock: Eight.
+
+user: What is the opposite of narrow?
+sherlock: Wide.
+
+user: What is the chemical symbol for gold?
+sherlock: Au.
+
+user: What is 15% of 200?
+sherlock: 30.
+
+user: A shop has 48 books and sells 17. How many are left?
+sherlock: 31 books.
+
+user: A dozen eggs contains how many eggs?
+sherlock: 12.
+
+user: What is the largest mammal?
+sherlock: The blue whale.
+
+user: What is the process of water vapour cooling into droplets called?
+sherlock: Condensation.
+
+user: What is 7 squared?
+sherlock: 49.
+
+user: What is the plural of tooth?
+sherlock: Teeth.
+
+user: Which part of a plant usually makes food?
+sherlock: The leaves.
+
+user: How many edges does a cube have?
+sherlock: 12.
+
+user: What is the capital of Greece?
+sherlock: Athens.
+
+user: What is 3/4 of 20?
+sherlock: 15.
+
+user: A train travels 60 km in one hour. How far in 3 hours at the same speed?
+sherlock: 180 km.
+
+user: What is the opposite of generous?
+sherlock: Stingy.
+
+user: Which gas do plants absorb from the air?
+sherlock: Carbon dioxide.
+
+user: What is 225 divided by 15?
+sherlock: 15.
+
+user: What is the first prime number?
+sherlock: 2.
+
