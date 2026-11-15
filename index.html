@@ -1205,8 +1205,8 @@ body,.app{color:#27354d}
           <div class="optimizer-picker">
             <label for="neuralLearningRate">Learning rate</label>
             <select id="neuralLearningRate" aria-label="Neural training learning rate">
-              <option value="0.001">0.001 · Careful</option>
-              <option value="0.003" selected>0.003 · Balanced (default)</option>
+              <option value="0.001" selected>0.001 · Careful (default)</option>
+              <option value="0.003">0.003 · Balanced</option>
               <option value="0.005">0.005 · Faster updates</option>
             </select>
             <p>AdamW optimizer · weight decay 0.0001. Choose before starting a training run.</p>
@@ -1234,7 +1234,7 @@ body,.app{color:#27354d}
             <div class="metric"><span>Validation cross-entropy</span><strong id="neuralValidationLoss">Not measured</strong></div>
             <div class="metric"><span>Validation perplexity</span><strong id="neuralPerplexity">Not measured</strong></div>
             <div class="metric"><span>Validation character positions per check</span><strong id="neuralValidationSamples">Not measured</strong></div>
-            <div class="metric"><span>Optimizer</span><strong id="neuralOptimizerSummary">Adam · learning rate 0.003</strong></div>
+            <div class="metric"><span>Optimizer</span><strong id="neuralOptimizerSummary">AdamW · learning rate 0.001</strong></div>
             <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">32 examples per update</strong></div>
             <div class="metric"><span>Run progress</span><strong id="neuralRunProgress">Unlimited</strong></div>
           </div>
@@ -2217,7 +2217,7 @@ function selectedNeuralOptimizer() {
 }
 function selectedNeuralLearningRate() {
   const value = Number($('neuralLearningRate').value);
-  return [0.001, 0.003, 0.005].includes(value) ? value : 0.003;
+  return [0.001, 0.003, 0.005].includes(value) ? value : 0.001;
 }
 function selectedNeuralBatchSize() {
   return 32;
