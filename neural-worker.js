@@ -1,7 +1,7 @@
 /* Sherlock GPT neural worker: a compact word-token MLP trained with backpropagation. */
 "use strict";
 
-const VOCAB = 1024;
+const VOCAB = 1280;
 const CONTEXT = 8;
 const EMBED = 8;
 const INPUT = CONTEXT * EMBED;
