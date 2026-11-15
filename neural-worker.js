@@ -27,8 +27,8 @@ const DEFAULT_LEARNING_RATE = 0.001;
 let activeLearningRate = DEFAULT_LEARNING_RATE;
 const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = "adamw";
-const EVAL_EVERY = 50;
-const EVAL_SAMPLES = 640;
+const EVAL_EVERY = 100;
+const EVAL_SAMPLES = 256;
 const EARLY_STOP_PATIENCE = 10;
 const MIN_VALIDATION_IMPROVEMENT = 0.001;
 const BATCHES_PER_SLICE = 1; // Yield to the worker event queue after every batch so Stop and other messages are handled promptly.
@@ -625,7 +625,7 @@ function runBatch() {
       self.postMessage({type: "progress", ...progressPayload()});
       lastProgressMessageAt = now;
     }
-    if (running) setTimeout(runBatch, 0);
+    if (running) setTimeout(runBatch, 12); // Give the tablet UI and Stop messages time to run between batches.
   } catch (error) {
     running = false;
     self.postMessage({type: "error", message: error && error.message ? error.message : String(error)});
