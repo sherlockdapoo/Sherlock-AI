@@ -1426,9 +1426,9 @@ const GSM8K_TRAIN_BUDGET = 1500000;
 const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB training buffer safely.
 const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
-const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-best-v1';
+const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-char-input-context8-legacy-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-char-input-context8-v1';
-const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-previous-dataset-checkpoint-v1';
+const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-char-input-context8-previous-dataset-v1';
 const NEURAL_DATASET_REVISION = 'dailydialog-ultrachat-no-robots-gsm8k-2026-11';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
@@ -1946,7 +1946,9 @@ function saveNeuralCheckpoint(data) {
     datasetFingerprint: currentNeuralDatasetFingerprint,
     optimizer: data.optimizer === 'adamw' ? 'adamw' : neuralActiveOptimizer,
     accuracy: Number(data.accuracy),
+    bestAccuracy: Number(data.bestAccuracy),
     validationLoss: Number(data.validationLoss),
+    bestValidationLoss: Number(data.bestValidationLoss),
     perplexity: Number(data.perplexity),
     evaluations: Number(data.evaluations) || 0,
     validationSamples: Number(data.validationSamples) || 0,
@@ -1982,7 +1984,7 @@ function restoreSavedNeuralCheckpoint() {
   try {
     const isCompatibleCheckpoint = candidate =>
       candidate && Number(candidate.version) === 9 &&
-      Number(candidate.parameterCount) === 61488 &&
+      Number(candidate.parameterCount) === 61784 &&
       candidate.datasetRevision === NEURAL_DATASET_REVISION &&
       typeof candidate.datasetFingerprint === 'string' &&
       typeof candidate.trainingState === 'string';
@@ -2076,7 +2078,9 @@ function restoreSavedNeuralCheckpoint() {
       randomState: Number(record.randomState) >>> 0,
       modelBuffer: buffer,
       accuracy: Number(record.accuracy),
+      bestAccuracy: record.bestAccuracy !== null && record.bestAccuracy !== undefined && Number.isFinite(Number(record.bestAccuracy)) ? Number(record.bestAccuracy) : Number(record.accuracy),
       validationLoss: record.validationLoss !== null && record.validationLoss !== undefined && Number.isFinite(Number(record.validationLoss)) ? Number(record.validationLoss) : null,
+      bestValidationLoss: record.bestValidationLoss !== null && record.bestValidationLoss !== undefined && Number.isFinite(Number(record.bestValidationLoss)) ? Number(record.bestValidationLoss) : record.validationLoss,
       perplexity: record.perplexity !== null && record.perplexity !== undefined && Number.isFinite(Number(record.perplexity)) ? Number(record.perplexity) : null,
       evaluations: Number(record.evaluations) || 0,
       validationSamples: Number(record.validationSamples) || 0,
