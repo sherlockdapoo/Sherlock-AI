@@ -479,6 +479,7 @@ function evaluateAsync() {
   let correct = 0;
   let totalLoss = 0;
   let total = 0;
+  const evaluationNumber = evaluationCount + 1;
 
   return new Promise((resolve, reject) => {
     const processChunk = () => {
@@ -499,6 +500,14 @@ function evaluateAsync() {
           totalLoss += -Math.log(Math.max(probabilities[target], 1e-9));
           total++;
         }
+        self.postMessage({
+          type: "validation-progress",
+          evaluation: evaluationNumber,
+          completed: cursor,
+          total: count,
+          steps,
+          stopRequested
+        });
         if (cursor < count) {
           setTimeout(processChunk, 0);
           return;
@@ -536,34 +545,35 @@ function evaluateAsync() {
         }
 
         // Send the large model buffer only when the best checkpoint improves.
-        if (improved) {
-          postBestCheckpoint();
-        } else {
-          self.postMessage({
-            type: "evaluation",
-            optimizer: activeOptimizer,
-            learningRate: activeLearningRate,
-            accuracy: score,
-            bestAccuracy,
-            validationLoss,
-            bestValidationLoss,
-            perplexity,
-            evaluations: evaluationCount,
-            validationSamples: total,
-            steps,
-            examples: examplesSeen,
-            loss: movingLoss,
-            batchSize: activeBatchSize,
-            maxSteps: activeMaxSteps,
-            runSteps: Math.max(0, steps - runStartSteps),
-            optimizerStep,
-            randomState: randomState >>> 0,
-            parameters: PARAMS,
-            assistantTargetMetrics: true,
-            trainingTargetTokens: trainTargetPositions.length,
-            validationTargetTokens: validationTargetPositions.length
-          });
-        }
+        if (improved) postBestCheckpoint();
+        // Always report the completed check, including when a new best checkpoint was saved.
+        self.postMessage({
+          type: "evaluation",
+          optimizer: activeOptimizer,
+          learningRate: activeLearningRate,
+          accuracy: score,
+          bestAccuracy,
+          validationLoss,
+          bestValidationLoss,
+          perplexity,
+          evaluations: evaluationCount,
+          evaluationsWithoutImprovement,
+          earlyStopPatience: EARLY_STOP_PATIENCE,
+          improved,
+          validationSamples: total,
+          steps,
+          examples: examplesSeen,
+          loss: movingLoss,
+          batchSize: activeBatchSize,
+          maxSteps: activeMaxSteps,
+          runSteps: Math.max(0, steps - runStartSteps),
+          optimizerStep,
+          randomState: randomState >>> 0,
+          parameters: PARAMS,
+          assistantTargetMetrics: true,
+          trainingTargetTokens: trainTargetPositions.length,
+          validationTargetTokens: validationTargetPositions.length
+        });
         evaluationInProgress = false;
         resolve({accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount});
       } catch (error) {
@@ -571,6 +581,14 @@ function evaluateAsync() {
         reject(error);
       }
     };
+    self.postMessage({
+      type: "validation-progress",
+      evaluation: evaluationNumber,
+      completed: 0,
+      total: count,
+      steps,
+      stopRequested
+    });
     setTimeout(processChunk, 0);
   });
 }
@@ -741,7 +759,16 @@ function finishStop(reason = "manual") {
     postBestCheckpoint();
   }
   const stopReasonLabel = reason === "early-stopping" ? "early-stopping" : reason;
-  self.postMessage({type: "stopped", ...progressPayload(), restoredBest, stopReason: stopReasonLabel});
+  self.postMessage({
+    type: "stopped",
+    ...progressPayload(),
+    restoredBest,
+    stopReason: stopReasonLabel,
+    evaluationsWithoutImprovement,
+    earlyStopPatience: EARLY_STOP_PATIENCE,
+    minimumValidationImprovement: MIN_VALIDATION_IMPROVEMENT,
+    bestSteps: restoredBest ? bestSteps : steps
+  });
 }
 function stopTraining(reason = "manual") {
   if (!running && !evaluationInProgress) return;

@@ -1028,7 +1028,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.16.1, trainer v0.14.0">v0.16.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.16.2, trainer v0.14.0">v0.16.2</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2513,7 +2513,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.16.1-yielding-validation', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.16.2-validation-status', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2585,10 +2585,24 @@ backToTopButton.addEventListener('click', () => {
 updateBackToTopButton();
 
 updateNeuralControls();
+    } else if (data.type === 'validation-progress') {
+      if (neuralTraining) {
+        setNeuralState('Validating on this device', 'running');
+        const progressText = 'Validation check ' + Number(data.evaluation).toLocaleString() +
+          ' · ' + Number(data.completed).toLocaleString() + ' / ' + Number(data.total).toLocaleString() +
+          ' held-out answer tokens checked.';
+        $('neuralMessage').textContent = data.stopRequested || neuralStopPending
+          ? 'Stop requested. ' + progressText + ' Sherlock will stop after this check and restore its best checkpoint.'
+          : progressText + ' Training resumes when the check finishes.';
+      }
     } else if (data.type === 'evaluation') {
       updateNeuralMetrics(data, true);
+      if (neuralTraining) setNeuralState('Training on this device', 'running');
+      const patienceText = Number(data.evaluationsWithoutImprovement || 0).toLocaleString() +
+        ' / ' + Number(data.earlyStopPatience || 10).toLocaleString() + ' checks without improvement.';
       $('neuralMessage').textContent = 'Validation check ' + Number(data.evaluations).toLocaleString() +
-        ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens.';
+        ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens. ' +
+        (data.improved ? 'New best validation loss saved.' : 'No new best validation loss. ' + patienceText);
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
@@ -2629,7 +2643,11 @@ updateNeuralControls();
       $('neuralMessage').textContent = data.stopReason === 'limit'
         ? 'Training-step target reached. The best validation checkpoint has been restored and saved.'
         : data.stopReason === 'early-stopping'
-          ? 'Early stopping: validation loss stopped improving. Sherlock restored and saved its best checkpoint.'
+          ? 'Early stopping after ' + Number(data.evaluationsWithoutImprovement || 0).toLocaleString() +
+            ' consecutive validation checks without a loss improvement of at least ' +
+            Number(data.minimumValidationImprovement || 0.001).toFixed(3) +
+            '. Restored and saved the best checkpoint from step ' +
+            Number(data.bestSteps || data.steps || 0).toLocaleString() + '.'
           : data.restoredBest
             ? 'Training stopped. Sherlock restored and saved its best validation checkpoint.'
             : 'Training stopped. Complete more updates to make the neural model useful.';
@@ -2881,7 +2899,7 @@ function stopNeuralTraining() {
   neuralStopPending = true;
   $('neuralStopBtn').disabled = true;
   $('neuralStopBtn').textContent = '■ Stopping…';
-  $('neuralMessage').textContent = 'Stop requested. Sherlock is restoring its best validation checkpoint…';
+  $('neuralMessage').textContent = 'Stop requested. Sherlock is finishing its current task (including validation, if one is running), then restoring its best checkpoint…';
   neuralWorker.postMessage({type: 'stop'});
   if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
   neuralStopTimeout = setTimeout(() => {
