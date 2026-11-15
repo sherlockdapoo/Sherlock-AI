@@ -3583,7 +3583,6 @@ async function writeNeuralDatasetCache(data) {
         ultraError: data.ultraError || '',
         noRobotsError: data.noRobotsError || '',
         mathError: data.mathError || '',
-        trainingQuality: data.trainingQuality || null,
         savedAt: new Date().toISOString()
       }, NEURAL_DATASET_REVISION);
       request.onsuccess = () => resolve();
