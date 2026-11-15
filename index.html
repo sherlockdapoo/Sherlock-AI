@@ -3015,10 +3015,10 @@ function buildCorpus(rows) {
 function analyseDatasetQuality(data) {
   const decoder = new TextDecoder('utf-8');
   const extractBlocks = bytes => decoder.decode(bytes || new Uint8Array(0))
-    .split(/\\n{2,}/)
+    .split(/\n{2,}/)
     .map(block => block.trim())
     .filter(Boolean);
-  const normalise = block => block.replace(/\\s+/g, ' ').trim().toLowerCase();
+  const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingBlocks = extractBlocks(data.trainBytes);
   const validationBlocks = extractBlocks(data.validationBytes);
   const seen = new Set();
@@ -3033,15 +3033,15 @@ function analyseDatasetQuality(data) {
     else seen.add(key);
 
     const words = block
-      .replace(/^(?:user|sherlock):\\s*/gim, ' ')
+      .replace(/^(?:user|sherlock):\s*/gim, ' ')
       .trim()
       .split(/\\s+/)
       .filter(Boolean);
     wordTotal += words.length;
     if (words.length < 12) veryBrief++;
 
-    const hasUser = /^user:\\s*\\S/im.test(block);
-    const hasSherlock = /^sherlock:\\s*\\S/im.test(block);
+    const hasUser = /^user:\s*\S/im.test(block);
+    const hasSherlock = /^sherlock:\s*\S/im.test(block);
     if (!hasUser || !hasSherlock) speakerFormatFlags++;
   }
 
