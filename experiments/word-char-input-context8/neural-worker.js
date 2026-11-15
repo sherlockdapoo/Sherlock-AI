@@ -391,8 +391,10 @@ function evaluate(){
   const perplexity=Math.exp(validationLoss);
   latestAccuracy=score;latestValidationLoss=validationLoss;latestPerplexity=perplexity;
   evaluationCount++;validationSamples=total;
-  bestValidationLoss=validationLoss;bestAccuracy=score;
-  bestParameters=new Float32Array(parameters);
+  if(validationLoss<bestValidationLoss){
+    bestValidationLoss=validationLoss;bestAccuracy=score;
+    bestParameters=new Float32Array(parameters);
+  }
   const checkpointState=new Float32Array(PARAMS*3);
   checkpointState.set(parameters,0);
   checkpointState.set(firstMoment,PARAMS);
@@ -624,11 +626,13 @@ self.addEventListener("message", event => {
       secondMoment.set(restoredState.subarray(PARAMS * 2, PARAMS * 3));
       gradients.fill(0);
       bestParameters = new Float32Array(parameters);
-      bestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1;
-      latestAccuracy = bestAccuracy >= 0 ? bestAccuracy : null;
+      bestAccuracy = Number.isFinite(Number(message.bestAccuracy)) ? Number(message.bestAccuracy) :
+        (Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1);
+      latestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : null;
       latestValidationLoss = message.validationLoss !== null && message.validationLoss !== undefined && Number.isFinite(Number(message.validationLoss))
         ? Number(message.validationLoss) : null;
-      bestValidationLoss = latestValidationLoss === null ? Infinity : latestValidationLoss;
+      bestValidationLoss = message.bestValidationLoss !== null && message.bestValidationLoss !== undefined && Number.isFinite(Number(message.bestValidationLoss))
+        ? Number(message.bestValidationLoss) : (latestValidationLoss === null ? Infinity : latestValidationLoss);
       latestPerplexity = message.perplexity !== null && message.perplexity !== undefined && Number.isFinite(Number(message.perplexity))
         ? Number(message.perplexity) : null;
       evaluationCount = Math.max(0, Number(message.evaluations) || 0);
