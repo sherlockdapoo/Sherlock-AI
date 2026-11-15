@@ -22,8 +22,8 @@ const DEFAULT_LEARNING_RATE = 0.001;
 let activeLearningRate = DEFAULT_LEARNING_RATE;
 const ADAMW_WEIGHT_DECAY = 0.0001;
 let activeOptimizer = 'adamw';
-const EVAL_EVERY = 25;
-const EVAL_SAMPLES = 1280;
+const EVAL_EVERY = 50;
+const EVAL_SAMPLES = 640;
 const BATCHES_PER_SLICE = 6;
 
 let trainData = null;
