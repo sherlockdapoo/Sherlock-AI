@@ -1,7 +1,7 @@
 /* Sherlock GPT neural worker: a compact word-token MLP trained with backpropagation. */
 "use strict";
 
-const VOCAB = 1024;
+const VOCAB = 2048;
 const CONTEXT = 8;
 const EMBED = 8;
 const INPUT = CONTEXT * EMBED;
@@ -65,7 +65,6 @@ let lossInitialized = false;
 const inputVector = new Float32Array(INPUT);
 const hiddenVector = new Float32Array(HIDDEN);
 const probabilities = new Float32Array(VOCAB);
-const outputDelta = new Float32Array(VOCAB);
 const hiddenDelta = new Float32Array(HIDDEN);
 const contextCodes = new Uint16Array(CONTEXT);
 
@@ -184,8 +183,7 @@ function forwardContext() {
   }
 
   let maximum = -Infinity;
-  for (let c = 0; c < VOCAB; c++) {
-    if (c >= vocabularySize) {
+  for (let c = 0; c < vocabularySize; c++) {
       probabilities[c] = -Infinity;
       continue;
     }
@@ -222,11 +220,8 @@ function trainExample(position) {
   const loss = -Math.log(targetProbability);
 
   hiddenDelta.fill(0);
-  for (let c = 0; c < VOCAB; c++) {
-    const delta = c < vocabularySize
-      ? probs[c] - (c === target ? 1 : 0)
-      : 0;
-    outputDelta[c] = delta;
+  for (let c = 0; c < vocabularySize; c++) {
+    const delta = probs[c] - (c === target ? 1 : 0);
     if (delta === 0) continue;
     gradients[B2_OFFSET + c] += delta;
     const row = W2_OFFSET + c * HIDDEN;
@@ -623,7 +618,7 @@ self.addEventListener("message", event => {
         learningRate: activeLearningRate,
         batchSize: activeBatchSize,
         maxSteps: activeMaxSteps,
-        fullTrainingState: Number(message.checkpointVersion) >= 9
+        fullTrainingState: Number(message.checkpointVersion) >= 10
       });
     } else if (message.type === "set-data") {
       const dataInfo = setDatasetBuffers(message.trainBuffer, message.validationBuffer);
