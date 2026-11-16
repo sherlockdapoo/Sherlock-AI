@@ -140,6 +140,7 @@ const MAX_HISTORY=8;
 const $=id=>document.getElementById(id);
 let worker=null;
 let modelReady=false;
+let loading=false;
 let busy=false;
 let requestId=0;
 let pendingGeneration=null;
@@ -328,6 +329,9 @@ function startWorker(datasets,record){
  });
 }
 async function initialise(){
+ if(loading)return;
+ loading=true;
+ $('retryLoad').disabled=true;
  setReady(false);
  $('retryLoad').hidden=true;
  setStatus('Checking your saved model…','');
@@ -351,6 +355,9 @@ async function initialise(){
   setOutput('Your model has not been changed. Check the message above, then retry or open the training lab.',true);
   $('outputMeta').textContent='Not ready';
   console.error(error);
+ }finally{
+  loading=false;
+  $('retryLoad').disabled=false;
  }
 }
 function seedFromPrompt(prompt){
@@ -394,10 +401,15 @@ function generate(promptOverride){
  const id=++requestId;
  const timeout=setTimeout(()=>{
   if(!pendingGeneration||pendingGeneration.id!==id)return;
-  pendingGeneration=null;setBusy(false);
-  setHint('Generation timed out. The model is still loaded. Try again or use a shorter prompt.',true);
+  pendingGeneration=null;
+  stopWorker();
+  setBusy(false);
+  setReady(false);
+  setStatus('Generation timed out','error','WORKER RESET');
+  $('retryLoad').hidden=false;
+  setHint('The model worker did not respond. It has been reset safely; reload the saved model to try again.',true);
   $('outputMeta').textContent='Timed out';
-  setOutput('Sherlock did not respond before the time limit.',true);
+  setOutput('Sherlock did not respond before the time limit. Your saved checkpoint is unchanged.',true);
  },45000);
  pendingGeneration={id,timeout,resolve:text=>{
   setBusy(false);
