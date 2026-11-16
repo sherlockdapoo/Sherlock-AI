@@ -1,4 +1,4 @@
-/* Sherlock GPT v0.17.2: stop-step and validation diagnostics. */
+/* Sherlock GPT v0.17.3: restartable early stopping. */
 "use strict";
 
 const VOCAB = 1024;
@@ -1026,6 +1026,13 @@ self.addEventListener("message", event => {
       }
       if (!trainData || !validationData) throw new Error("Load the training and validation datasets before training.");
       if (!running) {
+        // A new run resumes from the current/restored weights, but gets a fresh
+        // early-stopping window. Otherwise a completed patience counter would
+        // immediately stop every subsequent attempt to continue training.
+        evaluationsWithoutImprovement = 0;
+        earlyStoppingLossWindow = [];
+        bestSmoothedValidationLoss = Infinity;
+        latestSmoothedValidationLoss = null;
         runStartSteps = steps;
         running = true;
         lastProgressMessageAt = -Infinity;
