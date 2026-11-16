@@ -3699,8 +3699,8 @@ async function writeNeuralDatasetCache(data) {
 }
 
 function displayLoadedNeuralDataset(data, fromCache) {
-  const isStandalone = data.datasetName === 'Sherlock standalone curriculum v0.14.0';
-  const sources = isStandalone ? ['Sherlock standalone curriculum v0.14.0'] : ['DailyDialog'];
+  const isStandalone = data.datasetName === 'Sherlock balanced curriculum v0.17.0';
+  const sources = isStandalone ? ['Sherlock balanced curriculum v0.17.0'] : ['DailyDialog'];
   if (!isStandalone && data.ultraAvailable) sources.push('UltraChat');
   if (!isStandalone && data.noRobotsAvailable) sources.push('No Robots');
   if (!isStandalone && data.mathAvailable) sources.push('GSM8K maths');
@@ -3712,7 +3712,7 @@ function displayLoadedNeuralDataset(data, fromCache) {
   showDataProgress(1, 1, fromCache ? 'Using saved ' + (isStandalone ? 'standalone curriculum' : 'browser dataset') : sources.join(' + ') + ' ready');
   if (fromCache) {
     $('neuralMessage').textContent = isStandalone
-      ? 'Restored Sherlock standalone curriculum v0.14.0 from this browser. No external datasets are used.'
+      ? 'Restored Sherlock balanced curriculum v0.17.0 from this browser. No external datasets are used.'
       : 'Restored the expanded training datasets from this browser. No dataset download is needed.';
   } else {
     $('neuralMessage').textContent = 'Loaded ' + data.trainConversations.toLocaleString() + ' training conversations from ' + sources.join(', ') + ', with ' + data.validationConversations.toLocaleString() + ' separate held-out validation conversations.';
@@ -3743,8 +3743,8 @@ function validateStandaloneCurriculumText(trainingText, validationText) {
       }
     }
   };
-  validateConversationBlocks(trainingBlocks, 'Training library', 10000);
-  validateConversationBlocks(validationBlocks, 'Validation library', 1000);
+  validateConversationBlocks(trainingBlocks, 'Training library', 12000);
+  validateConversationBlocks(validationBlocks, 'Validation library', 1200);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingSet = new Set(trainingBlocks.map(normalise));
   if (validationBlocks.some(block => trainingSet.has(normalise(block))))
@@ -3787,7 +3787,7 @@ async function loadStandaloneCurriculum(signal) {
     mathAvailable: false,
     mathValidationBytes: null,
     mathValidationConversations: 0,
-    datasetName: 'Sherlock standalone curriculum v0.14.0',
+    datasetName: 'Sherlock balanced curriculum v0.17.0',
     ultraError: '', noRobotsError: '', mathError: ''
   };
   datasetCache = data;
