@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Sherlock AI · New Playground</title>
+<style>
+:root{color-scheme:dark;--bg:#080e19;--panel:#111c2d;--panel2:#0c1626;--line:#263852;--text:#edf4ff;--muted:#9eb0c9;--blue:#72a8ff;--green:#55d6a2;--red:#ff8585}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1c3151 0,transparent 55%),var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+main{width:min(760px,100%);margin:0 auto;padding:24px 16px calc(28px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#315b92,#172c49);display:grid;place-items:center;font-size:23px;font-weight:800}
+h1{font-size:20px;line-height:1.15;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}
+.pill{border:1px solid var(--line);background:#0c1728;color:var(--muted);border-radius:999px;padding:6px 10px;font-size:12px;white-space:nowrap}
+.card{background:linear-gradient(180deg,rgba(20,33,52,.98),rgba(13,23,38,.98));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 18px 55px #0005}
+.status{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px;margin-bottom:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:#e0b65c;box-shadow:0 0 0 4px #e0b65c20}.dot.ready{background:var(--green);box-shadow:0 0 0 4px #55d6a220}.dot.error{background:var(--red);box-shadow:0 0 0 4px #ff858520}
+.intro{color:var(--muted);font-size:13px;margin:0 0 16px}
+label{display:block;font-weight:650;font-size:13px;margin-bottom:8px}
+textarea{display:block;width:100%;min-height:112px;resize:vertical;border:1px solid #344966;border-radius:14px;background:#081321;color:var(--text);padding:14px;font:inherit;font-size:16px;outline:none}
+textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #72a8ff20}
+textarea:disabled{opacity:.6}
+.actions{display:flex;gap:10px;margin-top:12px;align-items:center}
+button{border:0;border-radius:12px;padding:12px 16px;font:700 14px system-ui;cursor:pointer;min-height:46px}
+#generate{flex:1;background:linear-gradient(100deg,#79b2ff,#a1c7ff);color:#071326}
+#generate:disabled{opacity:.42;cursor:not-allowed}
+#clear{background:#1a2a40;color:#d9e6f8;border:1px solid #344966}
+button:focus-visible,a:focus-visible{outline:3px solid #a8ceff;outline-offset:3px}
+.hint{font-size:12px;color:var(--muted);margin:10px 2px 0;min-height:19px}
+.output-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 2px 9px}
+h2{font-size:15px;margin:0}.small{font-size:11px;color:var(--muted)}
+.output{min-height:120px;white-space:pre-wrap;overflow-wrap:anywhere;background:#081321;border:1px solid var(--line);border-radius:14px;padding:15px;color:#e8f1ff}
+.output.placeholder{color:#8194ad}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.example{background:#14253b;border:1px solid #304661;color:#d6e6fb;border-radius:999px;padding:7px 11px;min-height:36px;font-size:12px}
+footer{color:#7f91a9;text-align:center;font-size:11px;margin:16px 0 0}
+a{color:#9ec5ff}
+@media(min-width:600px){main{padding-top:36px}.card{padding:24px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <div class="brand"><div class="mark" aria-hidden="true">⌕</div><div><h1>Sherlock AI Playground</h1><div class="sub">A clean, separate place to test your trained model</div></div></div>
+ <span class="pill">PLAYGROUND 1.0</span>
+</header>
+<section class="card" aria-label="Sherlock prompt playground">
+ <div class="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking for your saved Sherlock model…</span></div>
+ <p class="intro">This page only loads the saved model and generates text. It does not train, reset, or overwrite your model.</p>
+ <label for="prompt">Your prompt</label>
+ <textarea id="prompt" maxlength="180" placeholder="Type a starting phrase…" disabled></textarea>
+ <div class="actions">
+  <button id="generate" type="button" disabled>Generate ↗</button>
+  <button id="clear" type="button">Clear</button>
+ </div>
+ <p class="hint" id="hint" aria-live="polite">Loading the model and its matching vocabulary…</p>
+ <div class="examples" aria-label="Example prompts">
+  <button class="example" type="button" data-prompt="The best way to learn is">Learning</button>
+  <button class="example" type="button" data-prompt="One interesting thing about science is">Science</button>
+  <button class="example" type="button" data-prompt="A good question to ask is">Questions</button>
+ </div>
+ <div class="output-head"><h2>Generated output</h2><span class="small" id="outputMeta">Waiting</span></div>
+ <div class="output placeholder" id="output" role="status" aria-live="polite">Your generated continuation will appear here.</div>
+</section>
+<footer>Local browser inference · Uses the existing v0.17.0 trained checkpoint · <a href="../experiments/balanced-learning-v0170/">Back to training</a></footer>
+</main>
+<script>
+'use strict';
+const DB_NAME='sherlock-gpt-v0170-experiment-cache';
+const CHECKPOINT_STORE='checkpoints';
+const DATA_STORE='datasets';
+const CHECKPOINT_KEY='sherlock-gpt-neural-experiment-v0170-v1';
+const DATASET_REVISION='sherlock-balanced-curriculum-v0170-2026-11';
+const PARAMETER_COUNT=70704;
+const WORKER_URL='../experiments/balanced-learning-v0170/neural-worker.js?v=playground-1.0';
+const TRAIN_URL='../experiments/balanced-learning-v0170/data/sherlock-curriculum-v0170-train.txt';
+const VALIDATION_URL='../experiments/balanced-learning-v0170/data/sherlock-curriculum-v0170-validation.txt';
+const $=id=>document.getElementById(id);
+let worker=null;
+let modelReady=false;
+let busy=false;
+let requestId=0;
+let pendingGeneration=null;
+
+function setStatus(message,kind){
+ $('statusText').textContent=message;
+ $('statusDot').className='dot'+(kind?' '+kind:'');
+}
+function setHint(message){$('hint').textContent=message;}
+function setOutput(message,placeholder){
+ $('output').textContent=message;
+ $('output').classList.toggle('placeholder',!!placeholder);
+}
+function setReady(ready){
+ modelReady=!!ready;
+ $('prompt').disabled=!modelReady||busy;
+ $('generate').disabled=!modelReady||busy;
+}
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  if(!('indexedDB' in window)){reject(new Error('This browser does not support saved model storage.'));return;}
+  const req=indexedDB.open(DB_NAME,2);
+  req.onupgradeneeded=()=>{
+   const db=req.result;
+   if(!db.objectStoreNames.contains(DATA_STORE))db.createObjectStore(DATA_STORE);
+   if(!db.objectStoreNames.contains(CHECKPOINT_STORE))db.createObjectStore(CHECKPOINT_STORE);
+  };
+  req.onsuccess=()=>resolve(req.result);
+  req.onerror=()=>reject(req.error||new Error('Could not open saved model storage.'));
+ });
+}
+async function readRecord(storeName,key){
+ const db=await openDB();
+ try{return await new Promise((resolve,reject)=>{
+  const tx=db.transaction(storeName,'readonly');
+  const req=tx.objectStore(storeName).get(key);
+  req.onsuccess=()=>resolve(req.result||null);
+  req.onerror=()=>reject(req.error||new Error('Could not read saved browser data.'));
+ });}finally{db.close();}
+}
+function asArrayBuffer(value){
+ if(value instanceof ArrayBuffer)return value.slice(0);
+ if(ArrayBuffer.isView(value))return value.buffer.slice(value.byteOffset,value.byteOffset+value.byteLength);
+ throw new Error('The saved training dataset is not in a readable format.');
+}
+async function fetchTextBuffer(url){
+ const response=await fetch(url,{cache:'no-store'});
+ if(!response.ok)throw new Error('Could not load '+url+' ('+response.status+').');
+ return new TextEncoder().encode(await response.text()).buffer;
+}
+async function loadDatasets(){
+ let cached=null;
+ try{cached=await readRecord(DATA_STORE,DATASET_REVISION);}catch(error){console.warn('Dataset cache unavailable:',error);}
+ if(cached&&cached.revision===DATASET_REVISION&&cached.trainBytes&&cached.validationBytes){
+  return {train:asArrayBuffer(cached.trainBytes),validation:asArrayBuffer(cached.validationBytes),source:'saved browser dataset'};
+ }
+ const values=await Promise.all([fetchTextBuffer(TRAIN_URL),fetchTextBuffer(VALIDATION_URL)]);
+ return {train:values[0],validation:values[1],source:'published curriculum files'};
+}
+function validateCheckpoint(record){
+ if(!record||Number(record.version)!==10)throw new Error('No compatible saved Sherlock model was found. Open the training page, train Sherlock, then press Stop to save a checkpoint.');
+ if(Number(record.parameterCount)!==PARAMETER_COUNT)throw new Error('The saved model has a different architecture and cannot be loaded by this Playground.');
+ if(record.datasetRevision!==DATASET_REVISION)throw new Error('The saved model uses a different training dataset version.');
+ if(!(record.modelBuffer instanceof ArrayBuffer)||record.modelBuffer.byteLength!==PARAMETER_COUNT*3*Float32Array.BYTES_PER_ELEMENT)
+  throw new Error('The saved model checkpoint is incomplete or has an invalid size.');
+ if(!(Number(record.examples)>0))throw new Error('The saved checkpoint has no completed training examples. Train Sherlock first.');
+}
+function startWorker(datasets,record){
+ return new Promise((resolve,reject)=>{
+  try{worker=new Worker(new URL(WORKER_URL,window.location.href));}
+  catch(error){reject(new Error('Could not start the model worker: '+error.message));return;}
+  let initialised=false;
+  const fail=message=>{
+   if(worker)worker.terminate();
+   worker=null;
+   reject(new Error(message||'The model worker reported an error.'));
+  };
+  worker.onmessage=event=>{
+   const data=event.data||{};
+   if(data.type==='ready'&&!initialised){
+    initialised=true;
+    const buffer=record.modelBuffer.slice(0);
+    worker.postMessage({
+     type:'load-model',
+     optimizer:record.optimizer==='adam'?'adam':'adamw',
+     checkpointVersion:10,
+     parameterCount:PARAMETER_COUNT,
+     optimizerStep:Number(record.optimizerStep)||0,
+     randomState:Number(record.randomState)>>>0,
+     modelBuffer:buffer,
+     accuracy:record.accuracy,
+     bestAccuracy:record.bestAccuracy,
+     validationLoss:record.validationLoss,
+     bestValidationLoss:record.bestValidationLoss,
+     perplexity:record.perplexity,
+     evaluations:Number(record.evaluations)||0,
+     validationSamples:Number(record.validationSamples)||0,
+     steps:Number(record.steps)||0,
+     examples:Number(record.examples)||0,
+     loss:Number(record.loss)||0,
+     learningRate:Number(record.learningRate)||0.001
+    },[buffer]);
+   }else if(data.type==='model-loaded'){
+    setReady(true);
+    setStatus('Sherlock model loaded and ready','ready');
+    setHint('Model restored from this browser. Your prompt runs locally on this device.');
+    resolve(data);
+   }else if(data.type==='generated'&&pendingGeneration&&data.id===pendingGeneration.id){
+    const pending=pendingGeneration;
+    pendingGeneration=null;
+    clearTimeout(pending.timeout);
+    pending.resolve(String(data.text||''));
+   }else if(data.type==='error'){
+    if(data.id!==undefined&&pendingGeneration&&data.id===pendingGeneration.id){
+     const pending=pendingGeneration;pendingGeneration=null;clearTimeout(pending.timeout);pending.reject(new Error(data.message||'Generation failed.'));
+    }else if(!modelReady){fail(data.message||'The saved model could not be restored.');}
+   }
+  };
+  worker.onerror=event=>fail(event.message||'The model worker crashed while loading.');
+  const train=datasets.train.slice(0),validation=datasets.validation.slice(0);
+  worker.postMessage({type:'init',trainBuffer:train,validationBuffer:validation},[train,validation]);
+ });
+}
+async function initialise(){
+ setStatus('Looking for your saved model…','');
+ setHint('Reading the existing model checkpoint. Nothing will be changed.');
+ try{
+  const record=await readRecord(CHECKPOINT_STORE,CHECKPOINT_KEY);
+  validateCheckpoint(record);
+  setStatus('Loading matching vocabulary and dataset…','');
+  const datasets=await loadDatasets();
+  setHint('Starting the model worker using the '+datasets.source+'.');
+  await startWorker(datasets,record);
+  $('outputMeta').textContent='Model ready';
+ }catch(error){
+  setReady(false);
+  setStatus('Model could not be loaded','error');
+  setHint(error&&error.message?error.message:String(error));
+  setOutput('To use this Playground, first train Sherlock on the training page and let it save a checkpoint.',true);
+  console.error(error);
+ }
+}
+function generate(){
+ if(!modelReady||busy||!worker)return;
+ const prompt=$('prompt').value.trim().slice(0,180);
+ if(!prompt){setHint('Enter a starting phrase first.');$('prompt').focus();return;}
+ busy=true;setReady(true);$('generate').disabled=true;$('generate').textContent='Generating…';
+ setHint('Sherlock is generating locally…');$('outputMeta').textContent='Generating';
+ setOutput('Generating…',true);
+ const id=++requestId;
+ const timeout=setTimeout(()=>{
+  if(!pendingGeneration||pendingGeneration.id!==id)return;
+  pendingGeneration=null;
+  busy=false;setReady(true);$('generate').textContent='Generate ↗';
+  setHint('Generation timed out. The model is still loaded. Try a shorter prompt.');
+  $('outputMeta').textContent='Timed out';
+  setOutput('Sherlock did not respond in time. Try again.',true);
+ },45000);
+ pendingGeneration={id,timeout,resolve:text=>{
+  busy=false;setReady(true);$('generate').textContent='Generate ↗';
+  const clean=text.trim();
+  setOutput(clean||'Sherlock ended its continuation immediately. Try another starting phrase.',!clean);
+  setHint(clean?'Generation complete.':'No continuation was produced for this prompt.');
+  $('outputMeta').textContent='Complete';
+ },reject:error=>{
+  busy=false;setReady(true);$('generate').textContent='Generate ↗';
+  setHint('Generation failed: '+error.message);
+  $('outputMeta').textContent='Error';
+  setOutput('The model could not complete this request.',true);
+ }};
+ try{worker.postMessage({type:'generate',id,prompt,seed:seedFromPrompt(prompt),length:90});}
+ catch(error){
+  clearTimeout(timeout);pendingGeneration=null;busy=false;setReady(true);$('generate').textContent='Generate ↗';
+  setHint('Could not send the prompt to the model: '+error.message);
+ }
+}
+function seedFromPrompt(prompt){
+ let hash=2166136261;
+ for(let i=0;i<prompt.length;i++){hash^=prompt.charCodeAt(i);hash=Math.imul(hash,16777619);}
+ return (hash>>>0)||0x5A17C0DE;
+}
+$('generate').addEventListener('click',generate);
+$('clear').addEventListener('click',()=>{
+ $('prompt').value='';
+ setOutput('Your generated continuation will appear here.',true);
+ $('outputMeta').textContent='Waiting';
+ if(modelReady)$('prompt').focus();
+});
+$('prompt').addEventListener('keydown',event=>{
+ if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();generate();}
+});
+document.querySelectorAll('[data-prompt]').forEach(button=>{
+ button.addEventListener('click',()=>{
+  if(!modelReady)return;
+  $('prompt').value=button.getAttribute('data-prompt')||'';
+  $('prompt').focus();
+ });
+});
+window.addEventListener('pagehide',()=>{if(worker)worker.terminate();});
+initialise();
+</script>
+</body>
+</html>
