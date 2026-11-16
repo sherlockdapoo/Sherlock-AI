@@ -1196,16 +1196,7 @@ body{-webkit-overflow-scrolling:auto}
 
   <section class="panel active" id="neuralPanel" role="tabpanel" aria-labelledby="neuralTab">
     <div class="visual-page">
-      <section class="card visual-card experiment-launch-card" aria-labelledby="experimentLaunchTitle">
-        <div class="experiment-launch-copy">
-          <div class="visual-card-head">
-            <div><h3 id="experimentLaunchTitle">v0.14.0 · Standalone training experiment</h3><p>Try the larger, separate-context experiment without replacing the stable model.</p></div>
-            <span class="visual-mini-tag">10,000 TRAIN · 1,000 VALIDATION</span>
-          </div>
-          <p class="experiment-launch-note">Open the experiment and press <strong>Start neural training</strong>. The website fetches both training files directly into this browser and saves them in browser storage for future visits. No external datasets are used, and stable v0.9.9 stays untouched. You do not need to download or upload files manually.</p>
-        </div>
-        <a class="btn btn-primary experiment-launch-button" href="experiments/conversation-intelligence-v0120/">Open v0.14.0 training lab <span aria-hidden="true">↗</span></a>
-      </section>
+
 
       <div class="visual-section-title">
         <div><h3>01 · Neural training control</h3><p>Start the network, watch the loss and validation score, and stop whenever you are ready.</p></div>
@@ -1433,8 +1424,8 @@ const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-archive-v1';
 const NEURAL_DATASET_REVISION = 'sherlock-standalone-curriculum-v0140-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
-const STANDALONE_TRAIN_URL = 'experiments/conversation-intelligence-v0120/data/sherlock-curriculum-v0140-train.txt';
-const STANDALONE_VALIDATION_URL = 'experiments/conversation-intelligence-v0120/data/sherlock-curriculum-v0140-validation.txt';
+const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0140-train.txt';
+const STANDALONE_VALIDATION_URL = 'data/sherlock-curriculum-v0140-validation.txt';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
