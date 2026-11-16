@@ -2531,7 +2531,8 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.17.3-restartable-early-stop', window.location.href);
+  // Bump this query version whenever neural-worker.js changes so iPad browsers do not reuse an older worker.
+  const workerUrl = new URL('neural-worker.js?v=0.17.5-stop-cache-refresh', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
