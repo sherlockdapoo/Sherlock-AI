@@ -1,4 +1,4 @@
-/* Sherlock GPT neural worker: a compact word-token MLP trained with backpropagation. */
+/* Sherlock GPT v0.18.0: digit-aware tokenizer and six-family balanced learning. */
 "use strict";
 
 const VOCAB = 1024;
@@ -30,7 +30,6 @@ let activeOptimizer = "adamw";
 const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 640;
 const EVAL_CHUNK_SIZE = 40; // Yield between validation slices so Stop can be handled.
-const EARLY_STOP_PATIENCE = 10;
 const MIN_VALIDATION_IMPROVEMENT = 0.001;
 const BATCHES_PER_SLICE = 1; // Yield to the worker event queue after every batch so Stop and other messages are handled promptly.
 const PROGRESS_INTERVAL_MS = 250;
@@ -41,7 +40,16 @@ let lastNetworkSnapshotAt = -Infinity;
 let trainData = null;
 let validationData = null;
 let trainTargetPositions = new Uint32Array(0);
+let trainTargetPositionsByFamily = [];
 let validationTargetPositions = new Uint32Array(0);
+const TASK_FAMILY_NAMES = [
+  "arithmetic",
+  "percentages",
+  "unit conversions",
+  "word problems",
+  "number sequences",
+  "letter/instruction tasks"
+];
 let vocabulary = new Array(VOCAB).fill(null);
 let tokenToId = new Map();
 let vocabularySize = 0;
@@ -60,7 +68,6 @@ let bestRandomState = 0x5A17C0DE;
 let bestSteps = 0;
 let bestExamples = 0;
 let bestMovingLoss = 0;
-let evaluationsWithoutImprovement = 0;
 let evaluationInProgress = false;
 let stopRequested = false;
 let stopRequestReason = "manual";
@@ -112,7 +119,7 @@ function normaliseToken(token) {
   return token;
 }
 function walkTokens(text, callback) {
-  const pattern = /[a-z0-9]+(?:'[a-z0-9]+)?|[ \t]+|\n+|[^a-z0-9\s]/g;
+  const pattern = /[a-z]+(?:'[a-z]+)?|[0-9]|[ \t]+|\n+|[^a-z0-9\s]/g;
   let match;
   let tokenIndex = 0;
   while ((match = pattern.exec(text)) !== null) {
@@ -170,6 +177,60 @@ function collectAssistantTargetPositions(text) {
     tokenIndex++;
   });
   return Uint32Array.from(positions);
+}
+
+function taskFamilyIndex(prompt) {
+  const value = String(prompt || "").toLowerCase();
+  if (/%|\bpercent(?:age)?\b/.test(value)) return 1;
+  if (/\bconvert\b|\bare equal to\b|\bchange\b.*\binto\b/.test(value)) return 2;
+  if (/\bsequence\b/.test(value)) return 4;
+  if (/\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b/.test(value)) return 5;
+  if (/\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/.test(value)) return 3;
+  if (/\b(?:plus|minus|multiplied|divide)\b/.test(value)) return 0;
+  return -1;
+}
+
+function collectAssistantTargetPositionsByFamily(text) {
+  const ranges = [];
+  const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
+  let activeRole = null;
+  let bodyStart = 0;
+  let activeFamily = -1;
+  let match;
+  while ((match = rolePattern.exec(text)) !== null) {
+    if (activeRole === "user") {
+      activeFamily = taskFamilyIndex(text.slice(bodyStart, match.index));
+    } else if (activeRole === "sherlock" && bodyStart < match.index) {
+      ranges.push([bodyStart, match.index, activeFamily]);
+    }
+    activeRole = match[1];
+    bodyStart = rolePattern.lastIndex;
+  }
+  if (activeRole === "sherlock" && bodyStart < text.length)
+    ranges.push([bodyStart, text.length, activeFamily]);
+
+  const positions = TASK_FAMILY_NAMES.map(() => []);
+  let rangeIndex = 0;
+  let tokenIndex = 0;
+  walkTokens(text, (_token, offset) => {
+    while (rangeIndex < ranges.length && offset >= ranges[rangeIndex][1])
+      rangeIndex++;
+    const range = ranges[rangeIndex];
+    if (tokenIndex >= CONTEXT && range && offset >= range[0] && offset < range[1] &&
+        range[2] >= 0 && range[2] < positions.length) {
+      positions[range[2]].push(tokenIndex);
+    }
+    tokenIndex++;
+  });
+  return positions.map(group => Uint32Array.from(group));
+}
+
+function sampleBalancedTrainingPosition() {
+  const familyIndex = randomInt(TASK_FAMILY_NAMES.length);
+  const familyPositions = trainTargetPositionsByFamily[familyIndex];
+  if (!familyPositions || !familyPositions.length)
+    throw new Error("Balanced Learning has no training targets for " + TASK_FAMILY_NAMES[familyIndex] + ".");
+  return familyPositions[randomInt(familyPositions.length)];
 }
 function buildTokenizer(trainingText) {
   const counts = new Map();
@@ -276,7 +337,6 @@ function initialiseParameters() {
   bestSteps = 0;
   bestExamples = 0;
   bestMovingLoss = 0;
-  evaluationsWithoutImprovement = 0;
   evaluationInProgress = false;
   stopRequested = false;
   stopRequestReason = "manual";
@@ -539,9 +599,6 @@ function evaluateAsync() {
           bestSteps = steps;
           bestExamples = examplesSeen;
           bestMovingLoss = movingLoss;
-          evaluationsWithoutImprovement = 0;
-        } else {
-          evaluationsWithoutImprovement++;
         }
 
         // Send the large model buffer only when the best checkpoint improves.
@@ -557,8 +614,6 @@ function evaluateAsync() {
           bestValidationLoss,
           perplexity,
           evaluations: evaluationCount,
-          evaluationsWithoutImprovement,
-          earlyStopPatience: EARLY_STOP_PATIENCE,
           improved,
           validationSamples: total,
           steps,
@@ -693,7 +748,7 @@ function runBatch() {
     if (!trainTargetPositions.length) throw new Error("No assistant-response training targets were found.");
     let batchLoss = 0;
     for (let i = 0; i < activeBatchSize; i++) {
-      const position = trainTargetPositions[randomInt(trainTargetPositions.length)];
+      const position = sampleBalancedTrainingPosition();
       batchLoss += trainExample(position);
     }
     applyOptimizer(activeBatchSize);
@@ -710,10 +765,6 @@ function runBatch() {
           return;
         }
         if (!running) return;
-        if (evaluationsWithoutImprovement >= EARLY_STOP_PATIENCE) {
-          stopTraining("early-stopping");
-          return;
-        }
         setTimeout(runBatch, 0);
       }).catch(error => {
         evaluationInProgress = false;
@@ -758,15 +809,11 @@ function finishStop(reason = "manual") {
     latestPerplexity = Math.exp(bestValidationLoss);
     postBestCheckpoint();
   }
-  const stopReasonLabel = reason === "early-stopping" ? "early-stopping" : reason;
   self.postMessage({
     type: "stopped",
     ...progressPayload(),
     restoredBest,
-    stopReason: stopReasonLabel,
-    evaluationsWithoutImprovement,
-    earlyStopPatience: EARLY_STOP_PATIENCE,
-    minimumValidationImprovement: MIN_VALIDATION_IMPROVEMENT,
+    stopReason: reason,
     bestSteps: restoredBest ? bestSteps : steps
   });
 }
@@ -848,6 +895,7 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
   trainData = encodedTraining.data;
   validationData = encodedValidation.data;
   trainTargetPositions = collectAssistantTargetPositions(trainingText);
+  trainTargetPositionsByFamily = collectAssistantTargetPositionsByFamily(trainingText);
   validationTargetPositions = collectAssistantTargetPositions(validationText);
   trainingUnknownRate = encodedTraining.unknownRate;
   validationUnknownRate = encodedValidation.unknownRate;
@@ -855,11 +903,16 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
     throw new Error("The tokenized training or validation text is too short.");
   if (!trainTargetPositions.length || !validationTargetPositions.length)
     throw new Error("Assistant-response targets were not found. Expected user: and sherlock: turns.");
+  const missingFamilies = TASK_FAMILY_NAMES.filter((name, index) => !trainTargetPositionsByFamily[index] || !trainTargetPositionsByFamily[index].length);
+  if (missingFamilies.length)
+    throw new Error("Balanced Learning is missing training targets for: " + missingFamilies.join(", ") + ".");
   return {
     trainTokens: trainData.length,
     validationTokens: validationData.length,
     trainingTargetTokens: trainTargetPositions.length,
     validationTargetTokens: validationTargetPositions.length,
+    balancedTaskFamilies: TASK_FAMILY_NAMES.length,
+    balancedTargetTokensByFamily: trainTargetPositionsByFamily.map(group => group.length),
     vocabularySize,
     trainingUnknownRate,
     validationUnknownRate
@@ -897,7 +950,6 @@ self.addEventListener("message", event => {
       bestCheckpointStepsSent = bestSteps;
       bestExamples = Math.max(0, Number(message.examples) || 0);
       bestMovingLoss = Math.max(0, Number(message.loss) || 0);
-      evaluationsWithoutImprovement = 0;
       bestAccuracy = Number.isFinite(Number(message.bestAccuracy)) ? Number(message.bestAccuracy) :
         (Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1);
       latestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : null;
