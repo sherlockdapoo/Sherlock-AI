@@ -167,6 +167,7 @@ function setReady(ready){
  $('length').disabled=!modelReady||busy;
  $('generate').disabled=!modelReady||busy;
  $('regenerate').disabled=!modelReady||busy||!lastPrompt;
+ document.querySelectorAll('[data-prompt]').forEach(button=>{button.disabled=!modelReady||busy;});
 }
 function openDB(){
  return new Promise((resolve,reject)=>{
