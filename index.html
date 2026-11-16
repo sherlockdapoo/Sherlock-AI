@@ -1036,7 +1036,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.4, Balanced Learning v0.17.0, manual stopping">v0.18.4</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.5, Balanced Learning v0.17.0, manual stopping">v0.18.5</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1451,7 +1451,8 @@ const TARGET_BATCH_MS = 30;
 const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
 const NEURAL_LOSS_SAMPLE_EVERY = 5;
-const MAX_NEURAL_GRAPH_POINTS = 100000; // Draw up to 1500 points per graph while retaining every history sample.
+const MAX_NEURAL_GRAPH_POINTS = 1500;
+const MAX_NEURAL_HISTORY_SAMPLES = 5000;
 const PERFORMANCE_HISTORY_LIMIT = 60;
 const BATCH_TIMING_WINDOW = 30;
 
@@ -1802,7 +1803,7 @@ function renderNeuralHistory() {
   );
   ['neuralAccuracyXStart','neuralAccuracyXQuarter','neuralAccuracyXMid','neuralAccuracyXThreeQuarter','neuralAccuracyXEnd']
     .forEach((id, index) => { if ($(id)) $(id).textContent = checkTicks[index]; });
-  $('neuralAccuracyRange').textContent = 'Full run: ' + values.length.toLocaleString() + ' checks · observed range ' + minimum.toFixed(3) + '%–' + maximum.toFixed(3) + '%';
+  $('neuralAccuracyRange').textContent = 'Recent history: ' + values.length.toLocaleString() + ' checks · observed range ' + minimum.toFixed(3) + '%–' + maximum.toFixed(3) + '%';
 }
 function renderNeuralValidationLossHistory() {
   const line = $('neuralValidationLossLine');
@@ -1826,7 +1827,11 @@ function renderNeuralValidationLossHistory() {
     return;
   }
   const left = 64, right = 540, top = 18, bottom = 170;
-  const minValue = Math.min(...losses), maxValue = Math.max(...losses);
+  let minValue = Infinity, maxValue = -Infinity;
+  for (const value of losses) {
+    if (value < minValue) minValue = value;
+    if (value > maxValue) maxValue = value;
+  }
   const spread = Math.max(0.05, maxValue - minValue);
   const min = Math.max(0, minValue - spread * 0.12);
   const max = Math.max(min + 0.0001, maxValue + spread * 0.12);
@@ -1907,7 +1912,7 @@ function renderNeuralLossHistory() {
   );
   ['neuralLossXStart','neuralLossXQuarter','neuralLossXMid','neuralLossXThreeQuarter','neuralLossXEnd']
     .forEach((id, index) => { if ($(id)) $(id).textContent = updateTicks[index]; });
-  $('neuralLossRange').textContent = 'Full run: ' + values.length.toLocaleString() + ' samples · loss range ' + minValue.toFixed(4) + '–' + maxValue.toFixed(4) +
+  $('neuralLossRange').textContent = 'Recent history: ' + values.length.toLocaleString() + ' samples · loss range ' + minValue.toFixed(4) + '–' + maxValue.toFixed(4) +
     ' · updates ' + firstStep.toLocaleString() + '–' + lastStep.toLocaleString();
 }
 function updateGlobalNeuralStats() {
@@ -2007,12 +2012,12 @@ async function saveNeuralCheckpoint(data) {
     runSteps: Math.max(0, Number(data.runSteps) || 0),
     optimizerStep: Math.max(0, Math.floor(Number(data.optimizerStep) || 0)),
     randomState: (Number(data.randomState) >>> 0) || 0x5A17C0DE,
-    accuracyHistory: neuralAccuracyHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
-    accuracyEvalHistory: neuralAccuracyEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
-    lossHistory: neuralLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
-    lossStepHistory: neuralLossStepHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
-    validationLossHistory: neuralValidationLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
-    validationLossEvalHistory: neuralValidationLossEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS),
+    accuracyHistory: neuralAccuracyHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES),
+    accuracyEvalHistory: neuralAccuracyEvalHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES),
+    lossHistory: neuralLossHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES),
+    lossStepHistory: neuralLossStepHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES),
+    validationLossHistory: neuralValidationLossHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES),
+    validationLossEvalHistory: neuralValidationLossEvalHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES),
     savedAt,
     modelBuffer
   };
@@ -2140,7 +2145,7 @@ async function restoreSavedNeuralCheckpoint() {
     neuralRestoredDatasetFingerprint = record.datasetFingerprint;
     const restoreFiniteHistory = items =>
       Array.isArray(items)
-        ? items.slice(-MAX_NEURAL_GRAPH_POINTS).map(Number).filter(Number.isFinite)
+        ? items.slice(-MAX_NEURAL_HISTORY_SAMPLES).map(Number).filter(Number.isFinite)
         : [];
     neuralAccuracyHistory = restoreFiniteHistory(record.accuracyHistory);
     neuralAccuracyEvalHistory = restoreFiniteHistory(record.accuracyEvalHistory);
@@ -2365,6 +2370,10 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     if (shouldRecordLoss && lastRecordedStep !== steps) {
       neuralLossHistory.push(neuralLatestLossValue);
       neuralLossStepHistory.push(steps);
+      if (neuralLossHistory.length > MAX_NEURAL_HISTORY_SAMPLES) {
+        neuralLossHistory = neuralLossHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES);
+        neuralLossStepHistory = neuralLossStepHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES);
+      }
       lossHistoryChanged = true;
     }
   }
@@ -2378,9 +2387,9 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
       neuralValidationLossHistory.push(neuralLatestValidationLossValue);
       neuralValidationLossEvalHistory.push(evaluationIndex);
       neuralLastValidationLossEvalIndex = evaluationIndex;
-      if (neuralValidationLossHistory.length > MAX_NEURAL_GRAPH_POINTS) {
-        neuralValidationLossHistory = neuralValidationLossHistory.slice(-MAX_NEURAL_GRAPH_POINTS);
-        neuralValidationLossEvalHistory = neuralValidationLossEvalHistory.slice(-MAX_NEURAL_GRAPH_POINTS);
+      if (neuralValidationLossHistory.length > MAX_NEURAL_HISTORY_SAMPLES) {
+        neuralValidationLossHistory = neuralValidationLossHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES);
+        neuralValidationLossEvalHistory = neuralValidationLossEvalHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES);
       }
       validationLossHistoryChanged = true;
     }
@@ -2409,6 +2418,10 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
       neuralLastEvalIndex = Math.max(neuralLastEvalIndex, evaluationCount);
       neuralAccuracyHistory.push(accuracy);
       neuralAccuracyEvalHistory.push(evaluationCount || neuralAccuracyHistory.length);
+      if (neuralAccuracyHistory.length > MAX_NEURAL_HISTORY_SAMPLES) {
+        neuralAccuracyHistory = neuralAccuracyHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES);
+        neuralAccuracyEvalHistory = neuralAccuracyEvalHistory.slice(-MAX_NEURAL_HISTORY_SAMPLES);
+      }
       accuracyHistoryChanged = true;
     }
   }
