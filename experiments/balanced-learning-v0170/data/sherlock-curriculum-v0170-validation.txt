@@ -2998,83 +2998,83 @@ sherlock: 30448.
 user: Continue this number sequence: 30398, 30412, 30426, 30440. What comes next?
 sherlock: 30454.
 
-user: Name the alphabet letter at position 1.
-sherlock: A.
+user: What number represents the letter A in the alphabet?
+sherlock: 1.
 
-user: Name the alphabet letter at position 2.
-sherlock: B.
+user: What number represents the letter B in the alphabet?
+sherlock: 2.
 
-user: Name the alphabet letter at position 3.
-sherlock: C.
+user: What number represents the letter C in the alphabet?
+sherlock: 3.
 
-user: Name the alphabet letter at position 4.
-sherlock: D.
+user: What number represents the letter D in the alphabet?
+sherlock: 4.
 
-user: Name the alphabet letter at position 5.
-sherlock: E.
+user: What number represents the letter E in the alphabet?
+sherlock: 5.
 
-user: Name the alphabet letter at position 6.
-sherlock: F.
+user: What number represents the letter F in the alphabet?
+sherlock: 6.
 
-user: Name the alphabet letter at position 7.
-sherlock: G.
+user: What number represents the letter G in the alphabet?
+sherlock: 7.
 
-user: Name the alphabet letter at position 8.
-sherlock: H.
+user: What number represents the letter H in the alphabet?
+sherlock: 8.
 
-user: Name the alphabet letter at position 9.
-sherlock: I.
+user: What number represents the letter I in the alphabet?
+sherlock: 9.
 
-user: Name the alphabet letter at position 10.
-sherlock: J.
+user: What number represents the letter J in the alphabet?
+sherlock: 10.
 
-user: Name the alphabet letter at position 11.
-sherlock: K.
+user: What number represents the letter K in the alphabet?
+sherlock: 11.
 
-user: Name the alphabet letter at position 12.
-sherlock: L.
+user: What number represents the letter L in the alphabet?
+sherlock: 12.
 
-user: Name the alphabet letter at position 13.
-sherlock: M.
+user: What number represents the letter M in the alphabet?
+sherlock: 13.
 
-user: Name the alphabet letter at position 14.
-sherlock: N.
+user: What number represents the letter N in the alphabet?
+sherlock: 14.
 
-user: Name the alphabet letter at position 15.
-sherlock: O.
+user: What number represents the letter O in the alphabet?
+sherlock: 15.
 
-user: Name the alphabet letter at position 16.
-sherlock: P.
+user: What number represents the letter P in the alphabet?
+sherlock: 16.
 
-user: Name the alphabet letter at position 17.
-sherlock: Q.
+user: What number represents the letter Q in the alphabet?
+sherlock: 17.
 
-user: Name the alphabet letter at position 18.
-sherlock: R.
+user: What number represents the letter R in the alphabet?
+sherlock: 18.
 
-user: Name the alphabet letter at position 19.
-sherlock: S.
+user: What number represents the letter S in the alphabet?
+sherlock: 19.
 
-user: Name the alphabet letter at position 20.
-sherlock: T.
+user: What number represents the letter T in the alphabet?
+sherlock: 20.
 
-user: Name the alphabet letter at position 21.
-sherlock: U.
+user: What number represents the letter U in the alphabet?
+sherlock: 21.
 
-user: Name the alphabet letter at position 22.
-sherlock: V.
+user: What number represents the letter V in the alphabet?
+sherlock: 22.
 
-user: Name the alphabet letter at position 23.
-sherlock: W.
+user: What number represents the letter W in the alphabet?
+sherlock: 23.
 
-user: Name the alphabet letter at position 24.
-sherlock: X.
+user: What number represents the letter X in the alphabet?
+sherlock: 24.
 
-user: Name the alphabet letter at position 25.
-sherlock: Y.
+user: What number represents the letter Y in the alphabet?
+sherlock: 25.
 
-user: Name the alphabet letter at position 26.
-sherlock: Z.
+user: What number represents the letter Z in the alphabet?
+sherlock: 26.
 
 user: Put these numbers in ascending order: 90286, 90299, 90290, 90309.
 sherlock: 90286, 90290, 90299, 90309.
