@@ -1,4 +1,4 @@
-/* Sherlock GPT v0.18.0: digit-aware tokenizer and six-family balanced learning. */
+/* Sherlock GPT v0.18.1: balanced learning with responsive manual stopping. */
 "use strict";
 
 const VOCAB = 1024;
@@ -543,9 +543,9 @@ function evaluateAsync() {
 
   return new Promise((resolve, reject) => {
     const processChunk = () => {
-      // A Stop request is allowed to finish the current validation pass, but
-      // never starts another one. Each slice yields back to the worker event queue.
-      if (!running) {
+      // A manual Stop exits at the next validation slice so the UI stays responsive.
+      // The runBatch continuation then restores the best checkpoint and reports "stopped".
+      if (!running || stopRequested) {
         evaluationInProgress = false;
         resolve(null);
         return;
