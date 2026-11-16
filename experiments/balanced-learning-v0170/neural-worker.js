@@ -31,7 +31,9 @@ const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 640;
 const EVAL_CHUNK_SIZE = 40; // Yield between validation slices so Stop can be handled.
 const EARLY_STOP_PATIENCE = 10;
-const MIN_VALIDATION_IMPROVEMENT = 0.001;
+const MIN_CHECKPOINT_SAVE_IMPROVEMENT = 0.001;
+const EARLY_STOP_SMOOTHING_WINDOW = 3;
+const SMOOTHED_LOSS_EPSILON = 1e-6;
 const BATCHES_PER_SLICE = 1; // Yield to the worker event queue after every batch so Stop and other messages are handled promptly.
 const PROGRESS_INTERVAL_MS = 250;
 const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
@@ -61,6 +63,9 @@ let bestSteps = 0;
 let bestExamples = 0;
 let bestMovingLoss = 0;
 let evaluationsWithoutImprovement = 0;
+let validationLossWindow = [];
+let latestSmoothedValidationLoss = null;
+let bestSmoothedValidationLoss = Infinity;
 let evaluationInProgress = false;
 let stopRequested = false;
 let stopRequestReason = "manual";
@@ -277,6 +282,9 @@ function initialiseParameters() {
   bestExamples = 0;
   bestMovingLoss = 0;
   evaluationsWithoutImprovement = 0;
+  validationLossWindow = [];
+  latestSmoothedValidationLoss = null;
+  bestSmoothedValidationLoss = Infinity;
   evaluationInProgress = false;
   stopRequested = false;
   stopRequestReason = "manual";
@@ -467,6 +475,13 @@ function postBestCheckpoint() {
   bestCheckpointStepsSent = bestSteps;
   return true;
 }
+function medianValue(values) {
+  const sorted = values.slice().sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2
+    ? sorted[middle]
+    : (sorted[middle - 1] + sorted[middle]) / 2;
+}
 function evaluateAsync() {
   if (!validationData || validationTargetPositions.length === 0)
     return Promise.resolve(null);
@@ -527,7 +542,12 @@ function evaluateAsync() {
         evaluationCount++;
         validationSamples = total;
 
-        const improved = validationLoss < bestValidationLoss - MIN_VALIDATION_IMPROVEMENT;
+        // Keep the genuinely lowest-loss weights, even when the improvement is
+        // smaller than the checkpoint-write threshold.
+        const previousBestValidationLoss = bestValidationLoss;
+        const improved = validationLoss < previousBestValidationLoss;
+        const checkpointImproved = !Number.isFinite(previousBestValidationLoss) ||
+          validationLoss < previousBestValidationLoss - MIN_CHECKPOINT_SAVE_IMPROVEMENT;
         if (improved) {
           bestValidationLoss = validationLoss;
           bestAccuracy = score;
@@ -539,13 +559,35 @@ function evaluateAsync() {
           bestSteps = steps;
           bestExamples = examplesSeen;
           bestMovingLoss = movingLoss;
-          evaluationsWithoutImprovement = 0;
-        } else {
-          evaluationsWithoutImprovement++;
         }
 
-        // Send the large model buffer only when the best checkpoint improves.
-        if (improved) postBestCheckpoint();
+        // A three-check median filters one-off validation spikes. Early-stop
+        // patience follows this smoothed trend, not the noisier token accuracy
+        // or the checkpoint persistence threshold.
+        validationLossWindow.push(validationLoss);
+        if (validationLossWindow.length > EARLY_STOP_SMOOTHING_WINDOW)
+          validationLossWindow.shift();
+        let smoothedValidationLoss = null;
+        let trendImproved = false;
+        if (validationLossWindow.length === EARLY_STOP_SMOOTHING_WINDOW) {
+          smoothedValidationLoss = medianValue(validationLossWindow);
+          latestSmoothedValidationLoss = smoothedValidationLoss;
+          trendImproved = smoothedValidationLoss <
+            bestSmoothedValidationLoss - SMOOTHED_LOSS_EPSILON;
+          if (trendImproved) {
+            bestSmoothedValidationLoss = smoothedValidationLoss;
+            evaluationsWithoutImprovement = 0;
+          } else {
+            evaluationsWithoutImprovement++;
+          }
+        } else {
+          latestSmoothedValidationLoss = null;
+          evaluationsWithoutImprovement = 0;
+        }
+
+        // Persist only material checkpoint gains. Smaller raw-loss gains are
+        // retained in memory and written when training stops.
+        const checkpointSaved = checkpointImproved ? postBestCheckpoint() : false;
         // Always report the completed check, including when a new best checkpoint was saved.
         self.postMessage({
           type: "evaluation",
@@ -555,11 +597,17 @@ function evaluateAsync() {
           bestAccuracy,
           validationLoss,
           bestValidationLoss,
+          smoothedValidationLoss,
+          bestSmoothedValidationLoss: Number.isFinite(bestSmoothedValidationLoss) ? bestSmoothedValidationLoss : null,
           perplexity,
           evaluations: evaluationCount,
           evaluationsWithoutImprovement,
           earlyStopPatience: EARLY_STOP_PATIENCE,
+          earlyStopSmoothingWindow: EARLY_STOP_SMOOTHING_WINDOW,
+          smoothingSamples: validationLossWindow.length,
           improved,
+          checkpointSaved,
+          trendImproved,
           validationSamples: total,
           steps,
           examples: examplesSeen,
@@ -665,6 +713,8 @@ function progressPayload() {
     loss: movingLoss,
     validationLoss: latestValidationLoss,
     bestValidationLoss: Number.isFinite(bestValidationLoss) ? bestValidationLoss : null,
+    smoothedValidationLoss: latestSmoothedValidationLoss,
+    bestSmoothedValidationLoss: Number.isFinite(bestSmoothedValidationLoss) ? bestSmoothedValidationLoss : null,
     perplexity: latestPerplexity,
     evaluations: evaluationCount,
     validationSamples,
@@ -766,7 +816,9 @@ function finishStop(reason = "manual") {
     stopReason: stopReasonLabel,
     evaluationsWithoutImprovement,
     earlyStopPatience: EARLY_STOP_PATIENCE,
-    minimumValidationImprovement: MIN_VALIDATION_IMPROVEMENT,
+    validationSmoothingWindow: EARLY_STOP_SMOOTHING_WINDOW,
+    bestSmoothedValidationLoss: Number.isFinite(bestSmoothedValidationLoss) ? bestSmoothedValidationLoss : null,
+    minimumCheckpointSaveImprovement: MIN_CHECKPOINT_SAVE_IMPROVEMENT,
     bestSteps: restoredBest ? bestSteps : steps
   });
 }
@@ -898,6 +950,9 @@ self.addEventListener("message", event => {
       bestExamples = Math.max(0, Number(message.examples) || 0);
       bestMovingLoss = Math.max(0, Number(message.loss) || 0);
       evaluationsWithoutImprovement = 0;
+      validationLossWindow = [];
+      latestSmoothedValidationLoss = null;
+      bestSmoothedValidationLoss = Infinity;
       bestAccuracy = Number.isFinite(Number(message.bestAccuracy)) ? Number(message.bestAccuracy) :
         (Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : -1);
       latestAccuracy = Number.isFinite(Number(message.accuracy)) ? Number(message.accuracy) : null;
@@ -970,6 +1025,11 @@ self.addEventListener("message", event => {
       }
       if (!trainData || !validationData) throw new Error("Load the training and validation datasets before training.");
       if (!running) {
+        // Every new training session gets a fresh smoothed-trend baseline.
+        evaluationsWithoutImprovement = 0;
+        validationLossWindow = [];
+        latestSmoothedValidationLoss = null;
+        bestSmoothedValidationLoss = Infinity;
         runStartSteps = steps;
         running = true;
         lastProgressMessageAt = -Infinity;
