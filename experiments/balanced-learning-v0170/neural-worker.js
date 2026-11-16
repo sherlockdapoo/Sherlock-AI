@@ -1,4 +1,4 @@
-/* Sherlock GPT v0.17.0: balanced curriculum + digit-aware tokenizer. */
+/* Sherlock GPT v0.17.1: balanced curriculum + smoothed early stopping. */
 "use strict";
 
 const VOCAB = 1024;
@@ -32,6 +32,7 @@ const EVAL_SAMPLES = 640;
 const EVAL_CHUNK_SIZE = 40; // Yield between validation slices so Stop can be handled.
 const EARLY_STOP_PATIENCE = 10;
 const MIN_VALIDATION_IMPROVEMENT = 0.001;
+const EARLY_STOP_SMOOTHING_WINDOW = 3;
 const BATCHES_PER_SLICE = 1; // Yield to the worker event queue after every batch so Stop and other messages are handled promptly.
 const PROGRESS_INTERVAL_MS = 250;
 const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
@@ -69,8 +70,11 @@ let bestAccuracy = -1;
 let latestAccuracy = null;
 let latestLoss = 0;
 let latestValidationLoss = null;
+let latestSmoothedValidationLoss = null;
 let latestPerplexity = null;
 let bestValidationLoss = Infinity;
+let bestSmoothedValidationLoss = Infinity;
+let earlyStoppingLossWindow = [];
 let evaluationCount = 0;
 let validationSamples = 0;
 let running = false;
@@ -285,8 +289,11 @@ function initialiseParameters() {
   latestAccuracy = null;
   latestLoss = 0;
   latestValidationLoss = null;
+  latestSmoothedValidationLoss = null;
   latestPerplexity = null;
   bestValidationLoss = Infinity;
+  bestSmoothedValidationLoss = Infinity;
+  earlyStoppingLossWindow = [];
   evaluationCount = 0;
   validationSamples = 0;
   steps = 0;
@@ -527,6 +534,8 @@ function evaluateAsync() {
         evaluationCount++;
         validationSamples = total;
 
+        // Keep raw-loss checkpoint selection separate from the smoothed
+        // early-stopping decision. A single noisy check must not stop learning.
         const improved = validationLoss < bestValidationLoss - MIN_VALIDATION_IMPROVEMENT;
         if (improved) {
           bestValidationLoss = validationLoss;
@@ -539,9 +548,26 @@ function evaluateAsync() {
           bestSteps = steps;
           bestExamples = examplesSeen;
           bestMovingLoss = movingLoss;
-          evaluationsWithoutImprovement = 0;
-        } else {
-          evaluationsWithoutImprovement++;
+        }
+
+        earlyStoppingLossWindow.push(validationLoss);
+        if (earlyStoppingLossWindow.length > EARLY_STOP_SMOOTHING_WINDOW) {
+          earlyStoppingLossWindow.shift();
+        }
+        const earlyStopWarmupChecks = earlyStoppingLossWindow.length;
+        let smoothedValidationLoss = null;
+        let earlyStopImproved = false;
+        if (earlyStopWarmupChecks === EARLY_STOP_SMOOTHING_WINDOW) {
+          const windowTotal = earlyStoppingLossWindow.reduce((sum, value) => sum + value, 0);
+          smoothedValidationLoss = windowTotal / EARLY_STOP_SMOOTHING_WINDOW;
+          latestSmoothedValidationLoss = smoothedValidationLoss;
+          if (smoothedValidationLoss < bestSmoothedValidationLoss - MIN_VALIDATION_IMPROVEMENT) {
+            bestSmoothedValidationLoss = smoothedValidationLoss;
+            evaluationsWithoutImprovement = 0;
+            earlyStopImproved = true;
+          } else {
+            evaluationsWithoutImprovement++;
+          }
         }
 
         // Send the large model buffer only when the best checkpoint improves.
@@ -559,6 +585,10 @@ function evaluateAsync() {
           evaluations: evaluationCount,
           evaluationsWithoutImprovement,
           earlyStopPatience: EARLY_STOP_PATIENCE,
+          earlyStopSmoothingWindow: EARLY_STOP_SMOOTHING_WINDOW,
+          earlyStopWarmupChecks,
+          smoothedValidationLoss,
+          earlyStopImproved,
           improved,
           validationSamples: total,
           steps,
@@ -664,6 +694,7 @@ function progressPayload() {
     bestAccuracy,
     loss: movingLoss,
     validationLoss: latestValidationLoss,
+    smoothedValidationLoss: latestSmoothedValidationLoss,
     bestValidationLoss: Number.isFinite(bestValidationLoss) ? bestValidationLoss : null,
     perplexity: latestPerplexity,
     evaluations: evaluationCount,
@@ -766,6 +797,8 @@ function finishStop(reason = "manual") {
     stopReason: stopReasonLabel,
     evaluationsWithoutImprovement,
     earlyStopPatience: EARLY_STOP_PATIENCE,
+    earlyStopSmoothingWindow: EARLY_STOP_SMOOTHING_WINDOW,
+    smoothedValidationLoss: latestSmoothedValidationLoss,
     minimumValidationImprovement: MIN_VALIDATION_IMPROVEMENT,
     bestSteps: restoredBest ? bestSteps : steps
   });
