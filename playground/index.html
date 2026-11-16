@@ -80,7 +80,7 @@ a{color:#a9ceff}
 <main>
 <header>
  <div class="brand"><div class="mark" aria-hidden="true">⌕</div><div><h1>Sherlock AI Playground</h1><div class="sub">Independent testing space · runs locally in your browser</div></div></div>
- <span class="version">PLAYGROUND 1.2</span>
+ <span class="version">PLAYGROUND 1.3</span>
 </header>
 <section class="card" aria-label="Sherlock model playground">
  <div class="statusbar" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking your saved model…</span><span class="statusdetail" id="statusDetail">LOCAL MODEL</span></div>
@@ -132,9 +132,15 @@ const DB_NAME='sherlock-gpt-v0170-experiment-cache';
 const CHECKPOINT_STORE='checkpoints';
 const DATA_STORE='datasets';
 const CHECKPOINT_KEY='sherlock-gpt-neural-experiment-v0170-v1';
+const LEGACY_CHECKPOINT_KEYS=[
+ 'sherlock-gpt-neural-experiment-v0170-v1',
+ 'sherlock-gpt-neural-experiment-v0170-archive-v1',
+ 'sherlock-gpt-neural-experiment-v0170-archive-v1-backup',
+ 'sherlock-gpt-neural-experiment-v0170-legacy-v1'
+];
 const DATASET_REVISION='sherlock-balanced-curriculum-v0170-2026-11';
 const PARAMETER_COUNT=70704;
-const WORKER_URL='../experiments/balanced-learning-v0170/neural-worker.js?v=playground-1.1.0';
+const WORKER_URL='../experiments/balanced-learning-v0170/neural-worker.js?v=playground-1.3.0';
 const TRAIN_URL='../experiments/balanced-learning-v0170/data/sherlock-curriculum-v0170-train.txt';
 const VALIDATION_URL='../experiments/balanced-learning-v0170/data/sherlock-curriculum-v0170-validation.txt';
 const MAX_HISTORY=8;
@@ -227,6 +233,35 @@ async function loadDatasets(){
  }
  const values=await Promise.all([fetchTextBuffer(TRAIN_URL),fetchTextBuffer(VALIDATION_URL)]);
  return {train:values[0],validation:values[1],source:'published curriculum files'};
+}
+async function findSavedCheckpoint(){
+ let record=null;
+ try{record=await readRecord(CHECKPOINT_STORE,CHECKPOINT_KEY);}catch(error){console.warn('Primary checkpoint read failed:',error);}
+ if(record&&Number(record.version)===10)return record;
+ // Older browser saves were kept in localStorage as version 9 base64 records.
+ // Read them without deleting or migrating the original data.
+ for(const key of LEGACY_CHECKPOINT_KEYS){
+  let raw=null;
+  try{raw=localStorage.getItem(key);}catch(error){console.warn('Legacy storage unavailable:',error);break;}
+  if(!raw)continue;
+  try{
+   const candidate=JSON.parse(raw);
+   if(Number(candidate.version)!==9||
+      Number(candidate.parameterCount)!==PARAMETER_COUNT||
+      candidate.datasetRevision!==DATASET_REVISION||
+      typeof candidate.datasetFingerprint!=='string'||
+      typeof candidate.trainingState!=='string')continue;
+   const binary=atob(candidate.trainingState);
+   const expected=PARAMETER_COUNT*3*Float32Array.BYTES_PER_ELEMENT;
+   if(binary.length!==expected)continue;
+   const buffer=new ArrayBuffer(expected),bytes=new Uint8Array(buffer);
+   for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+   const restored={...candidate,version:10,modelBuffer:buffer};
+   delete restored.trainingState;
+   return restored;
+  }catch(error){console.warn('Could not read legacy checkpoint '+key+':',error);}
+ }
+ return record;
 }
 function validateCheckpoint(record){
  if(!record||Number(record.version)!==10)throw new Error('No compatible saved model was found. Open the training lab, train Sherlock, then press Stop so the best checkpoint is saved.');
@@ -339,7 +374,7 @@ async function initialise(){
  setStatus('Checking your saved model…','');
  setHint('Reading the existing checkpoint. This page will not change it.');
  try{
-  const record=await readRecord(CHECKPOINT_STORE,CHECKPOINT_KEY);
+  const record=await findSavedCheckpoint();
   validateCheckpoint(record);
   showCheckpointDetails(record);
   setStatus('Preparing the model vocabulary…','');
