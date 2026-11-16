@@ -27,7 +27,7 @@ h1{font-size:20px;line-height:1.15;margin:0;letter-spacing:-.02em}
 #statusText{font-size:13px;color:#d8e5f7;font-weight:650}
 .statusdetail{font-size:11px;color:var(--muted);margin-left:auto;text-align:right}
 .intro{color:var(--muted);font-size:13px;margin:0 0 18px}
-.modelmeta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 20px}
+.modelmeta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 20px}
 .metric{background:#0b1626;border:1px solid #233751;border-radius:12px;padding:9px 10px;min-width:0}
 .metric-label{display:block;color:var(--muted);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
 .metric-value{display:block;color:#e6f0ff;font-size:13px;font-weight:700;overflow-wrap:anywhere;margin-top:2px}
@@ -70,7 +70,7 @@ h2{font-size:14px;margin:0}
 .notice strong{color:#cbd9ec}
 footer{text-align:center;color:#7f91a9;font-size:11px;margin:15px 0 0}
 a{color:#a9ceff}
-@media(max-width:420px){main{padding-left:11px;padding-right:11px}.card{padding:13px}.version{font-size:10px}.modelmeta{gap:6px}.metric{padding:8px}.metric-value{font-size:12px}.controls{align-items:stretch}.length-control{justify-content:space-between;width:100%}.actions{width:100%}}
+@media(max-width:520px){main{padding-left:11px;padding-right:11px}.card{padding:13px}.version{font-size:10px}.modelmeta{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.metric{padding:8px}.metric-value{font-size:12px}.controls{align-items:stretch}.length-control{justify-content:space-between;width:100%}.actions{width:100%}}
 @media(min-width:620px){main{padding-top:34px}.card{padding:24px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -87,6 +87,7 @@ a{color:#a9ceff}
  <div class="modelmeta" aria-label="Model details">
   <div class="metric"><span class="metric-label">Model version</span><span class="metric-value">v0.17.0</span></div>
   <div class="metric"><span class="metric-label">Training steps</span><span class="metric-value" id="modelSteps">—</span></div>
+  <div class="metric"><span class="metric-label">Examples seen</span><span class="metric-value" id="modelExamples">—</span></div>
   <div class="metric"><span class="metric-label">Validation loss</span><span class="metric-value" id="modelLoss">—</span></div>
  </div>
  <div class="fieldhead"><label for="prompt">Your prompt</label><span class="counter" id="charCount">0 / 180</span></div>
@@ -238,6 +239,7 @@ function stopWorker(){
 }
 function showCheckpointDetails(record){
  $('modelSteps').textContent=(Number(record.steps)||0).toLocaleString();
+ $('modelExamples').textContent=(Number(record.examples)||0).toLocaleString();
  const loss=Number(record.validationLoss);
  $('modelLoss').textContent=Number.isFinite(loss)?loss.toFixed(4):'Not measured';
 }
@@ -255,9 +257,20 @@ function startWorker(datasets,record){
   let startupTimer=setTimeout(()=>fail(new Error('The model worker did not finish loading within 35 seconds. Retry the load.')),35000);
   const finish=()=>{if(startupTimer){clearTimeout(startupTimer);startupTimer=null;}};
   const fail=error=>{
-   if(settled)return;
-   settled=true;finish();stopWorker();
-   reject(error instanceof Error?error:new Error(String(error||'The model worker failed.')));
+   const problem=error instanceof Error?error:new Error(String(error||'The model worker failed.'));
+   finish();
+   stopWorker();
+   if(settled){
+    setReady(false);
+    failPending(problem);
+    setStatus('Model worker stopped','error','WORKER ERROR');
+    setHint(problem.message,true);
+    $('retryLoad').hidden=false;
+    $('outputMeta').textContent='Model unavailable';
+   }else{
+    settled=true;
+    reject(problem);
+   }
   };
   try{worker=new Worker(new URL(WORKER_URL,window.location.href));}
   catch(error){fail(new Error('Could not start the model worker: '+error.message));return;}
@@ -304,6 +317,7 @@ function startWorker(datasets,record){
      const pending=pendingGeneration;pendingGeneration=null;clearTimeout(pending.timeout);
      pending.reject(new Error(data.message||'Generation failed.'));
     }else if(!modelReady){fail(new Error(data.message||'The saved model could not be restored.'));}
+    else{fail(new Error(data.message||'The model worker reported an unexpected error.'));}
    }
   };
   worker.onerror=event=>fail(new Error(event.message||'The model worker crashed.'));
@@ -349,6 +363,7 @@ function setBusy(value){
  setReady(modelReady);
  $('generate').textContent=busy?'Generating…':'Generate ↗';
  $('clear').disabled=busy;
+ $('regenerate').disabled=!modelReady||busy||!lastPrompt;
 }
 function addHistory(prompt,answer){
  history.unshift({prompt,answer,createdAt:new Date()});
