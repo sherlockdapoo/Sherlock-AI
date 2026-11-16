@@ -1036,7 +1036,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.5, Balanced Learning v0.17.0, manual stopping">v0.18.5</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.6, Balanced Learning v0.17.0, manual stopping">v0.18.6</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2533,7 +2533,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.18.4-stop-pointer', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.18.6-stop-yield', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3789,14 +3789,24 @@ function displayLoadedNeuralDataset(data, fromCache) {
     if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
   }
 }
-function validateStandaloneCurriculumText(trainingText, validationText) {
+async function validateStandaloneCurriculumText(trainingText, validationText, signal) {
+  const checkAbort = () => {
+    if (signal && signal.aborted) throw signal.reason || new Error('Dataset loading was cancelled.');
+  };
+  const yieldToBrowser = async () => {
+    checkAbort();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    checkAbort();
+  };
   const blocks = value => value.replace(/\r\n?/g, '\n').split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
+  checkAbort();
   const trainingBlocks = blocks(trainingText);
   const validationBlocks = blocks(validationText);
-  const validateConversationBlocks = (items, label, expectedCount) => {
+  const validateConversationBlocks = async (items, label, expectedCount) => {
     if (items.length !== expectedCount)
       throw new Error(label + ' must contain exactly ' + expectedCount.toLocaleString() + ' conversations; found ' + items.length.toLocaleString() + '.');
     for (let index = 0; index < items.length; index++) {
+      if (index > 0 && index % 200 === 0) await yieldToBrowser();
       const turns = items[index].split('\n');
       if (turns.length !== 2 && turns.length !== 4)
         throw new Error(label + ' conversation ' + (index + 1) + ' must contain one or two complete user/assistant exchanges.');
@@ -3808,16 +3818,23 @@ function validateStandaloneCurriculumText(trainingText, validationText) {
       }
     }
   };
-  validateConversationBlocks(trainingBlocks, 'Training library', 12000);
-  validateConversationBlocks(validationBlocks, 'Validation library', 1200);
+  await validateConversationBlocks(trainingBlocks, 'Training library', 12000);
+  await validateConversationBlocks(validationBlocks, 'Validation library', 1200);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
-  const trainingSet = new Set(trainingBlocks.map(normalise));
+  const trainingSet = new Set();
+  for (let index = 0; index < trainingBlocks.length; index++) {
+    if (index > 0 && index % 200 === 0) await yieldToBrowser();
+    trainingSet.add(normalise(trainingBlocks[index]));
+  }
   if (trainingSet.size !== trainingBlocks.length)
     throw new Error('The training library contains duplicate conversations. The library was not loaded.');
-  if (new Set(validationBlocks.map(normalise)).size !== validationBlocks.length)
+  const validationSet = new Set();
+  for (let index = 0; index < validationBlocks.length; index++) {
+    if (index > 0 && index % 200 === 0) await yieldToBrowser();
+    validationSet.add(normalise(validationBlocks[index]));
+  }
+  if (validationSet.size !== validationBlocks.length)
     throw new Error('The validation library contains duplicate conversations. The library was not loaded.');
-  if (validationBlocks.some(block => trainingSet.has(normalise(block))))
-    throw new Error('A held-out validation example also appears in training. The library was not loaded.');
 
   const taskFamilies = [
     {name: 'arithmetic', pattern: /\b(?:plus|minus|multiplied|divide)\b/i},
@@ -3827,10 +3844,11 @@ function validateStandaloneCurriculumText(trainingText, validationText) {
     {name: 'number sequences', pattern: /\bsequence\b/i},
     {name: 'letter/instruction tasks', pattern: /\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b/i}
   ];
-  const validateFamilyDistribution = (items, label, expectedPerFamily) => {
+  const validateFamilyDistribution = async (items, label, expectedPerFamily) => {
     const counts = new Map(taskFamilies.map(family => [family.name, 0]));
-    for (const block of items) {
-      const prompt = block.split('\n', 1)[0].replace(/^user:[ \t]*/i, '');
+    for (let index = 0; index < items.length; index++) {
+      if (index > 0 && index % 200 === 0) await yieldToBrowser();
+      const prompt = items[index].split('\n', 1)[0].replace(/^user:[ \t]*/i, '');
       const family = taskFamilies.find(candidate => candidate.pattern.test(prompt));
       if (!family) throw new Error(label + ' contains a prompt outside the six Balanced Learning families: ' + prompt.slice(0, 100));
       counts.set(family.name, counts.get(family.name) + 1);
@@ -3842,11 +3860,16 @@ function validateStandaloneCurriculumText(trainingText, validationText) {
           ' ' + family.name + ' examples; found ' + actual.toLocaleString() + '.');
     }
   };
-  validateFamilyDistribution(trainingBlocks, 'Training library', 2000);
-  validateFamilyDistribution(validationBlocks, 'Validation library', 200);
+  await validateFamilyDistribution(trainingBlocks, 'Training library', 2000);
+  await validateFamilyDistribution(validationBlocks, 'Validation library', 200);
+  for (let index = 0; index < validationBlocks.length; index++) {
+    if (index > 0 && index % 200 === 0) await yieldToBrowser();
+    if (trainingSet.has(normalise(validationBlocks[index])))
+      throw new Error('A held-out validation example also appears in training. The library was not loaded.');
+  }
+  checkAbort();
   return {trainingBlocks, validationBlocks};
 }
-
 async function loadStandaloneCurriculum(signal) {
   $('neuralMessage').textContent = 'Loading Sherlock’s balanced training library…';
   showDataProgress(0, 2, 'Loading the training library');
@@ -3863,7 +3886,7 @@ async function loadStandaloneCurriculum(signal) {
     loadText(STANDALONE_TRAIN_URL, 'Training examples', 1),
     loadText(STANDALONE_VALIDATION_URL, 'Held-out validation examples', 2)
   ]);
-  const {trainingBlocks, validationBlocks} = validateStandaloneCurriculumText(trainingText, validationText);
+  const {trainingBlocks, validationBlocks} = await validateStandaloneCurriculumText(trainingText, validationText, signal);
   const trainBytes = new TextEncoder().encode(trainingText);
   const validationBytes = new TextEncoder().encode(validationText);
   if (trainBytes.length > MAX_TRAIN_CORPUS_BYTES || validationBytes.length > MAX_VALIDATION_CORPUS_BYTES)
@@ -3914,9 +3937,10 @@ async function loadTrainingDatasets(signal) {
         Number.isFinite(Number(saved.mathTrainConversations)) && typeof saved.mathAvailable === 'boolean') {
       if (STANDALONE_CURRICULUM_ONLY) {
         const decoder = new TextDecoder('utf-8');
-        validateStandaloneCurriculumText(
+        await validateStandaloneCurriculumText(
           decoder.decode(new Uint8Array(saved.trainBytes)),
-          decoder.decode(new Uint8Array(saved.validationBytes))
+          decoder.decode(new Uint8Array(saved.validationBytes)),
+          signal
         );
       }
       datasetCache = {
