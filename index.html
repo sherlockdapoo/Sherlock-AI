@@ -1033,7 +1033,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.0, Balanced Learning v0.17.0, manual stopping">v0.18.0</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.1, Balanced Learning v0.17.0, manual stopping">v0.18.1</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2517,7 +2517,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.18.0-balanced-sampling-no-early-stop', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.18.1-responsive-validation-stop', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2596,7 +2596,7 @@ updateNeuralControls();
           ' · ' + Number(data.completed).toLocaleString() + ' / ' + Number(data.total).toLocaleString() +
           ' held-out answer tokens checked.';
         $('neuralMessage').textContent = data.stopRequested || neuralStopPending
-          ? 'Stop requested. ' + progressText + ' Sherlock will stop after this check and restore its best checkpoint.'
+          ? 'Stop requested. ' + progressText + ' Sherlock will stop after this validation slice and restore its best checkpoint.'
           : progressText + ' Training resumes when the check finishes.';
       }
     } else if (data.type === 'evaluation') {
