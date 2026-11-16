@@ -992,11 +992,10 @@ body,.app{color:#27354d}
 html,body{
   min-height:100%;
   height:auto;
-  overflow-x:clip;
-  overflow-y:visible;
   overscroll-behavior-y:auto;
 }
-body{-webkit-overflow-scrolling:auto}
+/* Leave horizontal and vertical overflow at the browser defaults on the
+   document root. Some mobile browsers mishandle root overflow clipping. */
 #backToTop{
   position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
   z-index:9999;display:inline-flex;align-items:center;justify-content:center;
