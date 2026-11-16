@@ -492,9 +492,10 @@ function evaluateAsync() {
 
   return new Promise((resolve, reject) => {
     const processChunk = () => {
-      // A Stop request is allowed to finish the current validation pass, but
-      // never starts another one. Each slice yields back to the worker event queue.
-      if (!running) {
+      // Stop at the next validation slice boundary instead of forcing the
+      // entire held-out set to finish. The runBatch continuation will then
+      // restore the best checkpoint and emit the normal stopped event.
+      if (!running || stopRequested) {
         evaluationInProgress = false;
         resolve(null);
         return;
