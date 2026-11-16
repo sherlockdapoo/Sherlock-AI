@@ -2,6 +2,17 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace has two tabs: **Chat** and **Neural Lab**. Training runs locally in a dedicated browser worker, and the latest word-model checkpoint is saved in this browser.
 
+## Main Neural Lab v0.18.0
+
+The main Neural Lab now uses the v0.17.0 Balanced Learning curriculum:
+- 12,000 training conversations and 1,200 held-out validation conversations.
+- Six task families, each with 2,000 training and 200 validation examples.
+- Digit-aware tokenisation, so numeric values are built from reusable digit tokens.
+- Balanced batch sampling: each training target first selects one of the six task families with equal probability, then selects a target token from that family.
+- Automatic early stopping is removed. Training continues until manually stopped (the current default has no step limit); manual Stop still restores and saves the best validation-loss checkpoint.
+
+The former main v0.14.0 checkpoint and dataset cache remain in their original browser database. The main page now shares the v0.17.0 experiment database and compatible checkpoint key, so an existing v0.17.0 model can be continued without overwriting the older v0.14.0 model.
+
 ## Version 0.9.2: validation-loss history graph
 
 Sherlock GPT now combines four bounded public datasets to give its compact word-level model more varied text:
