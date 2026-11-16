@@ -2487,7 +2487,8 @@ function resetNeuralExperimentMetrics(optimizer) {
 
 function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
-  $('neuralStopBtn').disabled = !neuralTraining || !neuralWorker || neuralStopPending;
+  // Stop stays available during dataset loading and worker initialisation too.
+  $('neuralStopBtn').disabled = !neuralTraining || (!neuralWorker && !neuralDatasetAbortController) || neuralStopPending;
   $('neuralStopBtn').textContent = neuralStopPending ? '■ Stopping…' : '■ Stop';
   $('neuralLearningRate').disabled = neuralTraining || neuralRequestBusy;
 }
@@ -2650,6 +2651,11 @@ updateNeuralControls();
       updateNeuralControls();
       updateGlobalNeuralStats();
       renderNeuralLiveView();
+    } else if (data.type === 'stop-accepted') {
+      if (neuralStopPending) {
+        $('neuralMessage').textContent = 'The training worker received Stop. ' +
+          (data.validationInProgress ? 'It is finishing the current validation slice, then it will restore the best checkpoint.' : 'It is restoring the best checkpoint now.');
+      }
     } else if (data.type === 'stopped') {
       if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
       neuralStopTimeout = null;
@@ -2919,12 +2925,70 @@ async function startNeuralTraining() {
 }
 
 function stopNeuralTraining() {
-  if (!neuralTraining || !neuralWorker || neuralStopPending) return;
+  if (!neuralTraining || neuralStopPending) return;
   neuralStopPending = true;
   $('neuralStopBtn').disabled = true;
   $('neuralStopBtn').textContent = '■ Stopping…';
-  $('neuralMessage').textContent = 'Stop requested. Sherlock is finishing its current task (including validation, if one is running), then restoring its best checkpoint…';
-  neuralWorker.postMessage({type: 'stop'});
+
+  // Before the worker confirms that training has started, cancel the startup
+  // attempt itself. Previously Stop was disabled while data loaded and a Stop
+  // message sent during worker initialisation could arrive before "start".
+  if (!neuralWorkerStarted) {
+    ++neuralStartupAttempt;
+    if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+    neuralStartupTimer = null;
+    if (neuralDatasetAbortController) neuralDatasetAbortController.abort();
+    neuralDatasetAbortController = null;
+    if (neuralWorker) neuralWorker.terminate();
+    neuralWorker = null;
+    neuralWorkerInitialized = false;
+    neuralWorkerStarted = false;
+    neuralDatasetInitialized = false;
+    neuralStartPending = false;
+    neuralRequestBusy = false;
+    neuralTraining = false;
+    neuralStopPending = false;
+    setNeuralState('Training start cancelled');
+    $('neuralMessage').textContent = 'Startup cancelled. Your last saved checkpoint has not been changed. Tap Start neural training to try again.';
+    updateNeuralControls();
+    setChatReady(neuralModelReady);
+    updateGlobalNeuralStats();
+    renderNeuralLiveView();
+    return;
+  }
+
+  $('neuralMessage').textContent = 'Stop requested. Waiting for the training worker to confirm and restore the best checkpoint…';
+  const workerToStop = neuralWorker;
+  if (!workerToStop) {
+    neuralTraining = false;
+    neuralWorkerStarted = false;
+    neuralStopPending = false;
+    setNeuralState('Worker unavailable');
+    $('neuralMessage').textContent = 'The training worker is unavailable. Your last saved checkpoint is still preserved.';
+    updateNeuralControls();
+    setChatReady(neuralModelReady);
+    return;
+  }
+  try {
+    workerToStop.postMessage({type: 'stop'});
+  } catch (error) {
+    workerToStop.terminate();
+    neuralWorker = null;
+    neuralWorkerInitialized = false;
+    neuralDatasetInitialized = false;
+    neuralWorkerStarted = false;
+    neuralTraining = false;
+    neuralStopPending = false;
+    neuralModelReady = false;
+    setNeuralState('Worker unavailable');
+    $('neuralMessage').textContent = 'The Stop request could not reach the worker. It was terminated safely; the last saved checkpoint is preserved.';
+    updateNeuralControls();
+    setChatReady(false);
+    updateGlobalNeuralStats();
+    renderNeuralLiveView();
+    return;
+  }
+
   if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
   neuralStopTimeout = setTimeout(() => {
     if (!neuralStopPending || !neuralTraining) return;
@@ -2932,11 +2996,12 @@ function stopNeuralTraining() {
     neuralWorker = null;
     neuralWorkerInitialized = false;
     neuralWorkerStarted = false;
+    neuralDatasetInitialized = false;
     neuralTraining = false;
     neuralStopPending = false;
     neuralModelReady = false;
     setNeuralState('Worker stopped after timeout');
-    $('neuralMessage').textContent = 'The worker did not acknowledge Stop, so it was safely terminated. Your last saved checkpoint is preserved; refresh the page to restore it. Updates since that checkpoint may be lost.';
+    $('neuralMessage').textContent = 'The worker did not finish its Stop request in time, so it was safely terminated. Your last saved checkpoint is preserved; refresh to restore it. Updates since that checkpoint may be lost.';
     updateNeuralControls();
     setChatReady(false);
     updateGlobalNeuralStats();
