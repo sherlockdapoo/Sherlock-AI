@@ -1,4 +1,4 @@
-/* Sherlock GPT v0.17.1: balanced curriculum + smoothed early stopping. */
+/* Sherlock GPT v0.17.2: stop-step and validation diagnostics. */
 "use strict";
 
 const VOCAB = 1024;
@@ -75,6 +75,7 @@ let latestPerplexity = null;
 let bestValidationLoss = Infinity;
 let bestSmoothedValidationLoss = Infinity;
 let earlyStoppingLossWindow = [];
+let validationLossHistory = [];
 let evaluationCount = 0;
 let validationSamples = 0;
 let running = false;
@@ -294,6 +295,7 @@ function initialiseParameters() {
   bestValidationLoss = Infinity;
   bestSmoothedValidationLoss = Infinity;
   earlyStoppingLossWindow = [];
+  validationLossHistory = [];
   evaluationCount = 0;
   validationSamples = 0;
   steps = 0;
@@ -570,6 +572,17 @@ function evaluateAsync() {
           }
         }
 
+        validationLossHistory.push({
+          evaluation: evaluationCount,
+          step: steps,
+          validationLoss,
+          smoothedValidationLoss,
+          noImprovementChecks: evaluationsWithoutImprovement,
+          warmupChecks: earlyStopWarmupChecks,
+          smoothedLossImproved: earlyStopImproved
+        });
+        if (validationLossHistory.length > 30) validationLossHistory.shift();
+
         // Send the large model buffer only when the best checkpoint improves.
         if (improved) postBestCheckpoint();
         // Always report the completed check, including when a new best checkpoint was saved.
@@ -584,6 +597,7 @@ function evaluateAsync() {
           perplexity,
           evaluations: evaluationCount,
           evaluationsWithoutImprovement,
+          validationHistory: validationLossHistory.slice(),
           earlyStopPatience: EARLY_STOP_PATIENCE,
           earlyStopSmoothingWindow: EARLY_STOP_SMOOTHING_WINDOW,
           earlyStopWarmupChecks,
@@ -770,6 +784,11 @@ function runBatch() {
   }
 }
 function finishStop(reason = "manual") {
+  // Capture the true end-of-training counters before restoring the best model.
+  // The visible model counters below intentionally describe the restored checkpoint.
+  const stoppedAtStep = steps;
+  const stoppedAtExamples = examplesSeen;
+  const stoppedAtOptimizerStep = optimizerStep;
   running = false;
   stopRequested = false;
 
@@ -800,6 +819,10 @@ function finishStop(reason = "manual") {
     earlyStopSmoothingWindow: EARLY_STOP_SMOOTHING_WINDOW,
     smoothedValidationLoss: latestSmoothedValidationLoss,
     minimumValidationImprovement: MIN_VALIDATION_IMPROVEMENT,
+    stoppedAtStep,
+    stoppedAtExamples,
+    stoppedAtOptimizerStep,
+    validationHistory: validationLossHistory.slice(),
     bestSteps: restoredBest ? bestSteps : steps
   });
 }
