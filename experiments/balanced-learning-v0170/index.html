@@ -1362,7 +1362,7 @@ html,body{
       <form id="chatForm" class="chat-compose playground-compose">
         <label class="playground-prompt-label" for="message">Your test prompt</label>
         <textarea id="message" class="field" rows="3" maxlength="180" placeholder="For example: The best way to learn is…" autocomplete="off" disabled required aria-label="Prompt for Sherlock"></textarea>
-        <button class="btn send-btn" id="sendBtn" type="submit" disabled>Generate continuation ↗</button>
+        <button class="btn send-btn" id="sendBtn" type="button" disabled>Generate continuation ↗</button>
       </form>
       <div class="playground-suggestions" aria-label="Example prompts">
         <button class="playground-chip" type="button" data-prompt="The best way to learn is">Learning</button>
@@ -4130,11 +4130,13 @@ Array.from(document.querySelectorAll('.playground-chip')).forEach(button => {
 
 $('playgroundCompareBtn').addEventListener('click', comparePlaygroundRuns);
 
-$('chatForm').addEventListener('submit', async event => {
-  event.preventDefault();
+async function runPlaygroundGeneration(event) {
+  if (event) event.preventDefault();
   if (!neuralModelReady || neuralTraining || neuralRequestBusy) return;
   const prompt = $('message').value.trim().slice(0, 180);
   if (!prompt) return;
+  neuralRequestBusy = true;
+  updateNeuralControls();
   addMessage(prompt, 'user');
   $('sendBtn').disabled = true;
   const waiting = document.createElement('div');
@@ -4154,10 +4156,14 @@ $('chatForm').addEventListener('submit', async event => {
     waiting.textContent = 'Sherlock could not generate a continuation. Please try again.';
     console.error(error);
   } finally {
+    neuralRequestBusy = false;
     $('sendBtn').disabled = !neuralModelReady || neuralTraining;
+    updateNeuralControls();
     setChatReady();
   }
-});
+}
+$('chatForm').addEventListener('submit', runPlaygroundGeneration);
+$('sendBtn').addEventListener('click', runPlaygroundGeneration);
 
 async function loadEngine() {
   try {
