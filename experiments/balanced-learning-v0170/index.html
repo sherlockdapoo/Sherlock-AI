@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>Sherlock AI v0.17.6 Balanced Learning Experiment</title>
+<title>Sherlock AI v0.17.7 Balanced Learning Experiment</title>
 <style>
 :root{
   color-scheme:dark;
@@ -1027,7 +1027,7 @@ html,body{
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.17.6, reliable Stop controls and refreshed worker cache">v0.17.6</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.17.7, delegated Stop click handling and state recovery">v0.17.7</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1530,6 +1530,18 @@ function fingerprintNeuralDataset(data) {
 }
 
 const $ = id => document.getElementById(id);
+
+// Capture Stop taps at the document level. This runs before target/bubble handlers,
+// so a stale or interrupted button listener cannot silently swallow the request.
+document.addEventListener('click', event => {
+  const target = event.target;
+  if (!target || typeof target.closest !== 'function') return;
+  const stopButton = target.closest('#neuralStopBtn');
+  if (!stopButton) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  stopNeuralTraining();
+}, true);
 
 function addMessage(text, kind) {
   const el = document.createElement('div');
@@ -2533,7 +2545,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
   // Bump this query version whenever neural-worker.js changes so iPad browsers do not reuse an older worker.
-  const workerUrl = new URL('neural-worker.js?v=0.17.6-reliable-stop', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.17.7-stop-click-fix', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2925,7 +2937,18 @@ async function startNeuralTraining() {
 }
 
 function stopNeuralTraining() {
-  if (!neuralTraining || neuralStopPending) return;
+  if (neuralStopPending) return;
+
+  // Recover if the worker/startup is active but the page's training flag drifted.
+  if (!neuralTraining && (neuralWorkerStarted || neuralStartPending || neuralDatasetAbortController)) {
+    neuralTraining = true;
+  }
+  if (!neuralTraining) {
+    $('neuralMessage').textContent = 'Stop was tapped, but the page does not think neural training is active. Refresh this page before starting another run.';
+    updateNeuralControls();
+    return;
+  }
+
   neuralStopPending = true;
   $('neuralStopBtn').disabled = true;
   $('neuralStopBtn').textContent = '■ Stopping…';
@@ -3021,7 +3044,6 @@ function requestNeuralGeneration(prompt) {
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
 $('neuralUnknownInspectBtn').addEventListener('click', inspectNeuralUnknownTokens);
-$('neuralStopBtn').addEventListener('click', stopNeuralTraining);
 $('neuralLearningRate').addEventListener('change', () => {
   updateNeuralOptimizerSummary();
   updateNeuralTrainingConfigSummary();
