@@ -1055,6 +1055,13 @@ self.addEventListener("message", event => {
         setTimeout(runBatch, 0);
       }
     } else if (message.type === "stop") {
+      // Acknowledge the command immediately so the page can distinguish a
+      // delivered Stop request from a worker that never received the message.
+      self.postMessage({
+        type: "stop-accepted",
+        steps,
+        validationInProgress: evaluationInProgress
+      });
       stopTraining();
     } else if (message.type === "evaluate-math") {
       if (!initialized || vocabularySize <= 3) throw new Error("Load the training data before running the GSM8K benchmark.");
