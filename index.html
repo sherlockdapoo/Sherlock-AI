@@ -1020,6 +1020,11 @@ body{-webkit-overflow-scrolling:auto}
 .experiment-launch-button{flex:0 0 auto;min-height:44px;padding-inline:16px;text-decoration:none;white-space:nowrap}
 @media(max-width:680px){.experiment-launch-card{align-items:stretch;flex-direction:column;gap:12px;padding:15px}.experiment-launch-button{width:100%;white-space:normal}.experiment-launch-copy .visual-card-head{align-items:flex-start;flex-direction:column}}
 
+.new-playground-launch{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px;padding:14px 17px;border:1px solid #344d70;border-radius:15px;background:linear-gradient(110deg,#142943,#0d1b2d)}
+.new-playground-copy{min-width:0}.new-playground-copy strong{display:block;color:#e5f0ff;font-size:13px}.new-playground-copy span{display:block;color:#9fb3cf;font-size:11px;margin-top:3px;line-height:1.45}
+.new-playground-link{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 14px;border:1px solid #9fc3f6;border-radius:11px;background:linear-gradient(100deg,#83b7ff,#b6d4ff);color:#08172a;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
+.new-playground-link:focus-visible{outline:3px solid #b9d5ff;outline-offset:3px}
+@media(max-width:560px){.new-playground-launch{align-items:stretch;flex-direction:column;gap:10px;padding:13px}.new-playground-link{width:100%;white-space:normal}}
 </style>
 </head>
 <body>
@@ -1032,6 +1037,14 @@ body{-webkit-overflow-scrolling:auto}
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
+
+  <section class="new-playground-launch" aria-label="New standalone Playground">
+    <div class="new-playground-copy">
+      <strong>✨ New standalone Playground</strong>
+      <span>A clean, separate interface for testing your saved Sherlock model. The training lab and saved model stay untouched.</span>
+    </div>
+    <a class="new-playground-link" href="playground/">Open new Playground ↗</a>
+  </section>
 
   <section class="stats" aria-label="Live model metrics">
     <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
