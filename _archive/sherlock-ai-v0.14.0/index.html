@@ -1347,8 +1347,6 @@ body,.app{color:#27354d}
             <div class="neural-checkpoint-meta"><span>Tokens saved</span><strong id="neuralCheckpointExamples">0</strong></div>
             <p id="neuralCheckpointStatus" class="neural-checkpoint-status">The latest model is saved automatically on this browser after each validation check.</p>
             <small id="neuralCheckpointSavedAt" class="neural-checkpoint-time">No saved checkpoint yet</small>
-            <button class="btn btn-secondary" id="exportV0140BackupBtn" type="button" style="width:100%;margin-top:12px">Export v0.14.0 backup</button>
-            <small id="exportV0140BackupStatus" class="neural-checkpoint-time" aria-live="polite">Save a copy of this trained model to your device.</small>
           </section>
         </div>
         </section>
@@ -2127,66 +2125,6 @@ function restoreSavedNeuralCheckpoint() {
   }
 }
 
-function exportV0140BackupCheckpoint() {
-  const button = $('exportV0140BackupBtn');
-  const status = $('exportV0140BackupStatus');
-  if (!button || !status) return;
-  button.disabled = true;
-  status.textContent = 'Preparing the v0.14.0 model backup…';
-  try {
-    const keys = [
-      NEURAL_CHECKPOINT_KEY,
-      NEURAL_ARCHIVE_CHECKPOINT_KEY,
-      NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup'
-    ];
-    const candidates = [];
-    for (const key of keys) {
-      const raw = localStorage.getItem(key);
-      if (!raw) continue;
-      try {
-        const record = JSON.parse(raw);
-        if (record &&
-            Number(record.version) === 9 &&
-            Number(record.parameterCount) === 70704 &&
-            record.datasetRevision === NEURAL_DATASET_REVISION &&
-            typeof record.trainingState === 'string' &&
-            record.trainingState.length > 0) {
-          candidates.push({record, key});
-        }
-      } catch (_) {}
-    }
-    if (!candidates.length) {
-      throw new Error('No compatible v0.14.0 trained checkpoint was found in this browser. Open the v0.14.0 experiment on the device where you trained it and wait for its checkpoint to restore.');
-    }
-    candidates.sort((a, b) =>
-      (Date.parse(b.record.savedAt || '') || 0) - (Date.parse(a.record.savedAt || '') || 0)
-    );
-    const record = candidates[0].record;
-    const backup = {
-      format: 'sherlock-ai-model-backup',
-      formatVersion: 1,
-      sourceVersion: 'v0.14.0',
-      exportedAt: new Date().toISOString(),
-      checkpoint: record
-    };
-    const blob = new Blob([JSON.stringify(backup)], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    const stamp = (record.savedAt || new Date().toISOString()).replace(/[:.]/g, '-');
-    link.href = url;
-    link.download = 'sherlock-v0140-model-backup-' + stamp + '.json';
-    document.body.append(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 30000);
-    status.textContent = 'Backup export started. Keep the downloaded JSON file safe. It contains the trained weights and optimiser state.';
-  } catch (error) {
-    status.textContent = error && error.message ? error.message : 'Could not export the model backup.';
-  } finally {
-    button.disabled = false;
-  }
-}
-
 let networkVisualiserSnapshot = null;
 
 function renderNetworkVisualiser(snapshot) {
@@ -2569,7 +2507,6 @@ function ensureNeuralWorker() {
         loss: data.loss, examplesPerSecond: 0
       }, true);
       setChatReady(false);
-$('exportV0140BackupBtn').addEventListener('click', exportV0140BackupCheckpoint);
 updateNeuralControls();
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
