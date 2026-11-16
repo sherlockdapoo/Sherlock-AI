@@ -1033,7 +1033,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.1, Balanced Learning v0.17.0, manual stopping">v0.18.2</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.3, Balanced Learning v0.17.0, manual stopping">v0.18.3</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2473,7 +2473,7 @@ function resetNeuralExperimentMetrics(optimizer) {
 
 function updateNeuralControls() {
   $('neuralStartBtn').disabled = neuralTraining || neuralRequestBusy;
-  $('neuralStopBtn').disabled = !neuralTraining || !neuralWorker || neuralStopPending;
+  $('neuralStopBtn').disabled = !neuralTraining || neuralStopPending;
   $('neuralStopBtn').textContent = neuralStopPending ? '■ Stopping…' : '■ Stop';
   $('neuralLearningRate').disabled = neuralTraining || neuralRequestBusy;
 }
@@ -2517,7 +2517,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.18.2-stop-watchdog', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.18.3-stop-cancel', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2891,7 +2891,36 @@ async function startNeuralTraining() {
 }
 
 function stopNeuralTraining() {
-  if (!neuralTraining || !neuralWorker || neuralStopPending) return;
+  if (!neuralTraining || neuralStopPending) return;
+
+  // Dataset preparation happens before a worker exists. Cancel that phase
+  // directly instead of leaving Stop disabled until loading finishes.
+  if (!neuralWorker || !neuralWorkerStarted) {
+    neuralStartupAttempt++;
+    if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
+    neuralStartupTimer = null;
+    if (neuralDatasetAbortController) neuralDatasetAbortController.abort();
+    neuralDatasetAbortController = null;
+    if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
+    neuralStopTimeout = null;
+    if (neuralWorker) neuralWorker.terminate();
+    neuralWorker = null;
+    neuralWorkerInitialized = false;
+    neuralWorkerStarted = false;
+    neuralDatasetInitialized = false;
+    neuralStartPending = false;
+    neuralRequestBusy = false;
+    neuralTraining = false;
+    neuralStopPending = false;
+    setNeuralState(neuralModelReady ? 'Latest model ready' : 'Training cancelled', neuralModelReady ? 'ready' : '');
+    $('neuralMessage').textContent = 'Training preparation cancelled. Your saved model and dataset are preserved.';
+    updateNeuralControls();
+    setChatReady(modelReady);
+    updateGlobalNeuralStats();
+    renderNeuralLiveView();
+    return;
+  }
+
   neuralStopPending = true;
   $('neuralStopBtn').disabled = true;
   $('neuralStopBtn').textContent = '■ Stopping…';
@@ -2906,7 +2935,6 @@ function stopNeuralTraining() {
     neuralWorkerStarted = false;
     neuralTraining = false;
     neuralStopPending = false;
-    neuralModelReady = false;
     setNeuralState('Worker stopped after timeout');
     $('neuralMessage').textContent = 'The worker did not acknowledge Stop within 60 seconds, so it was safely terminated. Your last saved checkpoint is preserved; refresh the page to restore it. Updates since that checkpoint may be lost.';
     updateNeuralControls();
