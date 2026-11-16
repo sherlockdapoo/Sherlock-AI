@@ -11,7 +11,7 @@ This isolated experiment tests two evidence-led changes identified during the v0
 - Families: arithmetic, percentages, unit conversions, word problems, number sequences, and letter/instruction tasks.
 - Exact normalized prompt overlap: 0. Duplicate validation prompts: 0. Malformed role blocks: 0.
 - Validation file size: 91577 bytes, below the 128 KiB loader limit.
-- Validation unknown-token rate under the new tokenizer and training-built vocabulary: 0.100%.
+- Validation unknown-token rate under the new tokenizer and training-built vocabulary: 0.050%..
 
 ## Model
 - Architecture unchanged: vocabulary capacity 1,024, context 32, embedding 8, hidden 48, 70,704 parameters.
