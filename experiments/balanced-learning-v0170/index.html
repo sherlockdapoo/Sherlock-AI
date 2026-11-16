@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>Sherlock AI v0.17.0 Balanced Learning Experiment</title>
+<title>Sherlock AI v0.17.1 Balanced Learning Experiment</title>
 <style>
 :root{
   color-scheme:dark;
@@ -1027,7 +1027,7 @@ html,body{
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.17.0, balanced-learning experiment">v0.17.0</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.17.1, balanced-learning experiment with smoothed early stopping">v0.17.1</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2503,7 +2503,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.17.0-digit-aware', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.17.1-smoothed-early-stop', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2580,11 +2580,19 @@ updateNeuralControls();
     } else if (data.type === 'evaluation') {
       updateNeuralMetrics(data, true);
       if (neuralTraining) setNeuralState('Training on this device', 'running');
+      const smoothingWindow = Number(data.earlyStopSmoothingWindow || 3);
+      const warmupChecks = Number(data.earlyStopWarmupChecks || 0);
+      const hasSmoothedLoss = data.smoothedValidationLoss !== null &&
+        data.smoothedValidationLoss !== undefined && Number.isFinite(Number(data.smoothedValidationLoss));
+      const smoothingText = hasSmoothedLoss
+        ? ' ' + smoothingWindow + '-check average loss: ' + Number(data.smoothedValidationLoss).toFixed(4) + '.'
+        : ' Smoothing warm-up: ' + warmupChecks + '/' + smoothingWindow + ' checks.';
       const patienceText = Number(data.evaluationsWithoutImprovement || 0).toLocaleString() +
-        ' / ' + Number(data.earlyStopPatience || 10).toLocaleString() + ' checks without improvement.';
+        ' / ' + Number(data.earlyStopPatience || 10).toLocaleString() + ' checks without smoothed-loss improvement.';
       $('neuralMessage').textContent = 'Validation check ' + Number(data.evaluations).toLocaleString() +
         ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens. ' +
-        (data.improved ? 'New best validation loss saved.' : 'No new best validation loss. ' + patienceText);
+        (data.improved ? 'New best raw-loss checkpoint saved.' : 'No new raw-loss checkpoint.') +
+        smoothingText + ' ' + patienceText;
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
@@ -2626,9 +2634,10 @@ updateNeuralControls();
         ? 'Training-step target reached. The best validation checkpoint has been restored and saved.'
         : data.stopReason === 'early-stopping'
           ? 'Early stopping after ' + Number(data.evaluationsWithoutImprovement || 0).toLocaleString() +
-            ' consecutive validation checks without a loss improvement of at least ' +
-            Number(data.minimumValidationImprovement || 0.001).toFixed(3) +
-            '. Restored and saved the best checkpoint from step ' +
+            ' consecutive checks without an improvement of at least ' +
+            Number(data.minimumValidationImprovement || 0.001).toFixed(3) + ' in the ' +
+            Number(data.earlyStopSmoothingWindow || 3) + '-check average validation loss. ' +
+            'Restored and saved the best checkpoint from step ' +
             Number(data.bestSteps || data.steps || 0).toLocaleString() + '.'
           : data.restoredBest
             ? 'Training stopped. Sherlock restored and saved its best validation checkpoint.'
