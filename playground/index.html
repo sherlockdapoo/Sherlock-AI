@@ -361,9 +361,11 @@ async function initialise(){
   $('retryLoad').disabled=false;
  }
 }
-function seedFromPrompt(prompt){
+function seedFromPrompt(prompt,sequence){
  let hash=2166136261;
  for(let i=0;i<prompt.length;i++){hash^=prompt.charCodeAt(i);hash=Math.imul(hash,16777619);}
+ hash^=Number(sequence)||0;
+ hash=Math.imul(hash,16777619);
  return (hash>>>0)||0x5A17C0DE;
 }
 function setBusy(value){
@@ -428,7 +430,7 @@ function generate(promptOverride){
   setOutput('The model could not complete this request. The saved checkpoint is untouched.',true);
  } };
  try{
-  worker.postMessage({type:'generate',id,prompt,seed:seedFromPrompt(prompt),length:Number($('length').value)||90});
+  worker.postMessage({type:'generate',id,prompt,seed:seedFromPrompt(prompt,id),length:Number($('length').value)||90});
  }catch(error){
   clearTimeout(timeout);pendingGeneration=null;setBusy(false);
   setHint('Could not send the prompt to the model: '+error.message,true);
