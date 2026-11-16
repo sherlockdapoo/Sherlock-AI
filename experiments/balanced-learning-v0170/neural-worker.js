@@ -1,4 +1,4 @@
-/* Sherlock GPT v0.17.3: restartable early stopping. */
+/* Sherlock GPT v0.17.4: responsive stop and yielding generation. */
 "use strict";
 
 const VOCAB = 1024;
@@ -494,7 +494,7 @@ function evaluateAsync() {
     const processChunk = () => {
       // A Stop request is allowed to finish the current validation pass, but
       // never starts another one. Each slice yields back to the worker event queue.
-      if (!running) {
+      if (!running || stopRequested) {
         evaluationInProgress = false;
         resolve(null);
         return;
@@ -835,7 +835,7 @@ function stopTraining(reason = "manual") {
   }
   finishStop(reason);
 }
-function generate(prompt, requestedLength) {
+async function generate(prompt, requestedLength) {
   if (!initialized || examplesSeen === 0 || vocabularySize <= 3) return "Train the neural network first.";
   const rawPrompt = String(prompt || "").trim().slice(0, 180);
   const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
@@ -890,6 +890,10 @@ function generate(prompt, requestedLength) {
     if (chosen === EOS_ID) break;
     history.push(chosen);
     output += vocabulary[chosen] || "";
+    // Yield frequently so long generation never monopolises the worker event loop.
+    if ((i + 1) % 2 === 0 && i + 1 < maxLength) {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
   }
   return output;
 }
@@ -1069,14 +1073,20 @@ self.addEventListener("message", event => {
       });
     } else if (message.type === "generate") {
       const savedRandomState = randomState;
-      try {
-        const requestedSeed = Number(message.seed);
-        if (Number.isFinite(requestedSeed) && requestedSeed >= 0)
-          randomState = (requestedSeed >>> 0) || 0x5A17C0DE;
-        self.postMessage({type: "generated", id: message.id, text: generate(message.prompt, message.length)});
-      } finally {
+      const requestedSeed = Number(message.seed);
+      if (Number.isFinite(requestedSeed) && requestedSeed >= 0)
+        randomState = (requestedSeed >>> 0) || 0x5A17C0DE;
+      generate(message.prompt, message.length).then(generatedText => {
         randomState = savedRandomState;
-      }
+        self.postMessage({type: "generated", id: message.id, text: generatedText});
+      }).catch(error => {
+        randomState = savedRandomState;
+        self.postMessage({
+          type: "error",
+          id: message.id,
+          message: error && error.message ? error.message : String(error)
+        });
+      });
     }
   } catch (error) {
     if (message.type !== "diagnose-unknown-tokens") running = false;
