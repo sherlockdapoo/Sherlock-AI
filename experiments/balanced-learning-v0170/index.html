@@ -2564,15 +2564,7 @@ function ensureNeuralWorker() {
       }, true);
       setChatReady(false);
 
-const backToTopButton = document.getElementById('backToTop');
-function updateBackToTopButton() {
-  backToTopButton.classList.toggle('is-visible', window.scrollY > 280);
-}
-window.addEventListener('scroll', updateBackToTopButton, {passive:true});
-backToTopButton.addEventListener('click', () => {
-  window.scrollTo({top:0,left:0,behavior:'auto'});
-});
-updateBackToTopButton();
+
 
 updateNeuralControls();
     } else if (data.type === 'validation-progress') {
@@ -4176,6 +4168,24 @@ renderNeuralLiveView();
 try { localStorage.removeItem(LEGACY_NEURAL_CHECKPOINT_KEY); } catch (_) {}
 restoreSavedNeuralCheckpoint();
 loadPlaygroundHistory();
+
+/* Initialise page-level scrolling controls independently of model/checkpoint state. */
+const backToTopButton = document.getElementById('backToTop');
+function updateBackToTopButton() {
+  if (!backToTopButton) return;
+  const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  backToTopButton.classList.toggle('is-visible', scrollTop > 280);
+}
+window.addEventListener('scroll', updateBackToTopButton, {passive:true});
+document.addEventListener('scroll', updateBackToTopButton, {passive:true});
+if (backToTopButton) {
+  backToTopButton.addEventListener('click', () => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
+}
+updateBackToTopButton();
 </script>
 </body>
 </html>
