@@ -1010,7 +1010,7 @@ body{-webkit-overflow-scrolling:auto}
 @media(prefers-reduced-motion:reduce){#backToTop{transition:none}}
 
 
-/* v0.14.1 · link the main Neural Lab to the isolated standalone curriculum experiment */
+/* v0.14.1 · link the main Neural Lab to the isolated balanced curriculum experiment */
 .experiment-launch-card{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:2px;padding:18px 20px}
 .experiment-launch-copy{min-width:0;flex:1}
 .experiment-launch-copy .visual-card-head{margin-bottom:8px}
@@ -1033,7 +1033,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.16.2, trainer v0.14.0">v0.16.2</span></h1><p class="brand-sub">Neural network · local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.0, Balanced Learning v0.17.0, manual stopping">v0.18.0</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1432,13 +1432,13 @@ const GSM8K_TRAIN_BUDGET = 1500000;
 const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB training buffer safely.
 const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
-const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-legacy-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-v1';
-const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-main-v0140-archive-v1';
-const NEURAL_DATASET_REVISION = 'sherlock-standalone-curriculum-v0140-2026-11';
+const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-legacy-v1';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-v1';
+const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-archive-v1';
+const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0170-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
-const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0140-train.txt';
-const STANDALONE_VALIDATION_URL = 'data/sherlock-curriculum-v0140-validation.txt';
+const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0170-train.txt';
+const STANDALONE_VALIDATION_URL = 'data/sherlock-curriculum-v0170-validation.txt';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -2517,7 +2517,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.16.2-validation-status', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.18.0-balanced-sampling-no-early-stop', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2527,7 +2527,7 @@ function ensureNeuralWorker() {
       $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
-      $('neuralMessage').textContent = 'Word-level tokenizer ready with ' + Number(data.vocabularySize).toLocaleString() + ' tokens and ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Starting training…';
+      $('neuralMessage').textContent = 'Digit-aware tokenizer ready with ' + Number(data.vocabularySize).toLocaleString() + ' tokens and ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Balanced Learning is sampling all six task families equally. Starting training…';
       if (neuralStartPending) {
         neuralStartPending = false;
         postNeuralTrainingStart();
@@ -2538,7 +2538,7 @@ function ensureNeuralWorker() {
       $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
-      $('neuralMessage').textContent = 'Word-level tokenizer ready. ' + Number(data.trainTokens || 0).toLocaleString() + ' training tokens and ' + Number(data.validationTokens || 0).toLocaleString() + ' validation tokens.';
+      $('neuralMessage').textContent = 'Digit-aware tokenizer ready. ' + Number(data.trainTokens || 0).toLocaleString() + ' training tokens and ' + Number(data.validationTokens || 0).toLocaleString() + ' validation tokens. Balanced Learning is active across six task families.';
       if (data.type === 'reset-ready') {
         neuralModelReady = false;
         neuralRestoredDatasetFingerprint = null;
@@ -2602,11 +2602,9 @@ updateNeuralControls();
     } else if (data.type === 'evaluation') {
       updateNeuralMetrics(data, true);
       if (neuralTraining) setNeuralState('Training on this device', 'running');
-      const patienceText = Number(data.evaluationsWithoutImprovement || 0).toLocaleString() +
-        ' / ' + Number(data.earlyStopPatience || 10).toLocaleString() + ' checks without improvement.';
       $('neuralMessage').textContent = 'Validation check ' + Number(data.evaluations).toLocaleString() +
         ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens. ' +
-        (data.improved ? 'New best validation loss saved.' : 'No new best validation loss. ' + patienceText);
+        (data.improved ? 'New best validation loss saved.' : 'No new best validation loss yet. Training continues until you press Stop.');
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
@@ -2646,15 +2644,9 @@ updateNeuralControls();
       setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
       $('neuralMessage').textContent = data.stopReason === 'limit'
         ? 'Training-step target reached. The best validation checkpoint has been restored and saved.'
-        : data.stopReason === 'early-stopping'
-          ? 'Early stopping after ' + Number(data.evaluationsWithoutImprovement || 0).toLocaleString() +
-            ' consecutive validation checks without a loss improvement of at least ' +
-            Number(data.minimumValidationImprovement || 0.001).toFixed(3) +
-            '. Restored and saved the best checkpoint from step ' +
-            Number(data.bestSteps || data.steps || 0).toLocaleString() + '.'
-          : data.restoredBest
-            ? 'Training stopped. Sherlock restored and saved its best validation checkpoint.'
-            : 'Training stopped. Complete more updates to make the neural model useful.';
+        : data.restoredBest
+          ? 'Training stopped manually. Sherlock restored and saved its best validation checkpoint.'
+          : 'Training stopped. Complete more updates to make the neural model useful.';
       updateNeuralControls();
       setChatReady(modelReady);
       updateGlobalNeuralStats();
@@ -3620,7 +3612,7 @@ function joinCorpusBytes(streams) {
   return joined;
 }
 
-const NEURAL_DATA_CACHE_DB = 'sherlock-gpt-dataset-cache';
+const NEURAL_DATA_CACHE_DB = 'sherlock-gpt-v0170-experiment-cache';
 const NEURAL_DATA_CACHE_STORE = 'datasets';
 const NEURAL_CHECKPOINT_STORE = 'checkpoints';
 const NEURAL_MODEL_PARAMETER_COUNT = 70704;
@@ -3721,31 +3713,30 @@ async function writeNeuralDatasetCache(data) {
 }
 
 function displayLoadedNeuralDataset(data, fromCache) {
-  const isStandalone = data.datasetName === 'Sherlock standalone curriculum v0.14.0';
-  const sources = isStandalone ? ['Sherlock standalone curriculum v0.14.0'] : ['DailyDialog'];
-  if (!isStandalone && data.ultraAvailable) sources.push('UltraChat');
-  if (!isStandalone && data.noRobotsAvailable) sources.push('No Robots');
-  if (!isStandalone && data.mathAvailable) sources.push('GSM8K maths');
+  const isBalanced = data.datasetName === 'Sherlock balanced curriculum v0.17.0';
+  const sources = isBalanced ? ['Sherlock balanced curriculum v0.17.0'] : ['DailyDialog'];
+  if (!isBalanced && data.ultraAvailable) sources.push('UltraChat');
+  if (!isBalanced && data.noRobotsAvailable) sources.push('No Robots');
+  if (!isBalanced && data.mathAvailable) sources.push('GSM8K maths');
   $('datasetName').textContent = data.datasetName;
   $('conversationCount').textContent = data.trainConversations.toLocaleString();
   $('neuralDatasetName').textContent = data.datasetName;
   $('neuralTrainConversations').textContent = data.trainConversations.toLocaleString();
   $('neuralValidationConversations').textContent = data.validationConversations.toLocaleString();
-  showDataProgress(1, 1, fromCache ? 'Using saved ' + (isStandalone ? 'standalone curriculum' : 'browser dataset') : sources.join(' + ') + ' ready');
+  showDataProgress(1, 1, fromCache ? 'Using saved ' + (isBalanced ? 'balanced curriculum' : 'browser dataset') : sources.join(' + ') + ' ready');
   if (fromCache) {
-    $('neuralMessage').textContent = isStandalone
-      ? 'Restored Sherlock standalone curriculum v0.14.0 from this browser. No external datasets are used.'
+    $('neuralMessage').textContent = isBalanced
+      ? 'Restored Sherlock balanced curriculum v0.17.0 from this browser. Six task families are balanced, with no external downloads.'
       : 'Restored the expanded training datasets from this browser. No dataset download is needed.';
   } else {
     $('neuralMessage').textContent = 'Loaded ' + data.trainConversations.toLocaleString() + ' training conversations from ' + sources.join(', ') + ', with ' + data.validationConversations.toLocaleString() + ' separate held-out validation conversations.';
     const warnings = [];
-    if (!isStandalone && data.ultraError) warnings.push('UltraChat was unavailable: ' + data.ultraError);
-    if (!isStandalone && data.noRobotsError) warnings.push('No Robots was unavailable: ' + data.noRobotsError);
-    if (!isStandalone && data.mathError) warnings.push('GSM8K maths was unavailable: ' + data.mathError);
+    if (!isBalanced && data.ultraError) warnings.push('UltraChat was unavailable: ' + data.ultraError);
+    if (!isBalanced && data.noRobotsError) warnings.push('No Robots was unavailable: ' + data.noRobotsError);
+    if (!isBalanced && data.mathError) warnings.push('GSM8K maths was unavailable: ' + data.mathError);
     if (warnings.length) $('neuralMessage').textContent += ' ' + warnings.join(' ');
   }
 }
-
 function validateStandaloneCurriculumText(trainingText, validationText) {
   const blocks = value => value.replace(/\r\n?/g, '\n').split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
   const trainingBlocks = blocks(trainingText);
@@ -3765,17 +3756,47 @@ function validateStandaloneCurriculumText(trainingText, validationText) {
       }
     }
   };
-  validateConversationBlocks(trainingBlocks, 'Training library', 10000);
-  validateConversationBlocks(validationBlocks, 'Validation library', 1000);
+  validateConversationBlocks(trainingBlocks, 'Training library', 12000);
+  validateConversationBlocks(validationBlocks, 'Validation library', 1200);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingSet = new Set(trainingBlocks.map(normalise));
+  if (trainingSet.size !== trainingBlocks.length)
+    throw new Error('The training library contains duplicate conversations. The library was not loaded.');
+  if (new Set(validationBlocks.map(normalise)).size !== validationBlocks.length)
+    throw new Error('The validation library contains duplicate conversations. The library was not loaded.');
   if (validationBlocks.some(block => trainingSet.has(normalise(block))))
     throw new Error('A held-out validation example also appears in training. The library was not loaded.');
+
+  const taskFamilies = [
+    {name: 'arithmetic', pattern: /\b(?:plus|minus|multiplied|divide)\b/i},
+    {name: 'percentages', pattern: /%|\bpercent(?:age)?\b/i},
+    {name: 'unit conversions', pattern: /\bconvert\b|\bare equal to\b|\bchange\b.*\binto\b/i},
+    {name: 'word problems', pattern: /\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/i},
+    {name: 'number sequences', pattern: /\bsequence\b/i},
+    {name: 'letter/instruction tasks', pattern: /\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b/i}
+  ];
+  const validateFamilyDistribution = (items, label, expectedPerFamily) => {
+    const counts = new Map(taskFamilies.map(family => [family.name, 0]));
+    for (const block of items) {
+      const prompt = block.split('\n', 1)[0].replace(/^user:[ \t]*/i, '');
+      const family = taskFamilies.find(candidate => candidate.pattern.test(prompt));
+      if (!family) throw new Error(label + ' contains a prompt outside the six Balanced Learning families: ' + prompt.slice(0, 100));
+      counts.set(family.name, counts.get(family.name) + 1);
+    }
+    for (const family of taskFamilies) {
+      const actual = counts.get(family.name);
+      if (actual !== expectedPerFamily)
+        throw new Error(label + ' must contain exactly ' + expectedPerFamily.toLocaleString() +
+          ' ' + family.name + ' examples; found ' + actual.toLocaleString() + '.');
+    }
+  };
+  validateFamilyDistribution(trainingBlocks, 'Training library', 2000);
+  validateFamilyDistribution(validationBlocks, 'Validation library', 200);
   return {trainingBlocks, validationBlocks};
 }
 
 async function loadStandaloneCurriculum(signal) {
-  $('neuralMessage').textContent = 'Loading Sherlock’s standalone training library…';
+  $('neuralMessage').textContent = 'Loading Sherlock’s balanced training library…';
   showDataProgress(0, 2, 'Loading the training library');
   const loadText = async (path, label, progress) => {
     if (signal && signal.aborted) throw signal.reason || new Error('Dataset loading was cancelled.');
@@ -3794,7 +3815,7 @@ async function loadStandaloneCurriculum(signal) {
   const trainBytes = new TextEncoder().encode(trainingText);
   const validationBytes = new TextEncoder().encode(validationText);
   if (trainBytes.length > MAX_TRAIN_CORPUS_BYTES || validationBytes.length > MAX_VALIDATION_CORPUS_BYTES)
-    throw new Error('The standalone library exceeds the safe browser memory limit.');
+    throw new Error('The balanced library exceeds the safe browser memory limit.');
   const data = {
     trainBytes, validationBytes,
     trainConversations: trainingBlocks.length,
@@ -3809,7 +3830,7 @@ async function loadStandaloneCurriculum(signal) {
     mathAvailable: false,
     mathValidationBytes: null,
     mathValidationConversations: 0,
-    datasetName: 'Sherlock standalone curriculum v0.14.0',
+    datasetName: 'Sherlock balanced curriculum v0.17.0',
     ultraError: '', noRobotsError: '', mathError: ''
   };
   datasetCache = data;
