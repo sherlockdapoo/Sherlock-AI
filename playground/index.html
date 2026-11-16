@@ -9,8 +9,9 @@
 <style>
 :root{color-scheme:dark;--bg:#080f1b;--panel:#101c2e;--panel2:#0b1626;--line:#283c58;--text:#eef5ff;--muted:#9aadc7;--blue:#8bbaff;--blue2:#b3d2ff;--green:#5ee0ad;--amber:#f2c66d;--red:#ff8888}
 *{box-sizing:border-box}
-html{min-height:100%;background:var(--bg)}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -22%,#20395c 0,transparent 58%),var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+html{min-height:100%;height:auto;background:var(--bg);overflow-x:hidden;overflow-y:auto;scroll-behavior:auto;overscroll-behavior-y:auto;overflow-anchor:none}
+body{margin:0;min-height:100vh;height:auto;position:relative;overflow:visible;background:radial-gradient(ellipse at 50% -22%,#20395c 0,transparent 58%),var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-anchor:none}
+main{overflow-anchor:none;touch-action:pan-y}
 button,textarea,select{font:inherit}
 main{width:min(820px,100%);margin:0 auto;padding:22px 14px calc(30px + env(safe-area-inset-bottom))}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
@@ -79,7 +80,7 @@ a{color:#a9ceff}
 <main>
 <header>
  <div class="brand"><div class="mark" aria-hidden="true">⌕</div><div><h1>Sherlock AI Playground</h1><div class="sub">Independent testing space · runs locally in your browser</div></div></div>
- <span class="version">PLAYGROUND 1.1</span>
+ <span class="version">PLAYGROUND 1.2</span>
 </header>
 <section class="card" aria-label="Sherlock model playground">
  <div class="statusbar" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking your saved model…</span><span class="statusdetail" id="statusDetail">LOCAL MODEL</span></div>
@@ -387,7 +388,7 @@ function addHistory(prompt,answer){
   const a=document.createElement('div');a.className='historyanswer';a.textContent=item.answer||'(No continuation generated)';
   const actions=document.createElement('div');actions.className='historyactions';
   const use=document.createElement('button');use.type='button';use.className='ghost';use.textContent='Use prompt again';
-  use.addEventListener('click',()=>{$('prompt').value=item.prompt;updateCharCount();$('prompt').focus();});
+  use.addEventListener('click',()=>{$('prompt').value=item.prompt;updateCharCount();$('prompt').focus({preventScroll:true});});
   actions.append(use);card.append(q,a,actions);host.append(card);
  });
 }
@@ -395,7 +396,7 @@ function updateCharCount(){$('charCount').textContent=$('prompt').value.length+'
 function generate(promptOverride){
  if(!modelReady||busy||!worker)return;
  const prompt=String(promptOverride??$('prompt').value).trim().slice(0,180);
- if(!prompt){setHint('Enter a starting phrase first.');$('prompt').focus();return;}
+ if(!prompt){setHint('Enter a starting phrase first.');$('prompt').focus({preventScroll:true});return;}
  $('prompt').value=prompt;updateCharCount();
  lastPrompt=prompt;lastOutput='';
  $('copyOutput').disabled=true;
@@ -455,7 +456,7 @@ $('clear').addEventListener('click',()=>{
  $('prompt').value='';updateCharCount();setOutput('Your generated continuation will appear here.',true);
  $('outputMeta').textContent='Waiting';lastPrompt='';lastOutput='';
  $('copyOutput').disabled=true;$('regenerate').disabled=true;
- if(modelReady)$('prompt').focus();
+ if(modelReady)$('prompt').focus({preventScroll:true});
 });
 $('copyOutput').addEventListener('click',()=>copyText(lastOutput));
 $('regenerate').addEventListener('click',()=>{if(lastPrompt)generate(lastPrompt);});
@@ -468,7 +469,7 @@ document.querySelectorAll('[data-prompt]').forEach(button=>{
  button.addEventListener('click',()=>{
   if(!modelReady||busy)return;
   $('prompt').value=button.getAttribute('data-prompt')||'';
-  updateCharCount();$('prompt').focus();
+  updateCharCount();$('prompt').focus({preventScroll:true});
  });
 });
 window.addEventListener('pagehide',()=>{
