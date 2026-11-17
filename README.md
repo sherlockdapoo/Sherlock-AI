@@ -2,16 +2,18 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace has two tabs: **Chat** and **Neural Lab**. Training runs locally in a dedicated browser worker, and the latest word-model checkpoint is saved in this browser.
 
-## Main Neural Lab v0.18.0
+## Main Neural Lab v0.20.0
 
-The main Neural Lab now uses the v0.17.0 Balanced Learning curriculum:
-- 12,000 training conversations and 1,200 held-out validation conversations.
-- Six task families, each with 2,000 training and 200 validation examples.
-- Digit-aware tokenisation, so numeric values are built from reusable digit tokens.
-- Balanced batch sampling: each training target first selects one of the six task families with equal probability, then selects a target token from that family.
-- Automatic early stopping is removed. Training continues until manually stopped (the current default has no step limit); manual Stop still restores and saves the best validation-loss checkpoint.
+The main Neural Lab uses the **v0.18.0 Balanced Learning curriculum**, a fully local synthetic dataset designed for the six task families:
+- 12,000 training examples and 1,200 separate held-out validation examples.
+- Six families with exactly 2,000 training and 200 validation examples each.
+- Five equally sized skill subtypes per family (400 training / 40 validation examples each).
+- Four wording variants per subtype (100 training / 10 validation examples per template).
+- The same prompt-template mix and numerical ranges are used in both splits, with independent deterministic generation and no exact prompt overlap.
+- Balanced batch sampling selects one of the six task families with equal probability, then samples a target token from that family.
+- Training continues until manually stopped; latest and best checkpoints are stored separately.
 
-The former main v0.14.0 checkpoint and dataset cache remain in their original browser database. The main page now shares the v0.17.0 experiment database and compatible checkpoint key, so an existing v0.17.0 model can be continued without overwriting the older v0.14.0 model.
+The v0.18.0 dataset, dataset cache revision, and checkpoint keys are isolated from v0.17.0. The previous dataset files and browser checkpoints are not overwritten or automatically loaded into the new curriculum. See [the v0.18.0 dataset quality report](data/sherlock-curriculum-v0180-README.md) for the generation design and validation checks.
 
 ## Version 0.9.2: validation-loss history graph
 
@@ -50,17 +52,9 @@ The C++ character-counter training screen and its separate Live View have been r
 
 ## Training data and licences
 
-- [DailyDialog](https://huggingface.co/datasets/li2017dailydialog/daily_dialog), accessed through the [browser-readable mirror](https://huggingface.co/datasets/agentlans/li2017dailydialog). The dataset is labelled **CC BY-NC-SA 4.0**.
-- [UltraChat 200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k). Its dataset card lists **MIT**.
-- [No Robots](https://huggingface.co/datasets/HuggingFaceH4/no_robots). Its dataset card lists **CC BY-NC 4.0**.
-- [GSM8K](https://huggingface.co/datasets/openai/gsm8k). Its dataset card lists **MIT**.
+The active v0.20.0 Neural Lab uses the locally stored synthetic v0.18.0 curriculum in `data/sherlock-curriculum-v0180-train.txt` and `data/sherlock-curriculum-v0180-validation.txt`. It does not download external training datasets.
 
-Only the selected training split is included in the training text. Each held-out validation/test sample is assembled separately and is not passed to the training buffer. Text is cleaned, converted to a simple user/Sherlock conversation format, and split into word, punctuation, space, and newline tokens. The tokenizer keeps the 1,021 most frequent training tokens plus three reserved IDs; rare or unseen tokens become `<unk>`. The active model predicts the next token from the preceding eight tokens; this is not full instruction fine-tuning.
-
-Review each dataset's card and licence before redistributing data or model outputs. In particular, DailyDialog and No Robots have non-commercial terms. This README is a practical summary, not legal advice.
-
-
-The archived C++/WebAssembly character-counter baseline is not the active Neural Lab trainer. Its legacy validation routine uses an exact 10,000-sample maximum, rejects validation sets too short to score, and selects saved checkpoints by held-out accuracy rather than validation loss. These changes do not alter the active JavaScript neural model.
+Older revisions and isolated experiments may refer to DailyDialog, UltraChat, No Robots, or GSM8K. Those historical references are not used by the current standalone curriculum. Review each original dataset card and licence before reusing archived material.
 
 ## Technology
 
