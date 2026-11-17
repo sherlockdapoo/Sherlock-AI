@@ -1045,7 +1045,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.1, Balanced Learning v0.17.0, early startup diagnostics and manual stopping">v0.19.1</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.2, Balanced Learning v0.17.0, repaired token audit and startup diagnostics">v0.19.2</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2591,7 +2591,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.19.1-startup-diagnostics', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.19.2-token-audit-fix', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3039,6 +3039,50 @@ function requestNeuralGeneration(prompt) {
     neuralPendingRequests.set(id, {resolve, reject});
     neuralWorker.postMessage({type: 'generate', id, prompt, seed: playgroundSeed(prompt), length: 90});
   });
+}
+
+async function inspectNeuralUnknownTokens() {
+  if (neuralTraining || neuralRequestBusy || requestBusy) {
+    $('neuralUnknownTokenDiagnosis').textContent =
+      'Wait until the current training or model request has finished before running this read-only audit.';
+    return;
+  }
+  const button = $('neuralUnknownInspectBtn');
+  if (neuralUnknownDiagnosisPending) return;
+  const diagnosisId = ++neuralUnknownDiagnosisId;
+  neuralUnknownDiagnosisPending = true;
+  neuralRequestBusy = true;
+  button.disabled = true;
+  button.textContent = 'Scanning validation tokens…';
+  $('neuralUnknownTokenDiagnosis').textContent =
+    'Loading the saved training and validation datasets for a read-only vocabulary audit…';
+  logSherlockEvent('Unknown-token audit requested.');
+  updateNeuralControls();
+  try {
+    const data = datasetCache || await loadTrainingDatasets();
+    if (!data || !data.trainBytes || !data.validationBytes)
+      throw new Error('Training and validation datasets are not available.');
+    const worker = ensureNeuralWorker();
+    const trainBuffer = data.trainBytes.slice().buffer;
+    const validationBuffer = data.validationBytes.slice().buffer;
+    worker.postMessage(
+      {type: 'diagnose-unknown-tokens', id: diagnosisId, trainBuffer, validationBuffer},
+      [trainBuffer, validationBuffer]
+    );
+    logSherlockEvent('Unknown-token audit sent to worker (request ' + diagnosisId + ').');
+  } catch (error) {
+    if (neuralUnknownDiagnosisId === diagnosisId) {
+      neuralUnknownDiagnosisPending = false;
+      neuralRequestBusy = false;
+      button.disabled = false;
+      button.textContent = 'Try audit again';
+      $('neuralUnknownTokenDiagnosis').textContent =
+        'The audit could not start: ' + (error && error.message ? error.message : String(error));
+      logSherlockEvent('Unknown-token audit could not start: ' +
+        (error && error.message ? error.message : String(error)), 'error');
+      updateNeuralControls();
+    }
+  }
 }
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
