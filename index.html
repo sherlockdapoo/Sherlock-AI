@@ -1045,7 +1045,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.3, Balanced Learning v0.17.0, copyable training report">v0.19.3</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.4, Balanced Learning v0.17.0, separate latest and best model protection">v0.19.4</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1502,6 +1502,7 @@ const MAX_VALIDATION_CORPUS_BYTES = 128 * 1024;
 const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-legacy-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-v1';
+const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-best-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-archive-v1';
 const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0170-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
@@ -2013,18 +2014,17 @@ function renderNeuralLiveView() {
 }
 
 let neuralCheckpointSaveInProgress = false;
-let neuralCheckpointPendingData = null;
+let neuralCheckpointPendingData = [];
 
-function queueNeuralCheckpointSave(data) {
-  neuralCheckpointPendingData = data;
+function queueNeuralCheckpointSave(data, key = NEURAL_CHECKPOINT_KEY) {
+  neuralCheckpointPendingData.push({data, key});
   if (neuralCheckpointSaveInProgress) return;
   neuralCheckpointSaveInProgress = true;
   (async () => {
-    while (neuralCheckpointPendingData) {
-      const nextCheckpoint = neuralCheckpointPendingData;
-      neuralCheckpointPendingData = null;
+    while (neuralCheckpointPendingData.length) {
+      const nextCheckpoint = neuralCheckpointPendingData.shift();
       try {
-        await saveNeuralCheckpoint(nextCheckpoint);
+        await saveNeuralCheckpoint(nextCheckpoint.data, nextCheckpoint.key);
         updateGlobalNeuralStats();
         renderNeuralLiveView();
       } catch (error) {
@@ -2037,7 +2037,7 @@ function queueNeuralCheckpointSave(data) {
     neuralCheckpointSaveInProgress = false;
   })().catch(error => {
     neuralCheckpointSaveInProgress = false;
-    neuralCheckpointPendingData = null;
+    neuralCheckpointPendingData = [];
     neuralCheckpointWasSaved = false;
     $('neuralCheckpointStatus').textContent = 'Checkpoint saving stopped unexpectedly. The active model remains available until this page is closed.';
     console.warn('Neural checkpoint save queue failed:', error);
@@ -2045,7 +2045,7 @@ function queueNeuralCheckpointSave(data) {
   });
 }
 
-async function saveNeuralCheckpoint(data) {
+async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   if (!currentNeuralDatasetFingerprint) throw new Error('The active dataset has not been identified yet.');
   const parameterCount = Math.floor(Number(data.parameters) || 0);
   const modelBuffer = data.modelBuffer;
@@ -2086,7 +2086,16 @@ async function saveNeuralCheckpoint(data) {
     savedAt,
     modelBuffer
   };
-  await writeNeuralCheckpointRecord(record);
+  if (key === NEURAL_CHECKPOINT_KEY) {
+    const existingBest = await readNeuralCheckpointRecord(NEURAL_BEST_CHECKPOINT_KEY).catch(() => null);
+    if (!existingBest) {
+      const previousLatest = await readNeuralCheckpointRecord(NEURAL_CHECKPOINT_KEY).catch(() => null);
+      if (previousLatest && Number(previousLatest.version) === 10 && previousLatest.modelBuffer instanceof ArrayBuffer) {
+        await writeNeuralCheckpointRecord(previousLatest, NEURAL_BEST_CHECKPOINT_KEY);
+      }
+    }
+  }
+  await writeNeuralCheckpointRecord(record, key);
   neuralCheckpointWasSaved = true;
   neuralCheckpointSavedAt = savedAt;
   neuralCheckpointStepsValue = record.steps;
@@ -2121,7 +2130,14 @@ async function restoreSavedNeuralCheckpoint() {
       const stored = await readNeuralCheckpointRecord();
       if (isCurrentCheckpoint(stored)) {
         record = stored;
-      } else if (stored && stored.modelBuffer instanceof ArrayBuffer) {
+      } else {
+        const bestStored = await readNeuralCheckpointRecord(NEURAL_BEST_CHECKPOINT_KEY);
+        if (isCurrentCheckpoint(bestStored)) {
+          record = bestStored;
+          checkpointSource = 'best-checkpoint fallback';
+        }
+      }
+      if (!record && stored && stored.modelBuffer instanceof ArrayBuffer) {
         incompatibleStoredCheckpoint = stored;
         $('neuralCheckpointStatus').textContent = 'A saved checkpoint exists, but it belongs to a different model or dataset revision. It has been preserved and was not loaded.';
       }
@@ -2599,7 +2615,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.19.3-training-report', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.19.4-latest-best-checkpoints', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2692,11 +2708,11 @@ updateNeuralControls();
       $('neuralMessage').textContent = 'Validation check ' + Number(data.evaluations).toLocaleString() +
         ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens. ' +
         (data.improved ? 'New best validation loss saved.' : 'No new best validation loss yet. Training continues until you press Stop.');
-    } else if (data.type === 'checkpoint') {
+    } else if (data.type === 'checkpoint' || data.type === 'latest-checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
       updateNeuralMetrics(data, true);
-      queueNeuralCheckpointSave(data);
+      queueNeuralCheckpointSave(data, data.type === 'checkpoint' ? NEURAL_BEST_CHECKPOINT_KEY : NEURAL_CHECKPOINT_KEY);
     } else if (data.type === 'started') {
       if (neuralStartupTimer) clearTimeout(neuralStartupTimer);
       neuralStartupTimer = null;
@@ -3157,7 +3173,7 @@ async function copySherlockTrainingReport() {
   ];
   const value = id => { const node = $(id); return node ? node.textContent.trim() : 'Not available'; };
   const report = [
-    'SHERLOCK AI TRAINING REPORT', 'Website version: v0.19.3',
+    'SHERLOCK AI TRAINING REPORT', 'Website version: v0.19.4',
     'Balanced Learning: v0.17.0', 'Created: ' + new Date().toISOString(),
     ...fields.map(([label, id]) => label + ': ' + value(id)),
     '', 'Unknown-token audit detail:', value('neuralUnknownTokenDiagnosis'),
