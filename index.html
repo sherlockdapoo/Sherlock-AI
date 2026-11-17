@@ -1045,7 +1045,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.0, Balanced Learning v0.17.0, manual stopping and diagnostic logging">v0.19.0</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.1, Balanced Learning v0.17.0, early startup diagnostics and manual stopping">v0.19.1</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1435,6 +1435,42 @@ body{-webkit-overflow-scrolling:auto}
 </main>
 
 <script>
+/* v0.19.1: start diagnostics before the main application initialises. */
+(function sherlockEarlyDiagnostics(){
+  const key = 'sherlock_ai_diagnostic_log_v1';
+  function record(message, level = 'info') {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || '[]');
+      const entries = Array.isArray(saved) ? saved : [];
+      entries.push({time:new Date().toISOString(), level, message:String(message).slice(0,500)});
+      localStorage.setItem(key, JSON.stringify(entries.slice(-180)));
+      const output = document.getElementById('neuralLogOutput');
+      if (output) output.value = entries.slice(-180).map(item =>
+        item.time + ' [' + String(item.level || 'info').toUpperCase() + '] ' + String(item.message || '')
+      ).join('\\n');
+    } catch (_) {
+      const output = document.getElementById('neuralLogOutput');
+      if (output) output.value = 'Early diagnostic could not access browser storage: ' + String(message);
+    }
+  }
+  window.addEventListener('error', event => {
+    record('EARLY JavaScript error: ' + (event.message || 'Unknown error') +
+      (event.filename ? ' (' + event.filename.split('/').pop() + ':' + event.lineno + ':' + event.colno + ')' : ''), 'error');
+  });
+  window.addEventListener('unhandledrejection', event => {
+    const reason = event.reason;
+    record('EARLY unhandled rejection: ' + (reason && reason.message ? reason.message : String(reason || 'Unknown rejection')), 'error');
+  });
+  document.addEventListener('pointerdown', event => {
+    const target = event.target && event.target.nodeType === 1 ? event.target : null;
+    if (target && target.closest('#neuralStartBtn')) record('START pointerdown reached document capture.');
+  }, true);
+  document.addEventListener('click', event => {
+    const target = event.target && event.target.nodeType === 1 ? event.target : null;
+    if (target && target.closest('#neuralStartBtn')) record('START click reached document capture.');
+  }, true);
+  record('Early diagnostics installed; main application is initialising.');
+})();
 const ENGINE_URL = new URL('engine.wasm.gz.b64?v=0.9.1', window.location.href);
 const HF_DATASET = 'agentlans/li2017dailydialog';
 const HF_ULTRACHAT_DATASET = 'HuggingFaceH4/ultrachat_200k';
@@ -2555,7 +2591,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.19.0-diagnostic-log', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.19.1-startup-diagnostics', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
