@@ -3006,7 +3006,6 @@ function requestNeuralGeneration(prompt) {
 }
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
-logSherlockEvent('Neural Lab interface initialized.');
 $('neuralUnknownInspectBtn').addEventListener('click', inspectNeuralUnknownTokens);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
 // v0.18.8: visible diagnostics distinguish missed taps from stop-state failures.
@@ -3082,6 +3081,7 @@ document.addEventListener('visibilitychange', () => {
   logSherlockEvent('Page visibility changed: ' + document.visibilityState);
 });
 loadSherlockDiagnosticLog();
+logSherlockEvent('Neural Lab interface initialized.');
 function handleNeuralStopIntent(event) {
   const stopButton = $('neuralStopBtn');
   if (!stopButton) return;
