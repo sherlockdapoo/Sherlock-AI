@@ -2,9 +2,9 @@
 
 Sherlock GPT is a small browser-based neural language experiment. The workspace has two tabs: **Chat** and **Neural Lab**. Training runs locally in a dedicated browser worker, and the latest word-model checkpoint is saved in this browser.
 
-## Main Neural Lab v0.20.0
+## Main Neural Lab v0.20.1
 
-The main Neural Lab uses the **v0.18.0 Balanced Learning curriculum**, a fully local synthetic dataset designed for the six task families:
+The main Neural Lab uses the **v0.18.1 Balanced Learning curriculum**, a fully local synthetic dataset designed for the six task families:
 - 12,000 training examples and 1,200 separate held-out validation examples.
 - Six families with exactly 2,000 training and 200 validation examples each.
 - Five equally sized skill subtypes per family (400 training / 40 validation examples each).
@@ -13,7 +13,7 @@ The main Neural Lab uses the **v0.18.0 Balanced Learning curriculum**, a fully l
 - Balanced batch sampling selects one of the six task families with equal probability, then samples a target token from that family.
 - Training continues until manually stopped; latest and best checkpoints are stored separately.
 
-The v0.18.0 dataset, dataset cache revision, and checkpoint keys are isolated from v0.17.0. The previous dataset files and browser checkpoints are not overwritten or automatically loaded into the new curriculum. See [the v0.18.0 dataset quality report](data/sherlock-curriculum-v0180-README.md) for the generation design and validation checks.
+The v0.18.1 dataset, dataset cache revision, and checkpoint keys are isolated from v0.17.0. The previous dataset files and browser checkpoints are not overwritten or automatically loaded into the new curriculum. See [the v0.18.1 dataset quality report](data/sherlock-curriculum-v0181-README.md) for the generation design and validation checks.
 
 ## Version 0.9.2: validation-loss history graph
 
@@ -52,7 +52,7 @@ The C++ character-counter training screen and its separate Live View have been r
 
 ## Training data and licences
 
-The active v0.20.0 Neural Lab uses the locally stored synthetic v0.18.0 curriculum in `data/sherlock-curriculum-v0180-train.txt` and `data/sherlock-curriculum-v0180-validation.txt`. It does not download external training datasets.
+The active v0.20.1 Neural Lab uses the locally stored synthetic v0.18.1 curriculum in `data/sherlock-curriculum-v0181-train.txt` and `data/sherlock-curriculum-v0181-validation.txt`. It does not download external training datasets.
 
 Older revisions and isolated experiments may refer to DailyDialog, UltraChat, No Robots, or GSM8K. Those historical references are not used by the current standalone curriculum. Review each original dataset card and licence before reusing archived material.
 
