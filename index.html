@@ -1045,7 +1045,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.2, Balanced Learning v0.17.0, repaired token audit and startup diagnostics">v0.19.2</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.19.3, Balanced Learning v0.17.0, copyable training report">v0.19.3</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -1292,6 +1292,14 @@ body{-webkit-overflow-scrolling:auto}
             <div class="metric"><span>Batch size</span><strong id="neuralBatchSizeMetric">32 tokens per update</strong></div>
             <div class="metric"><span>Run progress</span><strong id="neuralRunProgress">Unlimited</strong></div>
           </div>
+          <section class="neural-log-panel" aria-labelledby="neuralReportTitle">
+            <div class="neural-log-heading">
+              <div><strong id="neuralReportTitle">Training report for ChatGPT</strong><p>Copies the current version, training metrics, vocabulary audit and recent diagnostic events. No prompts or generated answers are included.</p></div>
+              <div class="neural-log-actions"><button class="btn btn-secondary" id="neuralReportCopyBtn" type="button">Copy report</button></div>
+            </div>
+            <textarea id="neuralReportOutput" class="neural-log-output" readonly rows="8" aria-label="Copyable Sherlock training report" spellcheck="false">Tap “Copy report” to collect the latest Sherlock metrics.</textarea>
+            <p id="neuralReportStatus" class="neural-log-status" role="status" aria-live="polite">Ready to create a report.</p>
+          </section>
           <div class="dataset-quality-source" id="neuralUnknownTokenDiagnosis" role="status" aria-live="polite">Unknown-token audit has not run yet. This read-only check compares validation tokens with the training vocabulary.</div>
           <div class="dataset-quality-actions">
             <p>This check does not train, reset, or change Sherlock's model.</p>
@@ -2591,7 +2599,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.19.2-token-audit-fix', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.19.3-training-report', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3137,12 +3145,50 @@ async function copySherlockDiagnosticLog() {
     output.select();
   }
 }
+async function copySherlockTrainingReport() {
+  const fields = [
+    ['Training updates', 'neuralSteps'], ['Training data', 'neuralDatasetName'],
+    ['Tokenizer vocabulary', 'neuralTokenizerSummary'], ['Validation unknown tokens', 'neuralTokenizerUnknownRate'],
+    ['Training conversations', 'neuralTrainConversations'], ['Held-out conversations', 'neuralValidationConversations'],
+    ['Corpus-equivalent passes', 'neuralEpochs'], ['Latest model accuracy', 'neuralBestAccuracy'],
+    ['Training loss', 'neuralLoss'], ['Validation cross-entropy', 'neuralValidationLoss'],
+    ['Validation perplexity', 'neuralPerplexity'], ['Validation tokens per check', 'neuralValidationSamples'],
+    ['Optimizer', 'neuralOptimizerSummary'], ['Batch size', 'neuralBatchSizeMetric'], ['Run progress', 'neuralRunProgress']
+  ];
+  const value = id => { const node = $(id); return node ? node.textContent.trim() : 'Not available'; };
+  const report = [
+    'SHERLOCK AI TRAINING REPORT', 'Website version: v0.19.3',
+    'Balanced Learning: v0.17.0', 'Created: ' + new Date().toISOString(),
+    ...fields.map(([label, id]) => label + ': ' + value(id)),
+    '', 'Unknown-token audit detail:', value('neuralUnknownTokenDiagnosis'),
+    '', 'Training status:', value('neuralMessage'),
+    'Stop status: ' + value('neuralStopDiagnostic'),
+    '', 'Recent diagnostic events:',
+    sherlockDiagnosticEntries.slice(-25).map(entry => entry.time + ' [' + entry.level.toUpperCase() + '] ' + entry.message).join(String.fromCharCode(10)) || 'No diagnostic events recorded.'
+  ].join(String.fromCharCode(10));
+  const output = $('neuralReportOutput');
+  output.value = report;
+  try {
+    if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(report);
+    else {
+      output.focus(); output.select();
+      if (!document.execCommand('copy')) throw new Error('Clipboard copy was blocked.');
+    }
+    $('neuralReportStatus').textContent = 'Report copied. Paste it into your ChatGPT message.';
+    logSherlockEvent('User copied a training report.');
+  } catch (error) {
+    $('neuralReportStatus').textContent = 'Copy was blocked. The report is shown above; tap and hold it, then choose Copy.';
+    output.focus(); output.select();
+    logSherlockEvent('Training report copy failed: ' + (error.message || error), 'warn');
+  }
+}
 function reportNeuralStopDiagnostic(message) {
   const output = $('neuralStopDiagnostic');
   if (output) output.textContent = 'Stop diagnostic: ' + message;
   logSherlockEvent('Stop diagnostic: ' + message);
 }
 $('neuralLogCopyBtn').addEventListener('click', copySherlockDiagnosticLog);
+$('neuralReportCopyBtn').addEventListener('click', copySherlockTrainingReport);
 $('neuralLogClearBtn').addEventListener('click', () => {
   sherlockDiagnosticEntries = [];
   try { localStorage.removeItem(SHERLOCK_LOG_KEY); } catch (_) {}
