@@ -1036,7 +1036,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.6, Balanced Learning v0.17.0, manual stopping">v0.18.6</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.18.6, Balanced Learning v0.17.0, manual stopping">v0.18.7</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
@@ -2533,7 +2533,7 @@ updateNeuralTrainingConfigSummary();
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.18.6-stop-yield', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.18.7-stop-hit-test', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -2973,14 +2973,32 @@ function requestNeuralGeneration(prompt) {
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
 $('neuralUnknownInspectBtn').addEventListener('click', inspectNeuralUnknownTokens);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
-// Mobile pointer fallback: handle the physical tap before click synthesis.
-// The normal click listener remains as a keyboard/accessibility fallback.
-document.addEventListener('pointerdown', event => {
-  const stopButton = event.target && event.target.closest ? event.target.closest('#neuralStopBtn') : null;
+// v0.18.7: catch Stop taps even when a mobile overlay intercepts the hit target.
+// Check both the event path and the visible button rectangle.
+function handleNeuralStopIntent(event) {
+  const stopButton = $('neuralStopBtn');
   if (!stopButton || stopButton.disabled) return;
-  event.preventDefault();
+  const target = event.target;
+  let hitButton = !!(target && target.closest && target.closest('#neuralStopBtn'));
+  if (!hitButton && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+    const rect = stopButton.getBoundingClientRect();
+    hitButton = event.clientX >= rect.left && event.clientX <= rect.right &&
+      event.clientY >= rect.top && event.clientY <= rect.bottom;
+  }
+  if (!hitButton) return;
+  if (event.cancelable) event.preventDefault();
+  if (event.stopImmediatePropagation) event.stopImmediatePropagation();
   stopNeuralTraining();
-}, true);
+}
+document.addEventListener('pointerdown', handleNeuralStopIntent, true);
+document.addEventListener('touchstart', event => {
+  const touch = event.changedTouches && event.changedTouches[0];
+  if (!touch) return;
+  handleNeuralStopIntent({target: event.target, clientX: touch.clientX, clientY: touch.clientY,
+    cancelable: event.cancelable, preventDefault: () => event.preventDefault(),
+    stopImmediatePropagation: () => event.stopImmediatePropagation()});
+}, {capture: true, passive: false});
+document.addEventListener('click', handleNeuralStopIntent, true);
 $('neuralLearningRate').addEventListener('change', () => {
   updateNeuralOptimizerSummary();
   updateNeuralTrainingConfigSummary();
