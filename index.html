@@ -2096,7 +2096,6 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
     }
   }
   await writeNeuralCheckpointRecord(record, key);
-  neuralCheckpointWasSaved = true;
   if (key === NEURAL_CHECKPOINT_KEY) {
     neuralCheckpointWasSaved = true;
     neuralCheckpointSavedAt = savedAt;
@@ -3181,7 +3180,8 @@ async function copySherlockTrainingReport() {
     ['Training updates', 'neuralSteps'], ['Training data', 'neuralDatasetName'],
     ['Tokenizer vocabulary', 'neuralTokenizerSummary'], ['Validation unknown tokens', 'neuralTokenizerUnknownRate'],
     ['Training conversations', 'neuralTrainConversations'], ['Held-out conversations', 'neuralValidationConversations'],
-    ['Corpus-equivalent passes', 'neuralEpochs'], ['Best validation accuracy', 'neuralBestAccuracy'],
+    ['Corpus-equivalent passes', 'neuralEpochs'], ['Latest model accuracy', 'neuralCheckpointAccuracy'],
+    ['Best validation accuracy', 'neuralBestAccuracy'],
     ['Training loss', 'neuralLoss'], ['Validation cross-entropy', 'neuralValidationLoss'],
     ['Validation perplexity', 'neuralPerplexity'], ['Validation tokens per check', 'neuralValidationSamples'],
     ['Optimizer', 'neuralOptimizerSummary'], ['Batch size', 'neuralBatchSizeMetric'], ['Run progress', 'neuralRunProgress']
