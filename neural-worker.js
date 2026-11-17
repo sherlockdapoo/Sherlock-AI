@@ -491,6 +491,27 @@ function predict(data, position) {
   }
   return {token: best, loss: -Math.log(Math.max(bestValue, 1e-9))};
 }
+function postLatestCheckpoint() {
+  if (!(parameters instanceof Float32Array)) return false;
+  const checkpointState = new Float32Array(PARAMS * 3);
+  checkpointState.set(parameters, 0);
+  checkpointState.set(firstMoment, PARAMS);
+  checkpointState.set(secondMoment, PARAMS * 2);
+  const checkpointBuffer = checkpointState.buffer;
+  self.postMessage({
+    type: 'latest-checkpoint', optimizer: activeOptimizer, learningRate: activeLearningRate,
+    accuracy: latestAccuracy, bestAccuracy,
+    validationLoss: latestValidationLoss,
+    bestValidationLoss: Number.isFinite(bestValidationLoss) ? bestValidationLoss : null,
+    perplexity: latestPerplexity, evaluations: evaluationCount, validationSamples,
+    steps, examples: examplesSeen, loss: movingLoss, batchSize: activeBatchSize,
+    maxSteps: activeMaxSteps, runSteps: Math.max(0, steps - runStartSteps),
+    optimizerStep, randomState: randomState >>> 0, parameters: PARAMS,
+    assistantTargetMetrics: true, trainingTargetTokens: trainTargetPositions.length,
+    validationTargetTokens: validationTargetPositions.length, modelBuffer: checkpointBuffer
+  }, [checkpointBuffer]);
+  return true;
+}
 function postBestCheckpoint() {
   if (!(bestParameters instanceof Float32Array) || bestCheckpointStepsSent === bestSteps)
     return false;
@@ -601,8 +622,9 @@ function evaluateAsync() {
           bestMovingLoss = movingLoss;
         }
 
-        // Send the large model buffer only when the best checkpoint improves.
+        // Preserve the best model separately and always persist the newest state.
         if (improved) postBestCheckpoint();
+        postLatestCheckpoint();
         // Always report the completed check, including when a new best checkpoint was saved.
         self.postMessage({
           type: "evaluation",
@@ -793,6 +815,8 @@ function finishStop(reason = "manual") {
   running = false;
   stopRequested = false;
 
+  // Capture the exact latest state before optionally restoring the best validation state.
+  postLatestCheckpoint();
   const restoredBest = bestParameters instanceof Float32Array;
   if (restoredBest) {
     parameters.set(bestParameters);
