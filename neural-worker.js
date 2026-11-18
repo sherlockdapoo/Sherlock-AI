@@ -375,48 +375,59 @@ function initialiseParameters() {
   lossInitialized = false;
 }
 function forwardContext() {
+  // Cache hot-path typed arrays and dimensions locally for the duration of
+  // this example. Arithmetic order is unchanged to preserve model behaviour.
+  const parameterValues = parameters;
+  const inputValues = inputVector;
+  const contextValues = contextCodes;
+  const hiddenValues = hiddenVector;
+  const activeIndices = activeHiddenIndices;
+  const probabilityValues = probabilities;
+  const vocabSize = vocabularySize;
+
   for (let slot = 0; slot < CONTEXT; slot++) {
-    const code = contextCodes[slot] < vocabularySize ? contextCodes[slot] : UNK_ID;
+    const code = contextValues[slot] < vocabSize ? contextValues[slot] : UNK_ID;
     const source = EMBED_OFFSET + code * EMBED;
     const destination = slot * EMBED;
     for (let j = 0; j < EMBED; j++)
-      inputVector[destination + j] = parameters[source + j];
+      inputValues[destination + j] = parameterValues[source + j];
   }
 
   for (let k = 0; k < HIDDEN; k++) {
-    let sum = parameters[B1_OFFSET + k];
+    let sum = parameterValues[B1_OFFSET + k];
     const row = W1_OFFSET + k * INPUT;
     for (let j = 0; j < INPUT; j++)
-      sum += parameters[row + j] * inputVector[j];
-    hiddenVector[k] = sum > 0 ? sum : 0;
+      sum += parameterValues[row + j] * inputValues[j];
+    hiddenValues[k] = sum > 0 ? sum : 0;
   }
   activeHiddenCount = 0;
   for (let k = 0; k < HIDDEN; k++) {
-    if (hiddenVector[k] > 0) activeHiddenIndices[activeHiddenCount++] = k;
+    if (hiddenValues[k] > 0) activeIndices[activeHiddenCount++] = k;
   }
 
   let maximum = -Infinity;
-  for (let c = 0; c < vocabularySize; c++) {
-    let sum = parameters[B2_OFFSET + c];
+  const activeCount = activeHiddenCount;
+  for (let c = 0; c < vocabSize; c++) {
+    let sum = parameterValues[B2_OFFSET + c];
     const row = W2_OFFSET + c * HIDDEN;
     // ReLU makes many hidden activations exactly zero. Reuse a compact index
     // list so output projection avoids multiplying by inactive neurons.
-    for (let n = 0; n < activeHiddenCount; n++) {
-      const k = activeHiddenIndices[n];
-      sum += parameters[row + k] * hiddenVector[k];
+    for (let n = 0; n < activeCount; n++) {
+      const k = activeIndices[n];
+      sum += parameterValues[row + k] * hiddenValues[k];
     }
-    probabilities[c] = sum;
+    probabilityValues[c] = sum;
     if (sum > maximum) maximum = sum;
   }
   let denominator = 0;
-  for (let c = 0; c < vocabularySize; c++) {
-    const value = Math.exp(probabilities[c] - maximum);
-    probabilities[c] = value;
+  for (let c = 0; c < vocabSize; c++) {
+    const value = Math.exp(probabilityValues[c] - maximum);
+    probabilityValues[c] = value;
     denominator += value;
   }
   const inverse = 1 / Math.max(denominator, 1e-20);
-  for (let c = 0; c < vocabularySize; c++) probabilities[c] *= inverse;
-  return probabilities;
+  for (let c = 0; c < vocabSize; c++) probabilityValues[c] *= inverse;
+  return probabilityValues;
 }
 function forward(data, position) {
   for (let slot = 0; slot < CONTEXT; slot++)
@@ -429,48 +440,60 @@ function trainExample(position) {
   const targetProbability = Math.max(probs[target], 1e-9);
   const loss = -Math.log(targetProbability);
 
-  hiddenDelta.fill(0);
-  for (let c = 0; c < vocabularySize; c++) {
+  // Cache frequently accessed arrays and loop bounds. Keep each accumulation
+  // in its original order so this pass does not intentionally alter gradients.
+  const gradientValues = gradients;
+  const parameterValues = parameters;
+  const hiddenValues = hiddenVector;
+  const hiddenDeltas = hiddenDelta;
+  const activeIndices = activeHiddenIndices;
+  const inputValues = inputVector;
+  const embeddingGradient = embeddingInputGradient;
+  const vocabSize = vocabularySize;
+  const activeCount = activeHiddenCount;
+
+  hiddenDeltas.fill(0);
+  for (let c = 0; c < vocabSize; c++) {
     const delta = probs[c] - (c === target ? 1 : 0);
     if (delta === 0) continue;
-    gradients[B2_OFFSET + c] += delta;
+    gradientValues[B2_OFFSET + c] += delta;
     const row = W2_OFFSET + c * HIDDEN;
     // Inactive ReLU units have zero activation and zero backpropagated delta.
     // Visit only active units to avoid zero-gradient reads and writes.
-    for (let n = 0; n < activeHiddenCount; n++) {
-      const k = activeHiddenIndices[n];
-      gradients[row + k] += delta * hiddenVector[k];
-      hiddenDelta[k] += delta * parameters[row + k];
+    for (let n = 0; n < activeCount; n++) {
+      const k = activeIndices[n];
+      gradientValues[row + k] += delta * hiddenValues[k];
+      hiddenDeltas[k] += delta * parameterValues[row + k];
     }
   }
 
   for (let k = 0; k < HIDDEN; k++) {
-    const delta = hiddenVector[k] > 0 ? hiddenDelta[k] : 0;
-    hiddenDelta[k] = delta;
+    const delta = hiddenValues[k] > 0 ? hiddenDeltas[k] : 0;
+    hiddenDeltas[k] = delta;
     if (delta === 0) continue; // ReLU-inactive neurons contribute no W1 or bias gradient.
-    gradients[B1_OFFSET + k] += delta;
+    gradientValues[B1_OFFSET + k] += delta;
     const row = W1_OFFSET + k * INPUT;
     for (let j = 0; j < INPUT; j++)
-      gradients[row + j] += delta * inputVector[j];
+      gradientValues[row + j] += delta * inputValues[j];
   }
 
   // Compute embedding gradients in W1's contiguous row-major layout first.
   // This improves memory locality compared with repeatedly jumping between rows
   // for each individual embedding dimension.
-  embeddingInputGradient.fill(0);
+  embeddingGradient.fill(0);
   for (let k = 0; k < HIDDEN; k++) {
-    const delta = hiddenDelta[k];
+    const delta = hiddenDeltas[k];
     if (delta === 0) continue;
     const row = W1_OFFSET + k * INPUT;
     for (let inputIndex = 0; inputIndex < INPUT; inputIndex++)
-      embeddingInputGradient[inputIndex] += delta * parameters[row + inputIndex];
+      embeddingGradient[inputIndex] += delta * parameterValues[row + inputIndex];
   }
   for (let slot = 0; slot < CONTEXT; slot++) {
     const code = contextCodes[slot];
     const embeddingRow = EMBED_OFFSET + code * EMBED;
     const inputStart = slot * EMBED;
     for (let j = 0; j < EMBED; j++)
-      gradients[embeddingRow + j] += embeddingInputGradient[inputStart + j];
+      gradientValues[embeddingRow + j] += embeddingGradient[inputStart + j];
   }
   return loss;
 }
