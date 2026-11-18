@@ -104,6 +104,8 @@ const probabilities = new Float32Array(VOCAB);
 const outputDelta = new Float32Array(VOCAB);
 const hiddenDelta = new Float32Array(HIDDEN);
 const contextCodes = new Uint16Array(CONTEXT);
+const activeHiddenIndices = new Uint8Array(HIDDEN);
+let activeHiddenCount = 0;
 
 function randomUnit() {
   let x = randomState >>> 0;
@@ -387,13 +389,21 @@ function forwardContext() {
       sum += parameters[row + j] * inputVector[j];
     hiddenVector[k] = sum > 0 ? sum : 0;
   }
+  activeHiddenCount = 0;
+  for (let k = 0; k < HIDDEN; k++) {
+    if (hiddenVector[k] > 0) activeHiddenIndices[activeHiddenCount++] = k;
+  }
 
   let maximum = -Infinity;
   for (let c = 0; c < vocabularySize; c++) {
     let sum = parameters[B2_OFFSET + c];
     const row = W2_OFFSET + c * HIDDEN;
-    for (let k = 0; k < HIDDEN; k++)
+    // ReLU makes many hidden activations exactly zero. Reuse a compact index
+    // list so output projection avoids multiplying by inactive neurons.
+    for (let n = 0; n < activeHiddenCount; n++) {
+      const k = activeHiddenIndices[n];
       sum += parameters[row + k] * hiddenVector[k];
+    }
     probabilities[c] = sum;
     if (sum > maximum) maximum = sum;
   }
