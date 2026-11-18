@@ -40,13 +40,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-o
 .stat-label{display:block;color:#9fb1ca;font-size:11px}
 .stat-value{display:block;margin-top:3px;font-size:19px;font-weight:750;letter-spacing:-.4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .stat-unit{display:block;margin-top:1px;color:#7f93af;font-size:9px}
-.tabs-wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}
-.tabs{display:inline-flex;gap:5px;padding:5px;border:1px solid var(--line);border-radius:15px;background:#0c1524}
-.tab{display:flex;align-items:center;justify-content:center;gap:8px;min-width:118px;padding:10px 15px;border:0;border-radius:11px;background:transparent;color:var(--muted);font-weight:700;font-size:13px;transition:background .18s,color .18s,box-shadow .18s}
-.tab:hover{color:var(--text);background:#16243a}
-.tab[aria-selected="true"]{background:linear-gradient(135deg,#315b99,#244477);color:#fff;box-shadow:0 4px 14px rgba(33,76,139,.28)}
-.tab-icon{font-size:15px}
-.tab-note{color:#7689a5;font-size:11px}
 .panel{display:none;animation:fadeIn .2s ease}
 .panel.active{display:block}
 @keyframes fadeIn{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
@@ -1032,11 +1025,6 @@ body{-webkit-overflow-scrolling:auto}
 .experiment-launch-button{flex:0 0 auto;min-height:44px;padding-inline:16px;text-decoration:none;white-space:nowrap}
 @media(max-width:680px){.experiment-launch-card{align-items:stretch;flex-direction:column;gap:12px;padding:15px}.experiment-launch-button{width:100%;white-space:normal}.experiment-launch-copy .visual-card-head{align-items:flex-start;flex-direction:column}}
 
-.new-playground-launch{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px;padding:14px 17px;border:1px solid #344d70;border-radius:15px;background:linear-gradient(110deg,#142943,#0d1b2d)}
-.new-playground-copy{min-width:0}.new-playground-copy strong{display:block;color:#e5f0ff;font-size:13px}.new-playground-copy span{display:block;color:#9fb3cf;font-size:11px;margin-top:3px;line-height:1.45}
-.new-playground-link{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 14px;border:1px solid #9fc3f6;border-radius:11px;background:linear-gradient(100deg,#83b7ff,#b6d4ff);color:#08172a;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
-.new-playground-link:focus-visible{outline:3px solid #b9d5ff;outline-offset:3px}
-@media(max-width:560px){.new-playground-launch{align-items:stretch;flex-direction:column;gap:10px;padding:13px}.new-playground-link{width:100%;white-space:normal}}
 
 /* v0.21.0 · cleaner workspace with a left navigation rail */
 .app{width:min(1440px,100%);padding:22px clamp(12px,2.4vw,32px) 36px}
@@ -1506,7 +1494,7 @@ body{-webkit-overflow-scrolling:auto}
     </div>
   </section>
 
-  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
+  <footer class="footer">Sherlock AI · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
     </div>
   </div>
 </main>
@@ -1859,32 +1847,17 @@ function resizeBenchmarkFrame() {
   if (!benchmarkFrame) return;
   try {
     const doc = benchmarkFrame.contentDocument;
-    if (!doc) throw new Error('Benchmark frame is not ready yet.');
-    const contentHeight = Math.max(
-      doc.documentElement ? doc.documentElement.scrollHeight : 0,
-      doc.body ? doc.body.scrollHeight : 0,
-      900
-    );
-    benchmarkFrame.style.height = Math.min(contentHeight + 8, 9000) + 'px';
+    if (!doc || !doc.body) throw new Error('Benchmark frame is not ready yet.');
+    // Use the benchmark content height directly. A tall frame lets the parent
+    // page scroll normally instead of trapping users in a nested iframe.
+    const contentHeight = Math.max(doc.body.scrollHeight, 900);
+    benchmarkFrame.style.height = Math.min(contentHeight + 320, 18000) + 'px';
   } catch (error) {
-    benchmarkFrame.style.height = '2400px';
+    benchmarkFrame.style.height = '15000px';
   }
 }
 if (benchmarkFrame) {
-  benchmarkFrame.addEventListener('load', () => {
-    resizeBenchmarkFrame();
-    try {
-      const doc = benchmarkFrame.contentDocument;
-      if (window.ResizeObserver && doc && doc.body) {
-        const observer = new ResizeObserver(resizeBenchmarkFrame);
-        observer.observe(doc.body);
-        if (doc.documentElement) observer.observe(doc.documentElement);
-        benchmarkFrame._sherlockResizeObserver = observer;
-      }
-    } catch (error) {
-      console.warn('Could not observe benchmark height:', error);
-    }
-  });
+  benchmarkFrame.addEventListener('load', resizeBenchmarkFrame);
 }
 function setTab(name) {
   const selected = workspaceTabs[name] ? name : 'neural';
