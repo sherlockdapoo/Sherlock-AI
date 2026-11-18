@@ -1471,6 +1471,8 @@ body.nav-open{overflow:hidden}
             <div class="data-track"><div class="data-fill" id="neuralDataFill"></div></div>
           </div>
           <p class="train-message" id="neuralMessage" aria-live="polite">Press Start neural training. DailyDialog and a bounded UltraChat sample will be loaded once.</p>
+          <section class="card" id="speedBenchmarkCard" style="margin-top:14px;padding:15px;border:1px solid #d9e4d8;border-radius:14px;background:#f7faf5"><h3>⚡ Training speed test</h3><p style="font-size:12px;color:#637568">Measures live training throughput without changing training settings or checkpoints. Training must be running.</p><button class="btn btn-secondary" id="speedBenchmarkStart" type="button">Run 30-second test</button><p id="speedBenchmarkStatus" role="status" style="font-size:12px;color:#53665a">Ready · 5-second warm-up + 25-second measurement.</p><textarea id="speedBenchmarkReport" readonly rows="5" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccd9cd;background:#fff;color:#24372a" placeholder="Your speed-test report will appear here." hidden></textarea><button class="btn btn-secondary" id="speedBenchmarkCopy" type="button" disabled>Copy report</button></section>
+
           <div class="metrics">
             <div class="metric"><span>Training updates</span><strong id="neuralSteps">0</strong></div>
             <div class="metric"><span>Training data</span><strong id="neuralDatasetName">Not loaded</strong></div>
@@ -2672,6 +2674,7 @@ function renderNetworkVisualiser(snapshot) {
 }
 window.addEventListener('resize', () => renderNetworkVisualiser());
 
+let speedBenchmarkActive=false;let speedBenchmarkWarmupTimer=null;let speedBenchmarkMeasureTimer=null;let speedBenchmarkStartExamples=0;let speedBenchmarkStartTime=0;let speedBenchmarkReportText='';
 function updateNeuralMetrics(data, forceEvaluation = false) {
   if (!data) return;
   if (data.network) renderNetworkVisualiser(data.network);
@@ -2681,6 +2684,7 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   let accuracyHistoryChanged = false;
   neuralExamplesValue = examples;
   neuralStepsValue = steps;
+  if(speedBenchmarkActive && $('speedBenchmarkStatus')) $('speedBenchmarkStatus').textContent='Measurement running · '+examples.toLocaleString()+' examples observed';
   if (data.examplesPerSecond !== undefined && data.examplesPerSecond !== null &&
       Number.isFinite(Number(data.examplesPerSecond))) {
     neuralSpeedValue = Number(data.examplesPerSecond);
@@ -4914,6 +4918,8 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
   });
   try{const saved=JSON.parse(localStorage.getItem('sherlockBenchmarkLastScore')||'null');if(saved&&typeof saved.pct==='number')$b('benchmarkTab').textContent='◉ Benchmark · '+saved.pct+'%';}catch(e){}
 })();
+
+(function setupSpeedBenchmark(){const start=$('speedBenchmarkStart'),copy=$('speedBenchmarkCopy'),report=$('speedBenchmarkReport'),status=$('speedBenchmarkStatus');if(!start||!copy||!report||!status)return;start.addEventListener('click',()=>{if(speedBenchmarkActive)return;if(!neuralTraining){status.textContent='Start neural training first, then run the test.';return;}speedBenchmarkActive=true;start.disabled=true;report.hidden=true;copy.disabled=true;speedBenchmarkReportText='';status.textContent='Warm-up: 5 seconds…';speedBenchmarkWarmupTimer=setTimeout(()=>{if(!neuralTraining){speedBenchmarkActive=false;start.disabled=false;status.textContent='Training stopped during warm-up. Test cancelled.';return;}speedBenchmarkStartExamples=neuralExamplesValue;speedBenchmarkStartTime=performance.now();status.textContent='Measuring throughput for 25 seconds…';speedBenchmarkMeasureTimer=setTimeout(()=>{speedBenchmarkActive=false;start.disabled=false;const elapsed=(performance.now()-speedBenchmarkStartTime)/1000,delta=Math.max(0,neuralExamplesValue-speedBenchmarkStartExamples),rate=elapsed>0?delta/elapsed:0;speedBenchmarkReportText='SHERLOCK AI TRAINING SPEED TEST\nWarm-up: 5 seconds\nMeasured: '+elapsed.toFixed(2)+' seconds\nExamples processed: '+delta.toLocaleString()+'\nAverage throughput: '+rate.toFixed(2)+' examples/sec\nNote: live training measurement; device, browser, dataset, and workload affect results.';report.value=speedBenchmarkReportText;report.hidden=false;copy.disabled=false;status.textContent='Finished · '+rate.toFixed(2)+' examples/sec';},25000);},5000);});copy.addEventListener('click',async()=>{if(!speedBenchmarkReportText)return;try{await navigator.clipboard.writeText(speedBenchmarkReportText);status.textContent='Report copied.';}catch(e){report.focus();report.select();status.textContent=document.execCommand('copy')?'Report copied.':'Select the report to copy.';}});})();
 </script>
 </body>
 </html>
