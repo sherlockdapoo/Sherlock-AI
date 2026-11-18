@@ -477,13 +477,21 @@ function trainExample(position) {
 function applyOptimizer(batchCount) {
   // Only active token rows can receive gradients. Keeping the full checkpoint
   // arrays intact while processing active rows avoids work on unused vocab slots.
+  // Cache typed arrays and scalar settings locally in this hot path.
   const activeRanges = activeOptimizerRanges;
+  const gradientValues = gradients;
+  const parameterValues = parameters;
+  const firstMoments = firstMoment;
+  const secondMoments = secondMoment;
   let squaredNorm = 0;
   const inverseBatch = 1 / batchCount;
-  for (const [start, end] of activeRanges) {
+  for (let rangeIndex = 0; rangeIndex < activeRanges.length; rangeIndex++) {
+    const range = activeRanges[rangeIndex];
+    const start = range[0];
+    const end = range[1];
     for (let i = start; i < end; i++) {
-      gradients[i] *= inverseBatch;
-      squaredNorm += gradients[i] * gradients[i];
+      gradientValues[i] *= inverseBatch;
+      squaredNorm += gradientValues[i] * gradientValues[i];
     }
   }
   const norm = Math.sqrt(squaredNorm);
@@ -491,26 +499,30 @@ function applyOptimizer(batchCount) {
   optimizerStep++;
   const correction1 = 1 - Math.pow(0.9, optimizerStep);
   const correction2 = 1 - Math.pow(0.999, optimizerStep);
-  const decay = activeOptimizer === "adamw" ? activeLearningRate * ADAMW_WEIGHT_DECAY : 0;
+  const learningRate = activeLearningRate;
+  const decay = activeOptimizer === "adamw" ? learningRate * ADAMW_WEIGHT_DECAY : 0;
 
-  for (const [start, end] of activeRanges) {
+  for (let rangeIndex = 0; rangeIndex < activeRanges.length; rangeIndex++) {
+    const range = activeRanges[rangeIndex];
+    const start = range[0];
+    const end = range[1];
     const useWeightDecay = decay !== 0 && (
-      (start === EMBED_OFFSET) ||
-      (start === W1_OFFSET) ||
-      (start === W2_OFFSET)
+      start === EMBED_OFFSET ||
+      start === W1_OFFSET ||
+      start === W2_OFFSET
     );
     for (let i = start; i < end; i++) {
-      const gradient = gradients[i] * clip;
-      const m = 0.9 * firstMoment[i] + 0.1 * gradient;
-      const v = 0.999 * secondMoment[i] + 0.001 * gradient * gradient;
-      firstMoment[i] = m;
-      secondMoment[i] = v;
+      const gradient = gradientValues[i] * clip;
+      const m = 0.9 * firstMoments[i] + 0.1 * gradient;
+      const v = 0.999 * secondMoments[i] + 0.001 * gradient * gradient;
+      firstMoments[i] = m;
+      secondMoments[i] = v;
       const mHat = m / correction1;
       const vHat = v / correction2;
-      const adaptiveUpdate = activeLearningRate * mHat / (Math.sqrt(vHat) + 1e-8);
-      const weightDecay = useWeightDecay ? decay * parameters[i] : 0;
-      parameters[i] -= adaptiveUpdate + weightDecay;
-      gradients[i] = 0;
+      const adaptiveUpdate = learningRate * mHat / (Math.sqrt(vHat) + 1e-8);
+      const weightDecay = useWeightDecay ? decay * parameterValues[i] : 0;
+      parameterValues[i] -= adaptiveUpdate + weightDecay;
+      gradientValues[i] = 0;
     }
   }
 }
