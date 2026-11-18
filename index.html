@@ -1179,6 +1179,37 @@ body.nav-open{overflow:hidden}
 
 /* v0.21.5 · automated benchmark */
 .benchmark-live-answers{display:grid;gap:7px;max-height:320px;overflow:auto;margin-top:12px}.benchmark-live-item{padding:9px 11px;border:1px solid #dfe6f0;border-radius:10px;background:#f8fafc;color:#35465f;font-size:12px;line-height:1.45}.benchmark-live-item strong{display:block;margin-bottom:3px}.benchmark-live-item .bench-output{white-space:pre-wrap;overflow-wrap:anywhere}.benchmark-live-item.correct{border-color:#9ad1b7;background:#eefaf4}.benchmark-live-item.incorrect{border-color:#e3b3b3;background:#fff4f4}.benchmark-live-item.pending{opacity:.8}
+
+/* v0.21.8 · benchmark-only visual refresh */
+#benchmarkPanel .benchmark-page{max-width:980px;margin:0 auto;display:grid;gap:16px}
+#benchmarkPanel .benchmark-intro,#benchmarkPanel .benchmark-card,#benchmarkPanel .benchmark-results{border:1px solid #293d59;border-radius:20px;background:linear-gradient(155deg,#132239,#0d1829);box-shadow:0 14px 36px rgba(0,0,0,.18);color:#eff5ff;padding:clamp(16px,3vw,24px);max-width:none;margin:0}
+#benchmarkPanel .benchmark-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+#benchmarkPanel .benchmark-intro h2{font-size:clamp(22px,4vw,30px);letter-spacing:-.7px;margin:7px 0 5px;color:#f3f7ff}
+#benchmarkPanel .benchmark-intro p{color:#a5b5cb;max-width:680px;margin:0;font-size:13px}
+#benchmarkPanel .benchmark-version{border:1px solid #3b5274;border-radius:10px;background:#14243b;color:#b9d3ff;font-size:10px;font-weight:800;padding:7px 10px;white-space:nowrap}
+#benchmarkPanel .benchmark-head{color:#a9b9d0;align-items:center}
+#benchmarkPanel .benchmark-head strong{font-size:15px;color:#f0f5ff;margin-bottom:4px}
+#benchmarkPanel #benchStatus{display:block;color:#91a5c1;font-weight:500;font-size:12px}
+#benchmarkPanel #benchProgress{font-weight:800;color:#dce8fb;font-variant-numeric:tabular-nums}
+#benchmarkPanel .benchmark-progress{height:10px;background:#07111f;border:1px solid #293d59;border-radius:999px;margin:15px 0}
+#benchmarkPanel .benchmark-progress div{background:linear-gradient(90deg,#5287ed,#72dfb2);border-radius:999px;box-shadow:0 0 12px rgba(100,163,239,.2)}
+#benchmarkPanel .benchmark-controls{gap:10px;margin-top:14px}
+#benchmarkPanel .benchmark-controls button,#benchmarkPanel .benchmark-results button{min-height:44px;border-radius:12px;padding:10px 15px;font-weight:750}
+#benchmarkPanel .benchmark-controls .btn-primary{background:linear-gradient(135deg,#477de0,#3564bc);border:1px solid #5d8be0;color:white;box-shadow:0 5px 14px rgba(53,100,188,.25)}
+#benchmarkPanel .benchmark-controls .btn-secondary,#benchmarkPanel .benchmark-results .btn-secondary{background:#172740;border:1px solid #354d6d;color:#d5e4fb}
+#benchmarkPanel button:disabled{opacity:.45;cursor:not-allowed}
+#benchmarkPanel .benchmark-note{color:#91a5c1;font-size:12px;margin:12px 0 0}
+#benchmarkPanel .benchmark-live-answers{gap:10px;max-height:560px;margin-top:16px}
+#benchmarkPanel .benchmark-live-item{border:1px solid #314761;border-radius:14px;background:#0b1728;color:#dce8f8;padding:13px 15px;font-size:13px}
+#benchmarkPanel .benchmark-live-item strong{color:#eff5ff;margin-bottom:6px}
+#benchmarkPanel .benchmark-live-item.correct{border-color:#285c4d;background:linear-gradient(135deg,#102b28,#0b1728)}
+#benchmarkPanel .benchmark-live-item.incorrect{border-color:#69434a;background:linear-gradient(135deg,#2a1c27,#0b1728)}
+#benchmarkPanel .benchmark-results h3{font-size:clamp(22px,4vw,30px);color:#eff5ff;margin:0 0 15px}
+#benchmarkPanel #benchBreakdown{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+#benchmarkPanel #benchBreakdown p{margin:0;padding:12px 10px;border:1px solid #314761;border-radius:12px;background:#0b1728;color:#d5e4fb;font-size:12px;font-weight:700;text-align:center}
+#benchmarkPanel .benchmark-results textarea{background:#07111f;color:#dce8f8;border:1px solid #314761;border-radius:12px;padding:13px;min-height:220px;width:100%;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;}
+#benchmarkPanel .benchmark-results textarea::placeholder{color:#8095b3}
+@media(max-width:680px){#benchmarkPanel .benchmark-intro{flex-direction:column;gap:12px}#benchmarkPanel #benchBreakdown{grid-template-columns:repeat(2,minmax(0,1fr))}#benchmarkPanel .benchmark-controls{display:grid;grid-template-columns:1fr}#benchmarkPanel .benchmark-controls button{width:100%}}
 </style>
 </head>
 <body>
