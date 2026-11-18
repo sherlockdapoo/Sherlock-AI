@@ -3276,13 +3276,14 @@ function stopNeuralTraining() {
   }, 60000);
 }
 
-function requestNeuralGeneration(prompt) {
+function requestNeuralGeneration(prompt, options = {}) {
   if (!neuralWorker || !neuralWorkerInitialized || !neuralModelReady)
     return Promise.reject(new Error('The neural model is not ready.'));
   const id = ++neuralRequestSequence;
+  const length = Math.max(1, Math.min(160, Number(options.length) || 90));
   return new Promise((resolve, reject) => {
     neuralPendingRequests.set(id, {resolve, reject});
-    neuralWorker.postMessage({type: 'generate', id, prompt, seed: playgroundSeed(prompt), length: 90});
+    neuralWorker.postMessage({type: 'generate', id, prompt, seed: playgroundSeed(prompt), length, greedy: !!options.greedy});
   });
 }
 
@@ -4831,7 +4832,7 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
         if(cancelled)break;
         const q=BENCH_Q[i];$b('benchStatus').textContent='Question '+(i+1)+': '+q.c;
         const prompt='Answer this multiple-choice question. Choose one option and reply with only its letter A, B, C or D.\nQuestion: '+q.q+'\n'+q.o.map((o,j)=>String.fromCharCode(65+j)+') '+o).join('\n');
-        const t=await requestNeuralGeneration(prompt),p=parse(t,q),ok=p!==null&&p===String.fromCharCode(65+q.a);
+        const t=await requestNeuralGeneration(prompt,{length:18,greedy:true}),p=parse(t,q),ok=p!==null&&p===String.fromCharCode(65+q.a);
         outputs.push({q,t,p,ok});item(q,i,t,p,ok);progress(i+1);$b('benchLive').textContent='Sherlock answered '+(i+1)+' of 50.';
       }
       if(!cancelled&&outputs.length===50){finish();$b('benchLive').textContent='Completed. Report is ready.';}

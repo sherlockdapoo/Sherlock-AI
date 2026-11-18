@@ -850,7 +850,7 @@ function stopTraining(reason = "manual") {
   }
   finishStop(reason);
 }
-function generate(prompt, requestedLength) {
+function generate(prompt, requestedLength, greedy = false) {
   if (!initialized || examplesSeen === 0 || vocabularySize <= 3) return "Train the neural network first.";
   const rawPrompt = String(prompt || "").trim().slice(0, 180);
   const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
@@ -868,7 +868,7 @@ function generate(prompt, requestedLength) {
 
     const candidates = [];
     let total = 0;
-    const inverseTemperature = 1 / 0.85;
+    const inverseTemperature = greedy ? 8 : 1 / 0.85;
     const previousToken = history.length ? history[history.length - 1] : SPACE_ID;
     for (let c = 1; c < vocabularySize; c++) {
       // Training text normalises whitespace runs to one token. Avoid generating
@@ -1086,7 +1086,7 @@ self.addEventListener("message", event => {
         const requestedSeed = Number(message.seed);
         if (Number.isFinite(requestedSeed) && requestedSeed >= 0)
           randomState = (requestedSeed >>> 0) || 0x5A17C0DE;
-        self.postMessage({type: "generated", id: message.id, text: generate(message.prompt, message.length)});
+        self.postMessage({type: "generated", id: message.id, text: generate(message.prompt, message.length, !!message.greedy)});
       } finally {
         randomState = savedRandomState;
       }
