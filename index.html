@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1020">
-<title>Sherlock GPT</title>
+<meta name="theme-color" content="#f4f7fb">
+<title>Sherlock AI</title>
 <style>
 :root{
   color-scheme:dark;
@@ -1026,7 +1026,7 @@ body{-webkit-overflow-scrolling:auto}
 @media(max-width:680px){.experiment-launch-card{align-items:stretch;flex-direction:column;gap:12px;padding:15px}.experiment-launch-button{width:100%;white-space:normal}.experiment-launch-copy .visual-card-head{align-items:flex-start;flex-direction:column}}
 
 
-/* v0.21.0 · cleaner workspace with a left navigation rail */
+/* v0.21.1 · cleaner workspace with a left navigation rail */
 .app{width:min(1440px,100%);padding:22px clamp(12px,2.4vw,32px) 36px}
 .workspace-shell{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:start;gap:22px}
 .workspace-content{min-width:0}
@@ -1074,6 +1074,81 @@ body{-webkit-overflow-scrolling:auto}
 }
 @media(prefers-reduced-motion:reduce){.sidebar,.tab{transition:none}}
 
+
+/* v0.21.1 · consistent light dashboard and readable controls */
+:root{color-scheme:light;--bg:#f4f7fb;--panel:#fff;--panel2:#f8faff;--line:#e1e7f0;--text:#1b2940;--muted:#617189;--blue:#315fdf;--blue2:#244bb8;--green:#247a5a;--amber:#91651d;--shadow:0 8px 24px rgba(32,52,88,.07)}
+html{color-scheme:light}
+body{background:radial-gradient(ellipse at 12% -12%,rgba(79,123,219,.08),transparent 42%),radial-gradient(ellipse at 100% 20%,rgba(52,91,172,.045),transparent 34%),var(--bg);color:var(--text)}
+.brand-title{color:#17263d}.brand-sub{color:#64748b}
+.status{background:#fff;border-color:#dbe3ef;color:#47566d}
+.status-dot{background:#98a5b8;box-shadow:0 0 0 3px rgba(120,137,160,.12)}
+.status.ready{background:#eff8f3;border-color:#cce7d8;color:#28674e}.status.ready .status-dot{background:#2f9a70;box-shadow:0 0 0 3px rgba(47,154,112,.13)}
+.status.running{background:#fff8e9;border-color:#f0dfb8;color:#805c20}.status.running .status-dot{background:#d69a32;box-shadow:0 0 0 3px rgba(214,154,50,.13)}
+.sidebar{background:rgba(255,255,255,.96);border-color:#e0e6ef;box-shadow:0 8px 26px rgba(32,52,88,.07);backdrop-filter:blur(14px)}
+.sidebar-heading{border-bottom-color:#e8edf4}.sidebar-kicker{color:#5575bd}
+.sidebar-heading strong{color:#1e2b42}.sidebar-heading small,.sidebar-footer small{color:#718096}
+.sidebar-footer{border-top-color:#e8edf4}.sidebar-footer a{color:#3158b5}
+.tab{color:#52627b}.tab:hover{background:#f1f5fb;color:#233b65}
+.tab[aria-selected="true"]{border-color:#cbdaf5;background:#eaf1ff;color:#234da8;box-shadow:inset 3px 0 #4778e7}
+.stats .stat{background:#fff;border-color:#e1e7f0;box-shadow:0 5px 18px rgba(32,52,88,.055)}
+.stats .stat-label{color:#63728a}.stats .stat-value{color:#1c2c45}.stats .stat-unit{color:#65758c}
+.card:not(.visual-hero){background:#fff;border-color:#e1e7f0;box-shadow:0 7px 22px rgba(32,52,88,.055)}
+.visual-section-title h3,.card-heading h3{color:#26364f}
+.sub,.detail-intro,.train-message{color:#66758d}
+.note,.visual-formula,.lookup-row,.telemetry-cell{background:#f6f8fc;border-color:#e1e7f0;color:#596980}
+.performance-kpi,#neuralPanel .performance-kpi,#neuralPanel .neural-layer{background:#f7f9fc;border-color:#e1e7f0}
+.performance-kpi span{color:#61728b}.performance-kpi strong{color:#1f304b}.performance-kpi small{color:#74839a}
+.neural-layer strong{color:#2a3b55}.neural-layer span{color:#63748c}
+
+/* Explicit light form-control colours prevent dark OS dropdown menus or blank-looking selections. */
+select,input,textarea{color-scheme:light}
+select,input.field,textarea.field{accent-color:#315fdf}
+#neuralPanel select,#neuralPanel input:not([type="checkbox"]):not([type="radio"]),#neuralPanel textarea,
+#chatPanel select,#chatPanel input:not([type="checkbox"]):not([type="radio"]),#chatPanel textarea{
+  color-scheme:light;background-color:#fff;color:#1d2b42;border-color:#cfd9e7
+}
+.optimizer-picker{background:#f6f8fc;border-color:#e0e7f1}
+.optimizer-picker label{color:#34445e}.optimizer-picker p{color:#66758b}
+.optimizer-picker select{
+  width:100%;min-height:44px;padding:10px 12px;border:1px solid #c7d3e4;border-radius:10px;
+  background:#fff;color:#182941;color-scheme:light;font:600 13px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  box-shadow:inset 0 1px 2px rgba(25,45,75,.035)
+}
+.optimizer-picker select option,#neuralPanel select option,#chatPanel select option{background:#fff;color:#1d2b42}
+.optimizer-picker select:focus-visible,#neuralPanel input:focus-visible,#neuralPanel textarea:focus-visible,#neuralPanel select:focus-visible,#chatPanel input:focus-visible,#chatPanel textarea:focus-visible,#chatPanel select:focus-visible{outline:3px solid rgba(49,95,223,.24);outline-offset:1px;border-color:#4778e7}
+#neuralPanel button:focus-visible,#chatPanel button:focus-visible{outline:3px solid rgba(49,95,223,.25);outline-offset:2px}
+.field{background:#fff;color:#1d2b42;border-color:#cfd9e7}.field::placeholder{color:#66758b}textarea::placeholder{color:#66758b;opacity:1}
+.field:disabled{background:#f1f4f8;color:#8793a5}
+.neural-log-panel{background:#f7f9fc;border-color:#dfe6f0}
+.neural-log-heading strong{color:#263750}.neural-log-heading p,.neural-log-status{color:#65758c}
+.neural-log-output{background:#fff;color:#24354e;border-color:#d2dce9;caret-color:#315fdf;color-scheme:light}
+.neural-log-output::selection{background:#cbdcff;color:#17263d}
+#neuralStopDiagnostic{color:#345fb9}
+.data-load{background:#f7f9fc;border-color:#e0e7f1}.data-load-top{color:#52637b}.data-load-top strong{color:#263750}
+.data-track,.pass-track{background:#e7edf5}.metric{border-bottom-color:#e8edf4}.metric span{color:#65758c}.metric strong{color:#273950}
+
+/* The Playground now uses the same light palette instead of switching to a separate black theme. */
+#chatPanel .playground-card{background:#fff!important;border-color:#e1e7f0!important;color:#1e2d43!important;box-shadow:0 7px 22px rgba(32,52,88,.055)!important}
+#chatPanel .playground-card .chat-head,#chatPanel .playground-card .chat-compose,#chatPanel .playground-card .playground-compare,#chatPanel .playground-card .playground-suggestions{background:#f8faff!important;border-color:#e4eaf2!important}
+#chatPanel .playground-card .chat-head h3,#chatPanel .playground-card .playground-output-head h4,#chatPanel .playground-card .playground-compare-head h4,#chatPanel .playground-card .playground-run-card h5{color:#24354d!important}
+#chatPanel .playground-card .chat-head p,#chatPanel .playground-card .playground-intro,#chatPanel .playground-card .playground-intro strong,#chatPanel .playground-card .playground-prompt-label,#chatPanel .playground-card .playground-output-head small,#chatPanel .playground-card .playground-compare-head p,#chatPanel .playground-card .playground-run-meta,#chatPanel .playground-card .playground-run-prompt,#chatPanel .playground-card .playground-comparison-note,#chatPanel .playground-card .chat-hint,#chatPanel .playground-card #playgroundHistoryCount{color:#65758c!important}
+#chatPanel .playground-card .playground-intro{background:#f7f9fc!important;border-color:#e2e8f0!important}
+#chatPanel .playground-card .chat-lock{background:#fff7e8!important;border-color:#edd9ae!important;color:#76551d!important}
+#chatPanel .playground-card textarea.field,#chatPanel .playground-card select.field,#chatPanel .playground-card input.field{color:#1d2b42!important;-webkit-text-fill-color:#1d2b42!important;caret-color:#315fdf!important;background:#fff!important;border-color:#cfd9e7!important;color-scheme:light!important}
+#chatPanel .playground-card textarea.field::placeholder,#chatPanel .playground-card input.field::placeholder{color:#66758b!important;-webkit-text-fill-color:#66758b!important;opacity:1!important}
+#chatPanel .playground-card select.field option{color:#1d2b42!important;background:#fff!important}
+#chatPanel .playground-card .send-btn{background:linear-gradient(135deg,#4778e7,#315fca)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border:0!important}
+#chatPanel .playground-card .playground-chip,#chatPanel .playground-card .playground-compare-controls .btn-secondary{background:#edf3ff!important;border:1px solid #d3dff5!important;color:#3158b5!important;-webkit-text-fill-color:#3158b5!important}
+#chatPanel .playground-card .playground-output-head,#chatPanel .playground-card .chat-log{background:#f7f9fc!important}
+#chatPanel .playground-card .message.bot{background:#edf2f9!important;border-color:#dfe6f0!important;color:#273950!important}
+#chatPanel .playground-card .message.user{background:linear-gradient(135deg,#4778e7,#315fca)!important;border-color:#315fca!important;color:#fff!important}
+#chatPanel .playground-card .playground-comparison-result{background:#f7f9fc!important;border-color:#e0e7f0!important;color:#52627a!important}
+#chatPanel .playground-card .playground-run-card{background:#fff!important;border-color:#e0e7f0!important}
+#chatPanel .playground-card .playground-run-output{color:#273950!important}
+#chatPanel .playground-card .chat-hint{background:#f8faff!important;border-color:#e4eaf2!important}
+#chatPanel .playground-card button:disabled{opacity:.55}
+@media(max-width:760px){.stats .stat{box-shadow:0 3px 12px rgba(32,52,88,.045)}.sidebar{background:rgba(255,255,255,.97)}}
+
 </style>
 </head>
 <body>
@@ -1082,7 +1157,7 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.0, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.0</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.1, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.1</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
