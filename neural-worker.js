@@ -439,34 +439,49 @@ function trainExample(position) {
   return loss;
 }
 function applyOptimizer(batchCount) {
+  // Only active token rows can receive gradients. Keeping the full checkpoint
+  // arrays intact while processing active rows avoids work on unused vocab slots.
+  const activeRanges = [
+    [EMBED_OFFSET, vocabularySize * EMBED],
+    [W1_OFFSET, B1_OFFSET],
+    [B1_OFFSET, W2_OFFSET],
+    [W2_OFFSET, W2_OFFSET + vocabularySize * HIDDEN],
+    [B2_OFFSET, B2_OFFSET + vocabularySize]
+  ];
   let squaredNorm = 0;
   const inverseBatch = 1 / batchCount;
-  for (let i = 0; i < PARAMS; i++) {
-    gradients[i] *= inverseBatch;
-    squaredNorm += gradients[i] * gradients[i];
+  for (const [start, end] of activeRanges) {
+    for (let i = start; i < end; i++) {
+      gradients[i] *= inverseBatch;
+      squaredNorm += gradients[i] * gradients[i];
+    }
   }
   const norm = Math.sqrt(squaredNorm);
   const clip = norm > 5 ? 5 / norm : 1;
   optimizerStep++;
   const correction1 = 1 - Math.pow(0.9, optimizerStep);
   const correction2 = 1 - Math.pow(0.999, optimizerStep);
+  const decay = activeOptimizer === "adamw" ? activeLearningRate * ADAMW_WEIGHT_DECAY : 0;
 
-  for (let i = 0; i < PARAMS; i++) {
-    const gradient = gradients[i] * clip;
-    const m = 0.9 * firstMoment[i] + 0.1 * gradient;
-    const v = 0.999 * secondMoment[i] + 0.001 * gradient * gradient;
-    firstMoment[i] = m;
-    secondMoment[i] = v;
-    const mHat = m / correction1;
-    const vHat = v / correction2;
-    const adaptiveUpdate = activeLearningRate * mHat / (Math.sqrt(vHat) + 1e-8);
-    const decayParameter = (i >= EMBED_OFFSET && i < W1_OFFSET) ||
-      (i >= W1_OFFSET && i < B1_OFFSET) ||
-      (i >= W2_OFFSET && i < B2_OFFSET);
-    const weightDecay = activeOptimizer === "adamw" && decayParameter
-      ? activeLearningRate * ADAMW_WEIGHT_DECAY * parameters[i] : 0;
-    parameters[i] -= adaptiveUpdate + weightDecay;
-    gradients[i] = 0;
+  for (const [start, end] of activeRanges) {
+    const useWeightDecay = decay !== 0 && (
+      (start === EMBED_OFFSET) ||
+      (start === W1_OFFSET) ||
+      (start === W2_OFFSET)
+    );
+    for (let i = start; i < end; i++) {
+      const gradient = gradients[i] * clip;
+      const m = 0.9 * firstMoment[i] + 0.1 * gradient;
+      const v = 0.999 * secondMoment[i] + 0.001 * gradient * gradient;
+      firstMoment[i] = m;
+      secondMoment[i] = v;
+      const mHat = m / correction1;
+      const vHat = v / correction2;
+      const adaptiveUpdate = activeLearningRate * mHat / (Math.sqrt(vHat) + 1e-8);
+      const weightDecay = useWeightDecay ? decay * parameters[i] : 0;
+      parameters[i] -= adaptiveUpdate + weightDecay;
+      gradients[i] = 0;
+    }
   }
 }
 function predict(data, position) {
