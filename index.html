@@ -1722,7 +1722,7 @@ const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
 const NEURAL_LOSS_SAMPLE_EVERY = 5;
 const MAX_NEURAL_GRAPH_POINTS = 1500;
-const MAX_NEURAL_HISTORY_SAMPLES = 5000;
+const MAX_NEURAL_HISTORY_SAMPLES = Infinity;
 const PERFORMANCE_HISTORY_LIMIT = 60;
 const BATCH_TIMING_WINDOW = 30;
 
@@ -2100,11 +2100,15 @@ function renderNeuralHistory() {
   let min = Math.max(0, minimum - Math.max(0.1, (maximum - minimum) * 0.20));
   let max = Math.min(100, maximum + Math.max(0.5, (maximum - minimum) * 0.25));
   if (max - min < 0.05) { min = Math.max(0, min - 0.1); max = Math.min(100, max + 0.1); }
-  const graphValues = values.length > MAX_NEURAL_GRAPH_POINTS
-    ? Array.from({length: MAX_NEURAL_GRAPH_POINTS}, (_, i) => values[Math.round(i * (values.length - 1) / (MAX_NEURAL_GRAPH_POINTS - 1))])
-    : values;
+  const firstCheck = 1;
+  const lastCheck = Number(evals[evals.length - 1]) || neuralEvaluationCountValue;
+  const graphIndices = values.length > MAX_NEURAL_GRAPH_POINTS
+    ? Array.from({length: MAX_NEURAL_GRAPH_POINTS}, (_, i) => Math.round(i * (values.length - 1) / (MAX_NEURAL_GRAPH_POINTS - 1)))
+    : values.map((_, i) => i);
+  const graphValues = graphIndices.map(index => values[index]);
   const points = graphValues.map((value, index) => {
-    const x = lineLeft + (lineRight - lineLeft) * (graphValues.length === 1 ? 1 : index / (graphValues.length - 1));
+    const check = Number(evals[graphIndices[index]]) || graphIndices[index] + 1;
+    const x = lineLeft + (lineRight - lineLeft) * Math.max(0, Math.min(1, (check - firstCheck) / Math.max(1, lastCheck - firstCheck)));
     const y = bottom - ((value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
@@ -2119,14 +2123,12 @@ function renderNeuralHistory() {
     const value = max - (max - min) * index / 3;
     if ($(id)) $(id).textContent = fmt(value);
   });
-  const firstCheck = Number(evals[0]) || Math.max(1, neuralEvaluationCountValue - values.length + 1);
-  const lastCheck = Number(evals[evals.length - 1]) || neuralEvaluationCountValue;
   const checkTicks = [0,0.25,0.5,0.75,1].map(fraction =>
-    Math.round(firstCheck + (lastCheck - firstCheck) * fraction).toLocaleString()
+    Math.round(1 + (lastCheck - 1) * fraction).toLocaleString()
   );
   ['neuralAccuracyXStart','neuralAccuracyXQuarter','neuralAccuracyXMid','neuralAccuracyXThreeQuarter','neuralAccuracyXEnd']
     .forEach((id, index) => { if ($(id)) $(id).textContent = checkTicks[index]; });
-  $('neuralAccuracyRange').textContent = 'Recent history: ' + values.length.toLocaleString() + ' checks · observed range ' + minimum.toFixed(3) + '%–' + maximum.toFixed(3) + '%';
+  $('neuralAccuracyRange').textContent = 'Full history: ' + values.length.toLocaleString() + ' checks · timeline 1–' + lastCheck.toLocaleString() + ' · observed range ' + minimum.toFixed(3) + '%–' + maximum.toFixed(3) + '%';
 }
 function renderNeuralValidationLossHistory() {
   const line = $('neuralValidationLossLine');
@@ -2161,8 +2163,9 @@ function renderNeuralValidationLossHistory() {
   const sampled = values.length > MAX_NEURAL_GRAPH_POINTS
     ? Array.from({length:MAX_NEURAL_GRAPH_POINTS}, (_,i) => values[Math.round(i*(values.length-1)/(MAX_NEURAL_GRAPH_POINTS-1))])
     : values;
-  const points = sampled.map((item,index) => {
-    const x = left + 24 + (right - left - 48) * (sampled.length === 1 ? 1 : index/(sampled.length-1));
+  const lastEvaluation = values[values.length - 1].evaluation;
+  const points = sampled.map(item => {
+    const x = left + 24 + (right - left - 48) * Math.max(0, Math.min(1, (item.evaluation - 1) / Math.max(1, lastEvaluation - 1)));
     const y = bottom - ((item.value-min)/(max-min))*(bottom-top);
     return x.toFixed(1)+','+y.toFixed(1);
   });
@@ -2171,8 +2174,8 @@ function renderNeuralValidationLossHistory() {
   ['neuralValidationLossYTop','neuralValidationLossYMidTop','neuralValidationLossYMidBottom','neuralValidationLossYBottom'].forEach((id,index) => {
     if ($(id)) $(id).textContent = (max-(max-min)*index/3).toFixed(decimals);
   });
-  const first = values[0].evaluation, last = values[values.length-1].evaluation;
-  const ticks = [0,.25,.5,.75,1].map(f => Math.round(first+(last-first)*f).toLocaleString());
+  const last = values[values.length-1].evaluation;
+  const ticks = [0,.25,.5,.75,1].map(f => Math.round(1+(last-1)*f).toLocaleString());
   ['neuralValidationLossXStart','neuralValidationLossXQuarter','neuralValidationLossXMid','neuralValidationLossXThreeQuarter','neuralValidationLossXEnd'].forEach((id,index) => {
     if ($(id)) $(id).textContent = ticks[index];
   });
@@ -2212,8 +2215,9 @@ function renderNeuralLossHistory() {
   const graphValues = values.length > MAX_NEURAL_GRAPH_POINTS
     ? Array.from({length: MAX_NEURAL_GRAPH_POINTS}, (_, i) => values[Math.round(i * (values.length - 1) / (MAX_NEURAL_GRAPH_POINTS - 1))])
     : values;
-  const points = graphValues.map((value, index) => {
-    const x = lineLeft + (lineRight - lineLeft) * (graphValues.length === 1 ? 1 : index / (graphValues.length - 1));
+  const lastStepForAxis = values[values.length - 1].step;
+  const points = graphValues.map(value => {
+    const x = lineLeft + (lineRight - lineLeft) * Math.max(0, Math.min(1, (value.step - 1) / Math.max(1, lastStepForAxis - 1)));
     const y = bottom - ((value.value - min) / (max - min)) * (bottom - top);
     return [x, y];
   });
@@ -2228,14 +2232,14 @@ function renderNeuralLossHistory() {
     const value = max - (max - min) * index / 3;
     if ($(id)) $(id).textContent = fmt(value);
   });
-  const firstStep = values[0].step;
+  const firstStep = 1;
   const lastStep = values[values.length - 1].step;
   const updateTicks = [0,0.25,0.5,0.75,1].map(fraction =>
     Math.round(firstStep + (lastStep - firstStep) * fraction).toLocaleString()
   );
   ['neuralLossXStart','neuralLossXQuarter','neuralLossXMid','neuralLossXThreeQuarter','neuralLossXEnd']
     .forEach((id, index) => { if ($(id)) $(id).textContent = updateTicks[index]; });
-  $('neuralLossRange').textContent = 'Recent history: ' + values.length.toLocaleString() + ' samples · loss range ' + minValue.toFixed(4) + '–' + maxValue.toFixed(4) +
+  $('neuralLossRange').textContent = 'Full history: ' + values.length.toLocaleString() + ' samples · loss range ' + minValue.toFixed(4) + '–' + maxValue.toFixed(4) +
     ' · updates ' + firstStep.toLocaleString() + '–' + lastStep.toLocaleString();
 }
 function updateGlobalNeuralStats() {
