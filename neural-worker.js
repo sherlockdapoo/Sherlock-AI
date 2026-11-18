@@ -434,6 +434,7 @@ function trainExample(position) {
   for (let k = 0; k < HIDDEN; k++) {
     const delta = hiddenVector[k] > 0 ? hiddenDelta[k] : 0;
     hiddenDelta[k] = delta;
+    if (delta === 0) continue; // ReLU-inactive neurons contribute no W1 or bias gradient.
     gradients[B1_OFFSET + k] += delta;
     const row = W1_OFFSET + k * INPUT;
     for (let j = 0; j < INPUT; j++)
