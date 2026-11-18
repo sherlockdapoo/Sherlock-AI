@@ -892,14 +892,19 @@ function generate(prompt, requestedLength, greedy = false) {
       if (nucleusTotal >= nucleusTarget) break;
     }
 
-    let pick = randomUnit() * nucleusTotal;
-    let chosen = candidates[nucleusCount - 1] ?? SPACE_ID;
-    for (let j = 0; j < nucleusCount; j++) {
-      const id = candidates[j];
-      pick -= probabilities[id];
-      if (pick <= 0) {
-        chosen = id;
-        break;
+    // Benchmark/greedy mode must be deterministic: choose the highest-weight token.
+    // Sampling remains unchanged for normal generation.
+    let chosen = candidates[0] ?? SPACE_ID;
+    if (!greedy) {
+      let pick = randomUnit() * nucleusTotal;
+      chosen = candidates[nucleusCount - 1] ?? SPACE_ID;
+      for (let j = 0; j < nucleusCount; j++) {
+        const id = candidates[j];
+        pick -= probabilities[id];
+        if (pick <= 0) {
+          chosen = id;
+          break;
+        }
       }
     }
     if (chosen === EOS_ID) break;
