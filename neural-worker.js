@@ -851,7 +851,7 @@ function stopTraining(reason = "manual") {
   finishStop(reason);
 }
 function generate(prompt, requestedLength, greedy = false) {
-  if (!initialized || examplesSeen === 0 || vocabularySize <= 3) return "Train the neural network first.";
+  if (!initialized || vocabularySize <= 3) return "Load or restore the neural model first.";
   const rawPrompt = String(prompt || "").trim().slice(0, 180);
   const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
   const promptEncoded = encodeText(modelPrompt);
