@@ -1210,6 +1210,22 @@ body.nav-open{overflow:hidden}
 #benchmarkPanel .benchmark-results textarea{background:#07111f;color:#dce8f8;border:1px solid #314761;border-radius:12px;padding:13px;min-height:220px;width:100%;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;}
 #benchmarkPanel .benchmark-results textarea::placeholder{color:#8095b3}
 @media(max-width:680px){#benchmarkPanel .benchmark-intro{flex-direction:column;gap:12px}#benchmarkPanel #benchBreakdown{grid-template-columns:repeat(2,minmax(0,1fr))}#benchmarkPanel .benchmark-controls{display:grid;grid-template-columns:1fr}#benchmarkPanel .benchmark-controls button{width:100%}}
+
+/* v0.21.9 · benchmark-only light theme correction */
+#benchmarkPanel .benchmark-intro,#benchmarkPanel .benchmark-card,#benchmarkPanel .benchmark-results{background:#fff!important;color:#172033!important;border:1px solid #dce3ec!important;box-shadow:0 8px 24px rgba(15,23,42,.06)!important}
+#benchmarkPanel .benchmark-intro h2,#benchmarkPanel .benchmark-results h3,#benchmarkPanel .benchmark-head strong,#benchmarkPanel .benchmark-live-item strong{color:#172033!important}
+#benchmarkPanel .benchmark-intro p,#benchmarkPanel #benchStatus,#benchmarkPanel .benchmark-note,#benchmarkPanel .benchmark-head,#benchmarkPanel .benchmark-live-item{color:#526176!important}
+#benchmarkPanel .benchmark-version{background:#f1f5fb!important;color:#47688e!important;border-color:#d7e1ed!important}
+#benchmarkPanel .benchmark-progress{background:#eef2f7!important;border-color:#d8e1ec!important}
+#benchmarkPanel .benchmark-progress div{background:linear-gradient(90deg,#477de0,#60c99c)!important}
+#benchmarkPanel .benchmark-controls .btn-secondary,#benchmarkPanel .benchmark-results .btn-secondary{background:#f3f6fa!important;border:1px solid #d7e1ed!important;color:#26364b!important}
+#benchmarkPanel .benchmark-controls .btn-primary{background:#3976d5!important;color:#fff!important;border:1px solid #3976d5!important}
+#benchmarkPanel .benchmark-live-item{background:#f8fafc!important;border:1px solid #dce3ec!important;color:#26364b!important}
+#benchmarkPanel .benchmark-live-item.correct{background:#f0faf5!important;border-color:#b9e4ce!important}
+#benchmarkPanel .benchmark-live-item.incorrect{background:#fff5f5!important;border-color:#e7c5c5!important}
+#benchmarkPanel #benchBreakdown p{background:#f8fafc!important;border:1px solid #dce3ec!important;color:#26364b!important}
+#benchmarkPanel .benchmark-results textarea{background:#f8fafc!important;color:#26364b!important;border:1px solid #dce3ec!important}
+#benchmarkPanel .benchmark-results textarea::placeholder{color:#728096!important}
 </style>
 </head>
 <body>
