@@ -439,17 +439,23 @@ function trainExample(position) {
       gradients[row + j] += delta * inputVector[j];
   }
 
+  // Compute embedding gradients in W1's contiguous row-major layout first.
+  // This improves memory locality compared with repeatedly jumping between rows
+  // for each individual embedding dimension.
+  const embeddingInputGradient = new Float32Array(INPUT);
+  for (let k = 0; k < HIDDEN; k++) {
+    const delta = hiddenDelta[k];
+    if (delta === 0) continue;
+    const row = W1_OFFSET + k * INPUT;
+    for (let inputIndex = 0; inputIndex < INPUT; inputIndex++)
+      embeddingInputGradient[inputIndex] += delta * parameters[row + inputIndex];
+  }
   for (let slot = 0; slot < CONTEXT; slot++) {
     const code = contextCodes[slot];
     const embeddingRow = EMBED_OFFSET + code * EMBED;
     const inputStart = slot * EMBED;
-    for (let j = 0; j < EMBED; j++) {
-      let contribution = 0;
-      const inputIndex = inputStart + j;
-      for (let k = 0; k < HIDDEN; k++)
-        contribution += hiddenDelta[k] * parameters[W1_OFFSET + k * INPUT + inputIndex];
-      gradients[embeddingRow + j] += contribution;
-    }
+    for (let j = 0; j < EMBED; j++)
+      gradients[embeddingRow + j] += embeddingInputGradient[inputStart + j];
   }
   return loss;
 }
