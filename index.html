@@ -1270,6 +1270,7 @@ body.nav-open{overflow:hidden}
     <div class="stat"><span class="stat-label">Training tokens</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-token examples seen</span></div>
     <div class="stat"><span class="stat-label">Validation accuracy</span><strong class="stat-value" id="neuralAccuracy">Not measured</strong><span class="stat-unit">separate held-out sample</span></div>
     <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">tokens per second</span></div>
+    <div class="stat"><span class="stat-label">Worker runtime profile</span><strong class="stat-value" id="neuralRuntimeProfile">Awaiting data</strong><span class="stat-unit" id="neuralRuntimeProfileDetail">Profiling totals will appear during training</span></div>
   </section>
 
   <section class="panel" id="trainingPanel" role="tabpanel" aria-labelledby="trainingTab" hidden>
@@ -2687,6 +2688,14 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
   neuralEvaluationCountValue = Math.max(neuralEvaluationCountValue, Number(data.evaluations) || 0);
   $('neuralParameters').textContent = (Number(data.parameters) || NEURAL_MODEL_PARAMETER_COUNT).toLocaleString();
   $('neuralExamples').textContent = examples.toLocaleString();
+  if (data.runtimeProfile && Number(data.runtimeProfile.batches) > 0) {
+    const profile = data.runtimeProfile;
+    const total = Math.max(0, Number(profile.totalBatchMs) || 0);
+    const exampleMs = Math.max(0, Number(profile.exampleComputeMs) || 0);
+    const optimizerMs = Math.max(0, Number(profile.optimizerMs) || 0);
+    $('neuralRuntimeProfile').textContent = total ? Math.round(exampleMs * 100 / total) + "% / " + Math.round(optimizerMs * 100 / total) + "%" : "Measured";
+    $('neuralRuntimeProfileDetail').textContent = Number(profile.batches).toLocaleString() + " batches · " + total.toLocaleString() + " ms total (compute / optimizer shares)";
+  }
   $('neuralSteps').textContent = steps.toLocaleString();
   if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
     $('neuralBatchSizeMetric').textContent = Number(data.batchSize).toLocaleString() + ' tokens per update';
