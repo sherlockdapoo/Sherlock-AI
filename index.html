@@ -3276,13 +3276,14 @@ function stopNeuralTraining() {
   }, 60000);
 }
 
-function requestNeuralGeneration(prompt) {
+function requestNeuralGeneration(prompt, options = {}) {
   if (!neuralWorker || !neuralWorkerInitialized || !neuralModelReady)
     return Promise.reject(new Error('The neural model is not ready.'));
   const id = ++neuralRequestSequence;
+  const length = Math.max(1, Math.min(160, Number(options.length) || 90));
   return new Promise((resolve, reject) => {
     neuralPendingRequests.set(id, {resolve, reject});
-    neuralWorker.postMessage({type: 'generate', id, prompt, seed: playgroundSeed(prompt), length: 90});
+    neuralWorker.postMessage({type: 'generate', id, prompt, seed: playgroundSeed(prompt), length, greedy: !!options.greedy});
   });
 }
 
