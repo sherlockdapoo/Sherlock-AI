@@ -1149,6 +1149,21 @@ select,input.field,textarea.field{accent-color:#315fdf}
 #chatPanel .playground-card button:disabled{opacity:.55}
 @media(max-width:760px){.stats .stat{box-shadow:0 3px 12px rgba(32,52,88,.045)}.sidebar{background:rgba(255,255,255,.97)}}
 
+
+/* v0.21.2 · navigation drawer toggle */
+.topbar{flex-wrap:wrap}
+.nav-toggle{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:43px;padding:10px 14px;border:1px solid #cfd9e7;border-radius:12px;background:#fff;color:#3158b5;font-size:13px;font-weight:750;box-shadow:0 3px 10px rgba(32,52,88,.045)}
+.nav-toggle:hover{background:#edf3ff;border-color:#c1d3f3}
+.nav-toggle[aria-expanded="true"]{background:#eaf1ff;border-color:#9ebbe9;color:#234da8}
+.nav-backdrop{position:fixed;inset:0;z-index:80;background:rgba(23,37,58,.26);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .18s,visibility .18s}
+.sidebar{position:fixed!important;left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));bottom:max(12px,env(safe-area-inset-bottom));z-index:90;width:min(290px,calc(100vw - 24px));max-height:none!important;overflow-y:auto;transform:translateX(calc(-100% - 24px));transition:transform .22s cubic-bezier(.2,.75,.2,1);box-shadow:0 20px 50px rgba(28,44,69,.2)!important}
+body.nav-open .sidebar{transform:translateX(0)}
+body.nav-open .nav-backdrop{opacity:1;visibility:visible}
+body.nav-open{overflow:hidden}
+.sidebar .tabs{gap:8px}.sidebar .tab{min-height:50px;font-size:14px;border-radius:13px}
+.sidebar-heading strong{font-size:17px}.sidebar-heading small{font-size:12px}
+.sidebar-footer a{font-size:12px}
+@media(prefers-reduced-motion:reduce){.sidebar,.nav-backdrop{transition:none}}
 </style>
 </head>
 <body>
@@ -1157,13 +1172,15 @@ select,input.field,textarea.field{accent-color:#315fdf}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.1, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.1</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.2, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.2</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
-    <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
+  <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
 
   <div class="workspace-shell">
-    <aside class="sidebar" aria-label="Main navigation">
+    <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+    <aside class="sidebar" id="workspaceSidebar" aria-label="Main navigation">
       <div class="sidebar-heading">
         <span class="sidebar-kicker">WORKSPACE</span>
         <strong>Explore Sherlock</strong>
@@ -1934,6 +1951,18 @@ function resizeBenchmarkFrame() {
 if (benchmarkFrame) {
   benchmarkFrame.addEventListener('load', resizeBenchmarkFrame);
 }
+function setNavigationDrawer(open) {
+  const next = typeof open === 'boolean' ? open : !document.body.classList.contains('nav-open');
+  document.body.classList.toggle('nav-open', next);
+  const toggle = $('navToggle');
+  if (toggle) toggle.setAttribute('aria-expanded', String(next));
+}
+const navToggle = $('navToggle');
+if (navToggle) navToggle.addEventListener('click', () => setNavigationDrawer());
+const navBackdrop = $('navBackdrop');
+if (navBackdrop) navBackdrop.addEventListener('click', () => setNavigationDrawer(false));
+window.addEventListener('keydown', event => { if (event.key === 'Escape') setNavigationDrawer(false); });
+
 function setTab(name) {
   const selected = workspaceTabs[name] ? name : 'neural';
   Object.keys(workspaceTabs).forEach(key => {
@@ -1947,6 +1976,7 @@ function setTab(name) {
       panel.hidden = !active;
     }
   });
+  setNavigationDrawer(false);
   if (selected === 'neural') {
     renderNetworkVisualiser(null);
     renderNeuralHistory();
