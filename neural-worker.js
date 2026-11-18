@@ -392,16 +392,17 @@ function forwardContext() {
   }
 
   const embeddingEnd = detailedProfileActive ? performance.now() : 0;
+  // Collect active ReLU units as each hidden activation is computed. This
+  // avoids a second pass over hiddenVector without changing activation values.
+  activeHiddenCount = 0;
   for (let k = 0; k < HIDDEN; k++) {
     let sum = parameters[B1_OFFSET + k];
     const row = W1_OFFSET + k * INPUT;
     for (let j = 0; j < INPUT; j++)
       sum += parameters[row + j] * inputVector[j];
-    hiddenVector[k] = sum > 0 ? sum : 0;
-  }
-  activeHiddenCount = 0;
-  for (let k = 0; k < HIDDEN; k++) {
-    if (hiddenVector[k] > 0) activeHiddenIndices[activeHiddenCount++] = k;
+    const activation = sum > 0 ? sum : 0;
+    hiddenVector[k] = activation;
+    if (activation > 0) activeHiddenIndices[activeHiddenCount++] = k;
   }
 
   const hiddenEnd = detailedProfileActive ? performance.now() : 0;
