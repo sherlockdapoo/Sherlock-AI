@@ -1270,7 +1270,7 @@ body.nav-open{overflow:hidden}
     <div class="stat"><span class="stat-label">Training tokens</span><strong class="stat-value" id="neuralExamples">0</strong><span class="stat-unit">next-token examples seen</span></div>
     <div class="stat"><span class="stat-label">Validation accuracy</span><strong class="stat-value" id="neuralAccuracy">Not measured</strong><span class="stat-unit">separate held-out sample</span></div>
     <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">tokens per second</span></div>
-    <div class="stat"><span class="stat-label">Worker bottleneck profile</span><strong class="stat-value" id="neuralRuntimeProfile">Awaiting data</strong><span class="stat-unit" id="neuralRuntimeProfileDetail">Selection / compute / optimiser shares appear during training</span></div>
+    <div class="stat"><span class="stat-label">Worker bottleneck profile</span><strong class="stat-value" id="neuralRuntimeProfile">Awaiting data</strong><span class="stat-unit" id="neuralRuntimeProfileDetail">Selection / compute / optimiser shares appear during training</span><label class="small-control" style="display:flex;align-items:center;gap:8px;margin-top:8px"><input id="neuralDetailedProfileToggle" type="checkbox"> Detailed profiling (slower)</label></div>
   </section>
 
   <section class="panel" id="trainingPanel" role="tabpanel" aria-labelledby="trainingTab" hidden>
@@ -2702,7 +2702,15 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
     $('neuralRuntimeProfile').textContent = total
       ? "Select " + pct(selectionMs) + "% · Compute " + pct(exampleMs) + "% · Optimise " + pct(optimizerMs) + "%"
       : "Measured";
-    $('neuralRuntimeProfileDetail').textContent = Number(profile.batches).toLocaleString() + " batches · " + total.toLocaleString() + " ms profiled";
+    const baseDetail = Number(profile.batches).toLocaleString() + " batches · " + total.toLocaleString() + " ms profiled";
+    if (profile.detailed && Number(profile.detailedExamples) > 0) {
+      const detailedTotal = Math.max(1, Number(profile.forwardMs) + Number(profile.outputMs) + Number(profile.backpropMs) + Number(profile.embeddingMs));
+      const detailPct = value => Math.round(Number(value) * 100 / detailedTotal);
+      $('neuralRuntimeProfile').textContent = "Forward " + detailPct(profile.forwardMs) + "% · Output " + detailPct(profile.outputMs) + "% · Backprop " + detailPct(profile.backpropMs) + "% · Embedding " + detailPct(profile.embeddingMs) + "%";
+      $('neuralRuntimeProfileDetail').textContent = baseDetail + " · " + Number(profile.detailedExamples).toLocaleString() + " examples sampled";
+    } else {
+      $('neuralRuntimeProfileDetail').textContent = baseDetail;
+    }
   }
   $('neuralSteps').textContent = steps.toLocaleString();
   if ([8, 16, 24, 32].includes(Number(data.batchSize))) {
@@ -2886,7 +2894,8 @@ function postNeuralTrainingStart(targetWorker = neuralWorker) {
     optimizer: selectedNeuralOptimizer(),
     learningRate: selectedNeuralLearningRate(),
     batchSize: selectedNeuralBatchSize(),
-    maxSteps: selectedNeuralMaxSteps()
+    maxSteps: selectedNeuralMaxSteps(),
+    detailedProfiling: Boolean($('neuralDetailedProfileToggle')?.checked)
   });
 }
 updateNeuralOptimizerSummary();
