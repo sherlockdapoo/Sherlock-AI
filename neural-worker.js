@@ -98,6 +98,7 @@ let movingLoss = 0;
 let lossInitialized = false;
 
 const inputVector = new Float32Array(INPUT);
+const embeddingInputGradient = new Float32Array(INPUT);
 const hiddenVector = new Float32Array(HIDDEN);
 const probabilities = new Float32Array(VOCAB);
 const outputDelta = new Float32Array(VOCAB);
@@ -442,7 +443,7 @@ function trainExample(position) {
   // Compute embedding gradients in W1's contiguous row-major layout first.
   // This improves memory locality compared with repeatedly jumping between rows
   // for each individual embedding dimension.
-  const embeddingInputGradient = new Float32Array(INPUT);
+  embeddingInputGradient.fill(0);
   for (let k = 0; k < HIDDEN; k++) {
     const delta = hiddenDelta[k];
     if (delta === 0) continue;
