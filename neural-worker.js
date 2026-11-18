@@ -765,7 +765,8 @@ function progressPayload() {
     trainingUnknownRate,
     validationUnknownRate,
     trainTokens: trainData ? trainData.length : 0,
-    validationTokens: validationData ? validationData.length : 0
+    validationTokens: validationData ? validationData.length : 0,
+    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs) }
   };
   if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
     payload.network = networkSnapshot();
