@@ -373,11 +373,7 @@ function forwardContext() {
   }
 
   let maximum = -Infinity;
-  for (let c = 0; c < VOCAB; c++) {
-    if (c >= vocabularySize) {
-      probabilities[c] = -Infinity;
-      continue;
-    }
+  for (let c = 0; c < vocabularySize; c++) {
     let sum = parameters[B2_OFFSET + c];
     const row = W2_OFFSET + c * HIDDEN;
     for (let k = 0; k < HIDDEN; k++)
@@ -386,11 +382,7 @@ function forwardContext() {
     if (sum > maximum) maximum = sum;
   }
   let denominator = 0;
-  for (let c = 0; c < VOCAB; c++) {
-    if (c >= vocabularySize) {
-      probabilities[c] = 0;
-      continue;
-    }
+  for (let c = 0; c < vocabularySize; c++) {
     const value = Math.exp(probabilities[c] - maximum);
     probabilities[c] = value;
     denominator += value;
@@ -411,10 +403,8 @@ function trainExample(position) {
   const loss = -Math.log(targetProbability);
 
   hiddenDelta.fill(0);
-  for (let c = 0; c < VOCAB; c++) {
-    const delta = c < vocabularySize
-      ? probs[c] - (c === target ? 1 : 0)
-      : 0;
+  for (let c = 0; c < vocabularySize; c++) {
+    const delta = probs[c] - (c === target ? 1 : 0);
     outputDelta[c] = delta;
     if (delta === 0) continue;
     gradients[B2_OFFSET + c] += delta;
@@ -866,45 +856,47 @@ function generate(prompt, requestedLength, greedy = false) {
     }
     forwardContext();
 
-    const candidates = [];
-    let total = 0;
-    const inverseTemperature = greedy ? 8 : 1 / 0.85;
     const previousToken = history.length ? history[history.length - 1] : SPACE_ID;
-    for (let c = 1; c < vocabularySize; c++) {
-      // Training text normalises whitespace runs to one token. Avoid generating
-      // impossible repeated whitespace tokens that create empty-looking output.
-      if ((c === SPACE_ID || c === NEWLINE_ID) &&
-          (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
-      const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature);
-      probabilities[c] = weight;
-      total += weight;
-      candidates.push(c);
-    }
-    if (!candidates.length) candidates.push(SPACE_ID), total = 1, probabilities[SPACE_ID] = 1;
-    candidates.sort((a, b) => probabilities[b] - probabilities[a]);
-
-    let nucleusTotal = 0;
-    let nucleusCount = 0;
-    const nucleusTarget = total * 0.92;
-    for (let j = 0; j < candidates.length; j++) {
-      nucleusTotal += probabilities[candidates[j]];
-      nucleusCount = j + 1;
-      if (nucleusTotal >= nucleusTarget) break;
-    }
-
-    // Benchmark/greedy mode must be deterministic: choose the highest-weight token.
-    // Sampling remains unchanged for normal generation.
-    let chosen = candidates[0] ?? SPACE_ID;
-    if (!greedy) {
+    let chosen = SPACE_ID;
+    if (greedy) {
+      // Greedy mode avoids sorting and sampling entirely: a single argmax scan.
+      let bestProbability = -1;
+      for (let c = 1; c < vocabularySize; c++) {
+        if ((c === SPACE_ID || c === NEWLINE_ID) &&
+            (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
+        if (probabilities[c] > bestProbability) {
+          bestProbability = probabilities[c];
+          chosen = c;
+        }
+      }
+    } else {
+      const candidates = [];
+      let total = 0;
+      const inverseTemperature = 1 / 0.85;
+      for (let c = 1; c < vocabularySize; c++) {
+        // Avoid repeated whitespace tokens.
+        if ((c === SPACE_ID || c === NEWLINE_ID) &&
+            (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
+        const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature);
+        probabilities[c] = weight;
+        total += weight;
+        candidates.push(c);
+      }
+      candidates.sort((a, b) => probabilities[b] - probabilities[a]);
+      let nucleusTotal = 0;
+      let nucleusCount = 0;
+      const nucleusTarget = total * 0.92;
+      for (let j = 0; j < candidates.length; j++) {
+        nucleusTotal += probabilities[candidates[j]];
+        nucleusCount = j + 1;
+        if (nucleusTotal >= nucleusTarget) break;
+      }
       let pick = randomUnit() * nucleusTotal;
       chosen = candidates[nucleusCount - 1] ?? SPACE_ID;
       for (let j = 0; j < nucleusCount; j++) {
         const id = candidates[j];
         pick -= probabilities[id];
-        if (pick <= 0) {
-          chosen = id;
-          break;
-        }
+        if (pick <= 0) { chosen = id; break; }
       }
     }
     if (chosen === EOS_ID) break;
