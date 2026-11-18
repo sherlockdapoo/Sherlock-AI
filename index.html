@@ -2506,8 +2506,16 @@ async function restoreSavedNeuralCheckpoint() {
     const restoredOptimizer = record.optimizer === 'adam' ? 'adam' : 'adamw';
     neuralActiveOptimizer = restoredOptimizer;
     const buffer = record.modelBuffer.slice(0);
+    // Build the tokenizer/data state before restoring weights so generation works after page reload.
+    const restoreData = datasetCache || await loadTrainingDatasets();
+    currentNeuralDatasetFingerprint = fingerprintNeuralDataset(restoreData);
     const worker = ensureNeuralWorker();
-    neuralWorkerInitialized = true;
+    const restoreTrainBuffer = restoreData.trainBytes.slice().buffer;
+    const restoreValidationBuffer = restoreData.validationBytes.slice().buffer;
+    neuralWorkerInitialized = false;
+    neuralDatasetInitialized = false;
+    worker.postMessage({type: 'init', trainBuffer: restoreTrainBuffer, validationBuffer: restoreValidationBuffer},
+      [restoreTrainBuffer, restoreValidationBuffer]);
     neuralCheckpointWasSaved = true;
     neuralCheckpointSavedAt = record.savedAt || null;
     neuralCheckpointStepsValue = Number(record.steps) || 0;
