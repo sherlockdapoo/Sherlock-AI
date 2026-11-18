@@ -57,6 +57,7 @@ const TASK_FAMILY_NAMES = [
 let vocabulary = new Array(VOCAB).fill(null);
 let tokenToId = new Map();
 let vocabularySize = 0;
+let activeOptimizerRanges = [];
 let trainingUnknownRate = 0;
 let validationUnknownRate = 0;
 let mathUnknownRate = 0;
@@ -236,6 +237,15 @@ function sampleBalancedTrainingPosition() {
     throw new Error("Balanced Learning has no training targets for " + TASK_FAMILY_NAMES[familyIndex] + ".");
   return familyPositions[randomInt(familyPositions.length)];
 }
+function refreshOptimizerRanges() {
+  activeOptimizerRanges = [
+    [EMBED_OFFSET, vocabularySize * EMBED],
+    [W1_OFFSET, B1_OFFSET],
+    [B1_OFFSET, W2_OFFSET],
+    [W2_OFFSET, W2_OFFSET + vocabularySize * HIDDEN],
+    [B2_OFFSET, B2_OFFSET + vocabularySize]
+  ];
+}
 function buildTokenizer(trainingText) {
   const counts = new Map();
   walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
@@ -262,6 +272,7 @@ function buildTokenizer(trainingText) {
     vocabulary[vocabularySize] = token;
     vocabularySize++;
   }
+  refreshOptimizerRanges();
 }
 function encodeText(text) {
   const ids = [];
@@ -445,13 +456,7 @@ function trainExample(position) {
 function applyOptimizer(batchCount) {
   // Only active token rows can receive gradients. Keeping the full checkpoint
   // arrays intact while processing active rows avoids work on unused vocab slots.
-  const activeRanges = [
-    [EMBED_OFFSET, vocabularySize * EMBED],
-    [W1_OFFSET, B1_OFFSET],
-    [B1_OFFSET, W2_OFFSET],
-    [W2_OFFSET, W2_OFFSET + vocabularySize * HIDDEN],
-    [B2_OFFSET, B2_OFFSET + vocabularySize]
-  ];
+  const activeRanges = activeOptimizerRanges;
   let squaredNorm = 0;
   const inverseBatch = 1 / batchCount;
   for (const [start, end] of activeRanges) {
