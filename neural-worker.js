@@ -101,7 +101,6 @@ const inputVector = new Float32Array(INPUT);
 const embeddingInputGradient = new Float32Array(INPUT);
 const hiddenVector = new Float32Array(HIDDEN);
 const probabilities = new Float32Array(VOCAB);
-const outputDelta = new Float32Array(VOCAB);
 const hiddenDelta = new Float32Array(HIDDEN);
 const contextCodes = new Uint16Array(CONTEXT);
 const activeHiddenIndices = new Uint8Array(HIDDEN);
@@ -431,11 +430,13 @@ function trainExample(position) {
   hiddenDelta.fill(0);
   for (let c = 0; c < vocabularySize; c++) {
     const delta = probs[c] - (c === target ? 1 : 0);
-    outputDelta[c] = delta;
     if (delta === 0) continue;
     gradients[B2_OFFSET + c] += delta;
     const row = W2_OFFSET + c * HIDDEN;
-    for (let k = 0; k < HIDDEN; k++) {
+    // Inactive ReLU units have zero activation and zero backpropagated delta.
+    // Visit only active units to avoid zero-gradient reads and writes.
+    for (let n = 0; n < activeHiddenCount; n++) {
+      const k = activeHiddenIndices[n];
       gradients[row + k] += delta * hiddenVector[k];
       hiddenDelta[k] += delta * parameters[row + k];
     }
