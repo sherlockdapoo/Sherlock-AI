@@ -40,13 +40,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-o
 .stat-label{display:block;color:#9fb1ca;font-size:11px}
 .stat-value{display:block;margin-top:3px;font-size:19px;font-weight:750;letter-spacing:-.4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .stat-unit{display:block;margin-top:1px;color:#7f93af;font-size:9px}
-.tabs-wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}
-.tabs{display:inline-flex;gap:5px;padding:5px;border:1px solid var(--line);border-radius:15px;background:#0c1524}
-.tab{display:flex;align-items:center;justify-content:center;gap:8px;min-width:118px;padding:10px 15px;border:0;border-radius:11px;background:transparent;color:var(--muted);font-weight:700;font-size:13px;transition:background .18s,color .18s,box-shadow .18s}
-.tab:hover{color:var(--text);background:#16243a}
-.tab[aria-selected="true"]{background:linear-gradient(135deg,#315b99,#244477);color:#fff;box-shadow:0 4px 14px rgba(33,76,139,.28)}
-.tab-icon{font-size:15px}
-.tab-note{color:#7689a5;font-size:11px}
 .panel{display:none;animation:fadeIn .2s ease}
 .panel.active{display:block}
 @keyframes fadeIn{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
@@ -1032,11 +1025,55 @@ body{-webkit-overflow-scrolling:auto}
 .experiment-launch-button{flex:0 0 auto;min-height:44px;padding-inline:16px;text-decoration:none;white-space:nowrap}
 @media(max-width:680px){.experiment-launch-card{align-items:stretch;flex-direction:column;gap:12px;padding:15px}.experiment-launch-button{width:100%;white-space:normal}.experiment-launch-copy .visual-card-head{align-items:flex-start;flex-direction:column}}
 
-.new-playground-launch{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px;padding:14px 17px;border:1px solid #344d70;border-radius:15px;background:linear-gradient(110deg,#142943,#0d1b2d)}
-.new-playground-copy{min-width:0}.new-playground-copy strong{display:block;color:#e5f0ff;font-size:13px}.new-playground-copy span{display:block;color:#9fb3cf;font-size:11px;margin-top:3px;line-height:1.45}
-.new-playground-link{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 14px;border:1px solid #9fc3f6;border-radius:11px;background:linear-gradient(100deg,#83b7ff,#b6d4ff);color:#08172a;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
-.new-playground-link:focus-visible{outline:3px solid #b9d5ff;outline-offset:3px}
-@media(max-width:560px){.new-playground-launch{align-items:stretch;flex-direction:column;gap:10px;padding:13px}.new-playground-link{width:100%;white-space:normal}}
+
+/* v0.21.0 · cleaner workspace with a left navigation rail */
+.app{width:min(1440px,100%);padding:22px clamp(12px,2.4vw,32px) 36px}
+.workspace-shell{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:start;gap:22px}
+.workspace-content{min-width:0}
+.sidebar{position:sticky;top:16px;display:flex;flex-direction:column;gap:16px;min-width:0;padding:16px;border:1px solid #263b57;border-radius:18px;background:rgba(12,21,36,.94);box-shadow:0 14px 36px rgba(0,0,0,.18);backdrop-filter:blur(14px)}
+.sidebar-heading{display:flex;flex-direction:column;gap:4px;padding:2px 5px 12px;border-bottom:1px solid rgba(53,75,106,.65)}
+.sidebar-kicker{color:#8fb6f3;font-size:9px;font-weight:850;letter-spacing:1.5px}
+.sidebar-heading strong{color:#edf4ff;font-size:15px;letter-spacing:-.2px}
+.sidebar-heading small,.sidebar-footer small{color:#8296b3;font-size:10px}
+.tabs-wrap{display:block;margin:0}
+.tabs{display:flex;flex-direction:column;align-items:stretch;gap:5px;width:100%;padding:0;border:0;border-radius:0;background:transparent}
+.tab{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;min-width:0;min-height:45px;padding:11px 12px;border:1px solid transparent;border-radius:11px;background:transparent;color:var(--muted);font-weight:700;text-align:left;font-size:12px;transition:background .18s,color .18s,border-color .18s}
+.tab:hover{background:#16263d;color:var(--text)}
+.tab[aria-selected="true"]{border-color:#345987;background:linear-gradient(120deg,rgba(49,91,153,.55),rgba(36,68,119,.34));color:#fff;box-shadow:inset 3px 0 #8bb7ff}
+.tab-icon{width:20px;text-align:center}
+.sidebar-footer{display:flex;flex-direction:column;gap:5px;padding:12px 5px 2px;border-top:1px solid rgba(53,75,106,.65)}
+.sidebar-footer a{color:#b9d3fb;font-size:11px;font-weight:700;text-decoration:none}
+.sidebar-footer a:hover{text-decoration:underline}
+.stats{margin-top:0}
+.stat{border-color:#263b57;background:linear-gradient(155deg,rgba(19,34,56,.94),rgba(12,23,39,.96));box-shadow:0 7px 20px rgba(0,0,0,.10)}
+.panel{min-width:0}
+.benchmark-page{display:flex;flex-direction:column;gap:14px;min-width:0}
+.benchmark-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:19px 21px}
+.benchmark-intro h2{margin:5px 0 4px;font-size:21px;letter-spacing:-.5px}
+.benchmark-intro p{max-width:700px;margin:0;color:var(--muted);font-size:12px}
+.benchmark-version{flex:0 0 auto;padding:6px 9px;border:1px solid #344b6d;border-radius:8px;background:#14243b;color:#a9c9ff;font-size:9px;font-weight:850;letter-spacing:.6px}
+.benchmark-frame{display:block;width:100%;height:1000px;min-height:800px;border:1px solid #293d59;border-radius:16px;background:#08101d}
+.footer{margin-top:8px;line-height:1.8}
+@media(max-width:760px){
+  .app{padding:14px 12px 28px}
+  .workspace-shell{grid-template-columns:minmax(0,1fr);gap:12px}
+  .sidebar{position:sticky;top:6px;z-index:30;flex-direction:row;align-items:center;gap:8px;padding:8px 9px;border-radius:14px}
+  .sidebar-heading,.sidebar-footer{display:none}
+  .tabs-wrap{flex:1;min-width:0}
+  .tabs{flex-direction:row;gap:5px}
+  .tab{justify-content:center;flex:1;width:auto;min-width:0;min-height:42px;padding:9px 7px;white-space:nowrap;font-size:11px}
+  .tab[aria-selected="true"]{box-shadow:inset 0 -3px #8bb7ff}
+  .tab-icon{width:auto}
+  .benchmark-intro{padding:15px}
+}
+@media(max-width:430px){
+  .sidebar{padding:6px}
+  .tabs{gap:3px}
+  .tab{gap:5px;padding:8px 5px;font-size:10px}
+  .benchmark-intro{flex-direction:column;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){.sidebar,.tab{transition:none}}
+
 </style>
 </head>
 <body>
@@ -1045,19 +1082,31 @@ body{-webkit-overflow-scrolling:auto}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock GPT <span class="brand-version" aria-label="Website version 0.20.1, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.20.1</span></h1><p class="brand-sub">Neural network · balanced local training and latest-model saving</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.0, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.0</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
   </header>
 
-  <section class="new-playground-launch" aria-label="New standalone Playground">
-    <div class="new-playground-copy">
-      <strong>✨ New standalone Playground</strong>
-      <span>A clean, separate interface for testing your saved Sherlock model. The training lab and saved model stay untouched.</span>
-    </div>
-    <a class="new-playground-link" href="playground/">Open new Playground ↗</a>
-  </section>
-
+  <div class="workspace-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="sidebar-heading">
+        <span class="sidebar-kicker">WORKSPACE</span>
+        <strong>Explore Sherlock</strong>
+        <small>Choose a section</small>
+      </div>
+      <div class="tabs-wrap">
+        <nav class="tabs" role="tablist" aria-label="Sherlock AI sections">
+          <button class="tab" id="neuralTab" type="button" role="tab" data-tab="neural" aria-selected="true" aria-controls="neuralPanel"><span class="tab-icon">✳</span> Neural Lab</button>
+          <button class="tab" id="chatTab" type="button" role="tab" data-tab="chat" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">⌕</span> Playground</button>
+          <button class="tab" id="benchmarkTab" type="button" role="tab" data-tab="benchmark" aria-selected="false" aria-controls="benchmarkPanel"><span class="tab-icon">◉</span> Benchmark</button>
+        </nav>
+      </div>
+      <div class="sidebar-footer">
+        <a href="playground/">Open standalone Playground <span aria-hidden="true">↗</span></a>
+        <small>Separate model-testing workspace</small>
+      </div>
+    </aside>
+    <div class="workspace-content">
   <section class="stats" aria-label="Live model metrics">
     <div class="stat"><span class="stat-label">Model state</span><strong class="stat-value" id="state">Empty</strong></div>
     <div class="stat"><span class="stat-label">Accuracy</span><strong class="stat-value" id="accuracy">Not measured</strong></div>
@@ -1068,14 +1117,6 @@ body{-webkit-overflow-scrolling:auto}
     <div class="stat"><span class="stat-label">Validation accuracy</span><strong class="stat-value" id="neuralAccuracy">Not measured</strong><span class="stat-unit">separate held-out sample</span></div>
     <div class="stat"><span class="stat-label">Neural training speed</span><strong class="stat-value" id="neuralSpeed">0</strong><span class="stat-unit">tokens per second</span></div>
   </section>
-
-  <div class="tabs-wrap">
-    <nav class="tabs" role="tablist" aria-label="Sherlock GPT workspace">
-      <button class="tab" id="chatTab" type="button" role="tab" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">⌕</span> Playground</button>
-      <button class="tab" id="neuralTab" type="button" role="tab" aria-selected="true" aria-controls="neuralPanel"><span class="tab-icon">✳</span> Neural Lab</button>
-    </nav>
-    <span class="tab-note">Playground · Neural training and live view</span>
-  </div>
 
   <section class="panel" id="trainingPanel" role="tabpanel" aria-labelledby="trainingTab" hidden>
     <div class="training-grid">
@@ -1439,7 +1480,23 @@ body{-webkit-overflow-scrolling:auto}
     </section>
   </section>
 
-  <footer class="footer">Sherlock GPT · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
+  <section class="panel" id="benchmarkPanel" role="tabpanel" aria-labelledby="benchmarkTab" hidden>
+    <div class="benchmark-page">
+      <section class="card benchmark-intro">
+        <div>
+          <span class="eyebrow">MODEL EVALUATION</span>
+          <h2>Benchmark</h2>
+          <p>Run the fixed 50-question evaluation and compare category scores. This test is separate from training and never changes the saved model.</p>
+        </div>
+        <span class="benchmark-version">BENCHMARK v1.0</span>
+      </section>
+      <iframe id="benchmarkFrame" class="benchmark-frame" src="benchmark/" title="Sherlock AI 50-question benchmark" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <footer class="footer">Sherlock AI · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
+    </div>
+  </div>
 </main>
 
 <script>
@@ -1780,25 +1837,65 @@ function comparePlaygroundRuns() {
   target.append(note);
 }
 
+const workspaceTabs = {
+  neural: ['neuralTab', 'neuralPanel'],
+  chat: ['chatTab', 'chatPanel'],
+  benchmark: ['benchmarkTab', 'benchmarkPanel']
+};
+const benchmarkFrame = $('benchmarkFrame');
+function resizeBenchmarkFrame() {
+  if (!benchmarkFrame) return;
+  try {
+    const doc = benchmarkFrame.contentDocument;
+    if (!doc || !doc.body) throw new Error('Benchmark frame is not ready yet.');
+    // Use the benchmark content height directly. A tall frame lets the parent
+    // page scroll normally instead of trapping users in a nested iframe.
+    const contentHeight = Math.max(doc.body.scrollHeight, 900);
+    benchmarkFrame.style.height = Math.min(contentHeight + 320, 18000) + 'px';
+  } catch (error) {
+    benchmarkFrame.style.height = '15000px';
+  }
+}
+if (benchmarkFrame) {
+  benchmarkFrame.addEventListener('load', resizeBenchmarkFrame);
+}
 function setTab(name) {
-  const neural = name === 'neural';
-  const chat = !neural;
-  $('chatTab').setAttribute('aria-selected', String(chat));
-  $('neuralTab').setAttribute('aria-selected', String(neural));
-  $('chatPanel').classList.toggle('active', chat);
-  $('neuralPanel').classList.toggle('active', neural);
-  $('chatPanel').hidden = !chat;
-  $('neuralPanel').hidden = !neural;
-  if (neural) {
+  const selected = workspaceTabs[name] ? name : 'neural';
+  Object.keys(workspaceTabs).forEach(key => {
+    const [tabId, panelId] = workspaceTabs[key];
+    const active = key === selected;
+    const tab = $(tabId);
+    const panel = $(panelId);
+    if (tab) tab.setAttribute('aria-selected', String(active));
+    if (panel) {
+      panel.classList.toggle('active', active);
+      panel.hidden = !active;
+    }
+  });
+  if (selected === 'neural') {
     renderNetworkVisualiser(null);
     renderNeuralHistory();
     renderNeuralLossHistory();
     renderNeuralValidationLossHistory();
     renderNeuralLiveView();
+  } else if (selected === 'benchmark') {
+    resizeBenchmarkFrame();
   }
 }
-$('chatTab').addEventListener('click', () => setTab('chat'));
-$('neuralTab').addEventListener('click', () => setTab('neural'));
+Object.keys(workspaceTabs).forEach(name => {
+  const [tabId] = workspaceTabs[name];
+  $(tabId).addEventListener('click', () => setTab(name));
+});
+Array.from(document.querySelectorAll('.tabs .tab')).forEach((tab, index, tabs) => {
+  tab.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const direction = event.key === 'ArrowRight' ? 1 : -1;
+    const next = (index + direction + tabs.length) % tabs.length;
+    tabs[next].focus();
+    tabs[next].click();
+  });
+});
 
 function setNeuralState(label, mode = '') {
   const badge = $('neuralLiveStatus');
