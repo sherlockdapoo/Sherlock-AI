@@ -4932,6 +4932,11 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
   function saveRun(rate){runs.push(rate);runs=runs.slice(-30);try{localStorage.setItem('sherlockSpeedRuns',JSON.stringify(runs));}catch(e){}render();}
   function setBusy(value){start.disabled=value;auto.disabled=value;}
   function finishReport(text,message){speedBenchmarkReportText=text;report.value=text;report.hidden=false;copy.disabled=false;speedBenchmarkActive=false;setBusy(false);status.textContent=message;}
+  function runtimeProfileReport(){
+    const profile=$('neuralRuntimeProfile')?.textContent?.trim()||'Not available';
+    const detail=$('neuralRuntimeProfileDetail')?.textContent?.trim()||'No profile measurements received';
+    return 'Worker bottleneck profile\n'+profile+'\n'+detail;
+  }
   function runOne(index,total,results){
     return new Promise((resolve,reject)=>{
       if(!neuralTraining){reject(new Error('Training stopped. The automatic test was cancelled.'));return;}
@@ -4962,14 +4967,14 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
       for(let i=0;i<total;i++)await runOne(i,total,results);
       const average=results.reduce((sum,item)=>sum+item.rate,0)/results.length;
       const lines=results.map((item,i)=>'Test '+(i+1)+': '+item.rate.toFixed(2)+' examples/sec · '+item.delta.toLocaleString()+' examples');
-      const text='SHERLOCK AI TRAINING SPEED TEST\nRuns: '+total+'\nWarm-up per run: 5 seconds\nMeasurement per run: 25 seconds\n'+lines.join('\n')+'\nAverage throughput: '+average.toFixed(2)+' examples/sec\nRange: '+(Math.max(...results.map(x=>x.rate))-Math.min(...results.map(x=>x.rate))).toFixed(2)+' examples/sec\nNote: live training measurement; device, browser, dataset, and workload affect results.';
+      const text='SHERLOCK AI TRAINING SPEED TEST\nRuns: '+total+'\nWarm-up per run: 5 seconds\nMeasurement per run: 25 seconds\n'+lines.join('\n')+'\nAverage throughput: '+average.toFixed(2)+' examples/sec\nRange: '+(Math.max(...results.map(x=>x.rate))-Math.min(...results.map(x=>x.rate))).toFixed(2)+' examples/sec\n'+runtimeProfileReport()+'\nNote: live training measurement; device, browser, dataset, and workload affect results.';
       finishReport(text,total===5?'All 5 tests complete · average '+average.toFixed(2)+' examples/sec':'Finished · '+average.toFixed(2)+' examples/sec');
     }catch(error){
       speedBenchmarkActive=false;setBusy(false);
       status.textContent=error.message||'Test cancelled.';
       if(results.length){
         const average=results.reduce((sum,item)=>sum+item.rate,0)/results.length;
-        const text='SHERLOCK AI TRAINING SPEED TEST · PARTIAL\nCompleted runs: '+results.length+' of '+total+'\n'+results.map((x,i)=>'Test '+(i+1)+': '+x.rate.toFixed(2)+' examples/sec').join('\n')+'\nPartial average: '+average.toFixed(2)+' examples/sec';
+        const text='SHERLOCK AI TRAINING SPEED TEST · PARTIAL\nCompleted runs: '+results.length+' of '+total+'\n'+results.map((x,i)=>'Test '+(i+1)+': '+x.rate.toFixed(2)+' examples/sec').join('\n')+'\nPartial average: '+average.toFixed(2)+' examples/sec\n'+runtimeProfileReport();
         speedBenchmarkReportText=text;report.value=text;report.hidden=false;copy.disabled=false;
       }
     }
