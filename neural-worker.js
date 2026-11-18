@@ -37,6 +37,7 @@ const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
 let lastProgressMessageAt = -Infinity;
 let lastNetworkSnapshotAt = -Infinity;
 let profilingBatchMs = 0;
+let profilingSelectionMs = 0;
 let profilingExampleMs = 0;
 let profilingOptimizerMs = 0;
 let profilingBatches = 0;
@@ -104,6 +105,7 @@ const probabilities = new Float32Array(VOCAB);
 const hiddenDelta = new Float32Array(HIDDEN);
 const contextCodes = new Uint16Array(CONTEXT);
 const activeHiddenIndices = new Uint8Array(HIDDEN);
+const batchPositions = new Uint32Array(DEFAULT_BATCH_SIZE);
 let activeHiddenCount = 0;
 
 function randomUnit() {
@@ -790,7 +792,7 @@ function progressPayload() {
     validationUnknownRate,
     trainTokens: trainData ? trainData.length : 0,
     validationTokens: validationData ? validationData.length : 0,
-    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs) }
+    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), selectionMs: Math.round(profilingSelectionMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs) }
   };
   if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
     payload.network = networkSnapshot();
@@ -804,14 +806,19 @@ function runBatch() {
   try {
     if (!trainTargetPositions.length) throw new Error("No assistant-response training targets were found.");
     let batchLoss = 0;
-    const exampleProfileStart = performance.now();
-    for (let i = 0; i < activeBatchSize; i++) {
-      const position = sampleBalancedTrainingPosition();
-      batchLoss += trainExample(position);
-    }
+    // Select the same balanced examples in the same RNG order, then time model
+    // computation separately. Reuse the fixed buffer to avoid per-batch allocation.
+    const selectionStart = performance.now();
+    for (let i = 0; i < activeBatchSize; i++)
+      batchPositions[i] = sampleBalancedTrainingPosition();
+    const selectionEnd = performance.now();
+    const exampleProfileStart = selectionEnd;
+    for (let i = 0; i < activeBatchSize; i++)
+      batchLoss += trainExample(batchPositions[i]);
     const exampleProfileEnd = performance.now();
     applyOptimizer(activeBatchSize);
     const optimizerProfileEnd = performance.now();
+    profilingSelectionMs += selectionEnd - selectionStart;
     profilingExampleMs += exampleProfileEnd - exampleProfileStart;
     profilingOptimizerMs += optimizerProfileEnd - exampleProfileEnd;
     profilingBatchMs += optimizerProfileEnd - batchProfileStart;
