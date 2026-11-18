@@ -41,6 +41,13 @@ let profilingSelectionMs = 0;
 let profilingExampleMs = 0;
 let profilingOptimizerMs = 0;
 let profilingBatches = 0;
+let detailedProfiling = false;
+let detailedProfileActive = false;
+let profileForwardMs = 0;
+let profileOutputMs = 0;
+let profileBackpropMs = 0;
+let profileEmbeddingMs = 0;
+let detailedProfileExamples = 0;
 
 let trainData = null;
 let validationData = null;
@@ -375,6 +382,7 @@ function initialiseParameters() {
   lossInitialized = false;
 }
 function forwardContext() {
+  const profileStart = detailedProfileActive ? performance.now() : 0;
   for (let slot = 0; slot < CONTEXT; slot++) {
     const code = contextCodes[slot] < vocabularySize ? contextCodes[slot] : UNK_ID;
     const source = EMBED_OFFSET + code * EMBED;
@@ -383,6 +391,7 @@ function forwardContext() {
       inputVector[destination + j] = parameters[source + j];
   }
 
+  const embeddingEnd = detailedProfileActive ? performance.now() : 0;
   for (let k = 0; k < HIDDEN; k++) {
     let sum = parameters[B1_OFFSET + k];
     const row = W1_OFFSET + k * INPUT;
@@ -395,6 +404,7 @@ function forwardContext() {
     if (hiddenVector[k] > 0) activeHiddenIndices[activeHiddenCount++] = k;
   }
 
+  const hiddenEnd = detailedProfileActive ? performance.now() : 0;
   let maximum = -Infinity;
   for (let c = 0; c < vocabularySize; c++) {
     let sum = parameters[B2_OFFSET + c];
@@ -408,6 +418,7 @@ function forwardContext() {
     probabilities[c] = sum;
     if (sum > maximum) maximum = sum;
   }
+  const outputEnd = detailedProfileActive ? performance.now() : 0;
   let denominator = 0;
   for (let c = 0; c < vocabularySize; c++) {
     const value = Math.exp(probabilities[c] - maximum);
@@ -416,6 +427,10 @@ function forwardContext() {
   }
   const inverse = 1 / Math.max(denominator, 1e-20);
   for (let c = 0; c < vocabularySize; c++) probabilities[c] *= inverse;
+  if (detailedProfileActive) {
+    profileForwardMs += hiddenEnd - embeddingEnd;
+    profileOutputMs += (outputEnd - hiddenEnd) + (performance.now() - outputEnd);
+  }
   return probabilities;
 }
 function forward(data, position) {
@@ -424,10 +439,12 @@ function forward(data, position) {
   return forwardContext();
 }
 function trainExample(position) {
+  detailedProfileActive = detailedProfiling;
   const target = tokenAt(trainData, position);
   const probs = forward(trainData, position);
   const targetProbability = Math.max(probs[target], 1e-9);
   const loss = -Math.log(targetProbability);
+  const backpropStart = detailedProfileActive ? performance.now() : 0;
 
   hiddenDelta.fill(0);
   for (let c = 0; c < vocabularySize; c++) {
@@ -454,6 +471,7 @@ function trainExample(position) {
       gradients[row + j] += delta * inputVector[j];
   }
 
+  const backpropEnd = detailedProfileActive ? performance.now() : 0;
   // Compute embedding gradients in W1's contiguous row-major layout first.
   // This improves memory locality compared with repeatedly jumping between rows
   // for each individual embedding dimension.
@@ -472,6 +490,12 @@ function trainExample(position) {
     for (let j = 0; j < EMBED; j++)
       gradients[embeddingRow + j] += embeddingInputGradient[inputStart + j];
   }
+  if (detailedProfileActive) {
+    profileBackpropMs += backpropEnd - backpropStart;
+    profileEmbeddingMs += performance.now() - backpropEnd;
+    detailedProfileExamples++;
+  }
+  detailedProfileActive = false;
   return loss;
 }
 function applyOptimizer(batchCount) {
@@ -810,7 +834,7 @@ function progressPayload() {
     validationUnknownRate,
     trainTokens: trainData ? trainData.length : 0,
     validationTokens: validationData ? validationData.length : 0,
-    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), selectionMs: Math.round(profilingSelectionMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs) }
+    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), selectionMs: Math.round(profilingSelectionMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs), detailed: detailedProfiling, detailedExamples: detailedProfileExamples, forwardMs: Math.round(profileForwardMs), outputMs: Math.round(profileOutputMs), backpropMs: Math.round(profileBackpropMs), embeddingMs: Math.round(profileEmbeddingMs) }
   };
   if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
     payload.network = networkSnapshot();
@@ -1110,6 +1134,9 @@ self.addEventListener("message", event => {
       const requestedLearningRate = [0.001, 0.003, 0.005].includes(Number(message.learningRate))
         ? Number(message.learningRate) : DEFAULT_LEARNING_RATE;
       activeLearningRate = requestedLearningRate;
+      detailedProfiling = message.detailedProfiling === true;
+      profileForwardMs = profileOutputMs = profileBackpropMs = profileEmbeddingMs = 0;
+      detailedProfileExamples = 0;
       activeBatchSize = DEFAULT_BATCH_SIZE;
       activeMaxSteps = PERMANENT_MAX_STEPS;
       const optimizerChanged = requestedOptimizer !== activeOptimizer;
