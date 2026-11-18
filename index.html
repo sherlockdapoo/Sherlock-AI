@@ -1722,8 +1722,7 @@ const TRAIN_YIELD_MS = 4;
 const ACCURACY_REFRESH_MS = 1000;
 const NEURAL_LOSS_SAMPLE_EVERY = 5;
 const MAX_NEURAL_GRAPH_POINTS = 1500;
-// Retain the complete validation and loss history in the browser checkpoint.
-const MAX_NEURAL_HISTORY_SAMPLES = Number.MAX_SAFE_INTEGER;
+const MAX_NEURAL_HISTORY_SAMPLES = 5000;
 const PERFORMANCE_HISTORY_LIMIT = 60;
 const BATCH_TIMING_WINDOW = 30;
 
@@ -2127,7 +2126,7 @@ function renderNeuralHistory() {
   );
   ['neuralAccuracyXStart','neuralAccuracyXQuarter','neuralAccuracyXMid','neuralAccuracyXThreeQuarter','neuralAccuracyXEnd']
     .forEach((id, index) => { if ($(id)) $(id).textContent = checkTicks[index]; });
-  $('neuralAccuracyRange').textContent = 'Full history: ' + values.length.toLocaleString() + ' checks · observed range ' + minimum.toFixed(3) + '%–' + maximum.toFixed(3) + '%';
+  $('neuralAccuracyRange').textContent = 'Recent history: ' + values.length.toLocaleString() + ' checks · observed range ' + minimum.toFixed(3) + '%–' + maximum.toFixed(3) + '%';
 }
 function renderNeuralValidationLossHistory() {
   const line = $('neuralValidationLossLine');
