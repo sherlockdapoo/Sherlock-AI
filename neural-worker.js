@@ -428,7 +428,7 @@ function forwardContext() {
   const inverse = 1 / Math.max(denominator, 1e-20);
   for (let c = 0; c < vocabularySize; c++) probabilities[c] *= inverse;
   if (detailedProfileActive) {
-    profileForwardMs += hiddenEnd - embeddingEnd;
+    profileForwardMs += hiddenEnd - profileStart;
     profileOutputMs += (outputEnd - hiddenEnd) + (performance.now() - outputEnd);
   }
   return probabilities;
