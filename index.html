@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.5, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.5</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.9, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.9</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3443,7 +3443,7 @@ async function copySherlockTrainingReport() {
   ];
   const value = id => { const node = $(id); return node ? node.textContent.trim() : 'Not available'; };
   const report = [
-    'SHERLOCK AI TRAINING REPORT', 'Website version: v0.20.1',
+    'SHERLOCK AI TRAINING REPORT', 'Website version: ' + (document.querySelector('.brand-version')?.textContent.trim() || 'unknown'),
     'Balanced Learning: v0.18.1', 'Created: ' + new Date().toISOString(),
     ...fields.map(([label, id]) => label + ': ' + value(id)),
     '', 'Unknown-token audit detail:', value('neuralUnknownTokenDiagnosis'),
