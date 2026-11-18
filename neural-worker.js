@@ -386,8 +386,14 @@ function forwardContext() {
   for (let k = 0; k < HIDDEN; k++) {
     let sum = parameters[B1_OFFSET + k];
     const row = W1_OFFSET + k * INPUT;
-    for (let j = 0; j < INPUT; j++)
+    // INPUT is 256 (a multiple of four). Keep the accumulation order
+    // unchanged while reducing loop-control overhead in this hot dot product.
+    for (let j = 0; j < INPUT; j += 4) {
       sum += parameters[row + j] * inputVector[j];
+      sum += parameters[row + j + 1] * inputVector[j + 1];
+      sum += parameters[row + j + 2] * inputVector[j + 2];
+      sum += parameters[row + j + 3] * inputVector[j + 3];
+    }
     hiddenVector[k] = sum > 0 ? sum : 0;
   }
   activeHiddenCount = 0;
