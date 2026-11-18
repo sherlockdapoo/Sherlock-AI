@@ -500,6 +500,11 @@ function applyOptimizer(batchCount) {
   const correction1 = 1 - Math.pow(0.9, optimizerStep);
   const correction2 = 1 - Math.pow(0.999, optimizerStep);
   const learningRate = activeLearningRate;
+  // Algebraically fold Adam's bias corrections into batch-level constants.
+  // This removes two divisions per parameter from the optimiser hot loop.
+  const sqrtCorrection2 = Math.sqrt(correction2);
+  const updateScale = learningRate * sqrtCorrection2 / correction1;
+  const scaledEpsilon = 1e-8 * sqrtCorrection2;
   const decay = activeOptimizer === "adamw" ? learningRate * ADAMW_WEIGHT_DECAY : 0;
 
   for (let rangeIndex = 0; rangeIndex < activeRanges.length; rangeIndex++) {
@@ -513,13 +518,14 @@ function applyOptimizer(batchCount) {
     );
     for (let i = start; i < end; i++) {
       const gradient = gradientValues[i] * clip;
+      const gradientSquared = gradient * gradient;
       const m = 0.9 * firstMoments[i] + 0.1 * gradient;
-      const v = 0.999 * secondMoments[i] + 0.001 * gradient * gradient;
+      const v = 0.999 * secondMoments[i] + 0.001 * gradientSquared;
       firstMoments[i] = m;
       secondMoments[i] = v;
-      const mHat = m / correction1;
-      const vHat = v / correction2;
-      const adaptiveUpdate = learningRate * mHat / (Math.sqrt(vHat) + 1e-8);
+      // Equivalent to lr * (m / correction1) /
+      // (sqrt(v / correction2) + epsilon), with constants precomputed.
+      const adaptiveUpdate = updateScale * m / (Math.sqrt(v) + scaledEpsilon);
       const weightDecay = useWeightDecay ? decay * parameterValues[i] : 0;
       parameterValues[i] -= adaptiveUpdate + weightDecay;
       gradientValues[i] = 0;
