@@ -36,6 +36,10 @@ const PROGRESS_INTERVAL_MS = 500;
 const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
 let lastProgressMessageAt = -Infinity;
 let lastNetworkSnapshotAt = -Infinity;
+let profilingBatchMs = 0;
+let profilingExampleMs = 0;
+let profilingOptimizerMs = 0;
+let profilingBatches = 0;
 
 let trainData = null;
 let validationData = null;
@@ -761,7 +765,8 @@ function progressPayload() {
     trainingUnknownRate,
     validationUnknownRate,
     trainTokens: trainData ? trainData.length : 0,
-    validationTokens: validationData ? validationData.length : 0
+    validationTokens: validationData ? validationData.length : 0,
+    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs) }
   };
   if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
     payload.network = networkSnapshot();
@@ -771,14 +776,22 @@ function progressPayload() {
 }
 function runBatch() {
   if (!running) return;
+  const batchProfileStart = performance.now();
   try {
     if (!trainTargetPositions.length) throw new Error("No assistant-response training targets were found.");
     let batchLoss = 0;
+    const exampleProfileStart = performance.now();
     for (let i = 0; i < activeBatchSize; i++) {
       const position = sampleBalancedTrainingPosition();
       batchLoss += trainExample(position);
     }
+    const exampleProfileEnd = performance.now();
     applyOptimizer(activeBatchSize);
+    const optimizerProfileEnd = performance.now();
+    profilingExampleMs += exampleProfileEnd - exampleProfileStart;
+    profilingOptimizerMs += optimizerProfileEnd - exampleProfileEnd;
+    profilingBatchMs += optimizerProfileEnd - batchProfileStart;
+    profilingBatches++;
     steps++;
     examplesSeen += activeBatchSize;
     const averageLoss = batchLoss / activeBatchSize;
