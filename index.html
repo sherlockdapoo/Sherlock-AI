@@ -1164,6 +1164,15 @@ body.nav-open{overflow:hidden}
 .sidebar-heading strong{font-size:17px}.sidebar-heading small{font-size:12px}
 .sidebar-footer a{font-size:12px}
 @media(prefers-reduced-motion:reduce){.sidebar,.nav-backdrop{transition:none}}
+
+/* v0.21.3 · fix content width after converting sidebar to drawer */
+.workspace-shell{display:block!important;grid-template-columns:minmax(0,1fr)!important;width:100%}
+.workspace-content{display:block!important;width:100%;min-width:0}
+.stats{grid-template-columns:repeat(4,minmax(130px,1fr))!important;width:100%}
+.stat{min-width:0}
+.stat-value{overflow-wrap:normal;word-break:normal}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:420px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 </style>
 </head>
 <body>
@@ -1172,7 +1181,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.2, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.2</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.3, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.3</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
