@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.18, embedded Playground 1.6, Balanced Learning v0.18.1, example-bounded training context and isolated checkpoint storage">v0.21.18</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.18, embedded Playground 1.6, Balanced Learning v0.18.1, example-bounded training context and isolated checkpoint storage">v0.21.19</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1674,7 +1674,7 @@ body.nav-open{overflow:hidden}
 <section class="card benchmark-intro" style="margin-top:18px">
   <div><span class="eyebrow">PHASE 2 · ANSWER QUALITY</span><h2>Answer quality benchmark</h2>
   <p>Tests whether Sherlock gives meaningful word answers to word questions and correct number-only answers to maths questions. Relevance, correctness and answer format are all scored.</p></div>
-  <span class="benchmark-version">ANSWER QUALITY v1.0</span>
+  <span class="benchmark-version">ANSWER QUALITY v1.1</span>
 </section>
 <section class="card benchmark-card" id="answerQualityCard">
   <div class="benchmark-head"><div><strong>Meaning and answer-format test</strong><span id="aqStatus">Ready to run</span></div><span id="aqProgress">0 / 12</span></div>
@@ -1685,7 +1685,7 @@ body.nav-open{overflow:hidden}
 </section>
 <section class="card benchmark-results" id="aqResults" hidden>
   <h3 id="aqScore"></h3><div id="aqBreakdown"></div>
-  <p class="benchmark-note">A word answer must match an accepted meaningful answer and contain no digits. A maths answer must be the exact correct number with no extra text or trailing full stop. This fixed test is a focused measure, not a general intelligence score.</p>
+  <p class="benchmark-note">A word answer must match the expected alphabetic sequence and contain no digits. A maths answer must be the exact correct number with no extra text or trailing full stop. This fixed test is a focused measure, not a general intelligence score.</p>
   <button class="btn-secondary" id="aqCopy" type="button">Copy answer quality report</button>
   <textarea id="aqReport" readonly aria-label="Answer quality benchmark report" placeholder="Your report will appear here"></textarea>
 </section>
@@ -5058,18 +5058,18 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
 (function setupAnswerQualityBenchmark(){
   const $q=id=>document.getElementById(id);
   const QUESTIONS=[
-    {type:"Words",q:"What is the capital city of France?",answers:["paris"]},
-    {type:"Words",q:"Which gas do plants absorb from the air?",answers:["carbon dioxide","co2"]},
-    {type:"Words",q:"Which organ pumps blood around the human body?",answers:["heart"]},
-    {type:"Words",q:"What is water called when it freezes?",answers:["ice"]},
-    {type:"Words",q:"What is the largest planet in our solar system?",answers:["jupiter"]},
-    {type:"Words",q:"What is the opposite of ancient?",answers:["modern","new"]},
-    {type:"Maths",q:"What is 17 + 26?",answer:"43"},
-    {type:"Maths",q:"What is 63 divided by 9?",answer:"7"},
-    {type:"Maths",q:"What is 8 multiplied by 6?",answer:"48"},
-    {type:"Maths",q:"Calculate 100 minus 37.",answer:"63"},
-    {type:"Maths",q:"What is 15 percent of 200?",answer:"30"},
-    {type:"Maths",q:"What is 144 divided by 12?",answer:"12"}
+    {type:"Words",q:"Follow the instruction and use the alphabet to order these letters: l, v, z, n, g.",answers:["g, l, n, v, z"]},
+    {type:"Words",q:"Follow the instruction and use the alphabet to order these letters: q, t, k, s, g.",answers:["g, k, q, s, t"]},
+    {type:"Words",q:"Follow the instruction and use the alphabet to order these letters: u, s, w, y, h.",answers:["h, s, u, w, y"]},
+    {type:"Words",q:"Follow the instruction and use the alphabet to order these letters: z, r, h, d, i.",answers:["d, h, i, r, z"]},
+    {type:"Words",q:"Follow the instruction and use the alphabet to order these letters: d, q, t, i, r.",answers:["d, i, q, r, t"]},
+    {type:"Words",q:"Follow the instruction and use the alphabet to order these letters: i, p, f, n, j.",answers:["f, i, j, n, p"]},
+    {type:"Maths",q:"What is 651 plus 603?",answer:"1254"},
+    {type:"Maths",q:"What is 823 plus 558?",answer:"1381"},
+    {type:"Maths",q:"What is 996 plus 513?",answer:"1509"},
+    {type:"Maths",q:"What is 180 plus 467?",answer:"647"},
+    {type:"Maths",q:"What is 352 plus 422?",answer:"774"},
+    {type:"Maths",q:"What is 525 plus 377?",answer:"902"}
   ];
   let running=false,cancelled=false,results=[],reportText="";
   const types=["Words","Maths"];
@@ -5107,7 +5107,7 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
     const total=results.length,score=results.filter(x=>x.ok).length,pct=total?Math.round(score/total*100):0;
     const by={Words:{score:0,total:0},Maths:{score:0,total:0}};
     results.forEach(x=>{by[x.question.type].total++;if(x.ok)by[x.question.type].score++;});
-    reportText="SHERLOCK AI ANSWER QUALITY BENCHMARK v1.0\n";
+    reportText="SHERLOCK AI ANSWER QUALITY BENCHMARK v1.1\n";
     reportText+="Overall: "+score+"/"+total+" ("+pct+"%)\n";
     types.forEach(type=>{const group=by[type];reportText+=type+": "+group.score+"/"+group.total+" ("+(group.total?Math.round(group.score/group.total*100):0)+"%)\n";});
     reportText+="\nDETAILED RESULTS\n";
@@ -5130,11 +5130,8 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
       for(let i=0;i<QUESTIONS.length;i++){
         if(cancelled)break;
         const question=QUESTIONS[i];$q("aqStatus").textContent="Question "+(i+1)+": "+question.type;
-        const instruction=question.type==="Maths"
-          ?"Solve the maths question. Reply with the correct number only. Do not use words, labels, working or a full stop."
-          :"Answer the question with the correct word or short phrase only. Do not answer with a number or add an explanation.";
-        const prompt=instruction+"\nQuestion: "+question.q+"\nAnswer:";
-        const raw=await requestNeuralGeneration(prompt,{length:12,greedy:true});
+        // Match the training corpus format: question only, followed by the worker's sherlock: prefix.
+        const raw=await requestNeuralGeneration(question.q,{length:90});
         const judgement=scoreAnswer(question,raw);
         results.push({question,raw,ok:judgement.ok,reason:judgement.reason});
         renderItem(question,i,raw,judgement);progress(i+1);
