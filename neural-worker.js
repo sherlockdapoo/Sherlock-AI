@@ -53,6 +53,8 @@ let detailedProfileExamples = 0;
 
 let trainData = null;
 let validationData = null;
+let trainContextStartByPosition = new Uint32Array(0);
+let validationContextStartByPosition = new Uint32Array(0);
 let trainTargetPositions = new Uint32Array(0);
 let trainTargetPositionsByFamily = [];
 let validationTargetPositions = new Uint32Array(0);
@@ -165,38 +167,7 @@ function markAssistantEndTokens(text) {
   return output;
 }
 
-// Return token positions whose targets fall inside Sherlock responses.
-// The preceding context is still taken from the full conversation stream.
-function collectAssistantTargetPositions(text) {
-  const ranges = [];
-  const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
-  let activeRole = null;
-  let bodyStart = 0;
-  let match;
-  while ((match = rolePattern.exec(text)) !== null) {
-    if (activeRole === "sherlock" && bodyStart < match.index)
-      ranges.push([bodyStart, match.index]);
-    activeRole = match[1];
-    bodyStart = rolePattern.lastIndex;
-  }
-  if (activeRole === "sherlock" && bodyStart < text.length)
-    ranges.push([bodyStart, text.length]);
-
-  const positions = [];
-  let rangeIndex = 0;
-  let tokenIndex = 0;
-  walkTokens(text, (_token, offset) => {
-    while (rangeIndex < ranges.length && offset >= ranges[rangeIndex][1])
-      rangeIndex++;
-    if (tokenIndex >= CONTEXT && rangeIndex < ranges.length &&
-        offset >= ranges[rangeIndex][0] && offset < ranges[rangeIndex][1]) {
-      positions.push(tokenIndex);
-    }
-    tokenIndex++;
-  });
-  return Uint32Array.from(positions);
-}
-
+// Classify each prompt for Balanced Learning's task-family sampler.
 function taskFamilyIndex(prompt) {
   const value = String(prompt || "").toLowerCase();
   if (/%|\bpercent(?:age)?\b/.test(value)) return 1;
@@ -208,39 +179,64 @@ function taskFamilyIndex(prompt) {
   return -1;
 }
 
-function collectAssistantTargetPositionsByFamily(text) {
+function collectAssistantTrainingTargets(text, tokenCount) {
   const ranges = [];
   const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
   let activeRole = null;
   let bodyStart = 0;
+  let exampleStartOffset = 0;
   let activeFamily = -1;
   let match;
   while ((match = rolePattern.exec(text)) !== null) {
     if (activeRole === "user") {
       activeFamily = taskFamilyIndex(text.slice(bodyStart, match.index));
     } else if (activeRole === "sherlock" && bodyStart < match.index) {
-      ranges.push([bodyStart, match.index, activeFamily]);
+      ranges.push([bodyStart, match.index, exampleStartOffset, activeFamily]);
     }
     activeRole = match[1];
+    if (activeRole === "user") {
+      // Match generation's prompt exactly: begin at "user", not the
+      // separator newline between adjacent dataset examples.
+      exampleStartOffset = match.index + (text[match.index] === "\n" ? 1 : 0);
+    }
     bodyStart = rolePattern.lastIndex;
   }
   if (activeRole === "sherlock" && bodyStart < text.length)
-    ranges.push([bodyStart, text.length, activeFamily]);
+    ranges.push([bodyStart, text.length, exampleStartOffset, activeFamily]);
 
-  const positions = TASK_FAMILY_NAMES.map(() => []);
+  const positions = [];
+  const positionsByFamily = TASK_FAMILY_NAMES.map(() => []);
+  const contextStartByPosition = new Uint32Array(tokenCount);
   let rangeIndex = 0;
   let tokenIndex = 0;
+  let exampleStartTokenIndex = 0;
+  let startResolved = false;
   walkTokens(text, (_token, offset) => {
-    while (rangeIndex < ranges.length && offset >= ranges[rangeIndex][1])
+    while (rangeIndex < ranges.length && offset >= ranges[rangeIndex][1]) {
       rangeIndex++;
+      startResolved = false;
+    }
     const range = ranges[rangeIndex];
-    if (tokenIndex >= CONTEXT && range && offset >= range[0] && offset < range[1] &&
-        range[2] >= 0 && range[2] < positions.length) {
-      positions[range[2]].push(tokenIndex);
+    if (range) {
+      if (!startResolved && offset >= range[2]) {
+        exampleStartTokenIndex = tokenIndex;
+        startResolved = true;
+      }
+      if (offset >= range[0] && offset < range[1]) {
+        positions.push(tokenIndex);
+        contextStartByPosition[tokenIndex] = exampleStartTokenIndex;
+        if (range[3] >= 0 && range[3] < positionsByFamily.length)
+          positionsByFamily[range[3]].push(tokenIndex);
+      }
     }
     tokenIndex++;
   });
-  return positions.map(group => Uint32Array.from(group));
+
+  return {
+    positions: Uint32Array.from(positions),
+    positionsByFamily: positionsByFamily.map(group => Uint32Array.from(group)),
+    contextStartByPosition
+  };
 }
 
 function sampleBalancedTrainingPosition() {
@@ -438,15 +434,17 @@ function forwardContext() {
   }
   return probabilities;
 }
-function forward(data, position) {
-  for (let slot = 0; slot < CONTEXT; slot++)
-    contextCodes[slot] = tokenAt(data, position - CONTEXT + slot);
+function forward(data, position, contextStart = 0) {
+  for (let slot = 0; slot < CONTEXT; slot++) {
+    const sourceIndex = position - CONTEXT + slot;
+    contextCodes[slot] = sourceIndex >= contextStart ? tokenAt(data, sourceIndex) : SPACE_ID;
+  }
   return forwardContext();
 }
 function trainExample(position) {
   detailedProfileActive = detailedProfiling;
   const target = tokenAt(trainData, position);
-  const probs = forward(trainData, position);
+  const probs = forward(trainData, position, trainContextStartByPosition[position]);
   const targetProbability = Math.max(probs[target], 1e-9);
   const loss = -Math.log(targetProbability);
   const backpropStart = detailedProfileActive ? performance.now() : 0;
@@ -566,8 +564,8 @@ function applyOptimizer(batchCount) {
     }
   }
 }
-function predict(data, position) {
-  forward(data, position);
+function predict(data, position, contextStart = 0) {
+  forward(data, position, contextStart);
   let best = 0;
   let bestValue = probabilities[0];
   for (let c = 1; c < vocabularySize; c++) {
@@ -662,7 +660,7 @@ function evaluateAsync() {
         const end = Math.min(count, cursor + EVAL_CHUNK_SIZE);
         for (; cursor < end; cursor++) {
           const position = validationTargetPositions[Math.min(cursor * stride, validationTargetPositions.length - 1)];
-          const result = predict(validationData, position);
+          const result = predict(validationData, position, validationContextStartByPosition[position]);
           const target = tokenAt(validationData, position);
           if (result.token === target) correct++;
           totalLoss += -Math.log(Math.max(probabilities[target], 1e-9));
@@ -1026,9 +1024,13 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
   const encodedValidation = encodeText(validationText);
   trainData = encodedTraining.data;
   validationData = encodedValidation.data;
-  trainTargetPositions = collectAssistantTargetPositions(trainingText);
-  trainTargetPositionsByFamily = collectAssistantTargetPositionsByFamily(trainingText);
-  validationTargetPositions = collectAssistantTargetPositions(validationText);
+  const trainingTargets = collectAssistantTrainingTargets(trainingText, trainData.length);
+  const validationTargets = collectAssistantTrainingTargets(validationText, validationData.length);
+  trainTargetPositions = trainingTargets.positions;
+  trainTargetPositionsByFamily = trainingTargets.positionsByFamily;
+  trainContextStartByPosition = trainingTargets.contextStartByPosition;
+  validationTargetPositions = validationTargets.positions;
+  validationContextStartByPosition = validationTargets.contextStartByPosition;
   trainingUnknownRate = encodedTraining.unknownRate;
   validationUnknownRate = encodedValidation.unknownRate;
   if (trainData.length <= CONTEXT + 10 || validationData.length <= CONTEXT + 10)
