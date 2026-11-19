@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#09111f">
 <meta name="description" content="A separate local playground for testing the trained Sherlock AI model.">
-<title>Sherlock AI · Playground 1.1</title>
+<title>Sherlock AI · Playground 1.4</title>
 <style>
 :root{color-scheme:dark;--bg:#080f1b;--panel:#101c2e;--panel2:#0b1626;--line:#283c58;--text:#eef5ff;--muted:#9aadc7;--blue:#8bbaff;--blue2:#b3d2ff;--green:#5ee0ad;--amber:#f2c66d;--red:#ff8888}
 *{box-sizing:border-box}
@@ -80,13 +80,13 @@ a{color:#a9ceff}
 <main>
 <header>
  <div class="brand"><div class="mark" aria-hidden="true">⌕</div><div><h1>Sherlock AI Playground</h1><div class="sub">Independent testing space · runs locally in your browser</div></div></div>
- <span class="version">PLAYGROUND 1.3</span>
+ <span class="version">PLAYGROUND 1.4</span>
 </header>
 <section class="card" aria-label="Sherlock model playground">
  <div class="statusbar" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking your saved model…</span><span class="statusdetail" id="statusDetail">LOCAL MODEL</span></div>
  <p class="intro">Test text continuations from your trained Sherlock model. This page does not train, reset or overwrite your saved model.</p>
  <div class="modelmeta" aria-label="Model details">
-  <div class="metric"><span class="metric-label">Model version</span><span class="metric-value">v0.17.0</span></div>
+  <div class="metric"><span class="metric-label">Model version</span><span class="metric-value">v0.18.1</span></div>
   <div class="metric"><span class="metric-label">Training steps</span><span class="metric-value" id="modelSteps">—</span></div>
   <div class="metric"><span class="metric-label">Examples seen</span><span class="metric-value" id="modelExamples">—</span></div>
   <div class="metric"><span class="metric-label">Validation loss</span><span class="metric-value" id="modelLoss">—</span></div>
@@ -124,25 +124,25 @@ a{color:#a9ceff}
  <div class="history" id="history"><div class="emptyhistory">Your recent tests will appear here. History stays in this page session only.</div></div>
  <div class="notice"><strong>What this model does:</strong> Sherlock is currently a small text-continuation model. It learns patterns from training data, but it is not yet a reliable fact-checking or instruction-following chatbot.</div>
 </section>
-<footer><a href="../experiments/balanced-learning-v0170/">Open training lab</a> · Saved model is read-only here · No prompt history is uploaded</footer>
+<footer><a href="../">Open Sherlock AI Neural Lab</a> · Saved model is read-only here · No prompt history is uploaded</footer>
 </main>
 <script>
 'use strict';
 const DB_NAME='sherlock-gpt-v0170-experiment-cache';
 const CHECKPOINT_STORE='checkpoints';
 const DATA_STORE='datasets';
-const CHECKPOINT_KEY='sherlock-gpt-neural-experiment-v0170-v1';
+const CHECKPOINT_KEY='sherlock-gpt-neural-experiment-v0181-v1';
 const LEGACY_CHECKPOINT_KEYS=[
  'sherlock-gpt-neural-experiment-v0170-v1',
  'sherlock-gpt-neural-experiment-v0170-archive-v1',
  'sherlock-gpt-neural-experiment-v0170-archive-v1-backup',
  'sherlock-gpt-neural-experiment-v0170-legacy-v1'
 ];
-const DATASET_REVISION='sherlock-balanced-curriculum-v0170-2026-11';
+const DATASET_REVISION='sherlock-balanced-curriculum-v0181-2026-11';
 const PARAMETER_COUNT=70704;
-const WORKER_URL='../experiments/balanced-learning-v0170/neural-worker.js?v=playground-1.3.0';
-const TRAIN_URL='../experiments/balanced-learning-v0170/data/sherlock-curriculum-v0170-train.txt';
-const VALIDATION_URL='../experiments/balanced-learning-v0170/data/sherlock-curriculum-v0170-validation.txt';
+const WORKER_URL='../neural-worker.js?v=0.21.17-pass24-forward-breakdown';
+const TRAIN_URL='../data/sherlock-curriculum-v0181-train.txt';
+const VALIDATION_URL='../data/sherlock-curriculum-v0181-validation.txt';
 const MAX_HISTORY=8;
 const $=id=>document.getElementById(id);
 let worker=null;
@@ -397,11 +397,9 @@ async function initialise(){
   $('retryLoad').disabled=false;
  }
 }
-function seedFromPrompt(prompt,sequence){
+function seedFromPrompt(prompt){
  let hash=2166136261;
  for(let i=0;i<prompt.length;i++){hash^=prompt.charCodeAt(i);hash=Math.imul(hash,16777619);}
- hash^=Number(sequence)||0;
- hash=Math.imul(hash,16777619);
  return (hash>>>0)||0x5A17C0DE;
 }
 function setBusy(value){
@@ -466,7 +464,7 @@ function generate(promptOverride){
   setOutput('The model could not complete this request. The saved checkpoint is untouched.',true);
  } };
  try{
-  worker.postMessage({type:'generate',id,prompt,seed:seedFromPrompt(prompt,id),length:Number($('length').value)||90});
+  worker.postMessage({type:'generate',id,prompt,seed:seedFromPrompt(prompt),length:Number($('length').value)||90});
  }catch(error){
   clearTimeout(timeout);pendingGeneration=null;setBusy(false);
   setHint('Could not send the prompt to the model: '+error.message,true);
