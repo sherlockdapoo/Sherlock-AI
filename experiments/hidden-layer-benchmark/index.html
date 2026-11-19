@@ -44,10 +44,10 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#080d19;padding:14px;
 <script>
 "use strict";
 const HIDDEN=48, INPUT=256, W1_OFFSET=0;
-const weights=new Float64Array(HIDDEN*INPUT+HIDDEN);
-const input=new Float64Array(INPUT);
-const baselineOut=new Float64Array(HIDDEN);
-const candidateOut=new Float64Array(HIDDEN);
+const weights=new Float32Array(HIDDEN*INPUT+HIDDEN);
+const input=new Float32Array(INPUT);
+const baselineOut=new Float32Array(HIDDEN);
+const candidateOut=new Float32Array(HIDDEN);
 let seed=0x51e7a11;
 function random(){seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)/4294967296;}
 for(let i=0;i<weights.length;i++) weights[i]=(random()*2-1)*0.25;
