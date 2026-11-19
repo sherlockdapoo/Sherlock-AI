@@ -4471,7 +4471,7 @@ async function writeNeuralDatasetCache(data) {
 
 function displayLoadedNeuralDataset(data, fromCache) {
   const isBalanced = data.datasetName === 'Sherlock balanced curriculum v0.18.4';
-  const sources = isBalanced ? ['Sherlock balanced curriculum v0.18.3'] : ['DailyDialog'];
+  const sources = isBalanced ? ['Sherlock balanced curriculum v0.18.4'] : ['DailyDialog'];
   if (!isBalanced && data.ultraAvailable) sources.push('UltraChat');
   if (!isBalanced && data.noRobotsAvailable) sources.push('No Robots');
   if (!isBalanced && data.mathAvailable) sources.push('GSM8K maths');
@@ -4542,7 +4542,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     throw new Error('The validation library contains duplicate conversations. The library was not loaded.');
 
   const taskFamilies = [
-    {name: 'arithmetic', pattern: /\b(?:plus|minus|multiplied|divide)\b/i},
+    {name: 'arithmetic', pattern: /\b(?:plus|minus|multiplied|divide|divided|times|add)\b/i},
     {name: 'percentages', pattern: /%|\bpercent(?:age)?\b/i},
     {name: 'unit conversions', pattern: /\bconvert\b|\bare equal to\b|\bchange\b.*\binto\b/i},
     {name: 'word problems', pattern: /\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/i},
@@ -4584,7 +4584,7 @@ async function loadStandaloneCurriculum(signal) {
     if (!response.ok) throw new Error(label + ' could not be loaded (HTTP ' + response.status + ').');
     const value = await response.text();
     if (!value.trim()) throw new Error(label + ' was empty.');
-    showDataProgress(progress, 4, label + ' loaded');
+    showDataProgress(progress, 6, label + ' loaded');
     return value;
   };
   const [baseTrainingText, v0183TrainingText, v0184TrainingText, baseValidationText, v0183ValidationText, v0184ValidationText] = await Promise.all([
@@ -4616,7 +4616,7 @@ async function loadStandaloneCurriculum(signal) {
     mathAvailable: false,
     mathValidationBytes: null,
     mathValidationConversations: 0,
-    datasetName: 'Sherlock balanced curriculum v0.18.3',
+    datasetName: 'Sherlock balanced curriculum v0.18.4',
     ultraError: '', noRobotsError: '', mathError: ''
   };
   datasetCache = data;
