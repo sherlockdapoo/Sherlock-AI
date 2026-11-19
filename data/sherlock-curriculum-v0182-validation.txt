@@ -4051,23 +4051,20 @@ sherlock: 504300.
 user: A shop sells 85 books each day for 91741 days. How many books are sold altogether?
 sherlock: 7797985.
 
-user: 31473 stickers are shared equally between 68 bags. How many stickers go in each bag?
-sherlock: 462.
+user: 8636 stickers are shared equally between 68 bags. How many stickers go in each bag?
+sherlock: 127.
 
-user: A shop has 50520 pencils and sells 29. How many pencils remain?
-sherlock: 50491.
+user: A shop sells 39 books each day for 27733 days. How many books are sold altogether?
+sherlock: 1081587.
 
-user: There are 93259 marbles shared equally into 54 groups. How many marbles are in each group?
-sherlock: 1727.
+user: A teacher has 53939 pencils and gives 49 to each of 7 groups. How many pencils are given away?
+sherlock: 343.
 
-user: There are 51843 marbles shared equally into 66 groups. How many marbles are in each group?
-sherlock: 785.
+user: A shop sells 62 books each day for 51222 days. How many books are sold altogether?
+sherlock: 3175764.
 
-user: A shop sells 83 books each day for 62250 days. How many books are sold altogether?
-sherlock: 5166750.
-
-user: A box holds 57 cards. There are 63368 cards altogether. How many boxes are needed?
-sherlock: 1112.
+user: 36416 stickers are shared equally between 64 bags. How many stickers go in each bag?
+sherlock: 569.
 
 user: A teacher has 63695 pencils and gives 18 to each of 9 groups. How many pencils are given away?
 sherlock: 162.
@@ -4081,293 +4078,287 @@ sherlock: 63111.
 user: A teacher has 48786 pencils and gives 16 to each of 5 groups. How many pencils are given away?
 sherlock: 80.
 
-user: There are 74886 marbles shared equally into 53 groups. How many marbles are in each group?
-sherlock: 1412.
+user: There are 12561 marbles shared equally into 53 groups. How many marbles are in each group?
+sherlock: 237.
 
-user: A box holds 99 cards. There are 58261 cards altogether. How many boxes are needed?
-sherlock: 589.
+user: A shop sells 47 books each day for 99085 days. How many books are sold altogether?
+sherlock: 4656995.
 
-user: There are 39762 marbles shared equally into 34 groups. How many marbles are in each group?
-sherlock: 1169.
+user: There are 54538 marbles shared equally into 67 groups. How many marbles are in each group?
+sherlock: 814.
 
-user: 81467 stickers are shared equally between 24 bags. How many stickers go in each bag?
-sherlock: 3394.
+user: A box holds 67 cards. There are 17707 cards altogether. How many boxes are needed?
+sherlock: 265.
 
-user: A box holds 53 cards. There are 66368 cards altogether. How many boxes are needed?
-sherlock: 1253.
+user: A shop sells 4 books each day for 99249 days. How many books are sold altogether?
+sherlock: 396996.
 
-user: A teacher has 2128 pencils and gives 97 to each of 10 groups. How many pencils are given away?
-sherlock: 970.
+user: A teacher has 79235 pencils and gives 38 to each of 9 groups. How many pencils are given away?
+sherlock: 342.
 
-user: There are 68907 marbles shared equally into 4 groups. How many marbles are in each group?
-sherlock: 17226.
+user: A shop has 29270 pencils and sells 10. How many pencils remain?
+sherlock: 29260.
 
-user: A box holds 81 cards. There are 9063 cards altogether. How many boxes are needed?
-sherlock: 112.
+user: 31801 stickers are shared equally between 49 bags. How many stickers go in each bag?
+sherlock: 649.
 
-user: A shop has 48390 pencils and sells 65. How many pencils remain?
-sherlock: 48325.
+user: There are 16040 marbles shared equally into 40 groups. How many marbles are in each group?
+sherlock: 401.
 
-user: There are 32915 marbles shared equally into 40 groups. How many marbles are in each group?
-sherlock: 822.
+user: A box holds 44 cards. There are 45432 cards altogether. How many boxes are needed?
+sherlock: 1033.
 
-user: There are 24228 marbles shared equally into 46 groups. How many marbles are in each group?
-sherlock: 526.
+user: There are 495 marbles shared equally into 11 groups. How many marbles are in each group?
+sherlock: 45.
 
-user: There are 49567 marbles shared equally into 72 groups. How many marbles are in each group?
-sherlock: 688.
+user: There are 9300 marbles shared equally into 31 groups. How many marbles are in each group?
+sherlock: 300.
 
-user: A shop has 4394 pencils and sells 47. How many pencils remain?
-sherlock: 4347.
+user: There are 55728 marbles shared equally into 72 groups. How many marbles are in each group?
+sherlock: 774.
 
-user: A shop sells 31 books each day for 29934 days. How many books are sold altogether?
-sherlock: 927954.
+user: There are 12980 marbles shared equally into 55 groups. How many marbles are in each group?
+sherlock: 236.
 
-user: There are 94482 marbles shared equally into 72 groups. How many marbles are in each group?
-sherlock: 1312.
+user: There are 180 marbles shared equally into 12 groups. How many marbles are in each group?
+sherlock: 15.
 
-user: 33676 stickers are shared equally between 32 bags. How many stickers go in each bag?
-sherlock: 1052.
+user: 9028 stickers are shared equally between 74 bags. How many stickers go in each bag?
+sherlock: 122.
 
-user: A shop sells 36 books each day for 23516 days. How many books are sold altogether?
-sherlock: 846576.
+user: A shop has 24859 pencils and sells 42. How many pencils remain?
+sherlock: 24817.
 
-user: A shop sells 3 books each day for 11042 days. How many books are sold altogether?
-sherlock: 33126.
+user: There are 6204 marbles shared equally into 94 groups. How many marbles are in each group?
+sherlock: 66.
 
-user: 75845 stickers are shared equally between 74 bags. How many stickers go in each bag?
-sherlock: 1024.
+user: A shop sells 47 books each day for 6051 days. How many books are sold altogether?
+sherlock: 284397.
 
-user: A shop has 11470 pencils and sells 26. How many pencils remain?
-sherlock: 11444.
+user: 40640 stickers are shared equally between 80 bags. How many stickers go in each bag?
+sherlock: 508.
 
-user: There are 44338 marbles shared equally into 23 groups. How many marbles are in each group?
-sherlock: 1927.
+user: There are 58240 marbles shared equally into 80 groups. How many marbles are in each group?
+sherlock: 728.
 
-user: A teacher has 6534 pencils and gives 58 to each of 2 groups. How many pencils are given away?
-sherlock: 116.
+user: There are 46080 marbles shared equally into 64 groups. How many marbles are in each group?
+sherlock: 720.
 
-user: There are 81392 marbles shared equally into 19 groups. How many marbles are in each group?
-sherlock: 4283.
+user: There are 47670 marbles shared equally into 70 groups. How many marbles are in each group?
+sherlock: 681.
 
-user: 50808 stickers are shared equally between 38 bags. How many stickers go in each bag?
-sherlock: 1337.
+user: A teacher has 3050 pencils and gives 11 to each of 10 groups. How many pencils are given away?
+sherlock: 110.
 
-user: 80038 stickers are shared equally between 73 bags. How many stickers go in each bag?
-sherlock: 1096.
+user: 26576 stickers are shared equally between 88 bags. How many stickers go in each bag?
+sherlock: 302.
 
-user: There are 78218 marbles shared equally into 64 groups. How many marbles are in each group?
-sherlock: 1222.
+user: A teacher has 57240 pencils and gives 93 to each of 6 groups. How many pencils are given away?
+sherlock: 558.
 
-user: 35792 stickers are shared equally between 29 bags. How many stickers go in each bag?
-sherlock: 1234.
+user: There are 36708 marbles shared equally into 84 groups. How many marbles are in each group?
+sherlock: 437.
 
-user: 68127 stickers are shared equally between 89 bags. How many stickers go in each bag?
-sherlock: 765.
+user: A shop has 34353 pencils and sells 86. How many pencils remain?
+sherlock: 34267.
 
-user: A shop has 9676 pencils and sells 76. How many pencils remain?
-sherlock: 9600.
+user: 16440 stickers are shared equally between 30 bags. How many stickers go in each bag?
+sherlock: 548.
 
-user: 10265 stickers are shared equally between 88 bags. How many stickers go in each bag?
-sherlock: 116.
+user: A shop sells 81 books each day for 20221 days. How many books are sold altogether?
+sherlock: 1637901.
 
-user: A box holds 58 cards. There are 98094 cards altogether. How many boxes are needed?
-sherlock: 1692.
+user: 67480 stickers are shared equally between 70 bags. How many stickers go in each bag?
+sherlock: 964.
 
-user: A teacher has 38238 pencils and gives 38 to each of 6 groups. How many pencils are given away?
-sherlock: 228.
+user: A shop has 42207 pencils and sells 86. How many pencils remain?
+sherlock: 42121.
 
-user: A teacher has 43660 pencils and gives 2 to each of 5 groups. How many pencils are given away?
-sherlock: 10.
+user: A shop has 35152 pencils and sells 66. How many pencils remain?
+sherlock: 35086.
 
-user: A teacher has 83261 pencils and gives 87 to each of 5 groups. How many pencils are given away?
-sherlock: 435.
+user: 17453 stickers are shared equally between 31 bags. How many stickers go in each bag?
+sherlock: 563.
 
-user: A shop sells 21 books each day for 65632 days. How many books are sold altogether?
-sherlock: 1378272.
+user: A shop sells 60 books each day for 52346 days. How many books are sold altogether?
+sherlock: 3140760.
 
-user: 74929 stickers are shared equally between 15 bags. How many stickers go in each bag?
-sherlock: 4995.
+user: A teacher has 66780 pencils and gives 96 to each of 12 groups. How many pencils are given away?
+sherlock: 1152.
 
-user: 96396 stickers are shared equally between 17 bags. How many stickers go in each bag?
-sherlock: 5670.
+user: A shop has 29835 pencils and sells 94. How many pencils remain?
+sherlock: 29741.
 
-user: There are 86437 marbles shared equally into 5 groups. How many marbles are in each group?
-sherlock: 17287.
+user: There are 65570 marbles shared equally into 79 groups. How many marbles are in each group?
+sherlock: 830.
 
-user: There are 65657 marbles shared equally into 71 groups. How many marbles are in each group?
-sherlock: 924.
+user: A shop sells 14 books each day for 18693 days. How many books are sold altogether?
+sherlock: 261702.
 
-user: Complete the number sequence 18851, 18760, 18669, 18578 by finding the next number.
-sherlock: 18487.
+user: A shop sells 2 books each day for 42983 days. How many books are sold altogether?
+sherlock: 85966.
 
-user: Complete the number sequence 56248, 56279, 56310, 56341 by finding the next number.
-sherlock: 56372.
+user: Complete the number sequence 37940, 38211, 38482, 38753 by finding the next number.
+sherlock: 39024.
 
-user: Complete the number sequence 52327, 52389, 52451, 52513 by finding the next number.
-sherlock: 52575.
+user: Complete the number sequence 60075, 60263, 60451, 60639 by finding the next number.
+sherlock: 60827.
 
-user: Complete the number sequence 97973, 98090, 98207, 98324 by finding the next number.
-sherlock: 98441.
+user: Complete the number sequence 29928, 29990, 30052, 30114 by finding the next number.
+sherlock: 30176.
 
-user: Complete the number sequence 96607, 96878, 97149, 97420 by finding the next number.
-sherlock: 97691.
+user: Complete the number sequence 35882, 35838, 35794, 35750 by finding the next number.
+sherlock: 35706.
 
-user: Complete the number sequence 6687, 6596, 6505, 6414 by finding the next number.
-sherlock: 6323.
+user: Complete the number sequence 50939, 50895, 50851, 50807 by finding the next number.
+sherlock: 50763.
 
-user: Complete the number sequence 94090, 94121, 94152, 94183 by finding the next number.
-sherlock: 94214.
+user: Complete the number sequence 33896, 33852, 33808, 33764 by finding the next number.
+sherlock: 33720.
 
-user: Complete the number sequence 11613, 11801, 11989, 12177 by finding the next number.
-sherlock: 12365.
+user: Complete the number sequence 84345, 84376, 84407, 84438 by finding the next number.
+sherlock: 84469.
 
-user: Complete the number sequence 83006, 83068, 83130, 83192 by finding the next number.
-sherlock: 83254.
+user: Complete the number sequence 17139, 17256, 17373, 17490 by finding the next number.
+sherlock: 17607.
 
-user: Complete the number sequence 18660, 18490, 18320, 18150 by finding the next number.
-sherlock: 17980.
+user: Complete the number sequence 78093, 77923, 77753, 77583 by finding the next number.
+sherlock: 77413.
 
-user: Complete the number sequence 57619, 57575, 57531, 57487 by finding the next number.
-sherlock: 57443.
+user: Complete the number sequence 45880, 45942, 46004, 46066 by finding the next number.
+sherlock: 46128.
 
-user: Complete the number sequence 700, 656, 612, 568 by finding the next number.
-sherlock: 524.
+user: Complete the number sequence 9898, 9854, 9810, 9766 by finding the next number.
+sherlock: 9722.
 
-user: Complete the number sequence 99984, 100046, 100108, 100170 by finding the next number.
-sherlock: 100232.
+user: Complete the number sequence 88795, 88484, 88173, 87862 by finding the next number.
+sherlock: 87551.
 
-user: Complete the number sequence 85236, 85145, 85054, 84963 by finding the next number.
-sherlock: 84872.
+user: Complete the number sequence 13451, 13568, 13685, 13802 by finding the next number.
+sherlock: 13919.
 
-user: Complete the number sequence 66138, 66094, 66050, 66006 by finding the next number.
-sherlock: 65962.
+user: Complete the number sequence 49038, 48727, 48416, 48105 by finding the next number.
+sherlock: 47794.
 
-user: Complete the number sequence 34810, 34841, 34872, 34903 by finding the next number.
-sherlock: 34934.
+user: Complete the number sequence 29780, 29689, 29598, 29507 by finding the next number.
+sherlock: 29416.
 
-user: Complete the number sequence 34429, 34385, 34341, 34297 by finding the next number.
-sherlock: 34253.
+user: Complete the number sequence 31808, 31764, 31720, 31676 by finding the next number.
+sherlock: 31632.
 
-user: Complete the number sequence 40257, 40445, 40633, 40821 by finding the next number.
-sherlock: 41009.
+user: Complete the number sequence 72712, 72900, 73088, 73276 by finding the next number.
+sherlock: 73464.
 
-user: Complete the number sequence 48926, 48756, 48586, 48416 by finding the next number.
-sherlock: 48246.
+user: Complete the number sequence 5026, 5297, 5568, 5839 by finding the next number.
+sherlock: 6110.
 
-user: Complete the number sequence 72420, 72608, 72796, 72984 by finding the next number.
-sherlock: 73172.
+user: Complete the number sequence 22596, 22627, 22658, 22689 by finding the next number.
+sherlock: 22720.
 
-user: Complete the number sequence 15661, 15692, 15723, 15754 by finding the next number.
-sherlock: 15785.
+user: Complete the number sequence 29595, 29783, 29971, 30159 by finding the next number.
+sherlock: 30347.
 
-user: Complete the number sequence 62382, 62071, 61760, 61449 by finding the next number.
-sherlock: 61138.
+user: Complete the number sequence 87249, 87366, 87483, 87600 by finding the next number.
+sherlock: 87717.
 
-user: Complete the number sequence 34453, 34641, 34829, 35017 by finding the next number.
-sherlock: 35205.
+user: Complete the number sequence 60890, 60921, 60952, 60983 by finding the next number.
+sherlock: 61014.
 
-user: Complete the number sequence 5638, 5468, 5298, 5128 by finding the next number.
-sherlock: 4958.
+user: Complete the number sequence 94373, 94203, 94033, 93863 by finding the next number.
+sherlock: 93693.
 
-user: Complete the number sequence 74267, 74298, 74329, 74360 by finding the next number.
-sherlock: 74391.
+user: Complete the number sequence 47971, 47801, 47631, 47461 by finding the next number.
+sherlock: 47291.
 
-user: Complete the number sequence 10510, 10419, 10328, 10237 by finding the next number.
-sherlock: 10146.
+user: Complete the number sequence 4247, 4278, 4309, 4340 by finding the next number.
+sherlock: 4371.
 
-user: Complete the number sequence 24804, 24713, 24622, 24531 by finding the next number.
-sherlock: 24440.
+user: Complete the number sequence 82116, 81946, 81776, 81606 by finding the next number.
+sherlock: 81436.
 
-user: Complete the number sequence 36141, 36258, 36375, 36492 by finding the next number.
-sherlock: 36609.
+user: Complete the number sequence 56939, 57127, 57315, 57503 by finding the next number.
+sherlock: 57691.
 
-user: Complete the number sequence 82135, 81824, 81513, 81202 by finding the next number.
-sherlock: 80891.
+user: Complete the number sequence 71264, 71220, 71176, 71132 by finding the next number.
+sherlock: 71088.
 
-user: Complete the number sequence 90313, 90222, 90131, 90040 by finding the next number.
-sherlock: 89949.
+user: Complete the number sequence 93131, 93162, 93193, 93224 by finding the next number.
+sherlock: 93255.
 
-user: Complete the number sequence 51342, 51251, 51160, 51069 by finding the next number.
-sherlock: 50978.
+user: Complete the number sequence 41854, 41885, 41916, 41947 by finding the next number.
+sherlock: 41978.
 
-user: Complete the number sequence 82463, 82651, 82839, 83027 by finding the next number.
-sherlock: 83215.
+user: Complete the number sequence 12429, 12460, 12491, 12522 by finding the next number.
+sherlock: 12553.
 
-user: Complete the number sequence 73720, 73782, 73844, 73906 by finding the next number.
-sherlock: 73968.
+user: Complete the number sequence 94693, 94881, 95069, 95257 by finding the next number.
+sherlock: 95445.
 
-user: Complete the number sequence 52167, 52438, 52709, 52980 by finding the next number.
-sherlock: 53251.
+user: Complete the number sequence 58350, 58412, 58474, 58536 by finding the next number.
+sherlock: 58598.
 
-user: Complete the number sequence 11636, 11667, 11698, 11729 by finding the next number.
-sherlock: 11760.
+user: Complete the number sequence 66418, 66327, 66236, 66145 by finding the next number.
+sherlock: 66054.
 
-user: Complete the number sequence 18446, 18135, 17824, 17513 by finding the next number.
-sherlock: 17202.
+user: Complete the number sequence 44139, 43969, 43799, 43629 by finding the next number.
+sherlock: 43459.
 
-user: Complete the number sequence 48597, 48785, 48973, 49161 by finding the next number.
-sherlock: 49349.
+user: Complete the number sequence 73009, 72839, 72669, 72499 by finding the next number.
+sherlock: 72329.
 
-user: Complete the number sequence 20175, 20237, 20299, 20361 by finding the next number.
-sherlock: 20423.
+user: Complete the number sequence 58219, 58336, 58453, 58570 by finding the next number.
+sherlock: 58687.
 
-user: Complete the number sequence 87582, 87699, 87816, 87933 by finding the next number.
-sherlock: 88050.
+user: Complete the number sequence 37083, 37354, 37625, 37896 by finding the next number.
+sherlock: 38167.
 
-user: Complete the number sequence 42929, 43200, 43471, 43742 by finding the next number.
-sherlock: 44013.
+user: Complete the number sequence 13614, 13645, 13676, 13707 by finding the next number.
+sherlock: 13738.
 
-user: Complete the number sequence 55243, 55199, 55155, 55111 by finding the next number.
-sherlock: 55067.
+user: Complete the number sequence 25369, 25400, 25431, 25462 by finding the next number.
+sherlock: 25493.
 
-user: Complete the number sequence 52554, 52384, 52214, 52044 by finding the next number.
-sherlock: 51874.
+user: Complete the number sequence 30184, 30014, 29844, 29674 by finding the next number.
+sherlock: 29504.
 
-user: Complete the number sequence 44888, 45159, 45430, 45701 by finding the next number.
-sherlock: 45972.
+user: Complete the number sequence 48050, 48167, 48284, 48401 by finding the next number.
+sherlock: 48518.
 
-user: Complete the number sequence 80786, 80848, 80910, 80972 by finding the next number.
-sherlock: 81034.
+user: Complete the number sequence 63923, 64111, 64299, 64487 by finding the next number.
+sherlock: 64675.
 
-user: Complete the number sequence 56092, 56154, 56216, 56278 by finding the next number.
-sherlock: 56340.
+user: Complete the number sequence 96459, 96148, 95837, 95526 by finding the next number.
+sherlock: 95215.
 
-user: Complete the number sequence 33257, 33213, 33169, 33125 by finding the next number.
-sherlock: 33081.
+user: Complete the number sequence 22232, 22503, 22774, 23045 by finding the next number.
+sherlock: 23316.
 
-user: Complete the number sequence 13663, 13780, 13897, 14014 by finding the next number.
-sherlock: 14131.
+user: Complete the number sequence 20738, 21009, 21280, 21551 by finding the next number.
+sherlock: 21822.
 
-user: Complete the number sequence 15130, 15192, 15254, 15316 by finding the next number.
-sherlock: 15378.
+user: Complete the number sequence 29283, 29192, 29101, 29010 by finding the next number.
+sherlock: 28919.
 
-user: Complete the number sequence 73805, 73761, 73717, 73673 by finding the next number.
-sherlock: 73629.
+user: Complete the number sequence 73927, 73958, 73989, 74020 by finding the next number.
+sherlock: 74051.
 
-user: Complete the number sequence 94775, 94605, 94435, 94265 by finding the next number.
-sherlock: 94095.
+user: Complete the number sequence 30604, 30293, 29982, 29671 by finding the next number.
+sherlock: 29360.
 
-user: Put these numbers in ascending order: 25369, 50750, 30184, 18832, 48050.
-sherlock: 18832, 25369, 30184, 48050, 50750.
+user: Complete the number sequence 74261, 74378, 74495, 74612 by finding the next number.
+sherlock: 74729.
 
-user: Put these numbers in descending order: 80997, 96459, 8911, 22232, 98156.
-sherlock: 98156, 96459, 80997, 22232, 8911.
+user: Put these numbers in ascending order: 3255, 61948, 47106, 43735, 92063.
+sherlock: 3255, 43735, 47106, 61948, 92063.
 
-user: Put these numbers in descending order: 29283, 25462, 73927, 53259, 30604.
-sherlock: 73927, 53259, 30604, 29283, 25462.
+user: Follow the instruction and use the alphabet to order these letters: z, f, c, k, y.
+sherlock: c, f, k, y, z.
 
-user: Put these numbers in descending order: 72709, 50822, 3255, 61948, 47106.
-sherlock: 72709, 61948, 50822, 47106, 3255.
+user: Follow the instruction and use the alphabet to order these letters: b, y, a, j, z.
+sherlock: a, b, j, y, z.
 
-user: Put these numbers in descending order: 52227, 3703, 98693, 20378, 11155.
-sherlock: 98693, 52227, 20378, 11155, 3703.
-
-user: Put these numbers in descending order: 20072, 5700, 93821, 395, 37510.
-sherlock: 93821, 37510, 20072, 5700, 395.
-
-user: Put these numbers in descending order: 6409, 95557, 32475, 96868, 75278.
-sherlock: 96868, 95557, 75278, 32475, 6409.
+user: Follow the instruction and use the alphabet to order these letters: y, i, z, t, f.
+sherlock: f, i, t, y, z.
 
 user: Follow the instruction and use the alphabet to order these letters: h, t, v, s, n.
 sherlock: h, n, s, t, v.
@@ -4497,3 +4488,12 @@ sherlock: c, f, h, m, n.
 
 user: Follow the instruction and use the alphabet to order these letters: i, d, g, n, k.
 sherlock: d, g, i, k, n.
+
+user: Put these numbers in ascending order: 99431, 60283, 90682, 20218, 82529.
+sherlock: 20218, 60283, 82529, 90682, 99431.
+
+user: Put these numbers in ascending order: 93099, 22451, 97628, 34483, 27443.
+sherlock: 22451, 27443, 34483, 93099, 97628.
+
+user: Follow the instruction and use the alphabet to order these letters: u, e, h, g, n.
+sherlock: e, g, h, n, u.
