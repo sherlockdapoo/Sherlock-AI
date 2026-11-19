@@ -182,7 +182,7 @@ function taskFamilyIndex(prompt) {
 
 function collectAssistantTrainingTargets(text, tokenCount) {
   const ranges = [];
-  const rolePattern = /(?:^|\\n)(user|sherlock):[ \\t]*/g;
+  const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
   let activeRole = null;
   let bodyStart = 0;
   let exampleStartOffset = 0;
@@ -198,7 +198,7 @@ function collectAssistantTrainingTargets(text, tokenCount) {
     if (activeRole === "user") {
       // Match generation's prompt exactly: begin at "user", not the
       // separator newline between adjacent dataset examples.
-      exampleStartOffset = match.index + (text[match.index] === "\\n" ? 1 : 0);
+      exampleStartOffset = match.index + (text[match.index] === "\n" ? 1 : 0);
     }
     bodyStart = rolePattern.lastIndex;
   }
