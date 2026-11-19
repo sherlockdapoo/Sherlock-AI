@@ -80,7 +80,7 @@ a{color:#a9ceff}
 <main>
 <header>
  <div class="brand"><div class="mark" aria-hidden="true">⌕</div><div><h1>Sherlock AI Playground</h1><div class="sub">Independent testing space · runs locally in your browser</div></div></div>
- <span class="version">PLAYGROUND 1.4</span>
+ <span class="version">PLAYGROUND 1.5</span>
 </header>
 <section class="card" aria-label="Sherlock model playground">
  <div class="statusbar" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking your saved model…</span><span class="statusdetail" id="statusDetail">LOCAL MODEL</span></div>
@@ -101,11 +101,18 @@ a{color:#a9ceff}
     <option value="140">Long</option>
    </select>
   </label>
+  <label class="length-control" for="decoding">Decoding mode
+   <select id="decoding" aria-label="Decoding mode">
+    <option value="sampling" selected>Sampling</option>
+    <option value="greedy">Greedy</option>
+   </select>
+  </label>
   <div class="actions">
    <button class="primary" id="generate" type="button" disabled>Generate ↗</button>
    <button class="secondary" id="clear" type="button">Clear</button>
   </div>
  </div>
+ <p class="meta" id="decodingHelp">Sampling uses seeded top-p selection; Greedy selects the highest-probability next token.</p>
  <p class="hint" id="hint" aria-live="polite">Loading the saved model and its matching vocabulary…</p>
  <div class="examples" aria-label="Example prompts">
   <button class="example" type="button" data-prompt="The best way to learn is">Learning</button>
@@ -172,6 +179,7 @@ function setReady(ready){
  modelReady=!!ready;
  $('prompt').disabled=!modelReady||busy;
  $('length').disabled=!modelReady||busy;
+ $('decoding').disabled=!modelReady||busy;
  $('generate').disabled=!modelReady||busy;
  $('regenerate').disabled=!modelReady||busy||!lastPrompt;
  document.querySelectorAll('[data-prompt]').forEach(button=>{button.disabled=!modelReady||busy;});
@@ -433,7 +441,8 @@ function generate(promptOverride){
  $('prompt').value=prompt;updateCharCount();
  lastPrompt=prompt;lastOutput='';
  $('copyOutput').disabled=true;
- setBusy(true);setHint('Sherlock is generating locally…');$('outputMeta').textContent='Generating';
+ const greedy=$('decoding').value==='greedy';
+ setBusy(true);setHint('Sherlock is generating locally…');$('outputMeta').textContent=greedy?'Generating · Greedy':'Generating · Sampling';
  setOutput('Generating…',true);
  const id=++requestId;
  const timeout=setTimeout(()=>{
@@ -453,7 +462,7 @@ function generate(promptOverride){
   const clean=String(text||'').trim();lastOutput=clean;
   setOutput(clean||'Sherlock ended its continuation immediately. Try a different starting phrase.',!clean);
   setHint(clean?'Generation complete.':'No continuation was produced for this prompt.');
-  $('outputMeta').textContent='Complete';
+  $('outputMeta').textContent=greedy?'Complete · Greedy':'Complete · Sampling';
   $('copyOutput').disabled=!clean;
   $('regenerate').disabled=false;
   if(clean)addHistory(prompt,clean);
@@ -464,7 +473,7 @@ function generate(promptOverride){
   setOutput('The model could not complete this request. The saved checkpoint is untouched.',true);
  } };
  try{
-  worker.postMessage({type:'generate',id,prompt,seed:seedFromPrompt(prompt),length:Number($('length').value)||90});
+  worker.postMessage({type:'generate',id,prompt,seed:seedFromPrompt(prompt),length:Number($('length').value)||90,greedy});
  }catch(error){
   clearTimeout(timeout);pendingGeneration=null;setBusy(false);
   setHint('Could not send the prompt to the model: '+error.message,true);
