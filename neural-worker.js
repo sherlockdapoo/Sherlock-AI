@@ -1,4 +1,4 @@
-/* Sherlock GPT v0.18.3: balanced learning with targeted alphabetic-order examples and deterministic maths. */
+/* Sherlock AI v0.18.4: balanced instruction/language curriculum; unchanged 70,704-parameter model and deterministic maths. */
 "use strict";
 
 const VOCAB = 1024;
