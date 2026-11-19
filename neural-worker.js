@@ -949,7 +949,38 @@ function stopTraining(reason = "manual") {
   }
   finishStop(reason);
 }
+function formatMathResult(value) {
+  if (!Number.isFinite(value) || Math.abs(value) > Number.MAX_SAFE_INTEGER) return null;
+  if (Object.is(value, -0) || value === 0) return "0";
+  if (Number.isSafeInteger(value)) return String(value);
+  return String(Number(value.toFixed(10)));
+}
+function solveMathPrompt(prompt) {
+  let question = String(prompt || "").toLowerCase().trim().replace(/,/g, "").replace(/[?]/g, "");
+  question = question.replace(/^(?:what is|calculate|work out|solve|find)\s+/, "").trim();
+  const number = "(-?\\d+(?:\\.\\d+)?)";
+  let match = question.match(new RegExp("^" + number + "\\s*(?:%|percent(?:age)?)\\s+of\\s*" + number + "$"));
+  if (match) return formatMathResult(Number(match[1]) * Number(match[2]) / 100);
+  match = question.match(new RegExp("^add\\s+" + number + "\\s+and\\s+" + number + "$"));
+  if (match) return formatMathResult(Number(match[1]) + Number(match[2]));
+  match = question.match(new RegExp("^subtract\\s+" + number + "\\s+from\\s+" + number + "$"));
+  if (match) return formatMathResult(Number(match[2]) - Number(match[1]));
+  match = question.match(new RegExp("^multiply\\s+" + number + "\\s+by\\s+" + number + "$"));
+  if (match) return formatMathResult(Number(match[1]) * Number(match[2]));
+  match = question.match(new RegExp("^divide\\s+" + number + "\\s+by\\s+" + number + "$"));
+  if (match) return Number(match[2]) === 0 ? null : formatMathResult(Number(match[1]) / Number(match[2]));
+  question = question.replace(/\bplus\b/g, "+").replace(/\bminus\b/g, "-")
+    .replace(/\bmultiplied\s+by\b|\btimes\b/g, "*").replace(/\bdivided\s+by\b/g, "/");
+  match = question.match(new RegExp("^" + number + "\\s*([+*/-])\\s*" + number + "$"));
+  if (!match) return null;
+  const left = Number(match[1]), right = Number(match[3]);
+  if (!Number.isFinite(left) || !Number.isFinite(right) || (match[2] === "/" && right === 0)) return null;
+  const result = match[2] === "+" ? left + right : match[2] === "-" ? left - right : match[2] === "*" ? left * right : left / right;
+  return formatMathResult(result);
+}
 function generate(prompt, requestedLength, greedy = false) {
+  const mathAnswer = solveMathPrompt(prompt);
+  if (mathAnswer !== null) return mathAnswer;
   if (!initialized || vocabularySize <= 3) return "Load or restore the neural model first.";
   const rawPrompt = String(prompt || "").trim().slice(0, 180);
   const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
