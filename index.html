@@ -2365,10 +2365,12 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   await writeNeuralCheckpointRecord(record, key);
   if (key === NEURAL_CHECKPOINT_KEY) {
     try {
-      if (localStorage.getItem(NEURAL_FRESH_RESET_MARKER) === '1') {
-        localStorage.setItem(NEURAL_FRESH_RESET_MARKER, '2');
+      if (await readNeuralCheckpointRecord(NEURAL_FRESH_RESET_MARKER) === '1') {
+        await writeNeuralCheckpointRecord('2', NEURAL_FRESH_RESET_MARKER);
       }
-    } catch (_) {}
+    } catch (error) {
+      console.warn('Could not update the fresh-reset marker:', error);
+    }
     neuralCheckpointWasSaved = true;
     neuralCheckpointSavedAt = savedAt;
     neuralCheckpointStepsValue = record.steps;
@@ -2379,7 +2381,13 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   renderNeuralLiveView();
 }
 async function restoreSavedNeuralCheckpoint() {
-  if (localStorage.getItem(NEURAL_FRESH_RESET_MARKER) === '1') {
+  let freshResetState = null;
+  try {
+    freshResetState = await readNeuralCheckpointRecord(NEURAL_FRESH_RESET_MARKER);
+  } catch (error) {
+    console.warn('Could not read the fresh-reset marker:', error);
+  }
+  if (freshResetState === '1') {
     neuralCheckpointWasSaved = false;
     neuralRestoredDatasetFingerprint = null;
     $('neuralCheckpointStatus').textContent = 'Fresh start selected. The previous saved model and graph history will not be restored.';
@@ -2425,7 +2433,7 @@ async function restoreSavedNeuralCheckpoint() {
       console.warn('Could not read the IndexedDB neural checkpoint:', storageError);
     }
 
-    if (!record && localStorage.getItem(NEURAL_FRESH_RESET_MARKER) !== '2') {
+    if (!record && freshResetState !== '2') {
       const checkpointKeys = [
         NEURAL_CHECKPOINT_KEY,
         NEURAL_ARCHIVE_CHECKPOINT_KEY,
@@ -2895,15 +2903,12 @@ async function resetSavedNeuralModel() {
   if (!confirmed) return;
   button.disabled = true;
   try {
-    localStorage.setItem(NEURAL_FRESH_RESET_MARKER, '1');
-    await deleteNeuralCheckpointRecord(NEURAL_CHECKPOINT_KEY);
-    await deleteNeuralCheckpointRecord(NEURAL_BEST_CHECKPOINT_KEY);
+    await resetNeuralCheckpointRecords();
     try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
     window.location.reload();
   } catch (error) {
-    try { localStorage.removeItem(NEURAL_FRESH_RESET_MARKER); } catch (_) {}
     button.disabled = false;
-    window.alert('Reset could not be completed. Your saved model has not been intentionally cleared. Details: ' +
+    window.alert('Reset could not be completed. Your saved model was not reset. Details: ' +
       (error && error.message ? error.message : String(error)));
   }
 }
@@ -4349,6 +4354,22 @@ async function deleteNeuralCheckpointRecord(key = NEURAL_CHECKPOINT_KEY) {
       transaction.oncomplete = () => resolve();
       transaction.onerror = () => reject(transaction.error || new Error('Could not clear the neural checkpoint.'));
       transaction.onabort = () => reject(transaction.error || new Error('Neural checkpoint removal was cancelled.'));
+    });
+  } finally { db.close(); }
+}
+
+async function resetNeuralCheckpointRecords() {
+  const db = await openNeuralDatasetDB();
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction(NEURAL_CHECKPOINT_STORE, 'readwrite');
+      const store = transaction.objectStore(NEURAL_CHECKPOINT_STORE);
+      store.put('1', NEURAL_FRESH_RESET_MARKER);
+      store.delete(NEURAL_CHECKPOINT_KEY);
+      store.delete(NEURAL_BEST_CHECKPOINT_KEY);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error || new Error('Could not reset the saved neural model.'));
+      transaction.onabort = () => reject(transaction.error || new Error('The saved-model reset was cancelled.'));
     });
   } finally { db.close(); }
 }
