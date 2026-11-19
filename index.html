@@ -2733,9 +2733,9 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
       : "Measured";
     const baseDetail = Number(profile.batches).toLocaleString() + " batches · " + total.toLocaleString() + " ms profiled";
     if (profile.detailed && Number(profile.detailedExamples) > 0) {
-      const detailedTotal = Math.max(1, Number(profile.forwardMs) + Number(profile.outputMs) + Number(profile.backpropMs) + Number(profile.embeddingMs));
+      const detailedTotal = Math.max(1, Number(profile.inputCopyMs) + Number(profile.hiddenMs) + Number(profile.outputMs) + Number(profile.backpropMs) + Number(profile.embeddingMs));
       const detailPct = value => Math.round(Number(value) * 100 / detailedTotal);
-      $('neuralRuntimeProfile').textContent = "Forward " + detailPct(profile.forwardMs) + "% · Output " + detailPct(profile.outputMs) + "% · Backprop " + detailPct(profile.backpropMs) + "% · Embedding " + detailPct(profile.embeddingMs) + "%";
+      $('neuralRuntimeProfile').textContent = "Input copy " + detailPct(profile.inputCopyMs) + "% · Hidden " + detailPct(profile.hiddenMs) + "% · Output " + detailPct(profile.outputMs) + "% · Backprop " + detailPct(profile.backpropMs) + "% · Embed grad " + detailPct(profile.embeddingMs) + "%";
       $('neuralRuntimeProfileDetail').textContent = baseDetail + " · " + Number(profile.detailedExamples).toLocaleString() + " examples sampled";
     } else {
       $('neuralRuntimeProfileDetail').textContent = baseDetail;
@@ -2961,7 +2961,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.21.16-pass23-sparse-embedding-gradients', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.21.17-pass24-forward-breakdown', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};

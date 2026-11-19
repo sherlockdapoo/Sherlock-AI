@@ -44,6 +44,8 @@ let profilingBatches = 0;
 let detailedProfiling = false;
 let detailedProfileActive = false;
 let profileForwardMs = 0;
+let profileInputCopyMs = 0;
+let profileHiddenMs = 0;
 let profileOutputMs = 0;
 let profileBackpropMs = 0;
 let profileEmbeddingMs = 0;
@@ -429,6 +431,8 @@ function forwardContext() {
   const inverse = 1 / Math.max(denominator, 1e-20);
   for (let c = 0; c < vocabularySize; c++) probabilities[c] *= inverse;
   if (detailedProfileActive) {
+    profileInputCopyMs += embeddingEnd - profileStart;
+    profileHiddenMs += hiddenEnd - embeddingEnd;
     profileForwardMs += hiddenEnd - profileStart;
     profileOutputMs += (outputEnd - hiddenEnd) + (performance.now() - outputEnd);
   }
@@ -840,7 +844,7 @@ function progressPayload() {
     validationUnknownRate,
     trainTokens: trainData ? trainData.length : 0,
     validationTokens: validationData ? validationData.length : 0,
-    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), selectionMs: Math.round(profilingSelectionMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs), detailed: detailedProfiling, detailedExamples: detailedProfileExamples, forwardMs: Math.round(profileForwardMs), outputMs: Math.round(profileOutputMs), backpropMs: Math.round(profileBackpropMs), embeddingMs: Math.round(profileEmbeddingMs) }
+    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), selectionMs: Math.round(profilingSelectionMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs), detailed: detailedProfiling, detailedExamples: detailedProfileExamples, forwardMs: Math.round(profileForwardMs), inputCopyMs: Math.round(profileInputCopyMs), hiddenMs: Math.round(profileHiddenMs), outputMs: Math.round(profileOutputMs), backpropMs: Math.round(profileBackpropMs), embeddingMs: Math.round(profileEmbeddingMs) }
   };
   if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
     payload.network = networkSnapshot();
