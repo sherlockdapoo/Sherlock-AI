@@ -1,0 +1,4499 @@
+user: What is 243 plus 127?
+sherlock: 370.
+
+user: What is 416 plus 82?
+sherlock: 498.
+
+user: What is 588 plus 37?
+sherlock: 625.
+
+user: What is 760 plus 988?
+sherlock: 1748.
+
+user: What is 933 plus 943?
+sherlock: 1876.
+
+user: What is 117 plus 898?
+sherlock: 1015.
+
+user: What is 289 plus 852?
+sherlock: 1141.
+
+user: What is 462 plus 807?
+sherlock: 1269.
+
+user: What is 634 plus 762?
+sherlock: 1396.
+
+user: What is 806 plus 716?
+sherlock: 1522.
+
+user: Calculate the sum: 347 plus 706.
+sherlock: 1053.
+
+user: Calculate the sum: 519 plus 661.
+sherlock: 1180.
+
+user: Calculate the sum: 692 plus 616.
+sherlock: 1308.
+
+user: Calculate the sum: 864 plus 570.
+sherlock: 1434.
+
+user: Calculate the sum: 48 plus 525.
+sherlock: 573.
+
+user: Calculate the sum: 221 plus 480.
+sherlock: 701.
+
+user: Calculate the sum: 393 plus 434.
+sherlock: 827.
+
+user: Calculate the sum: 565 plus 389.
+sherlock: 954.
+
+user: Calculate the sum: 738 plus 344.
+sherlock: 1082.
+
+user: Calculate the sum: 910 plus 298.
+sherlock: 1208.
+
+user: Work out 451 plus 288.
+sherlock: 739.
+
+user: Work out 623 plus 243.
+sherlock: 866.
+
+user: Work out 796 plus 198.
+sherlock: 994.
+
+user: Work out 968 plus 152.
+sherlock: 1120.
+
+user: Work out 152 plus 107.
+sherlock: 259.
+
+user: Work out 325 plus 62.
+sherlock: 387.
+
+user: Work out 497 plus 16.
+sherlock: 513.
+
+user: Work out 669 plus 968.
+sherlock: 1637.
+
+user: Work out 842 plus 923.
+sherlock: 1765.
+
+user: Work out 26 plus 877.
+sherlock: 903.
+
+user: Find the total of 555 plus 867.
+sherlock: 1422.
+
+user: Find the total of 727 plus 822.
+sherlock: 1549.
+
+user: Find the total of 899 plus 777.
+sherlock: 1676.
+
+user: Find the total of 84 plus 731.
+sherlock: 815.
+
+user: Find the total of 256 plus 686.
+sherlock: 942.
+
+user: Find the total of 428 plus 641.
+sherlock: 1069.
+
+user: Find the total of 601 plus 595.
+sherlock: 1196.
+
+user: Find the total of 773 plus 550.
+sherlock: 1323.
+
+user: Find the total of 945 plus 505.
+sherlock: 1450.
+
+user: Find the total of 130 plus 459.
+sherlock: 589.
+
+user: What is 1623 minus 686?
+sherlock: 937.
+
+user: What is 1937 minus 731?
+sherlock: 1206.
+
+user: What is 451 minus 150?
+sherlock: 301.
+
+user: What is 765 minus 219?
+sherlock: 546.
+
+user: What is 1079 minus 260?
+sherlock: 819.
+
+user: What is 1393 minus 273?
+sherlock: 1120.
+
+user: What is 1707 minus 257?
+sherlock: 1450.
+
+user: What is 221 minus 24?
+sherlock: 197.
+
+user: What is 535 minus 32?
+sherlock: 503.
+
+user: What is 849 minus 12?
+sherlock: 837.
+
+user: Calculate the difference: 1812 minus 7.
+sherlock: 1805.
+
+user: Calculate the difference: 326 minus 312.
+sherlock: 14.
+
+user: Calculate the difference: 640 minus 584.
+sherlock: 56.
+
+user: Calculate the difference: 954 minus 827.
+sherlock: 127.
+
+user: Calculate the difference: 1268 minus 1042.
+sherlock: 226.
+
+user: Calculate the difference: 1582 minus 1228.
+sherlock: 354.
+
+user: Calculate the difference: 1896 minus 1385.
+sherlock: 511.
+
+user: Calculate the difference: 410 minus 281.
+sherlock: 129.
+
+user: Calculate the difference: 724 minus 463.
+sherlock: 261.
+
+user: Calculate the difference: 1038 minus 617.
+sherlock: 421.
+
+user: Work out 201 minus 117.
+sherlock: 84.
+
+user: Work out 515 minus 277.
+sherlock: 238.
+
+user: Work out 829 minus 409.
+sherlock: 420.
+
+user: Work out 1143 minus 512.
+sherlock: 631.
+
+user: Work out 1457 minus 587.
+sherlock: 870.
+
+user: Work out 1771 minus 632.
+sherlock: 1139.
+
+user: Work out 285 minus 89.
+sherlock: 196.
+
+user: Work out 599 minus 160.
+sherlock: 439.
+
+user: Work out 913 minus 202.
+sherlock: 711.
+
+user: Work out 1227 minus 215.
+sherlock: 1012.
+
+user: Find the result of 390 minus 65.
+sherlock: 325.
+
+user: Find the result of 704 minus 85.
+sherlock: 619.
+
+user: Find the result of 1018 minus 76.
+sherlock: 942.
+
+user: Find the result of 1332 minus 39.
+sherlock: 1293.
+
+user: Find the result of 1646 minus 1618.
+sherlock: 28.
+
+user: Find the result of 1960 minus 1838.
+sherlock: 122.
+
+user: Find the result of 474 minus 423.
+sherlock: 51.
+
+user: Find the result of 788 minus 667.
+sherlock: 121.
+
+user: Find the result of 1102 minus 883.
+sherlock: 219.
+
+user: Find the result of 1416 minus 1070.
+sherlock: 346.
+
+user: What is 36 multiplied by 72?
+sherlock: 2592.
+
+user: What is 53 multiplied by 68?
+sherlock: 3604.
+
+user: What is 70 multiplied by 63?
+sherlock: 4410.
+
+user: What is 87 multiplied by 59?
+sherlock: 5133.
+
+user: What is 6 multiplied by 54?
+sherlock: 324.
+
+user: What is 23 multiplied by 50?
+sherlock: 1150.
+
+user: What is 40 multiplied by 45?
+sherlock: 1800.
+
+user: What is 57 multiplied by 41?
+sherlock: 2337.
+
+user: What is 74 multiplied by 36?
+sherlock: 2664.
+
+user: What is 91 multiplied by 32?
+sherlock: 2912.
+
+user: Calculate 46 multiplied by 31.
+sherlock: 1426.
+
+user: Calculate 63 multiplied by 27.
+sherlock: 1701.
+
+user: Calculate 80 multiplied by 22.
+sherlock: 1760.
+
+user: Calculate 97 multiplied by 18.
+sherlock: 1746.
+
+user: Calculate 16 multiplied by 13.
+sherlock: 208.
+
+user: Calculate 33 multiplied by 9.
+sherlock: 297.
+
+user: Calculate 50 multiplied by 4.
+sherlock: 200.
+
+user: Calculate 67 multiplied by 98.
+sherlock: 6566.
+
+user: Calculate 85 multiplied by 93.
+sherlock: 7905.
+
+user: Calculate 4 multiplied by 89.
+sherlock: 356.
+
+user: Work out the product: 56 multiplied by 88.
+sherlock: 4928.
+
+user: Work out the product: 73 multiplied by 83.
+sherlock: 6059.
+
+user: Work out the product: 90 multiplied by 79.
+sherlock: 7110.
+
+user: Work out the product: 9 multiplied by 75.
+sherlock: 675.
+
+user: Work out the product: 26 multiplied by 70.
+sherlock: 1820.
+
+user: Work out the product: 44 multiplied by 66.
+sherlock: 2904.
+
+user: Work out the product: 61 multiplied by 61.
+sherlock: 3721.
+
+user: Work out the product: 78 multiplied by 57.
+sherlock: 4446.
+
+user: Work out the product: 95 multiplied by 52.
+sherlock: 4940.
+
+user: Work out the product: 14 multiplied by 48.
+sherlock: 672.
+
+user: Find the answer to 66 multiplied by 47.
+sherlock: 3102.
+
+user: Find the answer to 83 multiplied by 42.
+sherlock: 3486.
+
+user: Find the answer to 3 multiplied by 38.
+sherlock: 114.
+
+user: Find the answer to 20 multiplied by 33.
+sherlock: 660.
+
+user: Find the answer to 37 multiplied by 29.
+sherlock: 1073.
+
+user: Find the answer to 54 multiplied by 25.
+sherlock: 1350.
+
+user: Find the answer to 71 multiplied by 20.
+sherlock: 1420.
+
+user: Find the answer to 88 multiplied by 16.
+sherlock: 1408.
+
+user: Find the answer to 7 multiplied by 11.
+sherlock: 77.
+
+user: Find the answer to 24 multiplied by 7.
+sherlock: 168.
+
+user: Divide 196 by 28.
+sherlock: 7.
+
+user: Divide 1168 by 4.
+sherlock: 292.
+
+user: Divide 2511 by 9.
+sherlock: 279.
+
+user: Divide 3710 by 14.
+sherlock: 265.
+
+user: Divide 4788 by 19.
+sherlock: 252.
+
+user: Divide 5712 by 24.
+sherlock: 238.
+
+user: Divide 6496 by 29.
+sherlock: 224.
+
+user: Divide 1055 by 5.
+sherlock: 211.
+
+user: Divide 1970 by 10.
+sherlock: 197.
+
+user: Divide 2760 by 15.
+sherlock: 184.
+
+user: What do you get when you divide 362 by 2?
+sherlock: 181.
+
+user: What do you get when you divide 1169 by 7?
+sherlock: 167.
+
+user: What do you get when you divide 1836 by 12?
+sherlock: 153.
+
+user: What do you get when you divide 2380 by 17?
+sherlock: 140.
+
+user: What do you get when you divide 2772 by 22?
+sherlock: 126.
+
+user: What do you get when you divide 3051 by 27?
+sherlock: 113.
+
+user: What do you get when you divide 297 by 3?
+sherlock: 99.
+
+user: What do you get when you divide 680 by 8?
+sherlock: 85.
+
+user: What do you get when you divide 936 by 13?
+sherlock: 72.
+
+user: What do you get when you divide 1044 by 18?
+sherlock: 58.
+
+user: Calculate this division: divide 275 by 5.
+sherlock: 55.
+
+user: Calculate this division: divide 420 by 10.
+sherlock: 42.
+
+user: Calculate this division: divide 420 by 15.
+sherlock: 28.
+
+user: Calculate this division: divide 280 by 20.
+sherlock: 14.
+
+user: Calculate this division: divide 7500 by 25.
+sherlock: 300.
+
+user: Calculate this division: divide 8580 by 30.
+sherlock: 286.
+
+user: Calculate this division: divide 1638 by 6.
+sherlock: 273.
+
+user: Calculate this division: divide 2849 by 11.
+sherlock: 259.
+
+user: Calculate this division: divide 3936 by 16.
+sherlock: 246.
+
+user: Calculate this division: divide 4872 by 21.
+sherlock: 232.
+
+user: Work out the result when you divide 1832 by 8.
+sherlock: 229.
+
+user: Work out the result when you divide 2795 by 13.
+sherlock: 215.
+
+user: Work out the result when you divide 3636 by 18.
+sherlock: 202.
+
+user: Work out the result when you divide 4324 by 23.
+sherlock: 188.
+
+user: Work out the result when you divide 4900 by 28.
+sherlock: 175.
+
+user: Work out the result when you divide 644 by 4.
+sherlock: 161.
+
+user: Work out the result when you divide 1323 by 9.
+sherlock: 147.
+
+user: Work out the result when you divide 1876 by 14.
+sherlock: 134.
+
+user: Work out the result when you divide 2280 by 19.
+sherlock: 120.
+
+user: Work out the result when you divide 2568 by 24.
+sherlock: 107.
+
+user: What is (29 plus 20) multiplied by 5?
+sherlock: 245.
+
+user: What is (39 plus 17) multiplied by 10?
+sherlock: 560.
+
+user: What is (49 plus 15) multiplied by 4?
+sherlock: 256.
+
+user: What is (59 plus 12) multiplied by 9?
+sherlock: 639.
+
+user: What is (11 plus 9) multiplied by 3?
+sherlock: 60.
+
+user: What is (21 plus 7) multiplied by 8?
+sherlock: 224.
+
+user: What is (31 plus 4) multiplied by 12?
+sherlock: 420.
+
+user: What is (42 plus 60) multiplied by 6?
+sherlock: 612.
+
+user: What is (52 plus 58) multiplied by 11?
+sherlock: 1210.
+
+user: What is (3 plus 55) multiplied by 5?
+sherlock: 290.
+
+user: Calculate the total of 35 plus 54, then multiply it by 11.
+sherlock: 979.
+
+user: Calculate the total of 45 plus 52, then multiply it by 5.
+sherlock: 485.
+
+user: Calculate the total of 55 plus 49, then multiply it by 10.
+sherlock: 1040.
+
+user: Calculate the total of 7 plus 46, then multiply it by 4.
+sherlock: 212.
+
+user: Calculate the total of 17 plus 44, then multiply it by 9.
+sherlock: 549.
+
+user: Calculate the total of 27 plus 41, then multiply it by 3.
+sherlock: 204.
+
+user: Calculate the total of 38 plus 38, then multiply it by 8.
+sherlock: 608.
+
+user: Calculate the total of 48 plus 36, then multiply it by 2.
+sherlock: 168.
+
+user: Calculate the total of 58 plus 33, then multiply it by 6.
+sherlock: 546.
+
+user: Calculate the total of 9 plus 30, then multiply it by 11.
+sherlock: 429.
+
+user: Work out (41 plus 30) multiplied by 6.
+sherlock: 426.
+
+user: Work out (51 plus 27) multiplied by 11.
+sherlock: 858.
+
+user: Work out (3 plus 24) multiplied by 5.
+sherlock: 135.
+
+user: Work out (13 plus 22) multiplied by 10.
+sherlock: 350.
+
+user: Work out (23 plus 19) multiplied by 4.
+sherlock: 168.
+
+user: Work out (33 plus 16) multiplied by 9.
+sherlock: 441.
+
+user: Work out (44 plus 14) multiplied by 3.
+sherlock: 174.
+
+user: Work out (54 plus 11) multiplied by 8.
+sherlock: 520.
+
+user: Work out (5 plus 8) multiplied by 2.
+sherlock: 26.
+
+user: Work out (16 plus 6) multiplied by 6.
+sherlock: 132.
+
+user: Find the result when 47 plus 5 is multiplied by 12.
+sherlock: 624.
+
+user: Find the result when 57 plus 2 is multiplied by 6.
+sherlock: 354.
+
+user: Find the result when 9 plus 59 is multiplied by 11.
+sherlock: 748.
+
+user: Find the result when 19 plus 56 is multiplied by 5.
+sherlock: 375.
+
+user: Find the result when 29 plus 53 is multiplied by 10.
+sherlock: 820.
+
+user: Find the result when 40 plus 51 is multiplied by 4.
+sherlock: 364.
+
+user: Find the result when 50 plus 48 is multiplied by 9.
+sherlock: 882.
+
+user: Find the result when 60 plus 45 is multiplied by 3.
+sherlock: 315.
+
+user: Find the result when 12 plus 42 is multiplied by 8.
+sherlock: 432.
+
+user: Find the result when 22 plus 40 is multiplied by 2.
+sherlock: 124.
+
+user: What is 75 percent of 360?
+sherlock: 270.
+
+user: What is 90 percent of 260?
+sherlock: 234.
+
+user: What is 10 percent of 180?
+sherlock: 18.
+
+user: What is 20 percent of 80?
+sherlock: 16.
+
+user: What is 30 percent of 1980?
+sherlock: 594.
+
+user: What is 50 percent of 1880?
+sherlock: 940.
+
+user: What is 80 percent of 1800?
+sherlock: 1440.
+
+user: What is 5 percent of 1700?
+sherlock: 85.
+
+user: What is 15 percent of 1620?
+sherlock: 243.
+
+user: What is 25 percent of 1520?
+sherlock: 380.
+
+user: Calculate 80% of 1500.
+sherlock: 1200.
+
+user: Calculate 5% of 1420.
+sherlock: 71.
+
+user: Calculate 15% of 1320.
+sherlock: 198.
+
+user: Calculate 25% of 1240.
+sherlock: 310.
+
+user: Calculate 50% of 1140.
+sherlock: 570.
+
+user: Calculate 75% of 1060.
+sherlock: 795.
+
+user: Calculate 90% of 960.
+sherlock: 864.
+
+user: Calculate 10% of 880.
+sherlock: 88.
+
+user: Calculate 20% of 780.
+sherlock: 156.
+
+user: Calculate 30% of 700.
+sherlock: 210.
+
+user: Find 90 percent of 680.
+sherlock: 612.
+
+user: Find 15 percent of 580.
+sherlock: 87.
+
+user: Find 25 percent of 500.
+sherlock: 125.
+
+user: Find 40 percent of 400.
+sherlock: 160.
+
+user: Find 60 percent of 320.
+sherlock: 192.
+
+user: Find 80 percent of 220.
+sherlock: 176.
+
+user: Find 5 percent of 140.
+sherlock: 7.
+
+user: Find 15 percent of 40.
+sherlock: 6.
+
+user: Find 25 percent of 1940.
+sherlock: 485.
+
+user: Find 40 percent of 1840.
+sherlock: 736.
+
+user: Work out 10% of 1820.
+sherlock: 182.
+
+user: Work out 20% of 1740.
+sherlock: 348.
+
+user: Work out 30% of 1640.
+sherlock: 492.
+
+user: Work out 50% of 1560.
+sherlock: 780.
+
+user: Work out 75% of 1460.
+sherlock: 1095.
+
+user: Work out 90% of 1380.
+sherlock: 1242.
+
+user: Work out 10% of 1280.
+sherlock: 128.
+
+user: Work out 20% of 1200.
+sherlock: 240.
+
+user: Work out 30% of 1100.
+sherlock: 330.
+
+user: Work out 60% of 1020.
+sherlock: 612.
+
+user: Increase 940 by 25 percent. What is the new value?
+sherlock: 1175.
+
+user: Increase 860 by 40 percent. What is the new value?
+sherlock: 1204.
+
+user: Increase 760 by 60 percent. What is the new value?
+sherlock: 1216.
+
+user: Increase 680 by 80 percent. What is the new value?
+sherlock: 1224.
+
+user: Increase 580 by 5 percent. What is the new value?
+sherlock: 609.
+
+user: Increase 500 by 15 percent. What is the new value?
+sherlock: 575.
+
+user: Increase 400 by 25 percent. What is the new value?
+sherlock: 500.
+
+user: Increase 320 by 40 percent. What is the new value?
+sherlock: 448.
+
+user: Increase 220 by 60 percent. What is the new value?
+sherlock: 352.
+
+user: Increase 140 by 80 percent. What is the new value?
+sherlock: 252.
+
+user: What is 120 after an increase of 30 percent?
+sherlock: 156.
+
+user: What is 2000 after an increase of 50 percent?
+sherlock: 3000.
+
+user: What is 1920 after an increase of 75 percent?
+sherlock: 3360.
+
+user: What is 1820 after an increase of 90 percent?
+sherlock: 3458.
+
+user: What is 1740 after an increase of 10 percent?
+sherlock: 1914.
+
+user: What is 1640 after an increase of 20 percent?
+sherlock: 1968.
+
+user: What is 1560 after an increase of 30 percent?
+sherlock: 2028.
+
+user: What is 1460 after an increase of 60 percent?
+sherlock: 2336.
+
+user: What is 1380 after an increase of 80 percent?
+sherlock: 2484.
+
+user: What is 1280 after an increase of 5 percent?
+sherlock: 1344.
+
+user: Add 40 percent to 1260. Find the result.
+sherlock: 1764.
+
+user: Add 60 percent to 1180. Find the result.
+sherlock: 1888.
+
+user: Add 80 percent to 1080. Find the result.
+sherlock: 1944.
+
+user: Add 5 percent to 1000. Find the result.
+sherlock: 1050.
+
+user: Add 20 percent to 900. Find the result.
+sherlock: 1080.
+
+user: Add 30 percent to 820. Find the result.
+sherlock: 1066.
+
+user: Add 50 percent to 720. Find the result.
+sherlock: 1080.
+
+user: Add 75 percent to 640. Find the result.
+sherlock: 1120.
+
+user: Add 90 percent to 540. Find the result.
+sherlock: 1026.
+
+user: Add 10 percent to 460. Find the result.
+sherlock: 506.
+
+user: Find the value when 440 rises by 50 percent.
+sherlock: 660.
+
+user: Find the value when 340 rises by 80 percent.
+sherlock: 612.
+
+user: Find the value when 260 rises by 5 percent.
+sherlock: 273.
+
+user: Find the value when 160 rises by 15 percent.
+sherlock: 184.
+
+user: Find the value when 80 rises by 25 percent.
+sherlock: 100.
+
+user: Find the value when 1960 rises by 40 percent.
+sherlock: 2744.
+
+user: Find the value when 1880 rises by 60 percent.
+sherlock: 3008.
+
+user: Find the value when 1780 rises by 80 percent.
+sherlock: 3204.
+
+user: Find the value when 1700 rises by 5 percent.
+sherlock: 1785.
+
+user: Find the value when 1600 rises by 15 percent.
+sherlock: 1840.
+
+user: Decrease 1540 by 80 percent. What is left?
+sherlock: 308.
+
+user: Decrease 1440 by 5 percent. What is left?
+sherlock: 1368.
+
+user: Decrease 1360 by 15 percent. What is left?
+sherlock: 1156.
+
+user: Decrease 1260 by 30 percent. What is left?
+sherlock: 882.
+
+user: Decrease 1180 by 50 percent. What is left?
+sherlock: 590.
+
+user: Decrease 1080 by 75 percent. What is left?
+sherlock: 270.
+
+user: Decrease 1000 by 90 percent. What is left?
+sherlock: 100.
+
+user: Decrease 900 by 10 percent. What is left?
+sherlock: 810.
+
+user: Decrease 820 by 20 percent. What is left?
+sherlock: 656.
+
+user: Decrease 720 by 30 percent. What is left?
+sherlock: 504.
+
+user: What is 700 after a decrease of 5 percent?
+sherlock: 665.
+
+user: What is 620 after a decrease of 15 percent?
+sherlock: 527.
+
+user: What is 520 after a decrease of 25 percent?
+sherlock: 390.
+
+user: What is 440 after a decrease of 40 percent?
+sherlock: 264.
+
+user: What is 340 after a decrease of 60 percent?
+sherlock: 136.
+
+user: What is 260 after a decrease of 80 percent?
+sherlock: 52.
+
+user: What is 160 after a decrease of 5 percent?
+sherlock: 152.
+
+user: What is 80 after a decrease of 15 percent?
+sherlock: 68.
+
+user: What is 1960 after a decrease of 25 percent?
+sherlock: 1470.
+
+user: What is 1880 after a decrease of 40 percent?
+sherlock: 1128.
+
+user: Reduce 1860 by 10 percent. Find the new value.
+sherlock: 1674.
+
+user: Reduce 1760 by 20 percent. Find the new value.
+sherlock: 1408.
+
+user: Reduce 1680 by 30 percent. Find the new value.
+sherlock: 1176.
+
+user: Reduce 1580 by 50 percent. Find the new value.
+sherlock: 790.
+
+user: Reduce 1500 by 75 percent. Find the new value.
+sherlock: 375.
+
+user: Reduce 1400 by 90 percent. Find the new value.
+sherlock: 140.
+
+user: Reduce 1320 by 10 percent. Find the new value.
+sherlock: 1188.
+
+user: Reduce 1220 by 20 percent. Find the new value.
+sherlock: 976.
+
+user: Reduce 1140 by 40 percent. Find the new value.
+sherlock: 684.
+
+user: Reduce 1040 by 60 percent. Find the new value.
+sherlock: 416.
+
+user: Find the value when 1020 falls by 15 percent.
+sherlock: 867.
+
+user: Find the value when 940 falls by 25 percent.
+sherlock: 705.
+
+user: Find the value when 840 falls by 40 percent.
+sherlock: 504.
+
+user: Find the value when 760 falls by 60 percent.
+sherlock: 304.
+
+user: Find the value when 660 falls by 80 percent.
+sherlock: 132.
+
+user: Find the value when 580 falls by 10 percent.
+sherlock: 522.
+
+user: Find the value when 480 falls by 20 percent.
+sherlock: 384.
+
+user: Find the value when 400 falls by 30 percent.
+sherlock: 280.
+
+user: Find the value when 300 falls by 50 percent.
+sherlock: 150.
+
+user: Find the value when 220 falls by 75 percent.
+sherlock: 55.
+
+user: What percent of 1560 is 468?
+sherlock: 30 percent.
+
+user: What percent of 500 is 250?
+sherlock: 50 percent.
+
+user: What percent of 1360 is 1020?
+sherlock: 75 percent.
+
+user: What percent of 300 is 270?
+sherlock: 90 percent.
+
+user: What percent of 1160 is 116?
+sherlock: 10 percent.
+
+user: What percent of 2000 is 400?
+sherlock: 20 percent.
+
+user: What percent of 940 is 376?
+sherlock: 40 percent.
+
+user: What percent of 1800 is 1080?
+sherlock: 60 percent.
+
+user: What percent of 740 is 592?
+sherlock: 80 percent.
+
+user: What percent of 1580 is 79?
+sherlock: 5 percent.
+
+user: 288 is what percentage of 720?
+sherlock: 40 percent.
+
+user: 948 is what percentage of 1580?
+sherlock: 60 percent.
+
+user: 400 is what percentage of 500?
+sherlock: 80 percent.
+
+user: 136 is what percentage of 1360?
+sherlock: 10 percent.
+
+user: 60 is what percentage of 300?
+sherlock: 20 percent.
+
+user: 348 is what percentage of 1160?
+sherlock: 30 percent.
+
+user: 1000 is what percentage of 2000?
+sherlock: 50 percent.
+
+user: 705 is what percentage of 940?
+sherlock: 75 percent.
+
+user: 1620 is what percentage of 1800?
+sherlock: 90 percent.
+
+user: 74 is what percentage of 740?
+sherlock: 10 percent.
+
+user: Find the percentage that 1068 represents out of 1780.
+sherlock: 60 percent.
+
+user: Find the percentage that 576 represents out of 720.
+sherlock: 80 percent.
+
+user: Find the percentage that 79 represents out of 1580.
+sherlock: 5 percent.
+
+user: Find the percentage that 75 represents out of 500.
+sherlock: 15 percent.
+
+user: Find the percentage that 340 represents out of 1360.
+sherlock: 25 percent.
+
+user: Find the percentage that 120 represents out of 300.
+sherlock: 40 percent.
+
+user: Find the percentage that 696 represents out of 1160.
+sherlock: 60 percent.
+
+user: Find the percentage that 80 represents out of 100.
+sherlock: 80 percent.
+
+user: Find the percentage that 47 represents out of 940.
+sherlock: 5 percent.
+
+user: Find the percentage that 270 represents out of 1800.
+sherlock: 15 percent.
+
+user: Calculate what percent 705 is of 940.
+sherlock: 75 percent.
+
+user: Calculate what percent 1602 is of 1780.
+sherlock: 90 percent.
+
+user: Calculate what percent 72 is of 720.
+sherlock: 10 percent.
+
+user: Calculate what percent 316 is of 1580.
+sherlock: 20 percent.
+
+user: Calculate what percent 156 is of 520.
+sherlock: 30 percent.
+
+user: Calculate what percent 680 is of 1360.
+sherlock: 50 percent.
+
+user: Calculate what percent 225 is of 300.
+sherlock: 75 percent.
+
+user: Calculate what percent 1044 is of 1160.
+sherlock: 90 percent.
+
+user: Calculate what percent 15 is of 100.
+sherlock: 15 percent.
+
+user: Calculate what percent 235 is of 940.
+sherlock: 25 percent.
+
+user: A price of 720 is reduced by 5 percent. What amount remains?
+sherlock: 684.
+
+user: A price of 640 is reduced by 15 percent. What amount remains?
+sherlock: 544.
+
+user: A price of 540 is reduced by 25 percent. What amount remains?
+sherlock: 405.
+
+user: A price of 460 is reduced by 40 percent. What amount remains?
+sherlock: 276.
+
+user: A price of 360 is reduced by 60 percent. What amount remains?
+sherlock: 144.
+
+user: A price of 280 is reduced by 80 percent. What amount remains?
+sherlock: 56.
+
+user: A price of 180 is reduced by 5 percent. What amount remains?
+sherlock: 171.
+
+user: A price of 100 is reduced by 15 percent. What amount remains?
+sherlock: 85.
+
+user: A price of 1980 is reduced by 25 percent. What amount remains?
+sherlock: 1485.
+
+user: A price of 1900 is reduced by 40 percent. What amount remains?
+sherlock: 1140.
+
+user: Find the amount left after a 10 percent discount on 1880.
+sherlock: 1692.
+
+user: Find the amount left after a 20 percent discount on 1780.
+sherlock: 1424.
+
+user: Find the amount left after a 30 percent discount on 1700.
+sherlock: 1190.
+
+user: Find the amount left after a 50 percent discount on 1600.
+sherlock: 800.
+
+user: Find the amount left after a 75 percent discount on 1520.
+sherlock: 380.
+
+user: Find the amount left after a 90 percent discount on 1420.
+sherlock: 142.
+
+user: Find the amount left after a 10 percent discount on 1340.
+sherlock: 1206.
+
+user: Find the amount left after a 25 percent discount on 1240.
+sherlock: 930.
+
+user: Find the amount left after a 40 percent discount on 1160.
+sherlock: 696.
+
+user: Find the amount left after a 60 percent discount on 1060.
+sherlock: 424.
+
+user: What is the remaining value if 1040 is reduced by 15 percent?
+sherlock: 884.
+
+user: What is the remaining value if 960 is reduced by 25 percent?
+sherlock: 720.
+
+user: What is the remaining value if 860 is reduced by 40 percent?
+sherlock: 516.
+
+user: What is the remaining value if 780 is reduced by 60 percent?
+sherlock: 312.
+
+user: What is the remaining value if 680 is reduced by 90 percent?
+sherlock: 68.
+
+user: What is the remaining value if 600 is reduced by 10 percent?
+sherlock: 540.
+
+user: What is the remaining value if 500 is reduced by 20 percent?
+sherlock: 400.
+
+user: What is the remaining value if 420 is reduced by 30 percent?
+sherlock: 294.
+
+user: What is the remaining value if 320 is reduced by 50 percent?
+sherlock: 160.
+
+user: What is the remaining value if 240 is reduced by 75 percent?
+sherlock: 60.
+
+user: A value of 220 falls by 20 percent. What is its new value?
+sherlock: 176.
+
+user: A value of 120 falls by 40 percent. What is its new value?
+sherlock: 72.
+
+user: A value of 40 falls by 60 percent. What is its new value?
+sherlock: 16.
+
+user: A value of 1920 falls by 80 percent. What is its new value?
+sherlock: 384.
+
+user: A value of 1840 falls by 5 percent. What is its new value?
+sherlock: 1748.
+
+user: A value of 1740 falls by 15 percent. What is its new value?
+sherlock: 1479.
+
+user: A value of 1660 falls by 25 percent. What is its new value?
+sherlock: 1245.
+
+user: A value of 1560 falls by 40 percent. What is its new value?
+sherlock: 936.
+
+user: A value of 1480 falls by 60 percent. What is its new value?
+sherlock: 592.
+
+user: A value of 1380 falls by 80 percent. What is its new value?
+sherlock: 276.
+
+user: Convert 172 centimetres to millimetres.
+sherlock: 1720.
+
+user: Convert 2590 millimetres to centimetres.
+sherlock: 259.
+
+user: Convert 346 centimetres to millimetres.
+sherlock: 3460.
+
+user: Convert 4330 millimetres to centimetres.
+sherlock: 433.
+
+user: Convert 21 centimetres to millimetres.
+sherlock: 210.
+
+user: Convert 1080 millimetres to centimetres.
+sherlock: 108.
+
+user: Convert 195 centimetres to millimetres.
+sherlock: 1950.
+
+user: Convert 2820 millimetres to centimetres.
+sherlock: 282.
+
+user: Convert 369 centimetres to millimetres.
+sherlock: 3690.
+
+user: Convert 4560 millimetres to centimetres.
+sherlock: 456.
+
+user: Change 224 centimetres into millimetres.
+sherlock: 2240.
+
+user: Change 3120 millimetres into centimetres.
+sherlock: 312.
+
+user: Change 399 centimetres into millimetres.
+sherlock: 3990.
+
+user: Change 4860 millimetres into centimetres.
+sherlock: 486.
+
+user: Change 74 centimetres into millimetres.
+sherlock: 740.
+
+user: Change 1610 millimetres into centimetres.
+sherlock: 161.
+
+user: Change 248 centimetres into millimetres.
+sherlock: 2480.
+
+user: Change 3350 millimetres into centimetres.
+sherlock: 335.
+
+user: Change 422 centimetres into millimetres.
+sherlock: 4220.
+
+user: Change 100 millimetres into centimetres.
+sherlock: 10.
+
+user: How many millimetres are equal to 277 centimetres?
+sherlock: 2770.
+
+user: How many centimetres are equal to 3640 millimetres?
+sherlock: 364.
+
+user: How many millimetres are equal to 451 centimetres?
+sherlock: 4510.
+
+user: How many centimetres are equal to 390 millimetres?
+sherlock: 39.
+
+user: How many millimetres are equal to 126 centimetres?
+sherlock: 1260.
+
+user: How many centimetres are equal to 2130 millimetres?
+sherlock: 213.
+
+user: How many millimetres are equal to 300 centimetres?
+sherlock: 3000.
+
+user: How many centimetres are equal to 3870 millimetres?
+sherlock: 387.
+
+user: How many millimetres are equal to 474 centimetres?
+sherlock: 4740.
+
+user: How many centimetres are equal to 620 millimetres?
+sherlock: 62.
+
+user: 329 centimetres are equal to how many millimetres?
+sherlock: 3290.
+
+user: 4160 millimetres are equal to how many centimetres?
+sherlock: 416.
+
+user: 4 centimetres are equal to how many millimetres?
+sherlock: 40.
+
+user: 910 millimetres are equal to how many centimetres?
+sherlock: 91.
+
+user: 178 centimetres are equal to how many millimetres?
+sherlock: 1780.
+
+user: 2660 millimetres are equal to how many centimetres?
+sherlock: 266.
+
+user: 353 centimetres are equal to how many millimetres?
+sherlock: 3530.
+
+user: 4400 millimetres are equal to how many centimetres?
+sherlock: 440.
+
+user: 28 centimetres are equal to how many millimetres?
+sherlock: 280.
+
+user: 1150 millimetres are equal to how many centimetres?
+sherlock: 115.
+
+user: Convert 450 metres to centimetres.
+sherlock: 45000.
+
+user: Convert 900 centimetres to metres.
+sherlock: 9.
+
+user: Convert 125 metres to centimetres.
+sherlock: 12500.
+
+user: Convert 110 metres to centimetres.
+sherlock: 11000.
+
+user: Convert 299 metres to centimetres.
+sherlock: 29900.
+
+user: Convert 7800 centimetres to metres.
+sherlock: 78.
+
+user: Convert 473 metres to centimetres.
+sherlock: 47300.
+
+user: Convert 7200 centimetres to metres.
+sherlock: 72.
+
+user: Convert 148 metres to centimetres.
+sherlock: 14800.
+
+user: Convert 4800 centimetres to metres.
+sherlock: 48.
+
+user: Change 3 metres into centimetres.
+sherlock: 300.
+
+user: Change 285 metres into centimetres.
+sherlock: 28500.
+
+user: Change 177 metres into centimetres.
+sherlock: 17700.
+
+user: Change 5400 centimetres into metres.
+sherlock: 54.
+
+user: Change 351 metres into centimetres.
+sherlock: 35100.
+
+user: Change 134 metres into centimetres.
+sherlock: 13400.
+
+user: Change 26 metres into centimetres.
+sherlock: 2600.
+
+user: Change 2400 centimetres into metres.
+sherlock: 24.
+
+user: Change 200 metres into centimetres.
+sherlock: 20000.
+
+user: Change 186 metres into centimetres.
+sherlock: 18600.
+
+user: How many centimetres are equal to 55 metres?
+sherlock: 5500.
+
+user: How many centimetres are equal to 41 metres?
+sherlock: 4100.
+
+user: How many centimetres are equal to 229 metres?
+sherlock: 22900.
+
+user: How many metres are equal to 6400 centimetres?
+sherlock: 64.
+
+user: How many centimetres are equal to 404 metres?
+sherlock: 40400.
+
+user: How many metres are equal to 9900 centimetres?
+sherlock: 99.
+
+user: How many centimetres are equal to 79 metres?
+sherlock: 7900.
+
+user: How many centimetres are equal to 64 metres?
+sherlock: 6400.
+
+user: How many centimetres are equal to 253 metres?
+sherlock: 25300.
+
+user: How many metres are equal to 6900 centimetres?
+sherlock: 69.
+
+user: 108 metres are equal to how many centimetres?
+sherlock: 10800.
+
+user: 4000 centimetres are equal to how many metres?
+sherlock: 40.
+
+user: 282 metres are equal to how many centimetres?
+sherlock: 28200.
+
+user: 3400 centimetres are equal to how many metres?
+sherlock: 34.
+
+user: 456 metres are equal to how many centimetres?
+sherlock: 45600.
+
+user: 1000 centimetres are equal to how many metres?
+sherlock: 10.
+
+user: 131 metres are equal to how many centimetres?
+sherlock: 13100.
+
+user: 400 centimetres are equal to how many metres?
+sherlock: 4.
+
+user: 305 metres are equal to how many centimetres?
+sherlock: 30500.
+
+user: 7900 centimetres are equal to how many metres?
+sherlock: 79.
+
+user: Convert 455 kilometres to metres.
+sherlock: 455000.
+
+user: Convert 629 kilometres to metres.
+sherlock: 629000.
+
+user: Convert 804 kilometres to metres.
+sherlock: 804000.
+
+user: Convert 978 kilometres to metres.
+sherlock: 978000.
+
+user: Convert 153 kilometres to metres.
+sherlock: 153000.
+
+user: Convert 328 kilometres to metres.
+sherlock: 328000.
+
+user: Convert 502 kilometres to metres.
+sherlock: 502000.
+
+user: Convert 676 kilometres to metres.
+sherlock: 676000.
+
+user: Convert 850 kilometres to metres.
+sherlock: 850000.
+
+user: Convert 26 kilometres to metres.
+sherlock: 26000.
+
+user: Change 560 kilometres into metres.
+sherlock: 560000.
+
+user: Change 734 kilometres into metres.
+sherlock: 734000.
+
+user: Change 909 kilometres into metres.
+sherlock: 909000.
+
+user: Change 84 kilometres into metres.
+sherlock: 84000.
+
+user: Change 258 kilometres into metres.
+sherlock: 258000.
+
+user: Change 432 kilometres into metres.
+sherlock: 432000.
+
+user: Change 607 kilometres into metres.
+sherlock: 607000.
+
+user: Change 781 kilometres into metres.
+sherlock: 781000.
+
+user: Change 955 kilometres into metres.
+sherlock: 955000.
+
+user: Change 131 kilometres into metres.
+sherlock: 131000.
+
+user: How many metres are equal to 665 kilometres?
+sherlock: 665000.
+
+user: How many metres are equal to 839 kilometres?
+sherlock: 839000.
+
+user: How many metres are equal to 15 kilometres?
+sherlock: 15000.
+
+user: How many metres are equal to 189 kilometres?
+sherlock: 189000.
+
+user: How many metres are equal to 363 kilometres?
+sherlock: 363000.
+
+user: How many metres are equal to 537 kilometres?
+sherlock: 537000.
+
+user: How many metres are equal to 712 kilometres?
+sherlock: 712000.
+
+user: How many metres are equal to 886 kilometres?
+sherlock: 886000.
+
+user: How many metres are equal to 61 kilometres?
+sherlock: 61000.
+
+user: How many metres are equal to 235 kilometres?
+sherlock: 235000.
+
+user: 770 kilometres are equal to how many metres?
+sherlock: 770000.
+
+user: 944 kilometres are equal to how many metres?
+sherlock: 944000.
+
+user: 119 kilometres are equal to how many metres?
+sherlock: 119000.
+
+user: 294 kilometres are equal to how many metres?
+sherlock: 294000.
+
+user: 468 kilometres are equal to how many metres?
+sherlock: 468000.
+
+user: 642 kilometres are equal to how many metres?
+sherlock: 642000.
+
+user: 817 kilometres are equal to how many metres?
+sherlock: 817000.
+
+user: 991 kilometres are equal to how many metres?
+sherlock: 991000.
+
+user: 166 kilometres are equal to how many metres?
+sherlock: 166000.
+
+user: 340 kilometres are equal to how many metres?
+sherlock: 340000.
+
+user: Convert 3 kilograms to grams.
+sherlock: 3000.
+
+user: Convert 20000 grams to kilograms.
+sherlock: 20.
+
+user: Convert 76000 grams to kilograms.
+sherlock: 76.
+
+user: Convert 14000 grams to kilograms.
+sherlock: 14.
+
+user: Convert 72 kilograms to grams.
+sherlock: 72000.
+
+user: Convert 89000 grams to kilograms.
+sherlock: 89.
+
+user: Convert 46000 grams to kilograms.
+sherlock: 46.
+
+user: Convert 83000 grams to kilograms.
+sherlock: 83.
+
+user: Convert 42 kilograms to grams.
+sherlock: 42000.
+
+user: Convert 59000 grams to kilograms.
+sherlock: 59.
+
+user: Change 13 kilograms into grams.
+sherlock: 13000.
+
+user: Change 89000 grams into kilograms.
+sherlock: 89.
+
+user: Change 7 kilograms into grams.
+sherlock: 7000.
+
+user: Change 65000 grams into kilograms.
+sherlock: 65.
+
+user: Change 82 kilograms into grams.
+sherlock: 82000.
+
+user: Change 59000 grams into kilograms.
+sherlock: 59.
+
+user: Change 18 kilograms into grams.
+sherlock: 18000.
+
+user: Change 35000 grams into kilograms.
+sherlock: 35.
+
+user: Change 91000 grams into kilograms.
+sherlock: 91.
+
+user: Change 29000 grams into kilograms.
+sherlock: 29.
+
+user: How many grams are equal to 82 kilograms?
+sherlock: 82000.
+
+user: How many kilograms are equal to 41000 grams?
+sherlock: 41.
+
+user: How many grams are equal to 58 kilograms?
+sherlock: 58000.
+
+user: How many grams are equal to 15 kilograms?
+sherlock: 15000.
+
+user: How many grams are equal to 52 kilograms?
+sherlock: 52000.
+
+user: How many kilograms are equal to 69000 grams?
+sherlock: 69.
+
+user: How many grams are equal to 28 kilograms?
+sherlock: 28000.
+
+user: How many kilograms are equal to 5000 grams?
+sherlock: 5.
+
+user: How many grams are equal to 22 kilograms?
+sherlock: 22000.
+
+user: How many kilograms are equal to 80000 grams?
+sherlock: 80.
+
+user: 34 kilograms are equal to how many grams?
+sherlock: 34000.
+
+user: 51000 grams are equal to how many kilograms?
+sherlock: 51.
+
+user: 28 kilograms are equal to how many grams?
+sherlock: 28000.
+
+user: 86000 grams are equal to how many kilograms?
+sherlock: 86.
+
+user: 4 kilograms are equal to how many grams?
+sherlock: 4000.
+
+user: 60 kilograms are equal to how many grams?
+sherlock: 60000.
+
+user: 97 kilograms are equal to how many grams?
+sherlock: 97000.
+
+user: 56000 grams are equal to how many kilograms?
+sherlock: 56.
+
+user: 73 kilograms are equal to how many grams?
+sherlock: 73000.
+
+user: 30 kilograms are equal to how many grams?
+sherlock: 30000.
+
+user: Convert 137 minutes to seconds.
+sherlock: 8220.
+
+user: Convert 33 minutes to seconds.
+sherlock: 1980.
+
+user: Convert 220 minutes to seconds.
+sherlock: 13200.
+
+user: Convert 6 hours to minutes.
+sherlock: 360.
+
+user: Convert 65 minutes to seconds.
+sherlock: 3900.
+
+user: Convert 200 minutes to seconds.
+sherlock: 12000.
+
+user: Convert 148 minutes to seconds.
+sherlock: 8880.
+
+user: Convert 44 minutes to seconds.
+sherlock: 2640.
+
+user: Convert 231 minutes to seconds.
+sherlock: 13860.
+
+user: Convert 127 minutes to seconds.
+sherlock: 7620.
+
+user: Change 162 minutes into seconds.
+sherlock: 9720.
+
+user: Change 58 minutes into seconds.
+sherlock: 3480.
+
+user: Change 6 minutes into seconds.
+sherlock: 360.
+
+user: Change 11 hours into minutes.
+sherlock: 660.
+
+user: Change 90 minutes into seconds.
+sherlock: 5400.
+
+user: Change 225 minutes into seconds.
+sherlock: 13500.
+
+user: Change 173 minutes into seconds.
+sherlock: 10380.
+
+user: Change 166 minutes into seconds.
+sherlock: 9960.
+
+user: Change 18 minutes into seconds.
+sherlock: 1080.
+
+user: Change 153 minutes into seconds.
+sherlock: 9180.
+
+user: How many seconds are equal to 187 minutes?
+sherlock: 11220.
+
+user: How many seconds are equal to 180 minutes?
+sherlock: 10800.
+
+user: How many seconds are equal to 31 minutes?
+sherlock: 1860.
+
+user: How many seconds are equal to 167 minutes?
+sherlock: 10020.
+
+user: How many seconds are equal to 115 minutes?
+sherlock: 6900.
+
+user: How many seconds are equal to 11 minutes?
+sherlock: 660.
+
+user: How many seconds are equal to 198 minutes?
+sherlock: 11880.
+
+user: How many seconds are equal to 191 minutes?
+sherlock: 11460.
+
+user: How many seconds are equal to 43 minutes?
+sherlock: 2580.
+
+user: How many seconds are equal to 178 minutes?
+sherlock: 10680.
+
+user: 212 minutes are equal to how many seconds?
+sherlock: 12720.
+
+user: 205 minutes are equal to how many seconds?
+sherlock: 12300.
+
+user: 57 minutes are equal to how many seconds?
+sherlock: 3420.
+
+user: 192 minutes are equal to how many seconds?
+sherlock: 11520.
+
+user: 140 minutes are equal to how many seconds?
+sherlock: 8400.
+
+user: 36 minutes are equal to how many seconds?
+sherlock: 2160.
+
+user: 223 minutes are equal to how many seconds?
+sherlock: 13380.
+
+user: 216 minutes are equal to how many seconds?
+sherlock: 12960.
+
+user: 68 minutes are equal to how many seconds?
+sherlock: 4080.
+
+user: 23 hours are equal to how many minutes?
+sherlock: 1380.
+
+user: A box contains 628 pencils. 168 more pencils are added. How many pencils are there altogether?
+sherlock: 796.
+
+user: A box contains 60 pencils. 136 more pencils are added. How many pencils are there altogether?
+sherlock: 196.
+
+user: A box contains 180 pencils. 104 more pencils are added. How many pencils are there altogether?
+sherlock: 284.
+
+user: A box contains 300 pencils. 73 more pencils are added. How many pencils are there altogether?
+sherlock: 373.
+
+user: A box contains 420 pencils. 41 more pencils are added. How many pencils are there altogether?
+sherlock: 461.
+
+user: A box contains 540 pencils. 9 more pencils are added. How many pencils are there altogether?
+sherlock: 549.
+
+user: A box contains 661 pencils. 676 more pencils are added. How many pencils are there altogether?
+sherlock: 1337.
+
+user: A box contains 92 pencils. 644 more pencils are added. How many pencils are there altogether?
+sherlock: 736.
+
+user: A box contains 212 pencils. 612 more pencils are added. How many pencils are there altogether?
+sherlock: 824.
+
+user: A box contains 332 pencils. 580 more pencils are added. How many pencils are there altogether?
+sherlock: 912.
+
+user: A shop has 12 books and receives 573 more books. How many books does it have altogether?
+sherlock: 585.
+
+user: A shop has 132 books and receives 542 more books. How many books does it have altogether?
+sherlock: 674.
+
+user: A shop has 252 books and receives 510 more books. How many books does it have altogether?
+sherlock: 762.
+
+user: A shop has 372 books and receives 478 more books. How many books does it have altogether?
+sherlock: 850.
+
+user: A shop has 493 books and receives 446 more books. How many books does it have altogether?
+sherlock: 939.
+
+user: A shop has 613 books and receives 415 more books. How many books does it have altogether?
+sherlock: 1028.
+
+user: A shop has 44 books and receives 383 more books. How many books does it have altogether?
+sherlock: 427.
+
+user: A shop has 164 books and receives 351 more books. How many books does it have altogether?
+sherlock: 515.
+
+user: A shop has 284 books and receives 319 more books. How many books does it have altogether?
+sherlock: 603.
+
+user: A shop has 404 books and receives 288 more books. How many books does it have altogether?
+sherlock: 692.
+
+user: A bag holds 84 marbles. Another 281 marbles are added. How many marbles are in the bag now?
+sherlock: 365.
+
+user: A bag holds 204 marbles. Another 249 marbles are added. How many marbles are in the bag now?
+sherlock: 453.
+
+user: A bag holds 325 marbles. Another 217 marbles are added. How many marbles are in the bag now?
+sherlock: 542.
+
+user: A bag holds 445 marbles. Another 185 marbles are added. How many marbles are in the bag now?
+sherlock: 630.
+
+user: A bag holds 565 marbles. Another 154 marbles are added. How many marbles are in the bag now?
+sherlock: 719.
+
+user: A bag holds 685 marbles. Another 122 marbles are added. How many marbles are in the bag now?
+sherlock: 807.
+
+user: A bag holds 116 marbles. Another 90 marbles are added. How many marbles are in the bag now?
+sherlock: 206.
+
+user: A bag holds 236 marbles. Another 58 marbles are added. How many marbles are in the bag now?
+sherlock: 294.
+
+user: A bag holds 357 marbles. Another 27 marbles are added. How many marbles are in the bag now?
+sherlock: 384.
+
+user: A bag holds 477 marbles. Another 693 marbles are added. How many marbles are in the bag now?
+sherlock: 1170.
+
+user: A group has 156 stickers and 686 stickers are added. How many stickers are there altogether?
+sherlock: 842.
+
+user: A group has 277 stickers and 654 stickers are added. How many stickers are there altogether?
+sherlock: 931.
+
+user: A group has 397 stickers and 622 stickers are added. How many stickers are there altogether?
+sherlock: 1019.
+
+user: A group has 517 stickers and 591 stickers are added. How many stickers are there altogether?
+sherlock: 1108.
+
+user: A group has 637 stickers and 559 stickers are added. How many stickers are there altogether?
+sherlock: 1196.
+
+user: A group has 68 stickers and 527 stickers are added. How many stickers are there altogether?
+sherlock: 595.
+
+user: A group has 189 stickers and 496 stickers are added. How many stickers are there altogether?
+sherlock: 685.
+
+user: A group has 309 stickers and 464 stickers are added. How many stickers are there altogether?
+sherlock: 773.
+
+user: A group has 429 stickers and 432 stickers are added. How many stickers are there altogether?
+sherlock: 861.
+
+user: A group has 549 stickers and 400 stickers are added. How many stickers are there altogether?
+sherlock: 949.
+
+user: A shop has 461 books and sells 246 books. How many books remain?
+sherlock: 215.
+
+user: A shop has 601 books and sells 294 books. How many books remain?
+sherlock: 307.
+
+user: A shop has 741 books and sells 329 books. How many books remain?
+sherlock: 412.
+
+user: A shop has 880 books and sells 351 books. How many books remain?
+sherlock: 529.
+
+user: A shop has 219 books and sells 77 books. How many books remain?
+sherlock: 142.
+
+user: A shop has 359 books and sells 111 books. How many books remain?
+sherlock: 248.
+
+user: A shop has 499 books and sells 131 books. How many books remain?
+sherlock: 368.
+
+user: A shop has 638 books and sells 138 books. How many books remain?
+sherlock: 500.
+
+user: A shop has 778 books and sells 133 books. How many books remain?
+sherlock: 645.
+
+user: A shop has 117 books and sells 15 books. How many books remain?
+sherlock: 102.
+
+user: A box contains 545 stickers. 63 stickers are taken away. How many stickers remain?
+sherlock: 482.
+
+user: A box contains 685 stickers. 48 stickers are taken away. How many stickers remain?
+sherlock: 637.
+
+user: A box contains 825 stickers. 21 stickers are taken away. How many stickers remain?
+sherlock: 804.
+
+user: A box contains 164 stickers. 160 stickers are taken away. How many stickers remain?
+sherlock: 4.
+
+user: A box contains 303 stickers. 282 stickers are taken away. How many stickers remain?
+sherlock: 21.
+
+user: A box contains 443 stickers. 393 stickers are taken away. How many stickers remain?
+sherlock: 50.
+
+user: A box contains 583 stickers. 491 stickers are taken away. How many stickers remain?
+sherlock: 92.
+
+user: A box contains 722 stickers. 575 stickers are taken away. How many stickers remain?
+sherlock: 147.
+
+user: A box contains 862 stickers. 648 stickers are taken away. How many stickers remain?
+sherlock: 214.
+
+user: A box contains 201 stickers. 142 stickers are taken away. How many stickers remain?
+sherlock: 59.
+
+user: A bag has 629 marbles and 438 are removed. How many marbles remain?
+sherlock: 191.
+
+user: A bag has 769 marbles and 500 are removed. How many marbles remain?
+sherlock: 269.
+
+user: A bag has 108 marbles and 65 are removed. How many marbles remain?
+sherlock: 43.
+
+user: A bag has 248 marbles and 139 are removed. How many marbles remain?
+sherlock: 109.
+
+user: A bag has 387 marbles and 199 are removed. How many marbles remain?
+sherlock: 188.
+
+user: A bag has 527 marbles and 247 are removed. How many marbles remain?
+sherlock: 280.
+
+user: A bag has 667 marbles and 282 are removed. How many marbles remain?
+sherlock: 385.
+
+user: A bag has 807 marbles and 305 are removed. How many marbles remain?
+sherlock: 502.
+
+user: A bag has 145 marbles and 48 are removed. How many marbles remain?
+sherlock: 97.
+
+user: A bag has 285 marbles and 82 are removed. How many marbles remain?
+sherlock: 203.
+
+user: There are 714 pencils and 198 are used. How many pencils remain?
+sherlock: 516.
+
+user: There are 853 pencils and 198 are used. How many pencils remain?
+sherlock: 655.
+
+user: There are 192 pencils and 36 are used. How many pencils remain?
+sherlock: 156.
+
+user: There are 332 pencils and 47 are used. How many pencils remain?
+sherlock: 285.
+
+user: There are 471 pencils and 45 are used. How many pencils remain?
+sherlock: 426.
+
+user: There are 611 pencils and 31 are used. How many pencils remain?
+sherlock: 580.
+
+user: There are 751 pencils and 4 are used. How many pencils remain?
+sherlock: 747.
+
+user: There are 891 pencils and 854 are used. How many pencils remain?
+sherlock: 37.
+
+user: There are 229 pencils and 209 are used. How many pencils remain?
+sherlock: 20.
+
+user: There are 369 pencils and 320 are used. How many pencils remain?
+sherlock: 49.
+
+user: There are 25 bags with 10 marbles in each bag. How many marbles are there altogether?
+sherlock: 250.
+
+user: There are 30 bags with 9 marbles in each bag. How many marbles are there altogether?
+sherlock: 270.
+
+user: There are 6 bags with 9 marbles in each bag. How many marbles are there altogether?
+sherlock: 54.
+
+user: There are 11 bags with 8 marbles in each bag. How many marbles are there altogether?
+sherlock: 88.
+
+user: There are 16 bags with 7 marbles in each bag. How many marbles are there altogether?
+sherlock: 112.
+
+user: There are 15 bags with 18 marbles in each bag. How many marbles are there altogether?
+sherlock: 270.
+
+user: There are 26 bags with 5 marbles in each bag. How many marbles are there altogether?
+sherlock: 130.
+
+user: There are 2 bags with 4 marbles in each bag. How many marbles are there altogether?
+sherlock: 8.
+
+user: There are 7 bags with 3 marbles in each bag. How many marbles are there altogether?
+sherlock: 21.
+
+user: There are 12 bags with 3 marbles in each bag. How many marbles are there altogether?
+sherlock: 36.
+
+user: There are 28 groups with 2 stickers in each group. How many stickers are there altogether?
+sherlock: 56.
+
+user: There are 4 groups with 2 stickers in each group. How many stickers are there altogether?
+sherlock: 8.
+
+user: There are 9 groups with 20 stickers in each group. How many stickers are there altogether?
+sherlock: 180.
+
+user: There are 14 groups with 19 stickers in each group. How many stickers are there altogether?
+sherlock: 266.
+
+user: There are 19 groups with 18 stickers in each group. How many stickers are there altogether?
+sherlock: 342.
+
+user: There are 18 groups with 10 stickers in each group. How many stickers are there altogether?
+sherlock: 180.
+
+user: There are 29 groups with 16 stickers in each group. How many stickers are there altogether?
+sherlock: 464.
+
+user: There are 5 groups with 15 stickers in each group. How many stickers are there altogether?
+sherlock: 75.
+
+user: There are 10 groups with 14 stickers in each group. How many stickers are there altogether?
+sherlock: 140.
+
+user: There are 15 groups with 14 stickers in each group. How many stickers are there altogether?
+sherlock: 210.
+
+user: A box has 2 rows of 13 cards. How many cards are in the box altogether?
+sherlock: 26.
+
+user: A box has 7 rows of 13 cards. How many cards are in the box altogether?
+sherlock: 91.
+
+user: A box has 12 rows of 12 cards. How many cards are in the box altogether?
+sherlock: 144.
+
+user: A box has 17 rows of 11 cards. How many cards are in the box altogether?
+sherlock: 187.
+
+user: A box has 22 rows of 10 cards. How many cards are in the box altogether?
+sherlock: 220.
+
+user: A box has 21 rows of 2 cards. How many cards are in the box altogether?
+sherlock: 42.
+
+user: A box has 3 rows of 8 cards. How many cards are in the box altogether?
+sherlock: 24.
+
+user: A box has 8 rows of 7 cards. How many cards are in the box altogether?
+sherlock: 56.
+
+user: A box has 13 rows of 7 cards. How many cards are in the box altogether?
+sherlock: 91.
+
+user: A box has 18 rows of 6 cards. How many cards are in the box altogether?
+sherlock: 108.
+
+user: A shop puts 5 books on each of 5 shelves. How many books are on the shelves altogether?
+sherlock: 25.
+
+user: A shop puts 5 books on each of 10 shelves. How many books are on the shelves altogether?
+sherlock: 50.
+
+user: A shop puts 4 books on each of 15 shelves. How many books are on the shelves altogether?
+sherlock: 60.
+
+user: A shop puts 3 books on each of 20 shelves. How many books are on the shelves altogether?
+sherlock: 60.
+
+user: A shop puts 14 books on each of 19 shelves. How many books are on the shelves altogether?
+sherlock: 266.
+
+user: A shop puts 20 books on each of 30 shelves. How many books are on the shelves altogether?
+sherlock: 600.
+
+user: A shop puts 19 books on each of 6 shelves. How many books are on the shelves altogether?
+sherlock: 114.
+
+user: A shop puts 18 books on each of 11 shelves. How many books are on the shelves altogether?
+sherlock: 198.
+
+user: A shop puts 18 books on each of 16 shelves. How many books are on the shelves altogether?
+sherlock: 288.
+
+user: A shop puts 17 books on each of 22 shelves. How many books are on the shelves altogether?
+sherlock: 374.
+
+user: 168 stickers are shared equally among 12 children. How many stickers does each child receive?
+sherlock: 14.
+
+user: 160 stickers are shared equally among 16 children. How many stickers does each child receive?
+sherlock: 10.
+
+user: 95 stickers are shared equally among 19 children. How many stickers does each child receive?
+sherlock: 5.
+
+user: 300 stickers are shared equally among 3 children. How many stickers does each child receive?
+sherlock: 100.
+
+user: 570 stickers are shared equally among 6 children. How many stickers does each child receive?
+sherlock: 95.
+
+user: 910 stickers are shared equally among 10 children. How many stickers does each child receive?
+sherlock: 91.
+
+user: 1118 stickers are shared equally among 13 children. How many stickers does each child receive?
+sherlock: 86.
+
+user: 1312 stickers are shared equally among 16 children. How many stickers does each child receive?
+sherlock: 82.
+
+user: 1540 stickers are shared equally among 20 children. How many stickers does each child receive?
+sherlock: 77.
+
+user: 292 stickers are shared equally among 4 children. How many stickers does each child receive?
+sherlock: 73.
+
+user: A shop packs 1008 books equally into 14 boxes. How many books go in each box?
+sherlock: 72.
+
+user: A shop packs 1206 books equally into 18 boxes. How many books go in each box?
+sherlock: 67.
+
+user: A shop packs 126 books equally into 2 boxes. How many books go in each box?
+sherlock: 63.
+
+user: A shop packs 290 books equally into 5 boxes. How many books go in each box?
+sherlock: 58.
+
+user: A shop packs 432 books equally into 8 boxes. How many books go in each box?
+sherlock: 54.
+
+user: A shop packs 588 books equally into 12 boxes. How many books go in each box?
+sherlock: 49.
+
+user: A shop packs 675 books equally into 15 boxes. How many books go in each box?
+sherlock: 45.
+
+user: A shop packs 720 books equally into 18 boxes. How many books go in each box?
+sherlock: 40.
+
+user: A shop packs 108 books equally into 3 boxes. How many books go in each box?
+sherlock: 36.
+
+user: A shop packs 186 books equally into 6 boxes. How many books go in each box?
+sherlock: 31.
+
+user: 480 marbles are shared equally between 16 bags. How many marbles are in each bag?
+sherlock: 30.
+
+user: 520 marbles are shared equally between 20 bags. How many marbles are in each bag?
+sherlock: 26.
+
+user: 84 marbles are shared equally between 4 bags. How many marbles are in each bag?
+sherlock: 21.
+
+user: 119 marbles are shared equally between 7 bags. How many marbles are in each bag?
+sherlock: 17.
+
+user: 120 marbles are shared equally between 10 bags. How many marbles are in each bag?
+sherlock: 12.
+
+user: 112 marbles are shared equally between 14 bags. How many marbles are in each bag?
+sherlock: 8.
+
+user: 51 marbles are shared equally between 17 bags. How many marbles are in each bag?
+sherlock: 3.
+
+user: 1960 marbles are shared equally between 20 bags. How many marbles are in each bag?
+sherlock: 98.
+
+user: 465 marbles are shared equally between 5 bags. How many marbles are in each bag?
+sherlock: 93.
+
+user: 712 marbles are shared equally between 8 bags. How many marbles are in each bag?
+sherlock: 89.
+
+user: A teacher puts 1584 pencils equally into 18 groups. How many pencils are in each group?
+sherlock: 88.
+
+user: A teacher puts 249 pencils equally into 3 groups. How many pencils are in each group?
+sherlock: 83.
+
+user: A teacher puts 474 pencils equally into 6 groups. How many pencils are in each group?
+sherlock: 79.
+
+user: A teacher puts 666 pencils equally into 9 groups. How many pencils are in each group?
+sherlock: 74.
+
+user: A teacher puts 840 pencils equally into 12 groups. How many pencils are in each group?
+sherlock: 70.
+
+user: A teacher puts 1040 pencils equally into 16 groups. How many pencils are in each group?
+sherlock: 65.
+
+user: A teacher puts 1159 pencils equally into 19 groups. How many pencils are in each group?
+sherlock: 61.
+
+user: A teacher puts 168 pencils equally into 3 groups. How many pencils are in each group?
+sherlock: 56.
+
+user: A teacher puts 364 pencils equally into 7 groups. How many pencils are in each group?
+sherlock: 52.
+
+user: A teacher puts 470 pencils equally into 10 groups. How many pencils are in each group?
+sherlock: 47.
+
+user: A shop has 154 books, adds 91, then sells 75. How many books remain?
+sherlock: 170.
+
+user: A shop has 262 books, adds 83, then sells 259. How many books remain?
+sherlock: 86.
+
+user: A shop has 371 books, adds 74, then sells 88. How many books remain?
+sherlock: 357.
+
+user: A shop has 479 books, adds 65, then sells 350. How many books remain?
+sherlock: 194.
+
+user: A shop has 587 books, adds 57, then sells 57. How many books remain?
+sherlock: 587.
+
+user: A shop has 696 books, adds 48, then sells 397. How many books remain?
+sherlock: 347.
+
+user: A shop has 183 books, adds 39, then sells 217. How many books remain?
+sherlock: 5.
+
+user: A shop has 291 books, adds 30, then sells 136. How many books remain?
+sherlock: 185.
+
+user: A shop has 400 books, adds 22, then sells 367. How many books remain?
+sherlock: 55.
+
+user: A shop has 508 books, adds 13, then sells 165. How many books remain?
+sherlock: 356.
+
+user: A box contains 219 stickers. 11 more are added and 198 are used. How many stickers remain?
+sherlock: 32.
+
+user: A box contains 328 stickers. 193 more are added and 161 are used. How many stickers remain?
+sherlock: 360.
+
+user: A box contains 436 stickers. 185 more are added and 468 are used. How many stickers remain?
+sherlock: 153.
+
+user: A box contains 544 stickers. 176 more are added and 143 are used. How many stickers remain?
+sherlock: 577.
+
+user: A box contains 653 stickers. 167 more are added and 528 are used. How many stickers remain?
+sherlock: 292.
+
+user: A box contains 140 stickers. 159 more are added and 27 are used. How many stickers remain?
+sherlock: 272.
+
+user: A box contains 248 stickers. 150 more are added and 213 are used. How many stickers remain?
+sherlock: 185.
+
+user: A box contains 357 stickers. 141 more are added and 488 are used. How many stickers remain?
+sherlock: 10.
+
+user: A box contains 465 stickers. 133 more are added and 255 are used. How many stickers remain?
+sherlock: 343.
+
+user: A box contains 573 stickers. 124 more are added and 607 are used. How many stickers remain?
+sherlock: 90.
+
+user: A bag has 285 marbles, 122 more are added and 170 are taken away. How many marbles remain?
+sherlock: 237.
+
+user: A bag has 393 marbles, 113 more are added and 437 are taken away. How many marbles remain?
+sherlock: 69.
+
+user: A bag has 501 marbles, 105 more are added and 188 are taken away. How many marbles remain?
+sherlock: 418.
+
+user: A bag has 610 marbles, 96 more are added and 533 are taken away. How many marbles remain?
+sherlock: 173.
+
+user: A bag has 97 marbles, 87 more are added and 37 are taken away. How many marbles remain?
+sherlock: 147.
+
+user: A bag has 205 marbles, 79 more are added and 183 are taken away. How many marbles remain?
+sherlock: 101.
+
+user: A bag has 313 marbles, 70 more are added and 35 are taken away. How many marbles remain?
+sherlock: 348.
+
+user: A bag has 422 marbles, 61 more are added and 259 are taken away. How many marbles remain?
+sherlock: 224.
+
+user: A bag has 530 marbles, 53 more are added and 572 are taken away. How many marbles remain?
+sherlock: 11.
+
+user: A bag has 638 marbles, 44 more are added and 292 are taken away. How many marbles remain?
+sherlock: 390.
+
+user: A group has 350 cards. 42 more cards are added, then 381 are shared out. How many cards remain?
+sherlock: 11.
+
+user: A group has 458 cards. 33 more cards are added, then 206 are shared out. How many cards remain?
+sherlock: 285.
+
+user: A group has 566 cards. 25 more cards are added, then 511 are shared out. How many cards remain?
+sherlock: 80.
+
+user: A group has 675 cards. 16 more cards are added, then 215 are shared out. How many cards remain?
+sherlock: 476.
+
+user: A group has 162 cards. 198 more cards are added, then 272 are shared out. How many cards remain?
+sherlock: 88.
+
+user: A group has 270 cards. 190 more cards are added, then 93 are shared out. How many cards remain?
+sherlock: 367.
+
+user: A group has 379 cards. 181 more cards are added, then 362 are shared out. How many cards remain?
+sherlock: 198.
+
+user: A group has 487 cards. 172 more cards are added, then 61 are shared out. How many cards remain?
+sherlock: 598.
+
+user: A group has 595 cards. 164 more cards are added, then 408 are shared out. How many cards remain?
+sherlock: 351.
+
+user: A group has 83 cards. 155 more cards are added, then 234 are shared out. How many cards remain?
+sherlock: 4.
+
+user: Continue this number sequence: 644, 659, 689, 704. What comes next?
+sherlock: 734.
+
+user: Find the next term in the sequence: 714, 718, 747, 751.
+sherlock: 780.
+
+user: Continue this number sequence: 864, 841, 818, 795. What comes next?
+sherlock: 772.
+
+user: Find the next term in the sequence: 645, 658, 671, 684.
+sherlock: 697.
+
+user: Look at this sequence of numbers: 947, 934, 921, 908. Write the following term.
+sherlock: 895.
+
+user: Continue this number sequence: 1926, 1904, 1882, 1860. What comes next?
+sherlock: 1838.
+
+user: Continue this number sequence: 133225, 133956, 134689, 135424. What comes next?
+sherlock: 136161.
+
+user: Find the next term in the sequence: 685, 695, 728, 738.
+sherlock: 771.
+
+user: Continue this number sequence: 298, 596, 1192, 2384. What comes next?
+sherlock: 4768.
+
+user: Complete the number sequence 988, 977, 966, 955 by finding the next number.
+sherlock: 944.
+
+user: Look at this sequence of numbers: 2199, 2179, 2159, 2139. Write the following term.
+sherlock: 2119.
+
+user: Find the next term in the sequence: 45796, 46225, 46656, 47089.
+sherlock: 47524.
+
+user: Complete the number sequence 397, 408, 429, 440 by finding the next number.
+sherlock: 461.
+
+user: Complete the number sequence 5041, 5184, 5329, 5476 by finding the next number.
+sherlock: 5625.
+
+user: Continue this number sequence: 450241, 451584, 452929, 454276. What comes next?
+sherlock: 455625.
+
+user: Complete the number sequence 502, 511, 520, 529 by finding the next number.
+sherlock: 538.
+
+user: Look at this sequence of numbers: 876, 860, 844, 828. Write the following term.
+sherlock: 812.
+
+user: Find the next term in the sequence: 251, 502, 1004, 2008.
+sherlock: 4016.
+
+user: Continue this number sequence: 383, 766, 1532, 3064. What comes next?
+sherlock: 6128.
+
+user: Continue this number sequence: 118, 124, 146, 152. What comes next?
+sherlock: 174.
+
+user: Continue this number sequence: 466, 486, 506, 526. What comes next?
+sherlock: 546.
+
+user: Find the next term in the sequence: 2934, 2927, 2920, 2913.
+sherlock: 2906.
+
+user: Look at this sequence of numbers: 236, 472, 944, 1888. Write the following term.
+sherlock: 3776.
+
+user: Look at this sequence of numbers: 174, 348, 696, 1392. Write the following term.
+sherlock: 2784.
+
+user: Look at this sequence of numbers: 135, 270, 540, 1080. Write the following term.
+sherlock: 2160.
+
+user: Find the next term in the sequence: 53361, 53824, 54289, 54756.
+sherlock: 55225.
+
+user: Find the next term in the sequence: 210681, 211600, 212521, 213444.
+sherlock: 214369.
+
+user: Continue this number sequence: 1034, 1020, 1006, 992. What comes next?
+sherlock: 978.
+
+user: Continue this number sequence: 124, 248, 496, 992. What comes next?
+sherlock: 1984.
+
+user: Find the next term in the sequence: 241081, 242064, 243049, 244036.
+sherlock: 245025.
+
+user: Continue this number sequence: 94, 188, 376, 752. What comes next?
+sherlock: 1504.
+
+user: Complete the number sequence 28900, 29241, 29584, 29929 by finding the next number.
+sherlock: 30276.
+
+user: Continue this number sequence: 27, 32, 52, 57. What comes next?
+sherlock: 77.
+
+user: Find the next term in the sequence: 308025, 309136, 310249, 311364.
+sherlock: 312481.
+
+user: Look at this sequence of numbers: 108, 216, 432, 864. Write the following term.
+sherlock: 1728.
+
+user: Look at this sequence of numbers: 789, 797, 805, 813. Write the following term.
+sherlock: 821.
+
+user: Find the next term in the sequence: 132, 264, 528, 1056.
+sherlock: 2112.
+
+user: Look at this sequence of numbers: 176, 179, 182, 185. Write the following term.
+sherlock: 188.
+
+user: Continue this number sequence: 670, 673, 697, 700. What comes next?
+sherlock: 724.
+
+user: Complete the number sequence 2185, 2165, 2145, 2125 by finding the next number.
+sherlock: 2105.
+
+user: Look at this sequence of numbers: 35, 39, 64, 68. Write the following term.
+sherlock: 93.
+
+user: Find the next term in the sequence: 1861, 1853, 1845, 1837.
+sherlock: 1829.
+
+user: Complete the number sequence 352, 704, 1408, 2816 by finding the next number.
+sherlock: 5632.
+
+user: Find the next term in the sequence: 290, 306, 322, 338.
+sherlock: 354.
+
+user: Complete the number sequence 2313, 2307, 2301, 2295 by finding the next number.
+sherlock: 2289.
+
+user: Find the next term in the sequence: 776, 791, 806, 821.
+sherlock: 836.
+
+user: Complete the number sequence 2458, 2449, 2440, 2431 by finding the next number.
+sherlock: 2422.
+
+user: Look at this sequence of numbers: 253, 506, 1012, 2024. Write the following term.
+sherlock: 4048.
+
+user: Complete the number sequence 273, 546, 1092, 2184 by finding the next number.
+sherlock: 4368.
+
+user: Find the next term in the sequence: 1651, 1645, 1639, 1633.
+sherlock: 1627.
+
+user: Continue this number sequence: 138, 148, 176, 186. What comes next?
+sherlock: 214.
+
+user: Complete the number sequence 160, 320, 640, 1280 by finding the next number.
+sherlock: 2560.
+
+user: Complete the number sequence 241, 482, 964, 1928 by finding the next number.
+sherlock: 3856.
+
+user: Look at this sequence of numbers: 43, 58, 90, 105. Write the following term.
+sherlock: 137.
+
+user: Find the next term in the sequence: 2157, 2152, 2147, 2142.
+sherlock: 2137.
+
+user: Look at this sequence of numbers: 2656, 2642, 2628, 2614. Write the following term.
+sherlock: 2600.
+
+user: Complete the number sequence 262144, 263169, 264196, 265225 by finding the next number.
+sherlock: 266256.
+
+user: Complete the number sequence 1263, 1253, 1243, 1233 by finding the next number.
+sherlock: 1223.
+
+user: Continue this number sequence: 707, 719, 731, 743. What comes next?
+sherlock: 755.
+
+user: Complete the number sequence 120, 240, 480, 960 by finding the next number.
+sherlock: 1920.
+
+user: Find the next term in the sequence: 452, 904, 1808, 3616.
+sherlock: 7232.
+
+user: Find the next term in the sequence: 250, 277, 304, 331.
+sherlock: 358.
+
+user: Look at this sequence of numbers: 454, 908, 1816, 3632. Write the following term.
+sherlock: 7264.
+
+user: Look at this sequence of numbers: 266256, 267289, 268324, 269361. Write the following term.
+sherlock: 270400.
+
+user: Complete the number sequence 472, 944, 1888, 3776 by finding the next number.
+sherlock: 7552.
+
+user: Continue this number sequence: 184, 192, 222, 230. What comes next?
+sherlock: 260.
+
+user: Complete the number sequence 468, 492, 516, 540 by finding the next number.
+sherlock: 564.
+
+user: Complete the number sequence 739, 749, 770, 780 by finding the next number.
+sherlock: 801.
+
+user: Continue this number sequence: 54, 108, 216, 432. What comes next?
+sherlock: 864.
+
+user: Complete the number sequence 236, 248, 268, 280 by finding the next number.
+sherlock: 300.
+
+user: Look at this sequence of numbers: 452, 467, 497, 512. Write the following term.
+sherlock: 542.
+
+user: Continue this number sequence: 607, 636, 665, 694. What comes next?
+sherlock: 723.
+
+user: Look at this sequence of numbers: 263169, 264196, 265225, 266256. Write the following term.
+sherlock: 267289.
+
+user: Continue this number sequence: 8281, 8464, 8649, 8836. What comes next?
+sherlock: 9025.
+
+user: Find the next term in the sequence: 1608, 1603, 1598, 1593.
+sherlock: 1588.
+
+user: Complete the number sequence 369, 380, 410, 421 by finding the next number.
+sherlock: 451.
+
+user: Find the next term in the sequence: 452, 463, 474, 485.
+sherlock: 496.
+
+user: Find the next term in the sequence: 111, 222, 444, 888.
+sherlock: 1776.
+
+user: Look at this sequence of numbers: 600, 607, 614, 621. Write the following term.
+sherlock: 628.
+
+user: Find the next term in the sequence: 349, 352, 387, 390.
+sherlock: 425.
+
+user: Complete the number sequence 38025, 38416, 38809, 39204 by finding the next number.
+sherlock: 39601.
+
+user: Look at this sequence of numbers: 410, 820, 1640, 3280. Write the following term.
+sherlock: 6560.
+
+user: Find the next term in the sequence: 156025, 156816, 157609, 158404.
+sherlock: 159201.
+
+user: Look at this sequence of numbers: 125316, 126025, 126736, 127449. Write the following term.
+sherlock: 128164.
+
+user: Complete the number sequence 443, 886, 1772, 3544 by finding the next number.
+sherlock: 7088.
+
+user: Continue this number sequence: 110, 127, 144, 161. What comes next?
+sherlock: 178.
+
+user: Find the next term in the sequence: 272484, 273529, 274576, 275625.
+sherlock: 276676.
+
+user: Find the next term in the sequence: 7921, 8100, 8281, 8464.
+sherlock: 8649.
+
+user: Complete the number sequence 13456, 13689, 13924, 14161 by finding the next number.
+sherlock: 14400.
+
+user: Find the next term in the sequence: 212, 424, 848, 1696.
+sherlock: 3392.
+
+user: Look at this sequence of numbers: 152, 176, 200, 224. Write the following term.
+sherlock: 248.
+
+user: Find the next term in the sequence: 749, 739, 729, 719.
+sherlock: 709.
+
+user: Look at this sequence of numbers: 708, 720, 746, 758. Write the following term.
+sherlock: 784.
+
+user: Look at this sequence of numbers: 465, 473, 504, 512. Write the following term.
+sherlock: 543.
+
+user: Look at this sequence of numbers: 28, 32, 36, 40. Write the following term.
+sherlock: 44.
+
+user: Look at this sequence of numbers: 149, 298, 596, 1192. Write the following term.
+sherlock: 2384.
+
+user: Look at this sequence of numbers: 145, 147, 180, 182. Write the following term.
+sherlock: 215.
+
+user: Continue this number sequence: 2614, 2599, 2584, 2569. What comes next?
+sherlock: 2554.
+
+user: Continue this number sequence: 1921, 1891, 1861, 1831. What comes next?
+sherlock: 1801.
+
+user: Look at this sequence of numbers: 2510, 2501, 2492, 2483. Write the following term.
+sherlock: 2474.
+
+user: Look at this sequence of numbers: 24964, 25281, 25600, 25921. Write the following term.
+sherlock: 26244.
+
+user: Continue this number sequence: 2500, 2601, 2704, 2809. What comes next?
+sherlock: 2916.
+
+user: Find the next term in the sequence: 242, 249, 280, 287.
+sherlock: 318.
+
+user: Continue this number sequence: 6241, 6400, 6561, 6724. What comes next?
+sherlock: 6889.
+
+user: Complete the number sequence 265225, 266256, 267289, 268324 by finding the next number.
+sherlock: 269361.
+
+user: Look at this sequence of numbers: 473344, 474721, 476100, 477481. Write the following term.
+sherlock: 478864.
+
+user: Continue this number sequence: 72, 81, 103, 112. What comes next?
+sherlock: 134.
+
+user: Look at this sequence of numbers: 170, 173, 202, 205. Write the following term.
+sherlock: 234.
+
+user: Look at this sequence of numbers: 108900, 109561, 110224, 110889. Write the following term.
+sherlock: 111556.
+
+user: Complete the number sequence 713, 733, 753, 773 by finding the next number.
+sherlock: 793.
+
+user: Find the next term in the sequence: 484, 495, 529, 540.
+sherlock: 574.
+
+user: Find the next term in the sequence: 399, 798, 1596, 3192.
+sherlock: 6384.
+
+user: Look at this sequence of numbers: 235225, 236196, 237169, 238144. Write the following term.
+sherlock: 239121.
+
+user: Continue this number sequence: 423, 453, 483, 513. What comes next?
+sherlock: 543.
+
+user: Look at this sequence of numbers: 1681, 1764, 1849, 1936. Write the following term.
+sherlock: 2025.
+
+user: Continue this number sequence: 2227, 2220, 2213, 2206. What comes next?
+sherlock: 2199.
+
+user: Look at this sequence of numbers: 538, 555, 572, 589. Write the following term.
+sherlock: 606.
+
+user: Complete the number sequence 2165, 2152, 2139, 2126 by finding the next number.
+sherlock: 2113.
+
+user: Find the next term in the sequence: 265, 275, 300, 310.
+sherlock: 335.
+
+user: Find the next term in the sequence: 296, 311, 333, 348.
+sherlock: 370.
+
+user: Look at this sequence of numbers: 255, 264, 285, 294. Write the following term.
+sherlock: 315.
+
+user: Continue this number sequence: 24649, 24964, 25281, 25600. What comes next?
+sherlock: 25921.
+
+user: Complete the number sequence 225, 244, 263, 282 by finding the next number.
+sherlock: 301.
+
+user: Continue this number sequence: 611, 628, 645, 662. What comes next?
+sherlock: 679.
+
+user: Find the next term in the sequence: 1035, 1011, 987, 963.
+sherlock: 939.
+
+user: Complete the number sequence 367, 734, 1468, 2936 by finding the next number.
+sherlock: 5872.
+
+user: Find the next term in the sequence: 287296, 288369, 289444, 290521.
+sherlock: 291600.
+
+user: Continue this number sequence: 227529, 228484, 229441, 230400. What comes next?
+sherlock: 231361.
+
+user: Complete the number sequence 539, 545, 551, 557 by finding the next number.
+sherlock: 563.
+
+user: Find the next term in the sequence: 690, 702, 714, 726.
+sherlock: 738.
+
+user: Continue this number sequence: 743, 758, 787, 802. What comes next?
+sherlock: 831.
+
+user: Complete the number sequence 2369, 2359, 2349, 2339 by finding the next number.
+sherlock: 2329.
+
+user: Look at this sequence of numbers: 1781, 1763, 1745, 1727. Write the following term.
+sherlock: 1709.
+
+user: Look at this sequence of numbers: 305, 610, 1220, 2440. Write the following term.
+sherlock: 4880.
+
+user: Complete the number sequence 331, 335, 367, 371 by finding the next number.
+sherlock: 403.
+
+user: Continue this number sequence: 51076, 51529, 51984, 52441. What comes next?
+sherlock: 52900.
+
+user: Look at this sequence of numbers: 79524, 80089, 80656, 81225. Write the following term.
+sherlock: 81796.
+
+user: Complete the number sequence 362, 367, 372, 377 by finding the next number.
+sherlock: 382.
+
+user: Continue this number sequence: 1777, 1766, 1755, 1744. What comes next?
+sherlock: 1733.
+
+user: Complete the number sequence 151, 157, 183, 189 by finding the next number.
+sherlock: 215.
+
+user: Find the next term in the sequence: 2840, 2830, 2820, 2810.
+sherlock: 2800.
+
+user: Complete the number sequence 446, 458, 486, 498 by finding the next number.
+sherlock: 526.
+
+user: Complete the number sequence 537, 552, 583, 598 by finding the next number.
+sherlock: 629.
+
+user: Look at this sequence of numbers: 599, 628, 657, 686. Write the following term.
+sherlock: 715.
+
+user: Continue this number sequence: 307, 330, 353, 376. What comes next?
+sherlock: 399.
+
+user: Continue this number sequence: 33, 66, 132, 264. What comes next?
+sherlock: 528.
+
+user: Continue this number sequence: 467, 934, 1868, 3736. What comes next?
+sherlock: 7472.
+
+user: Complete the number sequence 575, 581, 614, 620 by finding the next number.
+sherlock: 653.
+
+user: Look at this sequence of numbers: 1225, 1296, 1369, 1444. Write the following term.
+sherlock: 1521.
+
+user: Continue this number sequence: 2352, 2333, 2314, 2295. What comes next?
+sherlock: 2276.
+
+user: Continue this number sequence: 746, 751, 781, 786. What comes next?
+sherlock: 816.
+
+user: Find the next term in the sequence: 126736, 127449, 128164, 128881.
+sherlock: 129600.
+
+user: Look at this sequence of numbers: 77, 88, 99, 110. Write the following term.
+sherlock: 121.
+
+user: Look at this sequence of numbers: 1948, 1923, 1898, 1873. Write the following term.
+sherlock: 1848.
+
+user: Complete the number sequence 352836, 354025, 355216, 356409 by finding the next number.
+sherlock: 357604.
+
+user: Continue this number sequence: 428, 449, 470, 491. What comes next?
+sherlock: 512.
+
+user: Complete the number sequence 128, 156, 184, 212 by finding the next number.
+sherlock: 240.
+
+user: Complete the number sequence 636, 644, 652, 660 by finding the next number.
+sherlock: 668.
+
+user: Complete the number sequence 8100, 8281, 8464, 8649 by finding the next number.
+sherlock: 8836.
+
+user: Continue this number sequence: 213, 229, 245, 261. What comes next?
+sherlock: 277.
+
+user: Complete the number sequence 421, 842, 1684, 3368 by finding the next number.
+sherlock: 6736.
+
+user: Look at this sequence of numbers: 1254, 1228, 1202, 1176. Write the following term.
+sherlock: 1150.
+
+user: Complete the number sequence 395, 404, 435, 444 by finding the next number.
+sherlock: 475.
+
+user: Find the next term in the sequence: 69, 138, 276, 552.
+sherlock: 1104.
+
+user: Look at this sequence of numbers: 421, 436, 451, 466. Write the following term.
+sherlock: 481.
+
+user: Continue this number sequence: 365, 730, 1460, 2920. What comes next?
+sherlock: 5840.
+
+user: Continue this number sequence: 238144, 239121, 240100, 241081. What comes next?
+sherlock: 242064.
+
+user: Find the next term in the sequence: 608, 622, 636, 650.
+sherlock: 664.
+
+user: Find the next term in the sequence: 518, 531, 553, 566.
+sherlock: 588.
+
+user: Find the next term in the sequence: 279, 290, 315, 326.
+sherlock: 351.
+
+user: Continue this number sequence: 302, 604, 1208, 2416. What comes next?
+sherlock: 4832.
+
+user: Continue this number sequence: 2090, 2070, 2050, 2030. What comes next?
+sherlock: 2010.
+
+user: Find the next term in the sequence: 396, 792, 1584, 3168.
+sherlock: 6336.
+
+user: Find the next term in the sequence: 585, 587, 589, 591.
+sherlock: 593.
+
+user: Complete the number sequence 2840, 2831, 2822, 2813 by finding the next number.
+sherlock: 2804.
+
+user: Look at this sequence of numbers: 2293, 2280, 2267, 2254. Write the following term.
+sherlock: 2241.
+
+user: Find the next term in the sequence: 465, 930, 1860, 3720.
+sherlock: 7440.
+
+user: Find the next term in the sequence: 774, 745, 716, 687.
+sherlock: 658.
+
+user: Continue this number sequence: 420, 424, 428, 432. What comes next?
+sherlock: 436.
+
+user: Find the next term in the sequence: 113, 140, 167, 194.
+sherlock: 221.
+
+user: Complete the number sequence 29929, 30276, 30625, 30976 by finding the next number.
+sherlock: 31329.
+
+user: Look at this sequence of numbers: 336, 345, 371, 380. Write the following term.
+sherlock: 406.
+
+user: Look at this sequence of numbers: 405, 412, 440, 447. Write the following term.
+sherlock: 475.
+
+user: Look at this sequence of numbers: 417, 834, 1668, 3336. Write the following term.
+sherlock: 6672.
+
+user: Complete the number sequence 693, 702, 711, 720 by finding the next number.
+sherlock: 729.
+
+user: Look at this sequence of numbers: 1269, 1241, 1213, 1185. Write the following term.
+sherlock: 1157.
+
+user: Complete the number sequence 874, 860, 846, 832 by finding the next number.
+sherlock: 818.
+
+user: Complete the number sequence 490, 507, 524, 541 by finding the next number.
+sherlock: 558.
+
+user: Continue this number sequence: 2656, 2640, 2624, 2608. What comes next?
+sherlock: 2592.
+
+user: Continue this number sequence: 197, 202, 230, 235. What comes next?
+sherlock: 263.
+
+user: Find the next term in the sequence: 604, 621, 638, 655.
+sherlock: 672.
+
+user: Continue this number sequence: 362, 724, 1448, 2896. What comes next?
+sherlock: 5792.
+
+user: Continue this number sequence: 379456, 380689, 381924, 383161. What comes next?
+sherlock: 384400.
+
+user: Find the next term in the sequence: 207, 414, 828, 1656.
+sherlock: 3312.
+
+user: Complete the number sequence 2720, 2693, 2666, 2639 by finding the next number.
+sherlock: 2612.
+
+user: Look at this sequence of numbers: 598, 620, 642, 664. Write the following term.
+sherlock: 686.
+
+user: Find the next term in the sequence: 84, 99, 128, 143.
+sherlock: 172.
+
+user: Complete the number sequence 238, 476, 952, 1904 by finding the next number.
+sherlock: 3808.
+
+user: Complete the number sequence 444889, 446224, 447561, 448900 by finding the next number.
+sherlock: 450241.
+
+user: Find the next term in the sequence: 2974, 2951, 2928, 2905.
+sherlock: 2882.
+
+user: Put these numbers in ascending order: 1, 31, 43, 38.
+sherlock: 1, 31, 38, 43.
+
+user: Put these numbers in ascending order: 18, 27, 87, 58.
+sherlock: 18, 27, 58, 87.
+
+user: Put these numbers in ascending order: 35, 22, 32, 78.
+sherlock: 22, 32, 35, 78.
+
+user: Put these numbers in ascending order: 53, 18, 76, 98.
+sherlock: 18, 53, 76, 98.
+
+user: Put these numbers in ascending order: 70, 13, 21, 19.
+sherlock: 13, 19, 21, 70.
+
+user: Put these numbers in ascending order: 87, 9, 65, 39.
+sherlock: 9, 39, 65, 87.
+
+user: Put these numbers in ascending order: 5, 4, 10, 58.
+sherlock: 4, 5, 10, 58.
+
+user: Put these numbers in ascending order: 23, 99, 54, 78.
+sherlock: 23, 54, 78, 99.
+
+user: Put these numbers in ascending order: 40, 94, 99, 98.
+sherlock: 40, 94, 98, 99.
+
+user: Put these numbers in ascending order: 57, 90, 44, 19.
+sherlock: 19, 44, 57, 90.
+
+user: Arrange the following numbers in ascending order: 11, 89, 98, 41.
+sherlock: 11, 41, 89, 98.
+
+user: Arrange the following numbers in ascending order: 28, 84, 43, 61.
+sherlock: 28, 43, 61, 84.
+
+user: Arrange the following numbers in ascending order: 46, 80, 87, 81.
+sherlock: 46, 80, 81, 87.
+
+user: Arrange the following numbers in ascending order: 63, 75, 32, 2.
+sherlock: 2, 32, 63, 75.
+
+user: Arrange the following numbers in ascending order: 80, 71, 76, 22.
+sherlock: 22, 71, 76, 80.
+
+user: Arrange the following numbers in ascending order: 97, 66, 21, 42.
+sherlock: 21, 42, 66, 97.
+
+user: Arrange the following numbers in ascending order: 16, 62, 65, 53.
+sherlock: 16, 53, 62, 65.
+
+user: Arrange the following numbers in ascending order: 33, 57, 11, 81.
+sherlock: 11, 33, 57, 81.
+
+user: Arrange the following numbers in ascending order: 50, 53, 55, 2.
+sherlock: 2, 50, 53, 55.
+
+user: Arrange the following numbers in ascending order: 68, 48, 99, 22.
+sherlock: 22, 48, 68, 99.
+
+user: Sort these numbers from smallest to largest (ascending order): 22, 47, 54, 44.
+sherlock: 22, 44, 47, 54.
+
+user: Sort these numbers from smallest to largest (ascending order): 39, 43, 98, 64.
+sherlock: 39, 43, 64, 98.
+
+user: Sort these numbers from smallest to largest (ascending order): 56, 38, 43, 84.
+sherlock: 38, 43, 56, 84.
+
+user: Sort these numbers from smallest to largest (ascending order): 73, 34, 87, 5.
+sherlock: 5, 34, 73, 87.
+
+user: Sort these numbers from smallest to largest (ascending order): 91, 29, 32, 25.
+sherlock: 25, 29, 32, 91.
+
+user: Sort these numbers from smallest to largest (ascending order): 9, 25, 76, 45.
+sherlock: 9, 25, 45, 76.
+
+user: Sort these numbers from smallest to largest (ascending order): 26, 20, 21, 65.
+sherlock: 20, 21, 26, 65.
+
+user: Sort these numbers from smallest to largest (ascending order): 43, 16, 66, 85.
+sherlock: 16, 43, 66, 85.
+
+user: Sort these numbers from smallest to largest (ascending order): 61, 11, 6, 20.
+sherlock: 6, 11, 20, 61.
+
+user: Sort these numbers from smallest to largest (ascending order): 78, 7, 55, 25.
+sherlock: 7, 25, 55, 78.
+
+user: Follow this instruction: write the numbers in ascending order: 32, 6, 10, 47.
+sherlock: 6, 10, 32, 47.
+
+user: Follow this instruction: write the numbers in ascending order: 49, 1, 54, 67.
+sherlock: 1, 49, 54, 67.
+
+user: Follow this instruction: write the numbers in ascending order: 66, 96, 98, 87.
+sherlock: 66, 87, 96, 98.
+
+user: Follow this instruction: write the numbers in ascending order: 84, 91, 43, 8.
+sherlock: 8, 43, 84, 91.
+
+user: Follow this instruction: write the numbers in ascending order: 2, 87, 28, 71.
+sherlock: 2, 28, 71, 87.
+
+user: Follow this instruction: write the numbers in ascending order: 19, 82, 32, 48.
+sherlock: 19, 32, 48, 82.
+
+user: Follow this instruction: write the numbers in ascending order: 37, 78, 76, 68.
+sherlock: 37, 68, 76, 78.
+
+user: Follow this instruction: write the numbers in ascending order: 54, 73, 22, 88.
+sherlock: 22, 54, 73, 88.
+
+user: Follow this instruction: write the numbers in ascending order: 71, 69, 66, 9.
+sherlock: 9, 66, 69, 71.
+
+user: Follow this instruction: write the numbers in ascending order: 88, 64, 11, 29.
+sherlock: 11, 29, 64, 88.
+
+user: Put these numbers in descending order: 56, 61, 31, 5.
+sherlock: 61, 56, 31, 5.
+
+user: Put these numbers in descending order: 73, 56, 75, 25.
+sherlock: 75, 73, 56, 25.
+
+user: Put these numbers in descending order: 90, 52, 20, 44.
+sherlock: 90, 52, 44, 20.
+
+user: Put these numbers in descending order: 9, 47, 64, 34.
+sherlock: 64, 47, 34, 9.
+
+user: Put these numbers in descending order: 26, 43, 10, 84.
+sherlock: 84, 43, 26, 10.
+
+user: Put these numbers in descending order: 43, 38, 54, 5.
+sherlock: 54, 43, 38, 5.
+
+user: Put these numbers in descending order: 60, 34, 98, 25.
+sherlock: 98, 60, 34, 25.
+
+user: Put these numbers in descending order: 78, 29, 43, 45.
+sherlock: 78, 45, 43, 29.
+
+user: Put these numbers in descending order: 95, 25, 87, 65.
+sherlock: 95, 87, 65, 25.
+
+user: Put these numbers in descending order: 13, 20, 32, 85.
+sherlock: 85, 32, 20, 13.
+
+user: Arrange the following numbers in descending order: 66, 19, 86, 8.
+sherlock: 86, 66, 19, 8.
+
+user: Arrange the following numbers in descending order: 83, 15, 31, 28.
+sherlock: 83, 31, 28, 15.
+
+user: Arrange the following numbers in descending order: 2, 10, 75, 48.
+sherlock: 75, 48, 10, 2.
+
+user: Arrange the following numbers in descending order: 19, 6, 21, 67.
+sherlock: 67, 21, 19, 6.
+
+user: Arrange the following numbers in descending order: 36, 1, 65, 87.
+sherlock: 87, 65, 36, 1.
+
+user: Arrange the following numbers in descending order: 54, 96, 10, 8.
+sherlock: 96, 54, 10, 8.
+
+user: Arrange the following numbers in descending order: 71, 91, 54, 28.
+sherlock: 91, 71, 54, 28.
+
+user: Arrange the following numbers in descending order: 88, 87, 98, 48.
+sherlock: 98, 88, 87, 48.
+
+user: Arrange the following numbers in descending order: 6, 82, 43, 68.
+sherlock: 82, 68, 43, 6.
+
+user: Arrange the following numbers in descending order: 24, 78, 87, 88.
+sherlock: 88, 87, 78, 24.
+
+user: Sort these numbers from largest to smallest (descending order): 77, 42, 11, 49.
+sherlock: 77, 49, 42, 11.
+
+user: Sort these numbers from largest to smallest (descending order): 94, 72, 86, 31.
+sherlock: 94, 86, 72, 31.
+
+user: Sort these numbers from largest to smallest (descending order): 12, 68, 31, 51.
+sherlock: 68, 51, 31, 12.
+
+user: Sort these numbers from largest to smallest (descending order): 29, 63, 76, 71.
+sherlock: 76, 71, 63, 29.
+
+user: Sort these numbers from largest to smallest (descending order): 47, 59, 21, 90.
+sherlock: 90, 59, 47, 21.
+
+user: Sort these numbers from largest to smallest (descending order): 64, 54, 65, 11.
+sherlock: 65, 64, 54, 11.
+
+user: Sort these numbers from largest to smallest (descending order): 81, 50, 10, 31.
+sherlock: 81, 50, 31, 10.
+
+user: Sort these numbers from largest to smallest (descending order): 98, 45, 54, 51.
+sherlock: 98, 54, 51, 45.
+
+user: Sort these numbers from largest to smallest (descending order): 17, 41, 98, 71.
+sherlock: 98, 71, 41, 17.
+
+user: Sort these numbers from largest to smallest (descending order): 34, 36, 43, 91.
+sherlock: 91, 43, 36, 34.
+
+user: Follow this instruction: write the numbers in descending order: 87, 35, 97, 14.
+sherlock: 97, 87, 35, 14.
+
+user: Follow this instruction: write the numbers in descending order: 5, 31, 42, 34.
+sherlock: 42, 34, 31, 5.
+
+user: Follow this instruction: write the numbers in descending order: 23, 26, 87, 54.
+sherlock: 87, 54, 26, 23.
+
+user: Follow this instruction: write the numbers in descending order: 40, 22, 32, 74.
+sherlock: 74, 40, 32, 22.
+
+user: Follow this instruction: write the numbers in descending order: 57, 17, 76, 94.
+sherlock: 94, 76, 57, 17.
+
+user: Follow this instruction: write the numbers in descending order: 74, 13, 21, 14.
+sherlock: 74, 21, 14, 13.
+
+user: Follow this instruction: write the numbers in descending order: 92, 8, 65, 34.
+sherlock: 92, 65, 34, 8.
+
+user: Follow this instruction: write the numbers in descending order: 10, 4, 54, 28.
+sherlock: 54, 28, 10, 4.
+
+user: Follow this instruction: write the numbers in descending order: 27, 98, 54, 74.
+sherlock: 98, 74, 54, 27.
+
+user: Follow this instruction: write the numbers in descending order: 44, 94, 98, 33.
+sherlock: 98, 94, 44, 33.
+
+user: What is the 4th letter in the word bright?
+sherlock: g.
+
+user: What is the 3rd letter in the word castle?
+sherlock: s.
+
+user: What is the 3rd letter in the word kitten?
+sherlock: t.
+
+user: What is the 3rd letter in the word purple?
+sherlock: r.
+
+user: What is the 3rd letter in the word tomato?
+sherlock: m.
+
+user: What is the 5th letter in the word camera?
+sherlock: r.
+
+user: What is the 2nd letter in the word dinner?
+sherlock: i.
+
+user: What is the 2nd letter in the word colour?
+sherlock: o.
+
+user: What is the 5th letter in the word circle?
+sherlock: l.
+
+user: What is the 3rd letter in the word winter?
+sherlock: n.
+
+user: Find the 3rd letter of hammer.
+sherlock: m.
+
+user: Find the 1st letter of garden.
+sherlock: g.
+
+user: Find the 1st letter of number.
+sherlock: n.
+
+user: Find the 6th letter of spider.
+sherlock: r.
+
+user: Find the 6th letter of zipper.
+sherlock: r.
+
+user: Find the 4th letter of winter.
+sherlock: t.
+
+user: Find the 6th letter of candle.
+sherlock: e.
+
+user: Find the 5th letter of island.
+sherlock: n.
+
+user: Find the 5th letter of planet.
+sherlock: e.
+
+user: Find the 5th letter of ticket.
+sherlock: e.
+
+user: In colour, which letter is at position 5?
+sherlock: u.
+
+user: In lemon, which letter is at position 4?
+sherlock: o.
+
+user: In rainbow, which letter is at position 5?
+sherlock: b.
+
+user: In valley, which letter is at position 4?
+sherlock: l.
+
+user: In energy, which letter is at position 4?
+sherlock: r.
+
+user: In guitar, which letter is at position 6?
+sherlock: r.
+
+user: In forest, which letter is at position 3?
+sherlock: r.
+
+user: In monkey, which letter is at position 3?
+sherlock: n.
+
+user: In mirror, which letter is at position 6?
+sherlock: r.
+
+user: In yellow, which letter is at position 2?
+sherlock: e.
+
+user: Read the word pocket. What is its letter number 4?
+sherlock: k.
+
+user: Read the word pencil. What is its letter number 2?
+sherlock: e.
+
+user: Read the word thunder. What is its letter number 2?
+sherlock: h.
+
+user: Read the word puzzle. What is its letter number 1?
+sherlock: p.
+
+user: Read the word bright. What is its letter number 1?
+sherlock: b.
+
+user: Read the word yellow. What is its letter number 2?
+sherlock: e.
+
+user: Read the word ladder. What is its letter number 1?
+sherlock: l.
+
+user: Read the word valley. What is its letter number 2?
+sherlock: a.
+
+user: Read the word travel. What is its letter number 6?
+sherlock: l.
+
+user: Read the word village. What is its letter number 7?
+sherlock: e.
+
+user: In the alphabet, which letter comes 3 places after e?
+sherlock: h.
+
+user: In the alphabet, which letter comes 4 places before h?
+sherlock: d.
+
+user: In the alphabet, which letter comes 3 places after i?
+sherlock: l.
+
+user: In the alphabet, which letter comes 1 places before c?
+sherlock: b.
+
+user: In the alphabet, which letter comes 2 places after a?
+sherlock: c.
+
+user: In the alphabet, which letter comes 3 places before z?
+sherlock: w.
+
+user: In the alphabet, which letter comes 3 places before q?
+sherlock: n.
+
+user: In the alphabet, which letter comes 4 places before x?
+sherlock: t.
+
+user: In the alphabet, which letter comes 1 places before b?
+sherlock: a.
+
+user: In the alphabet, which letter comes 1 places before u?
+sherlock: t.
+
+user: Which letter is 1 places before s in the alphabet?
+sherlock: r.
+
+user: Which letter is 3 places before p in the alphabet?
+sherlock: m.
+
+user: Which letter is 4 places before l in the alphabet?
+sherlock: h.
+
+user: Which letter is 2 places before r in the alphabet?
+sherlock: p.
+
+user: Which letter is 2 places after o in the alphabet?
+sherlock: q.
+
+user: Which letter is 1 places before v in the alphabet?
+sherlock: u.
+
+user: Which letter is 1 places before l in the alphabet?
+sherlock: k.
+
+user: Which letter is 4 places after c in the alphabet?
+sherlock: g.
+
+user: Which letter is 1 places after k in the alphabet?
+sherlock: l.
+
+user: Which letter is 1 places after a in the alphabet?
+sherlock: b.
+
+user: Find the letter 1 places after w in the alphabet.
+sherlock: x.
+
+user: Find the letter 3 places before q in the alphabet.
+sherlock: n.
+
+user: Find the letter 1 places after g in the alphabet.
+sherlock: h.
+
+user: Find the letter 2 places before h in the alphabet.
+sherlock: f.
+
+user: Find the letter 4 places after p in the alphabet.
+sherlock: t.
+
+user: Find the letter 2 places before l in the alphabet.
+sherlock: j.
+
+user: Find the letter 4 places before j in the alphabet.
+sherlock: f.
+
+user: Find the letter 2 places before p in the alphabet.
+sherlock: n.
+
+user: Find the letter 2 places after m in the alphabet.
+sherlock: o.
+
+user: Find the letter 2 places before y in the alphabet.
+sherlock: w.
+
+user: Starting at u, move 4 places forward in the alphabet. Which letter do you reach?
+sherlock: y.
+
+user: Starting at x, move 1 places back in the alphabet. Which letter do you reach?
+sherlock: w.
+
+user: Starting at u, move 2 places forward in the alphabet. Which letter do you reach?
+sherlock: w.
+
+user: Starting at c, move 1 places back in the alphabet. Which letter do you reach?
+sherlock: b.
+
+user: Starting at r, move 3 places forward in the alphabet. Which letter do you reach?
+sherlock: u.
+
+user: Starting at t, move 4 places back in the alphabet. Which letter do you reach?
+sherlock: p.
+
+user: Starting at f, move 1 places forward in the alphabet. Which letter do you reach?
+sherlock: g.
+
+user: Starting at q, move 1 places back in the alphabet. Which letter do you reach?
+sherlock: p.
+
+user: Starting at n, move 2 places forward in the alphabet. Which letter do you reach?
+sherlock: p.
+
+user: Starting at e, move 3 places back in the alphabet. Which letter do you reach?
+sherlock: b.
+
+user: Use the alphabet to put these letters in order: f, n, y, a, t.
+sherlock: a, f, n, t, y.
+
+user: Use the alphabet to put these letters in order: k, l, f, u, y.
+sherlock: f, k, l, u, y.
+
+user: Use the alphabet to put these letters in order: o, k, w, l, u.
+sherlock: k, l, o, u, w.
+
+user: Use the alphabet to put these letters in order: t, j, h, q, v.
+sherlock: h, j, q, t, v.
+
+user: Use the alphabet to put these letters in order: y, i, t, v, w.
+sherlock: i, t, v, w, y.
+
+user: Use the alphabet to put these letters in order: c, h, e, a, w.
+sherlock: a, c, e, h, w.
+
+user: Use the alphabet to put these letters in order: h, f, q, g, x.
+sherlock: f, g, h, q, x.
+
+user: Use the alphabet to put these letters in order: l, e, c, y, r.
+sherlock: c, e, l, r, y.
+
+user: Use the alphabet to put these letters in order: q, d, n, y, l.
+sherlock: d, l, n, q, y.
+
+user: Use the alphabet to put these letters in order: u, c, z, v, y.
+sherlock: c, u, v, y, z.
+
+user: Arrange the letters by their position in the alphabet: i, c, n, b, j.
+sherlock: b, c, i, j, n.
+
+user: Arrange the letters by their position in the alphabet: n, a, y, g, k.
+sherlock: a, g, k, n, y.
+
+user: Arrange the letters by their position in the alphabet: r, z, k, m, b.
+sherlock: b, k, m, r, z.
+
+user: Arrange the letters by their position in the alphabet: w, y, r, l, o.
+sherlock: l, o, r, w, y.
+
+user: Arrange the letters by their position in the alphabet: a, x, h, w, m.
+sherlock: a, h, m, w, x.
+
+user: Arrange the letters by their position in the alphabet: f, w, t, b, m.
+sherlock: b, f, m, t, w.
+
+user: Arrange the letters by their position in the alphabet: j, v, e, g, n.
+sherlock: e, g, j, n, v.
+
+user: Arrange the letters by their position in the alphabet: o, t, q, m, n.
+sherlock: m, n, o, q, t.
+
+user: Arrange the letters by their position in the alphabet: s, c, r, o, b.
+sherlock: b, c, o, r, s.
+
+user: Arrange the letters by their position in the alphabet: x, r, n, w, p.
+sherlock: n, p, r, w, x.
+
+user: Sort these letters using the alphabet: l, r, b, c, z.
+sherlock: b, c, l, r, z.
+
+user: Sort these letters using the alphabet: p, q, n, h, z.
+sherlock: h, n, p, q, z.
+
+user: Sort these letters using the alphabet: u, o, z, m, a.
+sherlock: a, m, o, u, z.
+
+user: Sort these letters using the alphabet: y, n, k, s, b.
+sherlock: b, k, n, s, y.
+
+user: Sort these letters using the alphabet: d, m, w, x, b.
+sherlock: b, d, m, w, x.
+
+user: Sort these letters using the alphabet: i, l, h, c, e.
+sherlock: c, e, h, i, l.
+
+user: Sort these letters using the alphabet: m, k, t, h, d.
+sherlock: d, h, k, m, t.
+
+user: Sort these letters using the alphabet: r, i, e, m, d.
+sherlock: d, e, i, m, r.
+
+user: Sort these letters using the alphabet: v, h, q, s, e.
+sherlock: e, h, q, s, v.
+
+user: Sort these letters using the alphabet: a, g, c, x, f.
+sherlock: a, c, f, g, x.
+
+user: Follow the instruction and use the alphabet to order these letters: o, g, q, d, p.
+sherlock: d, g, o, p, q.
+
+user: Follow the instruction and use the alphabet to order these letters: s, f, b, i, p.
+sherlock: b, f, i, p, s.
+
+user: Follow the instruction and use the alphabet to order these letters: x, d, n, q, i.
+sherlock: d, i, n, q, x.
+
+user: Follow the instruction and use the alphabet to order these letters: b, c, z, s, r.
+sherlock: b, c, r, s, z.
+
+user: Follow the instruction and use the alphabet to order these letters: g, b, k, y, r.
+sherlock: b, g, k, r, y.
+
+user: Follow the instruction and use the alphabet to order these letters: k, a, w, d, s.
+sherlock: a, d, k, s, w.
+
+user: Follow the instruction and use the alphabet to order these letters: p, z, h, i, t.
+sherlock: h, i, p, t, z.
+
+user: Follow the instruction and use the alphabet to order these letters: t, y, n, v, c.
+sherlock: c, n, t, v, y.
+
+user: Follow the instruction and use the alphabet to order these letters: y, w, e, s, u.
+sherlock: e, s, u, w, y.
+
+user: Follow the instruction and use the alphabet to order these letters: c, v, q, y, j.
+sherlock: c, j, q, v, y.
+
+user: What is 62904 plus 646?
+sherlock: 63550.
+
+user: Divide 7425 by 75.
+sherlock: 99.
+
+user: What is 20644 plus 3035?
+sherlock: 23679.
+
+user: What is 19651 plus 1921?
+sherlock: 21572.
+
+user: What is 4320 plus 618?
+sherlock: 4938.
+
+user: What is 96323 minus 7538?
+sherlock: 88785.
+
+user: Divide 15136 by 88.
+sherlock: 172.
+
+user: Divide 56337 by 89.
+sherlock: 633.
+
+user: What is 83026 plus 7623?
+sherlock: 90649.
+
+user: Divide 2596 by 22.
+sherlock: 118.
+
+user: What is 217 multiplied by 92?
+sherlock: 19964.
+
+user: What is 29556 plus 4466?
+sherlock: 34022.
+
+user: Divide 28842 by 57.
+sherlock: 506.
+
+user: What is 43934 plus 1011?
+sherlock: 44945.
+
+user: What is 750 multiplied by 24?
+sherlock: 18000.
+
+user: Divide 18315 by 99.
+sherlock: 185.
+
+user: Divide 13464 by 66.
+sherlock: 204.
+
+user: Divide 20900 by 22.
+sherlock: 950.
+
+user: What is 49902 plus 9995?
+sherlock: 59897.
+
+user: What is 220 multiplied by 88?
+sherlock: 19360.
+
+user: What is 96471 plus 7356?
+sherlock: 103827.
+
+user: What is 82395 minus 9019?
+sherlock: 73376.
+
+user: Divide 14098 by 19.
+sherlock: 742.
+
+user: What is 99388 minus 3846?
+sherlock: 95542.
+
+user: What is 30690 minus 2966?
+sherlock: 27724.
+
+user: Divide 6330 by 30.
+sherlock: 211.
+
+user: Divide 12408 by 88.
+sherlock: 141.
+
+user: Divide 2736 by 4.
+sherlock: 684.
+
+user: What is 99140 plus 4468?
+sherlock: 103608.
+
+user: What is 70760 plus 5600?
+sherlock: 76360.
+
+user: What is 49876 minus 8775?
+sherlock: 41101.
+
+user: What is 80295 minus 3681?
+sherlock: 76614.
+
+user: What is 73556 minus 5659?
+sherlock: 67897.
+
+user: What is 754 multiplied by 27?
+sherlock: 20358.
+
+user: What is 45 multiplied by 66?
+sherlock: 2970.
+
+user: What is 69616 plus 4909?
+sherlock: 74525.
+
+user: What is 27541 minus 9148?
+sherlock: 18393.
+
+user: What is 87346 plus 9687?
+sherlock: 97033.
+
+user: Divide 17685 by 27.
+sherlock: 655.
+
+user: What is 998 multiplied by 22?
+sherlock: 21956.
+
+user: What is 74437 plus 2619?
+sherlock: 77056.
+
+user: Divide 7980 by 38.
+sherlock: 210.
+
+user: Divide 22698 by 97.
+sherlock: 234.
+
+user: What is 29187 minus 5406?
+sherlock: 23781.
+
+user: What is 13510 plus 9621?
+sherlock: 23131.
+
+user: What is 887 multiplied by 17?
+sherlock: 15079.
+
+user: What is 14289 minus 3940?
+sherlock: 10349.
+
+user: What is 60332 minus 6189?
+sherlock: 54143.
+
+user: Divide 14564 by 44.
+sherlock: 331.
+
+user: What is 81075 minus 2083?
+sherlock: 78992.
+
+user: What is 25 percent of 17200?
+sherlock: 4300.
+
+user: What is 60 percent of 26400?
+sherlock: 15840.
+
+user: What is 20 percent of 56000?
+sherlock: 11200.
+
+user: What is 25 percent of 82000?
+sherlock: 20500.
+
+user: What is 50 percent of 98700?
+sherlock: 49350.
+
+user: What is 5 percent of 32900?
+sherlock: 1645.
+
+user: What is 35 percent of 69100?
+sherlock: 24185.
+
+user: What is 30 percent of 20600?
+sherlock: 6180.
+
+user: What is 15 percent of 18100?
+sherlock: 2715.
+
+user: What is 60 percent of 43500?
+sherlock: 26100.
+
+user: What is 50 percent of 32100?
+sherlock: 16050.
+
+user: What is 90 percent of 45600?
+sherlock: 41040.
+
+user: What is 35 percent of 14600?
+sherlock: 5110.
+
+user: What is 20 percent of 77400?
+sherlock: 15480.
+
+user: What is 65 percent of 62400?
+sherlock: 40560.
+
+user: What is 20 percent of 8200?
+sherlock: 1640.
+
+user: What is 5 percent of 7200?
+sherlock: 360.
+
+user: What is 50 percent of 700?
+sherlock: 350.
+
+user: What is 30 percent of 50300?
+sherlock: 15090.
+
+user: What is 35 percent of 64600?
+sherlock: 22610.
+
+user: What is 35 percent of 52700?
+sherlock: 18445.
+
+user: What is 25 percent of 39600?
+sherlock: 9900.
+
+user: What is 90 percent of 67800?
+sherlock: 61020.
+
+user: What is 25 percent of 19600?
+sherlock: 4900.
+
+user: What is 80 percent of 41700?
+sherlock: 33360.
+
+user: What is 90 percent of 44700?
+sherlock: 40230.
+
+user: What is 65 percent of 97900?
+sherlock: 63635.
+
+user: What is 80 percent of 65000?
+sherlock: 52000.
+
+user: What is 35 percent of 38300?
+sherlock: 13405.
+
+user: What is 30 percent of 53200?
+sherlock: 15960.
+
+user: What is 90 percent of 16500?
+sherlock: 14850.
+
+user: What is 20 percent of 1300?
+sherlock: 260.
+
+user: What is 80 percent of 88700?
+sherlock: 70960.
+
+user: What is 12 percent of 71800?
+sherlock: 8616.
+
+user: What is 15 percent of 56000?
+sherlock: 8400.
+
+user: What is 60 percent of 83400?
+sherlock: 50040.
+
+user: What is 60 percent of 34100?
+sherlock: 20460.
+
+user: What is 75 percent of 27600?
+sherlock: 20700.
+
+user: What is 25 percent of 18900?
+sherlock: 4725.
+
+user: What is 35 percent of 47000?
+sherlock: 16450.
+
+user: What is 30 percent of 34600?
+sherlock: 10380.
+
+user: What is 90 percent of 26000?
+sherlock: 23400.
+
+user: What is 60 percent of 78600?
+sherlock: 47160.
+
+user: What is 35 percent of 68200?
+sherlock: 23870.
+
+user: What is 75 percent of 2400?
+sherlock: 1800.
+
+user: What is 25 percent of 65500?
+sherlock: 16375.
+
+user: What is 90 percent of 91400?
+sherlock: 82260.
+
+user: What is 12 percent of 82200?
+sherlock: 9864.
+
+user: What is 30 percent of 37700?
+sherlock: 11310.
+
+user: What is 10 percent of 8200?
+sherlock: 820.
+
+user: Convert 107465 grams to kilograms.
+sherlock: 107.465.
+
+user: Convert 561342 millilitres to litres.
+sherlock: 561.342.
+
+user: Convert 742489 centimetres to metres.
+sherlock: 7424.89.
+
+user: Convert 561 centimetres to millimetres.
+sherlock: 5610.
+
+user: Convert 893 kilometres to metres.
+sherlock: 893000.
+
+user: Convert 1904 metres to centimetres.
+sherlock: 190400.
+
+user: Convert 286358 metres to kilometres.
+sherlock: 286.358.
+
+user: Convert 828298 centimetres to metres.
+sherlock: 8282.98.
+
+user: Convert 76436 metres to kilometres.
+sherlock: 76.436.
+
+user: Convert 4858 kilometres to metres.
+sherlock: 4858000.
+
+user: Convert 5633 kilograms to grams.
+sherlock: 5633000.
+
+user: Convert 77372 millimetres to centimetres.
+sherlock: 7737.2.
+
+user: Convert 9748 millimetres to centimetres.
+sherlock: 974.8.
+
+user: Convert 1272 litres to millilitres.
+sherlock: 1272000.
+
+user: Convert 159811 metres to kilometres.
+sherlock: 159.811.
+
+user: Convert 3432 metres to centimetres.
+sherlock: 343200.
+
+user: Convert 424412 metres to kilometres.
+sherlock: 424.412.
+
+user: Convert 687359 metres to kilometres.
+sherlock: 687.359.
+
+user: Convert 362736 millilitres to litres.
+sherlock: 362.736.
+
+user: Convert 1787 centimetres to millimetres.
+sherlock: 17870.
+
+user: Convert 9279 kilometres to metres.
+sherlock: 9279000.
+
+user: Convert 227618 grams to kilograms.
+sherlock: 227.618.
+
+user: Convert 11792 millimetres to centimetres.
+sherlock: 1179.2.
+
+user: Convert 168166 millilitres to litres.
+sherlock: 168.166.
+
+user: Convert 889876 centimetres to metres.
+sherlock: 8898.76.
+
+user: Convert 309218 grams to kilograms.
+sherlock: 309.218.
+
+user: Convert 737005 grams to kilograms.
+sherlock: 737.005.
+
+user: Convert 4442 kilograms to grams.
+sherlock: 4442000.
+
+user: Convert 4337 kilometres to metres.
+sherlock: 4337000.
+
+user: Convert 3988 kilograms to grams.
+sherlock: 3988000.
+
+user: Convert 420301 millilitres to litres.
+sherlock: 420.301.
+
+user: Convert 265169 centimetres to metres.
+sherlock: 2651.69.
+
+user: Convert 83974 millimetres to centimetres.
+sherlock: 8397.4.
+
+user: Convert 3587 centimetres to millimetres.
+sherlock: 35870.
+
+user: Convert 91106 millimetres to centimetres.
+sherlock: 9110.6.
+
+user: Convert 14568 millimetres to centimetres.
+sherlock: 1456.8.
+
+user: Convert 48438 millimetres to centimetres.
+sherlock: 4843.8.
+
+user: Convert 6668 metres to centimetres.
+sherlock: 666800.
+
+user: Convert 9531 kilometres to metres.
+sherlock: 9531000.
+
+user: Convert 2218 kilometres to metres.
+sherlock: 2218000.
+
+user: Convert 902992 grams to kilograms.
+sherlock: 902.992.
+
+user: Convert 320041 centimetres to metres.
+sherlock: 3200.41.
+
+user: Convert 1276 kilometres to metres.
+sherlock: 1276000.
+
+user: Convert 181874 grams to kilograms.
+sherlock: 181.874.
+
+user: Convert 9198 metres to centimetres.
+sherlock: 919800.
+
+user: Convert 28266 millimetres to centimetres.
+sherlock: 2826.6.
+
+user: Convert 765787 metres to kilometres.
+sherlock: 765.787.
+
+user: Convert 738361 millilitres to litres.
+sherlock: 738.361.
+
+user: Convert 83529 millimetres to centimetres.
+sherlock: 8352.9.
+
+user: Convert 5043 metres to centimetres.
+sherlock: 504300.
+
+user: A shop sells 85 books each day for 91741 days. How many books are sold altogether?
+sherlock: 7797985.
+
+user: 8636 stickers are shared equally between 68 bags. How many stickers go in each bag?
+sherlock: 127.
+
+user: A shop sells 39 books each day for 27733 days. How many books are sold altogether?
+sherlock: 1081587.
+
+user: A teacher has 53939 pencils and gives 49 to each of 7 groups. How many pencils are given away?
+sherlock: 343.
+
+user: A shop sells 62 books each day for 51222 days. How many books are sold altogether?
+sherlock: 3175764.
+
+user: 36416 stickers are shared equally between 64 bags. How many stickers go in each bag?
+sherlock: 569.
+
+user: A teacher has 63695 pencils and gives 18 to each of 9 groups. How many pencils are given away?
+sherlock: 162.
+
+user: A teacher has 13206 pencils and gives 93 to each of 3 groups. How many pencils are given away?
+sherlock: 279.
+
+user: A shop has 63191 pencils and sells 80. How many pencils remain?
+sherlock: 63111.
+
+user: A teacher has 48786 pencils and gives 16 to each of 5 groups. How many pencils are given away?
+sherlock: 80.
+
+user: There are 12561 marbles shared equally into 53 groups. How many marbles are in each group?
+sherlock: 237.
+
+user: A shop sells 47 books each day for 99085 days. How many books are sold altogether?
+sherlock: 4656995.
+
+user: There are 54538 marbles shared equally into 67 groups. How many marbles are in each group?
+sherlock: 814.
+
+user: A box holds 67 cards. There are 17707 cards altogether. How many boxes are needed?
+sherlock: 265.
+
+user: A shop sells 4 books each day for 99249 days. How many books are sold altogether?
+sherlock: 396996.
+
+user: A teacher has 79235 pencils and gives 38 to each of 9 groups. How many pencils are given away?
+sherlock: 342.
+
+user: A shop has 29270 pencils and sells 10. How many pencils remain?
+sherlock: 29260.
+
+user: 31801 stickers are shared equally between 49 bags. How many stickers go in each bag?
+sherlock: 649.
+
+user: There are 16040 marbles shared equally into 40 groups. How many marbles are in each group?
+sherlock: 401.
+
+user: A box holds 44 cards. There are 45432 cards altogether. How many boxes are needed?
+sherlock: 1033.
+
+user: There are 495 marbles shared equally into 11 groups. How many marbles are in each group?
+sherlock: 45.
+
+user: There are 9300 marbles shared equally into 31 groups. How many marbles are in each group?
+sherlock: 300.
+
+user: There are 55728 marbles shared equally into 72 groups. How many marbles are in each group?
+sherlock: 774.
+
+user: There are 12980 marbles shared equally into 55 groups. How many marbles are in each group?
+sherlock: 236.
+
+user: There are 180 marbles shared equally into 12 groups. How many marbles are in each group?
+sherlock: 15.
+
+user: 9028 stickers are shared equally between 74 bags. How many stickers go in each bag?
+sherlock: 122.
+
+user: A shop has 24859 pencils and sells 42. How many pencils remain?
+sherlock: 24817.
+
+user: There are 6204 marbles shared equally into 94 groups. How many marbles are in each group?
+sherlock: 66.
+
+user: A shop sells 47 books each day for 6051 days. How many books are sold altogether?
+sherlock: 284397.
+
+user: 40640 stickers are shared equally between 80 bags. How many stickers go in each bag?
+sherlock: 508.
+
+user: There are 58240 marbles shared equally into 80 groups. How many marbles are in each group?
+sherlock: 728.
+
+user: There are 46080 marbles shared equally into 64 groups. How many marbles are in each group?
+sherlock: 720.
+
+user: There are 47670 marbles shared equally into 70 groups. How many marbles are in each group?
+sherlock: 681.
+
+user: A teacher has 3050 pencils and gives 11 to each of 10 groups. How many pencils are given away?
+sherlock: 110.
+
+user: 26576 stickers are shared equally between 88 bags. How many stickers go in each bag?
+sherlock: 302.
+
+user: A teacher has 57240 pencils and gives 93 to each of 6 groups. How many pencils are given away?
+sherlock: 558.
+
+user: There are 36708 marbles shared equally into 84 groups. How many marbles are in each group?
+sherlock: 437.
+
+user: A shop has 34353 pencils and sells 86. How many pencils remain?
+sherlock: 34267.
+
+user: 16440 stickers are shared equally between 30 bags. How many stickers go in each bag?
+sherlock: 548.
+
+user: A shop sells 81 books each day for 20221 days. How many books are sold altogether?
+sherlock: 1637901.
+
+user: 67480 stickers are shared equally between 70 bags. How many stickers go in each bag?
+sherlock: 964.
+
+user: A shop has 42207 pencils and sells 86. How many pencils remain?
+sherlock: 42121.
+
+user: A shop has 35152 pencils and sells 66. How many pencils remain?
+sherlock: 35086.
+
+user: 17453 stickers are shared equally between 31 bags. How many stickers go in each bag?
+sherlock: 563.
+
+user: A shop sells 60 books each day for 52346 days. How many books are sold altogether?
+sherlock: 3140760.
+
+user: A teacher has 66780 pencils and gives 96 to each of 12 groups. How many pencils are given away?
+sherlock: 1152.
+
+user: A shop has 29835 pencils and sells 94. How many pencils remain?
+sherlock: 29741.
+
+user: There are 65570 marbles shared equally into 79 groups. How many marbles are in each group?
+sherlock: 830.
+
+user: A shop sells 14 books each day for 18693 days. How many books are sold altogether?
+sherlock: 261702.
+
+user: A shop sells 2 books each day for 42983 days. How many books are sold altogether?
+sherlock: 85966.
+
+user: Complete the number sequence 37940, 38211, 38482, 38753 by finding the next number.
+sherlock: 39024.
+
+user: Complete the number sequence 60075, 60263, 60451, 60639 by finding the next number.
+sherlock: 60827.
+
+user: Complete the number sequence 29928, 29990, 30052, 30114 by finding the next number.
+sherlock: 30176.
+
+user: Complete the number sequence 35882, 35838, 35794, 35750 by finding the next number.
+sherlock: 35706.
+
+user: Complete the number sequence 50939, 50895, 50851, 50807 by finding the next number.
+sherlock: 50763.
+
+user: Complete the number sequence 33896, 33852, 33808, 33764 by finding the next number.
+sherlock: 33720.
+
+user: Complete the number sequence 84345, 84376, 84407, 84438 by finding the next number.
+sherlock: 84469.
+
+user: Complete the number sequence 17139, 17256, 17373, 17490 by finding the next number.
+sherlock: 17607.
+
+user: Complete the number sequence 78093, 77923, 77753, 77583 by finding the next number.
+sherlock: 77413.
+
+user: Complete the number sequence 45880, 45942, 46004, 46066 by finding the next number.
+sherlock: 46128.
+
+user: Complete the number sequence 9898, 9854, 9810, 9766 by finding the next number.
+sherlock: 9722.
+
+user: Complete the number sequence 88795, 88484, 88173, 87862 by finding the next number.
+sherlock: 87551.
+
+user: Complete the number sequence 13451, 13568, 13685, 13802 by finding the next number.
+sherlock: 13919.
+
+user: Complete the number sequence 49038, 48727, 48416, 48105 by finding the next number.
+sherlock: 47794.
+
+user: Complete the number sequence 29780, 29689, 29598, 29507 by finding the next number.
+sherlock: 29416.
+
+user: Complete the number sequence 31808, 31764, 31720, 31676 by finding the next number.
+sherlock: 31632.
+
+user: Complete the number sequence 72712, 72900, 73088, 73276 by finding the next number.
+sherlock: 73464.
+
+user: Complete the number sequence 5026, 5297, 5568, 5839 by finding the next number.
+sherlock: 6110.
+
+user: Complete the number sequence 22596, 22627, 22658, 22689 by finding the next number.
+sherlock: 22720.
+
+user: Complete the number sequence 29595, 29783, 29971, 30159 by finding the next number.
+sherlock: 30347.
+
+user: Complete the number sequence 87249, 87366, 87483, 87600 by finding the next number.
+sherlock: 87717.
+
+user: Complete the number sequence 60890, 60921, 60952, 60983 by finding the next number.
+sherlock: 61014.
+
+user: Complete the number sequence 94373, 94203, 94033, 93863 by finding the next number.
+sherlock: 93693.
+
+user: Complete the number sequence 47971, 47801, 47631, 47461 by finding the next number.
+sherlock: 47291.
+
+user: Complete the number sequence 4247, 4278, 4309, 4340 by finding the next number.
+sherlock: 4371.
+
+user: Complete the number sequence 82116, 81946, 81776, 81606 by finding the next number.
+sherlock: 81436.
+
+user: Complete the number sequence 56939, 57127, 57315, 57503 by finding the next number.
+sherlock: 57691.
+
+user: Complete the number sequence 71264, 71220, 71176, 71132 by finding the next number.
+sherlock: 71088.
+
+user: Complete the number sequence 93131, 93162, 93193, 93224 by finding the next number.
+sherlock: 93255.
+
+user: Complete the number sequence 41854, 41885, 41916, 41947 by finding the next number.
+sherlock: 41978.
+
+user: Complete the number sequence 12429, 12460, 12491, 12522 by finding the next number.
+sherlock: 12553.
+
+user: Complete the number sequence 94693, 94881, 95069, 95257 by finding the next number.
+sherlock: 95445.
+
+user: Complete the number sequence 58350, 58412, 58474, 58536 by finding the next number.
+sherlock: 58598.
+
+user: Complete the number sequence 66418, 66327, 66236, 66145 by finding the next number.
+sherlock: 66054.
+
+user: Complete the number sequence 44139, 43969, 43799, 43629 by finding the next number.
+sherlock: 43459.
+
+user: Complete the number sequence 73009, 72839, 72669, 72499 by finding the next number.
+sherlock: 72329.
+
+user: Complete the number sequence 58219, 58336, 58453, 58570 by finding the next number.
+sherlock: 58687.
+
+user: Complete the number sequence 37083, 37354, 37625, 37896 by finding the next number.
+sherlock: 38167.
+
+user: Complete the number sequence 13614, 13645, 13676, 13707 by finding the next number.
+sherlock: 13738.
+
+user: Complete the number sequence 25369, 25400, 25431, 25462 by finding the next number.
+sherlock: 25493.
+
+user: Complete the number sequence 30184, 30014, 29844, 29674 by finding the next number.
+sherlock: 29504.
+
+user: Complete the number sequence 48050, 48167, 48284, 48401 by finding the next number.
+sherlock: 48518.
+
+user: Complete the number sequence 63923, 64111, 64299, 64487 by finding the next number.
+sherlock: 64675.
+
+user: Complete the number sequence 96459, 96148, 95837, 95526 by finding the next number.
+sherlock: 95215.
+
+user: Complete the number sequence 22232, 22503, 22774, 23045 by finding the next number.
+sherlock: 23316.
+
+user: Complete the number sequence 20738, 21009, 21280, 21551 by finding the next number.
+sherlock: 21822.
+
+user: Complete the number sequence 29283, 29192, 29101, 29010 by finding the next number.
+sherlock: 28919.
+
+user: Complete the number sequence 73927, 73958, 73989, 74020 by finding the next number.
+sherlock: 74051.
+
+user: Complete the number sequence 30604, 30293, 29982, 29671 by finding the next number.
+sherlock: 29360.
+
+user: Complete the number sequence 74261, 74378, 74495, 74612 by finding the next number.
+sherlock: 74729.
+
+user: Put these numbers in ascending order: 3255, 61948, 47106, 43735, 92063.
+sherlock: 3255, 43735, 47106, 61948, 92063.
+
+user: Follow the instruction and use the alphabet to order these letters: z, f, c, k, y.
+sherlock: c, f, k, y, z.
+
+user: Follow the instruction and use the alphabet to order these letters: b, y, a, j, z.
+sherlock: a, b, j, y, z.
+
+user: Follow the instruction and use the alphabet to order these letters: y, i, z, t, f.
+sherlock: f, i, t, y, z.
+
+user: Follow the instruction and use the alphabet to order these letters: h, t, v, s, n.
+sherlock: h, n, s, t, v.
+
+user: Put these numbers in ascending order: 65583, 31284, 541, 25257, 6203.
+sherlock: 541, 6203, 25257, 31284, 65583.
+
+user: Follow the instruction and use the alphabet to order these letters: i, f, o, u, e.
+sherlock: e, f, i, o, u.
+
+user: Follow the instruction and use the alphabet to order these letters: l, d, t, b, n.
+sherlock: b, d, l, n, t.
+
+user: Put these numbers in descending order: 87916, 85979, 71916, 24948, 95916.
+sherlock: 95916, 87916, 85979, 71916, 24948.
+
+user: Follow the instruction and use the alphabet to order these letters: e, f, x, h, k.
+sherlock: e, f, h, k, x.
+
+user: Put these numbers in descending order: 5367, 85797, 14216, 78720, 26955.
+sherlock: 85797, 78720, 26955, 14216, 5367.
+
+user: Follow the instruction and use the alphabet to order these letters: a, u, h, k, d.
+sherlock: a, d, h, k, u.
+
+user: Put these numbers in descending order: 22756, 7638, 27195, 50261, 70514.
+sherlock: 70514, 50261, 27195, 22756, 7638.
+
+user: Put these numbers in ascending order: 98970, 67253, 85579, 68585, 90931.
+sherlock: 67253, 68585, 85579, 90931, 98970.
+
+user: Put these numbers in ascending order: 87329, 98909, 92768, 66933, 45947.
+sherlock: 45947, 66933, 87329, 92768, 98909.
+
+user: Follow the instruction and use the alphabet to order these letters: i, x, t, d, n.
+sherlock: d, i, n, t, x.
+
+user: Put these numbers in descending order: 60462, 36017, 1656, 60101, 67593.
+sherlock: 67593, 60462, 60101, 36017, 1656.
+
+user: Follow the instruction and use the alphabet to order these letters: e, k, s, l, y.
+sherlock: e, k, l, s, y.
+
+user: Follow the instruction and use the alphabet to order these letters: j, x, e, b, w.
+sherlock: b, e, j, w, x.
+
+user: Put these numbers in ascending order: 67234, 33889, 73453, 56342, 28040.
+sherlock: 28040, 33889, 56342, 67234, 73453.
+
+user: Follow the instruction and use the alphabet to order these letters: k, q, p, a, x.
+sherlock: a, k, p, q, x.
+
+user: Put these numbers in ascending order: 40204, 70301, 86095, 73574, 11630.
+sherlock: 11630, 40204, 70301, 73574, 86095.
+
+user: Follow the instruction and use the alphabet to order these letters: b, q, x, w, i.
+sherlock: b, i, q, w, x.
+
+user: Put these numbers in descending order: 72796, 29999, 31339, 51864, 28778.
+sherlock: 72796, 51864, 31339, 29999, 28778.
+
+user: Put these numbers in ascending order: 89886, 87726, 77257, 44837, 95222.
+sherlock: 44837, 77257, 87726, 89886, 95222.
+
+user: Follow the instruction and use the alphabet to order these letters: w, o, l, q, j.
+sherlock: j, l, o, q, w.
+
+user: Put these numbers in ascending order: 24870, 66449, 18342, 36876, 38635.
+sherlock: 18342, 24870, 36876, 38635, 66449.
+
+user: Put these numbers in ascending order: 60658, 6019, 99817, 24487, 12979.
+sherlock: 6019, 12979, 24487, 60658, 99817.
+
+user: Put these numbers in descending order: 82145, 22461, 48148, 55342, 76416.
+sherlock: 82145, 76416, 55342, 48148, 22461.
+
+user: Follow the instruction and use the alphabet to order these letters: c, i, o, p, u.
+sherlock: c, i, o, p, u.
+
+user: Follow the instruction and use the alphabet to order these letters: z, w, r, s, f.
+sherlock: f, r, s, w, z.
+
+user: Follow the instruction and use the alphabet to order these letters: u, x, v, r, w.
+sherlock: r, u, v, w, x.
+
+user: Put these numbers in descending order: 26459, 35454, 42223, 43862, 93074.
+sherlock: 93074, 43862, 42223, 35454, 26459.
+
+user: Follow the instruction and use the alphabet to order these letters: r, w, f, c, y.
+sherlock: c, f, r, w, y.
+
+user: Put these numbers in descending order: 14757, 41763, 4437, 75228, 41434.
+sherlock: 75228, 41763, 41434, 14757, 4437.
+
+user: Put these numbers in descending order: 42633, 34495, 40382, 83427, 916.
+sherlock: 83427, 42633, 40382, 34495, 916.
+
+user: Put these numbers in ascending order: 96992, 42837, 42042, 18061, 11415.
+sherlock: 11415, 18061, 42042, 42837, 96992.
+
+user: Follow the instruction and use the alphabet to order these letters: q, m, i, l, h.
+sherlock: h, i, l, m, q.
+
+user: Put these numbers in ascending order: 73976, 339, 74844, 54601, 81774.
+sherlock: 339, 54601, 73976, 74844, 81774.
+
+user: Put these numbers in ascending order: 14168, 87604, 9478, 68624, 98304.
+sherlock: 9478, 14168, 68624, 87604, 98304.
+
+user: Put these numbers in ascending order: 99840, 64293, 51913, 93516, 53761.
+sherlock: 51913, 53761, 64293, 93516, 99840.
+
+user: Follow the instruction and use the alphabet to order these letters: q, a, n, w, m.
+sherlock: a, m, n, q, w.
+
+user: Follow the instruction and use the alphabet to order these letters: i, l, k, g, y.
+sherlock: g, i, k, l, y.
+
+user: Put these numbers in descending order: 34117, 24137, 97501, 62495, 85298.
+sherlock: 97501, 85298, 62495, 34117, 24137.
+
+user: Follow the instruction and use the alphabet to order these letters: m, x, k, y, w.
+sherlock: k, m, w, x, y.
+
+user: Follow the instruction and use the alphabet to order these letters: h, c, f, n, m.
+sherlock: c, f, h, m, n.
+
+user: Follow the instruction and use the alphabet to order these letters: i, d, g, n, k.
+sherlock: d, g, i, k, n.
+
+user: Put these numbers in ascending order: 99431, 60283, 90682, 20218, 82529.
+sherlock: 20218, 60283, 82529, 90682, 99431.
+
+user: Put these numbers in ascending order: 93099, 22451, 97628, 34483, 27443.
+sherlock: 22451, 27443, 34483, 93099, 97628.
+
+user: Follow the instruction and use the alphabet to order these letters: u, e, h, g, n.
+sherlock: e, g, h, n, u.
