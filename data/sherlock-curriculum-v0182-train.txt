@@ -40498,71 +40498,68 @@ sherlock: 319000.
 user: Convert 9612 kilometres to metres.
 sherlock: 9612000.
 
-user: There are 12969 marbles shared equally into 4 groups. How many marbles are in each group?
-sherlock: 3242.
+user: There are 1604 marbles shared equally into 4 groups. How many marbles are in each group?
+sherlock: 401.
 
-user: There are 4893 marbles shared equally into 78 groups. How many marbles are in each group?
-sherlock: 62.
+user: A shop has 77579 pencils and sells 18. How many pencils remain?
+sherlock: 77561.
 
-user: A box holds 58 cards. There are 20385 cards altogether. How many boxes are needed?
-sherlock: 352.
+user: A box holds 31 cards. There are 57882 cards altogether. How many boxes are needed?
+sherlock: 1868.
 
-user: A box holds 42 cards. There are 73786 cards altogether. How many boxes are needed?
-sherlock: 1757.
+user: 45050 stickers are shared equally between 50 bags. How many stickers go in each bag?
+sherlock: 901.
 
-user: There are 90162 marbles shared equally into 28 groups. How many marbles are in each group?
-sherlock: 3220.
+user: A box holds 63 cards. There are 88193 cards altogether. How many boxes are needed?
+sherlock: 1400.
 
-user: A teacher has 62657 pencils and gives 24 to each of 12 groups. How many pencils are given away?
-sherlock: 288.
+user: A box holds 97 cards. There are 91182 cards altogether. How many boxes are needed?
+sherlock: 941.
 
-user: A teacher has 42523 pencils and gives 7 to each of 5 groups. How many pencils are given away?
-sherlock: 35.
+user: There are 28303 marbles shared equally into 31 groups. How many marbles are in each group?
+sherlock: 913.
 
-user: A teacher has 50225 pencils and gives 88 to each of 2 groups. How many pencils are given away?
-sherlock: 176.
+user: A shop sells 7 books each day for 88736 days. How many books are sold altogether?
+sherlock: 621152.
 
-user: There are 5262 marbles shared equally into 27 groups. How many marbles are in each group?
-sherlock: 194.
+user: There are 3942 marbles shared equally into 27 groups. How many marbles are in each group?
+sherlock: 146.
 
-user: A shop has 16788 pencils and sells 27. How many pencils remain?
-sherlock: 16761.
+user: A box holds 17 cards. There are 26283 cards altogether. How many boxes are needed?
+sherlock: 1547.
 
-user: A shop has 82728 pencils and sells 45. How many pencils remain?
-sherlock: 82683.
+user: 74824 stickers are shared equally between 94 bags. How many stickers go in each bag?
+sherlock: 796.
 
-user: A teacher has 79610 pencils and gives 4 to each of 12 groups. How many pencils are given away?
-sherlock: 48.
+user: A shop has 99483 pencils and sells 91. How many pencils remain?
+sherlock: 99392.
 
-user: A teacher has 61428 pencils and gives 36 to each of 7 groups. How many pencils are given away?
-sherlock: 252.
+user: A shop sells 49 books each day for 34989 days. How many books are sold altogether?
+sherlock: 1714461.
 
 user: A teacher has 38359 pencils and gives 4 to each of 8 groups. How many pencils are given away?
 sherlock: 32.
 
-user: 60919 stickers are shared equally between 53 bags. How many stickers go in each bag?
-sherlock: 1149.
+user: 26341 stickers are shared equally between 53 bags. How many stickers go in each bag?
+sherlock: 497.
 
-user: There are 21712 marbles shared equally into 72 groups. How many marbles are in each group?
-sherlock: 301.
+user: A box holds 69 cards. There are 71843 cards altogether. How many boxes are needed?
+sherlock: 1042.
 
-user: 436 stickers are shared equally between 59 bags. How many stickers go in each bag?
-sherlock: 7.
+user: A shop has 58793 pencils and sells 72. How many pencils remain?
+sherlock: 58721.
 
-user: 47545 stickers are shared equally between 17 bags. How many stickers go in each bag?
-sherlock: 2796.
+user: There are 27440 marbles shared equally into 98 groups. How many marbles are in each group?
+sherlock: 280.
 
-user: A teacher has 27936 pencils and gives 78 to each of 6 groups. How many pencils are given away?
-sherlock: 468.
+user: 32544 stickers are shared equally between 72 bags. How many stickers go in each bag?
+sherlock: 452.
 
-user: 45215 stickers are shared equally between 97 bags. How many stickers go in each bag?
-sherlock: 466.
+user: A teacher has 96194 pencils and gives 35 to each of 7 groups. How many pencils are given away?
+sherlock: 245.
 
-user: A teacher has 33966 pencils and gives 47 to each of 12 groups. How many pencils are given away?
-sherlock: 564.
-
-user: There are 55183 marbles shared equally into 31 groups. How many marbles are in each group?
-sherlock: 1780.
+user: A teacher has 47702 pencils and gives 56 to each of 5 groups. How many pencils are given away?
+sherlock: 280.
 
 user: A shop has 19604 pencils and sells 71. How many pencils remain?
 sherlock: 19533.
@@ -40573,26 +40570,23 @@ sherlock: 65962.
 user: A teacher has 9239 pencils and gives 39 to each of 9 groups. How many pencils are given away?
 sherlock: 351.
 
-user: There are 89463 marbles shared equally into 91 groups. How many marbles are in each group?
-sherlock: 983.
+user: There are 67704 marbles shared equally into 91 groups. How many marbles are in each group?
+sherlock: 744.
 
-user: 65785 stickers are shared equally between 65 bags. How many stickers go in each bag?
-sherlock: 1012.
+user: A shop sells 35 books each day for 64592 days. How many books are sold altogether?
+sherlock: 2260720.
 
-user: There are 19840 marbles shared equally into 19 groups. How many marbles are in each group?
-sherlock: 1044.
+user: A box holds 14 cards. There are 18076 cards altogether. How many boxes are needed?
+sherlock: 1292.
 
-user: A shop has 34527 pencils and sells 35. How many pencils remain?
-sherlock: 34492.
+user: There are 54315 marbles shared equally into 71 groups. How many marbles are in each group?
+sherlock: 765.
 
-user: 76472 stickers are shared equally between 32 bags. How many stickers go in each bag?
-sherlock: 2389.
+user: A box holds 39 cards. There are 14889 cards altogether. How many boxes are needed?
+sherlock: 382.
 
-user: A shop has 38025 pencils and sells 42. How many pencils remain?
-sherlock: 37983.
-
-user: A shop has 74277 pencils and sells 15. How many pencils remain?
-sherlock: 74262.
+user: There are 10508 marbles shared equally into 74 groups. How many marbles are in each group?
+sherlock: 142.
 
 user: A shop sells 45 books each day for 70247 days. How many books are sold altogether?
 sherlock: 3161115.
@@ -40609,26 +40603,26 @@ sherlock: 73521.
 user: A shop sells 19 books each day for 82860 days. How many books are sold altogether?
 sherlock: 1574340.
 
-user: There are 26011 marbles shared equally into 70 groups. How many marbles are in each group?
-sherlock: 371.
+user: There are 36050 marbles shared equally into 70 groups. How many marbles are in each group?
+sherlock: 515.
 
-user: A shop sells 44 books each day for 93366 days. How many books are sold altogether?
-sherlock: 4108104.
+user: A teacher has 43427 pencils and gives 97 to each of 11 groups. How many pencils are given away?
+sherlock: 1067.
 
-user: A teacher has 82164 pencils and gives 20 to each of 12 groups. How many pencils are given away?
-sherlock: 240.
+user: A box holds 67 cards. There are 96602 cards altogether. How many boxes are needed?
+sherlock: 1442.
 
-user: 10779 stickers are shared equally between 84 bags. How many stickers go in each bag?
-sherlock: 128.
+user: A shop has 84475 pencils and sells 15. How many pencils remain?
+sherlock: 84460.
 
-user: A shop has 58919 pencils and sells 48. How many pencils remain?
-sherlock: 58871.
+user: A shop sells 26 books each day for 47570 days. How many books are sold altogether?
+sherlock: 1236820.
 
-user: A box holds 7 cards. There are 16264 cards altogether. How many boxes are needed?
-sherlock: 2324.
+user: A shop has 5278 pencils and sells 91. How many pencils remain?
+sherlock: 5187.
 
-user: A teacher has 29784 pencils and gives 96 to each of 10 groups. How many pencils are given away?
-sherlock: 960.
+user: A box holds 74 cards. There are 95954 cards altogether. How many boxes are needed?
+sherlock: 1297.
 
 user: A teacher has 39044 pencils and gives 99 to each of 2 groups. How many pencils are given away?
 sherlock: 198.
@@ -40648,23 +40642,23 @@ sherlock: 172.
 user: A shop has 30580 pencils and sells 64. How many pencils remain?
 sherlock: 30516.
 
-user: There are 55567 marbles shared equally into 24 groups. How many marbles are in each group?
-sherlock: 2315.
+user: There are 12384 marbles shared equally into 24 groups. How many marbles are in each group?
+sherlock: 516.
 
-user: A shop sells 32 books each day for 48736 days. How many books are sold altogether?
-sherlock: 1559552.
+user: There are 74070 marbles shared equally into 90 groups. How many marbles are in each group?
+sherlock: 823.
 
-user: A teacher has 82358 pencils and gives 33 to each of 10 groups. How many pencils are given away?
-sherlock: 330.
+user: A box holds 35 cards. There are 81410 cards altogether. How many boxes are needed?
+sherlock: 2326.
 
-user: There are 12693 marbles shared equally into 70 groups. How many marbles are in each group?
-sherlock: 181.
+user: A shop has 70283 pencils and sells 55. How many pencils remain?
+sherlock: 70228.
 
-user: A shop sells 7 books each day for 1863 days. How many books are sold altogether?
-sherlock: 13041.
+user: A shop has 5773 pencils and sells 89. How many pencils remain?
+sherlock: 5684.
 
-user: A teacher has 11435 pencils and gives 69 to each of 5 groups. How many pencils are given away?
-sherlock: 345.
+user: A shop has 69157 pencils and sells 33. How many pencils remain?
+sherlock: 69124.
 
 user: A box holds 53 cards. There are 36294 cards altogether. How many boxes are needed?
 sherlock: 685.
@@ -40675,17 +40669,14 @@ sherlock: 228.
 user: A shop sells 85 books each day for 1972 days. How many books are sold altogether?
 sherlock: 167620.
 
-user: There are 97791 marbles shared equally into 63 groups. How many marbles are in each group?
-sherlock: 1552.
+user: There are 14931 marbles shared equally into 63 groups. How many marbles are in each group?
+sherlock: 237.
 
-user: A box holds 8 cards. There are 90817 cards altogether. How many boxes are needed?
-sherlock: 11353.
+user: A teacher has 6446 pencils and gives 73 to each of 4 groups. How many pencils are given away?
+sherlock: 292.
 
-user: 24990 stickers are shared equally between 34 bags. How many stickers go in each bag?
-sherlock: 735.
-
-user: A box holds 29 cards. There are 49747 cards altogether. How many boxes are needed?
-sherlock: 1716.
+user: There are 14000 marbles shared equally into 50 groups. How many marbles are in each group?
+sherlock: 280.
 
 user: A box holds 17 cards. There are 6647 cards altogether. How many boxes are needed?
 sherlock: 391.
@@ -40711,116 +40702,104 @@ sherlock: 198.
 user: A teacher has 86056 pencils and gives 14 to each of 12 groups. How many pencils are given away?
 sherlock: 168.
 
-user: 6863 stickers are shared equally between 77 bags. How many stickers go in each bag?
-sherlock: 89.
+user: 21868 stickers are shared equally between 77 bags. How many stickers go in each bag?
+sherlock: 284.
 
-user: A box holds 3 cards. There are 98479 cards altogether. How many boxes are needed?
-sherlock: 32827.
+user: A teacher has 1925 pencils and gives 73 to each of 10 groups. How many pencils are given away?
+sherlock: 730.
 
-user: 73629 stickers are shared equally between 66 bags. How many stickers go in each bag?
-sherlock: 1115.
+user: A shop sells 33 books each day for 61250 days. How many books are sold altogether?
+sherlock: 2021250.
 
-user: A shop sells 39 books each day for 32656 days. How many books are sold altogether?
-sherlock: 1273584.
-
-user: A box holds 13 cards. There are 43462 cards altogether. How many boxes are needed?
-sherlock: 3344.
+user: There are 5236 marbles shared equally into 44 groups. How many marbles are in each group?
+sherlock: 119.
 
 user: A box holds 46 cards. There are 46065 cards altogether. How many boxes are needed?
 sherlock: 1002.
 
-user: 52531 stickers are shared equally between 6 bags. How many stickers go in each bag?
-sherlock: 8755.
+user: 3012 stickers are shared equally between 6 bags. How many stickers go in each bag?
+sherlock: 502.
 
-user: A shop sells 19 books each day for 3661 days. How many books are sold altogether?
-sherlock: 69559.
+user: A shop has 18131 pencils and sells 31. How many pencils remain?
+sherlock: 18100.
 
-user: A box holds 21 cards. There are 22890 cards altogether. How many boxes are needed?
-sherlock: 1090.
+user: A box holds 86 cards. There are 20109 cards altogether. How many boxes are needed?
+sherlock: 234.
 
-user: A teacher has 89329 pencils and gives 35 to each of 5 groups. How many pencils are given away?
-sherlock: 175.
+user: A teacher has 34176 pencils and gives 33 to each of 2 groups. How many pencils are given away?
+sherlock: 66.
 
-user: A shop has 71 pencils and sells 35. How many pencils remain?
-sherlock: 36.
+user: A shop has 34316 pencils and sells 30. How many pencils remain?
+sherlock: 34286.
 
-user: A box holds 3 cards. There are 22101 cards altogether. How many boxes are needed?
-sherlock: 7367.
+user: A box holds 13 cards. There are 1966 cards altogether. How many boxes are needed?
+sherlock: 152.
 
-user: A shop has 94705 pencils and sells 80. How many pencils remain?
-sherlock: 94625.
+user: A teacher has 80467 pencils and gives 92 to each of 2 groups. How many pencils are given away?
+sherlock: 184.
 
-user: A teacher has 4061 pencils and gives 7 to each of 5 groups. How many pencils are given away?
-sherlock: 35.
+user: A shop has 30979 pencils and sells 80. How many pencils remain?
+sherlock: 30899.
 
-user: 42508 stickers are shared equally between 95 bags. How many stickers go in each bag?
-sherlock: 447.
-
-user: A shop has 19587 pencils and sells 58. How many pencils remain?
-sherlock: 19529.
-
-user: A shop sells 31 books each day for 43225 days. How many books are sold altogether?
-sherlock: 1339975.
-
-user: 15227 stickers are shared equally between 81 bags. How many stickers go in each bag?
-sherlock: 187.
-
-user: A shop has 42440 pencils and sells 19. How many pencils remain?
-sherlock: 42421.
-
-user: 14840 stickers are shared equally between 75 bags. How many stickers go in each bag?
+user: There are 591 marbles shared equally into 3 groups. How many marbles are in each group?
 sherlock: 197.
 
-user: A shop sells 8 books each day for 88452 days. How many books are sold altogether?
-sherlock: 707616.
+user: A shop sells 44 books each day for 61972 days. How many books are sold altogether?
+sherlock: 2726768.
 
-user: A shop sells 38 books each day for 66854 days. How many books are sold altogether?
-sherlock: 2540452.
+user: A box holds 16 cards. There are 69829 cards altogether. How many boxes are needed?
+sherlock: 4365.
 
-user: 30437 stickers are shared equally between 11 bags. How many stickers go in each bag?
-sherlock: 2767.
+user: 7912 stickers are shared equally between 43 bags. How many stickers go in each bag?
+sherlock: 184.
 
-user: 42053 stickers are shared equally between 90 bags. How many stickers go in each bag?
-sherlock: 467.
+user: 46800 stickers are shared equally between 75 bags. How many stickers go in each bag?
+sherlock: 624.
 
-user: A box holds 74 cards. There are 31660 cards altogether. How many boxes are needed?
-sherlock: 428.
+user: A teacher has 6185 pencils and gives 59 to each of 9 groups. How many pencils are given away?
+sherlock: 531.
 
-user: A shop sells 7 books each day for 7713 days. How many books are sold altogether?
-sherlock: 53991.
+user: There are 3069 marbles shared equally into 31 groups. How many marbles are in each group?
+sherlock: 99.
 
-user: A shop has 48467 pencils and sells 56. How many pencils remain?
-sherlock: 48411.
+user: 20790 stickers are shared equally between 90 bags. How many stickers go in each bag?
+sherlock: 231.
 
-user: A teacher has 92183 pencils and gives 33 to each of 10 groups. How many pencils are given away?
-sherlock: 330.
+user: A box holds 66 cards. There are 73825 cards altogether. How many boxes are needed?
+sherlock: 1119.
 
-user: There are 50393 marbles shared equally into 20 groups. How many marbles are in each group?
-sherlock: 2519.
+user: A shop has 5641 pencils and sells 18. How many pencils remain?
+sherlock: 5623.
 
-user: A teacher has 36249 pencils and gives 30 to each of 11 groups. How many pencils are given away?
-sherlock: 330.
+user: There are 88416 marbles shared equally into 96 groups. How many marbles are in each group?
+sherlock: 921.
 
-user: A shop has 19653 pencils and sells 93. How many pencils remain?
-sherlock: 19560.
+user: A box holds 43 cards. There are 80744 cards altogether. How many boxes are needed?
+sherlock: 1878.
 
-user: A shop has 45284 pencils and sells 41. How many pencils remain?
-sherlock: 45243.
+user: A shop sells 98 books each day for 18798 days. How many books are sold altogether?
+sherlock: 1842204.
 
-user: A shop sells 69 books each day for 51591 days. How many books are sold altogether?
-sherlock: 3559779.
+user: There are 4648 marbles shared equally into 83 groups. How many marbles are in each group?
+sherlock: 56.
 
-user: 61228 stickers are shared equally between 29 bags. How many stickers go in each bag?
-sherlock: 2111.
+user: A box holds 14 cards. There are 93729 cards altogether. How many boxes are needed?
+sherlock: 6695.
+
+user: There are 27348 marbles shared equally into 53 groups. How many marbles are in each group?
+sherlock: 516.
+
+user: 17080 stickers are shared equally between 61 bags. How many stickers go in each bag?
+sherlock: 280.
 
 user: A box holds 74 cards. There are 48016 cards altogether. How many boxes are needed?
 sherlock: 649.
 
-user: There are 9278 marbles shared equally into 80 groups. How many marbles are in each group?
-sherlock: 115.
+user: There are 78880 marbles shared equally into 80 groups. How many marbles are in each group?
+sherlock: 986.
 
-user: A teacher has 15253 pencils and gives 42 to each of 10 groups. How many pencils are given away?
-sherlock: 420.
+user: A shop has 40932 pencils and sells 73. How many pencils remain?
+sherlock: 40859.
 
 user: A shop sells 37 books each day for 8140 days. How many books are sold altogether?
 sherlock: 301180.
@@ -40828,11 +40807,11 @@ sherlock: 301180.
 user: A shop has 80910 pencils and sells 50. How many pencils remain?
 sherlock: 80860.
 
-user: There are 83421 marbles shared equally into 58 groups. How many marbles are in each group?
-sherlock: 1438.
+user: There are 50576 marbles shared equally into 58 groups. How many marbles are in each group?
+sherlock: 872.
 
-user: A teacher has 32949 pencils and gives 74 to each of 6 groups. How many pencils are given away?
-sherlock: 444.
+user: A box holds 42 cards. There are 73488 cards altogether. How many boxes are needed?
+sherlock: 1750.
 
 user: A shop has 15549 pencils and sells 38. How many pencils remain?
 sherlock: 15511.
@@ -40843,242 +40822,215 @@ sherlock: 176.
 user: A box holds 81 cards. There are 53580 cards altogether. How many boxes are needed?
 sherlock: 662.
 
-user: 10954 stickers are shared equally between 40 bags. How many stickers go in each bag?
-sherlock: 273.
+user: 13000 stickers are shared equally between 40 bags. How many stickers go in each bag?
+sherlock: 325.
 
-user: A box holds 12 cards. There are 83130 cards altogether. How many boxes are needed?
-sherlock: 6928.
+user: 29408 stickers are shared equally between 32 bags. How many stickers go in each bag?
+sherlock: 919.
 
-user: A box holds 74 cards. There are 91896 cards altogether. How many boxes are needed?
-sherlock: 1242.
+user: 24978 stickers are shared equally between 69 bags. How many stickers go in each bag?
+sherlock: 362.
 
-user: A shop has 69286 pencils and sells 37. How many pencils remain?
-sherlock: 69249.
+user: There are 48894 marbles shared equally into 58 groups. How many marbles are in each group?
+sherlock: 843.
 
-user: There are 76275 marbles shared equally into 58 groups. How many marbles are in each group?
-sherlock: 1315.
+user: There are 56420 marbles shared equally into 65 groups. How many marbles are in each group?
+sherlock: 868.
 
-user: A teacher has 37698 pencils and gives 83 to each of 9 groups. How many pencils are given away?
-sherlock: 747.
+user: There are 7170 marbles shared equally into 30 groups. How many marbles are in each group?
+sherlock: 239.
 
-user: A teacher has 41775 pencils and gives 10 to each of 5 groups. How many pencils are given away?
-sherlock: 50.
+user: 20737 stickers are shared equally between 89 bags. How many stickers go in each bag?
+sherlock: 233.
 
-user: A box holds 24 cards. There are 74212 cards altogether. How many boxes are needed?
-sherlock: 3093.
+user: A shop sells 30 books each day for 62417 days. How many books are sold altogether?
+sherlock: 1872510.
 
-user: A teacher has 23199 pencils and gives 57 to each of 8 groups. How many pencils are given away?
-sherlock: 456.
+user: A box holds 71 cards. There are 4815 cards altogether. How many boxes are needed?
+sherlock: 68.
 
-user: A box holds 6 cards. There are 28996 cards altogether. How many boxes are needed?
-sherlock: 4833.
+user: A teacher has 79596 pencils and gives 89 to each of 10 groups. How many pencils are given away?
+sherlock: 890.
 
-user: 98610 stickers are shared equally between 79 bags. How many stickers go in each bag?
-sherlock: 1248.
+user: There are 4560 marbles shared equally into 40 groups. How many marbles are in each group?
+sherlock: 114.
 
-user: A teacher has 79789 pencils and gives 47 to each of 10 groups. How many pencils are given away?
-sherlock: 470.
-
-user: There are 11352 marbles shared equally into 89 groups. How many marbles are in each group?
-sherlock: 127.
-
-user: A shop sells 41 books each day for 88582 days. How many books are sold altogether?
-sherlock: 3631862.
+user: A teacher has 57936 pencils and gives 88 to each of 6 groups. How many pencils are given away?
+sherlock: 528.
 
 user: A teacher has 92447 pencils and gives 6 to each of 7 groups. How many pencils are given away?
 sherlock: 42.
 
-user: There are 79754 marbles shared equally into 31 groups. How many marbles are in each group?
-sherlock: 2572.
+user: There are 12803 marbles shared equally into 31 groups. How many marbles are in each group?
+sherlock: 413.
 
-user: There are 40775 marbles shared equally into 13 groups. How many marbles are in each group?
-sherlock: 3136.
+user: There are 11060 marbles shared equally into 35 groups. How many marbles are in each group?
+sherlock: 316.
 
-user: There are 31519 marbles shared equally into 4 groups. How many marbles are in each group?
-sherlock: 7879.
+user: A shop has 20303 pencils and sells 60. How many pencils remain?
+sherlock: 20243.
 
-user: A box holds 5 cards. There are 59821 cards altogether. How many boxes are needed?
-sherlock: 11965.
+user: A shop has 42941 pencils and sells 37. How many pencils remain?
+sherlock: 42904.
 
-user: There are 36482 marbles shared equally into 8 groups. How many marbles are in each group?
-sherlock: 4560.
+user: A shop has 549 pencils and sells 96. How many pencils remain?
+sherlock: 453.
 
-user: A shop has 96246 pencils and sells 24. How many pencils remain?
-sherlock: 96222.
+user: A box holds 18 cards. There are 86869 cards altogether. How many boxes are needed?
+sherlock: 4827.
 
-user: A teacher has 16420 pencils and gives 87 to each of 8 groups. How many pencils are given away?
-sherlock: 696.
+user: A teacher has 61466 pencils and gives 47 to each of 9 groups. How many pencils are given away?
+sherlock: 423.
 
-user: There are 72270 marbles shared equally into 45 groups. How many marbles are in each group?
-sherlock: 1606.
+user: There are 4484 marbles shared equally into 38 groups. How many marbles are in each group?
+sherlock: 118.
 
-user: A teacher has 36771 pencils and gives 13 to each of 5 groups. How many pencils are given away?
-sherlock: 65.
+user: There are 41159 marbles shared equally into 79 groups. How many marbles are in each group?
+sherlock: 521.
 
-user: A teacher has 78736 pencils and gives 53 to each of 3 groups. How many pencils are given away?
-sherlock: 159.
+user: A shop has 94386 pencils and sells 59. How many pencils remain?
+sherlock: 94327.
 
-user: A teacher has 58691 pencils and gives 65 to each of 11 groups. How many pencils are given away?
-sherlock: 715.
+user: A shop sells 17 books each day for 82989 days. How many books are sold altogether?
+sherlock: 1410813.
 
-user: A shop has 40198 pencils and sells 79. How many pencils remain?
-sherlock: 40119.
+user: There are 9915 marbles shared equally into 15 groups. How many marbles are in each group?
+sherlock: 661.
 
-user: A shop has 66118 pencils and sells 90. How many pencils remain?
-sherlock: 66028.
+user: A teacher has 31122 pencils and gives 12 to each of 4 groups. How many pencils are given away?
+sherlock: 48.
 
-user: A box holds 22 cards. There are 10585 cards altogether. How many boxes are needed?
-sherlock: 482.
+user: There are 4290 marbles shared equally into 65 groups. How many marbles are in each group?
+sherlock: 66.
 
-user: There are 1606 marbles shared equally into 65 groups. How many marbles are in each group?
-sherlock: 24.
+user: 2223 stickers are shared equally between 57 bags. How many stickers go in each bag?
+sherlock: 39.
 
-user: A shop has 76875 pencils and sells 15. How many pencils remain?
-sherlock: 76860.
+user: A shop has 85144 pencils and sells 11. How many pencils remain?
+sherlock: 85133.
 
-user: A shop sells 15 books each day for 3814 days. How many books are sold altogether?
-sherlock: 57210.
+user: 51153 stickers are shared equally between 59 bags. How many stickers go in each bag?
+sherlock: 867.
 
-user: A teacher has 9419 pencils and gives 72 to each of 7 groups. How many pencils are given away?
-sherlock: 504.
-
-user: A shop sells 36 books each day for 86688 days. How many books are sold altogether?
-sherlock: 3120768.
-
-user: There are 50480 marbles shared equally into 5 groups. How many marbles are in each group?
-sherlock: 10096.
+user: There are 1683 marbles shared equally into 51 groups. How many marbles are in each group?
+sherlock: 33.
 
 user: A teacher has 61079 pencils and gives 88 to each of 9 groups. How many pencils are given away?
 sherlock: 792.
 
-user: 55019 stickers are shared equally between 44 bags. How many stickers go in each bag?
-sherlock: 1250.
+user: 11176 stickers are shared equally between 44 bags. How many stickers go in each bag?
+sherlock: 254.
 
-user: A box holds 66 cards. There are 12635 cards altogether. How many boxes are needed?
-sherlock: 192.
+user: A shop has 65815 pencils and sells 58. How many pencils remain?
+sherlock: 65757.
 
-user: A shop sells 44 books each day for 73706 days. How many books are sold altogether?
-sherlock: 3243064.
+user: 27181 stickers are shared equally between 77 bags. How many stickers go in each bag?
+sherlock: 353.
 
-user: 35289 stickers are shared equally between 89 bags. How many stickers go in each bag?
-sherlock: 396.
+user: A teacher has 42494 pencils and gives 75 to each of 7 groups. How many pencils are given away?
+sherlock: 525.
 
-user: There are 75518 marbles shared equally into 47 groups. How many marbles are in each group?
-sherlock: 1606.
+user: There are 55370 marbles shared equally into 98 groups. How many marbles are in each group?
+sherlock: 565.
 
-user: There are 59158 marbles shared equally into 98 groups. How many marbles are in each group?
-sherlock: 603.
+user: A shop sells 56 books each day for 18055 days. How many books are sold altogether?
+sherlock: 1011080.
 
-user: A shop sells 19 books each day for 64184 days. How many books are sold altogether?
-sherlock: 1219496.
+user: A teacher has 76275 pencils and gives 46 to each of 10 groups. How many pencils are given away?
+sherlock: 460.
 
-user: A shop sells 76 books each day for 85370 days. How many books are sold altogether?
-sherlock: 6488120.
+user: A shop sells 72 books each day for 95320 days. How many books are sold altogether?
+sherlock: 6863040.
 
-user: There are 72786 marbles shared equally into 59 groups. How many marbles are in each group?
-sherlock: 1233.
+user: A teacher has 5505 pencils and gives 2 to each of 12 groups. How many pencils are given away?
+sherlock: 24.
 
-user: A teacher has 71567 pencils and gives 85 to each of 2 groups. How many pencils are given away?
-sherlock: 170.
+user: 13120 stickers are shared equally between 41 bags. How many stickers go in each bag?
+sherlock: 320.
 
-user: A shop has 98982 pencils and sells 80. How many pencils remain?
-sherlock: 98902.
+user: 258 stickers are shared equally between 2 bags. How many stickers go in each bag?
+sherlock: 129.
 
-user: A shop has 40626 pencils and sells 33. How many pencils remain?
-sherlock: 40593.
+user: There are 1036 marbles shared equally into 7 groups. How many marbles are in each group?
+sherlock: 148.
 
-user: 27178 stickers are shared equally between 2 bags. How many stickers go in each bag?
-sherlock: 13589.
+user: A shop has 75114 pencils and sells 78. How many pencils remain?
+sherlock: 75036.
 
-user: A shop has 41060 pencils and sells 21. How many pencils remain?
-sherlock: 41039.
+user: 1764 stickers are shared equally between 2 bags. How many stickers go in each bag?
+sherlock: 882.
 
-user: A shop has 14759 pencils and sells 14. How many pencils remain?
-sherlock: 14745.
+user: A teacher has 42222 pencils and gives 27 to each of 8 groups. How many pencils are given away?
+sherlock: 216.
 
-user: 77918 stickers are shared equally between 78 bags. How many stickers go in each bag?
-sherlock: 998.
+user: 14014 stickers are shared equally between 49 bags. How many stickers go in each bag?
+sherlock: 286.
 
-user: A teacher has 582 pencils and gives 88 to each of 12 groups. How many pencils are given away?
-sherlock: 1056.
+user: A shop sells 90 books each day for 93502 days. How many books are sold altogether?
+sherlock: 8415180.
 
-user: There are 26533 marbles shared equally into 62 groups. How many marbles are in each group?
-sherlock: 427.
+user: There are 39215 marbles shared equally into 55 groups. How many marbles are in each group?
+sherlock: 713.
 
-user: 27282 stickers are shared equally between 49 bags. How many stickers go in each bag?
-sherlock: 556.
+user: A shop sells 49 books each day for 16793 days. How many books are sold altogether?
+sherlock: 822857.
 
-user: A box holds 93 cards. There are 51223 cards altogether. How many boxes are needed?
-sherlock: 551.
+user: A shop has 86627 pencils and sells 81. How many pencils remain?
+sherlock: 86546.
 
-user: A teacher has 38071 pencils and gives 28 to each of 8 groups. How many pencils are given away?
-sherlock: 224.
+user: 1542 stickers are shared equally between 2 bags. How many stickers go in each bag?
+sherlock: 771.
 
-user: 65645 stickers are shared equally between 18 bags. How many stickers go in each bag?
-sherlock: 3646.
+user: A box holds 20 cards. There are 39864 cards altogether. How many boxes are needed?
+sherlock: 1994.
 
-user: There are 16483 marbles shared equally into 86 groups. How many marbles are in each group?
-sherlock: 191.
+user: A shop has 39890 pencils and sells 40. How many pencils remain?
+sherlock: 39850.
 
-user: 70262 stickers are shared equally between 34 bags. How many stickers go in each bag?
-sherlock: 2066.
+user: A shop sells 64 books each day for 75198 days. How many books are sold altogether?
+sherlock: 4812672.
 
-user: A shop has 77148 pencils and sells 34. How many pencils remain?
-sherlock: 77114.
+user: A shop sells 17 books each day for 25307 days. How many books are sold altogether?
+sherlock: 430219.
 
-user: There are 18648 marbles shared equally into 6 groups. How many marbles are in each group?
-sherlock: 3108.
+user: A shop sells 91 books each day for 51778 days. How many books are sold altogether?
+sherlock: 4711798.
 
-user: There are 39528 marbles shared equally into 63 groups. How many marbles are in each group?
-sherlock: 627.
+user: A teacher has 61678 pencils and gives 2 to each of 5 groups. How many pencils are given away?
+sherlock: 10.
 
-user: 63547 stickers are shared equally between 51 bags. How many stickers go in each bag?
-sherlock: 1246.
+user: 2340 stickers are shared equally between 30 bags. How many stickers go in each bag?
+sherlock: 78.
 
-user: A box holds 59 cards. There are 16298 cards altogether. How many boxes are needed?
-sherlock: 277.
+user: 19044 stickers are shared equally between 36 bags. How many stickers go in each bag?
+sherlock: 529.
 
-user: A shop sells 87 books each day for 90841 days. How many books are sold altogether?
-sherlock: 7903167.
+user: There are 1098 marbles shared equally into 9 groups. How many marbles are in each group?
+sherlock: 122.
 
-user: A shop sells 32 books each day for 417 days. How many books are sold altogether?
-sherlock: 13344.
+user: A shop sells 65 books each day for 93516 days. How many books are sold altogether?
+sherlock: 6078540.
 
-user: 59447 stickers are shared equally between 30 bags. How many stickers go in each bag?
-sherlock: 1981.
+user: A shop sells 7 books each day for 81722 days. How many books are sold altogether?
+sherlock: 572054.
 
-user: A shop has 79829 pencils and sells 15. How many pencils remain?
-sherlock: 79814.
+user: A shop has 71363 pencils and sells 62. How many pencils remain?
+sherlock: 71301.
 
-user: There are 52850 marbles shared equally into 48 groups. How many marbles are in each group?
-sherlock: 1101.
+user: There are 19110 marbles shared equally into 78 groups. How many marbles are in each group?
+sherlock: 245.
 
-user: A teacher has 7474 pencils and gives 13 to each of 7 groups. How many pencils are given away?
-sherlock: 91.
+user: A shop has 55404 pencils and sells 23. How many pencils remain?
+sherlock: 55381.
 
-user: A teacher has 65285 pencils and gives 67 to each of 10 groups. How many pencils are given away?
-sherlock: 670.
+user: A shop has 79967 pencils and sells 77. How many pencils remain?
+sherlock: 79890.
 
-user: A shop has 3344 pencils and sells 71. How many pencils remain?
-sherlock: 3273.
+user: A shop has 49334 pencils and sells 13. How many pencils remain?
+sherlock: 49321.
 
-user: A shop sells 60 books each day for 37739 days. How many books are sold altogether?
-sherlock: 2264340.
-
-user: 24396 stickers are shared equally between 7 bags. How many stickers go in each bag?
-sherlock: 3485.
-
-user: A shop sells 14 books each day for 21966 days. How many books are sold altogether?
-sherlock: 307524.
-
-user: 77084 stickers are shared equally between 3 bags. How many stickers go in each bag?
-sherlock: 25694.
-
-user: There are 12285 marbles shared equally into 92 groups. How many marbles are in each group?
-sherlock: 133.
-
-user: 54351 stickers are shared equally between 40 bags. How many stickers go in each bag?
-sherlock: 1358.
+user: A teacher has 75528 pencils and gives 55 to each of 6 groups. How many pencils are given away?
+sherlock: 330.
 
 user: A box holds 55 cards. There are 47445 cards altogether. How many boxes are needed?
 sherlock: 863.
@@ -41086,122 +41038,110 @@ sherlock: 863.
 user: A teacher has 36010 pencils and gives 33 to each of 6 groups. How many pencils are given away?
 sherlock: 198.
 
-user: 58516 stickers are shared equally between 8 bags. How many stickers go in each bag?
-sherlock: 7314.
+user: 3528 stickers are shared equally between 8 bags. How many stickers go in each bag?
+sherlock: 441.
 
-user: There are 6793 marbles shared equally into 31 groups. How many marbles are in each group?
-sherlock: 219.
+user: A shop has 29718 pencils and sells 98. How many pencils remain?
+sherlock: 29620.
 
-user: A teacher has 71963 pencils and gives 47 to each of 11 groups. How many pencils are given away?
-sherlock: 517.
+user: 47300 stickers are shared equally between 86 bags. How many stickers go in each bag?
+sherlock: 550.
 
-user: A shop sells 98 books each day for 87259 days. How many books are sold altogether?
-sherlock: 8551382.
+user: A teacher has 98346 pencils and gives 7 to each of 3 groups. How many pencils are given away?
+sherlock: 21.
 
-user: A shop has 13059 pencils and sells 34. How many pencils remain?
-sherlock: 13025.
-
-user: A shop sells 50 books each day for 43701 days. How many books are sold altogether?
-sherlock: 2185050.
+user: There are 22000 marbles shared equally into 44 groups. How many marbles are in each group?
+sherlock: 500.
 
 user: A shop sells 78 books each day for 70739 days. How many books are sold altogether?
 sherlock: 5517642.
 
-user: 93762 stickers are shared equally between 65 bags. How many stickers go in each bag?
-sherlock: 1442.
+user: 42770 stickers are shared equally between 65 bags. How many stickers go in each bag?
+sherlock: 658.
 
-user: A shop sells 92 books each day for 45046 days. How many books are sold altogether?
-sherlock: 4144232.
+user: There are 65664 marbles shared equally into 96 groups. How many marbles are in each group?
+sherlock: 684.
 
-user: A teacher has 68390 pencils and gives 3 to each of 12 groups. How many pencils are given away?
-sherlock: 36.
+user: A shop has 98793 pencils and sells 41. How many pencils remain?
+sherlock: 98752.
 
-user: There are 9466 marbles shared equally into 5 groups. How many marbles are in each group?
-sherlock: 1893.
+user: A shop has 3354 pencils and sells 24. How many pencils remain?
+sherlock: 3330.
 
-user: A box holds 64 cards. There are 94037 cards altogether. How many boxes are needed?
-sherlock: 1470.
+user: A teacher has 64246 pencils and gives 30 to each of 6 groups. How many pencils are given away?
+sherlock: 180.
 
-user: A box holds 37 cards. There are 43708 cards altogether. How many boxes are needed?
-sherlock: 1182.
+user: There are 8715 marbles shared equally into 21 groups. How many marbles are in each group?
+sherlock: 415.
 
-user: A teacher has 20100 pencils and gives 42 to each of 8 groups. How many pencils are given away?
-sherlock: 336.
+user: A shop sells 8 books each day for 6515 days. How many books are sold altogether?
+sherlock: 52120.
 
-user: A shop has 6934 pencils and sells 25. How many pencils remain?
-sherlock: 6909.
+user: A box holds 8 cards. There are 97877 cards altogether. How many boxes are needed?
+sherlock: 12235.
 
-user: A teacher has 6526 pencils and gives 51 to each of 4 groups. How many pencils are given away?
-sherlock: 204.
+user: A shop sells 32 books each day for 23926 days. How many books are sold altogether?
+sherlock: 765632.
 
-user: A box holds 33 cards. There are 9575 cards altogether. How many boxes are needed?
-sherlock: 291.
+user: A shop has 31691 pencils and sells 72. How many pencils remain?
+sherlock: 31619.
 
-user: 93532 stickers are shared equally between 61 bags. How many stickers go in each bag?
-sherlock: 1533.
+user: A teacher has 60920 pencils and gives 47 to each of 12 groups. How many pencils are given away?
+sherlock: 564.
 
-user: There are 92941 marbles shared equally into 80 groups. How many marbles are in each group?
-sherlock: 1161.
-
-user: A shop has 15192 pencils and sells 67. How many pencils remain?
-sherlock: 15125.
+user: 10688 stickers are shared equally between 16 bags. How many stickers go in each bag?
+sherlock: 668.
 
 user: A shop has 90767 pencils and sells 94. How many pencils remain?
 sherlock: 90673.
 
-user: There are 59051 marbles shared equally into 61 groups. How many marbles are in each group?
-sherlock: 968.
+user: There are 32086 marbles shared equally into 61 groups. How many marbles are in each group?
+sherlock: 526.
 
-user: A shop sells 18 books each day for 36169 days. How many books are sold altogether?
-sherlock: 651042.
+user: There are 59904 marbles shared equally into 96 groups. How many marbles are in each group?
+sherlock: 624.
 
-user: A teacher has 62398 pencils and gives 69 to each of 10 groups. How many pencils are given away?
-sherlock: 690.
+user: 19560 stickers are shared equally between 20 bags. How many stickers go in each bag?
+sherlock: 978.
 
-user: A box holds 31 cards. There are 97892 cards altogether. How many boxes are needed?
-sherlock: 3158.
+user: A box holds 55 cards. There are 48133 cards altogether. How many boxes are needed?
+sherlock: 876.
 
-user: There are 54637 marbles shared equally into 58 groups. How many marbles are in each group?
-sherlock: 942.
+user: A shop sells 31 books each day for 25718 days. How many books are sold altogether?
+sherlock: 797258.
 
-user: A box holds 21 cards. There are 30175 cards altogether. How many boxes are needed?
-sherlock: 1437.
+user: A box holds 83 cards. There are 45391 cards altogether. How many boxes are needed?
+sherlock: 547.
 
-user: There are 82871 marbles shared equally into 92 groups. How many marbles are in each group?
-sherlock: 900.
-
-user: A shop sells 38 books each day for 80549 days. How many books are sold altogether?
-sherlock: 3060862.
+user: A teacher has 53143 pencils and gives 80 to each of 6 groups. How many pencils are given away?
+sherlock: 480.
 
 user: A box holds 18 cards. There are 33262 cards altogether. How many boxes are needed?
 sherlock: 1848.
 
-user: There are 99190 marbles shared equally into 58 groups. How many marbles are in each group?
-sherlock: 1710.
+user: There are 55158 marbles shared equally into 58 groups. How many marbles are in each group?
+sherlock: 951.
 
-user: A teacher has 34932 pencils and gives 33 to each of 10 groups. How many pencils are given away?
-sherlock: 330.
+user: There are 45267 marbles shared equally into 79 groups. How many marbles are in each group?
+sherlock: 573.
 
-user: A shop sells 63 books each day for 28615 days. How many books are sold altogether?
-sherlock: 1802745.
+user: A box holds 13 cards. There are 62751 cards altogether. How many boxes are needed?
+sherlock: 4827.
 
-user: A shop has 97972 pencils and sells 96. How many pencils remain?
-sherlock: 97876.
+user: A teacher has 96112 pencils and gives 75 to each of 8 groups. How many pencils are given away?
+sherlock: 600.
 
-user: 63556 stickers are shared equally between 33 bags. How many stickers go in each bag?
-sherlock: 1925.
+user: A box holds 50 cards. There are 67248 cards altogether. How many boxes are needed?
+sherlock: 1345.
 
-user: 49723 stickers are shared equally between 60 bags. How many stickers go in each bag?
-sherlock: 828.
+user: A shop sells 65 books each day for 97946 days. How many books are sold altogether?
+sherlock: 6366490.
 
-user: A teacher has 64976 pencils and gives 42 to each of 7 groups. How many pencils are given away?
-sherlock: 294.
+user: There are 14796 marbles shared equally into 36 groups. How many marbles are in each group?
+sherlock: 411.
 
-user: There are 41086 marbles shared equally into 91 groups. How many marbles are in each group?
-sherlock: 451.
-
-user: A shop has 566 pencils and sells 51. How many pencils remain?
-sherlock: 515.
+user: A teacher has 16381 pencils and gives 2 to each of 7 groups. How many pencils are given away?
+sherlock: 14.
 
 user: A teacher has 54503 pencils and gives 6 to each of 4 groups. How many pencils are given away?
 sherlock: 24.
@@ -41212,26 +41152,23 @@ sherlock: 507.
 user: A shop has 81975 pencils and sells 89. How many pencils remain?
 sherlock: 81886.
 
-user: There are 20621 marbles shared equally into 13 groups. How many marbles are in each group?
-sherlock: 1586.
+user: There are 1183 marbles shared equally into 13 groups. How many marbles are in each group?
+sherlock: 91.
 
-user: A shop has 69441 pencils and sells 96. How many pencils remain?
-sherlock: 69345.
+user: 3652 stickers are shared equally between 22 bags. How many stickers go in each bag?
+sherlock: 166.
 
-user: A box holds 8 cards. There are 16483 cards altogether. How many boxes are needed?
-sherlock: 2061.
+user: A shop has 20753 pencils and sells 63. How many pencils remain?
+sherlock: 20690.
 
-user: A box holds 77 cards. There are 63126 cards altogether. How many boxes are needed?
-sherlock: 820.
+user: 26136 stickers are shared equally between 33 bags. How many stickers go in each bag?
+sherlock: 792.
 
-user: 31756 stickers are shared equally between 79 bags. How many stickers go in each bag?
-sherlock: 401.
+user: There are 70389 marbles shared equally into 81 groups. How many marbles are in each group?
+sherlock: 869.
 
-user: There are 19349 marbles shared equally into 81 groups. How many marbles are in each group?
-sherlock: 238.
-
-user: A teacher has 57283 pencils and gives 87 to each of 2 groups. How many pencils are given away?
-sherlock: 174.
+user: A shop sells 3 books each day for 87618 days. How many books are sold altogether?
+sherlock: 262854.
 
 user: A box holds 26 cards. There are 57188 cards altogether. How many boxes are needed?
 sherlock: 2200.
@@ -41239,38 +41176,32 @@ sherlock: 2200.
 user: A box holds 86 cards. There are 41546 cards altogether. How many boxes are needed?
 sherlock: 484.
 
-user: 74144 stickers are shared equally between 19 bags. How many stickers go in each bag?
-sherlock: 3902.
+user: 13072 stickers are shared equally between 19 bags. How many stickers go in each bag?
+sherlock: 688.
 
-user: 75928 stickers are shared equally between 33 bags. How many stickers go in each bag?
-sherlock: 2300.
+user: 57684 stickers are shared equally between 66 bags. How many stickers go in each bag?
+sherlock: 874.
 
-user: A shop sells 46 books each day for 87465 days. How many books are sold altogether?
-sherlock: 4023390.
+user: There are 12183 marbles shared equally into 93 groups. How many marbles are in each group?
+sherlock: 131.
 
-user: A teacher has 93833 pencils and gives 14 to each of 9 groups. How many pencils are given away?
-sherlock: 126.
+user: 28035 stickers are shared equally between 63 bags. How many stickers go in each bag?
+sherlock: 445.
 
-user: There are 62881 marbles shared equally into 45 groups. How many marbles are in each group?
-sherlock: 1397.
+user: 60096 stickers are shared equally between 96 bags. How many stickers go in each bag?
+sherlock: 626.
 
-user: 11332 stickers are shared equally between 96 bags. How many stickers go in each bag?
-sherlock: 118.
+user: A shop has 58392 pencils and sells 39. How many pencils remain?
+sherlock: 58353.
 
-user: A shop sells 59 books each day for 14380 days. How many books are sold altogether?
-sherlock: 848420.
+user: A shop has 49286 pencils and sells 8. How many pencils remain?
+sherlock: 49278.
 
-user: There are 15443 marbles shared equally into 50 groups. How many marbles are in each group?
-sherlock: 308.
+user: A teacher has 80224 pencils and gives 80 to each of 11 groups. How many pencils are given away?
+sherlock: 880.
 
-user: A shop has 93790 pencils and sells 80. How many pencils remain?
-sherlock: 93710.
-
-user: 90050 stickers are shared equally between 96 bags. How many stickers go in each bag?
-sherlock: 938.
-
-user: 64286 stickers are shared equally between 46 bags. How many stickers go in each bag?
-sherlock: 1397.
+user: A teacher has 73085 pencils and gives 64 to each of 6 groups. How many pencils are given away?
+sherlock: 384.
 
 user: A teacher has 1154 pencils and gives 76 to each of 2 groups. How many pencils are given away?
 sherlock: 152.
@@ -41281,17 +41212,14 @@ sherlock: 120.
 user: A shop sells 26 books each day for 46124 days. How many books are sold altogether?
 sherlock: 1199224.
 
-user: 37580 stickers are shared equally between 81 bags. How many stickers go in each bag?
-sherlock: 463.
+user: 50949 stickers are shared equally between 81 bags. How many stickers go in each bag?
+sherlock: 629.
 
-user: A shop sells 84 books each day for 84291 days. How many books are sold altogether?
-sherlock: 7080444.
+user: A teacher has 84347 pencils and gives 67 to each of 6 groups. How many pencils are given away?
+sherlock: 402.
 
-user: A shop sells 48 books each day for 40562 days. How many books are sold altogether?
-sherlock: 1946976.
-
-user: 63103 stickers are shared equally between 21 bags. How many stickers go in each bag?
-sherlock: 3004.
+user: There are 12348 marbles shared equally into 63 groups. How many marbles are in each group?
+sherlock: 196.
 
 user: A box holds 21 cards. There are 13553 cards altogether. How many boxes are needed?
 sherlock: 646.
@@ -41302,23 +41230,20 @@ sherlock: 1402.
 user: A teacher has 93763 pencils and gives 25 to each of 10 groups. How many pencils are given away?
 sherlock: 250.
 
-user: 30542 stickers are shared equally between 94 bags. How many stickers go in each bag?
-sherlock: 324.
+user: 19082 stickers are shared equally between 94 bags. How many stickers go in each bag?
+sherlock: 203.
 
-user: A box holds 24 cards. There are 43513 cards altogether. How many boxes are needed?
-sherlock: 1814.
+user: There are 22459 marbles shared equally into 37 groups. How many marbles are in each group?
+sherlock: 607.
 
-user: There are 60666 marbles shared equally into 67 groups. How many marbles are in each group?
-sherlock: 905.
+user: A shop sells 95 books each day for 21479 days. How many books are sold altogether?
+sherlock: 2040505.
 
-user: A box holds 90 cards. There are 94989 cards altogether. How many boxes are needed?
-sherlock: 1056.
+user: A teacher has 91430 pencils and gives 61 to each of 4 groups. How many pencils are given away?
+sherlock: 244.
 
-user: A teacher has 60851 pencils and gives 28 to each of 10 groups. How many pencils are given away?
-sherlock: 280.
-
-user: A box holds 46 cards. There are 19237 cards altogether. How many boxes are needed?
-sherlock: 419.
+user: 9100 stickers are shared equally between 20 bags. How many stickers go in each bag?
+sherlock: 455.
 
 user: A shop sells 59 books each day for 5497 days. How many books are sold altogether?
 sherlock: 324323.
@@ -41326,203 +41251,176 @@ sherlock: 324323.
 user: A shop sells 33 books each day for 10202 days. How many books are sold altogether?
 sherlock: 336666.
 
-user: There are 85370 marbles shared equally into 28 groups. How many marbles are in each group?
-sherlock: 3048.
+user: There are 6776 marbles shared equally into 28 groups. How many marbles are in each group?
+sherlock: 242.
 
-user: A box holds 9 cards. There are 60107 cards altogether. How many boxes are needed?
-sherlock: 6679.
+user: A shop sells 7 books each day for 7277 days. How many books are sold altogether?
+sherlock: 50939.
 
-user: A shop has 2918 pencils and sells 37. How many pencils remain?
-sherlock: 2881.
+user: A shop has 36102 pencils and sells 86. How many pencils remain?
+sherlock: 36016.
 
-user: A teacher has 45066 pencils and gives 81 to each of 12 groups. How many pencils are given away?
-sherlock: 972.
+user: There are 54150 marbles shared equally into 95 groups. How many marbles are in each group?
+sherlock: 570.
 
-user: A shop sells 82 books each day for 49045 days. How many books are sold altogether?
-sherlock: 4021690.
+user: There are 51520 marbles shared equally into 64 groups. How many marbles are in each group?
+sherlock: 805.
 
-user: A shop sells 37 books each day for 80490 days. How many books are sold altogether?
-sherlock: 2978130.
+user: There are 8428 marbles shared equally into 86 groups. How many marbles are in each group?
+sherlock: 98.
 
-user: A shop sells 11 books each day for 86116 days. How many books are sold altogether?
-sherlock: 947276.
+user: There are 48910 marbles shared equally into 73 groups. How many marbles are in each group?
+sherlock: 670.
 
-user: There are 25651 marbles shared equally into 73 groups. How many marbles are in each group?
-sherlock: 351.
+user: 42130 stickers are shared equally between 55 bags. How many stickers go in each bag?
+sherlock: 766.
 
-user: 79794 stickers are shared equally between 80 bags. How many stickers go in each bag?
-sherlock: 997.
-
-user: A shop sells 94 books each day for 76601 days. How many books are sold altogether?
-sherlock: 7200494.
-
-user: A box holds 6 cards. There are 14787 cards altogether. How many boxes are needed?
-sherlock: 2465.
+user: A teacher has 28034 pencils and gives 16 to each of 2 groups. How many pencils are given away?
+sherlock: 32.
 
 user: A teacher has 10720 pencils and gives 39 to each of 11 groups. How many pencils are given away?
 sherlock: 429.
 
-user: There are 80665 marbles shared equally into 91 groups. How many marbles are in each group?
-sherlock: 886.
+user: There are 73619 marbles shared equally into 91 groups. How many marbles are in each group?
+sherlock: 809.
 
-user: 25039 stickers are shared equally between 22 bags. How many stickers go in each bag?
-sherlock: 1138.
+user: A box holds 16 cards. There are 20592 cards altogether. How many boxes are needed?
+sherlock: 1287.
 
-user: A shop has 92343 pencils and sells 52. How many pencils remain?
-sherlock: 92291.
+user: A teacher has 51812 pencils and gives 60 to each of 2 groups. How many pencils are given away?
+sherlock: 120.
 
-user: A shop sells 67 books each day for 8011 days. How many books are sold altogether?
-sherlock: 536737.
-
-user: A shop has 57799 pencils and sells 28. How many pencils remain?
-sherlock: 57771.
+user: 15660 stickers are shared equally between 58 bags. How many stickers go in each bag?
+sherlock: 270.
 
 user: A teacher has 80889 pencils and gives 47 to each of 4 groups. How many pencils are given away?
 sherlock: 188.
 
-user: There are 27738 marbles shared equally into 59 groups. How many marbles are in each group?
-sherlock: 470.
+user: There are 11741 marbles shared equally into 59 groups. How many marbles are in each group?
+sherlock: 199.
 
-user: A box holds 68 cards. There are 56459 cards altogether. How many boxes are needed?
-sherlock: 831.
+user: A shop sells 78 books each day for 67495 days. How many books are sold altogether?
+sherlock: 5264610.
 
-user: 32142 stickers are shared equally between 45 bags. How many stickers go in each bag?
-sherlock: 714.
+user: A box holds 54 cards. There are 44457 cards altogether. How many boxes are needed?
+sherlock: 824.
 
-user: A shop sells 80 books each day for 90671 days. How many books are sold altogether?
-sherlock: 7253680.
+user: A teacher has 79873 pencils and gives 63 to each of 2 groups. How many pencils are given away?
+sherlock: 126.
 
-user: A shop sells 29 books each day for 2271 days. How many books are sold altogether?
-sherlock: 65859.
+user: A box holds 98 cards. There are 96956 cards altogether. How many boxes are needed?
+sherlock: 990.
 
-user: A teacher has 98773 pencils and gives 82 to each of 4 groups. How many pencils are given away?
-sherlock: 328.
+user: 71795 stickers are shared equally between 83 bags. How many stickers go in each bag?
+sherlock: 865.
 
-user: 86487 stickers are shared equally between 88 bags. How many stickers go in each bag?
-sherlock: 982.
+user: A teacher has 23641 pencils and gives 60 to each of 8 groups. How many pencils are given away?
+sherlock: 480.
 
-user: A box holds 62 cards. There are 60073 cards altogether. How many boxes are needed?
-sherlock: 969.
+user: There are 28959 marbles shared equally into 49 groups. How many marbles are in each group?
+sherlock: 591.
 
-user: There are 34526 marbles shared equally into 49 groups. How many marbles are in each group?
-sherlock: 704.
+user: A shop sells 8 books each day for 86172 days. How many books are sold altogether?
+sherlock: 689376.
 
-user: A shop sells 86 books each day for 54077 days. How many books are sold altogether?
-sherlock: 4650622.
+user: There are 42885 marbles shared equally into 45 groups. How many marbles are in each group?
+sherlock: 953.
 
-user: A shop has 47581 pencils and sells 88. How many pencils remain?
-sherlock: 47493.
+user: There are 6648 marbles shared equally into 12 groups. How many marbles are in each group?
+sherlock: 554.
 
-user: There are 95371 marbles shared equally into 47 groups. How many marbles are in each group?
-sherlock: 2029.
+user: 10742 stickers are shared equally between 82 bags. How many stickers go in each bag?
+sherlock: 131.
 
-user: A box holds 56 cards. There are 10288 cards altogether. How many boxes are needed?
-sherlock: 184.
+user: A shop has 12606 pencils and sells 70. How many pencils remain?
+sherlock: 12536.
 
-user: 55772 stickers are shared equally between 82 bags. How many stickers go in each bag?
-sherlock: 680.
+user: A shop sells 6 books each day for 81982 days. How many books are sold altogether?
+sherlock: 491892.
 
-user: A shop has 7662 pencils and sells 14. How many pencils remain?
-sherlock: 7648.
+user: A teacher has 29517 pencils and gives 30 to each of 9 groups. How many pencils are given away?
+sherlock: 270.
 
-user: 54277 stickers are shared equally between 82 bags. How many stickers go in each bag?
-sherlock: 661.
+user: A shop sells 44 books each day for 78729 days. How many books are sold altogether?
+sherlock: 3464076.
 
-user: A shop has 84781 pencils and sells 30. How many pencils remain?
-sherlock: 84751.
+user: A box holds 91 cards. There are 25250 cards altogether. How many boxes are needed?
+sherlock: 278.
 
-user: A box holds 56 cards. There are 68151 cards altogether. How many boxes are needed?
-sherlock: 1217.
+user: There are 18471 marbles shared equally into 47 groups. How many marbles are in each group?
+sherlock: 393.
 
-user: 43687 stickers are shared equally between 21 bags. How many stickers go in each bag?
-sherlock: 2080.
+user: There are 35040 marbles shared equally into 73 groups. How many marbles are in each group?
+sherlock: 480.
 
-user: A box holds 45 cards. There are 91326 cards altogether. How many boxes are needed?
-sherlock: 2030.
+user: There are 11256 marbles shared equally into 12 groups. How many marbles are in each group?
+sherlock: 938.
 
-user: There are 46382 marbles shared equally into 40 groups. How many marbles are in each group?
-sherlock: 1159.
+user: A box holds 86 cards. There are 34175 cards altogether. How many boxes are needed?
+sherlock: 398.
 
-user: There are 6235 marbles shared equally into 73 groups. How many marbles are in each group?
-sherlock: 85.
+user: There are 21777 marbles shared equally into 61 groups. How many marbles are in each group?
+sherlock: 357.
 
-user: There are 34525 marbles shared equally into 24 groups. How many marbles are in each group?
-sherlock: 1438.
+user: 13692 stickers are shared equally between 42 bags. How many stickers go in each bag?
+sherlock: 326.
 
-user: A shop has 93810 pencils and sells 30. How many pencils remain?
-sherlock: 93780.
+user: A shop has 54709 pencils and sells 88. How many pencils remain?
+sherlock: 54621.
 
-user: There are 85798 marbles shared equally into 43 groups. How many marbles are in each group?
-sherlock: 1995.
+user: A teacher has 73947 pencils and gives 61 to each of 12 groups. How many pencils are given away?
+sherlock: 732.
 
-user: A shop has 60323 pencils and sells 36. How many pencils remain?
-sherlock: 60287.
+user: There are 7660 marbles shared equally into 10 groups. How many marbles are in each group?
+sherlock: 766.
 
-user: 92567 stickers are shared equally between 42 bags. How many stickers go in each bag?
-sherlock: 2203.
+user: There are 22025 marbles shared equally into 25 groups. How many marbles are in each group?
+sherlock: 881.
 
-user: A box holds 55 cards. There are 8637 cards altogether. How many boxes are needed?
-sherlock: 158.
+user: A shop has 70891 pencils and sells 53. How many pencils remain?
+sherlock: 70838.
 
-user: A teacher has 94307 pencils and gives 74 to each of 8 groups. How many pencils are given away?
-sherlock: 592.
+user: A shop sells 9 books each day for 22314 days. How many books are sold altogether?
+sherlock: 200826.
 
-user: A teacher has 47210 pencils and gives 74 to each of 2 groups. How many pencils are given away?
-sherlock: 148.
+user: A box holds 85 cards. There are 43578 cards altogether. How many boxes are needed?
+sherlock: 513.
 
-user: 37800 stickers are shared equally between 55 bags. How many stickers go in each bag?
-sherlock: 687.
+user: There are 43692 marbles shared equally into 66 groups. How many marbles are in each group?
+sherlock: 662.
 
-user: A box holds 15 cards. There are 88153 cards altogether. How many boxes are needed?
-sherlock: 5877.
+user: There are 2740 marbles shared equally into 10 groups. How many marbles are in each group?
+sherlock: 274.
 
-user: 52571 stickers are shared equally between 52 bags. How many stickers go in each bag?
-sherlock: 1010.
+user: A shop has 43941 pencils and sells 36. How many pencils remain?
+sherlock: 43905.
 
-user: A box holds 22 cards. There are 8135 cards altogether. How many boxes are needed?
-sherlock: 370.
+user: There are 16896 marbles shared equally into 32 groups. How many marbles are in each group?
+sherlock: 528.
 
-user: There are 85430 marbles shared equally into 50 groups. How many marbles are in each group?
-sherlock: 1708.
+user: A shop has 91541 pencils and sells 99. How many pencils remain?
+sherlock: 91442.
 
-user: A box holds 66 cards. There are 66276 cards altogether. How many boxes are needed?
-sherlock: 1005.
+user: A box holds 83 cards. There are 78642 cards altogether. How many boxes are needed?
+sherlock: 948.
 
-user: There are 12973 marbles shared equally into 10 groups. How many marbles are in each group?
-sherlock: 1297.
+user: A shop has 6331 pencils and sells 70. How many pencils remain?
+sherlock: 6261.
 
-user: A box holds 45 cards. There are 2238 cards altogether. How many boxes are needed?
-sherlock: 50.
+user: A teacher has 78718 pencils and gives 59 to each of 7 groups. How many pencils are given away?
+sherlock: 413.
 
-user: There are 38570 marbles shared equally into 9 groups. How many marbles are in each group?
-sherlock: 4285.
+user: A shop has 27679 pencils and sells 53. How many pencils remain?
+sherlock: 27626.
 
-user: A box holds 2 cards. There are 52814 cards altogether. How many boxes are needed?
-sherlock: 26407.
+user: There are 52374 marbles shared equally into 58 groups. How many marbles are in each group?
+sherlock: 903.
 
-user: A teacher has 99600 pencils and gives 19 to each of 10 groups. How many pencils are given away?
-sherlock: 190.
+user: A shop has 78270 pencils and sells 46. How many pencils remain?
+sherlock: 78224.
 
-user: 15933 stickers are shared equally between 8 bags. How many stickers go in each bag?
-sherlock: 1991.
-
-user: 84084 stickers are shared equally between 79 bags. How many stickers go in each bag?
-sherlock: 1064.
-
-user: A shop sells 12 books each day for 47160 days. How many books are sold altogether?
-sherlock: 565920.
-
-user: A box holds 48 cards. There are 53052 cards altogether. How many boxes are needed?
-sherlock: 1106.
-
-user: A teacher has 57717 pencils and gives 90 to each of 2 groups. How many pencils are given away?
-sherlock: 180.
-
-user: 45797 stickers are shared equally between 84 bags. How many stickers go in each bag?
-sherlock: 545.
-
-user: A shop sells 23 books each day for 18531 days. How many books are sold altogether?
-sherlock: 426213.
+user: A teacher has 62402 pencils and gives 20 to each of 4 groups. How many pencils are given away?
+sherlock: 80.
 
 user: A teacher has 43234 pencils and gives 91 to each of 6 groups. How many pencils are given away?
 sherlock: 546.
@@ -41536,20 +41434,20 @@ sherlock: 6776540.
 user: A shop sells 96 books each day for 54538 days. How many books are sold altogether?
 sherlock: 5235648.
 
-user: 34081 stickers are shared equally between 37 bags. How many stickers go in each bag?
-sherlock: 921.
+user: 33448 stickers are shared equally between 37 bags. How many stickers go in each bag?
+sherlock: 904.
 
-user: A teacher has 44297 pencils and gives 65 to each of 12 groups. How many pencils are given away?
-sherlock: 780.
+user: There are 44426 marbles shared equally into 97 groups. How many marbles are in each group?
+sherlock: 458.
 
-user: There are 21200 marbles shared equally into 5 groups. How many marbles are in each group?
-sherlock: 4240.
+user: A box holds 48 cards. There are 3746 cards altogether. How many boxes are needed?
+sherlock: 79.
 
-user: There are 31414 marbles shared equally into 18 groups. How many marbles are in each group?
-sherlock: 1745.
+user: A box holds 91 cards. There are 16774 cards altogether. How many boxes are needed?
+sherlock: 185.
 
-user: A teacher has 14137 pencils and gives 12 to each of 9 groups. How many pencils are given away?
-sherlock: 108.
+user: A shop has 10588 pencils and sells 64. How many pencils remain?
+sherlock: 10524.
 
 user: A teacher has 60380 pencils and gives 6 to each of 4 groups. How many pencils are given away?
 sherlock: 24.
@@ -41590,89 +41488,83 @@ sherlock: 200.
 user: A teacher has 76440 pencils and gives 25 to each of 8 groups. How many pencils are given away?
 sherlock: 200.
 
-user: There are 63127 marbles shared equally into 65 groups. How many marbles are in each group?
-sherlock: 971.
+user: There are 35815 marbles shared equally into 65 groups. How many marbles are in each group?
+sherlock: 551.
 
-user: A shop sells 44 books each day for 81412 days. How many books are sold altogether?
-sherlock: 3582128.
+user: 65052 stickers are shared equally between 78 bags. How many stickers go in each bag?
+sherlock: 834.
 
-user: 83389 stickers are shared equally between 16 bags. How many stickers go in each bag?
-sherlock: 5211.
+user: A shop has 57330 pencils and sells 60. How many pencils remain?
+sherlock: 57270.
 
-user: A shop sells 56 books each day for 60214 days. How many books are sold altogether?
-sherlock: 3371984.
+user: A shop sells 82 books each day for 91844 days. How many books are sold altogether?
+sherlock: 7531208.
 
-user: A teacher has 82446 pencils and gives 51 to each of 3 groups. How many pencils are given away?
-sherlock: 153.
+user: A shop sells 37 books each day for 10528 days. How many books are sold altogether?
+sherlock: 389536.
 
-user: There are 84215 marbles shared equally into 27 groups. How many marbles are in each group?
-sherlock: 3119.
+user: A teacher has 26477 pencils and gives 53 to each of 6 groups. How many pencils are given away?
+sherlock: 318.
 
-user: A shop sells 57 books each day for 40356 days. How many books are sold altogether?
-sherlock: 2300292.
+user: A shop sells 18 books each day for 88269 days. How many books are sold altogether?
+sherlock: 1588842.
 
-user: A teacher has 16834 pencils and gives 27 to each of 10 groups. How many pencils are given away?
-sherlock: 270.
+user: A box holds 22 cards. There are 74911 cards altogether. How many boxes are needed?
+sherlock: 3406.
 
-user: A box holds 75 cards. There are 38479 cards altogether. How many boxes are needed?
-sherlock: 514.
+user: There are 30685 marbles shared equally into 95 groups. How many marbles are in each group?
+sherlock: 323.
 
-user: A teacher has 32288 pencils and gives 20 to each of 5 groups. How many pencils are given away?
-sherlock: 100.
+user: A box holds 68 cards. There are 28252 cards altogether. How many boxes are needed?
+sherlock: 416.
 
-user: 8246 stickers are shared equally between 25 bags. How many stickers go in each bag?
-sherlock: 329.
+user: A shop has 23903 pencils and sells 30. How many pencils remain?
+sherlock: 23873.
 
-user: A box holds 38 cards. There are 53393 cards altogether. How many boxes are needed?
-sherlock: 1406.
+user: A shop sells 65 books each day for 37371 days. How many books are sold altogether?
+sherlock: 2429115.
 
-user: A shop sells 51 books each day for 47364 days. How many books are sold altogether?
-sherlock: 2415564.
+user: There are 29302 marbles shared equally into 91 groups. How many marbles are in each group?
+sherlock: 322.
 
-user: A teacher has 32124 pencils and gives 9 to each of 11 groups. How many pencils are given away?
-sherlock: 99.
+user: A shop has 83352 pencils and sells 67. How many pencils remain?
+sherlock: 83285.
 
-user: 89678 stickers are shared equally between 25 bags. How many stickers go in each bag?
-sherlock: 3587.
+user: A teacher has 23675 pencils and gives 6 to each of 4 groups. How many pencils are given away?
+sherlock: 24.
 
-user: A shop has 22668 pencils and sells 56. How many pencils remain?
-sherlock: 22612.
+user: A shop sells 9 books each day for 96314 days. How many books are sold altogether?
+sherlock: 866826.
 
-user: A teacher has 8204 pencils and gives 70 to each of 4 groups. How many pencils are given away?
-sherlock: 280.
+user: 22284 stickers are shared equally between 36 bags. How many stickers go in each bag?
+sherlock: 619.
 
-user: There are 61869 marbles shared equally into 97 groups. How many marbles are in each group?
-sherlock: 637.
+user: A teacher has 68176 pencils and gives 11 to each of 2 groups. How many pencils are given away?
+sherlock: 22.
 
-user: 9461 stickers are shared equally between 5 bags. How many stickers go in each bag?
-sherlock: 1892.
+user: There are 22068 marbles shared equally into 36 groups. How many marbles are in each group?
+sherlock: 613.
 
-user: There are 36651 marbles shared equally into 36 groups. How many marbles are in each group?
-sherlock: 1018.
+user: A box holds 64 cards. There are 89568 cards altogether. How many boxes are needed?
+sherlock: 1400.
 
-user: A shop sells 89 books each day for 29255 days. How many books are sold altogether?
-sherlock: 2603695.
+user: A teacher has 60640 pencils and gives 4 to each of 3 groups. How many pencils are given away?
+sherlock: 12.
 
-user: A shop sells 61 books each day for 86238 days. How many books are sold altogether?
-sherlock: 5260518.
+user: A shop has 3213 pencils and sells 13. How many pencils remain?
+sherlock: 3200.
 
-user: A shop has 16848 pencils and sells 18. How many pencils remain?
-sherlock: 16830.
-
-user: A shop has 11951 pencils and sells 87. How many pencils remain?
-sherlock: 11864.
-
-user: A shop has 13418 pencils and sells 33. How many pencils remain?
-sherlock: 13385.
+user: A teacher has 6536 pencils and gives 15 to each of 5 groups. How many pencils are given away?
+sherlock: 75.
 
 user: A shop has 87470 pencils and sells 16. How many pencils remain?
 sherlock: 87454.
 
-user: 56612 stickers are shared equally between 50 bags. How many stickers go in each bag?
-sherlock: 1132.
+user: 47150 stickers are shared equally between 50 bags. How many stickers go in each bag?
+sherlock: 943.
 
-user: A teacher has 27760 pencils and gives 17 to each of 8 groups. How many pencils are given away?
-sherlock: 136.
+user: A box holds 59 cards. There are 15581 cards altogether. How many boxes are needed?
+sherlock: 265.
 
 user: A teacher has 18560 pencils and gives 67 to each of 6 groups. How many pencils are given away?
 sherlock: 402.
@@ -41680,74 +41572,65 @@ sherlock: 402.
 user: A teacher has 66911 pencils and gives 59 to each of 4 groups. How many pencils are given away?
 sherlock: 236.
 
-user: 42909 stickers are shared equally between 35 bags. How many stickers go in each bag?
-sherlock: 1225.
+user: 22400 stickers are shared equally between 35 bags. How many stickers go in each bag?
+sherlock: 640.
 
-user: A shop sells 51 books each day for 48289 days. How many books are sold altogether?
-sherlock: 2462739.
+user: There are 62608 marbles shared equally into 86 groups. How many marbles are in each group?
+sherlock: 728.
 
-user: A teacher has 72771 pencils and gives 39 to each of 11 groups. How many pencils are given away?
-sherlock: 429.
+user: There are 18279 marbles shared equally into 27 groups. How many marbles are in each group?
+sherlock: 677.
 
-user: A box holds 16 cards. There are 67721 cards altogether. How many boxes are needed?
-sherlock: 4233.
+user: A shop has 2203 pencils and sells 87. How many pencils remain?
+sherlock: 2116.
 
-user: A shop has 87271 pencils and sells 2. How many pencils remain?
-sherlock: 87269.
+user: A shop has 1915 pencils and sells 30. How many pencils remain?
+sherlock: 1885.
 
-user: A shop has 29357 pencils and sells 24. How many pencils remain?
-sherlock: 29333.
+user: A box holds 72 cards. There are 3924 cards altogether. How many boxes are needed?
+sherlock: 55.
 
-user: A shop has 72412 pencils and sells 29. How many pencils remain?
-sherlock: 72383.
+user: A box holds 94 cards. There are 46000 cards altogether. How many boxes are needed?
+sherlock: 490.
 
-user: There are 94550 marbles shared equally into 13 groups. How many marbles are in each group?
-sherlock: 7273.
+user: A shop has 28344 pencils and sells 22. How many pencils remain?
+sherlock: 28322.
 
-user: A box holds 53 cards. There are 20784 cards altogether. How many boxes are needed?
-sherlock: 393.
+user: A shop sells 31 books each day for 40725 days. How many books are sold altogether?
+sherlock: 1262475.
 
-user: There are 29658 marbles shared equally into 30 groups. How many marbles are in each group?
-sherlock: 988.
+user: A box holds 48 cards. There are 56804 cards altogether. How many boxes are needed?
+sherlock: 1184.
 
-user: A shop sells 64 books each day for 47445 days. How many books are sold altogether?
-sherlock: 3036480.
+user: A shop sells 60 books each day for 46815 days. How many books are sold altogether?
+sherlock: 2808900.
 
-user: There are 59939 marbles shared equally into 71 groups. How many marbles are in each group?
+user: 516 stickers are shared equally between 4 bags. How many stickers go in each bag?
+sherlock: 129.
+
+user: There are 21100 marbles shared equally into 25 groups. How many marbles are in each group?
 sherlock: 844.
 
-user: 2739 stickers are shared equally between 14 bags. How many stickers go in each bag?
-sherlock: 195.
+user: A box holds 77 cards. There are 25938 cards altogether. How many boxes are needed?
+sherlock: 337.
 
-user: There are 97821 marbles shared equally into 25 groups. How many marbles are in each group?
-sherlock: 3912.
+user: There are 5670 marbles shared equally into 10 groups. How many marbles are in each group?
+sherlock: 567.
 
-user: A teacher has 17196 pencils and gives 27 to each of 10 groups. How many pencils are given away?
-sherlock: 270.
+user: There are 18774 marbles shared equally into 21 groups. How many marbles are in each group?
+sherlock: 894.
 
-user: There are 25112 marbles shared equally into 10 groups. How many marbles are in each group?
-sherlock: 2511.
+user: 38100 stickers are shared equally between 75 bags. How many stickers go in each bag?
+sherlock: 508.
 
-user: A shop sells 85 books each day for 44677 days. How many books are sold altogether?
-sherlock: 3797545.
+user: 1210 stickers are shared equally between 10 bags. How many stickers go in each bag?
+sherlock: 121.
 
-user: A box holds 78 cards. There are 89464 cards altogether. How many boxes are needed?
-sherlock: 1147.
+user: A teacher has 80081 pencils and gives 22 to each of 9 groups. How many pencils are given away?
+sherlock: 198.
 
-user: 75382 stickers are shared equally between 51 bags. How many stickers go in each bag?
-sherlock: 1478.
-
-user: 70575 stickers are shared equally between 10 bags. How many stickers go in each bag?
-sherlock: 7057.
-
-user: A shop has 97316 pencils and sells 80. How many pencils remain?
-sherlock: 97236.
-
-user: A box holds 98 cards. There are 64881 cards altogether. How many boxes are needed?
-sherlock: 663.
-
-user: 58684 stickers are shared equally between 94 bags. How many stickers go in each bag?
-sherlock: 624.
+user: A teacher has 71193 pencils and gives 59 to each of 12 groups. How many pencils are given away?
+sherlock: 708.
 
 user: A shop has 23419 pencils and sells 11. How many pencils remain?
 sherlock: 23408.
@@ -41755,53 +41638,44 @@ sherlock: 23408.
 user: A teacher has 75503 pencils and gives 84 to each of 12 groups. How many pencils are given away?
 sherlock: 1008.
 
-user: There are 17739 marbles shared equally into 73 groups. How many marbles are in each group?
-sherlock: 243.
+user: There are 3504 marbles shared equally into 73 groups. How many marbles are in each group?
+sherlock: 48.
 
-user: A shop has 74342 pencils and sells 97. How many pencils remain?
-sherlock: 74245.
+user: 13440 stickers are shared equally between 84 bags. How many stickers go in each bag?
+sherlock: 160.
 
-user: A teacher has 15902 pencils and gives 91 to each of 12 groups. How many pencils are given away?
-sherlock: 1092.
+user: A teacher has 91659 pencils and gives 82 to each of 10 groups. How many pencils are given away?
+sherlock: 820.
 
-user: 76624 stickers are shared equally between 46 bags. How many stickers go in each bag?
-sherlock: 1665.
-
-user: A shop sells 54 books each day for 80957 days. How many books are sold altogether?
-sherlock: 4371678.
+user: There are 43497 marbles shared equally into 81 groups. How many marbles are in each group?
+sherlock: 537.
 
 user: A shop has 2891 pencils and sells 61. How many pencils remain?
 sherlock: 2830.
 
-user: 10437 stickers are shared equally between 57 bags. How many stickers go in each bag?
-sherlock: 183.
+user: 33915 stickers are shared equally between 57 bags. How many stickers go in each bag?
+sherlock: 595.
 
-user: A shop sells 73 books each day for 96579 days. How many books are sold altogether?
-sherlock: 7050267.
+user: A teacher has 72946 pencils and gives 4 to each of 5 groups. How many pencils are given away?
+sherlock: 20.
 
-user: A shop has 34926 pencils and sells 37. How many pencils remain?
-sherlock: 34889.
-
-user: There are 61558 marbles shared equally into 4 groups. How many marbles are in each group?
-sherlock: 15389.
+user: There are 1612 marbles shared equally into 62 groups. How many marbles are in each group?
+sherlock: 26.
 
 user: A shop sells 91 books each day for 52700 days. How many books are sold altogether?
 sherlock: 4795700.
 
-user: 94742 stickers are shared equally between 52 bags. How many stickers go in each bag?
-sherlock: 1821.
+user: 20852 stickers are shared equally between 52 bags. How many stickers go in each bag?
+sherlock: 401.
 
-user: There are 91753 marbles shared equally into 45 groups. How many marbles are in each group?
-sherlock: 2038.
+user: A teacher has 44680 pencils and gives 80 to each of 12 groups. How many pencils are given away?
+sherlock: 960.
 
-user: 96231 stickers are shared equally between 38 bags. How many stickers go in each bag?
-sherlock: 2532.
+user: There are 2068 marbles shared equally into 4 groups. How many marbles are in each group?
+sherlock: 517.
 
-user: A teacher has 2404 pencils and gives 52 to each of 12 groups. How many pencils are given away?
-sherlock: 624.
-
-user: 35002 stickers are shared equally between 59 bags. How many stickers go in each bag?
-sherlock: 593.
+user: A teacher has 75748 pencils and gives 36 to each of 8 groups. How many pencils are given away?
+sherlock: 288.
 
 user: A box holds 63 cards. There are 64234 cards altogether. How many boxes are needed?
 sherlock: 1020.
@@ -41809,68 +41683,62 @@ sherlock: 1020.
 user: A shop sells 98 books each day for 18334 days. How many books are sold altogether?
 sherlock: 1796732.
 
-user: There are 22319 marbles shared equally into 92 groups. How many marbles are in each group?
-sherlock: 242.
+user: There are 25852 marbles shared equally into 92 groups. How many marbles are in each group?
+sherlock: 281.
 
-user: A box holds 65 cards. There are 15587 cards altogether. How many boxes are needed?
-sherlock: 240.
+user: A shop has 64631 pencils and sells 77. How many pencils remain?
+sherlock: 64554.
 
-user: 55227 stickers are shared equally between 49 bags. How many stickers go in each bag?
-sherlock: 1127.
+user: A shop sells 31 books each day for 48617 days. How many books are sold altogether?
+sherlock: 1507127.
 
-user: A box holds 46 cards. There are 21631 cards altogether. How many boxes are needed?
-sherlock: 471.
+user: A box holds 24 cards. There are 45385 cards altogether. How many boxes are needed?
+sherlock: 1892.
 
-user: A box holds 99 cards. There are 540 cards altogether. How many boxes are needed?
-sherlock: 6.
+user: A shop has 99431 pencils and sells 48. How many pencils remain?
+sherlock: 99383.
 
-user: There are 66039 marbles shared equally into 29 groups. How many marbles are in each group?
-sherlock: 2277.
+user: A shop sells 36 books each day for 28307 days. How many books are sold altogether?
+sherlock: 1019052.
 
-user: There are 4625 marbles shared equally into 25 groups. How many marbles are in each group?
-sherlock: 185.
+user: A shop has 24415 pencils and sells 95. How many pencils remain?
+sherlock: 24320.
 
-user: A teacher has 46292 pencils and gives 52 to each of 9 groups. How many pencils are given away?
-sherlock: 468.
+user: There are 53613 marbles shared equally into 69 groups. How many marbles are in each group?
+sherlock: 777.
 
-user: 36676 stickers are shared equally between 35 bags. How many stickers go in each bag?
-sherlock: 1047.
+user: There are 56940 marbles shared equally into 60 groups. How many marbles are in each group?
+sherlock: 949.
 
-user: A shop sells 99 books each day for 94969 days. How many books are sold altogether?
-sherlock: 9401931.
+user: A teacher has 88334 pencils and gives 53 to each of 9 groups. How many pencils are given away?
+sherlock: 477.
 
-user: A teacher has 53045 pencils and gives 67 to each of 3 groups. How many pencils are given away?
-sherlock: 201.
+user: A shop has 74730 pencils and sells 30. How many pencils remain?
+sherlock: 74700.
 
-user: 29067 stickers are shared equally between 10 bags. How many stickers go in each bag?
-sherlock: 2906.
+user: A shop has 34686 pencils and sells 50. How many pencils remain?
+sherlock: 34636.
 
-user: There are 49171 marbles shared equally into 78 groups. How many marbles are in each group?
-sherlock: 630.
+user: 3198 stickers are shared equally between 26 bags. How many stickers go in each bag?
+sherlock: 123.
 
-user: There are 25012 marbles shared equally into 13 groups. How many marbles are in each group?
-sherlock: 1924.
+user: 56350 stickers are shared equally between 70 bags. How many stickers go in each bag?
+sherlock: 805.
 
-user: 59375 stickers are shared equally between 70 bags. How many stickers go in each bag?
-sherlock: 848.
+user: There are 41140 marbles shared equally into 68 groups. How many marbles are in each group?
+sherlock: 605.
 
-user: 43601 stickers are shared equally between 3 bags. How many stickers go in each bag?
-sherlock: 14533.
+user: A box holds 5 cards. There are 42390 cards altogether. How many boxes are needed?
+sherlock: 8478.
 
-user: 60446 stickers are shared equally between 25 bags. How many stickers go in each bag?
-sherlock: 2417.
+user: A box holds 97 cards. There are 300 cards altogether. How many boxes are needed?
+sherlock: 4.
 
-user: There are 3515 marbles shared equally into 23 groups. How many marbles are in each group?
-sherlock: 152.
+user: A box holds 96 cards. There are 5841 cards altogether. How many boxes are needed?
+sherlock: 61.
 
-user: A shop has 97798 pencils and sells 30. How many pencils remain?
-sherlock: 97768.
-
-user: A shop has 96301 pencils and sells 85. How many pencils remain?
-sherlock: 96216.
-
-user: A box holds 92 cards. There are 3762 cards altogether. How many boxes are needed?
-sherlock: 41.
+user: A teacher has 26850 pencils and gives 5 to each of 12 groups. How many pencils are given away?
+sherlock: 60.
 
 user: A shop has 14144 pencils and sells 6. How many pencils remain?
 sherlock: 14138.
@@ -41881,80 +41749,74 @@ sherlock: 820.
 user: A teacher has 28551 pencils and gives 34 to each of 8 groups. How many pencils are given away?
 sherlock: 272.
 
-user: There are 68678 marbles shared equally into 49 groups. How many marbles are in each group?
-sherlock: 1401.
+user: There are 17640 marbles shared equally into 49 groups. How many marbles are in each group?
+sherlock: 360.
 
-user: There are 13275 marbles shared equally into 89 groups. How many marbles are in each group?
-sherlock: 149.
+user: A shop has 89174 pencils and sells 6. How many pencils remain?
+sherlock: 89168.
 
-user: A shop has 22821 pencils and sells 30. How many pencils remain?
-sherlock: 22791.
+user: A box holds 22 cards. There are 28743 cards altogether. How many boxes are needed?
+sherlock: 1307.
 
-user: A box holds 46 cards. There are 43330 cards altogether. How many boxes are needed?
-sherlock: 942.
+user: There are 54004 marbles shared equally into 92 groups. How many marbles are in each group?
+sherlock: 587.
 
-user: A teacher has 58675 pencils and gives 84 to each of 9 groups. How many pencils are given away?
-sherlock: 756.
+user: A teacher has 66477 pencils and gives 94 to each of 4 groups. How many pencils are given away?
+sherlock: 376.
 
-user: A teacher has 25339 pencils and gives 17 to each of 12 groups. How many pencils are given away?
-sherlock: 204.
+user: A shop has 92100 pencils and sells 96. How many pencils remain?
+sherlock: 92004.
 
-user: A teacher has 93450 pencils and gives 13 to each of 2 groups. How many pencils are given away?
-sherlock: 26.
+user: A teacher has 12056 pencils and gives 4 to each of 11 groups. How many pencils are given away?
+sherlock: 44.
 
-user: A teacher has 64042 pencils and gives 21 to each of 2 groups. How many pencils are given away?
-sherlock: 42.
+user: A shop sells 5 books each day for 20293 days. How many books are sold altogether?
+sherlock: 101465.
 
 user: A shop has 19718 pencils and sells 78. How many pencils remain?
 sherlock: 19640.
 
-user: There are 61775 marbles shared equally into 99 groups. How many marbles are in each group?
-sherlock: 623.
+user: There are 50787 marbles shared equally into 99 groups. How many marbles are in each group?
+sherlock: 513.
 
-user: A shop sells 31 books each day for 707 days. How many books are sold altogether?
-sherlock: 21917.
+user: A shop has 29648 pencils and sells 62. How many pencils remain?
+sherlock: 29586.
 
-user: A shop sells 81 books each day for 4995 days. How many books are sold altogether?
-sherlock: 404595.
+user: A shop has 81179 pencils and sells 23. How many pencils remain?
+sherlock: 81156.
 
-user: A box holds 51 cards. There are 42582 cards altogether. How many boxes are needed?
-sherlock: 835.
+user: There are 22275 marbles shared equally into 75 groups. How many marbles are in each group?
+sherlock: 297.
 
-user: 29645 stickers are shared equally between 7 bags. How many stickers go in each bag?
-sherlock: 4235.
+user: A shop has 29692 pencils and sells 60. How many pencils remain?
+sherlock: 29632.
 
-user: A box holds 4 cards. There are 59885 cards altogether. How many boxes are needed?
-sherlock: 14972.
+user: A shop has 57670 pencils and sells 22. How many pencils remain?
+sherlock: 57648.
 
-user: A shop sells 59 books each day for 21339 days. How many books are sold altogether?
-sherlock: 1259001.
+user: A shop sells 83 books each day for 32875 days. How many books are sold altogether?
+sherlock: 2728625.
 
-user: A box holds 95 cards. There are 83125 cards altogether. How many boxes are needed?
-sherlock: 875.
+user: A teacher has 84633 pencils and gives 26 to each of 11 groups. How many pencils are given away?
+sherlock: 286.
 
-user: A teacher has 25480 pencils and gives 90 to each of 6 groups. How many pencils are given away?
-sherlock: 540.
+user: There are 2300 marbles shared equally into 50 groups. How many marbles are in each group?
+sherlock: 46.
 
-user: 49505 stickers are shared equally between 6 bags. How many stickers go in each bag?
-sherlock: 8250.
+user: There are 1050 marbles shared equally into 3 groups. How many marbles are in each group?
+sherlock: 350.
 
-user: There are 18990 marbles shared equally into 3 groups. How many marbles are in each group?
-sherlock: 6330.
+user: A shop has 37453 pencils and sells 29. How many pencils remain?
+sherlock: 37424.
 
-user: There are 2623 marbles shared equally into 38 groups. How many marbles are in each group?
-sherlock: 69.
+user: A shop has 45446 pencils and sells 22. How many pencils remain?
+sherlock: 45424.
 
-user: A box holds 46 cards. There are 5095 cards altogether. How many boxes are needed?
-sherlock: 111.
+user: A teacher has 24686 pencils and gives 20 to each of 3 groups. How many pencils are given away?
+sherlock: 60.
 
-user: A box holds 26 cards. There are 90509 cards altogether. How many boxes are needed?
-sherlock: 3482.
-
-user: A box holds 68 cards. There are 13470 cards altogether. How many boxes are needed?
-sherlock: 199.
-
-user: There are 51606 marbles shared equally into 67 groups. How many marbles are in each group?
-sherlock: 770.
+user: 34996 stickers are shared equally between 52 bags. How many stickers go in each bag?
+sherlock: 673.
 
 user: A box holds 87 cards. There are 61977 cards altogether. How many boxes are needed?
 sherlock: 713.
@@ -41962,23 +41824,20 @@ sherlock: 713.
 user: A shop sells 70 books each day for 92511 days. How many books are sold altogether?
 sherlock: 6475770.
 
-user: 59761 stickers are shared equally between 69 bags. How many stickers go in each bag?
-sherlock: 866.
+user: 50646 stickers are shared equally between 69 bags. How many stickers go in each bag?
+sherlock: 734.
 
-user: 17675 stickers are shared equally between 27 bags. How many stickers go in each bag?
-sherlock: 654.
+user: A box holds 75 cards. There are 25988 cards altogether. How many boxes are needed?
+sherlock: 347.
 
-user: 68399 stickers are shared equally between 56 bags. How many stickers go in each bag?
-sherlock: 1221.
+user: 9035 stickers are shared equally between 13 bags. How many stickers go in each bag?
+sherlock: 695.
 
-user: A shop has 69513 pencils and sells 98. How many pencils remain?
-sherlock: 69415.
+user: A teacher has 89106 pencils and gives 90 to each of 4 groups. How many pencils are given away?
+sherlock: 360.
 
-user: A teacher has 89963 pencils and gives 20 to each of 6 groups. How many pencils are given away?
-sherlock: 120.
-
-user: There are 14686 marbles shared equally into 27 groups. How many marbles are in each group?
-sherlock: 543.
+user: There are 4112 marbles shared equally into 16 groups. How many marbles are in each group?
+sherlock: 257.
 
 user: A shop has 3907 pencils and sells 5. How many pencils remain?
 sherlock: 3902.
@@ -41998,254 +41857,146 @@ sherlock: 239.
 user: A teacher has 74109 pencils and gives 2 to each of 11 groups. How many pencils are given away?
 sherlock: 22.
 
-user: Complete the number sequence 29960, 29869, 29778, 29687 by finding the next number.
-sherlock: 29596.
+user: A box holds 64 cards. There are 27006 cards altogether. How many boxes are needed?
+sherlock: 422.
 
-user: Complete the number sequence 63980, 64097, 64214, 64331 by finding the next number.
-sherlock: 64448.
+user: 35427 stickers are shared equally between 49 bags. How many stickers go in each bag?
+sherlock: 723.
 
-user: Complete the number sequence 70721, 70752, 70783, 70814 by finding the next number.
-sherlock: 70845.
+user: A box holds 3 cards. There are 82906 cards altogether. How many boxes are needed?
+sherlock: 27636.
 
-user: Complete the number sequence 72296, 72205, 72114, 72023 by finding the next number.
-sherlock: 71932.
+user: A box holds 51 cards. There are 56496 cards altogether. How many boxes are needed?
+sherlock: 1108.
 
-user: Complete the number sequence 82900, 82589, 82278, 81967 by finding the next number.
-sherlock: 81656.
+user: A shop sells 96 books each day for 8481 days. How many books are sold altogether?
+sherlock: 814176.
 
-user: Complete the number sequence 30681, 30743, 30805, 30867 by finding the next number.
-sherlock: 30929.
+user: 11340 stickers are shared equally between 81 bags. How many stickers go in each bag?
+sherlock: 140.
 
-user: Complete the number sequence 50531, 50593, 50655, 50717 by finding the next number.
-sherlock: 50779.
+user: There are 40488 marbles shared equally into 56 groups. How many marbles are in each group?
+sherlock: 723.
 
-user: Complete the number sequence 8444, 8715, 8986, 9257 by finding the next number.
-sherlock: 9528.
+user: 29547 stickers are shared equally between 67 bags. How many stickers go in each bag?
+sherlock: 441.
 
-user: Complete the number sequence 79263, 79172, 79081, 78990 by finding the next number.
-sherlock: 78899.
+user: A shop has 45939 pencils and sells 41. How many pencils remain?
+sherlock: 45898.
 
-user: Complete the number sequence 80974, 80804, 80634, 80464 by finding the next number.
-sherlock: 80294.
+user: There are 18954 marbles shared equally into 26 groups. How many marbles are in each group?
+sherlock: 729.
 
-user: Complete the number sequence 49989, 49678, 49367, 49056 by finding the next number.
-sherlock: 48745.
+user: A teacher has 89210 pencils and gives 72 to each of 9 groups. How many pencils are given away?
+sherlock: 648.
 
-user: Complete the number sequence 56061, 56178, 56295, 56412 by finding the next number.
-sherlock: 56529.
+user: A shop has 16545 pencils and sells 85. How many pencils remain?
+sherlock: 16460.
 
-user: Complete the number sequence 82256, 82527, 82798, 83069 by finding the next number.
-sherlock: 83340.
+user: A box holds 6 cards. There are 51479 cards altogether. How many boxes are needed?
+sherlock: 8580.
 
-user: Complete the number sequence 67040, 66996, 66952, 66908 by finding the next number.
-sherlock: 66864.
+user: A shop sells 73 books each day for 11056 days. How many books are sold altogether?
+sherlock: 807088.
 
-user: Complete the number sequence 2957, 2988, 3019, 3050 by finding the next number.
-sherlock: 3081.
+user: There are 4440 marbles shared equally into 30 groups. How many marbles are in each group?
+sherlock: 148.
 
-user: Complete the number sequence 40735, 40691, 40647, 40603 by finding the next number.
-sherlock: 40559.
+user: A shop sells 68 books each day for 78334 days. How many books are sold altogether?
+sherlock: 5326712.
 
-user: Complete the number sequence 40380, 40289, 40198, 40107 by finding the next number.
-sherlock: 40016.
+user: A box holds 45 cards. There are 39639 cards altogether. How many boxes are needed?
+sherlock: 881.
 
-user: Complete the number sequence 72854, 73042, 73230, 73418 by finding the next number.
-sherlock: 73606.
+user: 12863 stickers are shared equally between 19 bags. How many stickers go in each bag?
+sherlock: 677.
 
-user: Complete the number sequence 89206, 89323, 89440, 89557 by finding the next number.
-sherlock: 89674.
+user: A shop has 79521 pencils and sells 84. How many pencils remain?
+sherlock: 79437.
 
-user: Complete the number sequence 68769, 68458, 68147, 67836 by finding the next number.
-sherlock: 67525.
+user: There are 2505 marbles shared equally into 5 groups. How many marbles are in each group?
+sherlock: 501.
 
-user: Complete the number sequence 16512, 16700, 16888, 17076 by finding the next number.
-sherlock: 17264.
+user: A teacher has 34059 pencils and gives 87 to each of 3 groups. How many pencils are given away?
+sherlock: 261.
 
-user: Complete the number sequence 32389, 32420, 32451, 32482 by finding the next number.
-sherlock: 32513.
+user: There are 7220 marbles shared equally into 19 groups. How many marbles are in each group?
+sherlock: 380.
 
-user: Complete the number sequence 4205, 4236, 4267, 4298 by finding the next number.
-sherlock: 4329.
+user: There are 1058 marbles shared equally into 23 groups. How many marbles are in each group?
+sherlock: 46.
 
-user: Complete the number sequence 11020, 11137, 11254, 11371 by finding the next number.
-sherlock: 11488.
+user: A shop has 74469 pencils and sells 87. How many pencils remain?
+sherlock: 74382.
 
-user: Complete the number sequence 48267, 48329, 48391, 48453 by finding the next number.
-sherlock: 48515.
+user: A teacher has 74748 pencils and gives 53 to each of 8 groups. How many pencils are given away?
+sherlock: 424.
 
-user: Complete the number sequence 28997, 28827, 28657, 28487 by finding the next number.
-sherlock: 28317.
+user: A shop sells 33 books each day for 72679 days. How many books are sold altogether?
+sherlock: 2398407.
 
-user: Complete the number sequence 59998, 60186, 60374, 60562 by finding the next number.
-sherlock: 60750.
+user: A shop sells 75 books each day for 23519 days. How many books are sold altogether?
+sherlock: 1763925.
 
-user: Complete the number sequence 67888, 67797, 67706, 67615 by finding the next number.
-sherlock: 67524.
+user: A shop has 97239 pencils and sells 77. How many pencils remain?
+sherlock: 97162.
 
-user: Complete the number sequence 39614, 39570, 39526, 39482 by finding the next number.
-sherlock: 39438.
+user: 6424 stickers are shared equally between 88 bags. How many stickers go in each bag?
+sherlock: 73.
 
-user: Complete the number sequence 76098, 76160, 76222, 76284 by finding the next number.
-sherlock: 76346.
+user: A box holds 56 cards. There are 93040 cards altogether. How many boxes are needed?
+sherlock: 1662.
 
-user: Complete the number sequence 17542, 17659, 17776, 17893 by finding the next number.
-sherlock: 18010.
+user: There are 768 marbles shared equally into 24 groups. How many marbles are in each group?
+sherlock: 32.
 
-user: Complete the number sequence 15672, 15860, 16048, 16236 by finding the next number.
-sherlock: 16424.
+user: A box holds 44 cards. There are 74990 cards altogether. How many boxes are needed?
+sherlock: 1705.
 
-user: Complete the number sequence 83694, 83650, 83606, 83562 by finding the next number.
-sherlock: 83518.
+user: A teacher has 6248 pencils and gives 17 to each of 2 groups. How many pencils are given away?
+sherlock: 34.
 
-user: Complete the number sequence 79097, 78786, 78475, 78164 by finding the next number.
-sherlock: 77853.
+user: 32935 stickers are shared equally between 35 bags. How many stickers go in each bag?
+sherlock: 941.
 
-user: Complete the number sequence 50086, 50357, 50628, 50899 by finding the next number.
-sherlock: 51170.
+user: A box holds 71 cards. There are 56011 cards altogether. How many boxes are needed?
+sherlock: 789.
 
-user: Complete the number sequence 34032, 34220, 34408, 34596 by finding the next number.
-sherlock: 34784.
+user: A shop has 76864 pencils and sells 25. How many pencils remain?
+sherlock: 76839.
 
-user: Complete the number sequence 16965, 16996, 17027, 17058 by finding the next number.
-sherlock: 17089.
+user: A shop has 43826 pencils and sells 54. How many pencils remain?
+sherlock: 43772.
 
-user: Complete the number sequence 78522, 78352, 78182, 78012 by finding the next number.
-sherlock: 77842.
+user: 72225 stickers are shared equally between 75 bags. How many stickers go in each bag?
+sherlock: 963.
 
-user: Complete the number sequence 37971, 37927, 37883, 37839 by finding the next number.
-sherlock: 37795.
+user: 36960 stickers are shared equally between 42 bags. How many stickers go in each bag?
+sherlock: 880.
 
-user: Complete the number sequence 14846, 14676, 14506, 14336 by finding the next number.
-sherlock: 14166.
+user: A box holds 17 cards. There are 82405 cards altogether. How many boxes are needed?
+sherlock: 4848.
 
-user: Complete the number sequence 4497, 4186, 3875, 3564 by finding the next number.
-sherlock: 3253.
+user: A teacher has 51541 pencils and gives 32 to each of 6 groups. How many pencils are given away?
+sherlock: 192.
 
-user: Complete the number sequence 74459, 74647, 74835, 75023 by finding the next number.
-sherlock: 75211.
+user: A shop has 44507 pencils and sells 71. How many pencils remain?
+sherlock: 44436.
 
-user: Complete the number sequence 94555, 94672, 94789, 94906 by finding the next number.
-sherlock: 95023.
+user: There are 13689 marbles shared equally into 27 groups. How many marbles are in each group?
+sherlock: 507.
 
-user: Complete the number sequence 52198, 52260, 52322, 52384 by finding the next number.
-sherlock: 52446.
+user: There are 2508 marbles shared equally into 44 groups. How many marbles are in each group?
+sherlock: 57.
 
-user: Complete the number sequence 56618, 56735, 56852, 56969 by finding the next number.
-sherlock: 57086.
+user: A teacher has 91722 pencils and gives 32 to each of 2 groups. How many pencils are given away?
+sherlock: 64.
 
-user: Complete the number sequence 32211, 32273, 32335, 32397 by finding the next number.
-sherlock: 32459.
+user: There are 3520 marbles shared equally into 44 groups. How many marbles are in each group?
+sherlock: 80.
 
-user: Complete the number sequence 23488, 23605, 23722, 23839 by finding the next number.
-sherlock: 23956.
-
-user: Complete the number sequence 13712, 13983, 14254, 14525 by finding the next number.
-sherlock: 14796.
-
-user: Complete the number sequence 76768, 76885, 77002, 77119 by finding the next number.
-sherlock: 77236.
-
-user: Complete the number sequence 69198, 69386, 69574, 69762 by finding the next number.
-sherlock: 69950.
-
-user: Complete the number sequence 7128, 6958, 6788, 6618 by finding the next number.
-sherlock: 6448.
-
-user: Complete the number sequence 93038, 93069, 93100, 93131 by finding the next number.
-sherlock: 93162.
-
-user: Complete the number sequence 40575, 40405, 40235, 40065 by finding the next number.
-sherlock: 39895.
-
-user: Complete the number sequence 23162, 22851, 22540, 22229 by finding the next number.
-sherlock: 21918.
-
-user: Complete the number sequence 26317, 26434, 26551, 26668 by finding the next number.
-sherlock: 26785.
-
-user: Complete the number sequence 43710, 43981, 44252, 44523 by finding the next number.
-sherlock: 44794.
-
-user: Complete the number sequence 6210, 6040, 5870, 5700 by finding the next number.
-sherlock: 5530.
-
-user: Complete the number sequence 1524, 1641, 1758, 1875 by finding the next number.
-sherlock: 1992.
-
-user: Complete the number sequence 11350, 11306, 11262, 11218 by finding the next number.
-sherlock: 11174.
-
-user: Complete the number sequence 94102, 94011, 93920, 93829 by finding the next number.
-sherlock: 93738.
-
-user: Complete the number sequence 55993, 56110, 56227, 56344 by finding the next number.
-sherlock: 56461.
-
-user: Complete the number sequence 12091, 12208, 12325, 12442 by finding the next number.
-sherlock: 12559.
-
-user: Complete the number sequence 24177, 23866, 23555, 23244 by finding the next number.
-sherlock: 22933.
-
-user: Complete the number sequence 43804, 43835, 43866, 43897 by finding the next number.
-sherlock: 43928.
-
-user: Complete the number sequence 69267, 69384, 69501, 69618 by finding the next number.
-sherlock: 69735.
-
-user: Complete the number sequence 74953, 75224, 75495, 75766 by finding the next number.
-sherlock: 76037.
-
-user: Complete the number sequence 71905, 72093, 72281, 72469 by finding the next number.
-sherlock: 72657.
-
-user: Complete the number sequence 41081, 41269, 41457, 41645 by finding the next number.
-sherlock: 41833.
-
-user: Complete the number sequence 26471, 26659, 26847, 27035 by finding the next number.
-sherlock: 27223.
-
-user: Complete the number sequence 15669, 15940, 16211, 16482 by finding the next number.
-sherlock: 16753.
-
-user: Complete the number sequence 51522, 51431, 51340, 51249 by finding the next number.
-sherlock: 51158.
-
-user: Complete the number sequence 41721, 41551, 41381, 41211 by finding the next number.
-sherlock: 41041.
-
-user: Complete the number sequence 44485, 44602, 44719, 44836 by finding the next number.
-sherlock: 44953.
-
-user: Complete the number sequence 39626, 39814, 40002, 40190 by finding the next number.
-sherlock: 40378.
-
-user: Complete the number sequence 25853, 25884, 25915, 25946 by finding the next number.
-sherlock: 25977.
-
-user: Complete the number sequence 49047, 49318, 49589, 49860 by finding the next number.
-sherlock: 50131.
-
-user: Complete the number sequence 43268, 42957, 42646, 42335 by finding the next number.
-sherlock: 42024.
-
-user: Complete the number sequence 87765, 88036, 88307, 88578 by finding the next number.
-sherlock: 88849.
-
-user: Complete the number sequence 30802, 30491, 30180, 29869 by finding the next number.
-sherlock: 29558.
-
-user: Complete the number sequence 35213, 35330, 35447, 35564 by finding the next number.
-sherlock: 35681.
-
-user: Complete the number sequence 43677, 43366, 43055, 42744 by finding the next number.
-sherlock: 42433.
-
-user: Complete the number sequence 73475, 73592, 73709, 73826 by finding the next number.
-sherlock: 73943.
-
-user: Complete the number sequence 13837, 14108, 14379, 14650 by finding the next number.
-sherlock: 14921.
+user: 13410 stickers are shared equally between 15 bags. How many stickers go in each bag?
+sherlock: 894.
 
 user: Complete the number sequence 43735, 43923, 44111, 44299 by finding the next number.
 sherlock: 44487.
@@ -43498,190 +43249,367 @@ sherlock: 30462.
 user: Complete the number sequence 42493, 42610, 42727, 42844 by finding the next number.
 sherlock: 42961.
 
-user: Follow the instruction and use the alphabet to order these letters: o, t, u, m, p.
-sherlock: m, o, p, t, u.
+user: Complete the number sequence 22284, 22315, 22346, 22377 by finding the next number.
+sherlock: 22408.
 
-user: Follow the instruction and use the alphabet to order these letters: d, f, p, q, c.
-sherlock: c, d, f, p, q.
+user: Complete the number sequence 73421, 73538, 73655, 73772 by finding the next number.
+sherlock: 73889.
 
-user: Follow the instruction and use the alphabet to order these letters: f, x, c, y, z.
-sherlock: c, f, x, y, z.
+user: Complete the number sequence 46647, 46709, 46771, 46833 by finding the next number.
+sherlock: 46895.
 
-user: Put these numbers in ascending order: 7259, 60995, 14344, 33044, 89706.
-sherlock: 7259, 14344, 33044, 60995, 89706.
+user: Complete the number sequence 44906, 44736, 44566, 44396 by finding the next number.
+sherlock: 44226.
 
-user: Put these numbers in ascending order: 33927, 32030, 34048, 41416, 54984.
-sherlock: 32030, 33927, 34048, 41416, 54984.
+user: Complete the number sequence 20307, 20369, 20431, 20493 by finding the next number.
+sherlock: 20555.
 
-user: Follow the instruction and use the alphabet to order these letters: m, i, l, o, u.
-sherlock: i, l, m, o, u.
+user: Complete the number sequence 63959, 64021, 64083, 64145 by finding the next number.
+sherlock: 64207.
 
-user: Put these numbers in descending order: 39094, 14244, 68031, 21307, 15734.
-sherlock: 68031, 39094, 21307, 15734, 14244.
+user: Complete the number sequence 9451, 9281, 9111, 8941 by finding the next number.
+sherlock: 8771.
 
-user: Follow the instruction and use the alphabet to order these letters: m, r, i, y, o.
-sherlock: i, m, o, r, y.
+user: Complete the number sequence 21696, 21967, 22238, 22509 by finding the next number.
+sherlock: 22780.
 
-user: Follow the instruction and use the alphabet to order these letters: r, b, m, h, y.
-sherlock: b, h, m, r, y.
+user: Complete the number sequence 7771, 7680, 7589, 7498 by finding the next number.
+sherlock: 7407.
 
-user: Follow the instruction and use the alphabet to order these letters: p, q, u, c, y.
-sherlock: c, p, q, u, y.
+user: Complete the number sequence 95083, 95354, 95625, 95896 by finding the next number.
+sherlock: 96167.
 
-user: Follow the instruction and use the alphabet to order these letters: z, j, s, m, x.
-sherlock: j, m, s, x, z.
+user: Complete the number sequence 57428, 57117, 56806, 56495 by finding the next number.
+sherlock: 56184.
 
-user: Put these numbers in descending order: 52834, 90418, 19033, 22007, 68554.
-sherlock: 90418, 68554, 52834, 22007, 19033.
+user: Complete the number sequence 60995, 60825, 60655, 60485 by finding the next number.
+sherlock: 60315.
 
-user: Put these numbers in ascending order: 4032, 13767, 86021, 82420, 59002.
-sherlock: 4032, 13767, 59002, 82420, 86021.
+user: Complete the number sequence 33044, 33315, 33586, 33857 by finding the next number.
+sherlock: 34128.
 
-user: Follow the instruction and use the alphabet to order these letters: n, h, a, k, m.
-sherlock: a, h, k, m, n.
+user: Complete the number sequence 55158, 55429, 55700, 55971 by finding the next number.
+sherlock: 56242.
 
-user: Put these numbers in ascending order: 33910, 35703, 89107, 4802, 82759.
-sherlock: 4802, 33910, 35703, 82759, 89107.
+user: Complete the number sequence 33927, 33836, 33745, 33654 by finding the next number.
+sherlock: 33563.
 
-user: Put these numbers in ascending order: 82856, 46940, 77812, 72834, 23364.
-sherlock: 23364, 46940, 72834, 77812, 82856.
+user: Complete the number sequence 34048, 34004, 33960, 33916 by finding the next number.
+sherlock: 33872.
 
-user: Follow the instruction and use the alphabet to order these letters: t, f, b, w, z.
-sherlock: b, f, t, w, z.
+user: Complete the number sequence 54984, 55172, 55360, 55548 by finding the next number.
+sherlock: 55736.
 
-user: Follow the instruction and use the alphabet to order these letters: w, v, a, z, b.
-sherlock: a, b, v, w, z.
+user: Complete the number sequence 22357, 22388, 22419, 22450 by finding the next number.
+sherlock: 22481.
 
-user: Follow the instruction and use the alphabet to order these letters: r, g, h, t, k.
-sherlock: g, h, k, r, t.
+user: Complete the number sequence 31525, 31556, 31587, 31618 by finding the next number.
+sherlock: 31649.
 
-user: Follow the instruction and use the alphabet to order these letters: g, x, n, l, b.
-sherlock: b, g, l, n, x.
+user: Complete the number sequence 53950, 53981, 54012, 54043 by finding the next number.
+sherlock: 54074.
 
-user: Put these numbers in descending order: 84023, 19908, 4400, 94178, 88757.
-sherlock: 94178, 88757, 84023, 19908, 4400.
+user: Complete the number sequence 78277, 78465, 78653, 78841 by finding the next number.
+sherlock: 79029.
 
-user: Put these numbers in descending order: 73378, 21308, 66392, 74357, 29523.
-sherlock: 74357, 73378, 66392, 29523, 21308.
+user: Complete the number sequence 39094, 38924, 38754, 38584 by finding the next number.
+sherlock: 38414.
 
-user: Put these numbers in descending order: 81494, 66644, 33649, 37110, 52495.
-sherlock: 81494, 66644, 52495, 37110, 33649.
+user: Complete the number sequence 68031, 67861, 67691, 67521 by finding the next number.
+sherlock: 67351.
 
-user: Put these numbers in descending order: 74687, 75982, 18767, 51608, 77985.
-sherlock: 77985, 75982, 74687, 51608, 18767.
+user: Complete the number sequence 15734, 15765, 15796, 15827 by finding the next number.
+sherlock: 15858.
 
-user: Follow the instruction and use the alphabet to order these letters: s, x, z, y, r.
-sherlock: r, s, x, y, z.
+user: Complete the number sequence 20050, 20081, 20112, 20143 by finding the next number.
+sherlock: 20174.
 
-user: Put these numbers in ascending order: 41022, 79427, 16458, 75144, 43956.
-sherlock: 16458, 41022, 43956, 75144, 79427.
+user: Complete the number sequence 67695, 67604, 67513, 67422 by finding the next number.
+sherlock: 67331.
 
-user: Put these numbers in descending order: 35249, 99275, 86498, 5971, 50832.
-sherlock: 99275, 86498, 50832, 35249, 5971.
+user: Complete the number sequence 93713, 93744, 93775, 93806 by finding the next number.
+sherlock: 93837.
 
-user: Follow the instruction and use the alphabet to order these letters: x, o, d, k, b.
-sherlock: b, d, k, o, x.
+user: Complete the number sequence 17616, 17733, 17850, 17967 by finding the next number.
+sherlock: 18084.
 
-user: Put these numbers in ascending order: 20865, 34489, 9005, 17818, 35196.
-sherlock: 9005, 17818, 20865, 34489, 35196.
+user: Complete the number sequence 7692, 7723, 7754, 7785 by finding the next number.
+sherlock: 7816.
 
-user: Put these numbers in descending order: 33090, 30953, 97853, 34922, 42061.
-sherlock: 97853, 42061, 34922, 33090, 30953.
+user: Complete the number sequence 27308, 27579, 27850, 28121 by finding the next number.
+sherlock: 28392.
 
-user: Put these numbers in descending order: 14002, 63342, 56253, 33309, 34274.
-sherlock: 63342, 56253, 34274, 33309, 14002.
+user: Complete the number sequence 29773, 29835, 29897, 29959 by finding the next number.
+sherlock: 30021.
 
-user: Put these numbers in ascending order: 19726, 74376, 79344, 38660, 63426.
-sherlock: 19726, 38660, 63426, 74376, 79344.
+user: Complete the number sequence 63565, 63753, 63941, 64129 by finding the next number.
+sherlock: 64317.
 
-user: Put these numbers in descending order: 20515, 95812, 96668, 87949, 23018.
-sherlock: 96668, 95812, 87949, 23018, 20515.
+user: Complete the number sequence 7995, 8266, 8537, 8808 by finding the next number.
+sherlock: 9079.
 
-user: Follow the instruction and use the alphabet to order these letters: m, z, u, d, h.
-sherlock: d, h, m, u, z.
+user: Complete the number sequence 12046, 12317, 12588, 12859 by finding the next number.
+sherlock: 13130.
 
-user: Put these numbers in ascending order: 6271, 56991, 74554, 91119, 77724.
-sherlock: 6271, 56991, 74554, 77724, 91119.
+user: Complete the number sequence 38041, 38158, 38275, 38392 by finding the next number.
+sherlock: 38509.
 
-user: Put these numbers in ascending order: 91388, 72983, 45676, 35108, 44536.
-sherlock: 35108, 44536, 45676, 72983, 91388.
+user: Complete the number sequence 47095, 47283, 47471, 47659 by finding the next number.
+sherlock: 47847.
 
-user: Put these numbers in descending order: 75351, 88698, 24013, 82257, 57305.
-sherlock: 88698, 82257, 75351, 57305, 24013.
+user: Complete the number sequence 87478, 87509, 87540, 87571 by finding the next number.
+sherlock: 87602.
 
-user: Follow the instruction and use the alphabet to order these letters: q, o, p, j, f.
-sherlock: f, j, o, p, q.
+user: Complete the number sequence 90418, 90248, 90078, 89908 by finding the next number.
+sherlock: 89738.
 
-user: Put these numbers in descending order: 65165, 22680, 68050, 33822, 11575.
-sherlock: 68050, 65165, 33822, 22680, 11575.
+user: Complete the number sequence 22007, 22124, 22241, 22358 by finding the next number.
+sherlock: 22475.
 
-user: Put these numbers in ascending order: 7198, 40603, 73656, 44901, 89160.
-sherlock: 7198, 40603, 44901, 73656, 89160.
+user: Complete the number sequence 16273, 16461, 16649, 16837 by finding the next number.
+sherlock: 17025.
 
-user: Put these numbers in ascending order: 7115, 73122, 45155, 97354, 86830.
-sherlock: 7115, 45155, 73122, 86830, 97354.
+user: Complete the number sequence 4032, 3862, 3692, 3522 by finding the next number.
+sherlock: 3352.
 
-user: Put these numbers in ascending order: 6481, 81744, 24456, 96922, 43056.
-sherlock: 6481, 24456, 43056, 81744, 96922.
+user: Complete the number sequence 86021, 86209, 86397, 86585 by finding the next number.
+sherlock: 86773.
 
-user: Follow the instruction and use the alphabet to order these letters: g, a, v, d, o.
-sherlock: a, d, g, o, v.
+user: Complete the number sequence 59002, 59190, 59378, 59566 by finding the next number.
+sherlock: 59754.
 
-user: Follow the instruction and use the alphabet to order these letters: g, l, t, e, b.
-sherlock: b, e, g, l, t.
+user: Complete the number sequence 20031, 20062, 20093, 20124 by finding the next number.
+sherlock: 20155.
 
-user: Put these numbers in descending order: 58529, 3927, 54357, 3575, 43714.
-sherlock: 58529, 54357, 43714, 3927, 3575.
+user: Complete the number sequence 29685, 29374, 29063, 28752 by finding the next number.
+sherlock: 28441.
 
-user: Follow the instruction and use the alphabet to order these letters: y, w, c, k, z.
-sherlock: c, k, w, y, z.
+user: Complete the number sequence 39401, 39432, 39463, 39494 by finding the next number.
+sherlock: 39525.
 
-user: Follow the instruction and use the alphabet to order these letters: b, g, w, p, n.
-sherlock: b, g, n, p, w.
+user: Complete the number sequence 63708, 63664, 63620, 63576 by finding the next number.
+sherlock: 63532.
 
-user: Follow the instruction and use the alphabet to order these letters: j, r, a, x, k.
-sherlock: a, j, k, r, x.
+user: Complete the number sequence 35703, 35974, 36245, 36516 by finding the next number.
+sherlock: 36787.
 
-user: Put these numbers in descending order: 92413, 62670, 86426, 9373, 60274.
-sherlock: 92413, 86426, 62670, 60274, 9373.
+user: Complete the number sequence 4802, 4990, 5178, 5366 by finding the next number.
+sherlock: 5554.
 
-user: Follow the instruction and use the alphabet to order these letters: n, h, f, d, u.
-sherlock: d, f, h, n, u.
+user: Complete the number sequence 51237, 51425, 51613, 51801 by finding the next number.
+sherlock: 51989.
 
-user: Put these numbers in descending order: 78424, 36273, 8233, 63166, 37394.
-sherlock: 78424, 63166, 37394, 36273, 8233.
+user: Complete the number sequence 82856, 82887, 82918, 82949 by finding the next number.
+sherlock: 82980.
 
-user: Follow the instruction and use the alphabet to order these letters: x, l, g, d, r.
-sherlock: d, g, l, r, x.
+user: Complete the number sequence 77812, 77929, 78046, 78163 by finding the next number.
+sherlock: 78280.
 
-user: Follow the instruction and use the alphabet to order these letters: z, j, c, v, b.
-sherlock: b, c, j, v, z.
+user: Complete the number sequence 23364, 23426, 23488, 23550 by finding the next number.
+sherlock: 23612.
 
-user: Put these numbers in ascending order: 50522, 34027, 97962, 92204, 96975.
-sherlock: 34027, 50522, 92204, 96975, 97962.
+user: Complete the number sequence 6783, 6900, 7017, 7134 by finding the next number.
+sherlock: 7251.
 
-user: Put these numbers in descending order: 36241, 91370, 45300, 6100, 20164.
-sherlock: 91370, 45300, 36241, 20164, 6100.
+user: Complete the number sequence 21230, 20919, 20608, 20297 by finding the next number.
+sherlock: 19986.
 
-user: Follow the instruction and use the alphabet to order these letters: m, s, l, r, u.
-sherlock: l, m, r, s, u.
+user: Complete the number sequence 88114, 88385, 88656, 88927 by finding the next number.
+sherlock: 89198.
 
-user: Follow the instruction and use the alphabet to order these letters: e, y, f, s, v.
-sherlock: e, f, s, v, y.
+user: Complete the number sequence 49613, 49801, 49989, 50177 by finding the next number.
+sherlock: 50365.
 
-user: Put these numbers in ascending order: 74722, 66670, 16544, 50933, 55715.
-sherlock: 16544, 50933, 55715, 66670, 74722.
+user: Complete the number sequence 81476, 81165, 80854, 80543 by finding the next number.
+sherlock: 80232.
 
-user: Follow the instruction and use the alphabet to order these letters: j, g, r, k, v.
-sherlock: g, j, k, r, v.
+user: Complete the number sequence 98847, 99035, 99223, 99411 by finding the next number.
+sherlock: 99599.
 
-user: Put these numbers in ascending order: 47687, 41501, 57597, 58573, 46181.
-sherlock: 41501, 46181, 47687, 57597, 58573.
+user: Complete the number sequence 6882, 6571, 6260, 5949 by finding the next number.
+sherlock: 5638.
 
-user: Put these numbers in ascending order: 98917, 89021, 17571, 24749, 4824.
-sherlock: 4824, 17571, 24749, 89021, 98917.
+user: Complete the number sequence 65885, 65794, 65703, 65612 by finding the next number.
+sherlock: 65521.
 
-user: Follow the instruction and use the alphabet to order these letters: k, l, t, z, q.
+user: Complete the number sequence 27931, 28048, 28165, 28282 by finding the next number.
+sherlock: 28399.
+
+user: Complete the number sequence 39513, 39202, 38891, 38580 by finding the next number.
+sherlock: 38269.
+
+user: Complete the number sequence 25420, 25691, 25962, 26233 by finding the next number.
+sherlock: 26504.
+
+user: Complete the number sequence 51715, 51624, 51533, 51442 by finding the next number.
+sherlock: 51351.
+
+user: Complete the number sequence 44007, 43696, 43385, 43074 by finding the next number.
+sherlock: 42763.
+
+user: Complete the number sequence 90454, 90642, 90830, 91018 by finding the next number.
+sherlock: 91206.
+
+user: Complete the number sequence 19908, 19597, 19286, 18975 by finding the next number.
+sherlock: 18664.
+
+user: Complete the number sequence 94178, 94366, 94554, 94742 by finding the next number.
+sherlock: 94930.
+
+user: Complete the number sequence 22307, 22424, 22541, 22658 by finding the next number.
+sherlock: 22775.
+
+user: Complete the number sequence 73378, 73208, 73038, 72868 by finding the next number.
+sherlock: 72698.
+
+user: Complete the number sequence 66392, 66509, 66626, 66743 by finding the next number.
+sherlock: 66860.
+
+user: Complete the number sequence 29523, 29212, 28901, 28590 by finding the next number.
+sherlock: 28279.
+
+user: Complete the number sequence 80779, 80967, 81155, 81343 by finding the next number.
+sherlock: 81531.
+
+user: Complete the number sequence 66644, 66600, 66556, 66512 by finding the next number.
+sherlock: 66468.
+
+user: Complete the number sequence 37110, 37141, 37172, 37203 by finding the next number.
+sherlock: 37234.
+
+user: Complete the number sequence 15972, 16243, 16514, 16785 by finding the next number.
+sherlock: 17056.
+
+user: Complete the number sequence 74687, 74804, 74921, 75038 by finding the next number.
+sherlock: 75155.
+
+user: Complete the number sequence 18767, 18798, 18829, 18860 by finding the next number.
+sherlock: 18891.
+
+user: Complete the number sequence 77985, 77815, 77645, 77475 by finding the next number.
+sherlock: 77305.
+
+user: Complete the number sequence 37871, 37988, 38105, 38222 by finding the next number.
+sherlock: 38339.
+
+user: Complete the number sequence 89722, 89993, 90264, 90535 by finding the next number.
+sherlock: 90806.
+
+user: Complete the number sequence 93117, 93388, 93659, 93930 by finding the next number.
+sherlock: 94201.
+
+user: Put these numbers in descending order: 50416, 41022, 79427, 16458, 75144.
+sherlock: 79427, 75144, 50416, 41022, 16458.
+
+user: Put these numbers in ascending order: 56530, 35249, 99275, 86498, 5971.
+sherlock: 5971, 35249, 56530, 86498, 99275.
+
+user: Follow the instruction and use the alphabet to order these letters: h, x, o, d, k.
+sherlock: d, h, k, o, x.
+
+user: Follow the instruction and use the alphabet to order these letters: n, f, i, c, e.
+sherlock: c, e, f, i, n.
+
+user: Follow the instruction and use the alphabet to order these letters: o, v, i, z, j.
+sherlock: i, j, o, v, z.
+
+user: Follow the instruction and use the alphabet to order these letters: j, v, d, q, o.
+sherlock: d, j, o, q, v.
+
+user: Follow the instruction and use the alphabet to order these letters: i, c, z, f, t.
+sherlock: c, f, i, t, z.
+
+user: Put these numbers in ascending order: 38660, 63426, 65070, 56466, 20515.
+sherlock: 20515, 38660, 56466, 63426, 65070.
+
+user: Put these numbers in ascending order: 87949, 23018, 46164, 4364, 47491.
+sherlock: 4364, 23018, 46164, 47491, 87949.
+
+user: Put these numbers in ascending order: 14094, 27808, 51859, 6271, 56991.
+sherlock: 6271, 14094, 27808, 51859, 56991.
+
+user: Put these numbers in descending order: 77724, 85013, 86726, 91388, 72983.
+sherlock: 91388, 86726, 85013, 77724, 72983.
+
+user: Follow the instruction and use the alphabet to order these letters: l, t, z, x, g.
+sherlock: g, l, t, x, z.
+
+user: Put these numbers in ascending order: 57305, 38378, 31182, 62054, 57001.
+sherlock: 31182, 38378, 57001, 57305, 62054.
+
+user: Follow the instruction and use the alphabet to order these letters: f, v, q, r, i.
+sherlock: f, i, q, r, v.
+
+user: Follow the instruction and use the alphabet to order these letters: k, x, b, t, l.
+sherlock: b, k, l, t, x.
+
+user: Put these numbers in ascending order: 88295, 84345, 7115, 73122, 45155.
+sherlock: 7115, 45155, 73122, 84345, 88295.
+
+user: Put these numbers in ascending order: 86224, 58341, 6481, 81744, 24456.
+sherlock: 6481, 24456, 58341, 81744, 86224.
+
+user: Follow the instruction and use the alphabet to order these letters: r, f, g, a, v.
+sherlock: a, f, g, r, v.
+
+user: Follow the instruction and use the alphabet to order these letters: o, m, g, l, t.
+sherlock: g, l, m, o, t.
+
+user: Follow the instruction and use the alphabet to order these letters: b, q, p, o, a.
+sherlock: a, b, o, p, q.
+
+user: Follow the instruction and use the alphabet to order these letters: e, b, y, w, c.
+sherlock: b, c, e, w, y.
+
+user: Follow the instruction and use the alphabet to order these letters: z, k, b, g, w.
+sherlock: b, g, k, w, z.
+
+user: Put these numbers in ascending order: 53721, 16853, 38187, 69087, 2145.
+sherlock: 2145, 16853, 38187, 53721, 69087.
+
+user: Follow the instruction and use the alphabet to order these letters: t, y, q, w, c.
+sherlock: c, q, t, w, y.
+
+user: Put these numbers in ascending order: 2899, 30364, 50048, 29077, 19409.
+sherlock: 2899, 19409, 29077, 30364, 50048.
+
+user: Follow the instruction and use the alphabet to order these letters: u, z, j, c, q.
+sherlock: c, j, q, u, z.
+
+user: Follow the instruction and use the alphabet to order these letters: i, f, x, l, g.
+sherlock: f, g, i, l, x.
+
+user: Follow the instruction and use the alphabet to order these letters: r, l, z, j, c.
+sherlock: c, j, l, r, z.
+
+user: Put these numbers in ascending order: 4034, 63501, 50522, 34027, 97962.
+sherlock: 4034, 34027, 50522, 63501, 97962.
+
+user: Put these numbers in descending order: 59785, 53106, 36241, 91370, 45300.
+sherlock: 91370, 59785, 53106, 45300, 36241.
+
+user: Follow the instruction and use the alphabet to order these letters: c, h, m, s, l.
+sherlock: c, h, l, m, s.
+
+user: Put these numbers in ascending order: 48336, 48196, 80658, 47902, 18079.
+sherlock: 18079, 47902, 48196, 48336, 80658.
+
+user: Follow the instruction and use the alphabet to order these letters: s, v, o, t, r.
+sherlock: o, r, s, t, v.
+
+user: Follow the instruction and use the alphabet to order these letters: n, o, y, g, j.
+sherlock: g, j, n, o, y.
+
+user: Follow the instruction and use the alphabet to order these letters: r, k, v, y, m.
+sherlock: k, m, r, v, y.
+
+user: Follow the instruction and use the alphabet to order these letters: o, p, m, t, y.
+sherlock: m, o, p, t, y.
+
+user: Put these numbers in descending order: 89021, 17571, 24749, 4824, 99669.
+sherlock: 99669, 89021, 24749, 17571, 4824.
+
+user: Follow the instruction and use the alphabet to order these letters: l, t, z, k, q.
 sherlock: k, l, q, t, z.
 
 user: Follow the instruction and use the alphabet to order these letters: k, e, x, f, i.
@@ -44997,3 +44925,75 @@ sherlock: 95344, 77498, 56313, 40529, 32626.
 
 user: Follow the instruction and use the alphabet to order these letters: p, e, t, b, u.
 sherlock: b, e, p, t, u.
+
+user: Put these numbers in descending order: 85238, 76101, 9951, 20843, 87587.
+sherlock: 87587, 85238, 76101, 20843, 9951.
+
+user: Follow the instruction and use the alphabet to order these letters: l, h, i, r, j.
+sherlock: h, i, j, l, r.
+
+user: Follow the instruction and use the alphabet to order these letters: f, l, n, p, s.
+sherlock: f, l, n, p, s.
+
+user: Follow the instruction and use the alphabet to order these letters: w, o, q, u, i.
+sherlock: i, o, q, u, w.
+
+user: Put these numbers in ascending order: 50846, 32910, 10303, 23759, 55165.
+sherlock: 10303, 23759, 32910, 50846, 55165.
+
+user: Follow the instruction and use the alphabet to order these letters: j, k, y, z, h.
+sherlock: h, j, k, y, z.
+
+user: Put these numbers in descending order: 93972, 99500, 82916, 4840, 42277.
+sherlock: 99500, 93972, 82916, 42277, 4840.
+
+user: Put these numbers in descending order: 64889, 32383, 79292, 27263, 30807.
+sherlock: 79292, 64889, 32383, 30807, 27263.
+
+user: Put these numbers in ascending order: 49947, 49897, 28466, 4534, 32249.
+sherlock: 4534, 28466, 32249, 49897, 49947.
+
+user: Put these numbers in ascending order: 45538, 67118, 59276, 47038, 78250.
+sherlock: 45538, 47038, 59276, 67118, 78250.
+
+user: Follow the instruction and use the alphabet to order these letters: q, y, s, b, k.
+sherlock: b, k, q, s, y.
+
+user: Put these numbers in ascending order: 51274, 86344, 42513, 76894, 50886.
+sherlock: 42513, 50886, 51274, 76894, 86344.
+
+user: Follow the instruction and use the alphabet to order these letters: z, c, g, b, s.
+sherlock: b, c, g, s, z.
+
+user: Put these numbers in ascending order: 53892, 63835, 50048, 50353, 41968.
+sherlock: 41968, 50048, 50353, 53892, 63835.
+
+user: Put these numbers in ascending order: 51096, 64794, 47215, 82554, 74346.
+sherlock: 47215, 51096, 64794, 74346, 82554.
+
+user: Put these numbers in descending order: 51025, 45440, 19771, 29743, 77956.
+sherlock: 77956, 51025, 45440, 29743, 19771.
+
+user: Follow the instruction and use the alphabet to order these letters: t, l, w, u, s.
+sherlock: l, s, t, u, w.
+
+user: Follow the instruction and use the alphabet to order these letters: c, u, y, e, j.
+sherlock: c, e, j, u, y.
+
+user: Follow the instruction and use the alphabet to order these letters: i, o, b, q, m.
+sherlock: b, i, m, o, q.
+
+user: Follow the instruction and use the alphabet to order these letters: n, p, y, w, e.
+sherlock: e, n, p, w, y.
+
+user: Follow the instruction and use the alphabet to order these letters: i, y, z, c, t.
+sherlock: c, i, t, y, z.
+
+user: Put these numbers in descending order: 75552, 45284, 1239, 67163, 70034.
+sherlock: 75552, 70034, 67163, 45284, 1239.
+
+user: Put these numbers in descending order: 27803, 14567, 94233, 13264, 93617.
+sherlock: 94233, 93617, 27803, 14567, 13264.
+
+user: Put these numbers in ascending order: 75562, 7433, 14071, 37310, 62653.
+sherlock: 7433, 14071, 37310, 62653, 75562.
