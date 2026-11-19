@@ -1253,6 +1253,7 @@ body.nav-open{overflow:hidden}
           <button class="tab" id="neuralTab" type="button" role="tab" data-tab="neural" aria-selected="true" aria-controls="neuralPanel"><span class="tab-icon">✳</span> Neural Lab</button>
           <button class="tab" id="chatTab" type="button" role="tab" data-tab="chat" aria-selected="false" aria-controls="chatPanel"><span class="tab-icon">⌕</span> Playground</button>
           <button class="tab" id="benchmarkTab" type="button" role="tab" data-tab="benchmark" aria-selected="false" aria-controls="benchmarkPanel"><span class="tab-icon">◉</span> Benchmark</button>
+          <button class="tab" id="settingsTab" type="button" role="tab" data-tab="settings" aria-selected="false" aria-controls="settingsPanel"><span class="tab-icon">⚙</span> Settings</button>
         </nav>
       </div>
       <div class="sidebar-footer">
@@ -1641,6 +1642,9 @@ body.nav-open{overflow:hidden}
 <div class="benchmark-page"><section class="card benchmark-intro"><div><span class="eyebrow">MODEL EVALUATION</span><h2>Sherlock Benchmark</h2><p>Sherlock's trained neural model answers 50 fixed questions. Answers are recorded and automatically scored, without changing training or checkpoints.</p></div><span class="benchmark-version">BENCHMARK v1.2</span></section>
 <section class="card benchmark-card"><div class="benchmark-head"><div><strong>Automated model test</strong><span id="benchStatus">Ready to run</span></div><span id="benchProgress">0 / 50</span></div><div class="benchmark-progress"><div id="benchFill"></div></div><div class="benchmark-controls"><button class="btn-primary" id="benchRun" type="button">Run AI benchmark</button><button class="btn-secondary" id="benchCancel" type="button" disabled>Stop test</button></div><p id="benchLive" class="benchmark-note" aria-live="polite">Requires a trained, ready model. Questions are sent to Sherlock's neural worker.</p><div id="benchLiveAnswers" class="benchmark-live-answers"></div></section>
 <section class="card benchmark-results" id="benchResults" hidden><h3 id="benchScore"></h3><div id="benchBreakdown"></div><p class="benchmark-note">Automatic scoring tries to identify the selected option from Sherlock's generated text. This fixed quiz is a limited performance measure, not a general intelligence score.</p><button class="btn-secondary" id="benchCopy" type="button">Copy full benchmark report</button><button class="btn-secondary" id="benchReset" type="button">Clear result</button><textarea id="benchReport" readonly aria-label="Benchmark report" placeholder="Your report will appear here"></textarea></section></div></section>
+  <section class="panel" id="settingsPanel" role="tabpanel" aria-labelledby="settingsTab" hidden>
+    <button class="btn btn-secondary" id="resetSavedModelBtn" type="button">Reset saved model</button>
+  </section>
   <footer class="footer">Sherlock AI · local neural network training · latest model saved in this browser<br>Training data: <a href="https://huggingface.co/datasets/li2017dailydialog/daily_dialog" target="_blank" rel="noopener noreferrer">DailyDialog</a> (CC BY-NC-SA 4.0), <a href="https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k" target="_blank" rel="noopener noreferrer">UltraChat 200k</a> (MIT), <a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots</a> (CC BY-NC 4.0), and <a href="https://huggingface.co/datasets/openai/gsm8k" target="_blank" rel="noopener noreferrer">GSM8K maths</a> (MIT). Training and held-out validation splits remain separate.</footer>
     </div>
   </div>
@@ -1707,6 +1711,7 @@ const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-legacy-v1';
 const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0181-v1';
 const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0181-best-v1';
+const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0181-archive-v1';
 const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0181-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
@@ -1987,7 +1992,8 @@ function comparePlaygroundRuns() {
 const workspaceTabs = {
   neural: ['neuralTab', 'neuralPanel'],
   chat: ['chatTab', 'chatPanel'],
-  benchmark: ['benchmarkTab', 'benchmarkPanel']
+  benchmark: ['benchmarkTab', 'benchmarkPanel'],
+  settings: ['settingsTab', 'settingsPanel']
 };
 const benchmarkFrame = $('benchmarkFrame');
 function resizeBenchmarkFrame() {
@@ -2358,6 +2364,7 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   }
   await writeNeuralCheckpointRecord(record, key);
   if (key === NEURAL_CHECKPOINT_KEY) {
+    try { localStorage.removeItem(NEURAL_FRESH_RESET_MARKER); } catch (_) {}
     neuralCheckpointWasSaved = true;
     neuralCheckpointSavedAt = savedAt;
     neuralCheckpointStepsValue = record.steps;
@@ -2368,6 +2375,12 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   renderNeuralLiveView();
 }
 async function restoreSavedNeuralCheckpoint() {
+  if (localStorage.getItem(NEURAL_FRESH_RESET_MARKER) === '1') {
+    neuralCheckpointWasSaved = false;
+    neuralRestoredDatasetFingerprint = null;
+    $('neuralCheckpointStatus').textContent = 'Fresh start selected. The previous saved model and graph history will not be restored.';
+    return;
+  }
   const isCurrentCheckpoint = candidate =>
     candidate && Number(candidate.version) === 10 &&
     Number(candidate.parameterCount) === NEURAL_MODEL_PARAMETER_COUNT &&
@@ -2859,6 +2872,36 @@ function resetNeuralExperimentMetrics(optimizer) {
   renderNeuralValidationLossHistory();
   updateGlobalNeuralStats();
   renderNeuralLiveView();
+}
+
+
+async function resetSavedNeuralModel() {
+  const button = $('resetSavedModelBtn');
+  if (neuralTraining || neuralRequestBusy || neuralStopPending || training || requestBusy) {
+    window.alert('Stop training and wait for any model request to finish before resetting the saved model.');
+    return;
+  }
+  if (neuralCheckpointSaveInProgress || neuralCheckpointPendingData.length) {
+    window.alert('A model checkpoint is still being saved. Wait a moment, then try the reset again.');
+    return;
+  }
+  const confirmed = window.confirm(
+    'Reset the saved Sherlock AI model?\n\nThis clears the current model weights, optimiser state, training progress and graph history. Your datasets, model architecture and training settings will be kept. Older archived backups will be preserved but will not be restored. This cannot be undone.'
+  );
+  if (!confirmed) return;
+  button.disabled = true;
+  try {
+    localStorage.setItem(NEURAL_FRESH_RESET_MARKER, '1');
+    await deleteNeuralCheckpointRecord(NEURAL_CHECKPOINT_KEY);
+    await deleteNeuralCheckpointRecord(NEURAL_BEST_CHECKPOINT_KEY);
+    try { localStorage.removeItem(NEURAL_CHECKPOINT_KEY); } catch (_) {}
+    window.location.reload();
+  } catch (error) {
+    try { localStorage.removeItem(NEURAL_FRESH_RESET_MARKER); } catch (_) {}
+    button.disabled = false;
+    window.alert('Reset could not be completed. Your saved model has not been intentionally cleared. Details: ' +
+      (error && error.message ? error.message : String(error)));
+  }
 }
 
 function updateNeuralControls() {
@@ -3417,6 +3460,7 @@ async function inspectNeuralUnknownTokens() {
 }
 
 $('neuralStartBtn').addEventListener('click', startNeuralTraining);
+$('resetSavedModelBtn').addEventListener('click', resetSavedNeuralModel);
 $('neuralUnknownInspectBtn').addEventListener('click', inspectNeuralUnknownTokens);
 $('neuralStopBtn').addEventListener('click', stopNeuralTraining);
 // v0.18.8: visible diagnostics distinguish missed taps from stop-state failures.
@@ -4292,12 +4336,12 @@ async function readNeuralCheckpointRecord(key = NEURAL_CHECKPOINT_KEY) {
   } finally { db.close(); }
 }
 
-async function deleteNeuralCheckpointRecord() {
+async function deleteNeuralCheckpointRecord(key = NEURAL_CHECKPOINT_KEY) {
   const db = await openNeuralDatasetDB();
   try {
     await new Promise((resolve, reject) => {
       const transaction = db.transaction(NEURAL_CHECKPOINT_STORE, 'readwrite');
-      transaction.objectStore(NEURAL_CHECKPOINT_STORE).delete(NEURAL_CHECKPOINT_KEY);
+      transaction.objectStore(NEURAL_CHECKPOINT_STORE).delete(key);
       transaction.oncomplete = () => resolve();
       transaction.onerror = () => reject(transaction.error || new Error('Could not clear the neural checkpoint.'));
       transaction.onabort = () => reject(transaction.error || new Error('Neural checkpoint removal was cancelled.'));
