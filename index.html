@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.22, embedded Playground 1.7, Balanced Learning v0.18.4, example-bounded training context, isolated checkpoint storage and deterministic maths answers">v0.21.22</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.22, embedded Playground 1.7, Balanced Learning v0.18.4, example-bounded training context, isolated checkpoint storage and deterministic maths answers">v0.21.23</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1761,7 +1761,7 @@ const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0184-v1';
 const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0184-best-v1';
 const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0184-archive-v1';
-const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0184-2026-11';
+const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0185-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
 const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0182-train.txt';
 const STANDALONE_VALIDATION_URL = 'data/sherlock-curriculum-v0182-validation.txt';
@@ -3013,7 +3013,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.21.22-worddata-v0184', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.21.23-worddata-v0184', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -4549,7 +4549,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     {name: 'number sequences', pattern: /\bsequence\b/i},
     {name: 'letter/instruction tasks', pattern: /\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b|\binstruction\b/i}
   ];
-  const validateFamilyDistribution = async (items, label, expectedPerFamily) => {
+  const validateFamilyDistribution = async (items, label, expectedCounts) => {
     const counts = new Map(taskFamilies.map(family => [family.name, 0]));
     for (let index = 0; index < items.length; index++) {
       if (index > 0 && index % 200 === 0) await yieldToBrowser();
@@ -4559,14 +4559,24 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
       counts.set(family.name, counts.get(family.name) + 1);
     }
     for (const family of taskFamilies) {
+      const expected = expectedCounts[family.name];
       const actual = counts.get(family.name);
-      if (actual !== expectedPerFamily)
-        throw new Error(label + ' must contain exactly ' + expectedPerFamily.toLocaleString() +
+      if (!Number.isInteger(expected) || actual !== expected)
+        throw new Error(label + ' must contain exactly ' + Number(expected).toLocaleString() +
           ' ' + family.name + ' examples; found ' + actual.toLocaleString() + '.');
     }
   };
-  await validateFamilyDistribution(trainingBlocks, 'Training library', 3500);
-  await validateFamilyDistribution(validationBlocks, 'Validation library', 270);
+  // The v0.18.2 base corpus is not perfectly even: it contains 2,600 arithmetic
+  // and 2,400 percentage training examples (260 and 240 in validation).
+  // Each v0.18.3/v0.18.4 supplement adds 500/10 examples to every family.
+  await validateFamilyDistribution(trainingBlocks, 'Training library', {
+    'arithmetic': 3600, 'percentages': 3400, 'unit conversions': 3500,
+    'word problems': 3500, 'number sequences': 3500, 'letter/instruction tasks': 3500
+  });
+  await validateFamilyDistribution(validationBlocks, 'Validation library', {
+    'arithmetic': 280, 'percentages': 260, 'unit conversions': 270,
+    'word problems': 270, 'number sequences': 270, 'letter/instruction tasks': 270
+  });
   for (let index = 0; index < validationBlocks.length; index++) {
     if (index > 0 && index % 200 === 0) await yieldToBrowser();
     if (trainingSet.has(normalise(validationBlocks[index])))
