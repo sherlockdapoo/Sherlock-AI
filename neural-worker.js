@@ -1012,7 +1012,8 @@ function generate(prompt, requestedLength, greedy = false) {
     history.push(chosen);
     output += vocabulary[chosen] || "";
   }
-  return output;
+  // The curriculum stores terminal full stops, but Sherlock's answer format omits them.
+  return output.trim().replace(/\.$/, '');
 }
 
 function setDatasetBuffers(trainBuffer, validationBuffer) {
