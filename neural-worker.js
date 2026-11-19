@@ -167,8 +167,7 @@ function markAssistantEndTokens(text) {
   return output;
 }
 
-// Return token positions whose targets fall inside Sherlock responses.
-// The preceding context is still taken from the full conversation stream.
+// Classify each prompt for Balanced Learning's task-family sampler.
 function taskFamilyIndex(prompt) {
   const value = String(prompt || "").toLowerCase();
   if (/%|\bpercent(?:age)?\b/.test(value)) return 1;
