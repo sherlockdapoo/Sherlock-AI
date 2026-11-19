@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.16, Balanced Learning v0.18.1, example-bounded training context and isolated checkpoint storage">v0.21.16</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.17, embedded Playground 1.6, Balanced Learning v0.18.1, example-bounded training context and isolated checkpoint storage">v0.21.17</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1592,6 +1592,16 @@ body.nav-open{overflow:hidden}
   </section>
 
   <section class="panel" id="chatPanel" role="tabpanel" aria-labelledby="chatTab" hidden>
+    <section class="card" aria-label="Embedded Sherlock AI Playground 1.6" style="padding:0;overflow:hidden">
+      <iframe
+        title="Sherlock AI Playground 1.6"
+        src="playground/"
+        loading="lazy"
+        style="display:block;width:100%;height:1120px;border:0;background:#080f1b"
+        allow="clipboard-read; clipboard-write"
+      ></iframe>
+    </section>
+    <div style="display:none" aria-hidden="true">
     <section class="card chat-card playground-card">
       <div class="chat-head">
         <div class="chat-head-left">
@@ -1638,7 +1648,8 @@ body.nav-open{overflow:hidden}
     </section>
   </section>
 
-  <section class="panel" id="benchmarkPanel" role="tabpanel" aria-labelledby="benchmarkTab" hidden>
+      </div>
+<section class="panel" id="benchmarkPanel" role="tabpanel" aria-labelledby="benchmarkTab" hidden>
 <div class="benchmark-page"><section class="card benchmark-intro"><div><span class="eyebrow">MODEL EVALUATION</span><h2>Sherlock Benchmark</h2><p>Sherlock's trained neural model answers 50 fixed questions. Answers are recorded and automatically scored, without changing training or checkpoints.</p></div><span class="benchmark-version">BENCHMARK v1.2</span></section>
 <section class="card benchmark-card"><div class="benchmark-head"><div><strong>Automated model test</strong><span id="benchStatus">Ready to run</span></div><span id="benchProgress">0 / 50</span></div><div class="benchmark-progress"><div id="benchFill"></div></div><div class="benchmark-controls"><button class="btn-primary" id="benchRun" type="button">Run AI benchmark</button><button class="btn-secondary" id="benchCancel" type="button" disabled>Stop test</button></div><p id="benchLive" class="benchmark-note" aria-live="polite">Requires a trained, ready model. Questions are sent to Sherlock's neural worker.</p><div id="benchLiveAnswers" class="benchmark-live-answers"></div></section>
 <section class="card benchmark-results" id="benchResults" hidden><h3 id="benchScore"></h3><div id="benchBreakdown"></div><p class="benchmark-note">Automatic scoring tries to identify the selected option from Sherlock's generated text. This fixed quiz is a limited performance measure, not a general intelligence score.</p><button class="btn-secondary" id="benchCopy" type="button">Copy full benchmark report</button><button class="btn-secondary" id="benchReset" type="button">Clear result</button><textarea id="benchReport" readonly aria-label="Benchmark report" placeholder="Your report will appear here"></textarea></section>
