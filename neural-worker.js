@@ -479,7 +479,10 @@ function trainExample(position) {
   // This improves memory locality compared with repeatedly jumping between rows
   // for each individual embedding dimension.
   embeddingInputGradient.fill(0);
-  for (let k = 0; k < HIDDEN; k++) {
+  // Reuse the ascending active-ReLU list; inactive units have zero delta.
+  // This preserves the accumulation order while skipping guaranteed-zero rows.
+  for (let n = 0; n < activeHiddenCount; n++) {
+    const k = activeHiddenIndices[n];
     const delta = hiddenDelta[k];
     if (delta === 0) continue;
     const row = W1_OFFSET + k * INPUT;
