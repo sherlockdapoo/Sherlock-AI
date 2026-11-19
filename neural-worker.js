@@ -462,10 +462,12 @@ function trainExample(position) {
     }
   }
 
-  for (let k = 0; k < HIDDEN; k++) {
-    const delta = hiddenVector[k] > 0 ? hiddenDelta[k] : 0;
-    hiddenDelta[k] = delta;
-    if (delta === 0) continue; // ReLU-inactive neurons contribute no W1 or bias gradient.
+  // The forward pass already records active ReLU units in ascending index order.
+  // Only those units can have non-zero hidden deltas, so skip the full-width scan.
+  for (let n = 0; n < activeHiddenCount; n++) {
+    const k = activeHiddenIndices[n];
+    const delta = hiddenDelta[k];
+    if (delta === 0) continue;
     gradients[B1_OFFSET + k] += delta;
     const row = W1_OFFSET + k * INPUT;
     for (let j = 0; j < INPUT; j++)
