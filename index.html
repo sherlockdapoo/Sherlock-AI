@@ -5051,10 +5051,10 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
   const categories=["Arithmetic","Percentages","Conversions","Word problems","Sequences","Instructions"];
   function parse(text){
     const value=String(text||"").trim();
-    const line=value.split(/\n/).map(x=>x.trim()).find(x=>/^(?:answer\\s*[:\\-]?\\s*)?[A-D](?:[.)])?$/i.test(x));
+    const line=value.split(/\n/).map(x=>x.trim()).find(x=>/^(?:answer\s*[:\-]?\s*)?[A-D](?:[.)])?$/i.test(x));
     if(line){const match=line.match(/[A-D]/i);if(match)return match[0].toUpperCase();}
     const first=value.split(/\n/)[0].trim();
-    const match=first.match(/^(?:answer(?:\\s+is)?\\s*[:\\-]?\\s*)?([A-D])(?:\\s*[.)]?\\s*)$/i);
+    const match=first.match(/^(?:answer(?:\s+is)?\s*[:\-]?\s*)?([A-D])(?:\s*[.)]?\s*)$/i);
     return match?match[1].toUpperCase():null;
   }
   function progress(n){$g("genProgress").textContent=n+" / "+QUESTIONS.length;$g("genFill").style.width=(n/QUESTIONS.length*100)+"%";}
