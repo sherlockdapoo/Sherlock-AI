@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.12, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.12</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.13, Balanced Learning v0.18.1, balanced synthetic curriculum and isolated checkpoint storage">v0.21.13</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -5049,13 +5049,23 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
   ];
   let running=false,cancelled=false,outputs=[],reportText="";
   const categories=["Arithmetic","Percentages","Conversions","Word problems","Sequences","Instructions"];
-  function parse(text){
+  function parse(text,q){
     const value=String(text||"").trim();
-    const line=value.split(/\n/).map(x=>x.trim()).find(x=>/^(?:answer\s*[:\-]?\s*)?[A-D](?:[.)])?$/i.test(x));
-    if(line){const match=line.match(/[A-D]/i);if(match)return match[0].toUpperCase();}
+    const letterLine=value.split(/\n/).map(x=>x.trim()).find(x=>/^(?:answer\s*[:\-]?\s*)?[A-D](?:[.)])?$/i.test(x));
+    if(letterLine){const match=letterLine.match(/[A-D]/i);if(match)return {letter:match[0].toUpperCase(),kind:"letter"};}
     const first=value.split(/\n/)[0].trim();
-    const match=first.match(/^(?:answer(?:\s+is)?\s*[:\-]?\s*)?([A-D])(?:\s*[.)]?\s*)$/i);
-    return match?match[1].toUpperCase():null;
+    const letterMatch=first.match(/^(?:answer(?:\s+is)?\s*[:\-]?\s*)?([A-D])(?:\s*[.)]?\s*)$/i);
+    if(letterMatch)return {letter:letterMatch[1].toUpperCase(),kind:"letter"};
+    const normaliseNumber=s=>String(s||"").replace(/[£,%\s]/g,"").replace(/,/g,"").trim();
+    const optionValues=q.o.map((option,index)=>({letter:String.fromCharCode(65+index),value:normaliseNumber(option).replace(/[^0-9.\-]/g,"")}));
+    const numericTokens=value.match(/-?\d[\d,]*(?:\.\d+)?/g)||[];
+    const matches=[];
+    for(const token of numericTokens){
+      const number=normaliseNumber(token);
+      for(const option of optionValues)if(number===option.value&&!matches.some(x=>x.letter===option.letter))matches.push({letter:option.letter,number:token});
+    }
+    if(matches.length===1)return {letter:matches[0].letter,kind:"numeric",number:matches[0].number};
+    return null;
   }
   function progress(n){$g("genProgress").textContent=n+" / "+QUESTIONS.length;$g("genFill").style.width=(n/QUESTIONS.length*100)+"%";}
   function renderItem(q,i,text,parsed,ok){
