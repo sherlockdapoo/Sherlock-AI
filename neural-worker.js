@@ -956,7 +956,7 @@ function formatMathResult(value) {
   return String(Number(value.toFixed(10)));
 }
 function solveMathPrompt(prompt) {
-  let question = String(prompt || "").toLowerCase().trim().replace(/,/g, "").replace(/[?]/g, "");
+  let question = String(prompt || "").toLowerCase().trim().replace(/,/g, "").replace(/[?]/g, "").replace(/[.!]+$/g, "");
   question = question.replace(/^(?:what is|calculate|work out|solve|find)\s+/, "").trim();
   const number = "(-?\\d+(?:\\.\\d+)?)";
   let match = question.match(new RegExp("^" + number + "\\s*(?:%|percent(?:age)?)\\s+of\\s*" + number + "$"));
