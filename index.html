@@ -2364,7 +2364,11 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   }
   await writeNeuralCheckpointRecord(record, key);
   if (key === NEURAL_CHECKPOINT_KEY) {
-    try { localStorage.removeItem(NEURAL_FRESH_RESET_MARKER); } catch (_) {}
+    try {
+      if (localStorage.getItem(NEURAL_FRESH_RESET_MARKER) === '1') {
+        localStorage.setItem(NEURAL_FRESH_RESET_MARKER, '2');
+      }
+    } catch (_) {}
     neuralCheckpointWasSaved = true;
     neuralCheckpointSavedAt = savedAt;
     neuralCheckpointStepsValue = record.steps;
@@ -2421,7 +2425,7 @@ async function restoreSavedNeuralCheckpoint() {
       console.warn('Could not read the IndexedDB neural checkpoint:', storageError);
     }
 
-    if (!record) {
+    if (!record && localStorage.getItem(NEURAL_FRESH_RESET_MARKER) !== '2') {
       const checkpointKeys = [
         NEURAL_CHECKPOINT_KEY,
         NEURAL_ARCHIVE_CHECKPOINT_KEY,
