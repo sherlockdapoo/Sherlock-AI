@@ -1641,7 +1641,26 @@ body.nav-open{overflow:hidden}
   <section class="panel" id="benchmarkPanel" role="tabpanel" aria-labelledby="benchmarkTab" hidden>
 <div class="benchmark-page"><section class="card benchmark-intro"><div><span class="eyebrow">MODEL EVALUATION</span><h2>Sherlock Benchmark</h2><p>Sherlock's trained neural model answers 50 fixed questions. Answers are recorded and automatically scored, without changing training or checkpoints.</p></div><span class="benchmark-version">BENCHMARK v1.2</span></section>
 <section class="card benchmark-card"><div class="benchmark-head"><div><strong>Automated model test</strong><span id="benchStatus">Ready to run</span></div><span id="benchProgress">0 / 50</span></div><div class="benchmark-progress"><div id="benchFill"></div></div><div class="benchmark-controls"><button class="btn-primary" id="benchRun" type="button">Run AI benchmark</button><button class="btn-secondary" id="benchCancel" type="button" disabled>Stop test</button></div><p id="benchLive" class="benchmark-note" aria-live="polite">Requires a trained, ready model. Questions are sent to Sherlock's neural worker.</p><div id="benchLiveAnswers" class="benchmark-live-answers"></div></section>
-<section class="card benchmark-results" id="benchResults" hidden><h3 id="benchScore"></h3><div id="benchBreakdown"></div><p class="benchmark-note">Automatic scoring tries to identify the selected option from Sherlock's generated text. This fixed quiz is a limited performance measure, not a general intelligence score.</p><button class="btn-secondary" id="benchCopy" type="button">Copy full benchmark report</button><button class="btn-secondary" id="benchReset" type="button">Clear result</button><textarea id="benchReport" readonly aria-label="Benchmark report" placeholder="Your report will appear here"></textarea></section></div></section>
+<section class="card benchmark-results" id="benchResults" hidden><h3 id="benchScore"></h3><div id="benchBreakdown"></div><p class="benchmark-note">Automatic scoring tries to identify the selected option from Sherlock's generated text. This fixed quiz is a limited performance measure, not a general intelligence score.</p><button class="btn-secondary" id="benchCopy" type="button">Copy full benchmark report</button><button class="btn-secondary" id="benchReset" type="button">Clear result</button><textarea id="benchReport" readonly aria-label="Benchmark report" placeholder="Your report will appear here"></textarea></section>
+<section class="card benchmark-intro" style="margin-top:18px">
+  <div><span class="eyebrow">PHASE 2 · LEARNING QUALITY</span><h2>Generalisation benchmark</h2>
+  <p>A separate set of 18 fresh questions tests whether Sherlock can apply its skills to unfamiliar values, wording and combinations. It does not train the model or change checkpoints, datasets or graphs.</p></div>
+  <span class="benchmark-version">GENERALISATION v1.0</span>
+</section>
+<section class="card benchmark-card" id="generalisationCard">
+  <div class="benchmark-head"><div><strong>Unseen-question test</strong><span id="genStatus">Ready to run</span></div><span id="genProgress">0 / 18</span></div>
+  <div class="benchmark-progress"><div id="genFill"></div></div>
+  <div class="benchmark-controls"><button class="btn-primary" id="genRun" type="button">Run generalisation test</button><button class="btn-secondary" id="genCancel" type="button" disabled>Stop test</button><button class="btn-secondary" id="genClear" type="button">Clear result</button></div>
+  <p id="genLive" class="benchmark-note" aria-live="polite">Requires a trained, ready model. This test runs independently below the current benchmark.</p>
+  <div id="genLiveAnswers" class="benchmark-live-answers"></div>
+</section>
+<section class="card benchmark-results" id="genResults" hidden>
+  <h3 id="genScore"></h3><div id="genBreakdown"></div>
+  <p class="benchmark-note">This benchmark measures performance on this particular unseen-question set. It is not a general intelligence score, and one run may be affected by the model's sampling behaviour.</p>
+  <button class="btn-secondary" id="genCopy" type="button">Copy generalisation report</button>
+  <textarea id="genReport" readonly aria-label="Generalisation benchmark report" placeholder="Your report will appear here"></textarea>
+</section>
+</div></section>
   <section class="panel" id="settingsPanel" role="tabpanel" aria-labelledby="settingsTab" hidden>
     <button class="btn btn-secondary" id="resetSavedModelBtn" type="button">Reset saved model</button>
   </section>
@@ -5005,6 +5024,91 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
   try{const saved=JSON.parse(localStorage.getItem('sherlockBenchmarkLastScore')||'null');if(saved&&typeof saved.pct==='number')$b('benchmarkTab').textContent='◉ Benchmark · '+saved.pct+'%';}catch(e){}
 })();
 
+// v1.0 · isolated generalisation benchmark. No training or checkpoint writes.
+(function setupGeneralisationBenchmark(){
+  const $g=id=>document.getElementById(id);
+  const QUESTIONS=[
+    {c:"Arithmetic",q:"A number is increased by 275 and the result is 914. What was the starting number?",o:["639","649","689","1189"],a:0},
+    {c:"Arithmetic",q:"Work out 48 × 16 without a calculator.",o:["668","728","768","788"],a:2},
+    {c:"Arithmetic",q:"A total of 1,500 is shared equally among 24 groups. How much does each group receive?",o:["52.5","60","62.5","65"],a:2},
+    {c:"Percentages",q:"A jacket costs £80. Its price is reduced by 15%. What is the sale price?",o:["£12","£65","£68","£72"],a:2},
+    {c:"Percentages",q:"36 is  душ?","o":[""],a:0},
+    {c:"Percentages",q:"A value rises from 40 to 50. What is the percentage increase?",o:["10%","20%","25%","40%"],a:2},
+    {c:"Conversions",q:"A bottle holds 1.75 litres. How many millilitres is that?",o:["175","750","1,075","1,750"],a:3},
+    {c:"Conversions",q:"A journey lasts 2 hours 35 minutes. How many minutes is that altogether?",o:["135","145","155","235"],a:2},
+    {c:"Conversions",q:"Convert 4.2 kilometres into metres.",o:["42","420","4,020","4,200"],a:3},
+    {c:"Word problems",q:"A shop has 96 pencils. It packs them into boxes of 8, then sells 7 full boxes. How many pencils remain?",o:["32","40","48","56"],a:1},
+    {c:"Word problems",q:"A bus has 38 passengers. At the next stop, 17 get off and 9 get on. How many passengers are now aboard?",o:["20","28","30","64"],a:2},
+    {c:"Word problems",q:"Three notebooks cost £2.40 each. You pay with a £10 note. What change should you receive?",o:["£2.20","£2.40","£2.60","£7.20"],a:0},
+    {c:"Sequences",q:"Find the next term: 6, 11, 21, 41, 81, …",o:["121","141","151","161"],a:3},
+    {c:"Sequences",q:"What comes next? 90, 81, 72, 63, …",o:["52","53","54","55"],a:2},
+    {c:"Sequences",q:"Continue the pattern: 2, 6, 18, 54, …",o:["108","144","162","216"],a:2},
+    {c:"Instructions",q:"Put these words in alphabetical order: pear, apple, plum, banana. Which word is third?",o:["banana","pear","plum","apple"],a:1},
+    {c:"Instructions",q:"Reverse the digits in 7305. What number do you get?",o:["5037","5307","5073","3507"],a:0},
+    {c:"Instructions",q:"Start with 12, double it, then subtract 7. What is the final result?",o:["14","17","19","31"],a:2}
+  ];
+  // Fix the percentage item explicitly so the question has a clear numeric target.
+  QUESTIONS[4]={c:"Percentages",q:"36 is what percentage of 120?",o:["20%","25%","30%","36%"],a:2};
+  let running=false,cancelled=false,outputs=[],reportText="";
+  const categories=["Arithmetic","Percentages","Conversions","Word problems","Sequences","Instructions"];
+  function parse(text){
+    const value=String(text||"").trim();
+    const line=value.split(/\\n/).map(x=>x.trim()).find(x=>/^(?:answer\\s*[:\\-]?\\s*)?[A-D](?:[.)])?$/i.test(x));
+    if(line){const match=line.match(/[A-D]/i);if(match)return match[0].toUpperCase();}
+    const first=value.split(/\\n/)[0].trim();
+    const match=first.match(/^(?:answer(?:\\s+is)?\\s*[:\\-]?\\s*)?([A-D])(?:\\s*[.)]?\\s*)$/i);
+    return match?match[1].toUpperCase():null;
+  }
+  function progress(n){$g("genProgress").textContent=n+" / "+QUESTIONS.length;$g("genFill").style.width=(n/QUESTIONS.length*100)+"%";}
+  function renderItem(q,i,text,parsed,ok){
+    const el=document.createElement("div");el.className="benchmark-live-item "+(ok?"correct":"incorrect");
+    const heading=document.createElement("strong");heading.textContent=(i+1)+". "+q.c+" — "+(ok?"Correct":"Incorrect / unclear");
+    const question=document.createElement("div");question.textContent=q.q;
+    const answer=document.createElement("div");answer.className="bench-output";
+    answer.textContent="Sherlock: "+(text||"(empty)")+" · parsed "+(parsed||"unclear")+" · correct "+String.fromCharCode(65+q.a);
+    el.append(heading,question,answer);$g("genLiveAnswers").append(el);
+  }
+  function finish(){
+    const score=outputs.filter(x=>x.ok).length,pct=Math.round(score/QUESTIONS.length*100),by={};
+    categories.forEach(c=>by[c]=0);outputs.forEach(x=>{if(x.ok)by[x.q.c]++;});
+    reportText="SHERLOCK AI GENERALISATION BENCHMARK v1.0\\nOverall: "+score+"/"+QUESTIONS.length+" ("+pct+"%)\\n"+
+      categories.map(c=>c+": "+by[c]+"/3 ("+Math.round(by[c]/3*100)+"%)").join("\\n")+"\\n\\nDETAILED RESULTS\\n";
+    outputs.forEach((x,i)=>{reportText+="\\n"+(i+1)+". ["+x.q.c+"] "+x.q.q+"\\nOptions: "+x.q.o.map((o,j)=>String.fromCharCode(65+j)+") "+o).join(" | ")+
+      "\\nSherlock: "+(x.text||"(empty)")+"\\nParsed: "+(x.parsed||"unclear")+" | Correct: "+String.fromCharCode(65+x.q.a)+" | "+(x.ok?"CORRECT":"INCORRECT")+"\\n";});
+    $g("genScore").textContent="Generalisation score: "+score+"/"+QUESTIONS.length+" · "+pct+"%";
+    $g("genBreakdown").replaceChildren();categories.forEach(c=>{const p=document.createElement("p");p.textContent=c+": "+by[c]+"/3 ("+Math.round(by[c]/3*100)+"%)";$g("genBreakdown").append(p);});
+    $g("genReport").value=reportText;$g("genResults").hidden=false;
+  }
+  async function run(){
+    if(running)return;
+    if(!neuralWorker||!neuralWorkerInitialized||!neuralModelReady){$g("genLive").textContent="Model is not ready. Restore or train Sherlock first.";return;}
+    if(neuralTraining||neuralRequestBusy||requestBusy){$g("genLive").textContent="Wait until training or another model request finishes.";return;}
+    running=true;cancelled=false;outputs=[];$g("genLiveAnswers").replaceChildren();$g("genResults").hidden=true;
+    $g("genRun").disabled=true;$g("genCancel").disabled=false;$g("genLive").textContent="Testing Sherlock on unfamiliar questions…";progress(0);
+    try{
+      for(let i=0;i<QUESTIONS.length;i++){
+        if(cancelled)break;
+        const q=QUESTIONS[i];$g("genStatus").textContent="Question "+(i+1)+": "+q.c;
+        const prompt="Answer this multiple-choice question. Choose one option and reply with only its letter A, B, C or D.\\nQuestion: "+q.q+"\\n"+q.o.map((o,j)=>String.fromCharCode(65+j)+") "+o).join("\\n");
+        const answer=await requestNeuralGeneration(prompt,{length:18,greedy:true});
+        const parsed=parse(answer),ok=parsed!==null&&parsed===String.fromCharCode(65+q.a);
+        outputs.push({q,text:answer,parsed,ok});renderItem(q,i,answer,parsed,ok);progress(i+1);
+        $g("genLive").textContent="Sherlock answered "+(i+1)+" of "+QUESTIONS.length+".";
+      }
+      if(!cancelled&&outputs.length===QUESTIONS.length){finish();$g("genLive").textContent="Completed. Generalisation report is ready.";}
+      else $g("genLive").textContent="Stopped after "+outputs.length+" questions. Partial answers are shown; no final score.";
+    }catch(error){$g("genLive").textContent="Generalisation test error: "+(error&&error.message?error.message:String(error));}
+    finally{running=false;$g("genRun").disabled=false;$g("genCancel").disabled=true;$g("genStatus").textContent=cancelled?"Stopped":"Completed";}
+  }
+  $g("genRun").addEventListener("click",run);
+  $g("genCancel").addEventListener("click",()=>{cancelled=true;$g("genLive").textContent="Stopping after the current answer…";});
+  $g("genClear").addEventListener("click",()=>{if(running)return;outputs=[];reportText="";$g("genLiveAnswers").replaceChildren();$g("genResults").hidden=true;$g("genReport").value="";$g("genStatus").textContent="Ready to run";$g("genLive").textContent="Ready. Run when Sherlock is trained and ready.";progress(0);});
+  $g("genCopy").addEventListener("click",async()=>{
+    if(!reportText){$g("genLive").textContent="Complete the test first to copy its report.";return;}
+    try{await navigator.clipboard.writeText(reportText);$g("genCopy").textContent="Copied!";}
+    catch(error){const area=$g("genReport");area.focus();area.select();const ok=document.execCommand("copy");$g("genCopy").textContent=ok?"Copied!":"Select report to copy";}
+  });
+})();
 (function setupSpeedBenchmark(){
   const start=$('speedBenchmarkStart'),auto=$('speedBenchmarkAuto'),copy=$('speedBenchmarkCopy'),report=$('speedBenchmarkReport'),status=$('speedBenchmarkStatus'),compare=$('speedBenchmarkCompare'),clear=$('speedBenchmarkClear'),historyBox=$('speedBenchmarkHistory');
   if(!start||!auto||!copy||!report||!status)return;
