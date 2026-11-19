@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sherlock AI · Hidden-layer microbenchmark</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b1020;color:#edf2ff}
+*{box-sizing:border-box}body{margin:0;padding:24px;max-width:900px;margin-inline:auto}
+h1{font-size:clamp(1.6rem,5vw,2.3rem);margin:.2rem 0}.sub,.muted{color:#aab6d3}
+.panel{background:#151d33;border:1px solid #2c3958;border-radius:16px;padding:18px;margin:16px 0}
+button{background:#8bb4ff;color:#071326;border:0;border-radius:10px;padding:13px 18px;font-weight:750;font-size:1rem}
+button:disabled{opacity:.55}.metric{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid #2c3958}
+.metric:last-child{border:0}.value{font-variant-numeric:tabular-nums;font-weight:700}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#080d19;padding:14px;border-radius:10px;color:#d7e3ff}
+.tag{display:inline-block;padding:4px 8px;border-radius:99px;background:#243553;color:#bcd4ff;font-size:.8rem}
+</style>
+</head>
+<body>
+<span class="tag">ISOLATED EXPERIMENT · NO TRAINING</span>
+<h1>Hidden-layer microbenchmark</h1>
+<p class="sub">Compares the current hidden-layer loop with one alternative that walks the same contiguous weight array using a running index.</p>
+<section class="panel">
+<strong>What this test protects</strong>
+<ul>
+<li>48 hidden neurons × 256 input values.</li>
+<li>Same Float32Array weights and inputs.</li>
+<li>Same bias, multiplication, addition and ReLU operations in the same order.</li>
+<li>Checks every output for exact equality before timing.</li>
+</ul>
+<p class="muted">This page uses generated test values only. It does not load or modify your model, checkpoints, datasets, training settings or graphs.</p>
+<button id="run">Run benchmark</button>
+<p id="status" class="muted" role="status">Ready. Run it on the same iPad/browser used for your normal speed tests.</p>
+</section>
+<section class="panel" aria-live="polite">
+<h2>Results</h2>
+<div id="results" class="muted">No benchmark has been run yet.</div>
+</section>
+<section class="panel">
+<h2>Copyable report</h2>
+<pre id="report">No results yet.</pre>
+<button id="copy" disabled>Copy report</button>
+</section>
+<script>
+"use strict";
+const HIDDEN=48, INPUT=256, W1_OFFSET=0;
+const weights=new Float64Array(HIDDEN*INPUT+HIDDEN);
+const input=new Float64Array(INPUT);
+const baselineOut=new Float64Array(HIDDEN);
+const candidateOut=new Float64Array(HIDDEN);
+let seed=0x51e7a11;
+function random(){seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)/4294967296;}
+for(let i=0;i<weights.length;i++) weights[i]=(random()*2-1)*0.25;
+for(let i=0;i<input.length;i++) input[i]=(random()*2-1);
+function baseline(){
+  for(let k=0;k<HIDDEN;k++){
+    let sum=weights[HIDDEN*INPUT+k];
+    const row=W1_OFFSET+k*INPUT;
+    for(let j=0;j<INPUT;j++) sum+=weights[row+j]*input[j];
+    baselineOut[k]=sum>0?sum:0;
+  }
+}
+function candidate(){
+  let p=W1_OFFSET;
+  const biasOffset=HIDDEN*INPUT;
+  for(let k=0;k<HIDDEN;k++){
+    let sum=weights[biasOffset+k];
+    for(let j=0;j<INPUT;j++) sum+=weights[p++]*input[j];
+    candidateOut[k]=sum>0?sum:0;
+  }
+}
+function exactCheck(){
+  baseline();candidate();
+  for(let k=0;k<HIDDEN;k++) if(!Object.is(baselineOut[k],candidateOut[k])) return {ok:false,index:k,a:baselineOut[k],b:candidateOut[k]};
+  return {ok:true};
+}
+function time(fn,reps){
+  const start=performance.now();
+  for(let i=0;i<reps;i++) fn();
+  return performance.now()-start;
+}
+function median(values){const a=[...values].sort((x,y)=>x-y);return a[Math.floor(a.length/2)];}
+const runButton=document.getElementById("run"),copyButton=document.getElementById("copy");
+runButton.addEventListener("click",()=>{
+  runButton.disabled=true;copyButton.disabled=true;
+  document.getElementById("status").textContent="Checking exact outputs and warming up…";
+  setTimeout(()=>{
+    try{
+      const check=exactCheck();
+      if(!check.ok) throw new Error("Exact-output check failed at neuron "+check.index);
+      for(let i=0;i<300;i++){baseline();candidate();}
+      const reps=350, rounds=7, baseTimes=[],candidateTimes=[];
+      document.getElementById("status").textContent="Running 7 alternating measurement rounds. Keep this tab in the foreground…";
+      for(let r=0;r<rounds;r++){
+        if(r%2===0){baseTimes.push(time(baseline,reps));candidateTimes.push(time(candidate,reps));}
+        else{candidateTimes.push(time(candidate,reps));baseTimes.push(time(baseline,reps));}
+      }
+      const base=median(baseTimes),cand=median(candidateTimes);
+      const speedup=(base/cand-1)*100;
+      const verdict=speedup>1?"Candidate faster in this run":speedup< -1?"Candidate slower in this run":"Effectively tied (within 1%)";
+      const report=[
+        "SHERLOCK AI HIDDEN-LAYER MICROBENCHMARK",
+        "Exact output equality: PASS",
+        "Shape: 48 neurons × 256 inputs",
+        "Rounds: "+rounds+" · Repetitions per round: "+reps,
+        "Baseline median: "+base.toFixed(3)+" ms / "+reps+" forwards",
+        "Candidate median: "+cand.toFixed(3)+" ms / "+reps+" forwards",
+        "Estimated change: "+speedup.toFixed(2)+"%",
+        "Result: "+verdict,
+        "Note: isolated synthetic benchmark; not a full training speed test."
+      ].join("\n");
+      document.getElementById("results").innerHTML=
+        '<div class="metric"><span>Exact numerical equality</span><span class="value">PASS</span></div>'+
+        '<div class="metric"><span>Current loop median</span><span class="value">'+base.toFixed(3)+' ms</span></div>'+
+        '<div class="metric"><span>Linear-index candidate median</span><span class="value">'+cand.toFixed(3)+' ms</span></div>'+
+        '<div class="metric"><span>Candidate change</span><span class="value">'+speedup.toFixed(2)+'%</span></div>'+
+        '<p><strong>'+verdict+'</strong></p><p class="muted">A microbenchmark result is only a screening signal. It does not prove a full-model training speedup.</p>';
+      document.getElementById("report").textContent=report;
+      copyButton.disabled=false;
+      document.getElementById("status").textContent="Finished. No training or saved model data was accessed.";
+    }catch(error){document.getElementById("status").textContent="Benchmark stopped: "+error.message;}
+    finally{runButton.disabled=false;}
+  },30);
+});
+copyButton.addEventListener("click",async()=>{
+  const report=document.getElementById("report").textContent;
+  try{await navigator.clipboard.writeText(report);document.getElementById("status").textContent="Report copied.";}
+  catch(e){document.getElementById("status").textContent="Clipboard unavailable. Select and copy the report text manually.";}
+});
+</script>
+</body>
+</html>
