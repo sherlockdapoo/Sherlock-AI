@@ -387,8 +387,8 @@ function forwardContext() {
     const code = contextCodes[slot] < vocabularySize ? contextCodes[slot] : UNK_ID;
     const source = EMBED_OFFSET + code * EMBED;
     const destination = slot * EMBED;
-    for (let j = 0; j < EMBED; j++)
-      inputVector[destination + j] = parameters[source + j];
+    // Use the native typed-array copy for each contiguous embedding row.
+    inputVector.set(parameters.subarray(source, source + EMBED), destination);
   }
 
   const embeddingEnd = detailedProfileActive ? performance.now() : 0;
