@@ -5097,7 +5097,7 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
       for(let i=0;i<QUESTIONS.length;i++){
         if(cancelled)break;
         const q=QUESTIONS[i];$g("genStatus").textContent="Question "+(i+1)+": "+q.c;
-        const prompt="Answer this multiple-choice question. Choose one option and reply with only its letter A, B, C or D.\nQuestion: "+q.q+"\n"+q.o.map((o,j)=>String.fromCharCode(65+j)+") "+o).join("\n");
+        const prompt="Solve this question. Reply with only the final answer: either the option letter A, B, C or D, or the exact number/value. Do not show working.\nQuestion: "+q.q+"\n"+q.o.map((o,j)=>String.fromCharCode(65+j)+") "+o).join("\n");
         const answer=await requestNeuralGeneration(prompt,{length:18,greedy:true});
         const parsed=parse(answer),ok=parsed!==null&&parsed===String.fromCharCode(65+q.a);
         outputs.push({q,text:answer,parsed,ok});renderItem(q,i,answer,parsed,ok);progress(i+1);
