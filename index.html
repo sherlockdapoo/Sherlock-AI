@@ -5099,8 +5099,9 @@ const BENCH_Q=[{"c":"Logic","q":"All Bloops are Razzies; all Razzies Lazzies. Bl
         const q=QUESTIONS[i];$g("genStatus").textContent="Question "+(i+1)+": "+q.c;
         const prompt="Solve this question. Reply with only the final answer: either the option letter A, B, C or D, or the exact number/value. Do not show working.\nQuestion: "+q.q+"\n"+q.o.map((o,j)=>String.fromCharCode(65+j)+") "+o).join("\n");
         const answer=await requestNeuralGeneration(prompt,{length:18,greedy:true});
-        const parsed=parse(answer),ok=parsed!==null&&parsed===String.fromCharCode(65+q.a);
-        outputs.push({q,text:answer,parsed,ok});renderItem(q,i,answer,parsed,ok);progress(i+1);
+        const parsed=parse(answer,q),ok=parsed!==null&&parsed.letter===String.fromCharCode(65+q.a);
+        const parsedLabel=parsed?(parsed.kind==="numeric"?parsed.letter+" (numeric: "+parsed.number+")":parsed.letter):"unclear";
+        outputs.push({q,text:answer,parsed:parsedLabel,ok});renderItem(q,i,answer,parsedLabel,ok);progress(i+1);
         $g("genLive").textContent="Sherlock answered "+(i+1)+" of "+QUESTIONS.length+".";
       }
       if(!cancelled&&outputs.length===QUESTIONS.length){finish();$g("genLive").textContent="Completed. Generalisation report is ready.";}
