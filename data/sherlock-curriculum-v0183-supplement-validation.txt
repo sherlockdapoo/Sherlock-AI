@@ -1,0 +1,179 @@
+user: What is 220 plus 855?
+sherlock: 1075.
+
+user: Calculate the sum: 357 plus 944.
+sherlock: 1301.
+
+user: Work out 494 plus 1033.
+sherlock: 1527.
+
+user: Find the total of 631 plus 1122.
+sherlock: 1753.
+
+user: What do you get when you add 768 plus 1211?
+sherlock: 1979.
+
+user: What is 905 plus 1300?
+sherlock: 2205.
+
+user: Calculate the sum: 1042 plus 1389.
+sherlock: 2431.
+
+user: Work out 1179 plus 78.
+sherlock: 1257.
+
+user: Find the total of 1316 plus 167.
+sherlock: 1483.
+
+user: What do you get when you add 1453 plus 256?
+sherlock: 1709.
+
+user: What is 5% of 1040?
+sherlock: 52.
+
+user: Calculate 10 percent of 1380.
+sherlock: 138.
+
+user: Find 15% of 120.
+sherlock: 18.
+
+user: Work out 20 percent of 460.
+sherlock: 92.
+
+user: What amount is 25% of 800?
+sherlock: 200.
+
+user: What is 30% of 1140?
+sherlock: 342.
+
+user: Calculate 35 percent of 1480.
+sherlock: 518.
+
+user: Find 40% of 220.
+sherlock: 88.
+
+user: Work out 45 percent of 560.
+sherlock: 252.
+
+user: What amount is 50% of 900?
+sherlock: 450.
+
+user: Convert 3795 centimetres into millimetres.
+sherlock: 37950.
+
+user: Convert 3818 metres into centimetres.
+sherlock: 381800.
+
+user: Convert 3841 kilometres into metres.
+sherlock: 3841000.
+
+user: Convert 3864 kilograms into grams.
+sherlock: 3864000.
+
+user: Convert 3887 hours into minutes.
+sherlock: 233220.
+
+user: Convert 3910 centimetres into millimetres.
+sherlock: 39100.
+
+user: Convert 3933 metres into centimetres.
+sherlock: 393300.
+
+user: Convert 3956 kilometres into metres.
+sherlock: 3956000.
+
+user: Convert 3979 kilograms into grams.
+sherlock: 3979000.
+
+user: Convert 4002 hours into minutes.
+sherlock: 240120.
+
+user: A shop has 461 stickers and receives 25 more. How many stickers does it have altogether?
+sherlock: 486.
+
+user: There are 492 pencils in each box and 32 boxes. How many pencils are there altogether?
+sherlock: 15744.
+
+user: A library has 82 books. 39 books are borrowed. How many books remain?
+sherlock: 43.
+
+user: A teacher shares 592 cards equally between 8 pupils. How many cards does each pupil get?
+sherlock: 74.
+
+user: A shop sells 15 bags with 105 marbles in each bag. How many marbles are sold?
+sherlock: 1575.
+
+user: A shop has 136 stickers and receives 22 more. How many stickers does it have altogether?
+sherlock: 158.
+
+user: There are 167 pencils in each box and 29 boxes. How many pencils are there altogether?
+sherlock: 4843.
+
+user: A library has 234 books. 36 books are borrowed. How many books remain?
+sherlock: 198.
+
+user: A teacher shares 1145 cards equally between 5 pupils. How many cards does each pupil get?
+sherlock: 229.
+
+user: A shop sells 12 bags with 260 marbles in each bag. How many marbles are sold?
+sherlock: 3120.
+
+user: What is the next number in this sequence: 285, 307, 329, 351?
+sherlock: 373.
+
+user: What is the next number in this sequence: 304, 269, 234, 199?
+sherlock: 164.
+
+user: What is the next number in this sequence: 323, 336, 349, 362?
+sherlock: 375.
+
+user: What is the next number in this sequence: 342, 316, 290, 264?
+sherlock: 238.
+
+user: What is the next number in this sequence: 361, 365, 369, 373?
+sherlock: 377.
+
+user: What is the next number in this sequence: 380, 363, 346, 329?
+sherlock: 312.
+
+user: What is the next number in this sequence: 399, 429, 459, 489?
+sherlock: 519.
+
+user: What is the next number in this sequence: 418, 410, 402, 394?
+sherlock: 386.
+
+user: What is the next number in this sequence: 437, 458, 479, 500?
+sherlock: 521.
+
+user: What is the next number in this sequence: 456, 422, 388, 354?
+sherlock: 320.
+
+user: Follow the instruction and use the alphabet to order these letters: j, e, h, x, c.
+sherlock: c, e, h, j, x
+
+user: Follow the instruction and use the alphabet to order these letters: z, r, w, q, s.
+sherlock: q, r, s, w, z
+
+user: Follow the instruction and use the alphabet to order these letters: z, c, q, j, l.
+sherlock: c, j, l, q, z
+
+user: Follow the instruction and use the alphabet to order these letters: r, q, f, i, n.
+sherlock: f, i, n, q, r
+
+user: Follow the instruction and use the alphabet to order these letters: k, m, d, n, b.
+sherlock: b, d, k, m, n
+
+user: Follow the instruction and use the alphabet to order these letters: u, o, a, j, w.
+sherlock: a, j, o, u, w
+
+user: Follow the instruction and use the alphabet to order these letters: g, q, m, k, w.
+sherlock: g, k, m, q, w
+
+user: Follow the instruction and use the alphabet to order these letters: y, m, n, d, a.
+sherlock: a, d, m, n, y
+
+user: Follow the instruction and use the alphabet to order these letters: d, i, x, p, a.
+sherlock: a, d, i, p, x
+
+user: Follow the instruction and use the alphabet to order these letters: f, k, u, s, w.
+sherlock: f, k, s, u, w

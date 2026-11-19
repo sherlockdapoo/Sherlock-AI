@@ -1,4 +1,4 @@
-/* Sherlock GPT v0.18.2: balanced learning with responsive manual stopping and deterministic maths. */
+/* Sherlock GPT v0.18.3: balanced learning with targeted alphabetic-order examples and deterministic maths. */
 "use strict";
 
 const VOCAB = 1024;
