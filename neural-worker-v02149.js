@@ -1097,22 +1097,22 @@ async function generate(prompt, requestedLength, greedy = false, generationId = 
   const intent = detectQuestionType(prompt);
   const encodedInput = encodeText("user: " + String(prompt || "").trim().slice(0, 180).toLowerCase() + "\nsherlock: ");
   const inputTokens = Array.from(encodedInput.data, id => vocabulary[id] || "<unk>");
-  let method = corpusContextIndexReady ? "neural + corpus-learned context" : "neural language model";
+  let answer = null;
+  if (intent.key === "percentage" || intent.key === "math") answer = solveMathPrompt(prompt);
+  else if (intent.key === "letters") answer = solveLetterOrderingPrompt(prompt);
+  else if (intent.key === "sequence") answer = solveSequencePrompt(prompt);
+  else if (intent.key === "conversion") answer = solveUnitConversionPrompt(prompt);
+  else if (intent.key === "word_problem") answer = solveWordProblemPrompt(prompt);
+  const method = answer !== null ? "specialist solver" :
+    (corpusContextIndexReady ? "neural + corpus-learned context" : "neural language model");
   self.postMessage({
     type: "generation-start", id: generationId, intent: intent.label,
     method, inputTokens, inputTokenCount: encodedInput.totalTokens,
     unknownTokens: encodedInput.data.reduce((count, id) => count + (id === UNK_ID ? 1 : 0), 0),
     unknownRate: encodedInput.unknownRate
   });
-  let answer = null;
   let diagnostics = null;
-  if (intent.key === "percentage" || intent.key === "math") answer = solveMathPrompt(prompt);
-  else if (intent.key === "letters") answer = solveLetterOrderingPrompt(prompt);
-  else if (intent.key === "sequence") answer = solveSequencePrompt(prompt);
-  else if (intent.key === "conversion") answer = solveUnitConversionPrompt(prompt);
-  else if (intent.key === "word_problem") answer = solveWordProblemPrompt(prompt);
   if (answer !== null) {
-    method = "specialist solver";
     diagnostics = {steps: 0, topCandidates: [], confidence: null};
   } else {
     const generated = await generateLanguageModel(prompt, requestedLength, greedy, generationId);
@@ -1123,7 +1123,8 @@ async function generate(prompt, requestedLength, greedy = false, generationId = 
 }
 
 async function generateLanguageModel(prompt, requestedLength, greedy = false, generationId = 0) {
-  if (!initialized || vocabularySize <= 3) return "Load or restore the neural model first.";
+  if (!initialized || vocabularySize <= 3)
+    return {text: "Load or restore the neural model first.", diagnostics: {steps: 0, topCandidates: [], confidence: null}};
   const rawPrompt = String(prompt || "").trim().slice(0, 180);
   const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
   const promptEncoded = encodeText(modelPrompt);
