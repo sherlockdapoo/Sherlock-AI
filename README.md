@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.42
+# Sherlock AI website v0.21.43
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.42**
+- Website: **v0.21.43**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -92,7 +92,7 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - This is a routing improvement, not evidence that the neural model has learned general conversational ability. No retraining is required.
 
 
-## v0.21.42 — Neural conversation learning
+## v0.21.43 — Neural conversation learning
 
 - Neural model label: v0.19.1 (same 167,008-parameter architecture as v0.19.0).
 - Added the v0.18.6 conversation supplement: 700 training conversations and 100 separate held-out validation conversations.
@@ -102,3 +102,11 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Updated checkpoint namespace and record version so v0.19.0 checkpoints remain preserved and are not loaded with the changed tokenizer.
 - **A fresh training run is required.** The new dataset changes vocabulary and training targets. Existing v0.19.0 training results remain in the old checkpoint.
 - Conversation quality is not guaranteed by adding examples alone; it must be measured after training on held-out prompts.
+
+
+## v0.21.43 — finite training targets
+- Neural Lab now includes a Training target selector: unlimited, 1, 5, 10, 25, or 50 corpus passes.
+- Ten corpus passes is selected by default. The page calculates the update limit from the loaded assistant-response training-target token count and batch size, then sends that finite limit to the worker.
+- The worker enforces the limit relative to the current run and performs its normal stop/evaluation/checkpoint path when reached. Stop remains available for early stopping.
+- The Playground uses the same versioned worker file; its interface version is 1.10.
+- This changes training controls only. It does not alter the neural architecture, dataset, tokenizer, or checkpoint namespace, and it does not require resetting existing model weights.
