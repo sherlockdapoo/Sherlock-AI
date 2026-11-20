@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.47
+# Sherlock AI website v0.21.48
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.46**
+- Website: **v0.21.48**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -150,3 +150,13 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Existing v0.19.1 checkpoints remain compatible. No reset or retraining is required for this decoder update.
 - Main website: **v0.21.47**. Playground: **1.14**. Worker: `neural-worker-v02147.js`.
 - Output fluency must be evaluated with the same prompts; these constraints do not guarantee grammatical or meaningful responses.
+
+
+## v0.21.48 — Neural-only conversational fallback and visual refinement
+
+- Ordinary conversation and text-generation prompts continue through the trained neural language model; specialist arithmetic, conversion, sequence, and letter-ordering operations remain explicitly separate.
+- Removed the fixed generic sentence that previously replaced short or weak neural outputs. The generator now returns only tokens sampled from the model; it does not substitute a canned fallback reply.
+- Reduced the forced minimum length before sentence punctuation/end-of-sequence from five words to three, allowing the model's learned stopping probabilities to have more influence. This may produce shorter outputs and does not guarantee fluency.
+- Added responsive visual refinements to the main site and Playground using the existing midnight, blue, and green palette. No palette colours were changed; the browser theme colour now matches the existing dark background.
+- Main website: **v0.21.48**. Playground: **1.15**. Worker: `neural-worker-v02148.js`.
+- Existing model architecture, training corpus, tokenizer, and checkpoint namespace are unchanged. No retraining is required for these inference and presentation changes.
