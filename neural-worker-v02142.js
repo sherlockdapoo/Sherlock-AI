@@ -1,4 +1,4 @@
-/* Sherlock AI v0.19.0: expanded-capacity neural model; v0.18.5 balanced curriculum. */
+/* Sherlock AI v0.19.1: expanded-capacity neural model; v0.18.6 conversation curriculum. */
 "use strict";
 
 const VOCAB = 1024;
