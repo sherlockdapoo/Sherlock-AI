@@ -180,3 +180,9 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Connects the Playground to the worker's existing generation-start and generation-step events, displaying tokenized input, detected task, generation route, unknown-token coverage, top-five next-token candidates, and the partial generated draft.
 - Keeps the established midnight, blue, and green colour palette.
 - Main website: **v0.21.50**. Playground: **1.17**. Uses the existing v0.21.49 worker with a refreshed cache key; no model weights or checkpoint data are changed.
+
+## v0.21.51 — Trace diagnostics correction
+
+- Corrects the Playground inspector's unknown-token percentage: the worker already reports a percentage, so the UI now displays it without multiplying by 100 again.
+- Makes invisible candidate tokens explicit as `[SPACE]`, `[NEWLINE]`, `[TAB]`, or `[EMPTY]` so the next-token trace can be interpreted.
+- Playground: **1.18**. Existing model weights and generation behaviour are unchanged.
