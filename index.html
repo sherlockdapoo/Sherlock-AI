@@ -4526,7 +4526,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     }
   };
   await validateConversationBlocks(trainingBlocks, 'Training library', 24000);
-  await validateConversationBlocks(validationBlocks, 'Validation library', 1620);
+  await validateConversationBlocks(validationBlocks, 'Validation library', 1680);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingSet = new Set();
   for (let index = 0; index < trainingBlocks.length; index++) {
