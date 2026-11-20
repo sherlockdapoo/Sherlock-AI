@@ -1178,9 +1178,10 @@ async function generateLanguageModel(prompt, requestedLength, greedy = false, ge
     if (/^[a-z]+(?:'[a-z]+)?$/i.test(token) && token.toLowerCase() === lastWord &&
         history.length > generatedStart && history[history.length - 1] === SPACE_ID) return false;
 
-    // Articles should be followed by a lexical token, not punctuation or another space.
+    // Articles may be followed by a space before the next lexical token.
+    // Blocking SPACE here joined adjacent words (for example, "a" + "and" => "aand").
     if (/^(?:a|an|the)$/i.test(lastWord) &&
-        (tokenId === SPACE_ID || /^[,.;!?]+$/.test(token))) return false;
+        /^[,.;!?]+$/.test(token)) return false;
     return true;
   }
 
