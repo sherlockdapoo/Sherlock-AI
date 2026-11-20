@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.42, expanded-capacity neural model, conversation curriculum v0.18.6">v0.21.42</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.42, expanded-capacity neural model, conversation curriculum v0.18.6">v0.21.43</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1449,7 +1449,16 @@ body.nav-open{overflow:hidden}
             <p>AdamW optimizer · weight decay 0.0001. Choose before starting a training run.</p>
           </div>
           <div class="optimizer-picker neural-config-picker">
-            <p id="neuralTrainingConfigSummary">Permanent settings: batch size 32 · unlimited training steps. Press Stop whenever you want to end a run.</p>
+            <label for="neuralTrainingTargetPasses">Training target</label>
+            <select id="neuralTrainingTargetPasses" aria-label="Training target">
+              <option value="0">Unlimited (stop manually)</option>
+              <option value="1">1 corpus pass</option>
+              <option value="5">5 corpus passes</option>
+              <option value="10" selected>10 corpus passes</option>
+              <option value="25">25 corpus passes</option>
+              <option value="50">50 corpus passes</option>
+            </select>
+            <p id="neuralTrainingConfigSummary">Next run: 10 corpus passes · batch size 32.</p>
           </div>
           <div class="neural-control-row">
             <button class="btn btn-primary" id="neuralStartBtn" type="button">✳ <span>Start neural training</span></button>
@@ -1814,6 +1823,7 @@ let performanceSampleChars = 0;
 let performanceLastBatchSeen = 0;
 
 let neuralWorker = null;
+let neuralTrainingTargetTokens = 0;
 let neuralActiveOptimizer = 'adamw';
 let neuralWorkerInitialized = false;
 let neuralWorkerStarted = false;
@@ -2979,6 +2989,7 @@ function updateNeuralControls() {
   $('neuralStopBtn').disabled = !neuralTraining || neuralStopPending;
   $('neuralStopBtn').textContent = neuralStopPending ? '■ Stopping…' : '■ Stop';
   $('neuralLearningRate').disabled = neuralTraining || neuralRequestBusy;
+  $('neuralTrainingTargetPasses').disabled = neuralTraining || neuralRequestBusy;
 }
 function selectedNeuralOptimizer() {
   return 'adamw';
@@ -2991,7 +3002,11 @@ function selectedNeuralBatchSize() {
   return 32;
 }
 function selectedNeuralMaxSteps() {
-  return 0;
+  const passes = Math.max(0, Number($('neuralTrainingTargetPasses').value) || 0);
+  if (!passes) return 0;
+  if (!neuralTrainingTargetTokens) return 0;
+  const stepsPerPass = Math.ceil(neuralTrainingTargetTokens / selectedNeuralBatchSize());
+  return Math.max(1, Math.ceil(stepsPerPass * passes));
 }
 function updateNeuralOptimizerSummary() {
   const summary = $('neuralOptimizerSummary');
@@ -3000,8 +3015,12 @@ function updateNeuralOptimizerSummary() {
 function updateNeuralTrainingConfigSummary() {
   const summary = $('neuralTrainingConfigSummary');
   if (!summary) return;
+  const passes = Math.max(0, Number($('neuralTrainingTargetPasses').value) || 0);
   const maxSteps = selectedNeuralMaxSteps();
-  summary.textContent = 'Next run: ' + (maxSteps ? maxSteps.toLocaleString() + ' steps' : 'unlimited steps') +
+  const targetText = passes
+    ? (neuralTrainingTargetTokens ? passes + ' corpus passes · about ' + maxSteps.toLocaleString() + ' updates' : passes + ' corpus passes · waiting for dataset')
+    : 'unlimited training';
+  summary.textContent = 'Next run: ' + targetText +
     ' · batch size ' + selectedNeuralBatchSize() +
     ' · learning rate ' + selectedNeuralLearningRate().toFixed(3) + '.';
 }
@@ -3016,13 +3035,14 @@ function postNeuralTrainingStart(targetWorker = neuralWorker) {
   });
 }
 updateNeuralOptimizerSummary();
+$('neuralTrainingTargetPasses').addEventListener('change', updateNeuralTrainingConfigSummary);
 updateNeuralTrainingConfigSummary();
 
 function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02142.js?v=0.21.42-conversation-learning', window.location.href);
+  const workerUrl = new URL('neural-worker-v02143.js?v=0.21.43-training-target', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3034,6 +3054,8 @@ function ensureNeuralWorker() {
     if (data.type === 'ready') {
       neuralWorkerInitialized = true;
       neuralDatasetInitialized = true;
+      neuralTrainingTargetTokens = Math.max(0, Number(data.trainingTargetTokens) || 0);
+      updateNeuralTrainingConfigSummary();
       $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
