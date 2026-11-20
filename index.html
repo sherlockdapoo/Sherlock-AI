@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.39, expanded-capacity neural model, Balanced Learning v0.18.5">v0.21.40</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.39, expanded-capacity neural model, Balanced Learning v0.18.5">v0.21.41</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3020,7 +3020,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02140.js?v=0.21.40-batched-training', window.location.href);
+  const workerUrl = new URL('neural-worker-v02141.js?v=0.21.41-greeting-router', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
