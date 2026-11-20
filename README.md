@@ -1,4 +1,4 @@
-# Sherlock AI website v0.21.46
+# Sherlock AI website v0.21.47
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
@@ -140,3 +140,13 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - This is a decoding improvement, not a new neural architecture or a guarantee of fluent output. Test prompts against v0.21.45 to measure the effect.
 - Existing v0.19.1 model weights and checkpoint namespace remain compatible. The context index is rebuilt from the already loaded training corpus.
 - Main website: **v0.21.46**. Playground: **1.13**. Worker: `neural-worker-v02146.js`.
+
+
+## v0.21.47 — Generation Intelligence v3: repetition and local grammar controls
+
+- Strengthens the recent-word repetition penalty and blocks an immediate duplicate word such as “you you”.
+- Adds a small local grammar guard so common articles (a, an, the) are followed by a word rather than punctuation or another space.
+- Keeps the neural next-token model and corpus-context blend; these are decoding constraints, not new learned weights or a substitute for training.
+- Existing v0.19.1 checkpoints remain compatible. No reset or retraining is required for this decoder update.
+- Main website: **v0.21.47**. Playground: **1.14**. Worker: `neural-worker-v02147.js`.
+- Output fluency must be evaluated with the same prompts; these constraints do not guarantee grammatical or meaningful responses.
