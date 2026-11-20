@@ -3042,7 +3042,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02147.js?v=0.21.46-generation-v3', window.location.href);
+  const workerUrl = new URL('neural-worker-v02147.js?v=0.21.47-generation-v3', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
