@@ -1227,7 +1227,7 @@ body.nav-open{overflow:hidden}
 #benchmarkPanel .benchmark-results textarea{background:#f8fafc!important;color:#26364b!important;border:1px solid #dce3ec!important}
 #benchmarkPanel .benchmark-results textarea::placeholder{color:#728096!important}
 
-/* v0.21.49 visual refinement — preserve the established midnight/blue/green palette. */
+/* v0.21.50 visual refinement — preserve the established midnight/blue/green palette. */
 html{scroll-behavior:smooth;scroll-padding-top:16px}
 .app{padding-top:clamp(18px,3.2vw,34px)}
 .topbar{padding:4px 2px 12px}
@@ -1282,7 +1282,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.46, Generation Intelligence v3, conversation curriculum v0.18.6">v0.21.49</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.50, Generation Intelligence v3, conversation curriculum v0.18.6">v0.21.50</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3114,7 +3114,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.49-live-trace-v1', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.50-live-trace-v2', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
