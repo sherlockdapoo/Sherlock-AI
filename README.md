@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.35
+# Sherlock AI website v0.21.36
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.35**
+- Website: **v0.21.36**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -45,3 +45,10 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Added `neural-worker-v02135.js` as an identical copy of the verified v0.21.34 worker, which contains no `hasMinimumOutputWords` references.
 - Updated the main Neural Lab and Playground to load the uniquely named worker file, bypassing any stale cached `neural-worker.js` response.
 - No model weights, training data, or checkpoints were changed; no retraining is required.
+
+
+### v0.21.36 — Generation v2 constrained decoding
+- Filters digit-only tokens and percentage terms in ordinary prose unless the prompt asks for numeric or percentage content.
+- Prevents newline-only continuations, stray closing brackets, repeated punctuation, and punctuation before the first words.
+- Uses alphabetic word counts for the minimum output threshold and can stop after a completed sentence.
+- Normalises spacing around punctuation. These are decoding heuristics, not new learned knowledge; the saved checkpoint and curriculum are unchanged, and no retraining is required.
