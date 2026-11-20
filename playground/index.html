@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#09111f">
 <meta name="description" content="A separate local playground for testing the trained Sherlock AI model.">
-<title>Sherlock AI · Playground 1.18</title>
+<title>Sherlock AI · Playground 1.19</title>
 <style>
 :root{color-scheme:dark;--bg:#080f1b;--panel:#101c2e;--panel2:#0b1626;--line:#283c58;--text:#eef5ff;--muted:#9aadc7;--blue:#8bbaff;--blue2:#b3d2ff;--green:#5ee0ad;--amber:#f2c66d;--red:#ff8888}
 *{box-sizing:border-box}
@@ -113,7 +113,7 @@ button:not(:disabled):hover{filter:brightness(1.07)}
 <main>
 <header>
  <div class="brand"><div class="mark" aria-hidden="true">⌕</div><div><h1>Sherlock AI Playground</h1><div class="sub">Independent testing space · runs locally in your browser</div></div></div>
- <span class="version">PLAYGROUND 1.18</span>
+ <span class="version">PLAYGROUND 1.19</span>
 </header>
 <section class="card" aria-label="Sherlock model playground">
  <div class="statusbar" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking your saved model…</span><span class="statusdetail" id="statusDetail">LOCAL MODEL</span></div>
@@ -160,7 +160,8 @@ button:not(:disabled):hover{filter:brightness(1.07)}
   <div class="trace-grid">
    <div class="trace-box"><strong>Input tokens and detected task</strong><div class="trace-value" id="traceInput">No prompt processed yet.</div></div>
    <div class="trace-box"><strong>Model route and token coverage</strong><div class="trace-value" id="traceMeta">Waiting for generation.</div></div>
-   <div class="trace-box"><strong>Next-token candidates</strong><div class="trace-value" id="traceCandidates">Waiting for the first prediction.</div></div>
+   <div class="trace-box"><strong>Raw neural predictions</strong><div class="trace-value" id="traceRawCandidates">Waiting for the first prediction.</div></div>
+   <div class="trace-box"><strong>Next-token candidates after context and decoding</strong><div class="trace-value" id="traceCandidates">Waiting for the first prediction.</div></div>
    <div class="trace-box trace-draft"><strong>Generated draft · token by token</strong><div class="trace-value" id="traceDraft">The partial draft will appear here while Sherlock generates.</div></div>
   </div>
   <p class="trace-note">Candidate percentages are decoder-relative scores, not certainty or a readable record of private thoughts. This trace reports model inputs and outputs, not hidden reasoning.</p>
@@ -220,21 +221,26 @@ let history=[];
 function renderTraceStart(data){
  $('traceStatus').textContent='GENERATING';
  $('traceInput').textContent=(Array.isArray(data.inputTokens)?data.inputTokens.join(' · '):String(data.inputTokens||'No token list supplied.'));
- $('traceMeta').textContent='Detected type: '+(data.intent||'Unknown')+'\nMethod: '+(data.method||'Unknown')+'\nTokens: '+(Number(data.inputTokenCount)||0)+'\nUnknown tokens: '+(Number(data.unknownTokens)||0)+' ('+(Number(data.unknownRate||0)).toFixed(1)+'%)';
+ $('traceMeta').textContent='Detected type: '+(data.intent||'Unknown')+'\nMethod: '+(data.method||'Unknown')+'\nTokens: '+(Number(data.inputTokenCount)||0)+'\nUnknown tokens: '+(Number(data.unknownTokens)||0)+' ('+(Number(data.unknownRate||0)).toFixed(1)+'%)'+'\nUnrecognised input: '+((data.unknownTokenList||[]).map(token=>token===' '?'[SPACE]':token).join(', ')||'None');
  $('traceCandidates').textContent='Waiting for the first prediction.';
+ $('traceRawCandidates').textContent='Waiting for the first prediction.';
  $('traceDraft').textContent='';
 }
 function renderTraceStep(data){
  $('traceStatus').textContent='STEP '+(Number(data.step)||0);
  $('traceDraft').textContent=String(data.partial||'');
- const host=$('traceCandidates');host.replaceChildren();
- (Array.isArray(data.topCandidates)?data.topCandidates:[]).forEach(item=>{
+ function fillCandidateList(hostId,items){
+  const host=$(hostId);host.replaceChildren();
+  (Array.isArray(items)?items:[]).forEach(item=>{
   const row=document.createElement('div');row.className='trace-candidate';
   const token=document.createElement('span');const rawToken=String(item.token??'');token.textContent=rawToken===''?'[EMPTY]':rawToken===' '?'[SPACE]':rawToken==='\\n\\n'?'[NEWLINE]':rawToken.replace(/\\n/g,'[NEWLINE]').replace(/\\t/g,'[TAB]');
   const score=document.createElement('span');score.textContent=(Number(item.probability||0)*100).toFixed(1)+'%';
   row.append(token,score);host.append(row);
- });
- if(!host.childNodes.length)host.textContent='No candidate details supplied.';
+  });
+  if(!host.childNodes.length)host.textContent='No candidate details supplied.';
+ }
+ fillCandidateList('traceRawCandidates',data.rawTopCandidates);
+ fillCandidateList('traceCandidates',data.topCandidates);
 }
 function finishTrace(data){
  $('traceStatus').textContent='COMPLETE';
