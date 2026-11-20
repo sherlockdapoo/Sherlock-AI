@@ -1019,7 +1019,7 @@ function solveLetterOrderingPrompt(prompt) {
 
 function detectQuestionType(prompt) {
   const value = String(prompt || "").trim().toLowerCase();
-  if (/^(?:hi|hello|hey|hiya|howdy|good morning|good afternoon|good evening)[!.?\\s]*$/.test(value)) return {key:"greeting", label:"Greeting"};
+  if (/^(?:hi|hello|hey|hiya|howdy|good morning|good afternoon|good evening)[!.?\s]*$/.test(value)) return {key:"greeting", label:"Greeting"};
   if (/\b(?:sort|arrange|order|alphabeti[sz]e)\b/.test(value) &&
       /\b(?:letters|characters|alphabet)\b/.test(value)) return {key:"letters", label:"Letter sorting"};
   if (/%|\bpercent(?:age)?\b/.test(value)) return {key:"percentage", label:"Percentage"};
