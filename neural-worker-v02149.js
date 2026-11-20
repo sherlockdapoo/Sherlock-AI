@@ -1111,7 +1111,7 @@ async function generate(prompt, requestedLength, greedy = false, generationId = 
     method, inputTokens, inputTokenCount: encodedInput.totalTokens,
     unknownTokens: encodedInput.data.reduce((count, id) => count + (id === UNK_ID ? 1 : 0), 0),
     unknownRate: encodedInput.unknownRate,
-    unknownTokenList: (() => { const missing = []; walkTokens("user: " + String(prompt || "").trim().slice(0, 180).toLowerCase() + "\\nsherlock: ", token => { if (!tokenToId.has(token) && !missing.includes(token)) missing.push(token); }); return missing.slice(0, 12); })()
+    unknownTokenList: (() => { const missing = []; walkTokens("user: " + String(prompt || "").trim().slice(0, 180).toLowerCase() + "\nsherlock: ", token => { if (!tokenToId.has(token) && !missing.includes(token)) missing.push(token); }); return missing.slice(0, 12); })()
   });
   let diagnostics = null;
   if (answer !== null) {
