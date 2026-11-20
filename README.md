@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.44
+# Sherlock AI website v0.21.45
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.44**
+- Website: **v0.21.45**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -13,7 +13,7 @@ Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab ru
 - Families: arithmetic, percentages, unit conversions, word problems, number sequences, letter/instruction tasks, and natural conversation.
 - Architecture: word-level MLP, 48-token context, 12-dimensional embeddings, 96 hidden neurons, 1,024-token output vocabulary.
 - Parameters: **167,008** (about 2.36× the previous model).
-- Optimizer: AdamW, learning rate 0.001, weight decay 0.0001, batch size 32.
+- Optimizer: AdamW, learning rate 0.001, weight decay 0.0001, batch size 64.
 
 ## Historical model v0.19.0 upgrade
 - The expanded model uses a 48-token context, 12-dimensional embeddings and 96 hidden neurons (167,008 trainable parameters).
@@ -119,3 +119,14 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - This is an algorithmic throughput trade-off, not a measured speed claim. Larger batches may change convergence behaviour; compare validation loss/accuracy rather than assuming quality improves.
 - Model architecture, parameter count, tokenizer, datasets, and checkpoint namespace are unchanged. Existing trained weights remain compatible; no model reset is required.
 - Playground 1.11 uses the matching v0.21.44 worker.
+
+
+## v0.21.45 — Generation Intelligence v2: corpus-learned context
+
+- Builds bigram and trigram continuation statistics from the assistant-response training targets when the dataset is loaded.
+- During generation, blends matching corpus continuation probabilities with the neural model's next-token probabilities. Trigram context is preferred when sufficiently observed; otherwise it backs off to a unigram-context continuation.
+- The index is built from the existing training corpus on-device. No fixed greeting answers or prompt-to-answer mappings are added.
+- The response route reports **neural + corpus-learned context** when the index is available. Specialist maths, conversion, sequence and letter solvers remain separate.
+- Neural architecture, parameter count, tokenizer, dataset, and checkpoint namespace are unchanged. Existing v0.19.1 weights remain compatible; no reset or retraining is required.
+- This is a hybrid decoding improvement, not a new neural architecture. Its effect on sentence quality must be tested against the same prompts before claiming a measured improvement.
+- Main website: **v0.21.45**. Playground: **1.12**. Worker: `neural-worker-v02145.js`.
