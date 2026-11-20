@@ -1156,6 +1156,7 @@ self.addEventListener("message", event => {
         steps,
         examples: examplesSeen,
         totalExamples: totalExamplesSeen,
+        trainingTargetTokens: trainTargetPositions.length,
         loss: movingLoss,
         learningRate: activeLearningRate,
         batchSize: activeBatchSize,
