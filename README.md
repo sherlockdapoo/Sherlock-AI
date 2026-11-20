@@ -160,3 +160,15 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Added responsive visual refinements to the main site and Playground using the existing midnight, blue, and green palette. No palette colours were changed; the browser theme colour now matches the existing dark background.
 - Main website: **v0.21.48**. Playground: **1.15**. Worker: `neural-worker-v02148.js`.
 - Existing model architecture, training corpus, tokenizer, and checkpoint namespace are unchanged. No retraining is required for these inference and presentation changes.
+
+## v0.21.49 — Live generation inspector and token-level diagnostics
+
+- Adds a live Playground inspector showing the exact tokenized prompt sent to the model, detected task type, generation route, and unknown-token rate.
+- Streams each generated token to the interface and displays the decoder's top five next-token candidates with relative scores at each step.
+- Shows the partial response while generation is running, rather than only after completion.
+- The trace reports observable inputs and model outputs; it does not claim to expose hidden thoughts, intent, or consciousness.
+- Specialist arithmetic, percentage, sequence, conversion, and letter-ordering routes are explicitly labelled as specialist solvers; ordinary language prompts remain on the trained neural generator.
+- Adds brief worker yields during generation so the browser can render the live trace and remain responsive.
+- Main website: **v0.21.49**. Playground: **1.16**. Worker: neural-worker-v02149.js.
+- No model architecture, checkpoint namespace, or saved weights are changed by this diagnostics feature.
+
