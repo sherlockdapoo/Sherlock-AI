@@ -1,9 +1,10 @@
-# Sherlock AI website v0.21.26
+# Sherlock AI website v0.21.27
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.26**
+- Website: **v0.21.27**
+- Corpus-equivalent passes now use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Balanced Learning curriculum: **v0.18.5**
 - Training examples: **24,000**
 - Held-out validation examples: **1,680**
