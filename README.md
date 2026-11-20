@@ -16,7 +16,7 @@ Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab ru
 Open https://sherlockdapoo.github.io/Sherlock-AI/, choose Neural Lab, and press Start neural training. Training runs locally in a background worker until Stop is pressed. Stop requests a final evaluation and checkpoint save. Keep the page open during a long run; mobile browsers may pause background tabs or suspend work when the device sleeps.
 
 ## Data revisions
-The v0.18.5 curriculum adds 3,000 training examples and 60 held-out validation examples to v0.18.4, including 1,500 focused letter-ordering examples and 30 held-out letter-ordering tests. Older base and supplement files remain unchanged. v0.18.5 uses its own dataset cache and checkpoint namespace, preserving previous checkpoints.
+The v0.18.5 curriculum adds 3,000 training examples and 60 held-out validation examples to v0.18.4, including 1,500 focused letter-ordering examples and 30 held-out letter-ordering tests. Older base and supplement files remain unchanged. v0.18.5 uses a separate dataset cache and checkpoint namespace. The previous v0.18.4 checkpoint is preserved in browser storage but is not automatically loaded: the expanded dataset can change tokenizer ID ordering, so reusing its weights without a verified vocabulary mapping could corrupt the model.
 
 ## Scope
 The new language-focused examples concentrate on exact preservation and alphabetical ordering of five distinct letters, with separate held-out letter combinations. This is narrow synthetic practice, not evidence of broad language understanding. Evaluate with fresh benchmark questions after training.
