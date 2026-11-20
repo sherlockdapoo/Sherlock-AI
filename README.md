@@ -193,3 +193,11 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - The live trace lists previously unknown input tokens, allowing vocabulary coverage issues to be identified directly.
 - Playground: **1.19**. Main website: **v0.21.52**.
 - No trained weights were changed. This release improves observability so the next model-quality change can be based on measured evidence rather than guesswork.
+
+## v0.21.53 — Article spacing decoder fix
+
+- Fixed a generation constraint that incorrectly prohibited a space after the articles `a`, `an`, and `the`.
+- This rule caused adjacent tokens to be concatenated (for example, `a` + `and` became `aand`, and `the` + `and` became `theand`).
+- Spaces after articles are now allowed; punctuation directly after an article remains blocked.
+- Main website: **v0.21.53**. Playground: **1.20**.
+- No training data or model weights were changed.
