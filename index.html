@@ -2808,8 +2808,8 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
       ? runSteps.toLocaleString() + ' / ' + maxSteps.toLocaleString()
       : runSteps.toLocaleString() + ' · unlimited';
   }
-  const corpusPasses = Number.isFinite(Number(data.totalExamples)) && Number(data.totalExamples) >= 0
-    ? Number(data.totalExamples) / Math.max(1, Number(data.trainingTargetTokens) || Number(data.trainTokens) || 1)
+  const corpusPasses = Number.isFinite(Number(data.totalExamples)) && Number(data.totalExamples) >= 0 && Number(data.trainingTargetTokens) > 0
+    ? Number(data.totalExamples) / Number(data.trainingTargetTokens)
     : Number(data.epochs) || 0;
   $('neuralEpochs').textContent = corpusPasses.toFixed(3);
   if (data.examplesPerSecond !== undefined && data.examplesPerSecond !== null &&
