@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.45
+# Sherlock AI website v0.21.46
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.45**
+- Website: **v0.21.46**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -130,3 +130,13 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Neural architecture, parameter count, tokenizer, dataset, and checkpoint namespace are unchanged. Existing v0.19.1 weights remain compatible; no reset or retraining is required.
 - This is a hybrid decoding improvement, not a new neural architecture. Its effect on sentence quality must be tested against the same prompts before claiming a measured improvement.
 - Main website: **v0.21.45**. Playground: **1.12**. Worker: `neural-worker-v02145.js`.
+
+
+## v0.21.46 — Longer context for generation
+
+- Extends the corpus-learned continuation index from one- and two-token context to three-token context.
+- Generation prefers a three-token continuation when at least two training examples support it, then backs off to shorter contexts.
+- The neural next-token probabilities remain part of the blend; no fixed responses or prompt-answer lookup rules are introduced.
+- This is a decoding improvement, not a new neural architecture or a guarantee of fluent output. Test prompts against v0.21.45 to measure the effect.
+- Existing v0.19.1 model weights and checkpoint namespace remain compatible. The context index is rebuilt from the already loaded training corpus.
+- Main website: **v0.21.46**. Playground: **1.13**. Worker: `neural-worker-v02146.js`.
