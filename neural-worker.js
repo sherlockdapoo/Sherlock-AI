@@ -1,4 +1,4 @@
-/* Sherlock AI v0.18.4: balanced instruction/language curriculum; unchanged 70,704-parameter model and deterministic maths. */
+/* Sherlock AI v0.18.5: balanced curriculum, deterministic maths and exact letter-order operation. */
 "use strict";
 
 const VOCAB = 1024;
@@ -985,9 +985,29 @@ function solveMathPrompt(prompt) {
   const result = match[2] === "+" ? left + right : match[2] === "-" ? left - right : match[2] === "*" ? left * right : left / right;
   return formatMathResult(result);
 }
+// Deterministic exact-letter operation: use an algorithm for a task that requires
+// copying and sorting a finite character set exactly. This complements the
+// statistical language model rather than pretending next-token prediction is
+// reliable at character-level permutation.
+function solveLetterOrderingPrompt(prompt) {
+  const value = String(prompt || "").trim().toLowerCase();
+  const asksForOrdering =
+    /\b(?:use the alphabet to order|put|sort|arrange)\b/.test(value) &&
+    /\b(?:letters|characters)\b/.test(value);
+  if (!asksForOrdering) return null;
+  const match = value.match(/\b(?:letters|characters)\s*:\s*([a-z](?:[\s,;]+[a-z]){1,25})\s*[.!?]?$/);
+  if (!match) return null;
+  const letters = match[1].match(/[a-z]/g) || [];
+  if (letters.length < 2 || letters.length > 26) return null;
+  letters.sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0));
+  return letters.join(", ");
+}
+
 function generate(prompt, requestedLength, greedy = false) {
   const mathAnswer = solveMathPrompt(prompt);
   if (mathAnswer !== null) return mathAnswer;
+  const letterOrderingAnswer = solveLetterOrderingPrompt(prompt);
+  if (letterOrderingAnswer !== null) return letterOrderingAnswer;
   if (!initialized || vocabularySize <= 3) return "Load or restore the neural model first.";
   const rawPrompt = String(prompt || "").trim().slice(0, 180);
   const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
