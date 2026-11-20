@@ -101,6 +101,8 @@ let running = false;
 let initialized = false;
 let steps = 0;
 let examplesSeen = 0;
+// Monotonic count of all training examples processed, including work later rolled back to the best checkpoint.
+let totalExamplesSeen = 0;
 let optimizerStep = 0;
 let randomState = 0x5A17C0DE;
 let reportAt = 0;
@@ -375,6 +377,7 @@ function initialiseParameters() {
   validationSamples = 0;
   steps = 0;
   examplesSeen = 0;
+  totalExamplesSeen = 0;
   optimizerStep = 0;
   movingLoss = 0;
   lossInitialized = false;
@@ -589,7 +592,7 @@ function postLatestCheckpoint() {
     validationLoss: latestValidationLoss,
     bestValidationLoss: Number.isFinite(bestValidationLoss) ? bestValidationLoss : null,
     perplexity: latestPerplexity, evaluations: evaluationCount, validationSamples,
-    steps, examples: examplesSeen, loss: movingLoss, batchSize: activeBatchSize,
+    steps, examples: examplesSeen, totalExamples: totalExamplesSeen, loss: movingLoss, batchSize: activeBatchSize,
     maxSteps: activeMaxSteps, runSteps: Math.max(0, steps - runStartSteps),
     optimizerStep, randomState: randomState >>> 0, parameters: PARAMS,
     assistantTargetMetrics: true, trainingTargetTokens: trainTargetPositions.length,
@@ -618,6 +621,7 @@ function postBestCheckpoint() {
     validationSamples,
     steps: bestSteps,
     examples: bestExamples,
+    totalExamples: totalExamplesSeen,
     loss: bestMovingLoss,
     batchSize: activeBatchSize,
     maxSteps: activeMaxSteps,
@@ -725,6 +729,7 @@ function evaluateAsync() {
           validationSamples: total,
           steps,
           examples: examplesSeen,
+          totalExamples: totalExamplesSeen,
           loss: movingLoss,
           batchSize: activeBatchSize,
           maxSteps: activeMaxSteps,
@@ -819,7 +824,8 @@ function progressPayload() {
   const payload = {
     steps,
     examples: examplesSeen,
-    epochs: trainTargetPositions.length ? examplesSeen / trainTargetPositions.length : 0,
+    totalExamples: totalExamplesSeen,
+    epochs: trainTargetPositions.length ? totalExamplesSeen / trainTargetPositions.length : 0,
     trainingTargetTokens: trainTargetPositions.length,
     validationTargetTokens: validationTargetPositions.length,
     accuracy: latestAccuracy,
@@ -875,6 +881,7 @@ function runBatch() {
     profilingBatches++;
     steps++;
     examplesSeen += activeBatchSize;
+    totalExamplesSeen += activeBatchSize;
     const averageLoss = batchLoss / activeBatchSize;
     movingLoss = lossInitialized ? movingLoss * 0.92 + averageLoss * 0.08 : averageLoss;
     lossInitialized = true;
@@ -1129,6 +1136,7 @@ self.addEventListener("message", event => {
       validationSamples = Math.max(0, Number(message.validationSamples) || 0);
       steps = Math.max(0, Number(message.steps) || 0);
       examplesSeen = Math.max(0, Number(message.examples) || 0);
+      totalExamplesSeen = Math.max(examplesSeen, Number(message.totalExamples) || examplesSeen);
       optimizerStep = Math.max(0, Math.floor(Number(message.optimizerStep) || 0));
       randomState = (Number(message.randomState) >>> 0) || 0x5A17C0DE;
       movingLoss = Math.max(0, Number(message.loss) || 0);
@@ -1147,6 +1155,7 @@ self.addEventListener("message", event => {
         validationSamples,
         steps,
         examples: examplesSeen,
+        totalExamples: totalExamplesSeen,
         loss: movingLoss,
         learningRate: activeLearningRate,
         batchSize: activeBatchSize,
@@ -1223,7 +1232,8 @@ self.addEventListener("message", event => {
         ...result,
         problems: Math.max(0, Number(message.problems) || 0),
         steps,
-        examples: examplesSeen
+        examples: examplesSeen,
+        totalExamples: totalExamplesSeen
       });
     } else if (message.type === "generate") {
       const savedRandomState = randomState;
