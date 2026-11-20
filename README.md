@@ -1,12 +1,12 @@
-# Sherlock AI website v0.21.32
+# Sherlock AI website v0.21.33
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.32**
+- Website: **v0.21.33**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
-- Text generation uses repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
+- Text generation uses a scoped minimum-output-word helper (fixing a runtime ReferenceError), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
 - Balanced Learning curriculum: **v0.18.5**
 - Training examples: **24,000**
 - Held-out validation examples: **1,680**
@@ -25,17 +25,17 @@ The v0.18.5 curriculum adds 3,000 training examples and 60 held-out validation e
 The v0.18.5 language-focused examples concentrate on exact preservation and alphabetical ordering of five distinct letters, with separate held-out letter combinations. Deterministic letter ordering is an explicit algorithmic capability, not evidence that the neural model has learned general character-level reasoning. Evaluate neural language generation separately with fresh benchmark questions.
 
 
-### v0.21.32 — Playground curriculum synchronisation
+### v0.21.33 — Playground curriculum synchronisation
 - Updated the separate Playground to restore the current v0.18.5 checkpoint (including the best checkpoint fallback).
 - Playground now loads and combines all four training and four validation curriculum files, matching the Neural Lab vocabulary and dataset revision v0.18.8 cache identity.
 - This fixes the stale v0.18.2-only Playground model path; it does not alter saved model weights or trigger retraining.
 
 
-### v0.21.32 — Minimum meaningful Playground continuation
+### v0.21.33 — Minimum meaningful Playground continuation
 - Text generation now waits for at least five whitespace-separated output tokens before EOS is permitted, preventing an immediate empty continuation.
 - Deterministic maths and letter-order handlers remain unchanged. Decoder-only change; no retraining or checkpoint rewrite.
 
 
-### v0.21.32 — Generation stop-rule correction
+### v0.21.33 — Generation stop-rule correction
 - Corrected the whitespace counter used by the five-word minimum EOS guard, ensuring it counts actual word boundaries.
 - Updated worker cache keys. No checkpoint or training-data changes.
