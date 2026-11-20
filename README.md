@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.38
+# Sherlock AI website v0.21.39
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.38**
+- Website: **v0.21.39**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -52,14 +52,22 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - No model weights, training data, or checkpoints were changed; no retraining is required.
 
 
-### v0.21.38 — Generation v2 constrained decoding
+### v0.21.39 — Generation v2 constrained decoding
 - Filters digit-only tokens and percentage terms in ordinary prose unless the prompt asks for numeric or percentage content.
 - Prevents newline-only continuations, stray closing brackets, repeated punctuation, and punctuation before the first words.
 - Uses alphabetic word counts for the minimum output threshold and can stop after a completed sentence.
 - Normalises spacing around punctuation. These are decoding heuristics, not new learned knowledge; the saved checkpoint and curriculum are unchanged, and no retraining is required.
 
 
-### v0.21.38 — generation quality guard
+### v0.21.39 — generation quality guard
 - Filters stray standalone numbers and percentage fragments from non-numeric prompts.
 - Replaces very short or punctuation-heavy fragments with a clear learning-status message rather than displaying them as completed answers.
 - Does not modify model weights, training data, or checkpoints.
+
+
+## Question routing — v0.21.39
+- Sherlock classifies prompts before answering: percentage, arithmetic, letter sorting, number sequence, unit conversion, word problem, general question, or text continuation.
+- Supported percentage/arithmetic, letter sorting, simple arithmetic/geometric sequences, common metric/time conversions, and simple two-number word problems use deterministic specialist solvers.
+- Unsupported or ambiguous cases fall back to the trained neural language model. The Playground displays the detected question type and whether a specialist solver or neural generation produced the answer.
+- This is an inference-time routing update. It keeps the v0.19.0 checkpoint architecture and existing saved model compatible; no retraining is required for the router itself.
+- Specialist solvers are intentionally limited: unsupported unit pairs, complex sequences, or ambiguous word problems fall back to neural generation rather than guessing.
