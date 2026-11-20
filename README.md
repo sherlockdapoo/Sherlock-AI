@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.37
+# Sherlock AI website v0.21.38
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.37**
+- Website: **v0.21.38**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -11,9 +11,14 @@ Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab ru
 - Training examples: **24,000**
 - Held-out validation examples: **1,680**
 - Families: arithmetic, percentages, unit conversions, word problems, number sequences, and letter/instruction/language tasks.
-- Architecture: word-level MLP, 32-token context, 8-dimensional embeddings, 48 hidden neurons, 1,024-token output vocabulary.
-- Parameters: **70,704**
+- Architecture: word-level MLP, 48-token context, 12-dimensional embeddings, 96 hidden neurons, 1,024-token output vocabulary.
+- Parameters: **167,008** (about 2.36× the previous model).
 - Optimizer: AdamW, learning rate 0.001, weight decay 0.0001, batch size 32.
+
+## Model v0.19.0 upgrade
+- The expanded model uses a 48-token context, 12-dimensional embeddings and 96 hidden neurons (167,008 trainable parameters).
+- Its checkpoint namespace is separate from v0.18.5, so the earlier 70,704-parameter model remains untouched and available in browser storage.
+- The expanded model starts untrained and requires a fresh training run. It uses the existing v0.18.5 curriculum; the larger network increases capacity but does not add new training knowledge by itself.
 
 ## Training
 Open https://sherlockdapoo.github.io/Sherlock-AI/, choose Neural Lab, and press Start neural training. Training runs locally in a background worker until Stop is pressed. Stop requests a final evaluation and checkpoint save. Keep the page open during a long run; mobile browsers may pause background tabs or suspend work when the device sleeps.
@@ -47,14 +52,14 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - No model weights, training data, or checkpoints were changed; no retraining is required.
 
 
-### v0.21.37 — Generation v2 constrained decoding
+### v0.21.38 — Generation v2 constrained decoding
 - Filters digit-only tokens and percentage terms in ordinary prose unless the prompt asks for numeric or percentage content.
 - Prevents newline-only continuations, stray closing brackets, repeated punctuation, and punctuation before the first words.
 - Uses alphabetic word counts for the minimum output threshold and can stop after a completed sentence.
 - Normalises spacing around punctuation. These are decoding heuristics, not new learned knowledge; the saved checkpoint and curriculum are unchanged, and no retraining is required.
 
 
-### v0.21.37 — generation quality guard
+### v0.21.38 — generation quality guard
 - Filters stray standalone numbers and percentage fragments from non-numeric prompts.
 - Replaces very short or punctuation-heavy fragments with a clear learning-status message rather than displaying them as completed answers.
 - Does not modify model weights, training data, or checkpoints.
