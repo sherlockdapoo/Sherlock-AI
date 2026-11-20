@@ -1,9 +1,9 @@
-# Sherlock AI website v0.21.36
+# Sherlock AI website v0.21.37
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
 ## Current release
-- Website: **v0.21.36**
+- Website: **v0.21.37**
 - Corpus-equivalent passes use a monotonic cumulative example counter, so restoring the best validation checkpoint cannot make the displayed total run backwards.
 - Exact alphabetic ordering of explicit letter lists is handled by a deterministic operation before neural text generation. This hybrid capability is reliable for character copying/sorting, but is separate from the neural model's learned language-generation accuracy.
 - Text generation uses a inline minimum-output-word checks (removing a fragile helper reference), alongside repetition-aware decoding: a mild recent-token penalty, repeated-trigram blocking, a minimum initial output length before EOS, and a slightly narrower top-p nucleus. These decoding changes do not alter model weights or guarantee better reasoning.
@@ -47,8 +47,14 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - No model weights, training data, or checkpoints were changed; no retraining is required.
 
 
-### v0.21.36 — Generation v2 constrained decoding
+### v0.21.37 — Generation v2 constrained decoding
 - Filters digit-only tokens and percentage terms in ordinary prose unless the prompt asks for numeric or percentage content.
 - Prevents newline-only continuations, stray closing brackets, repeated punctuation, and punctuation before the first words.
 - Uses alphabetic word counts for the minimum output threshold and can stop after a completed sentence.
 - Normalises spacing around punctuation. These are decoding heuristics, not new learned knowledge; the saved checkpoint and curriculum are unchanged, and no retraining is required.
+
+
+### v0.21.37 — generation quality guard
+- Filters stray standalone numbers and percentage fragments from non-numeric prompts.
+- Replaces very short or punctuation-heavy fragments with a clear learning-status message rather than displaying them as completed answers.
+- Does not modify model weights, training data, or checkpoints.
