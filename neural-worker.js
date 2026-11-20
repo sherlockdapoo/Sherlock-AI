@@ -154,8 +154,6 @@ function walkTokens(text, callback) {
 function markAssistantEndTokens(text) {
   const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
   let output = "";
-  const minimumOutputWords = 5;
-  const hasMinimumOutputWords = () => output.trim().split(/\s+/).filter(Boolean).length >= minimumOutputWords;
   let cursor = 0;
   let activeRole = null;
   let match;
@@ -1019,6 +1017,8 @@ function generate(prompt, requestedLength, greedy = false) {
   const maxLength = Math.max(1, Math.min(160, Number(requestedLength) || 80));
   const adjustedWeights = new Float64Array(vocabularySize);
   let output = "";
+  const minimumOutputWords = 5;
+  const hasMinimumOutputWords = () => output.trim().split(/\s+/).filter(Boolean).length >= minimumOutputWords;
 
   // Penalise recently repeated content and prevent exact repeated trigrams.
   // These are decoding constraints only; they do not modify trained weights.
