@@ -1,4 +1,4 @@
-# Sherlock AI website v0.21.41
+# Sherlock AI website v0.21.42
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
@@ -83,3 +83,15 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Added a narrow greeting classifier for common standalone greetings such as “Hi”, “Hello”, “Hey”, and time-of-day greetings.
 - These prompts receive a concise greeting response through a deterministic response handler rather than the still-limited neural language generator.
 - This is a routing improvement, not evidence that the neural model has learned general conversational ability. No retraining is required.
+
+
+## v0.21.42 — Neural conversation learning
+
+- Neural model label: v0.19.1 (same 167,008-parameter architecture as v0.19.0).
+- Added the v0.18.6 conversation supplement: 700 training conversations and 100 separate held-out validation conversations.
+- Expanded Balanced Learning from six to seven equally sampled task families. The seventh family contains ordinary conversation prompts and responses, including greetings.
+- Removed the deterministic greeting response. Greetings now use the neural language model like other conversational prompts.
+- Updated the dataset revision to `sherlock-conversation-curriculum-v0189-2026-11`.
+- Updated checkpoint namespace and record version so v0.19.0 checkpoints remain preserved and are not loaded with the changed tokenizer.
+- **A fresh training run is required.** The new dataset changes vocabulary and training targets. Existing v0.19.0 training results remain in the old checkpoint.
+- Conversation quality is not guaranteed by adding examples alone; it must be measured after training on held-out prompts.
