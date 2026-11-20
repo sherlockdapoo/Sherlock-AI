@@ -155,7 +155,7 @@ function markAssistantEndTokens(text) {
   const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
   let output = "";
   const minimumOutputWords = 5;
-  const hasMinimumOutputWords = () => output.trim().split(/\\s+/).filter(Boolean).length >= minimumOutputWords;
+  const hasMinimumOutputWords = () => output.trim().split(/\s+/).filter(Boolean).length >= minimumOutputWords;
   let cursor = 0;
   let activeRole = null;
   let match;
