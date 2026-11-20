@@ -19,4 +19,4 @@ Open https://sherlockdapoo.github.io/Sherlock-AI/, choose Neural Lab, and press 
 The v0.18.5 curriculum adds 3,000 training examples and 60 held-out validation examples to v0.18.4, including 1,500 focused letter-ordering examples and 30 held-out letter-ordering tests. Older base and supplement files remain unchanged. v0.18.5 uses its own dataset cache and checkpoint namespace, preserving previous checkpoints.
 
 ## Scope
-The new language-focused examples concentrate on exact preservation and alphabetical ordering of five distinct letters, with separate held-out letter combinations. This is narrow synthetic practice, not evidence of broad language understanding. These are narrow synthetic examples, not evidence of broad language understanding. Evaluate with fresh benchmark questions after training.
+The new language-focused examples concentrate on exact preservation and alphabetical ordering of five distinct letters, with separate held-out letter combinations. This is narrow synthetic practice, not evidence of broad language understanding. Evaluate with fresh benchmark questions after training.
