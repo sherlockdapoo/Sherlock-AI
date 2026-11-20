@@ -18,7 +18,7 @@ This revision adds 3,000 training examples and 60 held-out examples, with a focu
 
 ## Expected combined family counts
 Training: arithmetic 3,900; percentages 3,700; unit conversions 3,800; word problems 3,800; number sequences 3,800; letter/instruction tasks 5,000.
-Validation: arithmetic 286; percentages 266; unit conversions 276; word problems 276; number sequences 276; letter/instruction tasks 300.
+Validation: arithmetic 276; percentages 276; unit conversions 276; word problems 276; number sequences 276; letter/instruction tasks 300.
 
 ## Model and limitations
 The model architecture, 70,704 parameters, tokenizer design, optimizer, and deterministic maths path are unchanged. The extra examples give the small word-level model more practice; they do not guarantee algorithmic sorting or broad language understanding. Evaluate with fresh, unseen prompts after training.
