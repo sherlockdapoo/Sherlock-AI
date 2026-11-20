@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.24, embedded Playground 1.7, Balanced Learning v0.18.5, example-bounded training context, isolated checkpoint storage and deterministic maths answers">v0.21.25</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.26, embedded Playground 1.7, Balanced Learning v0.18.5, example-bounded training context, isolated checkpoint storage and deterministic maths answers">v0.21.26</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1761,7 +1761,7 @@ const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0185-v1';
 const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0185-best-v1';
 const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0185-archive-v1';
-const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0187-2026-11';
+const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0188-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
 const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0182-train.txt';
 const STANDALONE_VALIDATION_URL = 'data/sherlock-curriculum-v0182-validation.txt';
@@ -3015,7 +3015,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.21.25-validationfix-v0185', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.21.26-countfix-v0185', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -4525,7 +4525,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
       }
     }
   };
-  await validateConversationBlocks(trainingBlocks, 'Training library', 21000);
+  await validateConversationBlocks(trainingBlocks, 'Training library', 24000);
   await validateConversationBlocks(validationBlocks, 'Validation library', 1620);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingSet = new Set();
