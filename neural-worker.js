@@ -1013,8 +1013,29 @@ function generate(prompt, requestedLength, greedy = false) {
   const modelPrompt = "user: " + rawPrompt.toLowerCase() + "\nsherlock: ";
   const promptEncoded = encodeText(modelPrompt);
   const history = Array.from(promptEncoded.data);
+  const generatedStart = history.length;
   const maxLength = Math.max(1, Math.min(160, Number(requestedLength) || 80));
+  const adjustedWeights = new Float64Array(vocabularySize);
   let output = "";
+
+  // Penalise recently repeated content and prevent exact repeated trigrams.
+  // These are decoding constraints only; they do not modify trained weights.
+  function candidatePenalty(tokenId) {
+    if (tokenId <= EOS_ID) return 1;
+    const recentStart = Math.max(generatedStart, history.length - 8);
+    for (let j = recentStart; j < history.length; j++) {
+      if (history[j] === tokenId) return 0.78;
+    }
+    if (history.length - generatedStart >= 2) {
+      const a = history[history.length - 2];
+      const b = history[history.length - 1];
+      for (let j = generatedStart; j <= history.length - 3; j++) {
+        if (history[j] === a && history[j + 1] === b && history[j + 2] === tokenId)
+          return 0;
+      }
+    }
+    return 1;
+  }
 
   for (let i = 0; i < maxLength; i++) {
     for (let slot = 0; slot < CONTEXT; slot++) {
@@ -1026,13 +1047,14 @@ function generate(prompt, requestedLength, greedy = false) {
     const previousToken = history.length ? history[history.length - 1] : SPACE_ID;
     let chosen = SPACE_ID;
     if (greedy) {
-      // Greedy mode avoids sorting and sampling entirely: a single argmax scan.
       let bestProbability = -1;
       for (let c = 1; c < vocabularySize; c++) {
         if ((c === SPACE_ID || c === NEWLINE_ID) &&
             (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
-        if (probabilities[c] > bestProbability) {
-          bestProbability = probabilities[c];
+        if (c === EOS_ID && i < 2) continue;
+        const score = probabilities[c] * candidatePenalty(c);
+        if (score > bestProbability) {
+          bestProbability = score;
           chosen = c;
         }
       }
@@ -1041,20 +1063,23 @@ function generate(prompt, requestedLength, greedy = false) {
       let total = 0;
       const inverseTemperature = 1 / 0.85;
       for (let c = 1; c < vocabularySize; c++) {
-        // Avoid repeated whitespace tokens.
         if ((c === SPACE_ID || c === NEWLINE_ID) &&
             (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
-        const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature);
-        probabilities[c] = weight;
+        if (c === EOS_ID && i < 2) continue;
+        const penalty = candidatePenalty(c);
+        if (penalty === 0) continue;
+        const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature) * penalty;
+        if (!(weight > 0) || !Number.isFinite(weight)) continue;
+        adjustedWeights[c] = weight;
         total += weight;
         candidates.push(c);
       }
-      candidates.sort((a, b) => probabilities[b] - probabilities[a]);
+      candidates.sort((a, b) => adjustedWeights[b] - adjustedWeights[a]);
       let nucleusTotal = 0;
       let nucleusCount = 0;
-      const nucleusTarget = total * 0.92;
+      const nucleusTarget = total * 0.90;
       for (let j = 0; j < candidates.length; j++) {
-        nucleusTotal += probabilities[candidates[j]];
+        nucleusTotal += adjustedWeights[candidates[j]];
         nucleusCount = j + 1;
         if (nucleusTotal >= nucleusTarget) break;
       }
@@ -1062,7 +1087,7 @@ function generate(prompt, requestedLength, greedy = false) {
       chosen = candidates[nucleusCount - 1] ?? SPACE_ID;
       for (let j = 0; j < nucleusCount; j++) {
         const id = candidates[j];
-        pick -= probabilities[id];
+        pick -= adjustedWeights[id];
         if (pick <= 0) { chosen = id; break; }
       }
     }
@@ -1070,10 +1095,8 @@ function generate(prompt, requestedLength, greedy = false) {
     history.push(chosen);
     output += vocabulary[chosen] || "";
   }
-  // The curriculum stores terminal full stops, but Sherlock's answer format omits them.
   return output.trim().replace(/\.$/, '');
 }
-
 function setDatasetBuffers(trainBuffer, validationBuffer) {
   const decoder = new TextDecoder("utf-8");
   const trainingText = markAssistantEndTokens(decoder.decode(new Uint8Array(trainBuffer)).toLowerCase());
