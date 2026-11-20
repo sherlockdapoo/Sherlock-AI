@@ -1,4 +1,4 @@
-# Sherlock AI website v0.21.40
+# Sherlock AI website v0.21.41
 
 Sherlock AI is a browser-based neural-network experiment. Chat and Neural Lab run in the browser; the neural model trains in a dedicated Web Worker on the user's device.
 
@@ -77,3 +77,9 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - The training worker now processes four training batches per worker task before yielding to the browser event queue, instead of scheduling a separate task after every batch.
 - Validation still runs at the same 50-step interval and in the same chunked slices. Batch size, optimizer, learning rate, model architecture, training examples, and checkpoint layout are unchanged.
 - This reduces scheduler overhead while retaining regular opportunities for Stop and progress messages to be handled. Actual speed gains depend on the device and browser and must be measured during a run.
+
+
+### v0.21.41 — Greeting intent routing
+- Added a narrow greeting classifier for common standalone greetings such as “Hi”, “Hello”, “Hey”, and time-of-day greetings.
+- These prompts receive a concise greeting response through a deterministic response handler rather than the still-limited neural language generator.
+- This is a routing improvement, not evidence that the neural model has learned general conversational ability. No retraining is required.
