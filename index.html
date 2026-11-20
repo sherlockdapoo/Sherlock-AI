@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.39, expanded-capacity neural model, Balanced Learning v0.18.5">v0.21.41</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.42, expanded-capacity neural model, conversation curriculum v0.18.6">v0.21.42</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3022,7 +3022,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02141.js?v=0.21.41-greeting-router', window.location.href);
+  const workerUrl = new URL('neural-worker-v02142.js?v=0.21.42-conversation-learning', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3037,7 +3037,7 @@ function ensureNeuralWorker() {
       $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
-      $('neuralMessage').textContent = 'Digit-aware tokenizer ready with ' + Number(data.vocabularySize).toLocaleString() + ' tokens and ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Balanced Learning is sampling all six task families equally. Starting training…';
+      $('neuralMessage').textContent = 'Digit-aware tokenizer ready with ' + Number(data.vocabularySize).toLocaleString() + ' tokens and ' + Number(data.parameters).toLocaleString() + ' trainable parameters. Balanced Learning is sampling all seven task families equally. Starting training…';
       if (neuralStartPending) {
         neuralStartPending = false;
         postNeuralTrainingStart();
@@ -3048,7 +3048,7 @@ function ensureNeuralWorker() {
       $('neuralParameters').textContent = Number(data.parameters).toLocaleString();
       $('neuralTokenizerSummary').textContent = Number(data.vocabularySize || 0).toLocaleString() + ' word/punctuation tokens';
       $('neuralTokenizerUnknownRate').textContent = Number(data.validationUnknownRate || 0).toFixed(1) + '%';
-      $('neuralMessage').textContent = 'Digit-aware tokenizer ready. ' + Number(data.trainTokens || 0).toLocaleString() + ' training tokens and ' + Number(data.validationTokens || 0).toLocaleString() + ' validation tokens. Balanced Learning is active across six task families.';
+      $('neuralMessage').textContent = 'Digit-aware tokenizer ready. ' + Number(data.trainTokens || 0).toLocaleString() + ' training tokens and ' + Number(data.validationTokens || 0).toLocaleString() + ' validation tokens. Balanced Learning is active across seven task families.';
       if (data.type === 'reset-ready') {
         neuralModelReady = false;
         neuralRestoredDatasetFingerprint = null;
