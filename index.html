@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.26, embedded Playground 1.7, Balanced Learning v0.18.5, example-bounded training context, isolated checkpoint storage and deterministic maths answers">v0.21.26</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.27, embedded Playground 1.7, Balanced Learning v0.18.5, monotonic corpus-pass tracking, example-bounded training context, isolated checkpoint storage and deterministic maths answers">v0.21.27</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -2391,6 +2391,7 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
     validationSamples: Number(data.validationSamples) || 0,
     steps: Number(data.steps) || 0,
     examples: Number(data.examples) || 0,
+    totalExamples: Math.max(Number(data.examples) || 0, Number(data.totalExamples) || Number(data.examples) || 0),
     loss: Number(data.loss) || 0,
     learningRate: [0.001, 0.003, 0.005].includes(Number(data.learningRate)) ? Number(data.learningRate) : selectedNeuralLearningRate(),
     batchSize: [8, 16, 24, 32].includes(Number(data.batchSize)) ? Number(data.batchSize) : selectedNeuralBatchSize(),
@@ -2630,6 +2631,7 @@ async function restoreSavedNeuralCheckpoint() {
       validationSamples: Number(record.validationSamples) || 0,
       steps: neuralCheckpointStepsValue,
       examples: neuralCheckpointExamplesValue,
+      totalExamples: Math.max(neuralCheckpointExamplesValue, Number(record.totalExamples) || neuralCheckpointExamplesValue),
       loss: Number(record.loss) || 0,
       learningRate: record.learningRate,
       batchSize: record.batchSize,
@@ -2806,7 +2808,10 @@ function updateNeuralMetrics(data, forceEvaluation = false) {
       ? runSteps.toLocaleString() + ' / ' + maxSteps.toLocaleString()
       : runSteps.toLocaleString() + ' · unlimited';
   }
-  $('neuralEpochs').textContent = (Number(data.epochs) || 0).toFixed(3);
+  const corpusPasses = Number.isFinite(Number(data.totalExamples)) && Number(data.totalExamples) >= 0
+    ? Number(data.totalExamples) / Math.max(1, Number(data.trainingTargetTokens) || Number(data.trainTokens) || 1)
+    : Number(data.epochs) || 0;
+  $('neuralEpochs').textContent = corpusPasses.toFixed(3);
   if (data.examplesPerSecond !== undefined && data.examplesPerSecond !== null &&
       Number.isFinite(Number(data.examplesPerSecond))) {
     $('neuralSpeed').textContent = Math.round(Number(data.examplesPerSecond)).toLocaleString();
@@ -3015,7 +3020,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.21.26-countfix-v0185', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.21.27-monotonic-passes-v0185', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
