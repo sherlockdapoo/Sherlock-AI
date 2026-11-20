@@ -173,3 +173,10 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Main website: **v0.21.49**. Playground: **1.16**. Worker: neural-worker-v02149.js.
 - No model architecture, checkpoint namespace, or saved weights are changed by this diagnostics feature.
 
+
+## v0.21.50 — Playground trace placement fix
+
+- Adds the Live Model Trace directly to the standalone Playground page, immediately below Latest output, where users can actually see it.
+- Connects the Playground to the worker's existing generation-start and generation-step events, displaying tokenized input, detected task, generation route, unknown-token coverage, top-five next-token candidates, and the partial generated draft.
+- Keeps the established midnight, blue, and green colour palette.
+- Main website: **v0.21.50**. Playground: **1.17**. Uses the existing v0.21.49 worker with a refreshed cache key; no model weights or checkpoint data are changed.
