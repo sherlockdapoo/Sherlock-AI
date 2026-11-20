@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.36, Generation v2 constrained text decoder, Balanced Learning v0.18.5">v0.21.37</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.36, Generation v2 constrained text decoder, Balanced Learning v0.18.5">v0.21.38</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1757,10 +1757,10 @@ const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB traini
 const MAX_VALIDATION_CORPUS_BYTES = 160 * 1024; // v0.18.5 adds a separate 60-example held-out supplement.
 const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-legacy-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0185-v1';
-const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0185-best-v1';
-const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v1';
-const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0185-archive-v1';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0190-v1';
+const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0190-best-v1';
+const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v0190-v1';
+const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0190-archive-v1';
 const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0188-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
 const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0182-train.txt';
@@ -2377,7 +2377,7 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 10,
+    version: 11,
     parameterCount,
     datasetRevision: NEURAL_DATASET_REVISION,
     datasetFingerprint: currentNeuralDatasetFingerprint,
@@ -2412,7 +2412,7 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
     const existingBest = await readNeuralCheckpointRecord(NEURAL_BEST_CHECKPOINT_KEY).catch(() => null);
     if (!existingBest) {
       const previousLatest = await readNeuralCheckpointRecord(NEURAL_CHECKPOINT_KEY).catch(() => null);
-      if (previousLatest && Number(previousLatest.version) === 10 && previousLatest.modelBuffer instanceof ArrayBuffer) {
+      if (previousLatest && Number(previousLatest.version) === 11 && previousLatest.modelBuffer instanceof ArrayBuffer) {
         await writeNeuralCheckpointRecord(previousLatest, NEURAL_BEST_CHECKPOINT_KEY);
       }
     }
@@ -2449,7 +2449,7 @@ async function restoreSavedNeuralCheckpoint() {
     return;
   }
   const isCurrentCheckpoint = candidate =>
-    candidate && Number(candidate.version) === 10 &&
+    candidate && Number(candidate.version) === 11 &&
     Number(candidate.parameterCount) === NEURAL_MODEL_PARAMETER_COUNT &&
     candidate.datasetRevision === NEURAL_DATASET_REVISION &&
     typeof candidate.datasetFingerprint === 'string' &&
@@ -2466,7 +2466,7 @@ async function restoreSavedNeuralCheckpoint() {
   try {
     let record = null;
     let incompatibleStoredCheckpoint = null;
-    let checkpointVersion = 10;
+    let checkpointVersion = 11;
     let checkpointSource = 'IndexedDB';
 
     try {
@@ -2516,7 +2516,7 @@ async function restoreSavedNeuralCheckpoint() {
         const buffer = new ArrayBuffer(expectedBinaryLength);
         const bytes = new Uint8Array(buffer);
         for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        record = {...legacy, version: 10, modelBuffer: buffer};
+        record = {...legacy, version: 11, modelBuffer: buffer};
         delete record.trainingState;
         checkpointVersion = 9;
         checkpointSource = 'migrated browser checkpoint';
@@ -2712,7 +2712,7 @@ function renderNetworkVisualiser(snapshot) {
 
   const layers = [
     {x:xs[0],values:input,y:iy,color:'#5689d8',title:'EMBEDDING INPUT',sub:'12 / 48 shown'},
-    {x:xs[1],values:hidden,y:hy,color:'#927bd7',title:'HIDDEN LAYER',sub:'16 / 48 shown'},
+    {x:xs[1],values:hidden,y:hy,color:'#927bd7',title:'HIDDEN LAYER',sub:'16 / 96 shown'},
     {x:xs[2],values:output,y:oy,color:'#d39a45',title:'OUTPUT',sub:'12 / 128 shown'}
   ];
   const titleSize = Math.max(9, Math.min(12, W * 0.012));
@@ -3020,7 +3020,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02137.js?v=0.21.37-generation-quality-guard', window.location.href);
+  const workerUrl = new URL('neural-worker-v02138.js?v=0.21.38-capacity-upgrade', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -4363,7 +4363,7 @@ function joinCorpusBytes(streams) {
 const NEURAL_DATA_CACHE_DB = 'sherlock-gpt-v0170-experiment-cache';
 const NEURAL_DATA_CACHE_STORE = 'datasets';
 const NEURAL_CHECKPOINT_STORE = 'checkpoints';
-const NEURAL_MODEL_PARAMETER_COUNT = 70704;
+const NEURAL_MODEL_PARAMETER_COUNT = 167008;
 
 function openNeuralDatasetDB() {
   return new Promise((resolve, reject) => {
