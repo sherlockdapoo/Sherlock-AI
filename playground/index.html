@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#09111f">
 <meta name="description" content="A separate local playground for testing the trained Sherlock AI model.">
-<title>Sherlock AI · Playground 1.7</title>
+<title>Sherlock AI · Playground 1.8</title>
 <style>
 :root{color-scheme:dark;--bg:#080f1b;--panel:#101c2e;--panel2:#0b1626;--line:#283c58;--text:#eef5ff;--muted:#9aadc7;--blue:#8bbaff;--blue2:#b3d2ff;--green:#5ee0ad;--amber:#f2c66d;--red:#ff8888}
 *{box-sizing:border-box}
@@ -80,13 +80,13 @@ a{color:#a9ceff}
 <main>
 <header>
  <div class="brand"><div class="mark" aria-hidden="true">⌕</div><div><h1>Sherlock AI Playground</h1><div class="sub">Independent testing space · runs locally in your browser</div></div></div>
- <span class="version">PLAYGROUND 1.7</span>
+ <span class="version">PLAYGROUND 1.8</span>
 </header>
 <section class="card" aria-label="Sherlock model playground">
  <div class="statusbar" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking your saved model…</span><span class="statusdetail" id="statusDetail">LOCAL MODEL</span></div>
  <p class="intro">Test text continuations from your trained Sherlock model. This page does not train, reset or overwrite your saved model.</p>
  <div class="modelmeta" aria-label="Model details">
-  <div class="metric"><span class="metric-label">Model version</span><span class="metric-value">v0.18.2</span></div>
+  <div class="metric"><span class="metric-label">Model version</span><span class="metric-value">v0.18.5</span></div>
   <div class="metric"><span class="metric-label">Training steps</span><span class="metric-value" id="modelSteps">—</span></div>
   <div class="metric"><span class="metric-label">Examples seen</span><span class="metric-value" id="modelExamples">—</span></div>
   <div class="metric"><span class="metric-label">Validation loss</span><span class="metric-value" id="modelLoss">—</span></div>
@@ -138,18 +138,27 @@ a{color:#a9ceff}
 const DB_NAME='sherlock-gpt-v0170-experiment-cache';
 const CHECKPOINT_STORE='checkpoints';
 const DATA_STORE='datasets';
-const CHECKPOINT_KEY='sherlock-gpt-neural-experiment-v0182-v1';
+const CHECKPOINT_KEY='sherlock-gpt-neural-experiment-v0185-v1';
+const BEST_CHECKPOINT_KEY='sherlock-gpt-neural-experiment-v0185-best-v1';
 const LEGACY_CHECKPOINT_KEYS=[
  'sherlock-gpt-neural-experiment-v0170-v1',
  'sherlock-gpt-neural-experiment-v0170-archive-v1',
  'sherlock-gpt-neural-experiment-v0170-archive-v1-backup',
  'sherlock-gpt-neural-experiment-v0170-legacy-v1'
 ];
-const DATASET_REVISION='sherlock-balanced-curriculum-v0182-2026-11';
+const DATASET_REVISION='sherlock-balanced-curriculum-v0188-2026-11';
 const PARAMETER_COUNT=70704;
-const WORKER_URL='../neural-worker.js?v=0.21.29-repetition-aware-decoding-v0185';
-const TRAIN_URL='../data/sherlock-curriculum-v0182-train.txt';
-const VALIDATION_URL='../data/sherlock-curriculum-v0182-validation.txt';
+const WORKER_URL='../neural-worker.js?v=0.21.30-playground-curriculum-sync-v0185';
+const CURRICULUM_FILES=[
+ ['../data/sherlock-curriculum-v0182-train.txt','base training'],
+ ['../data/sherlock-curriculum-v0183-supplement-train.txt','v0.18.3 training supplement'],
+ ['../data/sherlock-curriculum-v0184-supplement-train.txt','v0.18.4 training supplement'],
+ ['../data/sherlock-curriculum-v0185-supplement-train.txt','v0.18.5 training supplement'],
+ ['../data/sherlock-curriculum-v0182-validation.txt','base validation'],
+ ['../data/sherlock-curriculum-v0183-supplement-validation.txt','v0.18.3 validation supplement'],
+ ['../data/sherlock-curriculum-v0184-supplement-validation.txt','v0.18.4 validation supplement'],
+ ['../data/sherlock-curriculum-v0185-supplement-validation.txt','v0.18.5 validation supplement']
+];
 const MAX_HISTORY=8;
 const $=id=>document.getElementById(id);
 let worker=null;
@@ -235,17 +244,23 @@ async function loadDatasets(){
  try{cached=await readRecord(DATA_STORE,DATASET_REVISION);}catch(error){console.warn('Dataset cache unavailable:',error);}
  if(cached&&cached.revision===DATASET_REVISION&&cached.trainBytes&&cached.validationBytes){
   const train=asArrayBuffer(cached.trainBytes),validation=asArrayBuffer(cached.validationBytes);
-  if(train.byteLength>1000&&validation.byteLength>500){
-   return {train,validation,source:'saved browser dataset'};
-  }
+  if(train.byteLength>1000&&validation.byteLength>500)return {train,validation,source:'current v0.18.5 balanced curriculum'};
  }
- const values=await Promise.all([fetchTextBuffer(TRAIN_URL),fetchTextBuffer(VALIDATION_URL)]);
- return {train:values[0],validation:values[1],source:'published curriculum files'};
+ const loaded=await Promise.all(CURRICULUM_FILES.map(([url])=>fetchTextBuffer(url)));
+ const trainParts=loaded.slice(0,4),validationParts=loaded.slice(4);
+ const joinParts=parts=>{
+  const total=parts.reduce((sum,part)=>sum+part.byteLength,0)+2*(parts.length-1);
+  const joined=new Uint8Array(total);let offset=0;
+  parts.forEach((part,index)=>{if(index) {joined[offset++]=10;joined[offset++]=10;}joined.set(new Uint8Array(part),offset);offset+=part.byteLength;});
+  return joined.buffer;
+ };
+ return {train:joinParts(trainParts),validation:joinParts(validationParts),source:'published v0.18.5 balanced curriculum'};
 }
 async function findSavedCheckpoint(){
  let record=null;
  try{record=await readRecord(CHECKPOINT_STORE,CHECKPOINT_KEY);}catch(error){console.warn('Primary checkpoint read failed:',error);}
  if(record&&Number(record.version)===10)return record;
+ try{const best=await readRecord(CHECKPOINT_STORE,BEST_CHECKPOINT_KEY);if(best&&Number(best.version)===10)return best;}catch(error){console.warn('Best checkpoint read failed:',error);}
  // Older browser saves were kept in localStorage as version 9 base64 records.
  // Read them without deleting or migrating the original data.
  for(const key of LEGACY_CHECKPOINT_KEYS){
