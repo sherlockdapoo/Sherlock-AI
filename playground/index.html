@@ -84,7 +84,7 @@ a{color:#a9ceff}
 </header>
 <section class="card" aria-label="Sherlock model playground">
  <div class="statusbar" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Checking your saved model…</span><span class="statusdetail" id="statusDetail">LOCAL MODEL</span></div>
- <p class="intro">Test text continuations from your trained Sherlock model. This page does not train, reset or overwrite your saved model.</p>
+ <p class="intro">Sherlock identifies the question type first, then uses a specialist solver where supported or your trained neural model for text generation. This page does not train, reset or overwrite your saved model.</p>
  <div class="modelmeta" aria-label="Model details">
   <div class="metric"><span class="metric-label">Model version</span><span class="metric-value">v0.19.0</span></div>
   <div class="metric"><span class="metric-label">Training steps</span><span class="metric-value" id="modelSteps">—</span></div>
@@ -148,7 +148,7 @@ const LEGACY_CHECKPOINT_KEYS=[
 ];
 const DATASET_REVISION='sherlock-balanced-curriculum-v0188-2026-11';
 const PARAMETER_COUNT=167008;
-const WORKER_URL='../neural-worker-v02138.js?v=0.21.38-capacity-upgrade';
+const WORKER_URL='../neural-worker-v02139.js?v=0.21.39-question-router';
 const CURRICULUM_FILES=[
  ['../data/sherlock-curriculum-v0182-train.txt','base training'],
  ['../data/sherlock-curriculum-v0183-supplement-train.txt','v0.18.3 training supplement'],
@@ -372,7 +372,7 @@ function startWorker(datasets,record){
    }else if(data.type==='generated'&&pendingGeneration&&data.id===pendingGeneration.id){
     const pending=pendingGeneration;
     pendingGeneration=null;clearTimeout(pending.timeout);
-    pending.resolve(String(data.text||''));
+    pending.resolve({text:String(data.text||''),intent:String(data.intent||'Text generation'),method:String(data.method||'neural language model')});
    }else if(data.type==='error'){
     if(data.id!==undefined&&pendingGeneration&&data.id===pendingGeneration.id){
      const pending=pendingGeneration;pendingGeneration=null;clearTimeout(pending.timeout);
@@ -474,10 +474,11 @@ function generate(promptOverride){
  },45000);
  pendingGeneration={id,timeout,resolve:text=>{
   setBusy(false);
-  const clean=String(text||'').trim();lastOutput=clean;
+  const result=text&&typeof text==='object'?text:{text:String(text||''),intent:'Text generation',method:'neural language model'};
+   const clean=String(result.text||'').trim();lastOutput=clean;
   setOutput(clean||'Sherlock ended its continuation immediately. Try a different starting phrase.',!clean);
-  setHint(clean?'Generation complete.':'No continuation was produced for this prompt.');
-  $('outputMeta').textContent=greedy?'Complete · Greedy':'Complete · Sampling';
+  setHint(clean?'Detected: '+(result.intent||'Text generation')+'. '+(result.method==='specialist solver'?'Answered with a specialist solver.':'Answered using the trained language model.'):'No response was produced for this prompt.');
+  $('outputMeta').textContent=(result.intent||'Question')+' · '+(result.method==='specialist solver'?'Specialist solver':(greedy?'Neural · Greedy':'Neural · Sampling'));
   $('copyOutput').disabled=!clean;
   $('regenerate').disabled=false;
   if(clean)addHistory(prompt,clean);
