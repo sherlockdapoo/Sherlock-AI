@@ -1234,7 +1234,7 @@ body.nav-open{overflow:hidden}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.27, embedded Playground 1.7, Balanced Learning v0.18.5, monotonic corpus-pass tracking, example-bounded training context, isolated checkpoint storage and deterministic maths answers">v0.21.27</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.27, embedded Playground 1.7, Balanced Learning v0.18.5, monotonic corpus-pass tracking, example-bounded training context, isolated checkpoint storage, deterministic maths and exact letter sorting">v0.21.28</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3020,7 +3020,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker.js?v=0.21.27-monotonic-passes-v0185', window.location.href);
+  const workerUrl = new URL('neural-worker.js?v=0.21.28-exact-letter-sort-v0185', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
