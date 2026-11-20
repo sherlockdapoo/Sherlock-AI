@@ -154,6 +154,8 @@ function walkTokens(text, callback) {
 function markAssistantEndTokens(text) {
   const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
   let output = "";
+  const minimumOutputWords = 5;
+  const hasMinimumOutputWords = () => output.trim().split(/\\s+/).filter(Boolean).length >= minimumOutputWords;
   let cursor = 0;
   let activeRole = null;
   let match;
@@ -1051,7 +1053,7 @@ function generate(prompt, requestedLength, greedy = false) {
       for (let c = 1; c < vocabularySize; c++) {
         if ((c === SPACE_ID || c === NEWLINE_ID) &&
             (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
-        if (c === EOS_ID && i < 2) continue;
+        if (c === EOS_ID && !hasMinimumOutputWords()) continue;
         const score = probabilities[c] * candidatePenalty(c);
         if (score > bestProbability) {
           bestProbability = score;
@@ -1065,7 +1067,7 @@ function generate(prompt, requestedLength, greedy = false) {
       for (let c = 1; c < vocabularySize; c++) {
         if ((c === SPACE_ID || c === NEWLINE_ID) &&
             (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
-        if (c === EOS_ID && i < 2) continue;
+        if (c === EOS_ID && !hasMinimumOutputWords()) continue;
         const penalty = candidatePenalty(c);
         if (penalty === 0) continue;
         const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature) * penalty;
