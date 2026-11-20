@@ -186,3 +186,10 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 - Corrects the Playground inspector's unknown-token percentage: the worker already reports a percentage, so the UI now displays it without multiplying by 100 again.
 - Makes invisible candidate tokens explicit as `[SPACE]`, `[NEWLINE]`, `[TAB]`, or `[EMPTY]` so the next-token trace can be interpreted.
 - Playground: **1.18**. Existing model weights and generation behaviour are unchanged.
+
+## v0.21.52 — Model prediction diagnostics
+
+- The Playground now separates the model's raw neural next-token ranking from the ranking after corpus-context bias and decoding constraints.
+- The live trace lists previously unknown input tokens, allowing vocabulary coverage issues to be identified directly.
+- Playground: **1.19**. Main website: **v0.21.52**.
+- No trained weights were changed. This release improves observability so the next model-quality change can be based on measured evidence rather than guesswork.
