@@ -1754,14 +1754,14 @@ const ULTRACHAT_TRAIN_BUDGET = 2000000;
 const NO_ROBOTS_TRAIN_BUDGET = 3000000;
 const GSM8K_TRAIN_BUDGET = 1500000;
 const MAX_TRAIN_CORPUS_BYTES = 9 * 1024 * 1024; // Use the existing 9 MiB training buffer safely.
-const MAX_VALIDATION_CORPUS_BYTES = 160 * 1024; // v0.18.5 adds a separate 60-example held-out supplement.
+const MAX_VALIDATION_CORPUS_BYTES = 192 * 1024; // v0.18.5 adds a separate 60-example held-out supplement.
 const VALIDATION_SOURCE_BUDGET = 30000;
 const LEGACY_NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0170-legacy-v1';
-const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0190-v1';
-const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0190-best-v1';
-const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v0190-v1';
-const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0190-archive-v1';
-const NEURAL_DATASET_REVISION = 'sherlock-balanced-curriculum-v0188-2026-11';
+const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-v1';
+const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-best-v1';
+const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v0191-v1';
+const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-archive-v1';
+const NEURAL_DATASET_REVISION = 'sherlock-conversation-curriculum-v0189-2026-11';
 const STANDALONE_CURRICULUM_ONLY = true;
 const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0182-train.txt';
 const STANDALONE_VALIDATION_URL = 'data/sherlock-curriculum-v0182-validation.txt';
@@ -1771,6 +1771,8 @@ const STANDALONE_VALIDATION_SUPPLEMENT_URL = 'data/sherlock-curriculum-v0183-sup
 const STANDALONE_VALIDATION_V0184_URL = 'data/sherlock-curriculum-v0184-supplement-validation.txt';
 const STANDALONE_TRAIN_V0185_URL = 'data/sherlock-curriculum-v0185-supplement-train.txt';
 const STANDALONE_VALIDATION_V0185_URL = 'data/sherlock-curriculum-v0185-supplement-validation.txt';
+const STANDALONE_TRAIN_V0186_URL = 'data/sherlock-curriculum-v0186-conversation-train.txt';
+const STANDALONE_VALIDATION_V0186_URL = 'data/sherlock-curriculum-v0186-conversation-validation.txt';
 const PAGE_SIZE = 100;
 const TRAIN_STEP_SIZE = 65536;
 const MIN_TRAIN_STEP_SIZE = 16384;
@@ -2377,7 +2379,7 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   }
   const savedAt = new Date().toISOString();
   const record = {
-    version: 11,
+    version: 12,
     parameterCount,
     datasetRevision: NEURAL_DATASET_REVISION,
     datasetFingerprint: currentNeuralDatasetFingerprint,
@@ -2412,7 +2414,7 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
     const existingBest = await readNeuralCheckpointRecord(NEURAL_BEST_CHECKPOINT_KEY).catch(() => null);
     if (!existingBest) {
       const previousLatest = await readNeuralCheckpointRecord(NEURAL_CHECKPOINT_KEY).catch(() => null);
-      if (previousLatest && Number(previousLatest.version) === 11 && previousLatest.modelBuffer instanceof ArrayBuffer) {
+      if (previousLatest && Number(previousLatest.version) === 12 && previousLatest.modelBuffer instanceof ArrayBuffer) {
         await writeNeuralCheckpointRecord(previousLatest, NEURAL_BEST_CHECKPOINT_KEY);
       }
     }
@@ -2449,7 +2451,7 @@ async function restoreSavedNeuralCheckpoint() {
     return;
   }
   const isCurrentCheckpoint = candidate =>
-    candidate && Number(candidate.version) === 11 &&
+    candidate && Number(candidate.version) === 12 &&
     Number(candidate.parameterCount) === NEURAL_MODEL_PARAMETER_COUNT &&
     candidate.datasetRevision === NEURAL_DATASET_REVISION &&
     typeof candidate.datasetFingerprint === 'string' &&
@@ -2466,7 +2468,7 @@ async function restoreSavedNeuralCheckpoint() {
   try {
     let record = null;
     let incompatibleStoredCheckpoint = null;
-    let checkpointVersion = 11;
+    let checkpointVersion = 12;
     let checkpointSource = 'IndexedDB';
 
     try {
@@ -2516,7 +2518,7 @@ async function restoreSavedNeuralCheckpoint() {
         const buffer = new ArrayBuffer(expectedBinaryLength);
         const bytes = new Uint8Array(buffer);
         for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        record = {...legacy, version: 11, modelBuffer: buffer};
+        record = {...legacy, version: 12, modelBuffer: buffer};
         delete record.trainingState;
         checkpointVersion = 9;
         checkpointSource = 'migrated browser checkpoint';
@@ -4477,8 +4479,8 @@ async function writeNeuralDatasetCache(data) {
 }
 
 function displayLoadedNeuralDataset(data, fromCache) {
-  const isBalanced = data.datasetName === 'Sherlock balanced curriculum v0.18.5';
-  const sources = isBalanced ? ['Sherlock balanced curriculum v0.18.5'] : ['DailyDialog'];
+  const isBalanced = data.datasetName === 'Sherlock conversation curriculum v0.18.6';
+  const sources = isBalanced ? ['Sherlock conversation curriculum v0.18.6'] : ['DailyDialog'];
   if (!isBalanced && data.ultraAvailable) sources.push('UltraChat');
   if (!isBalanced && data.noRobotsAvailable) sources.push('No Robots');
   if (!isBalanced && data.mathAvailable) sources.push('GSM8K maths');
@@ -4490,7 +4492,7 @@ function displayLoadedNeuralDataset(data, fromCache) {
   showDataProgress(1, 1, fromCache ? 'Using saved ' + (isBalanced ? 'balanced curriculum' : 'browser dataset') : sources.join(' + ') + ' ready');
   if (fromCache) {
     $('neuralMessage').textContent = isBalanced
-      ? 'Restored Sherlock balanced curriculum v0.18.5 from this browser. Six task families are balanced, with no external downloads.'
+      ? 'Restored Sherlock conversation curriculum v0.18.6 from this browser. Seven task families are balanced, with no external downloads.'
       : 'Restored the expanded training datasets from this browser. No dataset download is needed.';
   } else {
     $('neuralMessage').textContent = 'Loaded ' + data.trainConversations.toLocaleString() + ' training conversations from ' + sources.join(', ') + ', with ' + data.validationConversations.toLocaleString() + ' separate held-out validation conversations.';
@@ -4530,8 +4532,8 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
       }
     }
   };
-  await validateConversationBlocks(trainingBlocks, 'Training library', 24000);
-  await validateConversationBlocks(validationBlocks, 'Validation library', 1680);
+  await validateConversationBlocks(trainingBlocks, 'Training library', 24700);
+  await validateConversationBlocks(validationBlocks, 'Validation library', 1780);
   const normalise = block => block.replace(/\s+/g, ' ').trim().toLowerCase();
   const trainingSet = new Set();
   for (let index = 0; index < trainingBlocks.length; index++) {
@@ -4554,15 +4556,15 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     {name: 'unit conversions', pattern: /\bconvert\b|\bare equal to\b|\bchange\b.*\binto\b/i},
     {name: 'word problems', pattern: /\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/i},
     {name: 'number sequences', pattern: /\bsequence\b/i},
-    {name: 'letter/instruction tasks', pattern: /\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b|\binstruction\b/i}
+    {name: 'letter/instruction tasks', pattern: /\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b|\binstruction\b/i},
+    {name: 'conversation', pattern: null}
   ];
   const validateFamilyDistribution = async (items, label, expectedCounts) => {
     const counts = new Map(taskFamilies.map(family => [family.name, 0]));
     for (let index = 0; index < items.length; index++) {
       if (index > 0 && index % 200 === 0) await yieldToBrowser();
       const prompt = items[index].split('\n', 1)[0].replace(/^user:[ \t]*/i, '');
-      const family = taskFamilies.find(candidate => candidate.pattern.test(prompt));
-      if (!family) throw new Error(label + ' contains a prompt outside the six Balanced Learning families: ' + prompt.slice(0, 100));
+      const family = taskFamilies.find(candidate => candidate.pattern && candidate.pattern.test(prompt)) || taskFamilies[6];
       counts.set(family.name, counts.get(family.name) + 1);
     }
     for (const family of taskFamilies) {
@@ -4578,11 +4580,11 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
   // v0.18.3 and v0.18.4 add 500/10 examples per family; v0.18.5 adds 1,500 letter tasks and 300/6 examples in each other family.
   await validateFamilyDistribution(trainingBlocks, 'Training library', {
     'arithmetic': 3900, 'percentages': 3700, 'unit conversions': 3800,
-    'word problems': 3800, 'number sequences': 3800, 'letter/instruction tasks': 5000
+    'word problems': 3800, 'number sequences': 3800, 'letter/instruction tasks': 5000, 'conversation': 700
   });
   await validateFamilyDistribution(validationBlocks, 'Validation library', {
     'arithmetic': 286, 'percentages': 266, 'unit conversions': 276,
-    'word problems': 276, 'number sequences': 276, 'letter/instruction tasks': 300
+    'word problems': 276, 'number sequences': 276, 'letter/instruction tasks': 300, 'conversation': 100
   });
   for (let index = 0; index < validationBlocks.length; index++) {
     if (index > 0 && index % 200 === 0) await yieldToBrowser();
@@ -4594,7 +4596,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
 }
 async function loadStandaloneCurriculum(signal) {
   $('neuralMessage').textContent = 'Loading Sherlock’s balanced training library…';
-  showDataProgress(0, 8, 'Loading the training library');
+  showDataProgress(0, 10, 'Loading the training library');
   const loadText = async (path, label, progress) => {
     if (signal && signal.aborted) throw signal.reason || new Error('Dataset loading was cancelled.');
     const response = await fetch(new URL(path, window.location.href), {signal, cache: 'no-store'});
@@ -4604,18 +4606,20 @@ async function loadStandaloneCurriculum(signal) {
     showDataProgress(progress, 8, label + ' loaded');
     return value;
   };
-  const [baseTrainingText, v0183TrainingText, v0184TrainingText, v0185TrainingText, baseValidationText, v0183ValidationText, v0184ValidationText, v0185ValidationText] = await Promise.all([
+  const [baseTrainingText, v0183TrainingText, v0184TrainingText, v0185TrainingText, v0186TrainingText, baseValidationText, v0183ValidationText, v0184ValidationText, v0185ValidationText, v0186ValidationText] = await Promise.all([
     loadText(STANDALONE_TRAIN_URL, 'Base training examples', 1),
     loadText(STANDALONE_TRAIN_SUPPLEMENT_URL, 'v0.18.3 training supplement', 2),
     loadText(STANDALONE_TRAIN_V0184_URL, 'v0.18.4 training supplement', 3),
     loadText(STANDALONE_TRAIN_V0185_URL, 'v0.18.5 letter-ordering training supplement', 4),
-    loadText(STANDALONE_VALIDATION_URL, 'Base held-out validation examples', 5),
-    loadText(STANDALONE_VALIDATION_SUPPLEMENT_URL, 'v0.18.3 held-out supplement', 6),
-    loadText(STANDALONE_VALIDATION_V0184_URL, 'v0.18.4 held-out supplement', 7),
-    loadText(STANDALONE_VALIDATION_V0185_URL, 'v0.18.5 held-out validation supplement', 8)
+    loadText(STANDALONE_TRAIN_V0186_URL, 'v0.18.6 conversation training supplement', 5),
+    loadText(STANDALONE_VALIDATION_URL, 'Base held-out validation examples', 6),
+    loadText(STANDALONE_VALIDATION_SUPPLEMENT_URL, 'v0.18.3 held-out supplement', 7),
+    loadText(STANDALONE_VALIDATION_V0184_URL, 'v0.18.4 held-out supplement', 8),
+    loadText(STANDALONE_VALIDATION_V0185_URL, 'v0.18.5 held-out validation supplement', 9),
+    loadText(STANDALONE_VALIDATION_V0186_URL, 'v0.18.6 held-out conversation validation', 10)
   ]);
-  const trainingText = baseTrainingText + '\n\n' + v0183TrainingText + '\n\n' + v0184TrainingText + '\n\n' + v0185TrainingText;
-  const validationText = baseValidationText + '\n\n' + v0183ValidationText + '\n\n' + v0184ValidationText + '\n\n' + v0185ValidationText;
+  const trainingText = baseTrainingText + '\n\n' + v0183TrainingText + '\n\n' + v0184TrainingText + '\n\n' + v0185TrainingText + '\n\n' + v0186TrainingText;
+  const validationText = baseValidationText + '\n\n' + v0183ValidationText + '\n\n' + v0184ValidationText + '\n\n' + v0185ValidationText + '\n\n' + v0186ValidationText;
   const {trainingBlocks, validationBlocks} = await validateStandaloneCurriculumText(trainingText, validationText, signal);
   const trainBytes = new TextEncoder().encode(trainingText);
   const validationBytes = new TextEncoder().encode(validationText);
@@ -4635,7 +4639,7 @@ async function loadStandaloneCurriculum(signal) {
     mathAvailable: false,
     mathValidationBytes: null,
     mathValidationConversations: 0,
-    datasetName: 'Sherlock balanced curriculum v0.18.5',
+    datasetName: 'Sherlock conversation curriculum v0.18.6',
     ultraError: '', noRobotsError: '', mathError: ''
   };
   datasetCache = data;
