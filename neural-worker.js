@@ -1017,8 +1017,6 @@ function generate(prompt, requestedLength, greedy = false) {
   const maxLength = Math.max(1, Math.min(160, Number(requestedLength) || 80));
   const adjustedWeights = new Float64Array(vocabularySize);
   let output = "";
-  const minimumOutputWords = 5;
-  const hasMinimumOutputWords = () => output.trim().split(/\s+/).filter(Boolean).length >= minimumOutputWords;
 
   // Penalise recently repeated content and prevent exact repeated trigrams.
   // These are decoding constraints only; they do not modify trained weights.
@@ -1053,7 +1051,7 @@ function generate(prompt, requestedLength, greedy = false) {
       for (let c = 1; c < vocabularySize; c++) {
         if ((c === SPACE_ID || c === NEWLINE_ID) &&
             (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
-        if (c === EOS_ID && !hasMinimumOutputWords()) continue;
+        if (c === EOS_ID && output.trim().split(/\s+/).filter(Boolean).length < 5) continue;
         const score = probabilities[c] * candidatePenalty(c);
         if (score > bestProbability) {
           bestProbability = score;
@@ -1067,7 +1065,7 @@ function generate(prompt, requestedLength, greedy = false) {
       for (let c = 1; c < vocabularySize; c++) {
         if ((c === SPACE_ID || c === NEWLINE_ID) &&
             (previousToken === SPACE_ID || previousToken === NEWLINE_ID)) continue;
-        if (c === EOS_ID && !hasMinimumOutputWords()) continue;
+        if (c === EOS_ID && output.trim().split(/\s+/).filter(Boolean).length < 5) continue;
         const penalty = candidatePenalty(c);
         if (penalty === 0) continue;
         const weight = Math.pow(Math.max(probabilities[c], 1e-20), inverseTemperature) * penalty;
