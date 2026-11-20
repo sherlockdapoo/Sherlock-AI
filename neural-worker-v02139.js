@@ -1063,12 +1063,12 @@ function solveWordProblemPrompt(prompt) {
   let result = null;
   if (/\b(?:altogether|in total|in all|combined|together)\b/.test(value))
     result = numbers[0] + numbers[1];
+  else if (/\b(?:shared equally|split equally|divided equally|per person|each receive)\b/.test(value))
+    result = numbers[1] === 0 ? null : numbers[0] / numbers[1];
   else if (/\b(?:left|remain(?:ing)?|how many more|difference|fewer)\b/.test(value))
     result = numbers[0] - numbers[1];
   else if (/\b(?:each|every|groups? of|times as many)\b/.test(value))
     result = numbers[0] * numbers[1];
-  else if (/\b(?:shared equally|split equally|divided equally|per person|each receive)\b/.test(value))
-    result = numbers[1] === 0 ? null : numbers[0] / numbers[1];
   if (result === null) return null;
   return formatMathResult(result);
 }
