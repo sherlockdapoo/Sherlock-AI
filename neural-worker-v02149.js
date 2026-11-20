@@ -1110,7 +1110,8 @@ async function generate(prompt, requestedLength, greedy = false, generationId = 
     type: "generation-start", id: generationId, intent: intent.label,
     method, inputTokens, inputTokenCount: encodedInput.totalTokens,
     unknownTokens: encodedInput.data.reduce((count, id) => count + (id === UNK_ID ? 1 : 0), 0),
-    unknownRate: encodedInput.unknownRate
+    unknownRate: encodedInput.unknownRate,
+    unknownTokenList: (() => { const missing = []; walkTokens("user: " + String(prompt || "").trim().slice(0, 180).toLowerCase() + "\\nsherlock: ", token => { if (!tokenToId.has(token) && !missing.includes(token)) missing.push(token); }); return missing.slice(0, 12); })()
   });
   let diagnostics = null;
   if (answer !== null) {
@@ -1213,6 +1214,17 @@ async function generateLanguageModel(prompt, requestedLength, greedy = false, ge
       contextCodes[slot] = sourceIndex >= 0 ? history[sourceIndex] : SPACE_ID;
     }
     forwardContext();
+    const rawTopCandidates = [];
+    for (let c = 1; c < vocabularySize; c++) {
+      if (!candidateAllowed(c) || (c === EOS_ID && countWords() < 3)) continue;
+      rawTopCandidates.push({id: c, score: probabilities[c]});
+    }
+    rawTopCandidates.sort((a, b) => b.score - a.score);
+    const rawTotal = rawTopCandidates.reduce((sum, item) => sum + item.score, 0);
+    const rawPredictionSnapshot = rawTopCandidates.slice(0, 5).map(item => ({
+      token: vocabulary[item.id] || "<unk>",
+      probability: rawTotal > 0 ? item.score / rawTotal : 0
+    }));
     applyCorpusContextBias(history);
 
     let chosen = SPACE_ID;
@@ -1280,7 +1292,8 @@ async function generateLanguageModel(prompt, requestedLength, greedy = false, ge
       type: "generation-step", id: generationId, step: generationSteps,
       token: chosen === EOS_ID ? "<eos>" : chosenToken,
       partial: output + (chosen === EOS_ID ? "" : chosenToken),
-      topCandidates: rankedCandidates, confidence: latestConfidence
+      topCandidates: rankedCandidates, rawTopCandidates: rawPredictionSnapshot,
+      confidence: latestConfidence
     });
     if (i % 2 === 1) await new Promise(resolve => setTimeout(resolve, 0));
     if (chosen === EOS_ID) break;
