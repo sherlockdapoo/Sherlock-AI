@@ -1,0 +1,299 @@
+user: hello sherlock
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: hello sherlock
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: hello sherlock
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: hello sherlock
+sherlock: Good to hear from you. What would you like to work on?
+
+user: hello sherlock
+sherlock: Hello! We can start with a question that interests you.
+
+user: hiya there
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: hiya there
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: hiya there
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: hiya there
+sherlock: Good to hear from you. What would you like to work on?
+
+user: hiya there
+sherlock: Hello! We can start with a question that interests you.
+
+user: morning
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: morning
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: morning
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: morning
+sherlock: Good to hear from you. What would you like to work on?
+
+user: morning
+sherlock: Hello! We can start with a question that interests you.
+
+user: hey sherlock
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: hey sherlock
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: hey sherlock
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: hey sherlock
+sherlock: Good to hear from you. What would you like to work on?
+
+user: hey sherlock
+sherlock: Hello! We can start with a question that interests you.
+
+user: good day
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: good day
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: good day
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: good day
+sherlock: Good to hear from you. What would you like to work on?
+
+user: good day
+sherlock: Hello! We can start with a question that interests you.
+
+user: Could you guide me through this?
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: Could you guide me through this?
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: Could you guide me through this?
+sherlock: Let us choose one small task and work through it carefully.
+
+user: Could you guide me through this?
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: Could you guide me through this?
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: I need a clearer explanation.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: I need a clearer explanation.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: I need a clearer explanation.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: I need a clearer explanation.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: I need a clearer explanation.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: Can we try a practice task?
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: Can we try a practice task?
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: Can we try a practice task?
+sherlock: Let us choose one small task and work through it carefully.
+
+user: Can we try a practice task?
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: Can we try a practice task?
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: I want to understand the idea.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: I want to understand the idea.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: I want to understand the idea.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: I want to understand the idea.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: I want to understand the idea.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: Help me get started.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: Help me get started.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: Help me get started.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: Help me get started.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: Help me get started.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: I have finished my revision.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: I have finished my revision.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: I have finished my revision.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: I have finished my revision.
+sherlock: Let us use a different example to practise the same skill.
+
+user: I have finished my revision.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: That example helped.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: That example helped.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: That example helped.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: That example helped.
+sherlock: Let us use a different example to practise the same skill.
+
+user: That example helped.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: I think I see the pattern.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: I think I see the pattern.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: I think I see the pattern.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: I think I see the pattern.
+sherlock: Let us use a different example to practise the same skill.
+
+user: I think I see the pattern.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: I would like another challenge.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: I would like another challenge.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: I would like another challenge.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: I would like another challenge.
+sherlock: Let us use a different example to practise the same skill.
+
+user: I would like another challenge.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: Can you check my thinking?
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: Can you check my thinking?
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: Can you check my thinking?
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: Can you check my thinking?
+sherlock: Let us use a different example to practise the same skill.
+
+user: Can you check my thinking?
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: What is a good question to investigate?
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: What is a good question to investigate?
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: What is a good question to investigate?
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: What is a good question to investigate?
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: What is a good question to investigate?
+sherlock: Try looking at the problem from another point of view.
+
+user: I want to explore technology.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: I want to explore technology.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: I want to explore technology.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: I want to explore technology.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: I want to explore technology.
+sherlock: Try looking at the problem from another point of view.
+
+user: Can we discuss a new idea?
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: Can we discuss a new idea?
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: Can we discuss a new idea?
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: Can we discuss a new idea?
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: Can we discuss a new idea?
+sherlock: Try looking at the problem from another point of view.
+
+user: I enjoy asking questions.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: I enjoy asking questions.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: I enjoy asking questions.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: I enjoy asking questions.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: I enjoy asking questions.
+sherlock: Try looking at the problem from another point of view.
+
+user: Show me a different perspective.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: Show me a different perspective.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: Show me a different perspective.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: Show me a different perspective.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: Show me a different perspective.
+sherlock: Try looking at the problem from another point of view.
