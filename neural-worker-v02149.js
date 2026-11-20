@@ -1038,7 +1038,8 @@ function detectQuestionType(prompt) {
     return {key:"word_problem", label:"Word problem"};
   if (/\b(?:calculate|work out|solve|what is|add|subtract|multiply|divide)\b/.test(value) ||
       /^\s*-?\d+(?:\.\d+)?\s*[+\-*/]/.test(value)) return {key:"math", label:"Arithmetic"};
-  if (/^(?:who|what|when|where|why|how|which|explain|define|describe)\b/.test(value))
+  if (/\b(?:who|what|when|where|why|how|which|explain|define|describe|tell me about)\b/.test(value) &&
+      (/[?]/.test(value) || /\b(?:can you|could you|please explain|tell me about)\b/.test(value)))
     return {key:"factual", label:"General question"};
   return {key:"continuation", label:"Text generation"};
 }
@@ -1159,7 +1160,8 @@ async function generateLanguageModel(prompt, requestedLength, greedy = false, ge
   function candidateAllowed(tokenId) {
     if (tokenId === NEWLINE_ID) return false;
     const token = vocabulary[tokenId] || "";
-    if (!promptHasNumber && /^\\d+$/.test(token)) return false;
+    if (!promptHasNumber && /\d/.test(token)) return false;
+    if (/^[.!?,;:]{2,}$/.test(token)) return false;
     if (!promptRequestsPercent && /^(?:%|percent|percentage)$/i.test(token)) return false;
     if (/^[)\\]}]+$/.test(token)) return false;
     const words = countWords();
@@ -1304,10 +1306,16 @@ async function generateLanguageModel(prompt, requestedLength, greedy = false, ge
       .replace(/\s+/g, " ")
       .trim();
   }
-  // Never replace a weak neural result with a canned response: return only text
-  // sampled from the trained model, even when that text is still imperfect.
+  cleanedOutput = cleanedOutput
+    .replace(/([.!?]){2,}/g, "$1")
+    .replace(/^[,;:]+|[,;:]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/(^|[.!?]\s+)([a-z])/g, (match, prefix, letter) => prefix + letter.toUpperCase());
+  // Never replace a weak neural result with a canned response. If the model
+  // produced no words, expose an empty result instead of punctuation noise.
   return {
-    text: cleanedOutput || output.trim(),
+    text: /[a-z]/i.test(cleanedOutput) ? cleanedOutput : "",
     diagnostics: {steps: generationSteps, topCandidates: latestCandidates, confidence: latestConfidence}
   };
 }
