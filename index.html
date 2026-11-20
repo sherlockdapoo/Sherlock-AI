@@ -1227,7 +1227,7 @@ body.nav-open{overflow:hidden}
 #benchmarkPanel .benchmark-results textarea{background:#f8fafc!important;color:#26364b!important;border:1px solid #dce3ec!important}
 #benchmarkPanel .benchmark-results textarea::placeholder{color:#728096!important}
 
-/* v0.21.48 visual refinement — preserve the established midnight/blue/green palette. */
+/* v0.21.49 visual refinement — preserve the established midnight/blue/green palette. */
 html{scroll-behavior:smooth;scroll-padding-top:16px}
 .app{padding-top:clamp(18px,3.2vw,34px)}
 .topbar{padding:4px 2px 12px}
@@ -1250,6 +1250,29 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
 .tab.active{border-color:#3a5578;background:linear-gradient(135deg,#1b3455,#14263e);color:#dceaff;box-shadow:0 4px 14px rgba(0,0,0,.15)}
 @media(max-width:720px){.tabs-wrap{gap:8px}.tabs{gap:4px;padding:4px}.tab{padding:8px 9px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.stat,.visual-kpi,.telemetry-cell,.performance-kpi{transition:none}}
+.generation-inspector{margin:14px 0 18px;padding:17px;border:1px solid #2c4260;border-radius:16px;background:linear-gradient(155deg,#111f33,#0b1627)}
+.generation-inspector-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:13px}
+.generation-inspector-head h4{margin:4px 0 3px;font-size:15px}
+.generation-inspector-head p{margin:0;color:var(--muted);font-size:11px}
+.generation-inspector-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}
+.trace-box{min-width:0;padding:12px;border:1px solid #293e5b;border-radius:12px;background:#091523}
+.trace-input{grid-row:span 2}
+.trace-box-head{display:flex;justify-content:space-between;gap:8px;margin-bottom:9px;color:#dce8fa;font-size:11px}
+.trace-box-head span{color:#91a8c7;font-size:10px;font-weight:650}
+.trace-meta{display:flex;justify-content:space-between;gap:8px;margin:6px 0;color:#8ea3c0;font-size:10px}
+.trace-meta strong{color:#dce8fa;text-align:right;overflow-wrap:anywhere}
+.trace-token-list{display:flex;flex-wrap:wrap;gap:5px;max-height:145px;overflow:auto;margin-top:10px}
+.trace-token{padding:4px 6px;border:1px solid #2b4566;border-radius:6px;background:#13253d;color:#c6dcff;font:10px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace}
+.trace-token.unknown{border-color:#765d35;background:#2b2417;color:#f0d28f}
+.trace-candidates{display:flex;flex-direction:column;gap:6px}
+.trace-candidate{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 8px;border:1px solid #293f5b;border-radius:8px;background:#102039;color:#dceaff;font:11px ui-monospace,SFMono-Regular,Menlo,monospace}
+.trace-candidate strong{color:#9edfc3;font-size:10px}
+.trace-empty{color:#8297b4;font-size:10px}
+.trace-draft-box{grid-column:2}
+.trace-draft-box pre{min-height:54px;max-height:150px;overflow:auto;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;color:#b9d6ff;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}
+.trace-disclaimer{margin:10px 1px 0;color:#788eaa;font-size:9px;line-height:1.5}
+@media(max-width:620px){.generation-inspector{padding:13px}.generation-inspector-grid{grid-template-columns:1fr}.trace-input{grid-row:auto}.trace-draft-box{grid-column:auto}.generation-inspector-head{flex-direction:column}}
+
 
 </style>
 </head>
@@ -1259,7 +1282,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.46, Generation Intelligence v3, conversation curriculum v0.18.6">v0.21.48</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.46, Generation Intelligence v3, conversation curriculum v0.18.6">v0.21.49</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1664,6 +1687,30 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
       <div class="chat-log" id="chatlog" aria-live="polite">
         <div class="message bot">Train Sherlock, choose a starting phrase, and generate a text continuation here.</div>
       </div>
+      <section class="generation-inspector" id="generationInspector" aria-label="Live generation inspector">
+        <div class="generation-inspector-head">
+          <div><span class="eyebrow">LIVE MODEL TRACE</span><h4>What Sherlock is processing</h4><p>Live tokenizer input, detected task, next-token candidates and generated draft.</p></div>
+          <span class="visual-mini-tag" id="traceStatus">WAITING</span>
+        </div>
+        <div class="generation-inspector-grid">
+          <div class="trace-box trace-input">
+            <div class="trace-box-head"><strong>Input seen by model</strong><span id="traceTokenCount">0 tokens</span></div>
+            <div class="trace-meta"><span>Detected type</span><strong id="traceIntent">Waiting</strong></div>
+            <div class="trace-meta"><span>Generation method</span><strong id="traceMethod">Waiting</strong></div>
+            <div class="trace-meta"><span>Unknown tokens</span><strong id="traceUnknown">0 (0%)</strong></div>
+            <div class="trace-token-list" id="traceInputTokens">No prompt processed yet.</div>
+          </div>
+          <div class="trace-box">
+            <div class="trace-box-head"><strong>Next-token candidates</strong><span id="traceStep">Step 0</span></div>
+            <div class="trace-candidates" id="traceCandidates"><span class="trace-empty">Waiting for model probabilities.</span></div>
+          </div>
+          <div class="trace-box trace-draft-box">
+            <div class="trace-box-head"><strong>Generated draft</strong><span id="traceConfidence">—</span></div>
+            <pre id="traceDraft">The generated text will appear here token by token.</pre>
+          </div>
+        </div>
+        <p class="trace-disclaimer">Candidate percentages are relative scores from the current decoder, not certainty or a readable record of private thoughts. Sherlock is a small neural text generator, not a conscious system.</p>
+      </section>
       <section class="playground-compare" aria-labelledby="playgroundCompareTitle">
         <div class="playground-compare-head">
           <div><h4 id="playgroundCompareTitle">Compare training runs</h4><p>Run the same prompt again after more training to see how Sherlock’s continuation changes.</p></div>
@@ -3067,7 +3114,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02148.js?v=0.21.48-generation-v4', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.49-live-trace-v1', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3265,11 +3312,17 @@ updateNeuralControls();
       $('neuralUnknownInspectBtn').textContent = 'Try audit again';
       $('neuralUnknownTokenDiagnosis').textContent = 'The audit could not finish: ' + (data.message || 'Unknown worker error');
       updateNeuralControls();
+    } else if (data.type === 'generation-start') {
+      const pending = neuralPendingRequests.get(data.id);
+      if (pending && pending.onStart) pending.onStart(data);
+    } else if (data.type === 'generation-step') {
+      const pending = neuralPendingRequests.get(data.id);
+      if (pending && pending.onStep) pending.onStep(data);
     } else if (data.type === 'generated') {
       const pending = neuralPendingRequests.get(data.id);
       if (pending) {
         neuralPendingRequests.delete(data.id);
-        pending.resolve(data.text);
+        pending.resolve(pending.withDiagnostics ? data : data.text);
       }
     } else if (data.type === 'error') {
       if (neuralStopTimeout) clearTimeout(neuralStopTimeout);
@@ -3527,7 +3580,11 @@ function requestNeuralGeneration(prompt, options = {}) {
   const id = ++neuralRequestSequence;
   const length = Math.max(1, Math.min(160, Number(options.length) || 90));
   return new Promise((resolve, reject) => {
-    neuralPendingRequests.set(id, {resolve, reject});
+    neuralPendingRequests.set(id, {
+      resolve, reject, withDiagnostics: !!options.diagnostics,
+      onStart: typeof options.onStart === 'function' ? options.onStart : null,
+      onStep: typeof options.onStep === 'function' ? options.onStep : null
+    });
     neuralWorker.postMessage({type: 'generate', id, prompt, seed: playgroundSeed(prompt), length, greedy: !!options.greedy});
   });
 }
@@ -4989,6 +5046,45 @@ Array.from(document.querySelectorAll('.playground-chip')).forEach(button => {
 
 $('playgroundCompareBtn').addEventListener('click', comparePlaygroundRuns);
 
+function renderGenerationStart(data) {
+  $('traceStatus').textContent = 'GENERATING';
+  $('traceIntent').textContent = data.intent || 'Unknown';
+  $('traceMethod').textContent = data.method || 'Neural model';
+  $('traceTokenCount').textContent = Number(data.inputTokenCount || 0) + ' tokens';
+  $('traceUnknown').textContent = Number(data.unknownTokens || 0) + ' (' + Number(data.unknownRate || 0).toFixed(1) + '%)';
+  const host = $('traceInputTokens');
+  host.replaceChildren();
+  (data.inputTokens || []).forEach(token => {
+    const item = document.createElement('span');
+    item.className = 'trace-token' + (token === '<unk>' ? ' unknown' : '');
+    item.textContent = token === ' ' ? '␠' : token === '\n\n' ? '↵' : token;
+    host.append(item);
+  });
+  $('traceStep').textContent = 'Step 0';
+  $('traceDraft').textContent = '';
+  $('traceConfidence').textContent = 'Waiting';
+  $('traceCandidates').innerHTML = '<span class="trace-empty">Waiting for the first model prediction.</span>';
+}
+function updateGenerationInspector(data) {
+  $('traceStep').textContent = 'Step ' + Number(data.step || 0);
+  $('traceDraft').textContent = data.partial || '';
+  $('traceConfidence').textContent = Number.isFinite(Number(data.confidence))
+    ? (Number(data.confidence) * 100).toFixed(1) + '% top candidate'
+    : 'No confidence score';
+  const host = $('traceCandidates');
+  host.replaceChildren();
+  (data.topCandidates || []).forEach(candidate => {
+    const row = document.createElement('div');
+    row.className = 'trace-candidate';
+    const token = document.createElement('span');
+    token.textContent = candidate.token === ' ' ? '␠ (space)' : candidate.token;
+    const score = document.createElement('strong');
+    score.textContent = (Number(candidate.probability || 0) * 100).toFixed(1) + '%';
+    row.append(token, score);
+    host.append(row);
+  });
+  if (!host.childNodes.length) host.textContent = 'No eligible candidates at this step.';
+}
 $('chatForm').addEventListener('submit', async event => {
   event.preventDefault();
   if (!neuralModelReady || neuralTraining || neuralRequestBusy) return;
@@ -5002,15 +5098,24 @@ $('chatForm').addEventListener('submit', async event => {
   $('chatlog').append(waiting);
   $('chatlog').scrollTop = $('chatlog').scrollHeight;
   try {
-    const generated = await requestNeuralGeneration(prompt);
-    const continuation = generated && generated.startsWith(prompt)
-      ? generated.slice(prompt.length)
-      : generated;
+    const generated = await requestNeuralGeneration(prompt, {
+      diagnostics: true, onStart: renderGenerationStart, onStep: updateGenerationInspector
+    });
+    const generatedText = generated && typeof generated === 'object' ? generated.text : generated;
+    const continuation = generatedText && generatedText.startsWith(prompt)
+      ? generatedText.slice(prompt.length)
+      : generatedText;
     waiting.textContent = continuation || '(Sherlock did not generate any additional characters.)';
+    $('traceStatus').textContent = 'COMPLETE';
+    if (generated && generated.diagnostics) {
+      $('traceStep').textContent = 'Finished · ' + Number(generated.diagnostics.steps || 0) + ' steps';
+    }
     savePlaygroundRun(prompt, waiting.textContent);
     $('message').value = prompt;
   } catch (error) {
     waiting.textContent = 'Sherlock could not generate a continuation. Please try again.';
+    $('traceStatus').textContent = 'ERROR';
+    $('traceDraft').textContent = error.message || String(error);
     console.error(error);
   } finally {
     $('sendBtn').disabled = !neuralModelReady || neuralTraining;
