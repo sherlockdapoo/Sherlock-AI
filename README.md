@@ -165,6 +165,7 @@ The v0.18.5 language-focused examples concentrate on exact preservation and alph
 
 - Adds a live Playground inspector showing the exact tokenized prompt sent to the model, detected task type, generation route, and unknown-token rate.
 - Streams each generated token to the interface and displays the decoder's top five next-token candidates with relative scores at each step.
+- Improves mixed greeting-plus-question classification, blocks malformed alphanumeric tokens such as a word fused with a digit when the prompt is non-numeric, and rejects multi-character punctuation tokens. It does not insert a replacement answer.
 - Shows the partial response while generation is running, rather than only after completion.
 - The trace reports observable inputs and model outputs; it does not claim to expose hidden thoughts, intent, or consciousness.
 - Specialist arithmetic, percentage, sequence, conversion, and letter-ordering routes are explicitly labelled as specialist solvers; ordinary language prompts remain on the trained neural generator.
