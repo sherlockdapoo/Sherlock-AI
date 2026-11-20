@@ -1281,14 +1281,16 @@ function applyCorpusContextBias(history) {
   const twoBack = history.length > 1 ? history[history.length - 2] : SPACE_ID;
   const trigram = corpusTrigramCounts.get(twoBack + "," + previous);
   if (trigram && trigram.total >= 2) {
+    for (let token = 0; token < vocabularySize; token++) probabilities[token] *= 0.72;
     for (const [token, count] of trigram.counts)
-      probabilities[token] = probabilities[token] * 0.72 + (count / trigram.total) * 0.28;
+      probabilities[token] += (count / trigram.total) * 0.28;
     return;
   }
   const bigram = corpusBigramCounts.get(previous);
   if (bigram && bigram.total >= 4) {
+    for (let token = 0; token < vocabularySize; token++) probabilities[token] *= 0.88;
     for (const [token, count] of bigram.counts)
-      probabilities[token] = probabilities[token] * 0.88 + (count / bigram.total) * 0.12;
+      probabilities[token] += (count / bigram.total) * 0.12;
   }
 }
 function setDatasetBuffers(trainBuffer, validationBuffer) {
