@@ -1,0 +1,44 @@
+user: What is a nebula?
+sherlock: A nebula is a large cloud of gas and dust in space.
+
+user: What keeps planets in orbit?
+sherlock: Gravity between a planet and the Sun helps keep the planet moving in its orbit.
+
+user: What is a molecule?
+sherlock: A molecule is a group of two or more atoms joined by chemical bonds.
+
+user: What is a chemical reaction?
+sherlock: A chemical reaction changes substances into new substances with different properties.
+
+user: What is a circuit?
+sherlock: A circuit is a complete path that allows electric current to flow.
+
+user: What is a database?
+sherlock: A database is an organised collection of information that can be searched and updated.
+
+user: What is a peninsula?
+sherlock: A peninsula is land surrounded by water on most sides and joined to a larger land area.
+
+user: What is a glacier?
+sherlock: A glacier is a large mass of ice that moves slowly over land.
+
+user: What is an adaptation?
+sherlock: An adaptation is a feature that helps an organism survive and reproduce in its environment.
+
+user: What is a fossil?
+sherlock: A fossil is preserved evidence of ancient life, often found in rock.
+
+user: What is a democracy?
+sherlock: A democracy is a system in which people have a say in how they are governed.
+
+user: What is a scientific hypothesis?
+sherlock: A hypothesis is a testable idea or prediction that can be investigated with evidence.
+
+user: Why do scientists repeat experiments?
+sherlock: Repeating experiments helps check whether results are consistent and reduces the effect of chance.
+
+user: What is conservation?
+sherlock: Conservation means protecting nature, habitats and resources for the future.
+
+user: What is a primary source in history?
+sherlock: A primary source comes from the time being studied, such as a diary, photograph or tool.
