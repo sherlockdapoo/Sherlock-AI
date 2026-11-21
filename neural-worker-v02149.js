@@ -31,6 +31,8 @@ const EVAL_EVERY = 50;
 const EVAL_SAMPLES = 640;
 const EVAL_CHUNK_SIZE = 40; // Yield between validation slices so Stop can be handled.
 const MIN_VALIDATION_IMPROVEMENT = 0.001;
+const EARLY_STOP_PATIENCE = 8; // Eight completed checks without improvement.
+let evaluationsSinceBest = 0;
 const BATCHES_PER_SLICE = 4; // Four larger batches per worker task; keep yields for responsive Stop.
 const PROGRESS_INTERVAL_MS = 500;
 const NETWORK_SNAPSHOT_INTERVAL_MS = 1000;
@@ -384,6 +386,7 @@ function initialiseParameters() {
   latestPerplexity = null;
   bestValidationLoss = Infinity;
   evaluationCount = 0;
+  evaluationsSinceBest = 0;
   validationSamples = 0;
   steps = 0;
   examplesSeen = 0;
@@ -709,6 +712,7 @@ function evaluateAsync() {
 
         const improved = validationLoss < bestValidationLoss - MIN_VALIDATION_IMPROVEMENT;
         if (improved) {
+          evaluationsSinceBest = 0;
           bestValidationLoss = validationLoss;
           bestAccuracy = score;
           bestParameters = new Float32Array(parameters);
@@ -719,7 +723,10 @@ function evaluateAsync() {
           bestSteps = steps;
           bestExamples = examplesSeen;
           bestMovingLoss = movingLoss;
+        } else {
+          evaluationsSinceBest++;
         }
+        const earlyStopTriggered = bestParameters instanceof Float32Array && evaluationsSinceBest >= EARLY_STOP_PATIENCE;
 
         // Preserve the best model separately and always persist the newest state.
         if (improved) postBestCheckpoint();
@@ -736,6 +743,9 @@ function evaluateAsync() {
           perplexity,
           evaluations: evaluationCount,
           improved,
+          earlyStopTriggered,
+          evaluationsSinceBest,
+          earlyStopPatience: EARLY_STOP_PATIENCE,
           validationSamples: total,
           steps,
           examples: examplesSeen,
@@ -751,6 +761,10 @@ function evaluateAsync() {
           trainingTargetTokens: trainTargetPositions.length,
           validationTargetTokens: validationTargetPositions.length
         });
+        if (earlyStopTriggered) {
+          stopRequested = true;
+          stopRequestReason = "early-stopping";
+        }
         evaluationInProgress = false;
         resolve({accuracy: score, validationLoss, perplexity, samples: total, evaluations: evaluationCount});
       } catch (error) {
