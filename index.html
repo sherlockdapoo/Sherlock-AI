@@ -1283,7 +1283,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.58, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.62</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.63, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.63</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3169,7 +3169,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.58-restore-diagnostics-v1', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.63-early-stop-patience8-v1', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3262,9 +3262,11 @@ updateNeuralControls();
     } else if (data.type === 'evaluation') {
       updateNeuralMetrics(data, true);
       if (neuralTraining) setNeuralState('Training on this device', 'running');
-      $('neuralMessage').textContent = 'Validation check ' + Number(data.evaluations).toLocaleString() +
-        ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens. ' +
-        (data.improved ? 'New best validation loss saved.' : 'No new best validation loss yet. Training continues until you press Stop.');
+      $('neuralMessage').textContent = data.earlyStopTriggered
+        ? 'Early stopping triggered: validation has not improved for 8 consecutive checks. Restoring the best checkpoint…'
+        : 'Validation check ' + Number(data.evaluations).toLocaleString() +
+          ' complete on ' + Number(data.validationSamples).toLocaleString() + ' held-out answer tokens. ' +
+          (data.improved ? 'New best validation loss saved.' : 'No new best validation loss yet.');
     } else if (data.type === 'checkpoint') {
       neuralActiveOptimizer = data.optimizer === 'adamw' ? 'adamw' : 'adam';
       updateNeuralOptimizerSummary();
@@ -3316,9 +3318,11 @@ updateNeuralControls();
       setNeuralState(neuralModelReady ? 'Best neural checkpoint ready' : 'Waiting for training', neuralModelReady ? 'ready' : '');
       $('neuralMessage').textContent = data.stopReason === 'limit'
         ? 'Training-step target reached. The best validation checkpoint has been restored and saved.'
-        : data.restoredBest
-          ? 'Training stopped manually. Sherlock restored and saved its best validation checkpoint.'
-          : 'Training stopped. Complete more updates to make the neural model useful.';
+        : data.stopReason === 'early-stopping'
+          ? 'Early stopping: validation did not improve for 8 consecutive checks. Sherlock restored and saved its best validation checkpoint.'
+          : data.restoredBest
+            ? 'Training stopped manually. Sherlock restored and saved its best validation checkpoint.'
+            : 'Training stopped. Complete more updates to make the neural model useful.';
       updateNeuralControls();
       setChatReady(modelReady);
       updateGlobalNeuralStats();
