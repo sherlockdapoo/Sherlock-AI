@@ -263,13 +263,16 @@ function refreshOptimizerRanges() {
     [B2_OFFSET, B2_OFFSET + vocabularySize]
   ];
 }
+// Frozen v0.18.6 token IDs reconstructed from the exact training corpus
+// used by existing checkpoints. Never reorder these IDs when adding data.
+const STABLE_VOCABULARY_V0186 = [":",",",".","0","1","2","sherlock","user","4","3","5","6","8","7","9","the","?","what","is","are","to","a","in","how","many","of","by","sequence","and","number","these","order","alphabet","letters","percent","this","next","convert","into","pencils","find","books","follow","instruction","plus","use","stickers","marbles","metres","has","each","i","numbers","there","remain","continue","%","centimetres","shop","x","t","altogether","v","b","r","y","out","c","l","o","s","f","e","g","h","p","j","u","d","q","z","w","m","n","you","calculate","put","finding","complete","equal","term","k","multiplied","kilometres","write","work","bag","boxes","it","cards","alphabetical","letter","equally","box","sells","at","more","following","grams","value","millimetres","arrange","sort","does","divide","kilograms","minus","when","added","comes","minutes","shared","using","with","look","ascending","descending","group","change","bags","after","get","total","which","result","can","between","(",")","packs","places","groups","hours","on","have","new","do","then","receives","them","full","teacher","amount","contains","word","away","seconds","one","from","library","child","children","words","world","sentence","that","\"","add","an","decrease","falls","increase","its","largest","left","percentage","position","puts","reduced","shelves","smallest","sum","taken","used","me","help","for","holds","go","sold","we","about","before","litres","millilitres","!","now","answer","another","had","lent","clear","days","was","reduce","starting","river","th","across","adds","among","borrowed","difference","discount","division","explored","idea","if","move","multiply","price","product","pupil","pupils","reach","read","receive","remaining","remains","removed","represents","reverse","rises","rows","shares","their","topic","visited","wide","given","gives","question","am","day","-","explain","your","good","hello","hi","needed","or","task","try","strawberry","something","hey","tell","watermelon","need","papaya","rocket","want","bird","fox","inventor","robot","back","ideas","tomato","make","pencil","planet","problem","cloud","today","fig","give","grape","melon","bridge","through","time","blue","kiwi","plum","us","apricot","explanation","milligrams","explore","forest","forward","orange","small","castle","interesting","pear","lemon","date","garden","start","stone","let","project","step","yellow","apple","green","ready","school","example","useful","will","part","questions","banana","silver","berry","could","like","peach","quince","raspberry","take","would","understand","build","cherry","simple","window","choose","st","mango","thunder","solve","learning","nd","puzzle","rd","whenever","difficult","not","see","show","test","curious","first","main","practice","smaller","steps","clever","enormous","bright","ask","practise","some","together","later","science","again","break","goodbye","learn","problems","share","should","clearer","fine","method","return","short","so","welcome","working","ancient","brave","careful","cheerful","colourful","friendly","gentle","glowing","mysterious","patient","peaceful","powerful","quiet","sleepy","swift","tiny","talk","conversation","mind","send","feel","think","all","begin","bye","come","confusing","feels","great","helped","made","my","stuck","studying","sure","things","where","why","afternoon","answers","approach","asking","be","become","carefully","check","checking","connect","course","describing","details","different","easier","evening","everything","examples","few","goal","hiya","important","keep","key","little","may","mistakes","morning","needs","parts","pause","progress","reasoning","remember","review","same","separate","simpler","still","subject","tool","unclear","were","yes","challenge","discover","hear","here","interested","nice","shall","skill","solving","started","tricky","abilities","better","cannot","circle","country","creative","designed","detail","experiment","fact","finished","frustrated","happen","having","inspiration","know","lost","makes","market","mean","mistake","motivation","overwhelmed","picture","plan","please","revise","sense","spider","study","teach","thank","thanks","way","worried","yet","zipper","absolutely","action","adapt","although","appear","around","basic","basics","because","begins","best","biology","but","calculator","camera","care","causing","changes","checked","choosing","clarify","clearly","closely","compare","confidence","connections","create","curiosity","decide","did","discoveries","distant","down","easiest","encourages","energy","engineering","enjoy","especially","every","everyday","evidence","examine","experimental","explaining","explanations","exploring","familiar","family","far","fascinating","finish","focusing","followed","frustrating","galaxies","giving","glad","goes","guitar","happy","hope","identify","immediately","include","incomplete","incorrect","information","interactive","interests","investigate","investigation","island","jacket","known","language","larger","lead","lesson","level","manageable","mathematics","model","moment","most","nature","normal","notes","notice","objects","ocean","often","once","ordinary","other","own","pace","patterns","physics","pieces","point","points","possible","prototype","quiz","rather","reasonable","rely","request","rest","right","seems","several","shape","shells","shorter","similar","skills","solution","solves","sounds","space","splitting","station","stays","steady","structured","summaries","summer","supporting","surprising","systems","tackle","tasks","technology","telling","than","topics","tried","trouble","two","understanding","up","version","well","whole","worked","workload","works","worth","yourself","beach","candle","dragon","music","purple","rabbit","shadow","travel","tunnel","valley","dinner","hammer","kitten","ladder","mirror","monkey","mountain","people","pocket","rainbow","village","winter","carpet","colour","computer","friend","ticket"];
+
 function buildTokenizer(trainingText) {
   const counts = new Map();
   walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
-  const ranked = Array.from(counts.entries())
+  const rankedAdditions = Array.from(counts.entries())
     .filter(([token]) => token !== " " && token !== "\n\n" && token !== EOS_TOKEN)
-    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
-    .slice(0, VOCAB - 4);
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
 
   vocabulary = new Array(VOCAB).fill(null);
   vocabulary[UNK_ID] = "<unk>";
@@ -283,7 +286,14 @@ function buildTokenizer(trainingText) {
     [EOS_TOKEN, EOS_ID]
   ]);
   vocabularySize = 4;
-  for (const [token] of ranked) {
+  // Preserve all legacy IDs. Newly encountered tokens use only free rows.
+  for (const token of STABLE_VOCABULARY_V0186) {
+    if (tokenToId.has(token) || vocabularySize >= VOCAB) continue;
+    tokenToId.set(token, vocabularySize);
+    vocabulary[vocabularySize] = token;
+    vocabularySize++;
+  }
+  for (const [token] of rankedAdditions) {
     if (tokenToId.has(token) || vocabularySize >= VOCAB) continue;
     tokenToId.set(token, vocabularySize);
     vocabulary[vocabularySize] = token;
@@ -316,14 +326,8 @@ function diagnoseUnknownTokens(trainBuffer, validationBuffer) {
   const decoder = new TextDecoder("utf-8");
   const trainingText = markAssistantEndTokens(decoder.decode(new Uint8Array(trainBuffer)).toLowerCase());
   const validationText = markAssistantEndTokens(decoder.decode(new Uint8Array(validationBuffer)).toLowerCase());
-  const counts = new Map();
-  walkTokens(trainingText, token => counts.set(token, (counts.get(token) || 0) + 1));
-  const ranked = Array.from(counts.entries())
-    .filter(([token]) => token !== " " && token !== "\n\n" && token !== EOS_TOKEN)
-    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
-    .slice(0, VOCAB - 4);
-  const knownTokens = new Set(["<unk>", " ", "\n\n", EOS_TOKEN]);
-  for (const [token] of ranked) knownTokens.add(token);
+  // Diagnose against the exact active tokenizer mapping.
+  const knownTokens = new Set(tokenToId.keys());
 
   let totalTokens = 0;
   let unknownTokens = 0;
