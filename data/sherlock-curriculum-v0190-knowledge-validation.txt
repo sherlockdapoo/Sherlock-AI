@@ -1,44 +1,44 @@
-user: What is a nebula?
-sherlock: A nebula is a large cloud of gas and dust in space.
+user: Why can we see the Moon?
+sherlock: The Moon reflects sunlight. It does not make its own light.
 
-user: What keeps planets in orbit?
-sherlock: Gravity between a planet and the Sun helps keep the planet moving in its orbit.
+user: What is a star?
+sherlock: A star is a large object in space that gives light and heat.
 
-user: What is a molecule?
-sherlock: A molecule is a group of two or more atoms joined by chemical bonds.
+user: What is a telescope for?
+sherlock: A telescope collects light so we can observe distant objects in space.
 
-user: What is a chemical reaction?
-sherlock: A chemical reaction changes substances into new substances with different properties.
+user: Why does Mars look red?
+sherlock: Mars looks red because iron minerals in its soil have reacted with oxygen.
 
-user: What is a circuit?
-sherlock: A circuit is a complete path that allows electric current to flow.
+user: Why does Earth have day and night?
+sherlock: Earth rotates. The side facing the Sun has day, and the other side has night.
 
-user: What is a database?
-sherlock: A database is an organised collection of information that can be searched and updated.
+user: What do plants use light for?
+sherlock: Plants use light energy for photosynthesis, which helps them make sugar.
 
-user: What is a peninsula?
-sherlock: A peninsula is land surrounded by water on most sides and joined to a larger land area.
+user: How does energy pass between living things?
+sherlock: A food chain shows how energy passes from one living thing to another when organisms eat.
 
-user: What is a glacier?
-sherlock: A glacier is a large mass of ice that moves slowly over land.
+user: What force resists movement between surfaces?
+sherlock: Friction is a force that resists movement when two surfaces rub together.
 
-user: What is an adaptation?
-sherlock: An adaptation is a feature that helps an organism survive and reproduce in its environment.
+user: What are electric charges?
+sherlock: Electricity involves electric charges. Moving charges in a wire form an electric current.
 
-user: What is a fossil?
-sherlock: A fossil is preserved evidence of ancient life, often found in rock.
+user: What tells a computer what to do?
+sherlock: A computer program is a set of instructions that tells a computer what to do.
 
-user: What is a democracy?
-sherlock: A democracy is a system in which people have a say in how they are governed.
+user: What changes can a sensor notice?
+sherlock: A sensor detects a change, such as temperature or light, and sends information to a system.
 
-user: What is a scientific hypothesis?
-sherlock: A hypothesis is a testable idea or prediction that can be investigated with evidence.
+user: How many continents are commonly recognised?
+sherlock: A continent is one of Earth's large land areas. There are seven commonly recognised continents.
 
-user: Why do scientists repeat experiments?
-sherlock: Repeating experiments helps check whether results are consistent and reduces the effect of chance.
+user: What is a vast body of salt water?
+sherlock: An ocean is a vast body of salt water. Earth has five commonly named oceans.
 
-user: What is conservation?
-sherlock: Conservation means protecting nature, habitats and resources for the future.
+user: What do most fish use to take oxygen from water?
+sherlock: Most fish use gills to take oxygen from water.
 
-user: What is a primary source in history?
-sherlock: A primary source comes from the time being studied, such as a diary, photograph or tool.
+user: How can an animal avoid being seen?
+sherlock: Camouflage helps an animal blend into its surroundings and avoid being seen.
