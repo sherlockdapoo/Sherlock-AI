@@ -200,12 +200,12 @@ const CURRICULUM_FILES=[
  ['../data/sherlock-curriculum-v0184-supplement-train.txt','v0.18.4 training supplement'],
  ['../data/sherlock-curriculum-v0185-supplement-train.txt','v0.18.5 training supplement'],
  ['../data/sherlock-curriculum-v0186-conversation-train.txt','v0.18.6 conversation training'],
+ ['../data/sherlock-curriculum-v0190-knowledge-train.txt','v0.19.0 factual knowledge training'],
  ['../data/sherlock-curriculum-v0182-validation.txt','base validation'],
  ['../data/sherlock-curriculum-v0183-supplement-validation.txt','v0.18.3 validation supplement'],
  ['../data/sherlock-curriculum-v0184-supplement-validation.txt','v0.18.4 validation supplement'],
  ['../data/sherlock-curriculum-v0185-supplement-validation.txt','v0.18.5 validation supplement'],
  ['../data/sherlock-curriculum-v0186-conversation-validation.txt','v0.18.6 conversation validation'],
- ['../data/sherlock-curriculum-v0190-knowledge-train.txt','v0.19.0 factual knowledge training'],
  ['../data/sherlock-curriculum-v0190-knowledge-validation.txt','v0.19.0 held-out knowledge validation']
 ];
 const MAX_HISTORY=8;
@@ -326,10 +326,10 @@ async function loadDatasets(){
  try{cached=await readRecord(DATA_STORE,DATASET_REVISION);}catch(error){console.warn('Dataset cache unavailable:',error);}
  if(cached&&cached.revision===DATASET_REVISION&&cached.trainBytes&&cached.validationBytes){
   const train=asArrayBuffer(cached.trainBytes),validation=asArrayBuffer(cached.validationBytes);
-  if(train.byteLength>1000&&validation.byteLength>500)return {train,validation,source:'current v0.18.6 conversation curriculum'};
+  if(train.byteLength>1000&&validation.byteLength>500)return {train,validation,source:'current v0.19.0 knowledge curriculum'};
  }
  const loaded=await Promise.all(CURRICULUM_FILES.map(([url])=>fetchTextBuffer(url)));
- const trainParts=loaded.slice(0,5),validationParts=loaded.slice(5);
+ const trainParts=loaded.slice(0,6),validationParts=loaded.slice(6);
  const joinParts=parts=>{
   const total=parts.reduce((sum,part)=>sum+part.byteLength,0)+2*(parts.length-1);
   const joined=new Uint8Array(total);let offset=0;
