@@ -1228,7 +1228,7 @@ body.nav-open{overflow:hidden}
 #benchmarkPanel .benchmark-results textarea::placeholder{color:#728096!important}
 
 /* v0.21.53 visual refinement — preserve the established midnight/blue/green palette. */
-/* v0.21.55 — preserve legacy tokenizer IDs across dataset additions. */
+/* v0.21.56 — preserve legacy tokenizer IDs across dataset additions. */
 html{scroll-behavior:smooth;scroll-padding-top:16px}
 .app{padding-top:clamp(18px,3.2vw,34px)}
 .topbar{padding:4px 2px 12px}
@@ -1283,7 +1283,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.55, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.55</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.55, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.56</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -4707,20 +4707,20 @@ async function loadStandaloneCurriculum(signal) {
     showDataProgress(progress, 12, label + ' loaded');
     return value;
   };
-  const [baseTrainingText, v0183TrainingText, v0184TrainingText, v0185TrainingText, v0186TrainingText, baseValidationText, v0183ValidationText, v0184ValidationText, v0185ValidationText, v0186ValidationText, v0190TrainingText, v0190ValidationText] = await Promise.all([
-    loadText(STANDALONE_TRAIN_URL, 'Base training examples', 1),
-    loadText(STANDALONE_TRAIN_SUPPLEMENT_URL, 'v0.18.3 training supplement', 2),
-    loadText(STANDALONE_TRAIN_V0184_URL, 'v0.18.4 training supplement', 3),
-    loadText(STANDALONE_TRAIN_V0185_URL, 'v0.18.5 letter-ordering training supplement', 4),
-    loadText(STANDALONE_TRAIN_V0186_URL, 'v0.18.6 conversation training supplement', 5),
-    loadText(STANDALONE_VALIDATION_URL, 'Base held-out validation examples', 6),
-    loadText(STANDALONE_VALIDATION_SUPPLEMENT_URL, 'v0.18.3 held-out supplement', 7),
-    loadText(STANDALONE_VALIDATION_V0184_URL, 'v0.18.4 held-out supplement', 8),
-    loadText(STANDALONE_VALIDATION_V0185_URL, 'v0.18.5 held-out validation supplement', 9),
-    loadText(STANDALONE_VALIDATION_V0186_URL, 'v0.18.6 held-out conversation validation', 10),
-    loadText(STANDALONE_TRAIN_V0190_URL, 'v0.19.0 factual knowledge training', 11),
-    loadText(STANDALONE_VALIDATION_V0190_URL, 'v0.19.0 held-out knowledge validation', 12)
-  ]);
+  // Load one file at a time. This avoids twelve simultaneous requests
+  // competing for connections on mobile browsers and makes progress reliable.
+  const baseTrainingText = await loadText(STANDALONE_TRAIN_URL, 'Base training examples', 1);
+  const v0183TrainingText = await loadText(STANDALONE_TRAIN_SUPPLEMENT_URL, 'v0.18.3 training supplement', 2);
+  const v0184TrainingText = await loadText(STANDALONE_TRAIN_V0184_URL, 'v0.18.4 training supplement', 3);
+  const v0185TrainingText = await loadText(STANDALONE_TRAIN_V0185_URL, 'v0.18.5 letter-ordering training supplement', 4);
+  const v0186TrainingText = await loadText(STANDALONE_TRAIN_V0186_URL, 'v0.18.6 conversation training supplement', 5);
+  const baseValidationText = await loadText(STANDALONE_VALIDATION_URL, 'Base held-out validation examples', 6);
+  const v0183ValidationText = await loadText(STANDALONE_VALIDATION_SUPPLEMENT_URL, 'v0.18.3 held-out supplement', 7);
+  const v0184ValidationText = await loadText(STANDALONE_VALIDATION_V0184_URL, 'v0.18.4 held-out supplement', 8);
+  const v0185ValidationText = await loadText(STANDALONE_VALIDATION_V0185_URL, 'v0.18.5 held-out validation supplement', 9);
+  const v0186ValidationText = await loadText(STANDALONE_VALIDATION_V0186_URL, 'v0.18.6 held-out conversation validation', 10);
+  const v0190TrainingText = await loadText(STANDALONE_TRAIN_V0190_URL, 'v0.19.0 factual knowledge training', 11);
+  const v0190ValidationText = await loadText(STANDALONE_VALIDATION_V0190_URL, 'v0.19.0 held-out knowledge validation', 12);
   const trainingText = baseTrainingText + '\n\n' + v0183TrainingText + '\n\n' + v0184TrainingText + '\n\n' + v0185TrainingText + '\n\n' + v0186TrainingText + '\n\n' + v0190TrainingText;
   const validationText = baseValidationText + '\n\n' + v0183ValidationText + '\n\n' + v0184ValidationText + '\n\n' + v0185ValidationText + '\n\n' + v0186ValidationText + '\n\n' + v0190ValidationText;
   const {trainingBlocks, validationBlocks} = await validateStandaloneCurriculumText(trainingText, validationText, signal);
