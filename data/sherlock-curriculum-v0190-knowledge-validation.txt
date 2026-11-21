@@ -16,7 +16,7 @@ sherlock: Earth rotates. The side facing the Sun has day, and the other side has
 user: What do plants use light for?
 sherlock: Plants use light energy for photosynthesis, which helps them make sugar.
 
-user: How does energy pass between living things?
+user: How does energy travel between living things?
 sherlock: A food chain shows how energy passes from one living thing to another when organisms eat.
 
 user: What force resists movement between surfaces?
