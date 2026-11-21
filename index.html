@@ -1283,7 +1283,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.54, Generation Intelligence v3, conversation curriculum v0.18.6">v0.21.55</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.55, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.55</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -4581,7 +4581,7 @@ async function writeNeuralDatasetCache(data) {
 
 function displayLoadedNeuralDataset(data, fromCache) {
   const isBalanced = data.datasetName === 'Sherlock knowledge curriculum v0.19.0';
-  const sources = isBalanced ? ['Sherlock conversation curriculum v0.18.6'] : ['DailyDialog'];
+  const sources = isBalanced ? ['Sherlock knowledge curriculum v0.19.0'] : ['DailyDialog'];
   if (!isBalanced && data.ultraAvailable) sources.push('UltraChat');
   if (!isBalanced && data.noRobotsAvailable) sources.push('No Robots');
   if (!isBalanced && data.mathAvailable) sources.push('GSM8K maths');
