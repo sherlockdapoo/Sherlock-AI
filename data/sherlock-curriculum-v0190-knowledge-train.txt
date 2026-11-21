@@ -1,0 +1,152 @@
+user: What is the Sun?
+sherlock: The Sun is a star at the centre of our solar system. It gives Earth light and heat.
+
+user: Why does the Moon shine?
+sherlock: The Moon reflects sunlight. It does not make its own light.
+
+user: What is a planet?
+sherlock: A planet is a large, nearly round object that orbits a star.
+
+user: What is a galaxy?
+sherlock: A galaxy is a huge group of stars, gas and dust held together by gravity.
+
+user: What is the Milky Way?
+sherlock: The Milky Way is the galaxy that contains our solar system.
+
+user: Why do stars look tiny?
+sherlock: Stars are very far away, so even large stars look like small points of light.
+
+user: What causes day and night?
+sherlock: Earth rotates. The side facing the Sun has day, and the other side has night.
+
+user: How long is one year on Earth?
+sherlock: Earth takes about 365 and a quarter days to orbit the Sun.
+
+user: Why do seasons happen?
+sherlock: Seasons happen because Earth's axis is tilted as it travels around the Sun.
+
+user: What is gravity?
+sherlock: Gravity is a force that attracts objects with mass towards each other.
+
+user: What is an asteroid?
+sherlock: An asteroid is a small rocky object that travels around the Sun.
+
+user: What is a comet?
+sherlock: A comet is an icy object that orbits the Sun. Heat can make a glowing tail.
+
+user: What is a telescope?
+sherlock: A telescope collects light so we can observe distant objects in space.
+
+user: Why is Mars red?
+sherlock: Mars looks red because iron minerals in its soil have reacted with oxygen.
+
+user: What is a black hole?
+sherlock: A black hole is a region where gravity is so strong that even light cannot escape.
+
+user: Can sound travel through space?
+sherlock: No. Sound needs matter such as air or water, and most of space is nearly empty.
+
+user: What are the three states of matter?
+sherlock: The three common states are solid, liquid and gas.
+
+user: What happens when ice melts?
+sherlock: Ice absorbs heat and changes from a solid into liquid water.
+
+user: What is evaporation?
+sherlock: Evaporation happens when particles at a liquid surface become gas.
+
+user: What is condensation?
+sherlock: Condensation happens when a gas cools and changes into a liquid.
+
+user: What is an atom?
+sherlock: An atom is a tiny unit of matter. It has a nucleus surrounded by electrons.
+
+user: What is photosynthesis?
+sherlock: Photosynthesis is how plants use light energy to make sugar from water and carbon dioxide.
+
+user: Why do plants need sunlight?
+sherlock: Plants use light energy for photosynthesis, which helps them make sugar.
+
+user: What is a food chain?
+sherlock: A food chain shows how energy passes from one living thing to another when organisms eat.
+
+user: What is a habitat?
+sherlock: A habitat is the natural place where an organism lives and finds what it needs.
+
+user: What is friction?
+sherlock: Friction is a force that resists movement when two surfaces rub together.
+
+user: What is energy?
+sherlock: Energy is the ability to cause change or do work. It can be transferred between stores.
+
+user: What is electricity?
+sherlock: Electricity involves electric charges. Moving charges in a wire form an electric current.
+
+user: What is renewable energy?
+sherlock: Renewable energy comes from sources that are naturally replaced, such as sunlight and wind.
+
+user: What is the internet?
+sherlock: The internet is a worldwide network that connects devices so they can share information.
+
+user: What is an algorithm?
+sherlock: An algorithm is a clear set of steps for solving a problem or completing a task.
+
+user: What is artificial intelligence?
+sherlock: Artificial intelligence is technology that can recognise patterns, make predictions or generate language.
+
+user: What is a computer program?
+sherlock: A computer program is a set of instructions that tells a computer what to do.
+
+user: What is a sensor?
+sherlock: A sensor detects a change, such as temperature or light, and sends information to a system.
+
+user: What is a map?
+sherlock: A map is a drawing or digital picture that represents a place and shows where things are.
+
+user: What is a continent?
+sherlock: A continent is one of Earth's large land areas. There are seven commonly recognised continents.
+
+user: What is an ocean?
+sherlock: An ocean is a vast body of salt water. Earth has five commonly named oceans.
+
+user: What causes an earthquake?
+sherlock: An earthquake happens when energy is released as rocks suddenly move along a fault.
+
+user: What is weather?
+sherlock: Weather describes short-term conditions in the atmosphere, such as rain, wind and temperature.
+
+user: What is a mammal?
+sherlock: A mammal is an animal with hair or fur. Female mammals produce milk for their young.
+
+user: What is a vertebrate?
+sherlock: A vertebrate is an animal that has a backbone.
+
+user: How do fish breathe underwater?
+sherlock: Most fish use gills to take oxygen from water.
+
+user: What do bees do for flowers?
+sherlock: Bees move pollen between flowers, helping many plants reproduce.
+
+user: What is camouflage?
+sherlock: Camouflage helps an animal blend into its surroundings and avoid being seen.
+
+user: What is a predator?
+sherlock: A predator is an animal that hunts and eats other animals.
+
+user: What is an herbivore?
+sherlock: An herbivore is an animal that mainly eats plants.
+
+user: What is an omnivore?
+sherlock: An omnivore eats both plants and animals.
+
+user: What is archaeology?
+sherlock: Archaeology studies past people by examining objects, buildings and other remains.
+
+user: What is a timeline?
+sherlock: A timeline places events in chronological order to show when they happened.
+
+user: Why do people recycle?
+sherlock: Recycling turns used materials into new products and can reduce waste.
+
+user: What is pollution?
+sherlock: Pollution is harmful material or energy entering the environment and causing damage.
