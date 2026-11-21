@@ -1228,7 +1228,7 @@ body.nav-open{overflow:hidden}
 #benchmarkPanel .benchmark-results textarea::placeholder{color:#728096!important}
 
 /* v0.21.53 visual refinement — preserve the established midnight/blue/green palette. */
-/* v0.21.56 — preserve legacy tokenizer IDs across dataset additions. */
+/* v0.21.57 — preserve legacy tokenizer IDs across dataset additions. */
 html{scroll-behavior:smooth;scroll-padding-top:16px}
 .app{padding-top:clamp(18px,3.2vw,34px)}
 .topbar{padding:4px 2px 12px}
@@ -1283,7 +1283,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.55, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.56</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.55, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.57</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1640,6 +1640,10 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
             <div class="neural-checkpoint-meta"><span>Tokens saved</span><strong id="neuralCheckpointExamples">0</strong></div>
             <p id="neuralCheckpointStatus" class="neural-checkpoint-status">The latest model is saved automatically on this browser after each validation check.</p>
             <small id="neuralCheckpointSavedAt" class="neural-checkpoint-time">No saved checkpoint yet</small>
+            <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+              <button type="button" class="btn btn-secondary" id="runCheckpointDiagnostic">Run read-only checkpoint check</button>
+            </div>
+            <pre id="checkpointDiagnosticResult" style="white-space:pre-wrap;overflow-wrap:anywhere;margin-top:10px;display:none;padding:12px;border:1px solid #30435f;border-radius:10px;background:#091321;color:#c8d8ef;font-size:11px"></pre>
           </section>
         </div>
         </section>
@@ -2524,6 +2528,51 @@ async function saveNeuralCheckpoint(data, key = NEURAL_CHECKPOINT_KEY) {
   }
   renderNeuralLiveView();
 }
+async function runReadOnlyCheckpointDiagnostic() {
+  const output = $('checkpointDiagnosticResult');
+  const button = $('runCheckpointDiagnostic');
+  if (!output || !button) return;
+  button.disabled = true;
+  output.style.display = 'block';
+  output.textContent = 'Checking saved checkpoint metadata without changing it…';
+  const describe = record => {
+    if (!record) return 'not found';
+    const buffer = record.modelBuffer instanceof ArrayBuffer ? record.modelBuffer : null;
+    return [
+      'present',
+      'version: ' + (record.version ?? 'missing'),
+      'parameterCount: ' + (record.parameterCount ?? 'missing'),
+      'modelCompatibility: ' + (record.modelCompatibility ?? 'missing'),
+      'datasetRevision: ' + (record.datasetRevision ?? 'missing'),
+      'datasetFingerprint: ' + (typeof record.datasetFingerprint === 'string' ? record.datasetFingerprint.slice(0, 18) + '…' : 'missing'),
+      'modelBuffer: ' + (buffer ? buffer.byteLength.toLocaleString() + ' bytes' : 'missing or wrong type'),
+      'trainingState: ' + (typeof record.trainingState === 'string' ? record.trainingState.length.toLocaleString() + ' base64 characters' : 'missing'),
+      'steps: ' + (record.steps ?? 'missing'),
+      'savedAt: ' + (record.savedAt ?? 'missing')
+    ].join('\\n');
+  };
+  try {
+    const keys = [NEURAL_CHECKPOINT_KEY, NEURAL_BEST_CHECKPOINT_KEY, NEURAL_ARCHIVE_CHECKPOINT_KEY, NEURAL_ARCHIVE_CHECKPOINT_KEY + '-backup', NEURAL_FRESH_RESET_MARKER];
+    const rows = [];
+    try {
+      for (const key of keys) rows.push('IndexedDB ' + key + ':\\n' + describe(await readNeuralCheckpointRecord(key)));
+    } catch (error) {
+      rows.push('IndexedDB read error: ' + (error && error.message ? error.message : String(error)));
+    }
+    for (const key of keys) {
+      const raw = localStorage.getItem(key);
+      if (!raw) { rows.push('localStorage ' + key + ': not found'); continue; }
+      try { rows.push('localStorage ' + key + ':\\n' + describe(JSON.parse(raw))); }
+      catch (_) { rows.push('localStorage ' + key + ': present, invalid JSON (' + raw.length + ' characters)'); }
+    }
+    rows.push('Expected: version 12; parameterCount ' + NEURAL_MODEL_PARAMETER_COUNT + '; compatibility ' + NEURAL_MODEL_COMPATIBILITY + '; model buffer ' + (NEURAL_MODEL_PARAMETER_COUNT * 3 * Float32Array.BYTES_PER_ELEMENT) + ' bytes.');
+    output.textContent = rows.join('\\n\\n');
+  } catch (error) {
+    output.textContent = 'Diagnostic failed: ' + (error && error.message ? error.message : String(error));
+  } finally { button.disabled = false; }
+}
+$('runCheckpointDiagnostic')?.addEventListener('click', runReadOnlyCheckpointDiagnostic);
+
 async function restoreSavedNeuralCheckpoint() {
   let freshResetState = null;
   try {
