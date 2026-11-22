@@ -12,8 +12,12 @@ The active curriculum contains **24,751 training conversations** and **1,795 hel
 - Letter/instruction tasks: 5,000 / 300
 - Conversation and factual knowledge: 751 / 115
 
-The v0.18.7 conversation supplement replaces the earlier v0.18.6 set because that set reused identical user prompts with different assistant responses. The replacement keeps the same 700 training and 100 held-out examples, but gives every example a unique user prompt. The loader now checks prompt uniqueness within each split and rejects any prompt shared between training and validation.
+## Data-quality corrections
 
-The v0.19.0 factual knowledge supplement remains included (51 training / 15 validation examples). Training and validation contain no exact conversation overlap.
+A full prompt-level audit found 85 repeated training prompts across 25 prompt groups, plus two prompts shared between training and validation. These have been corrected without changing the conversation counts or task-family totals.
+
+The v0.18.7 conversation supplement also replaces the v0.18.6 set, which reused identical user prompts with different assistant responses. All active training prompts are now unique, all held-out validation prompts are unique, and no prompt is shared between the two splits. The browser loader enforces these checks and rejects a library that fails them.
+
+The v0.19.0 factual knowledge supplement remains included (51 training / 15 validation examples). The original model architecture, parameter count, and frozen legacy token IDs are unchanged.
 
 The curriculum is original synthetic content. No external dataset samples are downloaded or included.
