@@ -1,6 +1,6 @@
 # Sherlock AI knowledge curriculum v0.19.0
 
-This supplement expands the v0.18.6 conversation family with short factual question-and-answer examples.
+This supplement expands the v0.18.7 conversation family with short factual question-and-answer examples.
 
 ## Contents
 
@@ -15,7 +15,7 @@ Validation prompts are separate from training prompts. No validation prompt is d
 
 ## Model compatibility
 
-The supplement uses the frozen v0.18.6 token IDs. New vocabulary items are appended into unused rows of the existing 1,024-token output vocabulary; legacy token IDs are not reordered. This keeps the existing v0.19.1 model parameter shape and old token mapping intact.
+The supplement uses the frozen v0.18.7 token IDs. New vocabulary items are appended into unused rows of the existing 1,024-token output vocabulary; legacy token IDs are not reordered. This keeps the existing v0.19.1 model parameter shape and old token mapping intact.
 
 The checkpoint compatibility identifier is `sherlock-word-token-v0191-stable-vocab-v0186`. Dataset revision and model compatibility are tracked separately so a dataset update does not force a fresh model.
 
