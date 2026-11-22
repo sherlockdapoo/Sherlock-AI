@@ -1,14 +1,19 @@
 # Sherlock AI training data notice
 
-## Active Neural Lab dataset: Balanced Learning v0.18.2
+## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.1
 
-The active Neural Lab uses an original synthetic curriculum generated specifically for Sherlock AI. The active files are:
+The active curriculum contains **24,751 training conversations** and **1,795 held-out validation conversations** across seven task families:
 
-- `data/sherlock-curriculum-v0182-train.txt`: 15,000 training examples.
-- `data/sherlock-curriculum-v0182-validation.txt`: 1,500 held-out validation examples.
+- Arithmetic: 3,900 training / 286 validation
+- Percentages: 3,700 / 266
+- Unit conversions: 3,800 / 276
+- Word problems: 3,800 / 276
+- Number sequences: 3,800 / 276
+- Letter/instruction tasks: 5,000 / 300
+- Conversation and factual knowledge: 751 / 115
 
-The curriculum contains six task families, with exactly 2,500 training and 250 validation examples in each family. The v0.18.2 revision adds 3,000 training examples and 300 held-out examples to the previous v0.18.1 curriculum. Training and validation prompts are unique, and the two splits have no exact conversation overlap.
+The v0.18.7 conversation supplement replaces the earlier v0.18.6 set because that set reused identical user prompts with different assistant responses. The replacement keeps the same 700 training and 100 held-out examples, but gives every example a unique user prompt. The loader now checks prompt uniqueness within each split and rejects any prompt shared between training and validation.
 
-The six task families are arithmetic, percentages, unit conversions, word problems, number sequences, and letter/instruction tasks. The expanded examples use synthetic values and wording based on the existing curriculum.
+The v0.19.0 factual knowledge supplement remains included (51 training / 15 validation examples). Training and validation contain no exact conversation overlap.
 
-No external dataset samples are downloaded or included in this active curriculum.
+The curriculum is original synthetic content. No external dataset samples are downloaded or included.
