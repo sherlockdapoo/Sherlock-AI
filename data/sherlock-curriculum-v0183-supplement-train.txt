@@ -7498,7 +7498,7 @@ sherlock: 302.
 user: What is the next number in this sequence: 261, 233, 205, 177?
 sherlock: 149.
 
-user: Follow the instruction and use the alphabet to order these letters: b, g, s, f, r.
+user: Follow the instruction and use the alphabet to order these letters: b, g, s, f, r. Please use practice version 1.
 sherlock: b, f, g, r, s
 
 user: Follow the instruction and use the alphabet to order these letters: b, n, g, j, l.
