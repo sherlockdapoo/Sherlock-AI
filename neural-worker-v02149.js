@@ -6,6 +6,8 @@ const CONTEXT = 48;
 const EMBED = 12;
 const INPUT = CONTEXT * EMBED;
 const HIDDEN = 96;
+const HIDDEN_DROPOUT_RATE = 0.15;
+const HIDDEN_DROPOUT_SCALE = 1 / (1 - HIDDEN_DROPOUT_RATE);
 const UNK_ID = 0;
 const SPACE_ID = 1;
 const NEWLINE_ID = 2;
@@ -124,6 +126,7 @@ const probabilities = new Float32Array(VOCAB);
 const hiddenDelta = new Float32Array(HIDDEN);
 const contextCodes = new Uint16Array(CONTEXT);
 const activeHiddenIndices = new Uint8Array(HIDDEN);
+const hiddenDropoutMask = new Float32Array(HIDDEN);
 const batchPositions = new Uint32Array(DEFAULT_BATCH_SIZE);
 let activeHiddenCount = 0;
 
@@ -392,7 +395,7 @@ function initialiseParameters() {
   movingLoss = 0;
   lossInitialized = false;
 }
-function forwardContext() {
+function forwardContext(training = false) {
   const profileStart = detailedProfileActive ? performance.now() : 0;
   for (let slot = 0; slot < CONTEXT; slot++) {
     const code = contextCodes[slot] < vocabularySize ? contextCodes[slot] : UNK_ID;
@@ -412,8 +415,12 @@ function forwardContext() {
     for (let j = 0; j < INPUT; j++)
       sum += parameters[row + j] * inputVector[j];
     const activation = sum > 0 ? sum : 0;
-    hiddenVector[k] = activation;
-    if (activation > 0) activeHiddenIndices[activeHiddenCount++] = k;
+    const dropoutScale = training
+      ? (randomUnit() < HIDDEN_DROPOUT_RATE ? 0 : HIDDEN_DROPOUT_SCALE)
+      : 1;
+    hiddenDropoutMask[k] = dropoutScale;
+    hiddenVector[k] = activation * dropoutScale;
+    if (hiddenVector[k] > 0) activeHiddenIndices[activeHiddenCount++] = k;
   }
 
   const hiddenEnd = detailedProfileActive ? performance.now() : 0;
@@ -447,17 +454,17 @@ function forwardContext() {
   }
   return probabilities;
 }
-function forward(data, position, contextStart = 0) {
+function forward(data, position, contextStart = 0, training = false) {
   for (let slot = 0; slot < CONTEXT; slot++) {
     const sourceIndex = position - CONTEXT + slot;
     contextCodes[slot] = sourceIndex >= contextStart ? tokenAt(data, sourceIndex) : SPACE_ID;
   }
-  return forwardContext();
+  return forwardContext(training);
 }
 function trainExample(position) {
   detailedProfileActive = detailedProfiling;
   const target = tokenAt(trainData, position);
-  const probs = forward(trainData, position, trainContextStartByPosition[position]);
+  const probs = forward(trainData, position, trainContextStartByPosition[position], true);
   const targetProbability = Math.max(probs[target], 1e-9);
   const loss = -Math.log(targetProbability);
   const backpropStart = detailedProfileActive ? performance.now() : 0;
@@ -481,7 +488,7 @@ function trainExample(position) {
   // Only those units can have non-zero hidden deltas, so skip the full-width scan.
   for (let n = 0; n < activeHiddenCount; n++) {
     const k = activeHiddenIndices[n];
-    const delta = hiddenDelta[k];
+    const delta = hiddenDelta[k] * hiddenDropoutMask[k];
     if (delta === 0) continue;
     gradients[B1_OFFSET + k] += delta;
     const row = W1_OFFSET + k * INPUT;
@@ -498,7 +505,7 @@ function trainExample(position) {
   // This preserves the accumulation order while skipping guaranteed-zero rows.
   for (let n = 0; n < activeHiddenCount; n++) {
     const k = activeHiddenIndices[n];
-    const delta = hiddenDelta[k];
+    const delta = hiddenDelta[k] * hiddenDropoutMask[k];
     if (delta === 0) continue;
     const row = W1_OFFSET + k * INPUT;
     for (let inputIndex = 0; inputIndex < INPUT; inputIndex++)
