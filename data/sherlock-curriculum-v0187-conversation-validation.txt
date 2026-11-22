@@ -1,0 +1,299 @@
+user: hello sherlock I want to explore space.
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: hello sherlock I want to explore nature.
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: hello sherlock I want to explore music.
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: hello sherlock I want to explore books.
+sherlock: Good to hear from you. What would you like to work on?
+
+user: hello sherlock I want to explore puzzle.
+sherlock: Hello! We can start with a question that interests you.
+
+user: hiya there I want to explore space.
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: hiya there I want to explore nature.
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: hiya there I want to explore music.
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: hiya there I want to explore books.
+sherlock: Good to hear from you. What would you like to work on?
+
+user: hiya there I want to explore puzzle.
+sherlock: Hello! We can start with a question that interests you.
+
+user: morning I want to explore space.
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: morning I want to explore nature.
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: morning I want to explore music.
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: morning I want to explore books.
+sherlock: Good to hear from you. What would you like to work on?
+
+user: morning I want to explore puzzle.
+sherlock: Hello! We can start with a question that interests you.
+
+user: hey sherlock I want to explore space.
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: hey sherlock I want to explore nature.
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: hey sherlock I want to explore music.
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: hey sherlock I want to explore books.
+sherlock: Good to hear from you. What would you like to work on?
+
+user: hey sherlock I want to explore puzzle.
+sherlock: Hello! We can start with a question that interests you.
+
+user: good day I want to explore space.
+sherlock: Hello! What would you like to explore or learn about today?
+
+user: good day I want to explore nature.
+sherlock: Hi there! Send me a topic and we can look at it together.
+
+user: good day I want to explore music.
+sherlock: Hey! I am ready to try a question or help with an idea.
+
+user: good day I want to explore books.
+sherlock: Good to hear from you. What would you like to work on?
+
+user: good day I want to explore puzzle.
+sherlock: Hello! We can start with a question that interests you.
+
+user: Could you guide me through this? I want to explore space.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: Could you guide me through this? I want to explore nature.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: Could you guide me through this? I want to explore music.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: Could you guide me through this? I want to explore books.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: Could you guide me through this? I want to explore puzzle.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: I need a clearer explanation. I want to explore space.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: I need a clearer explanation. I want to explore nature.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: I need a clearer explanation. I want to explore music.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: I need a clearer explanation. I want to explore books.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: I need a clearer explanation. I want to explore puzzle.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: Can we try a practice task? I want to explore space.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: Can we try a practice task? I want to explore nature.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: Can we try a practice task? I want to explore music.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: Can we try a practice task? I want to explore books.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: Can we try a practice task? I want to explore puzzle.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: I want to understand the idea. I want to explore space.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: I want to understand the idea. I want to explore nature.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: I want to understand the idea. I want to explore music.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: I want to understand the idea. I want to explore books.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: I want to understand the idea. I want to explore puzzle.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: Help me get started. I want to explore space.
+sherlock: Yes. We can begin with the main idea and then look at a worked example.
+
+user: Help me get started. I want to explore nature.
+sherlock: Tell me what you already know and I can explain the missing part.
+
+user: Help me get started. I want to explore music.
+sherlock: Let us choose one small task and work through it carefully.
+
+user: Help me get started. I want to explore books.
+sherlock: I can give a simpler explanation and check whether it makes sense.
+
+user: Help me get started. I want to explore puzzle.
+sherlock: Start by sharing the question so we can identify what it is asking.
+
+user: I have finished my revision. I want to explore space.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: I have finished my revision. I want to explore nature.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: I have finished my revision. I want to explore music.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: I have finished my revision. I want to explore books.
+sherlock: Let us use a different example to practise the same skill.
+
+user: I have finished my revision. I want to explore puzzle.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: That example helped. I want to explore space.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: That example helped. I want to explore nature.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: That example helped. I want to explore music.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: That example helped. I want to explore books.
+sherlock: Let us use a different example to practise the same skill.
+
+user: That example helped. I want to explore puzzle.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: I think I see the pattern. I want to explore space.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: I think I see the pattern. I want to explore nature.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: I think I see the pattern. I want to explore music.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: I think I see the pattern. I want to explore books.
+sherlock: Let us use a different example to practise the same skill.
+
+user: I think I see the pattern. I want to explore puzzle.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: I would like another challenge. I want to explore space.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: I would like another challenge. I want to explore nature.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: I would like another challenge. I want to explore music.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: I would like another challenge. I want to explore books.
+sherlock: Let us use a different example to practise the same skill.
+
+user: I would like another challenge. I want to explore puzzle.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: Can you check my thinking? I want to explore space.
+sherlock: Good progress. A new example can help you see whether the method is clear.
+
+user: Can you check my thinking? I want to explore nature.
+sherlock: That is a useful step. Try explaining the idea in your own words.
+
+user: Can you check my thinking? I want to explore music.
+sherlock: Share your reasoning and I can check each part for accuracy.
+
+user: Can you check my thinking? I want to explore books.
+sherlock: Let us use a different example to practise the same skill.
+
+user: Can you check my thinking? I want to explore puzzle.
+sherlock: Well done for staying with the problem and checking your understanding.
+
+user: What is a good question to investigate? I want to explore space.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: What is a good question to investigate? I want to explore nature.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: What is a good question to investigate? I want to explore music.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: What is a good question to investigate? I want to explore books.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: What is a good question to investigate? I want to explore puzzle.
+sherlock: Try looking at the problem from another point of view.
+
+user: I want to explore technology. I want to explore space.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: I want to explore technology. I want to explore nature.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: I want to explore technology. I want to explore music.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: I want to explore technology. I want to explore books.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: I want to explore technology. I want to explore puzzle.
+sherlock: Try looking at the problem from another point of view.
+
+user: Can we discuss a new idea? I want to explore space.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: Can we discuss a new idea? I want to explore nature.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: Can we discuss a new idea? I want to explore music.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: Can we discuss a new idea? I want to explore books.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: Can we discuss a new idea? I want to explore puzzle.
+sherlock: Try looking at the problem from another point of view.
+
+user: I enjoy asking questions. I want to explore space.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: I enjoy asking questions. I want to explore nature.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: I enjoy asking questions. I want to explore music.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: I enjoy asking questions. I want to explore books.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: I enjoy asking questions. I want to explore puzzle.
+sherlock: Try looking at the problem from another point of view.
+
+user: Show me a different perspective. I want to explore space.
+sherlock: One approach is to ask what causes the result and how we could test it.
+
+user: Show me a different perspective. I want to explore nature.
+sherlock: Technology gives us many questions about design, reliability, and usefulness.
+
+user: Show me a different perspective. I want to explore music.
+sherlock: We can compare different explanations and see which has the strongest evidence.
+
+user: Show me a different perspective. I want to explore books.
+sherlock: A useful investigation starts with a question that can be explored carefully.
+
+user: Show me a different perspective. I want to explore puzzle.
+sherlock: Try looking at the problem from another point of view.
