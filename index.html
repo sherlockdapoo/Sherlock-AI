@@ -1283,7 +1283,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.64, Generation Intelligence v3, knowledge curriculum v0.19.0">v0.21.64</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.65, Generation Intelligence v3, knowledge curriculum v0.19.1">v0.21.65</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1847,7 +1847,7 @@ const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-v1';
 const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-best-v1';
 const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v0191-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-archive-v1';
-const NEURAL_DATASET_REVISION = 'sherlock-knowledge-curriculum-v0190-2026-11';
+const NEURAL_DATASET_REVISION = 'sherlock-knowledge-curriculum-v0191-2026-11';
 const NEURAL_MODEL_COMPATIBILITY = 'sherlock-word-token-v0191-stable-vocab-v0186';
 const STANDALONE_CURRICULUM_ONLY = true;
 const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0182-train.txt';
@@ -1858,8 +1858,8 @@ const STANDALONE_VALIDATION_SUPPLEMENT_URL = 'data/sherlock-curriculum-v0183-sup
 const STANDALONE_VALIDATION_V0184_URL = 'data/sherlock-curriculum-v0184-supplement-validation.txt';
 const STANDALONE_TRAIN_V0185_URL = 'data/sherlock-curriculum-v0185-supplement-train.txt';
 const STANDALONE_VALIDATION_V0185_URL = 'data/sherlock-curriculum-v0185-supplement-validation.txt';
-const STANDALONE_TRAIN_V0186_URL = 'data/sherlock-curriculum-v0186-conversation-train.txt';
-const STANDALONE_VALIDATION_V0186_URL = 'data/sherlock-curriculum-v0186-conversation-validation.txt';
+const STANDALONE_TRAIN_V0187_URL = 'data/sherlock-curriculum-v0187-conversation-train.txt';
+const STANDALONE_VALIDATION_V0187_URL = 'data/sherlock-curriculum-v0187-conversation-validation.txt';
 const STANDALONE_TRAIN_V0190_URL = 'data/sherlock-curriculum-v0190-knowledge-train.txt';
 const STANDALONE_VALIDATION_V0190_URL = 'data/sherlock-curriculum-v0190-knowledge-validation.txt';
 const PAGE_SIZE = 100;
@@ -3752,7 +3752,7 @@ async function copySherlockTrainingReport() {
   const value = id => { const node = $(id); return node ? node.textContent.trim() : 'Not available'; };
   const report = [
     'SHERLOCK AI TRAINING REPORT', 'Website version: ' + (document.querySelector('.brand-version')?.textContent.trim() || 'unknown'),
-    'Balanced Learning: v0.18.5', 'Created: ' + new Date().toISOString(),
+    'Balanced Learning: v0.18.7', 'Created: ' + new Date().toISOString(),
     ...fields.map(([label, id]) => label + ': ' + value(id)),
     '', 'Unknown-token audit detail:', value('neuralUnknownTokenDiagnosis'),
     '', 'Training status:', value('neuralMessage'),
@@ -4635,7 +4635,7 @@ async function writeNeuralDatasetCache(data) {
 }
 
 function displayLoadedNeuralDataset(data, fromCache) {
-  const isBalanced = data.datasetName === 'Sherlock knowledge curriculum v0.19.0';
+  const isBalanced = data.datasetName === 'Sherlock knowledge curriculum v0.19.1';
   const sources = isBalanced ? ['Sherlock knowledge curriculum v0.19.0'] : ['DailyDialog'];
   if (!isBalanced && data.ultraAvailable) sources.push('UltraChat');
   if (!isBalanced && data.noRobotsAvailable) sources.push('No Robots');
@@ -4648,7 +4648,7 @@ function displayLoadedNeuralDataset(data, fromCache) {
   showDataProgress(1, 1, fromCache ? 'Using saved ' + (isBalanced ? 'balanced curriculum' : 'browser dataset') : sources.join(' + ') + ' ready');
   if (fromCache) {
     $('neuralMessage').textContent = isBalanced
-      ? 'Restored Sherlock knowledge curriculum v0.19.0 from this browser. Seven task families are balanced, with separate factual knowledge examples.'
+      ? 'Restored Sherlock knowledge curriculum v0.19.1 from this browser. Seven task families are balanced, with unique held-out prompts.'
       : 'Restored the expanded training datasets from this browser. No dataset download is needed.';
   } else {
     $('neuralMessage').textContent = 'Loaded ' + data.trainConversations.toLocaleString() + ' training conversations from ' + sources.join(', ') + ', with ' + data.validationConversations.toLocaleString() + ' separate held-out validation conversations.';
@@ -4733,7 +4733,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
   };
   // The v0.18.2 base corpus is not perfectly even: it contains 2,600 arithmetic
   // and 2,400 percentage training examples (260 and 240 in validation).
-  // v0.18.3 and v0.18.4 add 500/10 examples per family; v0.18.5 adds 1,500 letter tasks and 300/6 examples in each other family; v0.18.6 adds the original conversation examples; v0.19.0 adds 51 factual training examples and 15 separate held-out knowledge examples.
+  // v0.18.3 and v0.18.4 add 500/10 examples per family; v0.18.5 adds 1,500 letter tasks and 300/6 examples in each other family; v0.18.7 replaces repeated conversation prompts with unique prompts; v0.19.0 adds 51 factual training examples and 15 separate held-out knowledge examples.
   await validateFamilyDistribution(trainingBlocks, 'Training library', {
     'arithmetic': 3900, 'percentages': 3700, 'unit conversions': 3800,
     'word problems': 3800, 'number sequences': 3800, 'letter/instruction tasks': 5000, 'conversation': 751
@@ -4742,6 +4742,22 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     'arithmetic': 286, 'percentages': 266, 'unit conversions': 276,
     'word problems': 276, 'number sequences': 276, 'letter/instruction tasks': 300, 'conversation': 115
   });
+  const promptKey = block => normalise(block.split('\n', 1)[0].replace(/^user:[ \t]*/i, ''));
+  const trainingPrompts = new Set();
+  for (let index = 0; index < trainingBlocks.length; index++) {
+    if (index > 0 && index % 200 === 0) await yieldToBrowser();
+    const key = promptKey(trainingBlocks[index]);
+    if (trainingPrompts.has(key)) throw new Error('The training library contains a repeated user prompt. The library was not loaded.');
+    trainingPrompts.add(key);
+  }
+  const validationPrompts = new Set();
+  for (let index = 0; index < validationBlocks.length; index++) {
+    if (index > 0 && index % 200 === 0) await yieldToBrowser();
+    const key = promptKey(validationBlocks[index]);
+    if (validationPrompts.has(key)) throw new Error('The held-out validation library contains a repeated user prompt. The library was not loaded.');
+    if (trainingPrompts.has(key)) throw new Error('A held-out validation prompt also appears in training. The library was not loaded.');
+    validationPrompts.add(key);
+  }
   for (let index = 0; index < validationBlocks.length; index++) {
     if (index > 0 && index % 200 === 0) await yieldToBrowser();
     if (trainingSet.has(normalise(validationBlocks[index])))
@@ -4768,16 +4784,16 @@ async function loadStandaloneCurriculum(signal) {
   const v0183TrainingText = await loadText(STANDALONE_TRAIN_SUPPLEMENT_URL, 'v0.18.3 training supplement', 2);
   const v0184TrainingText = await loadText(STANDALONE_TRAIN_V0184_URL, 'v0.18.4 training supplement', 3);
   const v0185TrainingText = await loadText(STANDALONE_TRAIN_V0185_URL, 'v0.18.5 letter-ordering training supplement', 4);
-  const v0186TrainingText = await loadText(STANDALONE_TRAIN_V0186_URL, 'v0.18.6 conversation training supplement', 5);
+  const v0187TrainingText = await loadText(STANDALONE_TRAIN_V0187_URL, 'v0.18.7 deduplicated conversation training supplement', 5);
   const baseValidationText = await loadText(STANDALONE_VALIDATION_URL, 'Base held-out validation examples', 6);
   const v0183ValidationText = await loadText(STANDALONE_VALIDATION_SUPPLEMENT_URL, 'v0.18.3 held-out supplement', 7);
   const v0184ValidationText = await loadText(STANDALONE_VALIDATION_V0184_URL, 'v0.18.4 held-out supplement', 8);
   const v0185ValidationText = await loadText(STANDALONE_VALIDATION_V0185_URL, 'v0.18.5 held-out validation supplement', 9);
-  const v0186ValidationText = await loadText(STANDALONE_VALIDATION_V0186_URL, 'v0.18.6 held-out conversation validation', 10);
+  const v0187ValidationText = await loadText(STANDALONE_VALIDATION_V0187_URL, 'v0.18.7 deduplicated held-out conversation validation', 10);
   const v0190TrainingText = await loadText(STANDALONE_TRAIN_V0190_URL, 'v0.19.0 factual knowledge training', 11);
   const v0190ValidationText = await loadText(STANDALONE_VALIDATION_V0190_URL, 'v0.19.0 held-out knowledge validation', 12);
-  const trainingText = baseTrainingText + '\n\n' + v0183TrainingText + '\n\n' + v0184TrainingText + '\n\n' + v0185TrainingText + '\n\n' + v0186TrainingText + '\n\n' + v0190TrainingText;
-  const validationText = baseValidationText + '\n\n' + v0183ValidationText + '\n\n' + v0184ValidationText + '\n\n' + v0185ValidationText + '\n\n' + v0186ValidationText + '\n\n' + v0190ValidationText;
+  const trainingText = baseTrainingText + '\n\n' + v0183TrainingText + '\n\n' + v0184TrainingText + '\n\n' + v0185TrainingText + '\n\n' + v0187TrainingText + '\n\n' + v0190TrainingText;
+  const validationText = baseValidationText + '\n\n' + v0183ValidationText + '\n\n' + v0184ValidationText + '\n\n' + v0185ValidationText + '\n\n' + v0187ValidationText + '\n\n' + v0190ValidationText;
   const {trainingBlocks, validationBlocks} = await validateStandaloneCurriculumText(trainingText, validationText, signal);
   const trainBytes = new TextEncoder().encode(trainingText);
   const validationBytes = new TextEncoder().encode(validationText);
