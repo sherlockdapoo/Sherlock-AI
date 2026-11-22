@@ -1283,7 +1283,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.65, Generation Intelligence v3, knowledge curriculum v0.19.1">v0.21.65</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.66, Generation Intelligence v3, knowledge curriculum v0.19.1">v0.21.66</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3169,7 +3169,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.65-dedup-curriculum-v1', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.66-word-problem-classifier-v1', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -4710,7 +4710,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     {name: 'arithmetic', pattern: /\b(?:plus|minus|multiplied|divide|divided|times|add)\b/i},
     {name: 'percentages', pattern: /%|\bpercent(?:age)?\b/i},
     {name: 'unit conversions', pattern: /\bconvert\b|\bare equal to\b|\bchange\b.*\binto\b/i},
-    {name: 'word problems', pattern: /\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/i},
+    {name: 'word problems', pattern: /^(?!.*\bexplore books\b).*\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/i},
     {name: 'number sequences', pattern: /\bsequence\b/i},
     {name: 'letter/instruction tasks', pattern: /\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b|\binstruction\b/i},
     {name: 'conversation', pattern: null}
