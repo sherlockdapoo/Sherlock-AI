@@ -59,6 +59,8 @@ let trainContextStartByPosition = new Uint32Array(0);
 let validationContextStartByPosition = new Uint32Array(0);
 let trainTargetPositions = new Uint32Array(0);
 let trainTargetPositionsByFamily = [];
+let familySamplingCumulative = new Float64Array(0);
+let familySamplingTotal = 0;
 let validationTargetPositions = new Uint32Array(0);
 let corpusBigramCounts = new Map();
 let corpusTrigramCounts = new Map();
@@ -251,7 +253,12 @@ function collectAssistantTrainingTargets(text, tokenCount) {
 }
 
 function sampleBalancedTrainingPosition() {
-  const familyIndex = randomInt(TASK_FAMILY_NAMES.length);
+  if (!familySamplingTotal || familySamplingCumulative.length !== TASK_FAMILY_NAMES.length)
+    throw new Error("Balanced Learning sampling weights are not initialised.");
+  const draw = randomUnit() * familySamplingTotal;
+  let familyIndex = 0;
+  while (familyIndex < familySamplingCumulative.length - 1 && draw >= familySamplingCumulative[familyIndex])
+    familyIndex++;
   const familyPositions = trainTargetPositionsByFamily[familyIndex];
   if (!familyPositions || !familyPositions.length)
     throw new Error("Balanced Learning has no training targets for " + TASK_FAMILY_NAMES[familyIndex] + ".");
@@ -1440,6 +1447,14 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
   const missingFamilies = TASK_FAMILY_NAMES.filter((name, index) => !trainTargetPositionsByFamily[index] || !trainTargetPositionsByFamily[index].length);
   if (missingFamilies.length)
     throw new Error("Balanced Learning is missing training targets for: " + missingFamilies.join(", ") + ".");
+  // Square-root weighting moderates the equal-family sampler: larger families
+  // receive more draws, while smaller families retain additional representation.
+  familySamplingCumulative = new Float64Array(TASK_FAMILY_NAMES.length);
+  familySamplingTotal = 0;
+  for (let i = 0; i < TASK_FAMILY_NAMES.length; i++) {
+    familySamplingTotal += Math.sqrt(trainTargetPositionsByFamily[i].length);
+    familySamplingCumulative[i] = familySamplingTotal;
+  }
   return {
     trainTokens: trainData.length,
     validationTokens: validationData.length,
