@@ -62,6 +62,8 @@ let trainTargetPositionsByFamily = [];
 let familySamplingCumulative = new Float64Array(0);
 let familySamplingTotal = 0;
 let validationTargetPositions = new Uint32Array(0);
+let validationTargetPositionsByFamily = [];
+let latestComparableDiagnostics = null;
 let corpusBigramCounts = new Map();
 let corpusTrigramCounts = new Map();
 let corpusFourgramCounts = new Map();
@@ -250,6 +252,53 @@ function collectAssistantTrainingTargets(text, tokenCount) {
     positionsByFamily: positionsByFamily.map(group => Uint32Array.from(group)),
     contextStartByPosition
   };
+}
+
+function evaluateComparableAsync() {
+  if (!trainData || !validationData) return Promise.resolve(null);
+  const groups = [];
+  let aggregateTrainingLoss = 0;
+  let aggregateValidationLoss = 0;
+  let aggregateFamilies = 0;
+  for (let familyIndex = 0; familyIndex < TASK_FAMILY_NAMES.length; familyIndex++) {
+    const trainGroup = trainTargetPositionsByFamily[familyIndex];
+    const validationGroup = validationTargetPositionsByFamily[familyIndex];
+    const samples = Math.min(64, trainGroup ? trainGroup.length : 0, validationGroup ? validationGroup.length : 0);
+    if (!samples) {
+      groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples: 0, trainingLoss: null, validationLoss: null});
+      continue;
+    }
+    let trainingLoss = 0;
+    let validationLoss = 0;
+    for (let sample = 0; sample < samples; sample++) {
+      const trainIndex = Math.min(trainGroup.length - 1, Math.floor((sample + 0.5) * trainGroup.length / samples));
+      const validationIndex = Math.min(validationGroup.length - 1, Math.floor((sample + 0.5) * validationGroup.length / samples));
+      const trainPosition = trainGroup[trainIndex];
+      const validationPosition = validationGroup[validationIndex];
+      forward(trainData, trainPosition, trainContextStartByPosition[trainPosition], false);
+      trainingLoss += -Math.log(Math.max(probabilities[tokenAt(trainData, trainPosition)], 1e-9));
+      forward(validationData, validationPosition, validationContextStartByPosition[validationPosition], false);
+      validationLoss += -Math.log(Math.max(probabilities[tokenAt(validationData, validationPosition)], 1e-9));
+    }
+    trainingLoss /= samples;
+    validationLoss /= samples;
+    groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples, trainingLoss, validationLoss});
+    aggregateTrainingLoss += trainingLoss;
+    aggregateValidationLoss += validationLoss;
+    aggregateFamilies++;
+  }
+  if (!aggregateFamilies) throw new Error("Comparable diagnostics could not find any task families represented in both datasets.");
+  latestComparableDiagnostics = {
+    steps,
+    evaluatedAt: new Date().toISOString(),
+    sampling: "64 evenly spaced targets per shared task family; inference mode; equal family weighting",
+    families: groups,
+    trainingMacroLoss: aggregateTrainingLoss / aggregateFamilies,
+    validationMacroLoss: aggregateValidationLoss / aggregateFamilies,
+    comparableFamilies: aggregateFamilies
+  };
+  self.postMessage({type: "diagnostic-evaluation", ...latestComparableDiagnostics});
+  return latestComparableDiagnostics;
 }
 
 function sampleBalancedTrainingPosition() {
@@ -872,7 +921,8 @@ function progressPayload() {
     validationUnknownRate,
     trainTokens: trainData ? trainData.length : 0,
     validationTokens: validationData ? validationData.length : 0,
-    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), selectionMs: Math.round(profilingSelectionMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs), detailed: detailedProfiling, detailedExamples: detailedProfileExamples, forwardMs: Math.round(profileForwardMs), inputCopyMs: Math.round(profileInputCopyMs), hiddenMs: Math.round(profileHiddenMs), outputMs: Math.round(profileOutputMs), backpropMs: Math.round(profileBackpropMs), embeddingMs: Math.round(profileEmbeddingMs) }
+    runtimeProfile: { batches: profilingBatches, totalBatchMs: Math.round(profilingBatchMs), selectionMs: Math.round(profilingSelectionMs), exampleComputeMs: Math.round(profilingExampleMs), optimizerMs: Math.round(profilingOptimizerMs), detailed: detailedProfiling, detailedExamples: detailedProfileExamples, forwardMs: Math.round(profileForwardMs), inputCopyMs: Math.round(profileInputCopyMs), hiddenMs: Math.round(profileHiddenMs), outputMs: Math.round(profileOutputMs), backpropMs: Math.round(profileBackpropMs), embeddingMs: Math.round(profileEmbeddingMs) },
+    comparableDiagnostics: latestComparableDiagnostics
   };
   if (now - lastNetworkSnapshotAt >= NETWORK_SNAPSHOT_INTERVAL_MS) {
     payload.network = networkSnapshot();
@@ -925,7 +975,19 @@ function runBatch() {
             return;
           }
           if (!running) return;
-          setTimeout(runBatch, 0);
+          const diagnostics = steps % 500 === 0
+            ? evaluateComparableAsync()
+            : Promise.resolve(null);
+          diagnostics.then(() => {
+            if (stopRequested) {
+              finishStop(stopRequestReason);
+              return;
+            }
+            if (running) setTimeout(runBatch, 0);
+          }).catch(error => {
+            running = false;
+            self.postMessage({type: "error", message: error && error.message ? error.message : String(error)});
+          });
         }).catch(error => {
           evaluationInProgress = false;
           running = false;
@@ -1436,6 +1498,8 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
   trainTargetPositionsByFamily = trainingTargets.positionsByFamily;
   trainContextStartByPosition = trainingTargets.contextStartByPosition;
   validationTargetPositions = validationTargets.positions;
+  validationTargetPositionsByFamily = validationTargets.positionsByFamily;
+  latestComparableDiagnostics = null;
   validationContextStartByPosition = validationTargets.contextStartByPosition;
   buildCorpusContextIndex();
   trainingUnknownRate = encodedTraining.unknownRate;
@@ -1460,6 +1524,7 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
     validationTokens: validationData.length,
     trainingTargetTokens: trainTargetPositions.length,
     validationTargetTokens: validationTargetPositions.length,
+    validationTargetTokensByFamily: validationTargetPositionsByFamily.map(group => group.length),
     balancedTaskFamilies: TASK_FAMILY_NAMES.length,
     balancedTargetTokensByFamily: trainTargetPositionsByFamily.map(group => group.length),
     vocabularySize,
