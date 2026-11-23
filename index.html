@@ -584,6 +584,20 @@ body{
 .neural-stage small{color:#748579}
 .neural-stage.is-active{border-color:#a9cf8e;background:#eff7e8}
 .neural-live-card,.neural-checkpoint-card{border-color:#dce5dc;background:#f8faf7}
+
+.neural-diagnostic-panel{grid-column:1/-1}
+.neural-diagnostic-status{padding:14px 16px;border:1px solid #dce5dc;border-radius:12px;background:#f4f8f2;color:#526b57;line-height:1.55}
+.neural-diagnostic-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.neural-diagnostic-summary>div{padding:12px;border:1px solid #dce5dc;border-radius:11px;background:#fff;min-width:0}
+.neural-diagnostic-summary span{display:block;color:#718076;font-size:12px;margin-bottom:6px}
+.neural-diagnostic-summary strong{color:#293d30;font-size:20px;overflow-wrap:anywhere}
+.neural-diagnostic-table-wrap{overflow-x:auto}
+.neural-diagnostic-table{width:100%;border-collapse:collapse;font-size:13px}
+.neural-diagnostic-table th,.neural-diagnostic-table td{text-align:left;padding:10px 12px;border-bottom:1px solid #e3ebe2;white-space:nowrap}
+.neural-diagnostic-table th{color:#718076;font-weight:650}
+.neural-diagnostic-table td{color:#344a38}
+@media(max-width:700px){.neural-diagnostic-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.neural-diagnostic-table{min-width:520px}}
+
 .neural-checkpoint-top h3{color:#2d4234}
 .neural-checkpoint-score{color:#3c7543}
 .neural-checkpoint-caption,.neural-checkpoint-meta,.neural-checkpoint-status{color:#738277}
@@ -1283,7 +1297,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.70, Generation Intelligence v3, knowledge curriculum v0.19.2">v0.21.71</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.70, Generation Intelligence v3, knowledge curriculum v0.19.2">v0.21.72</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1597,6 +1611,22 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
           <div><div class="eyebrow">Live view · Neural Lab</div><h3>Neural training observatory</h3><p>Live signals from Sherlock’s actual worker: data state, training progress, loss, validation and latest saved weights.</p></div>
           <span class="visual-state" id="neuralLiveStatus"><span class="visual-dot"></span><span id="neuralLiveStatusText">Waiting for training</span></span>
         </div>
+        <section class="neural-live-card neural-diagnostic-panel" aria-live="polite" aria-label="Comparable training diagnostics">
+          <div class="visual-card-head"><div><h3>Comparable training diagnostics</h3><p>Dropout-disabled evaluation on matched task families. Updates every 500 training steps.</p></div><span class="visual-mini-tag">OVERFITTING AUDIT</span></div>
+          <div id="neuralDiagnosticStatus" class="neural-diagnostic-status">Waiting for the next diagnostic evaluation. The results will appear here automatically during training.</div>
+          <div id="neuralDiagnosticResults" hidden>
+            <div class="neural-diagnostic-summary">
+              <div><span>Training macro loss</span><strong id="neuralDiagnosticTrain">—</strong></div>
+              <div><span>Validation macro loss</span><strong id="neuralDiagnosticValidation">—</strong></div>
+              <div><span>Comparable families</span><strong id="neuralDiagnosticFamilies">—</strong></div>
+              <div><span>Training update</span><strong id="neuralDiagnosticStep">—</strong></div>
+            </div>
+            <div class="neural-diagnostic-table-wrap"><table class="neural-diagnostic-table">
+              <thead><tr><th>Task family</th><th>Training loss</th><th>Validation loss</th><th>Samples each</th></tr></thead>
+              <tbody id="neuralDiagnosticRows"></tbody>
+            </table></div>
+          </div>
+        </section>
         <div class="neural-monitor-grid">
           <section class="neural-live-card">
             <div class="visual-card-head"><div><h3>Training loss · live curve</h3><p>Smoothed loss reported by the neural worker. Lower is generally better.</p></div><span class="visual-mini-tag">LIVE METRIC</span></div>
@@ -3265,9 +3295,22 @@ updateNeuralControls();
         .map(item => item.family + ': train ' + Number(item.trainingLoss).toFixed(3) +
           ' / validation ' + Number(item.validationLoss).toFixed(3) + ' (n=' + item.samples + ')')
         .join(' · ');
-      $('neuralMessage').textContent = 'Comparable diagnostic at update ' + Number(diagnostic.steps).toLocaleString() +
-        ' · inference-mode macro loss: training ' + Number(diagnostic.trainingMacroLoss).toFixed(3) +
-        ' / validation ' + Number(diagnostic.validationMacroLoss).toFixed(3) + '. ' + familySummary;
+      const status = $('neuralDiagnosticStatus');
+      const results = $('neuralDiagnosticResults');
+      if (status) status.textContent = 'Latest comparable evaluation completed at update ' + Number(diagnostic.steps).toLocaleString() +
+        '. Both datasets were evaluated with dropout disabled, using the same number of evenly spaced targets per task family.';
+      if (results) results.hidden = false;
+      if ($('neuralDiagnosticTrain')) $('neuralDiagnosticTrain').textContent = Number(diagnostic.trainingMacroLoss).toFixed(4);
+      if ($('neuralDiagnosticValidation')) $('neuralDiagnosticValidation').textContent = Number(diagnostic.validationMacroLoss).toFixed(4);
+      if ($('neuralDiagnosticFamilies')) $('neuralDiagnosticFamilies').textContent = Number(diagnostic.comparableFamilies).toLocaleString();
+      if ($('neuralDiagnosticStep')) $('neuralDiagnosticStep').textContent = Number(diagnostic.steps).toLocaleString();
+      if ($('neuralDiagnosticRows')) $('neuralDiagnosticRows').innerHTML = (diagnostic.families || []).map(item =>
+        '<tr><td>' + item.family + '</td><td>' + (item.samples ? Number(item.trainingLoss).toFixed(4) : '—') +
+        '</td><td>' + (item.samples ? Number(item.validationLoss).toFixed(4) : '—') +
+        '</td><td>' + Number(item.samples).toLocaleString() + '</td></tr>').join('');
+      $('neuralMessage').textContent = 'Comparable diagnostic completed at update ' + Number(diagnostic.steps).toLocaleString() +
+        ' · training macro loss ' + Number(diagnostic.trainingMacroLoss).toFixed(3) +
+        ' / validation macro loss ' + Number(diagnostic.validationMacroLoss).toFixed(3) + '. ' + familySummary;
     } else if (data.type === 'evaluation') {
       updateNeuralMetrics(data, true);
       if (neuralTraining) setNeuralState('Training on this device', 'running');
