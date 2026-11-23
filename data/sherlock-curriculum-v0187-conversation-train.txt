@@ -1,52 +1,52 @@
-user: I would like to talk about space.
+user: I would like to talk about space. Hiya, can we talk about this?
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about nature.
+user: I would like to talk about nature. Good morning, can we begin?
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about music.
+user: I would like to talk about music. Please show me a worked example.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about books.
+user: I would like to talk about books. I have already tried this.
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about puzzle.
+user: I would like to talk about puzzle. Something important is missing.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about learning.
+user: I would like to talk about learning. Check whether the idea makes sense.
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about ideas.
+user: I would like to talk about ideas. I enjoy sharing ideas.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about school.
+user: I would like to talk about school. I can see the pattern well.
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about problem.
+user: I would like to talk about problem. The first part is done.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about revision.
+user: I would like to talk about revision. I am staying with this task.
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about accuracy.
+user: I would like to talk about accuracy. Please compare two ideas.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about design.
+user: I would like to talk about design. Find the strongest example.
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about reliability.
+user: I would like to talk about reliability. Show how the pattern starts.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about usefulness.
+user: I would like to talk about usefulness. I am looking at the problem.
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about pattern.
+user: I would like to talk about pattern. We can compare what works well.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
-user: I would like to talk about thinking.
+user: I would like to talk about thinking. Can you show what makes sense?
 sherlock: Hi there! I can help explain a topic or practise a new skill.
 
-user: I would like to talk about perspective.
+user: I would like to talk about perspective. I have already explored this idea.
 sherlock: Hello! It is good to hear from you. What would you like to talk about today?
 
 user: I would like to talk about topic.
