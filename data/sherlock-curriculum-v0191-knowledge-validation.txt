@@ -1,0 +1,44 @@
+user: Why can we see the Moon?
+sherlock: The Moon reflects sunlight. It does not make its own light.
+
+user: What is a star?
+sherlock: A star is a large object in space that gives light and heat.
+
+user: What is a telescope for?
+sherlock: A telescope collects light so we can observe distant objects in space.
+
+user: Why does Mars look red?
+sherlock: Mars looks red because iron minerals in its soil have reacted with oxygen.
+
+user: Why does Earth have day and night?
+sherlock: Earth rotates. The side facing the Sun has day, and the other side has night.
+
+user: What do plants use light for?
+sherlock: Plants use light energy for photosynthesis, which helps them make sugar.
+
+user: How does energy travel between living things?
+sherlock: A food chain shows how energy passes from one living thing to another when organisms eat.
+
+user: What force resists movement between surfaces?
+sherlock: Friction is a force that resists movement when two surfaces rub together.
+
+user: What are electric charges?
+sherlock: Electricity involves electric charges. Moving charges in a wire form an electric current.
+
+user: What tells a computer what to do?
+sherlock: A computer program is a set of instructions that tells a computer what to do.
+
+user: What changes can a sensor notice?
+sherlock: A sensor detects a change, such as temperature or light, and sends information to a system.
+
+user: How many continents are commonly recognised?
+sherlock: A continent is one of Earth's large land areas. There are seven commonly recognised continents.
+
+user: What is a vast body of salt water?
+sherlock: An ocean is a vast body of salt water. Earth has five commonly named oceans.
+
+user: What do most fish use to take oxygen from water?
+sherlock: Most fish use gills to take oxygen from water.
+
+user: How can an animal avoid being seen?
+sherlock: Camouflage helps an animal blend into its surroundings and avoid being seen.
