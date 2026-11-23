@@ -1,179 +1,179 @@
-user: Work out this calculation: What is 3325 plus 505.
+user: Calculate: What is 3325 plus 505.
 sherlock: 3830
 
-user: Evaluate this arithmetic expression: Calculate 4875 minus 350..
+user: Compute: Calculate 4875 minus 350..
 sherlock: 4525
 
-user: Find the numerical result of: What is 34 multiplied by 261.
+user: Find: What is 34 multiplied by 261.
 sherlock: 8874
 
-user: Work out this calculation: Divide 6650 by 14..
+user: Calculate: Divide 6650 by 14..
 sherlock: 475
 
-user: Evaluate this arithmetic expression: What is 3342 plus 508.
+user: Compute: What is 3342 plus 508.
 sherlock: 3850
 
-user: Find the numerical result of: Calculate 4894 minus 352..
+user: Find: Calculate 4894 minus 352..
 sherlock: 4542
 
-user: Work out this calculation: What is 35 multiplied by 263.
+user: Calculate: What is 35 multiplied by 263.
 sherlock: 9205
 
-user: Evaluate this arithmetic expression: Divide 7170 by 15..
+user: Compute: Divide 7170 by 15..
 sherlock: 478
 
-user: Find the numerical result of: What is 3359 plus 511.
+user: Find: What is 3359 plus 511.
 sherlock: 3870
 
-user: Work out this calculation: Calculate 4913 minus 354..
+user: Calculate: Calculate 4913 minus 354..
 sherlock: 4559
 
-user: Calculate the percentage result described here: What is 30% of 11000.
+user: Rate: What is 30% of 11000.
 sherlock: 3300
 
-user: Work out the percentage calculation: What is 35% of 11020.
+user: Find: What is 35% of 11020.
 sherlock: 3857
 
-user: Solve this percentage problem: What is 40% of 11040.
+user: Percent: What is 40% of 11040.
 sherlock: 4416
 
-user: Calculate the percentage result described here: What is 50% of 11060.
+user: Rate: What is 50% of 11060.
 sherlock: 5530
 
-user: Work out the percentage calculation: What is 60% of 11080.
+user: Find: What is 60% of 11080.
 sherlock: 6648
 
-user: Solve this percentage problem: What is 75% of 11100.
+user: Percent: What is 75% of 11100.
 sherlock: 8325
 
-user: Calculate the percentage result described here: What is 5% of 11120.
+user: Rate: What is 5% of 11120.
 sherlock: 556
 
-user: Work out the percentage calculation: What is 10% of 11140.
+user: Find: What is 10% of 11140.
 sherlock: 1114
 
-user: Solve this percentage problem: What is 15% of 11160.
+user: Percent: What is 15% of 11160.
 sherlock: 1674
 
-user: Calculate the percentage result described here: What is 20% of 11180.
+user: Rate: What is 20% of 11180.
 sherlock: 2236
 
-user: Work out this unit conversion: Convert 2500 centimetres into millimetres..
+user: Change: Convert 2500 centimetres into millimetres..
 sherlock: 25000
 
-user: Express this measurement as requested: Convert 2503 metres into centimetres..
+user: Convert: Convert 2503 metres into centimetres..
 sherlock: 250300
 
-user: Give the equivalent measurement for: Convert 2506 kilometres into metres..
+user: Equivalent: Convert 2506 kilometres into metres..
 sherlock: 2506000
 
-user: Work out this unit conversion: Convert 2509 kilograms into grams..
+user: Change: Convert 2509 kilograms into grams..
 sherlock: 2509000
 
-user: Express this measurement as requested: Convert 2512 hours into minutes..
+user: Convert: Convert 2512 hours into minutes..
 sherlock: 150720
 
-user: Give the equivalent measurement for: Convert 2515 litres into millilitres..
+user: Equivalent: Convert 2515 litres into millilitres..
 sherlock: 2515000
 
-user: Work out this unit conversion: Convert 2518 minutes into seconds..
+user: Change: Convert 2518 minutes into seconds..
 sherlock: 151080
 
-user: Express this measurement as requested: Convert 2521 metres into millimetres..
+user: Convert: Convert 2521 metres into millimetres..
 sherlock: 2521000
 
-user: Give the equivalent measurement for: Convert 2524 grams into milligrams..
+user: Equivalent: Convert 2524 grams into milligrams..
 sherlock: 2524000
 
-user: Work out this unit conversion: Convert 2527 days into hours..
+user: Change: Convert 2527 days into hours..
 sherlock: 60648
 
-user: Solve this word problem: A shop has 395 pencils and receives 15 more. How many pencils does it have altogether.
+user: Problem: A shop has 395 pencils and receives 15 more. How many pencils does it have altogether.
 sherlock: 410
 
-user: Read this situation and calculate the answer: There are 395 bags with 15 marbles in each bag. How many marbles are there in total.
+user: Solve: There are 395 bags with 15 marbles in each bag. How many marbles are there in total.
 sherlock: 5925
 
-user: Work out the result of this real-world problem: A library had 416 books and lent out 21 books. How many books remain.
+user: Result: A library had 416 books and lent out 21 books. How many books remain.
 sherlock: 395
 
-user: Solve this word problem: 2024 stickers are shared equally between 8 children. How many stickers does each child get.
+user: Problem: 2024 stickers are shared equally between 8 children. How many stickers does each child get.
 sherlock: 253
 
-user: Read this situation and calculate the answer: A shop has 398 pencils and receives 16 more. How many pencils does it have altogether.
+user: Solve: A shop has 398 pencils and receives 16 more. How many pencils does it have altogether.
 sherlock: 414
 
-user: Work out the result of this real-world problem: There are 398 bags with 16 marbles in each bag. How many marbles are there in total.
+user: Result: There are 398 bags with 16 marbles in each bag. How many marbles are there in total.
 sherlock: 6368
 
-user: Solve this word problem: A library had 421 books and lent out 23 books. How many books remain.
+user: Problem: A library had 421 books and lent out 23 books. How many books remain.
 sherlock: 398
 
-user: Read this situation and calculate the answer: 2295 stickers are shared equally between 9 children. How many stickers does each child get.
+user: Solve: 2295 stickers are shared equally between 9 children. How many stickers does each child get.
 sherlock: 255
 
-user: Work out the result of this real-world problem: A shop has 401 pencils and receives 17 more. How many pencils does it have altogether.
+user: Result: A shop has 401 pencils and receives 17 more. How many pencils does it have altogether.
 sherlock: 418
 
-user: Solve this word problem: There are 401 bags with 17 marbles in each bag. How many marbles are there in total.
+user: Problem: There are 401 bags with 17 marbles in each bag. How many marbles are there in total.
 sherlock: 6817
 
-user: Identify the term that follows in this sequence: Continue this number sequence: 310, 323, 336, 349, 362..
+user: Next term: Continue this number sequence: 310, 323, 336, 349, 362..
 sherlock: 375
 
-user: Continue the sequence by finding its next value: Continue this number sequence: 102, 204, 408, 816, 1632..
+user: Continue: Continue this number sequence: 102, 204, 408, 816, 1632..
 sherlock: 3264
 
-user: For this number sequence, find the next value: Continue this number sequence: 10201, 10404, 10609, 10816, 11025..
+user: Sequence: Continue this number sequence: 10201, 10404, 10609, 10816, 11025..
 sherlock: 11236
 
-user: Identify the term that follows in this sequence: Continue this number sequence: 600, 597, 594, 591, 588..
+user: Next term: Continue this number sequence: 600, 597, 594, 591, 588..
 sherlock: 585
 
-user: Continue the sequence by finding its next value: Continue this number sequence: 205, 209, 239, 243, 273..
+user: Continue: Continue this number sequence: 205, 209, 239, 243, 273..
 sherlock: 277
 
-user: For this number sequence, find the next value: Continue this number sequence: 313, 327, 341, 355, 369..
+user: Sequence: Continue this number sequence: 313, 327, 341, 355, 369..
 sherlock: 383
 
-user: Identify the term that follows in this sequence: Continue this number sequence: 103, 206, 412, 824, 1648..
+user: Next term: Continue this number sequence: 103, 206, 412, 824, 1648..
 sherlock: 3296
 
-user: Continue the sequence by finding its next value: Continue this number sequence: 10404, 10609, 10816, 11025, 11236..
+user: Continue: Continue this number sequence: 10404, 10609, 10816, 11025, 11236..
 sherlock: 11449
 
-user: For this number sequence, find the next value: Continue this number sequence: 604, 600, 596, 592, 588..
+user: Sequence: Continue this number sequence: 604, 600, 596, 592, 588..
 sherlock: 584
 
-user: Identify the term that follows in this sequence: Continue this number sequence: 207, 212, 243, 248, 279..
+user: Next term: Continue this number sequence: 207, 212, 243, 248, 279..
 sherlock: 284
 
-user: Carry out this number-and-letter instruction: Follow the instruction and use the alphabet to order these letters: p, i, z, k, c..
+user: Arrange: Follow the instruction and use the alphabet to order these letters: p, i, z, k, c..
 sherlock: c, i, k, p, z
 
-user: Complete this ordering task: Follow the instruction and put these words in alphabetical order: raspberry, blue, apple, castle, forest..
+user: Order: Follow the instruction and put these words in alphabetical order: raspberry, blue, apple, castle, forest..
 sherlock: apple, blue, castle, forest, raspberry
 
-user: Follow this sorting instruction: Follow the instruction and reverse the order of these words: yellow, green, banana, stone..
+user: Sort: Follow the instruction and reverse the order of these words: yellow, green, banana, stone..
 sherlock: stone, banana, green, yellow
 
-user: Carry out this number-and-letter instruction: Follow the instruction and write one clear sentence using the word "bright". Please use practice version 9001..
+user: Arrange: Follow the instruction and write one clear sentence using the word "bright". Please use practice version 9001..
 sherlock: The garden was bright and explored the world.
 
-user: Complete this ordering task: Follow the instruction and write one sentence about a bright garden..
+user: Order: Follow the instruction and write one sentence about a bright garden..
 sherlock: The bright garden visited across the wide world.
 
-user: Follow this sorting instruction: Follow the instruction and use the alphabet to order these letters: a, o, c, g, f..
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, o, c, g, f..
 sherlock: a, c, f, g, o
 
-user: Carry out this number-and-letter instruction: Follow the instruction and put these words in alphabetical order: rocket, green, plum, yellow, bridge..
+user: Arrange: Follow the instruction and put these words in alphabetical order: rocket, green, plum, yellow, bridge..
 sherlock: bridge, green, plum, rocket, yellow
 
-user: Complete this ordering task: Follow the instruction and reverse the order of these words: garden, date, banana, apple..
+user: Order: Follow the instruction and reverse the order of these words: garden, date, banana, apple..
 sherlock: apple, banana, date, garden
 
-user: Follow this sorting instruction: Follow the instruction and write one clear sentence using the word "quiet". Please use practice version 9001..
+user: Sort: Follow the instruction and write one clear sentence using the word "quiet". Please use practice version 9001..
 sherlock: The garden was quiet and explored the world.
 
-user: Carry out this number-and-letter instruction: Follow the instruction and write one sentence about a careful garden..
+user: Arrange: Follow the instruction and write one sentence about a careful garden..
 sherlock: The careful garden visited across the wide world.
