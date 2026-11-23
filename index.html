@@ -4759,7 +4759,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     validationPrompts.add(key);
   }
   const promptTemplateKey = block => promptKey(block)
-    .replace(/\d+(?:\\.\\d+)?/g, '#')
+    .replace(/\d+/g, '#')
     .replace(/[^a-z#%]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
