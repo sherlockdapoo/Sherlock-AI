@@ -1283,7 +1283,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.69, Generation Intelligence v3, knowledge curriculum v0.19.2">v0.21.69</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.70, Generation Intelligence v3, knowledge curriculum v0.19.2">v0.21.70</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3169,7 +3169,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.69-template-separated-validation-v1', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.70-memory-safe-validation-v2', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -4801,12 +4801,12 @@ async function loadStandaloneCurriculum(signal) {
   const v0185TrainingText = await loadText(STANDALONE_TRAIN_V0185_URL, 'v0.18.5 letter-ordering training supplement', 4);
   const v0187TrainingText = await loadText(STANDALONE_TRAIN_V0187_URL, 'v0.18.7 deduplicated conversation training supplement', 5);
   const baseValidationText = await loadText(STANDALONE_VALIDATION_URL, 'Base held-out validation examples', 6);
-  const v0183ValidationText = await loadText(STANDALONE_VALIDATION_SUPPLEMENT_URL, 'v0.18.3 held-out supplement', 7);
-  const v0184ValidationText = await loadText(STANDALONE_VALIDATION_V0184_URL, 'v0.18.4 held-out supplement', 8);
-  const v0185ValidationText = await loadText(STANDALONE_VALIDATION_V0185_URL, 'v0.18.5 held-out validation supplement', 9);
-  const v0187ValidationText = await loadText(STANDALONE_VALIDATION_V0187_URL, 'v0.18.7 deduplicated held-out conversation validation', 10);
+  const v0183ValidationText = await loadText(STANDALONE_VALIDATION_SUPPLEMENT_URL, 'v0.19.2 held-out supplement A', 7);
+  const v0184ValidationText = await loadText(STANDALONE_VALIDATION_V0184_URL, 'v0.19.2 held-out supplement B', 8);
+  const v0185ValidationText = await loadText(STANDALONE_VALIDATION_V0185_URL, 'v0.19.2 held-out supplement C', 9);
+  const v0187ValidationText = await loadText(STANDALONE_VALIDATION_V0187_URL, 'v0.19.2 held-out conversation validation', 10);
   const v0190TrainingText = await loadText(STANDALONE_TRAIN_V0190_URL, 'v0.19.0 factual knowledge training', 11);
-  const v0190ValidationText = await loadText(STANDALONE_VALIDATION_V0190_URL, 'v0.19.0 held-out knowledge validation', 12);
+  const v0190ValidationText = await loadText(STANDALONE_VALIDATION_V0190_URL, 'v0.19.2 held-out knowledge validation', 12);
   const trainingText = baseTrainingText + '\n\n' + v0183TrainingText + '\n\n' + v0184TrainingText + '\n\n' + v0185TrainingText + '\n\n' + v0187TrainingText + '\n\n' + v0190TrainingText;
   const validationText = baseValidationText + '\n\n' + v0183ValidationText + '\n\n' + v0184ValidationText + '\n\n' + v0185ValidationText + '\n\n' + v0187ValidationText + '\n\n' + v0190ValidationText;
   const {trainingBlocks, validationBlocks} = await validateStandaloneCurriculumText(trainingText, validationText, signal);
