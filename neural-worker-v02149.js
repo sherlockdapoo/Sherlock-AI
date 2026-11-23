@@ -189,8 +189,15 @@ function taskFamilyIndex(prompt) {
   if (/\bconvert\b|\bare equal to\b|\bchange\b.*\binto\b/.test(value)) return 2;
   if (/\bsequence\b/.test(value)) return 4;
   if (/\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b/.test(value)) return 5;
+  // Keep contextual word problems ahead of arithmetic so their prompts
+  // remain in the word-problem family even when they contain operation words.
   if (/\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/.test(value)) return 3;
-  if (/\b(?:plus|minus|multiplied|divide)\b/.test(value)) return 0;
+  // Recognise symbolic arithmetic (for example, "What is 12 + 8?") as well
+  // as operation words. The previous word-only check sent these prompts to
+  // the conversation family, distorting both sampling and family diagnostics.
+  const numericOperation = /\d+(?:\.\d+)?\s*(?:\+|−|-|×|\*|÷|\/)\s*\d+(?:\.\d+)?/.test(value);
+  const verbalOperation = /\b(?:plus|minus|multiplied|multiply|multiplication|divided|divide|division|addition|subtract|subtraction|sum|difference|product|quotient|times)\b/.test(value);
+  if (numericOperation || verbalOperation) return 0;
   return 6;
 }
 
