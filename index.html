@@ -1297,7 +1297,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.73, Generation Intelligence v3, knowledge curriculum v0.19.2">v0.21.73</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.74, Generation Intelligence v3, knowledge curriculum v0.19.2">v0.21.74</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1877,7 +1877,7 @@ const NEURAL_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-v1';
 const NEURAL_BEST_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-best-v1';
 const NEURAL_FRESH_RESET_MARKER = 'sherlock-neural-fresh-reset-v0191-v1';
 const NEURAL_ARCHIVE_CHECKPOINT_KEY = 'sherlock-gpt-neural-experiment-v0191-archive-v1';
-const NEURAL_DATASET_REVISION = 'sherlock-knowledge-curriculum-v0192-2026-11';
+const NEURAL_DATASET_REVISION = 'sherlock-knowledge-curriculum-v0193-2026-11';
 const NEURAL_MODEL_COMPATIBILITY = 'sherlock-word-token-v0191-stable-vocab-v0186';
 const STANDALONE_CURRICULUM_ONLY = true;
 const STANDALONE_TRAIN_URL = 'data/sherlock-curriculum-v0182-train.txt';
@@ -3199,7 +3199,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.73-arithmetic-family-classifier-v1', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.74-arithmetic-family-classifier-v1', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
