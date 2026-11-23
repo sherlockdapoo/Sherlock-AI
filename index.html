@@ -3259,6 +3259,15 @@ updateNeuralControls();
           ? 'Stop requested. ' + progressText + ' Sherlock will stop after this validation slice and restore its best checkpoint.'
           : progressText + ' Training resumes when the check finishes.';
       }
+    } else if (data.type === 'diagnostic-evaluation') {
+      const diagnostic = data;
+      const familySummary = (diagnostic.families || []).filter(item => item.samples > 0)
+        .map(item => item.family + ': train ' + Number(item.trainingLoss).toFixed(3) +
+          ' / validation ' + Number(item.validationLoss).toFixed(3) + ' (n=' + item.samples + ')')
+        .join(' · ');
+      $('neuralMessage').textContent = 'Comparable diagnostic at update ' + Number(diagnostic.steps).toLocaleString() +
+        ' · inference-mode macro loss: training ' + Number(diagnostic.trainingMacroLoss).toFixed(3) +
+        ' / validation ' + Number(diagnostic.validationMacroLoss).toFixed(3) + '. ' + familySummary;
     } else if (data.type === 'evaluation') {
       updateNeuralMetrics(data, true);
       if (neuralTraining) setNeuralState('Training on this device', 'running');
@@ -3301,7 +3310,13 @@ updateNeuralControls();
       neuralTraining = true;
       neuralWorkerStarted = true;
       setNeuralState('Training on this device', 'running');
-      $('neuralMessage').textContent = 'Training update ' + Number(data.steps).toLocaleString() + ' · ' + Number(data.examples).toLocaleString() + ' examples processed. The network is learning from prediction errors.';
+      const diagnostic = data.comparableDiagnostics;
+      const diagnosticSuffix = diagnostic
+        ? ' Comparable inference-mode macro loss: train ' + Number(diagnostic.trainingMacroLoss).toFixed(3) +
+          ' / validation ' + Number(diagnostic.validationMacroLoss).toFixed(3) + '.'
+        : '';
+      $('neuralMessage').textContent = 'Training update ' + Number(data.steps).toLocaleString() + ' · ' + Number(data.examples).toLocaleString() +
+        ' examples processed. The network is learning from prediction errors.' + diagnosticSuffix;
       updateNeuralControls();
       updateGlobalNeuralStats();
       renderNeuralLiveView();
