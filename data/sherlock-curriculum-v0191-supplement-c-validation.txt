@@ -1,0 +1,179 @@
+user: Complete this ordering task: Follow the instruction and use the alphabet to order these letters: m, c, l, o, v..
+sherlock: c, l, m, o, v
+
+user: Identify the term that follows in this sequence: Continue this sequence: 2996, 2999, 3002, 3005, ....
+sherlock: 3008
+
+user: Work out this unit conversion: Convert 3531 kilometres to metres..
+sherlock: 3531000
+
+user: Complete this ordering task: Arrange these letters using the alphabet, in alphabetical order: t, j, f, u, k..
+sherlock: f, j, k, t, u
+
+user: Evaluate this arithmetic expression: What is 7704 plus 2744.
+sherlock: 10448
+
+user: Work out this unit conversion: Convert 9701 kilometres to metres..
+sherlock: 9701000
+
+user: Complete this ordering task: Use the alphabet to put these letters in alphabetical order: z, c, m, h, i..
+sherlock: c, h, i, m, z
+
+user: Follow this sorting instruction: Arrange these letters using the alphabet, in alphabetical order: y, i, w, c, z..
+sherlock: c, i, w, y, z
+
+user: Carry out this number-and-letter instruction: Arrange these letters using the alphabet, in alphabetical order: p, t, j, z, d..
+sherlock: d, j, p, t, z
+
+user: Complete this ordering task: Follow the instruction and use the alphabet to order these letters: w, b, y, d, o..
+sherlock: b, d, o, w, y
+
+user: Give the equivalent measurement for: Convert 3754 kilometres to metres..
+sherlock: 3754000
+
+user: Work out the percentage calculation: What is 69% of 3293.
+sherlock: 2272.17
+
+user: Complete this ordering task: Sort these letters by the alphabet: f, j, w, d, m..
+sherlock: d, f, j, m, w
+
+user: Evaluate this arithmetic expression: What is 1668 plus 2530.
+sherlock: 4198
+
+user: Work out the percentage calculation: What is 38% of 3083.
+sherlock: 1171.54
+
+user: For this number sequence, find the next value: Continue this sequence: 8551, 8554, 8557, 8560, ....
+sherlock: 8563
+
+user: Follow this sorting instruction: Use the alphabet to put these letters in alphabetical order: h, e, y, z, v..
+sherlock: e, h, v, y, z
+
+user: Work out the result of this real-world problem: A shop has 328 pencils. It packs them into boxes of 8 and sells 17 full boxes. How many pencils remain.
+sherlock: 192
+
+user: Complete this ordering task: Sort these letters by the alphabet: b, q, g, t, x..
+sherlock: b, g, q, t, x
+
+user: Evaluate this arithmetic expression: What is 4279 plus 9533.
+sherlock: 13812
+
+user: Work out the result of this real-world problem: A shop has 42 pencils. It packs them into boxes of 7 and sells 1 full boxes. How many pencils remain.
+sherlock: 35
+
+user: Complete this ordering task: Sort these letters by the alphabet: r, k, i, q, v..
+sherlock: i, k, q, r, v
+
+user: Follow this sorting instruction: Arrange these letters using the alphabet, in alphabetical order: e, t, j, n, b..
+sherlock: b, e, j, n, t
+
+user: Work out the percentage calculation: What is 61% of 5999.
+sherlock: 3659.39
+
+user: Complete this ordering task: Follow the instruction and use the alphabet to order these letters: c, k, n, j, x..
+sherlock: c, j, k, n, x
+
+user: Follow this sorting instruction: Use the alphabet to put these letters in alphabetical order: t, n, w, x, p..
+sherlock: n, p, t, w, x
+
+user: Carry out this number-and-letter instruction: Follow the instruction and use the alphabet to order these letters: n, f, q, r, p..
+sherlock: f, n, p, q, r
+
+user: Complete this ordering task: Sort these letters by the alphabet: w, s, b, n, f..
+sherlock: b, f, n, s, w
+
+user: Evaluate this arithmetic expression: What is 3644 plus 8971.
+sherlock: 12615
+
+user: Carry out this number-and-letter instruction: Sort these letters by the alphabet: i, a, r, g, t..
+sherlock: a, g, i, r, t
+
+user: Complete this ordering task: Use the alphabet to put these letters in alphabetical order: v, t, j, r, m..
+sherlock: j, m, r, t, v
+
+user: Identify the term that follows in this sequence: Continue this sequence: 1644, 1647, 1650, 1653, ....
+sherlock: 1656
+
+user: Continue the sequence by finding its next value: Continue this sequence: 2298, 2301, 2304, 2307, ....
+sherlock: 2310
+
+user: Solve this percentage problem: What is 5% of 5758.
+sherlock: 287.9
+
+user: Evaluate this arithmetic expression: What is 8945 plus 9706.
+sherlock: 18651
+
+user: Find the numerical result of: What is 2943 plus 4019.
+sherlock: 6962
+
+user: For this number sequence, find the next value: Continue this sequence: 4147, 4150, 4153, 4156, ....
+sherlock: 4159
+
+user: Give the equivalent measurement for: Convert 5968 kilometres to metres..
+sherlock: 5968000
+
+user: Carry out this number-and-letter instruction: Sort these letters by the alphabet: g, c, u, l, t..
+sherlock: c, g, l, t, u
+
+user: Complete this ordering task: Use the alphabet to put these letters in alphabetical order: t, j, h, p, e..
+sherlock: e, h, j, p, t
+
+user: Follow this sorting instruction: Follow the instruction and use the alphabet to order these letters: h, j, o, v, i..
+sherlock: h, i, j, o, v
+
+user: Work out the result of this real-world problem: A shop has 637 pencils. It packs them into boxes of 13 and sells 35 full boxes. How many pencils remain.
+sherlock: 182
+
+user: Solve this percentage problem: What is 60% of 6538.
+sherlock: 3922.8
+
+user: Follow this sorting instruction: Arrange these letters using the alphabet, in alphabetical order: w, n, k, s, o..
+sherlock: k, n, o, s, w
+
+user: Carry out this number-and-letter instruction: Use the alphabet to put these letters in alphabetical order: c, m, y, g, u..
+sherlock: c, g, m, u, y
+
+user: Complete this ordering task: Arrange these letters using the alphabet, in alphabetical order: m, d, x, j, u..
+sherlock: d, j, m, u, x
+
+user: Read this situation and calculate the answer: A shop has 200 pencils. It packs them into boxes of 8 and sells 17 full boxes. How many pencils remain.
+sherlock: 64
+
+user: Work out the percentage calculation: What is 71% of 4381.
+sherlock: 3110.51
+
+user: Express this measurement as requested: Convert 1254 kilometres to metres..
+sherlock: 1254000
+
+user: Read this situation and calculate the answer: A shop has 110 pencils. It packs them into boxes of 22 and sells 1 full boxes. How many pencils remain.
+sherlock: 88
+
+user: Continue the sequence by finding its next value: Continue this sequence: 2198, 2201, 2204, 2207, ....
+sherlock: 2210
+
+user: Express this measurement as requested: Convert 3831 kilometres to metres..
+sherlock: 3831000
+
+user: Follow this sorting instruction: Follow the instruction and use the alphabet to order these letters: e, u, o, v, k..
+sherlock: e, k, o, u, v
+
+user: Carry out this number-and-letter instruction: Arrange these letters using the alphabet, in alphabetical order: b, q, d, w, h..
+sherlock: b, d, h, q, w
+
+user: Complete this ordering task: Use the alphabet to put these letters in alphabetical order: i, d, r, v, a..
+sherlock: a, d, i, r, v
+
+user: Follow this sorting instruction: Follow the instruction and use the alphabet to order these letters: q, i, u, o, n..
+sherlock: i, n, o, q, u
+
+user: Carry out this number-and-letter instruction: Arrange these letters using the alphabet, in alphabetical order: g, n, k, p, o..
+sherlock: g, k, n, o, p
+
+user: Complete this ordering task: Sort these letters by the alphabet: l, u, m, n, r..
+sherlock: l, m, n, r, u
+
+user: Read this situation and calculate the answer: A shop has 150 pencils. It packs them into boxes of 25 and sells 5 full boxes. How many pencils remain.
+sherlock: 25
+
+user: Carry out this number-and-letter instruction: Use the alphabet to put these letters in alphabetical order: u, j, a, i, k..
+sherlock: a, i, j, k, u
