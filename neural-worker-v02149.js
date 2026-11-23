@@ -260,47 +260,60 @@ function evaluateComparableAsync() {
   let aggregateTrainingLoss = 0;
   let aggregateValidationLoss = 0;
   let aggregateFamilies = 0;
-  for (let familyIndex = 0; familyIndex < TASK_FAMILY_NAMES.length; familyIndex++) {
-    const trainGroup = trainTargetPositionsByFamily[familyIndex];
-    const validationGroup = validationTargetPositionsByFamily[familyIndex];
-    const samples = Math.min(64, trainGroup ? trainGroup.length : 0, validationGroup ? validationGroup.length : 0);
-    if (!samples) {
-      groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples: 0, trainingLoss: null, validationLoss: null});
-      continue;
-    }
-    let trainingLoss = 0;
-    let validationLoss = 0;
-    for (let sample = 0; sample < samples; sample++) {
-      const trainIndex = Math.min(trainGroup.length - 1, Math.floor((sample + 0.5) * trainGroup.length / samples));
-      const validationIndex = Math.min(validationGroup.length - 1, Math.floor((sample + 0.5) * validationGroup.length / samples));
-      const trainPosition = trainGroup[trainIndex];
-      const validationPosition = validationGroup[validationIndex];
-      forward(trainData, trainPosition, trainContextStartByPosition[trainPosition], false);
-      trainingLoss += -Math.log(Math.max(probabilities[tokenAt(trainData, trainPosition)], 1e-9));
-      forward(validationData, validationPosition, validationContextStartByPosition[validationPosition], false);
-      validationLoss += -Math.log(Math.max(probabilities[tokenAt(validationData, validationPosition)], 1e-9));
-    }
-    trainingLoss /= samples;
-    validationLoss /= samples;
-    groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples, trainingLoss, validationLoss});
-    aggregateTrainingLoss += trainingLoss;
-    aggregateValidationLoss += validationLoss;
-    aggregateFamilies++;
-  }
-  if (!aggregateFamilies) throw new Error("Comparable diagnostics could not find any task families represented in both datasets.");
-  latestComparableDiagnostics = {
-    steps,
-    evaluatedAt: new Date().toISOString(),
-    sampling: "64 evenly spaced targets per shared task family; inference mode; equal family weighting",
-    families: groups,
-    trainingMacroLoss: aggregateTrainingLoss / aggregateFamilies,
-    validationMacroLoss: aggregateValidationLoss / aggregateFamilies,
-    comparableFamilies: aggregateFamilies
-  };
-  self.postMessage({type: "diagnostic-evaluation", ...latestComparableDiagnostics});
-  return latestComparableDiagnostics;
+  let familyIndex = 0;
+  return new Promise((resolve, reject) => {
+    const processFamilies = () => {
+      if (!running || stopRequested) { resolve(null); return; }
+      try {
+        const endFamily = Math.min(TASK_FAMILY_NAMES.length, familyIndex + 2);
+        for (; familyIndex < endFamily; familyIndex++) {
+          const trainGroup = trainTargetPositionsByFamily[familyIndex];
+          const validationGroup = validationTargetPositionsByFamily[familyIndex];
+          const samples = Math.min(8, trainGroup ? trainGroup.length : 0, validationGroup ? validationGroup.length : 0);
+          if (!samples) {
+            groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples: 0, trainingLoss: null, validationLoss: null});
+            continue;
+          }
+          let trainingLoss = 0;
+          let validationLoss = 0;
+          for (let sample = 0; sample < samples; sample++) {
+            const trainIndex = Math.min(trainGroup.length - 1, Math.floor((sample + 0.5) * trainGroup.length / samples));
+            const validationIndex = Math.min(validationGroup.length - 1, Math.floor((sample + 0.5) * validationGroup.length / samples));
+            const trainPosition = trainGroup[trainIndex];
+            const validationPosition = validationGroup[validationIndex];
+            forward(trainData, trainPosition, trainContextStartByPosition[trainPosition], false);
+            trainingLoss += -Math.log(Math.max(probabilities[tokenAt(trainData, trainPosition)], 1e-9));
+            forward(validationData, validationPosition, validationContextStartByPosition[validationPosition], false);
+            validationLoss += -Math.log(Math.max(probabilities[tokenAt(validationData, validationPosition)], 1e-9));
+          }
+          trainingLoss /= samples;
+          validationLoss /= samples;
+          groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples, trainingLoss, validationLoss});
+          aggregateTrainingLoss += trainingLoss;
+          aggregateValidationLoss += validationLoss;
+          aggregateFamilies++;
+        }
+        if (familyIndex < TASK_FAMILY_NAMES.length) {
+          setTimeout(processFamilies, 0);
+          return;
+        }
+        if (!aggregateFamilies) throw new Error("Comparable diagnostics could not find any task families represented in both datasets.");
+        latestComparableDiagnostics = {
+          steps,
+          evaluatedAt: new Date().toISOString(),
+          sampling: "8 evenly spaced targets per shared task family; inference mode; equal family weighting",
+          families: groups,
+          trainingMacroLoss: aggregateTrainingLoss / aggregateFamilies,
+          validationMacroLoss: aggregateValidationLoss / aggregateFamilies,
+          comparableFamilies: aggregateFamilies
+        };
+        self.postMessage({type: "diagnostic-evaluation", ...latestComparableDiagnostics});
+        resolve(latestComparableDiagnostics);
+      } catch (error) { reject(error); }
+    };
+    setTimeout(processFamilies, 0);
+  });
 }
-
 function sampleBalancedTrainingPosition() {
   if (!familySamplingTotal || familySamplingCumulative.length !== TASK_FAMILY_NAMES.length)
     throw new Error("Balanced Learning sampling weights are not initialised.");
