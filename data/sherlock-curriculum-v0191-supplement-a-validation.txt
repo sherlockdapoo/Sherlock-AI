@@ -1,0 +1,179 @@
+user: Work out this calculation: What is 220 plus 855.
+sherlock: 1075.
+
+user: Evaluate this arithmetic expression: Calculate the sum: 357 plus 944..
+sherlock: 1301.
+
+user: Find the numerical result of: Work out 494 plus 1033..
+sherlock: 1527.
+
+user: Work out this calculation: Find the total of 631 plus 1122..
+sherlock: 1753.
+
+user: Evaluate this arithmetic expression: What do you get when you add 768 plus 1211.
+sherlock: 1979.
+
+user: Find the numerical result of: What is 905 plus 1300.
+sherlock: 2205.
+
+user: Work out this calculation: Calculate the sum: 1042 plus 1389..
+sherlock: 2431.
+
+user: Evaluate this arithmetic expression: Work out 1179 plus 78..
+sherlock: 1257.
+
+user: Find the numerical result of: Find the total of 1316 plus 167..
+sherlock: 1483.
+
+user: Work out this calculation: What do you get when you add 1453 plus 256.
+sherlock: 1709.
+
+user: Calculate the percentage result described here: What is 5% of 1040.
+sherlock: 52.
+
+user: Work out the percentage calculation: Calculate 10 percent of 1380..
+sherlock: 138.
+
+user: Solve this percentage problem: Find 15% of 120..
+sherlock: 18.
+
+user: Calculate the percentage result described here: Work out 20 percent of 460..
+sherlock: 92.
+
+user: Work out the percentage calculation: What amount is 25% of 800.
+sherlock: 200.
+
+user: Solve this percentage problem: What is 30% of 1140.
+sherlock: 342.
+
+user: Calculate the percentage result described here: Calculate 35 percent of 1480..
+sherlock: 518.
+
+user: Work out the percentage calculation: Find 40% of 220..
+sherlock: 88.
+
+user: Solve this percentage problem: Work out 45 percent of 560..
+sherlock: 252.
+
+user: Calculate the percentage result described here: What amount is 50% of 900.
+sherlock: 450.
+
+user: Work out this unit conversion: Convert 3795 centimetres into millimetres..
+sherlock: 37950.
+
+user: Express this measurement as requested: Convert 3818 metres into centimetres..
+sherlock: 381800.
+
+user: Give the equivalent measurement for: Convert 3841 kilometres into metres..
+sherlock: 3841000.
+
+user: Work out this unit conversion: Convert 3864 kilograms into grams..
+sherlock: 3864000.
+
+user: Express this measurement as requested: Convert 3887 hours into minutes..
+sherlock: 233220.
+
+user: Give the equivalent measurement for: Convert 3910 centimetres into millimetres..
+sherlock: 39100.
+
+user: Work out this unit conversion: Convert 3933 metres into centimetres..
+sherlock: 393300.
+
+user: Express this measurement as requested: Convert 3956 kilometres into metres..
+sherlock: 3956000.
+
+user: Give the equivalent measurement for: Convert 3979 kilograms into grams..
+sherlock: 3979000.
+
+user: Work out this unit conversion: Convert 4002 hours into minutes..
+sherlock: 240120.
+
+user: Solve this word problem: A shop has 461 stickers and receives 25 more. How many stickers does it have altogether.
+sherlock: 486.
+
+user: Read this situation and calculate the answer: There are 492 pencils in each box and 32 boxes. How many pencils are there altogether.
+sherlock: 15744.
+
+user: Work out the result of this real-world problem: A library has 82 books. 39 books are borrowed. How many books remain.
+sherlock: 43.
+
+user: Solve this word problem: A teacher shares 592 cards equally between 8 pupils. How many cards does each pupil get.
+sherlock: 74.
+
+user: Read this situation and calculate the answer: A shop sells 15 bags with 105 marbles in each bag. How many marbles are sold.
+sherlock: 1575.
+
+user: Work out the result of this real-world problem: A shop has 136 stickers and receives 22 more. How many stickers does it have altogether.
+sherlock: 158.
+
+user: Solve this word problem: There are 167 pencils in each box and 29 boxes. How many pencils are there altogether.
+sherlock: 4843.
+
+user: Read this situation and calculate the answer: A library has 234 books. 36 books are borrowed. How many books remain.
+sherlock: 198.
+
+user: Work out the result of this real-world problem: A teacher shares 1145 cards equally between 5 pupils. How many cards does each pupil get.
+sherlock: 229.
+
+user: Solve this word problem: A shop sells 12 bags with 260 marbles in each bag. How many marbles are sold.
+sherlock: 3120.
+
+user: Identify the term that follows in this sequence: What is the next number in this sequence: 285, 307, 329, 351.
+sherlock: 373.
+
+user: Continue the sequence by finding its next value: What is the next number in this sequence: 304, 269, 234, 199.
+sherlock: 164.
+
+user: For this number sequence, find the next value: What is the next number in this sequence: 323, 336, 349, 362.
+sherlock: 375.
+
+user: Identify the term that follows in this sequence: What is the next number in this sequence: 342, 316, 290, 264.
+sherlock: 238.
+
+user: Continue the sequence by finding its next value: What is the next number in this sequence: 361, 365, 369, 373.
+sherlock: 377.
+
+user: For this number sequence, find the next value: What is the next number in this sequence: 380, 363, 346, 329.
+sherlock: 312.
+
+user: Identify the term that follows in this sequence: What is the next number in this sequence: 399, 429, 459, 489.
+sherlock: 519.
+
+user: Continue the sequence by finding its next value: What is the next number in this sequence: 418, 410, 402, 394.
+sherlock: 386.
+
+user: For this number sequence, find the next value: What is the next number in this sequence: 437, 458, 479, 500.
+sherlock: 521.
+
+user: Identify the term that follows in this sequence: What is the next number in this sequence: 456, 422, 388, 354.
+sherlock: 320.
+
+user: Carry out this number-and-letter instruction: Follow the instruction and use the alphabet to order these letters: j, e, h, x, c..
+sherlock: c, e, h, j, x
+
+user: Complete this ordering task: Follow the instruction and use the alphabet to order these letters: z, r, w, q, s..
+sherlock: q, r, s, w, z
+
+user: Follow this sorting instruction: Follow the instruction and use the alphabet to order these letters: z, c, q, j, l..
+sherlock: c, j, l, q, z
+
+user: Carry out this number-and-letter instruction: Follow the instruction and use the alphabet to order these letters: r, q, f, i, n..
+sherlock: f, i, n, q, r
+
+user: Complete this ordering task: Follow the instruction and use the alphabet to order these letters: k, m, d, n, b..
+sherlock: b, d, k, m, n
+
+user: Follow this sorting instruction: Follow the instruction and use the alphabet to order these letters: u, o, a, j, w..
+sherlock: a, j, o, u, w
+
+user: Carry out this number-and-letter instruction: Follow the instruction and use the alphabet to order these letters: g, q, m, k, w..
+sherlock: g, k, m, q, w
+
+user: Complete this ordering task: Follow the instruction and use the alphabet to order these letters: y, m, n, d, a..
+sherlock: a, d, m, n, y
+
+user: Follow this sorting instruction: Follow the instruction and use the alphabet to order these letters: d, i, x, p, a..
+sherlock: a, d, i, p, x
+
+user: Carry out this number-and-letter instruction: Follow the instruction and use the alphabet to order these letters: f, k, u, s, w..
+sherlock: f, k, s, u, w
