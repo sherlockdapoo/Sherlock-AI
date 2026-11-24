@@ -1,6 +1,6 @@
 # Sherlock AI training data notice
 
-## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.3
+## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.4
 
 The active curriculum contains **24,751 training conversations** and **1,795 held-out validation conversations** across seven task families:
 
@@ -16,7 +16,7 @@ The active curriculum contains **24,751 training conversations** and **1,795 hel
 
 A full prompt-level audit found 85 repeated training prompts across 25 prompt groups, plus two prompts shared between training and validation. These have been corrected without changing the conversation counts or task-family totals.
 
-The v0.19.3 conversation supplement also replaces the v0.18.6 set, which reused identical user prompts with different assistant responses. All active training prompts are now unique, all held-out validation prompts are unique, and no prompt is shared between the two splits. The browser loader enforces these checks and rejects a library that fails them.
+The v0.19.4 conversation supplement replaces the earlier low-diversity conversation set. It contains 700 unique prompts using 35 clear intent patterns across 20 topics, paired with 700 distinct, intent-aligned responses. The 100 held-out conversation validation prompts remain unchanged, and no prompt is shared between the training and validation splits.
 
 The v0.19.0 factual knowledge supplement remains included (51 training / 15 validation examples). The original model architecture, parameter count, and frozen legacy token IDs are unchanged.
 
