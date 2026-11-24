@@ -1,299 +1,299 @@
-user: hello sherlock I want to explore space.
-sherlock: Hello! What would you like to explore or learn about today?
+user: Where would you recommend I begin when studying space?
+sherlock: For space, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: hello sherlock I want to explore nature.
-sherlock: Hi there! Send me a topic and we can look at it together.
+user: What is a practical way to practise space?
+sherlock: For space, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: hello sherlock I want to explore music.
-sherlock: Hey! I am ready to try a question or help with an idea.
+user: How can I check whether I really understand space?
+sherlock: For space, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: hello sherlock I want to explore books.
-sherlock: Good to hear from you. What would you like to work on?
+user: Could you suggest a small investigation involving space?
+sherlock: For space, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: hello sherlock I want to explore puzzle.
-sherlock: Hello! We can start with a question that interests you.
+user: What should I include in a clear explanation of space?
+sherlock: For space, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: hiya there I want to explore space.
-sherlock: Hello! What would you like to explore or learn about today?
+user: Where would you recommend I begin when studying nature?
+sherlock: For nature, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: hiya there I want to explore nature.
-sherlock: Hi there! Send me a topic and we can look at it together.
+user: What is a practical way to practise nature?
+sherlock: For nature, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: hiya there I want to explore music.
-sherlock: Hey! I am ready to try a question or help with an idea.
+user: How can I check whether I really understand nature?
+sherlock: For nature, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: hiya there I want to explore books.
-sherlock: Good to hear from you. What would you like to work on?
+user: Could you suggest a small investigation involving nature?
+sherlock: For nature, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: hiya there I want to explore puzzle.
-sherlock: Hello! We can start with a question that interests you.
+user: What should I include in a clear explanation of nature?
+sherlock: For nature, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: morning I want to explore space.
-sherlock: Hello! What would you like to explore or learn about today?
+user: Where would you recommend I begin when studying music?
+sherlock: For music, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: morning I want to explore nature.
-sherlock: Hi there! Send me a topic and we can look at it together.
+user: What is a practical way to practise music?
+sherlock: For music, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: morning I want to explore music.
-sherlock: Hey! I am ready to try a question or help with an idea.
+user: How can I check whether I really understand music?
+sherlock: For music, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: morning I want to explore books.
-sherlock: Good to hear from you. What would you like to work on?
+user: Could you suggest a small investigation involving music?
+sherlock: For music, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: morning I want to explore puzzle.
-sherlock: Hello! We can start with a question that interests you.
+user: What should I include in a clear explanation of music?
+sherlock: For music, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: hey sherlock I want to explore space.
-sherlock: Hello! What would you like to explore or learn about today?
+user: Where would you recommend I begin when studying books?
+sherlock: For books, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: hey sherlock I want to explore nature.
-sherlock: Hi there! Send me a topic and we can look at it together.
+user: What is a practical way to practise books?
+sherlock: For books, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: hey sherlock I want to explore music.
-sherlock: Hey! I am ready to try a question or help with an idea.
+user: How can I check whether I really understand books?
+sherlock: For books, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: hey sherlock I want to explore books.
-sherlock: Good to hear from you. What would you like to work on?
+user: Could you suggest a small investigation involving books?
+sherlock: For books, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: hey sherlock I want to explore puzzle.
-sherlock: Hello! We can start with a question that interests you.
+user: What should I include in a clear explanation of books?
+sherlock: For books, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: good day I want to explore space.
-sherlock: Hello! What would you like to explore or learn about today?
+user: Where would you recommend I begin when studying puzzles?
+sherlock: For puzzles, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: good day I want to explore nature.
-sherlock: Hi there! Send me a topic and we can look at it together.
+user: What is a practical way to practise puzzles?
+sherlock: For puzzles, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: good day I want to explore music.
-sherlock: Hey! I am ready to try a question or help with an idea.
+user: How can I check whether I really understand puzzles?
+sherlock: For puzzles, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: good day I want to explore books.
-sherlock: Good to hear from you. What would you like to work on?
+user: Could you suggest a small investigation involving puzzles?
+sherlock: For puzzles, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: good day I want to explore puzzle.
-sherlock: Hello! We can start with a question that interests you.
+user: What should I include in a clear explanation of puzzles?
+sherlock: For puzzles, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: Could you guide me through this? I want to explore space.
-sherlock: Yes. We can begin with the main idea and then look at a worked example.
+user: Where would you recommend I begin when studying learning?
+sherlock: For learning, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: Could you guide me through this? I want to explore nature.
-sherlock: Tell me what you already know and I can explain the missing part.
+user: What is a practical way to practise learning?
+sherlock: For learning, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: Could you guide me through this? I want to explore music.
-sherlock: Let us choose one small task and work through it carefully.
+user: How can I check whether I really understand learning?
+sherlock: For learning, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: Could you guide me through this? I want to explore books.
-sherlock: I can give a simpler explanation and check whether it makes sense.
+user: Could you suggest a small investigation involving learning?
+sherlock: For learning, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: Could you guide me through this? I want to explore puzzle.
-sherlock: Start by sharing the question so we can identify what it is asking.
+user: What should I include in a clear explanation of learning?
+sherlock: For learning, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: I need a clearer explanation. I want to explore space.
-sherlock: Yes. We can begin with the main idea and then look at a worked example.
+user: Where would you recommend I begin when studying ideas?
+sherlock: For ideas, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: I need a clearer explanation. I want to explore nature.
-sherlock: Tell me what you already know and I can explain the missing part.
+user: What is a practical way to practise ideas?
+sherlock: For ideas, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: I need a clearer explanation. I want to explore music.
-sherlock: Let us choose one small task and work through it carefully.
+user: How can I check whether I really understand ideas?
+sherlock: For ideas, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: I need a clearer explanation. I want to explore books.
-sherlock: I can give a simpler explanation and check whether it makes sense.
+user: Could you suggest a small investigation involving ideas?
+sherlock: For ideas, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: I need a clearer explanation. I want to explore puzzle.
-sherlock: Start by sharing the question so we can identify what it is asking.
+user: What should I include in a clear explanation of ideas?
+sherlock: For ideas, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: Can we try a practice task? I want to explore space.
-sherlock: Yes. We can begin with the main idea and then look at a worked example.
+user: Where would you recommend I begin when studying school?
+sherlock: For school, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: Can we try a practice task? I want to explore nature.
-sherlock: Tell me what you already know and I can explain the missing part.
+user: What is a practical way to practise school?
+sherlock: For school, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: Can we try a practice task? I want to explore music.
-sherlock: Let us choose one small task and work through it carefully.
+user: How can I check whether I really understand school?
+sherlock: For school, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: Can we try a practice task? I want to explore books.
-sherlock: I can give a simpler explanation and check whether it makes sense.
+user: Could you suggest a small investigation involving school?
+sherlock: For school, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: Can we try a practice task? I want to explore puzzle.
-sherlock: Start by sharing the question so we can identify what it is asking.
+user: What should I include in a clear explanation of school?
+sherlock: For school, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: I want to understand the idea. I want to explore space.
-sherlock: Yes. We can begin with the main idea and then look at a worked example.
+user: Where would you recommend I begin when studying problems?
+sherlock: For problems, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: I want to understand the idea. I want to explore nature.
-sherlock: Tell me what you already know and I can explain the missing part.
+user: What is a practical way to practise problems?
+sherlock: For problems, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: I want to understand the idea. I want to explore music.
-sherlock: Let us choose one small task and work through it carefully.
+user: How can I check whether I really understand problems?
+sherlock: For problems, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: I want to understand the idea. I want to explore books.
-sherlock: I can give a simpler explanation and check whether it makes sense.
+user: Could you suggest a small investigation involving problems?
+sherlock: For problems, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: I want to understand the idea. I want to explore puzzle.
-sherlock: Start by sharing the question so we can identify what it is asking.
+user: What should I include in a clear explanation of problems?
+sherlock: For problems, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: Help me get started. I want to explore space.
-sherlock: Yes. We can begin with the main idea and then look at a worked example.
+user: Where would you recommend I begin when studying revision?
+sherlock: For revision, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: Help me get started. I want to explore nature.
-sherlock: Tell me what you already know and I can explain the missing part.
+user: What is a practical way to practise revision?
+sherlock: For revision, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: Help me get started. I want to explore music.
-sherlock: Let us choose one small task and work through it carefully.
+user: How can I check whether I really understand revision?
+sherlock: For revision, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: Help me get started. I want to explore books.
-sherlock: I can give a simpler explanation and check whether it makes sense.
+user: Could you suggest a small investigation involving revision?
+sherlock: For revision, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: Help me get started. I want to explore puzzle.
-sherlock: Start by sharing the question so we can identify what it is asking.
+user: What should I include in a clear explanation of revision?
+sherlock: For revision, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: I have finished my revision. I want to explore space.
-sherlock: Good progress. A new example can help you see whether the method is clear.
+user: Where would you recommend I begin when studying accuracy?
+sherlock: For accuracy, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: I have finished my revision. I want to explore nature.
-sherlock: That is a useful step. Try explaining the idea in your own words.
+user: What is a practical way to practise accuracy?
+sherlock: For accuracy, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: I have finished my revision. I want to explore music.
-sherlock: Share your reasoning and I can check each part for accuracy.
+user: How can I check whether I really understand accuracy?
+sherlock: For accuracy, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: I have finished my revision. I want to explore books.
-sherlock: Let us use a different example to practise the same skill.
+user: Could you suggest a small investigation involving accuracy?
+sherlock: For accuracy, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: I have finished my revision. I want to explore puzzle.
-sherlock: Well done for staying with the problem and checking your understanding.
+user: What should I include in a clear explanation of accuracy?
+sherlock: For accuracy, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: That example helped. I want to explore space.
-sherlock: Good progress. A new example can help you see whether the method is clear.
+user: Where would you recommend I begin when studying design?
+sherlock: For design, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: That example helped. I want to explore nature.
-sherlock: That is a useful step. Try explaining the idea in your own words.
+user: What is a practical way to practise design?
+sherlock: For design, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: That example helped. I want to explore music.
-sherlock: Share your reasoning and I can check each part for accuracy.
+user: How can I check whether I really understand design?
+sherlock: For design, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: That example helped. I want to explore books.
-sherlock: Let us use a different example to practise the same skill.
+user: Could you suggest a small investigation involving design?
+sherlock: For design, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: That example helped. I want to explore puzzle.
-sherlock: Well done for staying with the problem and checking your understanding.
+user: What should I include in a clear explanation of design?
+sherlock: For design, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: I think I see the pattern. I want to explore space.
-sherlock: Good progress. A new example can help you see whether the method is clear.
+user: Where would you recommend I begin when studying reliability?
+sherlock: For reliability, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: I think I see the pattern. I want to explore nature.
-sherlock: That is a useful step. Try explaining the idea in your own words.
+user: What is a practical way to practise reliability?
+sherlock: For reliability, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: I think I see the pattern. I want to explore music.
-sherlock: Share your reasoning and I can check each part for accuracy.
+user: How can I check whether I really understand reliability?
+sherlock: For reliability, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: I think I see the pattern. I want to explore books.
-sherlock: Let us use a different example to practise the same skill.
+user: Could you suggest a small investigation involving reliability?
+sherlock: For reliability, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: I think I see the pattern. I want to explore puzzle.
-sherlock: Well done for staying with the problem and checking your understanding.
+user: What should I include in a clear explanation of reliability?
+sherlock: For reliability, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: I would like another challenge. I want to explore space.
-sherlock: Good progress. A new example can help you see whether the method is clear.
+user: Where would you recommend I begin when studying usefulness?
+sherlock: For usefulness, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: I would like another challenge. I want to explore nature.
-sherlock: That is a useful step. Try explaining the idea in your own words.
+user: What is a practical way to practise usefulness?
+sherlock: For usefulness, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: I would like another challenge. I want to explore music.
-sherlock: Share your reasoning and I can check each part for accuracy.
+user: How can I check whether I really understand usefulness?
+sherlock: For usefulness, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: I would like another challenge. I want to explore books.
-sherlock: Let us use a different example to practise the same skill.
+user: Could you suggest a small investigation involving usefulness?
+sherlock: For usefulness, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: I would like another challenge. I want to explore puzzle.
-sherlock: Well done for staying with the problem and checking your understanding.
+user: What should I include in a clear explanation of usefulness?
+sherlock: For usefulness, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: Can you check my thinking? I want to explore space.
-sherlock: Good progress. A new example can help you see whether the method is clear.
+user: Where would you recommend I begin when studying patterns?
+sherlock: For patterns, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: Can you check my thinking? I want to explore nature.
-sherlock: That is a useful step. Try explaining the idea in your own words.
+user: What is a practical way to practise patterns?
+sherlock: For patterns, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: Can you check my thinking? I want to explore music.
-sherlock: Share your reasoning and I can check each part for accuracy.
+user: How can I check whether I really understand patterns?
+sherlock: For patterns, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: Can you check my thinking? I want to explore books.
-sherlock: Let us use a different example to practise the same skill.
+user: Could you suggest a small investigation involving patterns?
+sherlock: For patterns, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: Can you check my thinking? I want to explore puzzle.
-sherlock: Well done for staying with the problem and checking your understanding.
+user: What should I include in a clear explanation of patterns?
+sherlock: For patterns, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: What is a good question to investigate? I want to explore space.
-sherlock: One approach is to ask what causes the result and how we could test it.
+user: Where would you recommend I begin when studying thinking?
+sherlock: For thinking, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: What is a good question to investigate? I want to explore nature.
-sherlock: Technology gives us many questions about design, reliability, and usefulness.
+user: What is a practical way to practise thinking?
+sherlock: For thinking, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: What is a good question to investigate? I want to explore music.
-sherlock: We can compare different explanations and see which has the strongest evidence.
+user: How can I check whether I really understand thinking?
+sherlock: For thinking, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: What is a good question to investigate? I want to explore books.
-sherlock: A useful investigation starts with a question that can be explored carefully.
+user: Could you suggest a small investigation involving thinking?
+sherlock: For thinking, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: What is a good question to investigate? I want to explore puzzle.
-sherlock: Try looking at the problem from another point of view.
+user: What should I include in a clear explanation of thinking?
+sherlock: For thinking, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: I want to explore technology. I want to explore space.
-sherlock: One approach is to ask what causes the result and how we could test it.
+user: Where would you recommend I begin when studying perspective?
+sherlock: For perspective, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: I want to explore technology. I want to explore nature.
-sherlock: Technology gives us many questions about design, reliability, and usefulness.
+user: What is a practical way to practise perspective?
+sherlock: For perspective, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: I want to explore technology. I want to explore music.
-sherlock: We can compare different explanations and see which has the strongest evidence.
+user: How can I check whether I really understand perspective?
+sherlock: For perspective, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: I want to explore technology. I want to explore books.
-sherlock: A useful investigation starts with a question that can be explored carefully.
+user: Could you suggest a small investigation involving perspective?
+sherlock: For perspective, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: I want to explore technology. I want to explore puzzle.
-sherlock: Try looking at the problem from another point of view.
+user: What should I include in a clear explanation of perspective?
+sherlock: For perspective, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: Can we discuss a new idea? I want to explore space.
-sherlock: One approach is to ask what causes the result and how we could test it.
+user: Where would you recommend I begin when studying topics?
+sherlock: For topics, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: Can we discuss a new idea? I want to explore nature.
-sherlock: Technology gives us many questions about design, reliability, and usefulness.
+user: What is a practical way to practise topics?
+sherlock: For topics, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: Can we discuss a new idea? I want to explore music.
-sherlock: We can compare different explanations and see which has the strongest evidence.
+user: How can I check whether I really understand topics?
+sherlock: For topics, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: Can we discuss a new idea? I want to explore books.
-sherlock: A useful investigation starts with a question that can be explored carefully.
+user: Could you suggest a small investigation involving topics?
+sherlock: For topics, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: Can we discuss a new idea? I want to explore puzzle.
-sherlock: Try looking at the problem from another point of view.
+user: What should I include in a clear explanation of topics?
+sherlock: For topics, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: I enjoy asking questions. I want to explore space.
-sherlock: One approach is to ask what causes the result and how we could test it.
+user: Where would you recommend I begin when studying tasks?
+sherlock: For tasks, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: I enjoy asking questions. I want to explore nature.
-sherlock: Technology gives us many questions about design, reliability, and usefulness.
+user: What is a practical way to practise tasks?
+sherlock: For tasks, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: I enjoy asking questions. I want to explore music.
-sherlock: We can compare different explanations and see which has the strongest evidence.
+user: How can I check whether I really understand tasks?
+sherlock: For tasks, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: I enjoy asking questions. I want to explore books.
-sherlock: A useful investigation starts with a question that can be explored carefully.
+user: Could you suggest a small investigation involving tasks?
+sherlock: For tasks, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: I enjoy asking questions. I want to explore puzzle.
-sherlock: Try looking at the problem from another point of view.
+user: What should I include in a clear explanation of tasks?
+sherlock: For tasks, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
 
-user: Show me a different perspective. I want to explore space.
-sherlock: One approach is to ask what causes the result and how we could test it.
+user: Where would you recommend I begin when studying examples?
+sherlock: For examples, begin with the central idea and define the key terms. Then use one straightforward example to show how the parts connect.
 
-user: Show me a different perspective. I want to explore nature.
-sherlock: Technology gives us many questions about design, reliability, and usefulness.
+user: What is a practical way to practise examples?
+sherlock: For examples, choose one manageable skill and practise it with a fresh example. Check your result, identify any mistake, and try again.
 
-user: Show me a different perspective. I want to explore music.
-sherlock: We can compare different explanations and see which has the strongest evidence.
+user: How can I check whether I really understand examples?
+sherlock: For examples, explain the main idea in your own words, then apply it to a different example. If you can justify each step, your understanding is stronger.
 
-user: Show me a different perspective. I want to explore books.
-sherlock: A useful investigation starts with a question that can be explored carefully.
+user: Could you suggest a small investigation involving examples?
+sherlock: For examples, start with a focused question that can be explored using evidence. Record what you expect, examine the result, and explain what it suggests.
 
-user: Show me a different perspective. I want to explore puzzle.
-sherlock: Try looking at the problem from another point of view.
+user: What should I include in a clear explanation of examples?
+sherlock: For examples, state the main point first, add the most relevant supporting details, and finish with an example. Keep each sentence connected to the question.
