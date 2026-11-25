@@ -5020,7 +5020,7 @@ async function loadStandaloneCurriculum(signal) {
     showDataProgress(progress, 15, label + ' loaded');
     return value;
   };
-  // Load one file at a time. This avoids twelve simultaneous requests
+  // Load one file at a time. This avoids fifteen simultaneous requests
   // competing for connections on mobile browsers and makes progress reliable.
   const baseTrainingText = await loadText(STANDALONE_TRAIN_URL, 'Base training examples', 1);
   const v0183TrainingText = await loadText(STANDALONE_TRAIN_SUPPLEMENT_URL, 'v0.18.3 training supplement', 2);
