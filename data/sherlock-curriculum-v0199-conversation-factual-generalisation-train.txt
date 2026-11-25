@@ -1,0 +1,179 @@
+user: What makes the Moon visible from Earth?
+sherlock: Sunlight reflects from the Moon's surface and travels to Earth, so the Moon can be seen in the sky.
+
+user: Does the Moon create its own light?
+sherlock: No. The Moon looks bright because its surface reflects light from the Sun.
+
+user: How does sunlight reach our eyes from the Moon?
+sherlock: Sunlight first shines on the Moon, then reflected light travels from the Moon to our eyes.
+
+user: Why can the Moon be seen at night even though it is not a star?
+sherlock: The Moon reflects sunlight towards Earth; it does not need to produce light of its own.
+
+user: What produces the light that comes from a star?
+sherlock: A star gives off light because its extremely hot material releases energy from its interior.
+
+user: How is a star different from a planet when it comes to light?
+sherlock: A star produces its own light, while a planet is usually visible because it reflects light from a star.
+
+user: Why do stars shine in the night sky?
+sherlock: Stars are hot balls of gas that release energy, including visible light, into space.
+
+user: What is happening inside a star that allows it to shine?
+sherlock: Deep inside a star, nuclear fusion releases energy that eventually escapes as light and heat.
+
+user: How can a telescope make a distant object easier to observe?
+sherlock: A telescope gathers light from a distant object and focuses it so the object can be seen more clearly.
+
+user: Why might an astronomer use a telescope instead of looking with just their eyes?
+sherlock: A telescope collects more light and can reveal details that are too faint or far away for our eyes.
+
+user: What does the main lens or mirror of a telescope do?
+sherlock: It gathers incoming light and brings it to a focus to form an image.
+
+user: How does a telescope help us study objects beyond Earth?
+sherlock: It collects and focuses light from distant objects, allowing astronomers to observe them in greater detail.
+
+user: Which material helps give Mars its rusty colour?
+sherlock: Iron-rich dust and rocks on Mars have formed rusty minerals that make much of the planet look red.
+
+user: Why is the surface of Mars often described as reddish?
+sherlock: Many Martian rocks and dust contain iron minerals that have reacted with oxygen.
+
+user: What gives the dust on Mars its red-orange appearance?
+sherlock: Iron compounds in the dust create a colour similar to rust.
+
+user: Why does Mars look different in colour from many other planets?
+sherlock: Its surface contains iron-rich material that gives the planet a noticeable reddish appearance.
+
+user: What movement of Earth causes day to change into night?
+sherlock: Earth spins on its axis, so each place turns towards the Sun and later away from it.
+
+user: Why does the Sun appear to move across the sky during the day?
+sherlock: Earth rotates, making the Sun appear to travel across the sky from east to west.
+
+user: How long does Earth take to complete one rotation?
+sherlock: Earth takes about 24 hours to turn once on its axis.
+
+user: What makes one side of Earth have daylight while another side is dark?
+sherlock: The side facing the Sun receives daylight, while the side turned away from the Sun is in night.
+
+user: How do plants use energy from sunlight?
+sherlock: Plants use light energy during photosynthesis to help make sugar from water and carbon dioxide.
+
+user: What process lets green plants make sugar using light?
+sherlock: Photosynthesis uses light energy to turn water and carbon dioxide into sugars, releasing oxygen.
+
+user: Why are leaves important for photosynthesis?
+sherlock: Leaves contain chlorophyll, which absorbs light energy that the plant uses in photosynthesis.
+
+user: What do plants make during photosynthesis that they can use for energy?
+sherlock: Photosynthesis produces sugars that plants can use in respiration and to build new materials.
+
+user: What does an arrow in a food chain represent?
+sherlock: An arrow shows the direction that energy is transferred when one organism is eaten by another.
+
+user: How does a food chain show feeding relationships?
+sherlock: It links organisms in feeding order, showing which organism is eaten by the next.
+
+user: Where does the energy in most food chains originally come from?
+sherlock: Most food-chain energy begins with sunlight, which plants capture during photosynthesis.
+
+user: What is the role of a producer in a food chain?
+sherlock: A producer, such as a green plant, makes its own food and provides energy for other organisms.
+
+user: Why do bicycle brakes slow a moving wheel?
+sherlock: The brake pads create friction against the wheel or disc, which slows its movement.
+
+user: What happens when two surfaces rub against each other?
+sherlock: Friction acts between the surfaces and resists their movement.
+
+user: Why is it harder to slide a rough object across a rough floor?
+sherlock: The surfaces create more friction, so a larger force is needed to keep the object moving.
+
+user: How can friction help someone walk without slipping?
+sherlock: Friction between shoes and the ground provides grip and helps prevent the feet from sliding.
+
+user: What is an electric current in a wire?
+sherlock: An electric current is the flow of electric charge through the wire.
+
+user: What happens to electric charges in a working circuit?
+sherlock: Charges move around the complete circuit, transferring energy to components such as lamps.
+
+user: Why must a circuit form a complete loop for current to flow?
+sherlock: A complete loop gives electric charge a continuous path through the circuit.
+
+user: What is moving through a metal wire when it carries current?
+sherlock: Electric charge is moving through the metal, mainly because electrons drift through it.
+
+user: Why do computers need programs?
+sherlock: A program provides instructions that tell a computer how to process information and perform tasks.
+
+user: What does a computer do when it runs a program?
+sherlock: It follows the program's instructions, carrying out operations on data in the required order.
+
+user: How is an algorithm related to a computer program?
+sherlock: An algorithm is a planned set of steps; a program expresses instructions that a computer can carry out.
+
+user: What is one job that a computer program can perform?
+sherlock: A program can organise information, calculate results, display content or control another device.
+
+user: How can a temperature sensor help a machine?
+sherlock: It measures temperature and sends a reading so the machine can respond if something gets too hot or cold.
+
+user: What kind of information can a light sensor provide?
+sherlock: A light sensor measures how bright its surroundings are and sends that information to a system.
+
+user: Why might a phone contain several different sensors?
+sherlock: Different sensors detect things such as movement, direction, light and distance so the phone can respond appropriately.
+
+user: What does a sensor do after detecting a change?
+sherlock: It converts the detected change into a signal or reading that another part of a system can use.
+
+user: How is a continent different from a country?
+sherlock: A continent is a very large land area, while a country is a territory with its own government and borders.
+
+user: What do geographers mean when they use the word continent?
+sherlock: They mean one of Earth's major land areas, such as Africa, Asia or Europe.
+
+user: Why are continents shown as separate areas on many world maps?
+sherlock: Maps show the major land areas separately to help describe Earth's geography.
+
+user: How many major land areas are usually counted as continents?
+sherlock: The common school model recognises seven continents, although some systems group them differently.
+
+user: What makes seawater taste salty?
+sherlock: Rivers carry dissolved minerals from rocks into the sea, and these salts build up in ocean water.
+
+user: Why is ocean water not usually fresh water?
+sherlock: Ocean water contains dissolved salts and minerals, making it salty.
+
+user: Where do many of the salts in the ocean come from?
+sherlock: Weathering of rocks releases minerals, and rivers carry dissolved substances into the ocean.
+
+user: What is the difference between seawater and most river water?
+sherlock: Seawater contains much more dissolved salt, while river water is usually fresh.
+
+user: How do fish take oxygen from the water around them?
+sherlock: Water passes over the gills, where oxygen moves into the fish's blood.
+
+user: What happens as water flows across a fish's gills?
+sherlock: The gills absorb dissolved oxygen from the water and release carbon dioxide.
+
+user: Why can most fish breathe underwater but people cannot?
+sherlock: Fish have gills that extract dissolved oxygen from water; people have lungs adapted to taking oxygen from air.
+
+user: What do gill filaments do for a fish?
+sherlock: They provide a large surface area where oxygen can pass from water into the blood.
+
+user: How can camouflage make an animal less noticeable?
+sherlock: Camouflage helps an animal blend with colours or patterns in its surroundings.
+
+user: Why might an insect have colours that match a leaf?
+sherlock: Matching the leaf makes the insect harder for predators to spot.
+
+user: What is one way camouflage can protect an animal?
+sherlock: It can make the animal difficult to see, reducing the chance that a predator will notice it.
+
+user: How does blending into the environment help some animals?
+sherlock: It makes them less visible to predators or to the prey they are trying to approach.
