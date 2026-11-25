@@ -4871,7 +4871,7 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
     'number sequences', 'letter/instruction tasks', 'conversation'
   ];
   const validateFamilyDistribution = async (items, label, expectedCounts) => {
-    const counts = new Map(taskFamilies.map(family => [family.name, 0]));
+    const counts = new Map(taskFamilies.map(name => [name, 0]));
     for (let index = 0; index < items.length; index++) {
       if (index > 0 && index % 200 === 0) await yieldToBrowser();
       const prompt = items[index].split('\n', 1)[0].replace(/^user:[ \t]*/i, '');
@@ -4879,11 +4879,11 @@ async function validateStandaloneCurriculumText(trainingText, validationText, si
       counts.set(family, counts.get(family) + 1);
     }
     for (const family of taskFamilies) {
-      const expected = expectedCounts[family.name];
-      const actual = counts.get(family.name);
+      const expected = expectedCounts[family];
+      const actual = counts.get(family);
       if (!Number.isInteger(expected) || actual !== expected)
         throw new Error(label + ' must contain exactly ' + Number(expected).toLocaleString() +
-          ' ' + family.name + ' examples; found ' + actual.toLocaleString() + '.');
+          ' ' + family + ' examples; found ' + actual.toLocaleString() + '.');
     }
   };
   // The v0.18.2 base corpus is not perfectly even: it contains 2,600 arithmetic
