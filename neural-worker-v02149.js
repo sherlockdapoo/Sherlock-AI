@@ -231,7 +231,7 @@ function collectAssistantTrainingTargets(text, tokenCount) {
         if (range[3] >= 0 && range[3] < examplesByFamily.length) {
           activeExample = {positions: [], contextStart: exampleStartTokenIndex,
             prompt: text.slice(range[4], range[0]).trim().slice(0, 500),
-            answer: text.slice(range[0], range[1]).replace(/<\\|endofassistant\\|>/g, "").trim().slice(0, 700)};
+            answer: text.slice(range[0], range[1]).replace(/\uE000/g, "").trim().slice(0, 700)};
           examplesByFamily[range[3]].push(activeExample);
         }
       }
