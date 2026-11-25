@@ -1297,7 +1297,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.85, Generation Intelligence v3, knowledge curriculum v0.19.8">v0.21.85</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.86, Generation Intelligence v3, knowledge curriculum v0.19.8">v0.21.86</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1612,7 +1612,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
           <span class="visual-state" id="neuralLiveStatus"><span class="visual-dot"></span><span id="neuralLiveStatusText">Waiting for training</span></span>
         </div>
         <section class="neural-live-card neural-diagnostic-panel" aria-live="polite" aria-label="Comparable training diagnostics">
-          <div class="visual-card-head"><div><h3>Comparable training diagnostics</h3><p>Dropout-disabled evaluation on matched task families. Updates every 500 training steps.</p></div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"><span class="visual-mini-tag">OVERFITTING AUDIT</span><button class="btn btn-secondary" id="neuralExampleAuditBtn" type="button">Run example audit</button><button class="btn btn-secondary" id="neuralDiagnosticCopyBtn" type="button" disabled>Copy table</button></div></div><p id="neuralDiagnosticCopyStatus" class="neural-diagnostic-status" role="status" aria-live="polite"></p><div id="neuralExampleAuditResults" hidden class="neural-diagnostic-status"></div>
+          <div class="visual-card-head"><div><h3>Comparable training diagnostics</h3><p>Dropout-disabled evaluation on matched task families. Updates every 500 training steps.</p></div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"><span class="visual-mini-tag">OVERFITTING AUDIT</span><button class="btn btn-secondary" id="neuralExampleAuditBtn" type="button">Run example audit</button><button class="btn btn-secondary" id="neuralDiagnosticCopyBtn" type="button" disabled>Copy table</button><button class="btn btn-secondary" id="neuralCopyBothAuditsBtn" type="button">Copy both audits</button></div></div><p id="neuralDiagnosticCopyStatus" class="neural-diagnostic-status" role="status" aria-live="polite"></p><div id="neuralExampleAuditResults" hidden class="neural-diagnostic-status"></div>
           <div id="neuralDiagnosticStatus" class="neural-diagnostic-status">Waiting for the next diagnostic evaluation. The results will appear here automatically during training.</div>
           <div id="neuralDiagnosticResults" hidden>
             <div class="neural-diagnostic-summary">
@@ -3942,6 +3942,54 @@ async function copyNeuralDiagnosticTable() {
   if (copied) logSherlockEvent('User copied comparable training diagnostics.');
   window.setTimeout(() => { if (button) button.textContent = 'Copy table'; }, 1800);
 }
+async function copyBothNeuralAudits() {
+  const status = $('neuralDiagnosticCopyStatus');
+  const auditRoot = $('neuralExampleAuditResults');
+  const table = document.querySelector('.neural-diagnostic-table');
+  if (!auditRoot || auditRoot.hidden || !auditRoot.querySelector('section') || !table || !table.querySelector('tbody tr')) {
+    if (status) status.textContent = 'Run the example audit and wait for comparable training diagnostics before copying both.';
+    return;
+  }
+  const auditClone = auditRoot.cloneNode(true);
+  auditClone.querySelectorAll('button').forEach(button => button.remove());
+  const auditText = auditClone.innerText || auditClone.textContent || '';
+  const diagnosticLines = [
+    'COMPARABLE TRAINING DIAGNOSTICS',
+    'Dropout-disabled evaluation on matched task families.',
+    'Training macro loss: ' + ($('neuralDiagnosticTrain')?.textContent || '—'),
+    'Validation macro loss: ' + ($('neuralDiagnosticValidation')?.textContent || '—'),
+    'Comparable families: ' + ($('neuralDiagnosticFamilies')?.textContent || '—'),
+    'Training update: ' + ($('neuralDiagnosticStep')?.textContent || '—'),
+    '',
+    Array.from(table.querySelectorAll('thead th')).map(cell => cell.textContent.trim()).join('\t'),
+    ...Array.from(table.querySelectorAll('tbody tr')).map(row =>
+      Array.from(row.querySelectorAll('td')).map(cell => cell.textContent.trim()).join('\t'))
+  ];
+  const report = auditText.trim() + '\n\n' + diagnosticLines.join('\n');
+  let copied = false;
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(report);
+      copied = true;
+    } else {
+      throw new Error('Clipboard API unavailable');
+    }
+  } catch (_) {
+    const area = document.createElement('textarea');
+    area.value = report;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    try { copied = document.execCommand('copy'); } catch (_) { copied = false; }
+    area.remove();
+  }
+  if (status) status.textContent = copied
+    ? 'Both audits copied together. Paste them into your message.'
+    : 'Copy was blocked. Select the audit results and copy them manually.';
+  if (copied) logSherlockEvent('User copied both overfitting audits together.');
+}
 function reportNeuralStopDiagnostic(message) {
   const output = $('neuralStopDiagnostic');
   if (output) output.textContent = 'Stop diagnostic: ' + message;
@@ -3950,6 +3998,7 @@ function reportNeuralStopDiagnostic(message) {
 $('neuralLogCopyBtn').addEventListener('click', copySherlockDiagnosticLog);
 $('neuralReportCopyBtn').addEventListener('click', copySherlockTrainingReport);
 $('neuralDiagnosticCopyBtn').addEventListener('click', copyNeuralDiagnosticTable);
+$('neuralCopyBothAuditsBtn').addEventListener('click', copyBothNeuralAudits);
 $('neuralExampleAuditBtn').addEventListener('click', () => {
   const button = $('neuralExampleAuditBtn');
   const results = $('neuralExampleAuditResults');
