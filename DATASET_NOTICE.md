@@ -1,6 +1,6 @@
 # Sherlock AI training data notice
 
-## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.5
+## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.7
 
 The active curriculum contains **24,751 training conversations** and **1,795 held-out validation conversations** across seven task families:
 
@@ -22,6 +22,10 @@ The v0.19.0 factual knowledge supplement remains included (51 training / 15 vali
 
 The curriculum is original synthetic content. No external dataset samples are downloaded or included.
 
+
+## Validation-set revision (v0.19.7)
+
+The v0.19.7 revision replaces four malformed letter/instruction validation examples with clear, well-formed prompts and aligned answers. Dataset counts and task-family totals are unchanged.
 
 ## Validation-set revision (v0.19.5)
 
