@@ -1297,7 +1297,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.83, Generation Intelligence v3, knowledge curriculum v0.19.7">v0.21.83</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.84, Generation Intelligence v3, knowledge curriculum v0.19.7">v0.21.84</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3348,7 +3348,8 @@ updateNeuralControls();
         const copy = document.createElement('button');
         copy.type = 'button'; copy.className = 'btn btn-secondary'; copy.textContent = 'Copy example audit';
         copy.addEventListener('click', async () => {
-          const lines = ['Individual validation-example loss audit · update ' + Number(data.steps).toLocaleString()];
+          const lines = ['Individual validation-example loss audit · update ' + Number(data.steps).toLocaleString(), 'Scope: letter/instruction and conversation validation examples only.'];
+          if (data.checkpointRestore && data.checkpointRestore.restored) lines.push('Scored on restored best checkpoint at update ' + Number(data.checkpointRestore.checkpointStep).toLocaleString() + ', restored from update ' + Number(data.checkpointRestore.latestTrainingStepBeforeRestore).toLocaleString() + '.');
           (data.families || []).forEach(group => {
             lines.push('', group.family + ' · top ' + group.top.length + ' of ' + group.examplesScored);
             group.top.forEach((item, index) => lines.push((index + 1) + '. Loss: ' + Number(item.loss).toFixed(4) + ' · tokens: ' + item.targetTokens, 'Prompt: ' + item.prompt, 'Expected answer: ' + item.answer));
