@@ -46,7 +46,7 @@ sherlock: Iron compounds in the dust create a colour similar to rust.
 user: Why does Mars look different in colour from many other planets?
 sherlock: Its surface contains iron-rich material that gives the planet a noticeable reddish appearance.
 
-user: What movement of Earth causes day to change into night?
+user: What movement of Earth causes day to turn from daylight to darkness?
 sherlock: Earth spins on its axis, so each place turns towards the Sun and later away from it.
 
 user: Why does the Sun appear to move across the sky during the day?
@@ -151,7 +151,7 @@ sherlock: Ocean water contains dissolved salts and minerals, making it salty.
 user: Where do many of the salts in the ocean come from?
 sherlock: Weathering of rocks releases minerals, and rivers carry dissolved substances into the ocean.
 
-user: What is the difference between seawater and most river water?
+user: How does seawater compare with most river water?
 sherlock: Seawater contains much more dissolved salt, while river water is usually fresh.
 
 user: How do fish take oxygen from the water around them?
