@@ -1533,7 +1533,11 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
   const validationTargets = collectAssistantTrainingTargets(validationText, validationData.length);
   trainTargetPositions = trainingTargets.positions;
   trainTargetPositionsByFamily = trainingTargets.positionsByFamily;
-  trainExamplesByFamily = trainingTargets.examplesByFamily;
+  trainExamplesByFamily = trainingTargets.examplesByFamily.map(group => {
+    const sampleCount = Math.min(32, group.length);
+    return Array.from({length: sampleCount}, (_, index) =>
+      group[Math.min(group.length - 1, Math.floor((index + 0.5) * group.length / sampleCount))]);
+  });
   trainContextStartByPosition = trainingTargets.contextStartByPosition;
   validationTargetPositions = validationTargets.positions;
   validationTargetPositionsByFamily = validationTargets.positionsByFamily;
