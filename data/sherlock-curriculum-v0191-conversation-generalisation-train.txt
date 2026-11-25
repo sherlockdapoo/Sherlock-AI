@@ -1,0 +1,299 @@
+user: What is a useful first step if I want to learn about space?
+sherlock: Begin by noting what you already know about space. Choose one central question, define the key terms, and use a simple example to connect them.
+
+user: What is a useful first step if I want to learn about nature?
+sherlock: Begin by noting what you already know about nature. Choose one central question, define the key terms, and use a simple example to connect them.
+
+user: What is a useful first step if I want to learn about music?
+sherlock: Begin by noting what you already know about music. Choose one central question, define the key terms, and use a simple example to connect them.
+
+user: What is a useful first step if I want to learn about books?
+sherlock: Begin by noting what you already know about books. Choose one central question, define the key terms, and use a simple example to connect them.
+
+user: What is a useful first step if I want to learn about puzzles?
+sherlock: Begin by noting what you already know about puzzles. Choose one central question, define the key terms, and use a simple example to connect them.
+
+user: How should I get started with learning?
+sherlock: Start with a short definition of learning, then identify its main parts. Work through one clear example before exploring harder details.
+
+user: How should I get started with ideas?
+sherlock: Start with a short definition of ideas, then identify its main parts. Work through one clear example before exploring harder details.
+
+user: How should I get started with school?
+sherlock: Start with a short definition of school, then identify its main parts. Work through one clear example before exploring harder details.
+
+user: How should I get started with problems?
+sherlock: Start with a short definition of problems, then identify its main parts. Work through one clear example before exploring harder details.
+
+user: How should I get started with revision?
+sherlock: Start with a short definition of revision, then identify its main parts. Work through one clear example before exploring harder details.
+
+user: Which basic idea should I look at first when exploring accuracy?
+sherlock: Look for the central idea behind accuracy. Once you can explain it in plain language, add supporting details one at a time.
+
+user: Which basic idea should I look at first when exploring design?
+sherlock: Look for the central idea behind design. Once you can explain it in plain language, add supporting details one at a time.
+
+user: Which basic idea should I look at first when exploring reliability?
+sherlock: Look for the central idea behind reliability. Once you can explain it in plain language, add supporting details one at a time.
+
+user: Which basic idea should I look at first when exploring usefulness?
+sherlock: Look for the central idea behind usefulness. Once you can explain it in plain language, add supporting details one at a time.
+
+user: Which basic idea should I look at first when exploring patterns?
+sherlock: Look for the central idea behind patterns. Once you can explain it in plain language, add supporting details one at a time.
+
+user: Could you outline a beginner-friendly starting point for thinking?
+sherlock: A good starting point is to list the important words linked to thinking. Define them, then explain how two of the ideas are connected.
+
+user: Could you outline a beginner-friendly starting point for perspective?
+sherlock: A good starting point is to list the important words linked to perspective. Define them, then explain how two of the ideas are connected.
+
+user: Could you outline a beginner-friendly starting point for topics?
+sherlock: A good starting point is to list the important words linked to topics. Define them, then explain how two of the ideas are connected.
+
+user: Could you outline a beginner-friendly starting point for tasks?
+sherlock: A good starting point is to list the important words linked to tasks. Define them, then explain how two of the ideas are connected.
+
+user: Could you outline a beginner-friendly starting point for examples?
+sherlock: A good starting point is to list the important words linked to examples. Define them, then explain how two of the ideas are connected.
+
+user: What is one effective exercise I could try for space?
+sherlock: Choose one small part of space and practise it with a new example. Check your result and write down one change that would improve it.
+
+user: What is one effective exercise I could try for nature?
+sherlock: Choose one small part of nature and practise it with a new example. Check your result and write down one change that would improve it.
+
+user: What is one effective exercise I could try for music?
+sherlock: Choose one small part of music and practise it with a new example. Check your result and write down one change that would improve it.
+
+user: What is one effective exercise I could try for books?
+sherlock: Choose one small part of books and practise it with a new example. Check your result and write down one change that would improve it.
+
+user: What is one effective exercise I could try for puzzles?
+sherlock: Choose one small part of puzzles and practise it with a new example. Check your result and write down one change that would improve it.
+
+user: How can I build a regular practice routine around learning?
+sherlock: Set a short, realistic session for learning. Alternate between reviewing one idea, trying a fresh task, and checking what you learned.
+
+user: How can I build a regular practice routine around ideas?
+sherlock: Set a short, realistic session for ideas. Alternate between reviewing one idea, trying a fresh task, and checking what you learned.
+
+user: How can I build a regular practice routine around school?
+sherlock: Set a short, realistic session for school. Alternate between reviewing one idea, trying a fresh task, and checking what you learned.
+
+user: How can I build a regular practice routine around problems?
+sherlock: Set a short, realistic session for problems. Alternate between reviewing one idea, trying a fresh task, and checking what you learned.
+
+user: How can I build a regular practice routine around revision?
+sherlock: Set a short, realistic session for revision. Alternate between reviewing one idea, trying a fresh task, and checking what you learned.
+
+user: Give me a simple activity that would help me improve at accuracy.
+sherlock: Make a brief task about accuracy with a clear goal. Complete it without copying an example, then compare your reasoning with the result.
+
+user: Give me a simple activity that would help me improve at design.
+sherlock: Make a brief task about design with a clear goal. Complete it without copying an example, then compare your reasoning with the result.
+
+user: Give me a simple activity that would help me improve at reliability.
+sherlock: Make a brief task about reliability with a clear goal. Complete it without copying an example, then compare your reasoning with the result.
+
+user: Give me a simple activity that would help me improve at usefulness.
+sherlock: Make a brief task about usefulness with a clear goal. Complete it without copying an example, then compare your reasoning with the result.
+
+user: Give me a simple activity that would help me improve at patterns.
+sherlock: Make a brief task about patterns with a clear goal. Complete it without copying an example, then compare your reasoning with the result.
+
+user: What could I practise today to make progress with thinking?
+sherlock: Pick one skill within thinking that you can finish today. Try it, check where you hesitated, and repeat it with a different example.
+
+user: What could I practise today to make progress with perspective?
+sherlock: Pick one skill within perspective that you can finish today. Try it, check where you hesitated, and repeat it with a different example.
+
+user: What could I practise today to make progress with topics?
+sherlock: Pick one skill within topics that you can finish today. Try it, check where you hesitated, and repeat it with a different example.
+
+user: What could I practise today to make progress with tasks?
+sherlock: Pick one skill within tasks that you can finish today. Try it, check where you hesitated, and repeat it with a different example.
+
+user: What could I practise today to make progress with examples?
+sherlock: Pick one skill within examples that you can finish today. Try it, check where you hesitated, and repeat it with a different example.
+
+user: How can I tell whether my understanding of space is sound?
+sherlock: Explain space without using notes, then apply the idea to a new case. If you can justify each step, your understanding is developing well.
+
+user: How can I tell whether my understanding of nature is sound?
+sherlock: Explain nature without using notes, then apply the idea to a new case. If you can justify each step, your understanding is developing well.
+
+user: How can I tell whether my understanding of music is sound?
+sherlock: Explain music without using notes, then apply the idea to a new case. If you can justify each step, your understanding is developing well.
+
+user: How can I tell whether my understanding of books is sound?
+sherlock: Explain books without using notes, then apply the idea to a new case. If you can justify each step, your understanding is developing well.
+
+user: How can I tell whether my understanding of puzzles is sound?
+sherlock: Explain puzzles without using notes, then apply the idea to a new case. If you can justify each step, your understanding is developing well.
+
+user: What question could I use to check what I know about learning?
+sherlock: Ask yourself why the main idea of learning works and when it might not apply. Support your answer with a specific example.
+
+user: What question could I use to check what I know about ideas?
+sherlock: Ask yourself why the main idea of ideas works and when it might not apply. Support your answer with a specific example.
+
+user: What question could I use to check what I know about school?
+sherlock: Ask yourself why the main idea of school works and when it might not apply. Support your answer with a specific example.
+
+user: What question could I use to check what I know about problems?
+sherlock: Ask yourself why the main idea of problems works and when it might not apply. Support your answer with a specific example.
+
+user: What question could I use to check what I know about revision?
+sherlock: Ask yourself why the main idea of revision works and when it might not apply. Support your answer with a specific example.
+
+user: How would I test whether I can apply accuracy correctly?
+sherlock: Use a fresh situation involving accuracy rather than repeating a memorised example. Show your reasoning and check that the conclusion follows from the evidence.
+
+user: How would I test whether I can apply design correctly?
+sherlock: Use a fresh situation involving design rather than repeating a memorised example. Show your reasoning and check that the conclusion follows from the evidence.
+
+user: How would I test whether I can apply reliability correctly?
+sherlock: Use a fresh situation involving reliability rather than repeating a memorised example. Show your reasoning and check that the conclusion follows from the evidence.
+
+user: How would I test whether I can apply usefulness correctly?
+sherlock: Use a fresh situation involving usefulness rather than repeating a memorised example. Show your reasoning and check that the conclusion follows from the evidence.
+
+user: How would I test whether I can apply patterns correctly?
+sherlock: Use a fresh situation involving patterns rather than repeating a memorised example. Show your reasoning and check that the conclusion follows from the evidence.
+
+user: What is a good way to find gaps in my knowledge of thinking?
+sherlock: Write a short explanation of thinking, marking any point that feels uncertain. Turn each gap into a question and investigate it separately.
+
+user: What is a good way to find gaps in my knowledge of perspective?
+sherlock: Write a short explanation of perspective, marking any point that feels uncertain. Turn each gap into a question and investigate it separately.
+
+user: What is a good way to find gaps in my knowledge of topics?
+sherlock: Write a short explanation of topics, marking any point that feels uncertain. Turn each gap into a question and investigate it separately.
+
+user: What is a good way to find gaps in my knowledge of tasks?
+sherlock: Write a short explanation of tasks, marking any point that feels uncertain. Turn each gap into a question and investigate it separately.
+
+user: What is a good way to find gaps in my knowledge of examples?
+sherlock: Write a short explanation of examples, marking any point that feels uncertain. Turn each gap into a question and investigate it separately.
+
+user: Suggest a small question I could investigate about space.
+sherlock: Choose one focused question about space that can be explored with evidence. Record what you expect, examine what happens, and explain what the result supports.
+
+user: Suggest a small question I could investigate about nature.
+sherlock: Choose one focused question about nature that can be explored with evidence. Record what you expect, examine what happens, and explain what the result supports.
+
+user: Suggest a small question I could investigate about music.
+sherlock: Choose one focused question about music that can be explored with evidence. Record what you expect, examine what happens, and explain what the result supports.
+
+user: Suggest a small question I could investigate about books.
+sherlock: Choose one focused question about books that can be explored with evidence. Record what you expect, examine what happens, and explain what the result supports.
+
+user: Suggest a small question I could investigate about puzzles.
+sherlock: Choose one focused question about puzzles that can be explored with evidence. Record what you expect, examine what happens, and explain what the result supports.
+
+user: What simple investigation could help me explore learning?
+sherlock: Compare two clear examples of learning. Note what stays the same, what changes, and what those observations suggest.
+
+user: What simple investigation could help me explore ideas?
+sherlock: Compare two clear examples of ideas. Note what stays the same, what changes, and what those observations suggest.
+
+user: What simple investigation could help me explore school?
+sherlock: Compare two clear examples of school. Note what stays the same, what changes, and what those observations suggest.
+
+user: What simple investigation could help me explore problems?
+sherlock: Compare two clear examples of problems. Note what stays the same, what changes, and what those observations suggest.
+
+user: What simple investigation could help me explore revision?
+sherlock: Compare two clear examples of revision. Note what stays the same, what changes, and what those observations suggest.
+
+user: How might I collect evidence while looking into accuracy?
+sherlock: Decide what information would help answer your question about accuracy. Gather relevant examples, keep notes of where they came from, and look for a consistent pattern.
+
+user: How might I collect evidence while looking into design?
+sherlock: Decide what information would help answer your question about design. Gather relevant examples, keep notes of where they came from, and look for a consistent pattern.
+
+user: How might I collect evidence while looking into reliability?
+sherlock: Decide what information would help answer your question about reliability. Gather relevant examples, keep notes of where they came from, and look for a consistent pattern.
+
+user: How might I collect evidence while looking into usefulness?
+sherlock: Decide what information would help answer your question about usefulness. Gather relevant examples, keep notes of where they came from, and look for a consistent pattern.
+
+user: How might I collect evidence while looking into patterns?
+sherlock: Decide what information would help answer your question about patterns. Gather relevant examples, keep notes of where they came from, and look for a consistent pattern.
+
+user: Could you set out a short inquiry task on thinking?
+sherlock: Write one question about thinking, make a prediction, and collect a few relevant observations. Finish by stating what the evidence shows and what remains uncertain.
+
+user: Could you set out a short inquiry task on perspective?
+sherlock: Write one question about perspective, make a prediction, and collect a few relevant observations. Finish by stating what the evidence shows and what remains uncertain.
+
+user: Could you set out a short inquiry task on topics?
+sherlock: Write one question about topics, make a prediction, and collect a few relevant observations. Finish by stating what the evidence shows and what remains uncertain.
+
+user: Could you set out a short inquiry task on tasks?
+sherlock: Write one question about tasks, make a prediction, and collect a few relevant observations. Finish by stating what the evidence shows and what remains uncertain.
+
+user: Could you set out a short inquiry task on examples?
+sherlock: Write one question about examples, make a prediction, and collect a few relevant observations. Finish by stating what the evidence shows and what remains uncertain.
+
+user: What makes an explanation of space clear and complete?
+sherlock: A clear explanation of space defines the main idea, presents the important points in order, and uses an example to show how they fit together.
+
+user: What makes an explanation of nature clear and complete?
+sherlock: A clear explanation of nature defines the main idea, presents the important points in order, and uses an example to show how they fit together.
+
+user: What makes an explanation of music clear and complete?
+sherlock: A clear explanation of music defines the main idea, presents the important points in order, and uses an example to show how they fit together.
+
+user: What makes an explanation of books clear and complete?
+sherlock: A clear explanation of books defines the main idea, presents the important points in order, and uses an example to show how they fit together.
+
+user: What makes an explanation of puzzles clear and complete?
+sherlock: A clear explanation of puzzles defines the main idea, presents the important points in order, and uses an example to show how they fit together.
+
+user: How could I organise my thoughts into an explanation of learning?
+sherlock: Put the central point about learning first, follow it with supporting details, and finish with an example. Keep every sentence linked to the question.
+
+user: How could I organise my thoughts into an explanation of ideas?
+sherlock: Put the central point about ideas first, follow it with supporting details, and finish with an example. Keep every sentence linked to the question.
+
+user: How could I organise my thoughts into an explanation of school?
+sherlock: Put the central point about school first, follow it with supporting details, and finish with an example. Keep every sentence linked to the question.
+
+user: How could I organise my thoughts into an explanation of problems?
+sherlock: Put the central point about problems first, follow it with supporting details, and finish with an example. Keep every sentence linked to the question.
+
+user: How could I organise my thoughts into an explanation of revision?
+sherlock: Put the central point about revision first, follow it with supporting details, and finish with an example. Keep every sentence linked to the question.
+
+user: What points should I cover when explaining accuracy to someone?
+sherlock: Include a simple definition of accuracy, explain how its key parts relate, and address why it matters. Use an example to make the connection clear.
+
+user: What points should I cover when explaining design to someone?
+sherlock: Include a simple definition of design, explain how its key parts relate, and address why it matters. Use an example to make the connection clear.
+
+user: What points should I cover when explaining reliability to someone?
+sherlock: Include a simple definition of reliability, explain how its key parts relate, and address why it matters. Use an example to make the connection clear.
+
+user: What points should I cover when explaining usefulness to someone?
+sherlock: Include a simple definition of usefulness, explain how its key parts relate, and address why it matters. Use an example to make the connection clear.
+
+user: What points should I cover when explaining patterns to someone?
+sherlock: Include a simple definition of patterns, explain how its key parts relate, and address why it matters. Use an example to make the connection clear.
+
+user: Can you suggest a structure for explaining thinking clearly?
+sherlock: Use three stages for thinking: introduce the main idea, explain the reasoning or evidence, and give a relevant example. End with a concise conclusion.
+
+user: Can you suggest a structure for explaining perspective clearly?
+sherlock: Use three stages for perspective: introduce the main idea, explain the reasoning or evidence, and give a relevant example. End with a concise conclusion.
+
+user: Can you suggest a structure for explaining topics clearly?
+sherlock: Use three stages for topics: introduce the main idea, explain the reasoning or evidence, and give a relevant example. End with a concise conclusion.
+
+user: Can you suggest a structure for explaining tasks clearly?
+sherlock: Use three stages for tasks: introduce the main idea, explain the reasoning or evidence, and give a relevant example. End with a concise conclusion.
+
+user: Can you suggest a structure for explaining examples clearly?
+sherlock: Use three stages for examples: introduce the main idea, explain the reasoning or evidence, and give a relevant example. End with a concise conclusion.
