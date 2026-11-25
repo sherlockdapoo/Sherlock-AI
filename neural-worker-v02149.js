@@ -68,6 +68,7 @@ let validationTargetPositionsByFamily = [];
 let trainExamplesByFamily = [];
 let validationExamplesByFamily = [];
 let latestComparableDiagnostics = null;
+let lastStopRestoreInfo = null;
 let corpusBigramCounts = new Map();
 let corpusTrigramCounts = new Map();
 let corpusFourgramCounts = new Map();
@@ -335,7 +336,7 @@ function evaluateIndividualExampleLossAudit() {
     scored.sort((a, b) => b.loss - a.loss);
     results.push({family: TASK_FAMILY_NAMES[familyIndex], examplesScored: scored.length, top: scored.slice(0, 10)});
   }
-  self.postMessage({type: "individual-example-loss-audit", steps, evaluatedAt: new Date().toISOString(), scope: "all-task-families", families: results});
+  self.postMessage({type: "individual-example-loss-audit", steps, evaluatedAt: new Date().toISOString(), scope: "letter/instruction and conversation only", checkpointRestore: lastStopRestoreInfo, families: results});
 }
 
 function sampleBalancedTrainingPosition() {
@@ -1058,8 +1059,14 @@ function finishStop(reason = "manual") {
   stopRequested = false;
 
   // Capture the exact latest state before optionally restoring the best validation state.
+  const latestTrainingStepBeforeRestore = steps;
   postLatestCheckpoint();
   const restoredBest = bestParameters instanceof Float32Array;
+  lastStopRestoreInfo = restoredBest ? {
+    latestTrainingStepBeforeRestore,
+    checkpointStep: bestSteps,
+    restored: bestSteps < latestTrainingStepBeforeRestore
+  } : null;
   if (restoredBest) {
     parameters.set(bestParameters);
     firstMoment.set(bestFirstMoment);
@@ -1707,6 +1714,7 @@ self.addEventListener("message", async event => {
         });
         stopRequested = false;
         stopRequestReason = "manual";
+        lastStopRestoreInfo = null;
         setTimeout(runBatch, 0);
       }
     } else if (message.type === "stop") {
