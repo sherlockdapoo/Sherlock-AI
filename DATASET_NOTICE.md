@@ -2,7 +2,7 @@
 
 ## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.7
 
-The active curriculum contains **24,751 training conversations** and **1,795 held-out validation conversations** across seven task families:
+The active curriculum contains **24,851 training conversations** and **1,795 held-out validation conversations** across seven task families:
 
 - Arithmetic: 3,900 training / 286 validation
 - Percentages: 3,700 / 266
@@ -22,6 +22,11 @@ The v0.19.0 factual knowledge supplement remains included (51 training / 15 vali
 
 The curriculum is original synthetic content. No external dataset samples are downloaded or included.
 
+
+
+## Conversation generalisation supplement (v0.19.8)
+
+A new 100-example conversation training supplement broadens coverage across five response intents: getting started, practising a skill, checking understanding, planning a small investigation, and structuring a clear explanation. It uses 100 unique prompts and 100 unique answers across the existing 20 conversation topics. The supplement was checked against all active training and held-out examples: there are no exact prompt collisions, no prompt-template collisions under the loader's normalisation rule, and no exact answer collisions. The held-out validation set is unchanged.
 
 ## Validation-set revision (v0.19.7)
 
