@@ -1,0 +1,359 @@
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, d, e.
+sherlock: a, b, c, d, e
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, d, f.
+sherlock: a, b, c, d, f
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, d, g.
+sherlock: a, b, c, d, g
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, d, h.
+sherlock: a, b, c, d, h
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, d, i.
+sherlock: a, b, c, d, i
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, d, j.
+sherlock: a, b, c, d, j
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, d, k.
+sherlock: a, b, c, d, k
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, d, l.
+sherlock: a, b, c, d, l
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, d, m.
+sherlock: a, b, c, d, m
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, d, n.
+sherlock: a, b, c, d, n
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, d, o.
+sherlock: a, b, c, d, o
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, d, p.
+sherlock: a, b, c, d, p
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, d, q.
+sherlock: a, b, c, d, q
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, d, r.
+sherlock: a, b, c, d, r
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, d, s.
+sherlock: a, b, c, d, s
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, d, u.
+sherlock: a, b, c, d, u
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, d, v.
+sherlock: a, b, c, d, v
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, d, w.
+sherlock: a, b, c, d, w
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, d, x.
+sherlock: a, b, c, d, x
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, d, y.
+sherlock: a, b, c, d, y
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, d, z.
+sherlock: a, b, c, d, z
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, e, f.
+sherlock: a, b, c, e, f
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, e, g.
+sherlock: a, b, c, e, g
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, e, h.
+sherlock: a, b, c, e, h
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, e, i.
+sherlock: a, b, c, e, i
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, e, j.
+sherlock: a, b, c, e, j
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, e, k.
+sherlock: a, b, c, e, k
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, e, l.
+sherlock: a, b, c, e, l
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, e, m.
+sherlock: a, b, c, e, m
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, e, n.
+sherlock: a, b, c, e, n
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, e, o.
+sherlock: a, b, c, e, o
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, e, p.
+sherlock: a, b, c, e, p
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, e, q.
+sherlock: a, b, c, e, q
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, e, r.
+sherlock: a, b, c, e, r
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, e, s.
+sherlock: a, b, c, e, s
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, e, t.
+sherlock: a, b, c, e, t
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, e, u.
+sherlock: a, b, c, e, u
+
+user: Arrange: Follow the instruction and use the alphabet to order these letters: a, b, c, e, v.
+sherlock: a, b, c, e, v
+
+user: Order: Follow the instruction and use the alphabet to order these letters: a, b, c, e, w.
+sherlock: a, b, c, e, w
+
+user: Sort: Follow the instruction and use the alphabet to order these letters: a, b, c, e, x.
+sherlock: a, b, c, e, x
+
+user: Arrange: Follow the instruction and put these words in alphabetical order: pepper, cotton, compass, amber, walnut.
+sherlock: amber, compass, cotton, pepper, walnut
+
+user: Order: Follow the instruction and put these words in alphabetical order: pepper, walnut, window, rabbit, dinner.
+sherlock: dinner, pepper, rabbit, walnut, window
+
+user: Sort: Follow the instruction and put these words in alphabetical order: puzzle, chalk, walnut, winter, fossil.
+sherlock: chalk, fossil, puzzle, walnut, winter
+
+user: Arrange: Follow the instruction and put these words in alphabetical order: parcel, flower, violin, wallet, summer.
+sherlock: flower, parcel, summer, violin, wallet
+
+user: Order: Follow the instruction and put these words in alphabetical order: arch, feather, valley, chalk, hazel.
+sherlock: arch, chalk, feather, hazel, valley
+
+user: Sort: Follow the instruction and put these words in alphabetical order: nectar, violin, gentle, nickel, badge.
+sherlock: badge, gentle, nectar, nickel, violin
+
+user: Arrange: Follow the instruction and put these words in alphabetical order: rainbow, leather, cherry, summer, helmet.
+sherlock: cherry, helmet, leather, rainbow, summer
+
+user: Order: Follow the instruction and put these words in alphabetical order: village, sailor, violin, squirrel, muffin.
+sherlock: muffin, sailor, squirrel, village, violin
+
+user: Sort: Follow the instruction and put these words in alphabetical order: sailor, garden, stone, talent, dolphin.
+sherlock: dolphin, garden, sailor, stone, talent
+
+user: Arrange: Follow the instruction and put these words in alphabetical order: bronze, rocket, summer, museum, village.
+sherlock: bronze, museum, rocket, summer, village
+
+user: Order: Follow the instruction and put these words in alphabetical order: biscuit, squirrel, berry, museum, melon.
+sherlock: berry, biscuit, melon, museum, squirrel
+
+user: Sort: Follow the instruction and put these words in alphabetical order: jungle, cabin, branch, mustard, bubble.
+sherlock: branch, bubble, cabin, jungle, mustard
+
+user: Arrange: Follow the instruction and put these words in alphabetical order: notebook, magnet, puzzle, eagle, desert.
+sherlock: desert, eagle, magnet, notebook, puzzle
+
+user: Order: Follow the instruction and put these words in alphabetical order: nickel, comet, temple, cedar, feather.
+sherlock: cedar, comet, feather, nickel, temple
+
+user: Sort: Follow the instruction and put these words in alphabetical order: planet, ribbon, lizard, anchor, arch.
+sherlock: anchor, arch, lizard, planet, ribbon
+
+user: Arrange: Follow the instruction and put these words in alphabetical order: crystal, lizard, fabric, comet, gentle.
+sherlock: comet, crystal, fabric, gentle, lizard
+
+user: Order: Follow the instruction and put these words in alphabetical order: object, pepper, ticket, saddle, shadow.
+sherlock: object, pepper, saddle, shadow, ticket
+
+user: Sort: Follow the instruction and put these words in alphabetical order: velvet, rocket, chalk, shadow, flower.
+sherlock: chalk, flower, rocket, shadow, velvet
+
+user: Arrange: Follow the instruction and put these words in alphabetical order: tomato, rainbow, blossom, fabric, puzzle.
+sherlock: blossom, fabric, puzzle, rainbow, tomato
+
+user: Order: Follow the instruction and put these words in alphabetical order: lizard, noodle, village, stone, quartz.
+sherlock: lizard, noodle, quartz, stone, village
+
+user: Sort: Follow the instruction and reverse the order of these words: palace, anchor, hazel, museum, pepper.
+sherlock: pepper, museum, hazel, anchor, palace
+
+user: Arrange: Follow the instruction and reverse the order of these words: hazel, marble, acorn, lantern, oyster.
+sherlock: oyster, lantern, acorn, marble, hazel
+
+user: Order: Follow the instruction and reverse the order of these words: tomato, hammer, bubble, pebble, violin.
+sherlock: violin, pebble, bubble, hammer, tomato
+
+user: Sort: Follow the instruction and reverse the order of these words: button, amber, market, notebook, sketch.
+sherlock: sketch, notebook, market, amber, button
+
+user: Arrange: Follow the instruction and reverse the order of these words: parcel, mustard, button, kitten, number.
+sherlock: number, kitten, button, mustard, parcel
+
+user: Order: Follow the instruction and reverse the order of these words: fountain, object, pond, talent, squirrel.
+sherlock: squirrel, talent, pond, object, fountain
+
+user: Sort: Follow the instruction and reverse the order of these words: arrow, dream, winter, object, flame.
+sherlock: flame, object, winter, dream, arrow
+
+user: Arrange: Follow the instruction and reverse the order of these words: notebook, nickel, anchor, village, willow.
+sherlock: willow, village, anchor, nickel, notebook
+
+user: Order: Follow the instruction and reverse the order of these words: oak, marble, lizard, gentle, golden.
+sherlock: golden, gentle, lizard, marble, oak
+
+user: Sort: Follow the instruction and reverse the order of these words: oak, desert, chalk, carpet, museum.
+sherlock: museum, carpet, chalk, desert, oak
+
+user: Arrange: Follow the instruction and reverse the order of these words: island, coral, willow, object, lantern.
+sherlock: lantern, object, willow, coral, island
+
+user: Order: Follow the instruction and reverse the order of these words: figure, acorn, sailor, dream, garden.
+sherlock: garden, dream, sailor, acorn, figure
+
+user: Sort: Follow the instruction and reverse the order of these words: museum, magnet, mirror, garlic, stone.
+sherlock: stone, garlic, mirror, magnet, museum
+
+user: Arrange: Follow the instruction and reverse the order of these words: fountain, globe, shadow, fossil, number.
+sherlock: number, fossil, shadow, globe, fountain
+
+user: Order: Follow the instruction and reverse the order of these words: number, amber, window, lemon, object.
+sherlock: object, lemon, window, amber, number
+
+user: Sort: Follow the instruction and reverse the order of these words: garlic, comet, button, palace, anchor.
+sherlock: anchor, palace, button, comet, garlic
+
+user: Arrange: Follow the instruction and reverse the order of these words: quartz, marble, walnut, talent, market.
+sherlock: market, talent, walnut, marble, quartz
+
+user: Order: Follow the instruction and reverse the order of these words: arch, bubble, temple, tomato, garlic.
+sherlock: garlic, tomato, temple, bubble, arch
+
+user: Sort: Follow the instruction and reverse the order of these words: engine, bamboo, garlic, crystal, ladder.
+sherlock: ladder, crystal, garlic, bamboo, engine
+
+user: Arrange: Follow the instruction and reverse the order of these words: fabric, stone, melon, button, desert.
+sherlock: desert, button, melon, stone, fabric
+
+user: Sort: Follow the instruction and write one clear sentence using the word "bright".
+sherlock: The bright robot explored the garden and recorded what it found.
+
+user: Arrange: Follow the instruction and write one sentence about a quiet library.
+sherlock: The quiet library gave the students a peaceful place to read.
+
+user: Order: Follow the instruction and write one clear sentence using the word "patient".
+sherlock: The patient teacher explained the difficult idea one step at a time.
+
+user: Sort: Follow the instruction and write one sentence about a careful gardener.
+sherlock: The careful gardener watered each plant before checking the soil.
+
+user: Arrange: Follow the instruction and write one clear sentence using the word "curious".
+sherlock: The curious scientist tested the idea and wrote down the results.
+
+user: Order: Follow the instruction and write one sentence about a gentle puppy.
+sherlock: The gentle puppy rested beside its owner after a long walk.
+
+user: Sort: Follow the instruction and write one clear sentence using the word "ancient".
+sherlock: The ancient castle stood above the village on the hill.
+
+user: Arrange: Follow the instruction and write one sentence about a useful map.
+sherlock: The useful map showed the shortest path through the town.
+
+user: Order: Follow the instruction and write one clear sentence using the word "colourful".
+sherlock: The colourful parrot called from a branch near the window.
+
+user: Sort: Follow the instruction and write one sentence about a clever student.
+sherlock: The clever student solved the puzzle by checking each clue.
+
+user: Arrange: Follow the instruction and write one clear sentence using the word "peaceful".
+sherlock: The peaceful lake reflected the clouds in the evening sky.
+
+user: Order: Follow the instruction and write one sentence about a brave explorer.
+sherlock: The brave explorer crossed the bridge and continued along the path.
+
+user: Sort: Follow the instruction and write one clear sentence using the word "tiny".
+sherlock: The tiny seed began to grow after it received water and light.
+
+user: Arrange: Follow the instruction and write one sentence about a wooden boat.
+sherlock: The wooden boat moved slowly across the calm water.
+
+user: Order: Follow the instruction and write one clear sentence using the word "friendly".
+sherlock: The friendly neighbour offered to help carry the heavy boxes.
+
+user: Sort: Follow the instruction and write one sentence about a distant mountain.
+sherlock: The distant mountain looked blue in the morning haze.
+
+user: Arrange: Follow the instruction and write one clear sentence using the word "fresh".
+sherlock: The fresh bread filled the kitchen with a warm smell.
+
+user: Order: Follow the instruction and write one sentence about a golden butterfly.
+sherlock: The golden butterfly landed briefly on a purple flower.
+
+user: Sort: Follow the instruction and write one clear sentence using the word "busy".
+sherlock: The busy station filled with travellers during the morning.
+
+user: Arrange: Follow the instruction and write one sentence about a smooth stone.
+sherlock: The smooth stone rested at the bottom of the clear stream.
+
+user: Order: Follow the instruction and write one clear sentence using the word "honest".
+sherlock: The honest answer explained what happened without hiding any details.
+
+user: Sort: Follow the instruction and write one sentence about a steady bridge.
+sherlock: The steady bridge allowed people to cross the river safely.
+
+user: Arrange: Follow the instruction and write one clear sentence using the word "helpful".
+sherlock: The helpful guide showed the group where to find the museum.
+
+user: Order: Follow the instruction and write one sentence about a sleepy kitten.
+sherlock: The sleepy kitten curled up on a blanket near the heater.
+
+user: Sort: Follow the instruction and write one clear sentence using the word "strong".
+sherlock: The strong wind pushed the clouds across the open sky.
+
+user: Arrange: Follow the instruction and write one sentence about a simple machine.
+sherlock: The simple machine lifted the box with less effort.
+
+user: Order: Follow the instruction and write one clear sentence using the word "interesting".
+sherlock: The interesting book described how animals adapt to their habitats.
+
+user: Sort: Follow the instruction and write one sentence about a warm sunlight.
+sherlock: The warm sunlight reached the room through the open curtains.
+
+user: Arrange: Follow the instruction and write one clear sentence using the word "neat".
+sherlock: The neat notebook kept the experiment results in one place.
+
+user: Order: Follow the instruction and write one sentence about a quick runner.
+sherlock: The quick runner reached the finish line before the others.
+
+user: Sort: Follow the instruction and write one clear sentence using the word "thoughtful".
+sherlock: The thoughtful friend listened carefully before offering advice.
+
+user: Arrange: Follow the instruction and write one sentence about a small village.
+sherlock: The small village stood beside a river and a green field.
+
+user: Order: Follow the instruction and write one clear sentence using the word "clear".
+sherlock: The clear explanation helped everyone understand the main point.
+
+user: Sort: Follow the instruction and write one sentence about a reliable clock.
+sherlock: The reliable clock showed the correct time throughout the day.
+
+user: Arrange: Follow the instruction and write one clear sentence using the word "soft".
+sherlock: The soft blanket kept the child warm on the cold evening.
+
+user: Order: Follow the instruction and write one sentence about a tall tree.
+sherlock: The tall tree provided shade for people resting underneath.
+
+user: Sort: Follow the instruction and write one clear sentence using the word "interesting".
+sherlock: The interesting experiment showed how light changes direction in water.
+
+user: Arrange: Follow the instruction and write one sentence about a calm teacher.
+sherlock: The calm teacher helped the class organise the group activity.
+
+user: Order: Follow the instruction and write one clear sentence using the word "bright".
+sherlock: The bright lantern lit the path after sunset.
+
+user: Sort: Follow the instruction and write one sentence about a quiet garden.
+sherlock: The quiet garden attracted birds and butterflies in the early morning.
