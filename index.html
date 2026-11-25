@@ -1297,7 +1297,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.82, Generation Intelligence v3, knowledge curriculum v0.19.7">v0.21.82</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.83, Generation Intelligence v3, knowledge curriculum v0.19.7">v0.21.83</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -3200,7 +3200,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.82-example-loss-audit-v1', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.83-example-loss-audit-v2', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3322,6 +3322,14 @@ updateNeuralControls();
         const heading = document.createElement('strong');
         heading.textContent = 'Individual validation-example loss audit · update ' + Number(data.steps).toLocaleString();
         root.appendChild(heading);
+        if (data.checkpointRestore && data.checkpointRestore.restored) {
+          const restoreNote = document.createElement('p');
+          restoreNote.textContent = 'Scored on the restored best checkpoint at update ' + Number(data.checkpointRestore.checkpointStep).toLocaleString() + ', restored from the later training state at update ' + Number(data.checkpointRestore.latestTrainingStepBeforeRestore).toLocaleString() + '.';
+          root.appendChild(restoreNote);
+        }
+        const scopeNote = document.createElement('p');
+        scopeNote.textContent = 'Scope: letter/instruction and conversation validation examples only.';
+        root.appendChild(scopeNote);
         (data.families || []).forEach(group => {
           const section = document.createElement('section');
           const title = document.createElement('h4');
@@ -3382,6 +3390,12 @@ updateNeuralControls();
       if (data.reset) resetNeuralExperimentMetrics(neuralActiveOptimizer);
       neuralWorkerStarted = true;
       neuralTraining = true;
+      const diagnosticResults = $('neuralDiagnosticResults');
+      if (diagnosticResults) diagnosticResults.hidden = true;
+      const diagnosticStatus = $('neuralDiagnosticStatus');
+      if (diagnosticStatus) diagnosticStatus.textContent = 'Waiting for a comparable evaluation from this training run.';
+      const previousExampleAudit = $('neuralExampleAuditResults');
+      if (previousExampleAudit) { previousExampleAudit.hidden = true; previousExampleAudit.textContent = ''; }
       setNeuralState('Training on this device', 'running');
       $('neuralMessage').textContent = 'Backpropagation is updating the network weights locally. The validation score appears after the first evaluation.';
       updateNeuralControls();
@@ -3417,6 +3431,11 @@ updateNeuralControls();
         : data.restoredBest
           ? 'Training stopped manually. Sherlock restored and saved its best validation checkpoint.'
           : 'Training stopped. Complete more updates to make the neural model useful.';
+      const diagnosticStep = Number(String($('neuralDiagnosticStep')?.textContent || '').replace(/,/g, ''));
+      if (data.restoredBest && Number.isFinite(diagnosticStep) && diagnosticStep > Number(data.steps)) {
+        const diagnosticStatus = $('neuralDiagnosticStatus');
+        if (diagnosticStatus) diagnosticStatus.textContent += ' Important: this comparable evaluation is a pre-restore snapshot from update ' + diagnosticStep.toLocaleString() + '. The current model was restored to the best checkpoint at update ' + Number(data.steps).toLocaleString();
+      }
       updateNeuralControls();
       setChatReady(modelReady);
       updateGlobalNeuralStats();
