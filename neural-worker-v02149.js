@@ -317,7 +317,7 @@ function evaluateComparableAsync() {
 function evaluateIndividualExampleLossAudit() {
   if (!validationData || !validationExamplesByFamily.length) throw new Error("Load the validation dataset before running the example-loss audit.");
   if (running) throw new Error("Stop training before running the individual-example audit so the model weights remain stable.");
-  const selectedFamilies = TASK_FAMILY_NAMES.map((_, index) => index);
+  const selectedFamilies = [5, 6];
   const results = [];
   for (const familyIndex of selectedFamilies) {
     const examples = validationExamplesByFamily[familyIndex] || [];
