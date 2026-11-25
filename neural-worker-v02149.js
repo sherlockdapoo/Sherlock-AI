@@ -1,6 +1,8 @@
 /* Sherlock AI v0.19.1: expanded-capacity neural model; v0.18.6 conversation curriculum. */
 "use strict";
 
+importScripts("task-family-classifier-v1.js?v=0.21.82");
+
 const VOCAB = 1024;
 const CONTEXT = 48;
 const EMBED = 12;
@@ -63,6 +65,7 @@ let familySamplingCumulative = new Float64Array(0);
 let familySamplingTotal = 0;
 let validationTargetPositions = new Uint32Array(0);
 let validationTargetPositionsByFamily = [];
+let trainExamplesByFamily = [];
 let validationExamplesByFamily = [];
 let latestComparableDiagnostics = null;
 let corpusBigramCounts = new Map();
@@ -185,21 +188,7 @@ function markAssistantEndTokens(text) {
 
 // Classify each prompt for Balanced Learning's task-family sampler.
 function taskFamilyIndex(prompt) {
-  const value = String(prompt || "").toLowerCase();
-  if (/%|\bpercent(?:age)?\b/.test(value)) return 1;
-  if (/\bconvert\b|\bare equal to\b|\bchange\b.*\binto\b/.test(value)) return 2;
-  if (/\bsequence\b/.test(value)) return 4;
-  if (/\balphabet\b|\bletter\b|\bascending order\b|\bdescending order\b/.test(value)) return 5;
-  // Keep contextual word problems ahead of arithmetic so their prompts
-  // remain in the word-problem family even when they contain operation words.
-  if (/\b(?:box|shop|bags?|groups?|shared|added|sells?|remain|altogether|marbles|stickers|pencils|books|cards)\b/.test(value)) return 3;
-  // Recognise symbolic arithmetic (for example, "What is 12 + 8?") as well
-  // as operation words. The previous word-only check sent these prompts to
-  // the conversation family, distorting both sampling and family diagnostics.
-  const numericOperation = /\d+(?:\.\d+)?\s*(?:\+|−|-|×|\*|÷|\/)\s*\d+(?:\.\d+)?/.test(value);
-  const verbalOperation = /\b(?:plus|minus|multiplied|multiply|multiplication|divided|divide|division|addition|subtract|subtraction|sum|difference|product|quotient|times)\b/.test(value);
-  if (numericOperation || verbalOperation) return 0;
-  return 6;
+  return self.sherlockTaskFamilyIndex(prompt);
 }
 
 function collectAssistantTrainingTargets(text, tokenCount) {
@@ -259,34 +248,45 @@ function evaluateComparableAsync() {
   let aggregateValidationLoss = 0;
   let aggregateFamilies = 0;
   let familyIndex = 0;
+  const scoreExamples = (data, examples, sampleCount) => {
+    const scored = [];
+    for (let sample = 0; sample < sampleCount; sample++) {
+      const exampleIndex = Math.min(examples.length - 1, Math.floor((sample + 0.5) * examples.length / sampleCount));
+      const example = examples[exampleIndex];
+      if (!example || !example.positions.length) continue;
+      let totalLoss = 0;
+      for (const position of example.positions) {
+        forward(data, position, example.contextStart, false);
+        totalLoss += -Math.log(Math.max(probabilities[tokenAt(data, position)], 1e-9));
+      }
+      scored.push({loss: totalLoss / example.positions.length, targetTokens: example.positions.length});
+    }
+    return scored;
+  };
   return new Promise((resolve, reject) => {
     const processFamilies = () => {
       if (!running || stopRequested) { resolve(null); return; }
       try {
         const endFamily = Math.min(TASK_FAMILY_NAMES.length, familyIndex + 2);
         for (; familyIndex < endFamily; familyIndex++) {
-          const trainGroup = trainTargetPositionsByFamily[familyIndex];
-          const validationGroup = validationTargetPositionsByFamily[familyIndex];
-          const samples = Math.min(8, trainGroup ? trainGroup.length : 0, validationGroup ? validationGroup.length : 0);
+          const trainExamples = trainExamplesByFamily[familyIndex] || [];
+          const validationExamples = validationExamplesByFamily[familyIndex] || [];
+          const samples = Math.min(32, trainExamples.length, validationExamples.length);
           if (!samples) {
-            groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples: 0, trainingLoss: null, validationLoss: null});
+            groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples: 0, trainingLoss: null, validationLoss: null,
+              trainingTargetTokens: 0, validationTargetTokens: 0});
             continue;
           }
-          let trainingLoss = 0;
-          let validationLoss = 0;
-          for (let sample = 0; sample < samples; sample++) {
-            const trainIndex = Math.min(trainGroup.length - 1, Math.floor((sample + 0.5) * trainGroup.length / samples));
-            const validationIndex = Math.min(validationGroup.length - 1, Math.floor((sample + 0.5) * validationGroup.length / samples));
-            const trainPosition = trainGroup[trainIndex];
-            const validationPosition = validationGroup[validationIndex];
-            forward(trainData, trainPosition, trainContextStartByPosition[trainPosition], false);
-            trainingLoss += -Math.log(Math.max(probabilities[tokenAt(trainData, trainPosition)], 1e-9));
-            forward(validationData, validationPosition, validationContextStartByPosition[validationPosition], false);
-            validationLoss += -Math.log(Math.max(probabilities[tokenAt(validationData, validationPosition)], 1e-9));
-          }
-          trainingLoss /= samples;
-          validationLoss /= samples;
-          groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples, trainingLoss, validationLoss});
+          const trainingScores = scoreExamples(trainData, trainExamples, samples);
+          const validationScores = scoreExamples(validationData, validationExamples, samples);
+          if (!trainingScores.length || !validationScores.length)
+            throw new Error("Complete-example evaluation found an empty answer in " + TASK_FAMILY_NAMES[familyIndex] + ".");
+          const trainingLoss = trainingScores.reduce((sum, item) => sum + item.loss, 0) / trainingScores.length;
+          const validationLoss = validationScores.reduce((sum, item) => sum + item.loss, 0) / validationScores.length;
+          const trainingTargetTokens = trainingScores.reduce((sum, item) => sum + item.targetTokens, 0);
+          const validationTargetTokens = validationScores.reduce((sum, item) => sum + item.targetTokens, 0);
+          groups.push({family: TASK_FAMILY_NAMES[familyIndex], samples: Math.min(trainingScores.length, validationScores.length),
+            trainingLoss, validationLoss, trainingTargetTokens, validationTargetTokens});
           aggregateTrainingLoss += trainingLoss;
           aggregateValidationLoss += validationLoss;
           aggregateFamilies++;
@@ -299,7 +299,8 @@ function evaluateComparableAsync() {
         latestComparableDiagnostics = {
           steps,
           evaluatedAt: new Date().toISOString(),
-          sampling: "8 evenly spaced targets per shared task family; inference mode; equal family weighting",
+          sampling: "32 evenly spaced complete answers per shared task family; per-example mean token cross-entropy; dropout disabled; equal family weighting",
+          evaluationUnit: "complete-answer",
           families: groups,
           trainingMacroLoss: aggregateTrainingLoss / aggregateFamilies,
           validationMacroLoss: aggregateValidationLoss / aggregateFamilies,
@@ -316,7 +317,7 @@ function evaluateComparableAsync() {
 function evaluateIndividualExampleLossAudit() {
   if (!validationData || !validationExamplesByFamily.length) throw new Error("Load the validation dataset before running the example-loss audit.");
   if (running) throw new Error("Stop training before running the individual-example audit so the model weights remain stable.");
-  const selectedFamilies = [5, 6];
+  const selectedFamilies = TASK_FAMILY_NAMES.map((_, index) => index);
   const results = [];
   for (const familyIndex of selectedFamilies) {
     const examples = validationExamplesByFamily[familyIndex] || [];
@@ -334,7 +335,7 @@ function evaluateIndividualExampleLossAudit() {
     scored.sort((a, b) => b.loss - a.loss);
     results.push({family: TASK_FAMILY_NAMES[familyIndex], examplesScored: scored.length, top: scored.slice(0, 10)});
   }
-  self.postMessage({type: "individual-example-loss-audit", steps, evaluatedAt: new Date().toISOString(), families: results});
+  self.postMessage({type: "individual-example-loss-audit", steps, evaluatedAt: new Date().toISOString(), scope: "all-task-families", families: results});
 }
 
 function sampleBalancedTrainingPosition() {
@@ -1532,6 +1533,7 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
   const validationTargets = collectAssistantTrainingTargets(validationText, validationData.length);
   trainTargetPositions = trainingTargets.positions;
   trainTargetPositionsByFamily = trainingTargets.positionsByFamily;
+  trainExamplesByFamily = trainingTargets.examplesByFamily;
   trainContextStartByPosition = trainingTargets.contextStartByPosition;
   validationTargetPositions = validationTargets.positions;
   validationTargetPositionsByFamily = validationTargets.positionsByFamily;
