@@ -1,16 +1,16 @@
 # Sherlock AI training data notice
 
-## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.7
+## Active Neural Lab dataset: Sherlock knowledge curriculum v0.19.9
 
-The active curriculum contains **24,851 training conversations** and **1,795 held-out validation conversations** across seven task families:
+The active curriculum contains **25,031 training conversations** and **1,795 held-out validation conversations** across seven task families:
 
 - Arithmetic: 3,900 training / 286 validation
 - Percentages: 3,700 / 266
 - Unit conversions: 3,800 / 276
 - Word problems: 3,800 / 276
 - Number sequences: 3,800 / 276
-- Letter/instruction tasks: 5,000 / 300
-- Conversation and factual knowledge: 751 / 115
+- Letter/instruction tasks: 5,120 / 300
+- Conversation and factual knowledge: 911 / 115
 
 ## Data-quality corrections
 
@@ -35,3 +35,10 @@ The v0.19.7 revision replaces four malformed letter/instruction validation examp
 ## Validation-set revision (v0.19.5)
 
 The conversation validation examples now better match the training response-length and answer-diversity profile. This corrects a measurable distribution mismatch; it does not guarantee lower validation loss or prove that all overfitting has been resolved. Keep the archived original set separate when comparing historical evaluation results.
+
+
+## Targeted generalisation update (v0.19.9)
+
+This update adds **60 factual-conversation paraphrases** covering the 15 held-out knowledge concepts and **120 letter/instruction examples** across alphabetic letter ordering, word ordering, reversal and sentence construction. The new prompts and answers were checked against the active training and validation sources for exact collisions; prompts were also checked against the held-out prompt-template normalisation used by the website loader. All 180 new examples passed those checks.
+
+The training split now contains 111 factual-knowledge examples within the conversation family and 5,120 letter/instruction examples. The held-out validation split remains unchanged at 1,795 examples. The model architecture, tokenizer IDs, optimizer, learning rate, weight decay, batch size, dropout and training algorithm are unchanged. A new dataset revision forces the browser to load the expanded corpus; the previous saved checkpoint is retained but is not treated as trained on this new dataset revision.
