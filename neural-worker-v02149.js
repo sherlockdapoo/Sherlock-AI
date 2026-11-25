@@ -1657,7 +1657,9 @@ self.addEventListener("message", async event => {
         parameters: PARAMS,
         ...dataInfo
       });
-    } else if (message.type === "run-individual-example-loss-audit") {\n      evaluateIndividualExampleLossAudit();\n    } else if (message.type === "diagnose-unknown-tokens") {
+    } else if (message.type === "run-individual-example-loss-audit") {
+      evaluateIndividualExampleLossAudit();
+    } else if (message.type === "diagnose-unknown-tokens") {
       const report = diagnoseUnknownTokens(message.trainBuffer, message.validationBuffer);
       self.postMessage({type: "unknown-token-diagnosis", id: message.id, ...report});
     } else if (message.type === "start") {
