@@ -3926,7 +3926,8 @@ function reportNeuralStopDiagnostic(message) {
 }
 $('neuralLogCopyBtn').addEventListener('click', copySherlockDiagnosticLog);
 $('neuralReportCopyBtn').addEventListener('click', copySherlockTrainingReport);
-$('neuralDiagnosticCopyBtn').addEventListener('click', copyNeuralDiagnosticTable);\n$('neuralExampleAuditBtn').addEventListener('click', () => {
+$('neuralDiagnosticCopyBtn').addEventListener('click', copyNeuralDiagnosticTable);
+$('neuralExampleAuditBtn').addEventListener('click', () => {
   const button = $('neuralExampleAuditBtn');
   const results = $('neuralExampleAuditResults');
   if (neuralTraining) {
