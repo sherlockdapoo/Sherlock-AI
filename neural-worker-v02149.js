@@ -213,7 +213,7 @@ function collectAssistantTrainingTargets(text, tokenCount) {
     activeRole = match[1];
     if (activeRole === "user") {
       exampleStartOffset = match.index + (text[match.index] === "\n" ? 1 : 0);
-      promptStart = bodyStart;
+      promptStart = exampleStartOffset;
     }
     bodyStart = rolePattern.lastIndex;
   }
