@@ -63,6 +63,7 @@ let familySamplingCumulative = new Float64Array(0);
 let familySamplingTotal = 0;
 let validationTargetPositions = new Uint32Array(0);
 let validationTargetPositionsByFamily = [];
+let validationExamplesByFamily = [];
 let latestComparableDiagnostics = null;
 let corpusBigramCounts = new Map();
 let corpusTrigramCounts = new Map();
@@ -204,63 +205,53 @@ function taskFamilyIndex(prompt) {
 function collectAssistantTrainingTargets(text, tokenCount) {
   const ranges = [];
   const rolePattern = /(?:^|\n)(user|sherlock):[ \t]*/g;
-  let activeRole = null;
-  let bodyStart = 0;
-  let exampleStartOffset = 0;
-  let activeFamily = -1;
-  let match;
+  let activeRole = null, bodyStart = 0, exampleStartOffset = 0, activeFamily = -1, promptStart = 0, match;
   while ((match = rolePattern.exec(text)) !== null) {
-    if (activeRole === "user") {
-      activeFamily = taskFamilyIndex(text.slice(bodyStart, match.index));
-    } else if (activeRole === "sherlock" && bodyStart < match.index) {
-      ranges.push([bodyStart, match.index, exampleStartOffset, activeFamily]);
-    }
+    if (activeRole === "user") activeFamily = taskFamilyIndex(text.slice(bodyStart, match.index));
+    else if (activeRole === "sherlock" && bodyStart < match.index)
+      ranges.push([bodyStart, match.index, exampleStartOffset, activeFamily, promptStart]);
     activeRole = match[1];
     if (activeRole === "user") {
-      // Match generation's prompt exactly: begin at "user", not the
-      // separator newline between adjacent dataset examples.
       exampleStartOffset = match.index + (text[match.index] === "\n" ? 1 : 0);
+      promptStart = bodyStart;
     }
     bodyStart = rolePattern.lastIndex;
   }
   if (activeRole === "sherlock" && bodyStart < text.length)
-    ranges.push([bodyStart, text.length, exampleStartOffset, activeFamily]);
-
-  const positions = [];
-  const positionsByFamily = TASK_FAMILY_NAMES.map(() => []);
+    ranges.push([bodyStart, text.length, exampleStartOffset, activeFamily, promptStart]);
+  const positions = [], positionsByFamily = TASK_FAMILY_NAMES.map(() => []), examplesByFamily = TASK_FAMILY_NAMES.map(() => []);
   const contextStartByPosition = new Uint32Array(tokenCount);
-  let rangeIndex = 0;
-  let tokenIndex = 0;
-  let exampleStartTokenIndex = 0;
-  let startResolved = false;
+  let rangeIndex = 0, tokenIndex = 0, exampleStartTokenIndex = 0, startResolved = false, activeExample = null;
   walkTokens(text, (_token, offset) => {
-    while (rangeIndex < ranges.length && offset >= ranges[rangeIndex][1]) {
-      rangeIndex++;
-      startResolved = false;
-    }
+    while (rangeIndex < ranges.length && offset >= ranges[rangeIndex][1]) { rangeIndex++; startResolved = false; activeExample = null; }
     const range = ranges[rangeIndex];
     if (range) {
       if (!startResolved && offset >= range[2]) {
-        exampleStartTokenIndex = tokenIndex;
-        startResolved = true;
+        exampleStartTokenIndex = tokenIndex; startResolved = true;
+        if (range[3] >= 0 && range[3] < examplesByFamily.length) {
+          activeExample = {positions: [], contextStart: exampleStartTokenIndex,
+            prompt: text.slice(range[4], range[0]).trim().slice(0, 500),
+            answer: text.slice(range[0], range[1]).replace(/<\\|endofassistant\\|>/g, "").trim().slice(0, 700)};
+          examplesByFamily[range[3]].push(activeExample);
+        }
       }
       if (offset >= range[0] && offset < range[1]) {
-        positions.push(tokenIndex);
-        contextStartByPosition[tokenIndex] = exampleStartTokenIndex;
-        if (range[3] >= 0 && range[3] < positionsByFamily.length)
+        positions.push(tokenIndex); contextStartByPosition[tokenIndex] = exampleStartTokenIndex;
+        if (range[3] >= 0 && range[3] < positionsByFamily.length) {
           positionsByFamily[range[3]].push(tokenIndex);
+          if (activeExample) activeExample.positions.push(tokenIndex);
+        }
       }
     }
     tokenIndex++;
   });
-
   return {
     positions: Uint32Array.from(positions),
     positionsByFamily: positionsByFamily.map(group => Uint32Array.from(group)),
+    examplesByFamily: examplesByFamily.map(group => group.map(item => ({...item, positions: Uint32Array.from(item.positions)}))),
     contextStartByPosition
   };
 }
-
 function evaluateComparableAsync() {
   if (!trainData || !validationData) return Promise.resolve(null);
   const groups = [];
@@ -321,6 +312,31 @@ function evaluateComparableAsync() {
     setTimeout(processFamilies, 0);
   });
 }
+
+function evaluateIndividualExampleLossAudit() {
+  if (!validationData || !validationExamplesByFamily.length) throw new Error("Load the validation dataset before running the example-loss audit.");
+  if (running) throw new Error("Stop training before running the individual-example audit so the model weights remain stable.");
+  const selectedFamilies = [5, 6];
+  const results = [];
+  for (const familyIndex of selectedFamilies) {
+    const examples = validationExamplesByFamily[familyIndex] || [];
+    const scored = [];
+    for (const example of examples) {
+      if (!example.positions.length) continue;
+      let totalLoss = 0;
+      for (const position of example.positions) {
+        forward(validationData, position, example.contextStart, false);
+        totalLoss += -Math.log(Math.max(probabilities[tokenAt(validationData, position)], 1e-9));
+      }
+      scored.push({family: TASK_FAMILY_NAMES[familyIndex], loss: totalLoss / example.positions.length,
+        targetTokens: example.positions.length, prompt: example.prompt, answer: example.answer});
+    }
+    scored.sort((a, b) => b.loss - a.loss);
+    results.push({family: TASK_FAMILY_NAMES[familyIndex], examplesScored: scored.length, top: scored.slice(0, 10)});
+  }
+  self.postMessage({type: "individual-example-loss-audit", steps, evaluatedAt: new Date().toISOString(), families: results});
+}
+
 function sampleBalancedTrainingPosition() {
   if (!familySamplingTotal || familySamplingCumulative.length !== TASK_FAMILY_NAMES.length)
     throw new Error("Balanced Learning sampling weights are not initialised.");
@@ -1519,6 +1535,7 @@ function setDatasetBuffers(trainBuffer, validationBuffer) {
   trainContextStartByPosition = trainingTargets.contextStartByPosition;
   validationTargetPositions = validationTargets.positions;
   validationTargetPositionsByFamily = validationTargets.positionsByFamily;
+  validationExamplesByFamily = validationTargets.examplesByFamily;
   latestComparableDiagnostics = null;
   validationContextStartByPosition = validationTargets.contextStartByPosition;
   buildCorpusContextIndex();
@@ -1640,7 +1657,7 @@ self.addEventListener("message", async event => {
         parameters: PARAMS,
         ...dataInfo
       });
-    } else if (message.type === "diagnose-unknown-tokens") {
+    } else if (message.type === "run-individual-example-loss-audit") {\n      evaluateIndividualExampleLossAudit();\n    } else if (message.type === "diagnose-unknown-tokens") {
       const report = diagnoseUnknownTokens(message.trainBuffer, message.validationBuffer);
       self.postMessage({type: "unknown-token-diagnosis", id: message.id, ...report});
     } else if (message.type === "start") {
