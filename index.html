@@ -3313,6 +3313,7 @@ updateNeuralControls();
         ' · training macro loss ' + Number(diagnostic.trainingMacroLoss).toFixed(3) +
         ' / validation macro loss ' + Number(diagnostic.validationMacroLoss).toFixed(3) + '. ' + familySummary;
     } else if (data.type === 'individual-example-loss-audit') {
+      $('neuralExampleAuditBtn').disabled = false;
       const root = $('neuralExampleAuditResults');
       if (root) {
         root.hidden = false;
@@ -3937,7 +3938,6 @@ $('neuralExampleAuditBtn').addEventListener('click', () => {
   button.disabled = true;
   if (results) { results.hidden = false; results.textContent = 'Scoring complete validation responses…'; }
   ensureNeuralWorker().postMessage({type: 'run-individual-example-loss-audit'});
-  setTimeout(() => { button.disabled = false; }, 1500);
 });
 
 $('neuralLogClearBtn').addEventListener('click', () => {
