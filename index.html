@@ -1297,7 +1297,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">⌕</div>
-      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.80, Generation Intelligence v3, knowledge curriculum v0.19.5">v0.21.80</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
+      <div><h1 class="brand-title">Sherlock AI <span class="brand-version" aria-label="Website version 0.21.81, Generation Intelligence v3, knowledge curriculum v0.19.5">v0.21.81</span></h1><p class="brand-sub">Local neural network · training, testing and evaluation</p></div>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="workspaceSidebar"><span aria-hidden="true">☰</span> Sections</button>
   <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Not trained</span></div>
@@ -1612,7 +1612,7 @@ html{scroll-behavior:smooth;scroll-padding-top:16px}
           <span class="visual-state" id="neuralLiveStatus"><span class="visual-dot"></span><span id="neuralLiveStatusText">Waiting for training</span></span>
         </div>
         <section class="neural-live-card neural-diagnostic-panel" aria-live="polite" aria-label="Comparable training diagnostics">
-          <div class="visual-card-head"><div><h3>Comparable training diagnostics</h3><p>Dropout-disabled evaluation on matched task families. Updates every 500 training steps.</p></div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"><span class="visual-mini-tag">OVERFITTING AUDIT</span><button class="btn btn-secondary" id="neuralDiagnosticCopyBtn" type="button" disabled>Copy table</button></div></div><p id="neuralDiagnosticCopyStatus" class="neural-diagnostic-status" role="status" aria-live="polite"></p>
+          <div class="visual-card-head"><div><h3>Comparable training diagnostics</h3><p>Dropout-disabled evaluation on matched task families. Updates every 500 training steps.</p></div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"><span class="visual-mini-tag">OVERFITTING AUDIT</span><button class="btn btn-secondary" id="neuralExampleAuditBtn" type="button">Run example audit</button><button class="btn btn-secondary" id="neuralDiagnosticCopyBtn" type="button" disabled>Copy table</button></div></div><p id="neuralDiagnosticCopyStatus" class="neural-diagnostic-status" role="status" aria-live="polite"></p><div id="neuralExampleAuditResults" hidden class="neural-diagnostic-status"></div>
           <div id="neuralDiagnosticStatus" class="neural-diagnostic-status">Waiting for the next diagnostic evaluation. The results will appear here automatically during training.</div>
           <div id="neuralDiagnosticResults" hidden>
             <div class="neural-diagnostic-summary">
@@ -3199,7 +3199,7 @@ function ensureNeuralWorker() {
   if (neuralWorker) return neuralWorker;
   logSherlockEvent('Creating neural worker.');
   if (!('Worker' in window)) throw new Error('This browser does not support background workers.');
-  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.74-arithmetic-family-classifier-v1', window.location.href);
+  const workerUrl = new URL('neural-worker-v02149.js?v=0.21.81-example-loss-audit-v1', window.location.href);
   neuralWorker = new Worker(workerUrl);
   neuralWorker.onmessage = event => {
     const data = event.data || {};
@@ -3312,6 +3312,43 @@ updateNeuralControls();
       $('neuralMessage').textContent = 'Comparable diagnostic completed at update ' + Number(diagnostic.steps).toLocaleString() +
         ' · training macro loss ' + Number(diagnostic.trainingMacroLoss).toFixed(3) +
         ' / validation macro loss ' + Number(diagnostic.validationMacroLoss).toFixed(3) + '. ' + familySummary;
+    } else if (data.type === 'individual-example-loss-audit') {
+      const root = $('neuralExampleAuditResults');
+      if (root) {
+        root.hidden = false;
+        root.textContent = '';
+        const heading = document.createElement('strong');
+        heading.textContent = 'Individual validation-example loss audit · update ' + Number(data.steps).toLocaleString();
+        root.appendChild(heading);
+        (data.families || []).forEach(group => {
+          const section = document.createElement('section');
+          const title = document.createElement('h4');
+          title.textContent = group.family + ' · top ' + group.top.length + ' of ' + group.examplesScored + ' examples';
+          section.appendChild(title);
+          group.top.forEach((item, index) => {
+            const article = document.createElement('article');
+            const label = document.createElement('p');
+            label.textContent = (index + 1) + '. Loss ' + Number(item.loss).toFixed(4) + ' · ' + item.targetTokens + ' answer tokens';
+            const prompt = document.createElement('p'); prompt.textContent = 'Prompt: ' + item.prompt;
+            const answer = document.createElement('p'); answer.textContent = 'Expected answer: ' + item.answer;
+            article.append(label, prompt, answer); section.appendChild(article);
+          });
+          root.appendChild(section);
+        });
+        const copy = document.createElement('button');
+        copy.type = 'button'; copy.className = 'btn btn-secondary'; copy.textContent = 'Copy example audit';
+        copy.addEventListener('click', async () => {
+          const lines = ['Individual validation-example loss audit · update ' + Number(data.steps).toLocaleString()];
+          (data.families || []).forEach(group => {
+            lines.push('', group.family + ' · top ' + group.top.length + ' of ' + group.examplesScored);
+            group.top.forEach((item, index) => lines.push((index + 1) + '. Loss: ' + Number(item.loss).toFixed(4) + ' · tokens: ' + item.targetTokens, 'Prompt: ' + item.prompt, 'Expected answer: ' + item.answer));
+          });
+          try { await navigator.clipboard.writeText(lines.join('\n')); copy.textContent = 'Copied'; }
+          catch (_) { copy.textContent = 'Copy blocked — select the results above'; }
+        });
+        root.appendChild(copy);
+      }
+      $('neuralMessage').textContent = 'Individual example-loss audit completed. No training updates or model weights were changed.';
     } else if (data.type === 'evaluation') {
       updateNeuralMetrics(data, true);
       if (neuralTraining) setNeuralState('Training on this device', 'running');
@@ -3889,7 +3926,19 @@ function reportNeuralStopDiagnostic(message) {
 }
 $('neuralLogCopyBtn').addEventListener('click', copySherlockDiagnosticLog);
 $('neuralReportCopyBtn').addEventListener('click', copySherlockTrainingReport);
-$('neuralDiagnosticCopyBtn').addEventListener('click', copyNeuralDiagnosticTable);
+$('neuralDiagnosticCopyBtn').addEventListener('click', copyNeuralDiagnosticTable);\n$('neuralExampleAuditBtn').addEventListener('click', () => {
+  const button = $('neuralExampleAuditBtn');
+  const results = $('neuralExampleAuditResults');
+  if (neuralTraining) {
+    if (results) { results.hidden = false; results.textContent = 'Stop training before running this audit. It evaluates complete validation responses without changing model weights.'; }
+    return;
+  }
+  button.disabled = true;
+  if (results) { results.hidden = false; results.textContent = 'Scoring complete validation responses…'; }
+  ensureNeuralWorker().postMessage({type: 'run-individual-example-loss-audit'});
+  setTimeout(() => { button.disabled = false; }, 1500);
+});
+
 $('neuralLogClearBtn').addEventListener('click', () => {
   sherlockDiagnosticEntries = [];
   try { localStorage.removeItem(SHERLOCK_LOG_KEY); } catch (_) {}
